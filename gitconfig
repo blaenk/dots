@@ -1,0 +1,41 @@
+[user]
+	name = Jorge Israel Peña
+	email = jorgepblank@gmail.com
+[github]
+	user = blaenk
+	token = a4a57063e6d556d1653c4532a8057ffa
+[core]
+	editor = mate -w
+[alias]
+  cl = clone
+  ci = commit
+	co = checkout
+	up = remote update
+	st = status
+	sb = status -sb
+	sh = stash
+	br = branch
+	df = diff
+	dfc = diff --cached
+	dft = difftool
+	dftc = difftool --cached
+	lg = log --graph --oneline --format='%Cgreen%h %Cred%aN%Cblue%d %Creset%s %C(yellow)(%cr)%Creset'
+	vs = !gitx --all
+	mrg = merge
+	cp = cherry-pick
+	rem = remote
+	rup = remote update
+	rh = reset --hard HEAD
+[color]
+	ui = true
+	branch = auto
+	diff = auto
+	grep = auto
+[diff]
+  # tool = p4merge
+	tool = Kaleidoscope
+[difftool]
+  prompt = false
+[difftool "Kaleidoscope"]
+	cmd = ksdiff-wrapper git \"$LOCAL\" \"$REMOTE\"
+  
