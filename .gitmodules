@@ -48,4 +48,4 @@
 	url = git://github.com/tomtom/tlib_vim.git
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
-	url = git://github.com/blaenk/oh-my-zsh.git
+	url = git@github.com:blaenk/oh-my-zsh.git
