@@ -14,6 +14,7 @@
 	st = status
 	sb = status -sb
 	sh = stash
+  sm = submodule
 	br = branch
 	df = diff
 	dfc = diff --cached
