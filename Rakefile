@@ -15,18 +15,18 @@ def link(file)
 
   if !File.exists?(dest)
     File.symlink(src, dest)
-    puts "#{src} => #{dest} successfully linked"
+    puts "LINKED: #{src} => #{dest}"
   else
     if File.symlink?(dest)
       link = File.readlink(dest)
 
       if link == src
-        puts "SKIPPED: #{src} => #{dest} already linked"
+        puts "SKIPPED: #{src} => #{dest}"
       else
-        puts "ERROR: #{dest} is already a symlink but points to #{link}"
+        puts "EXISTING SYM: #{dest} => #{link}"
       end
     elsif
-      puts "ERROR: #{dest} already exists but isn't a symlink"
+      puts "EXISTING NON-SYM: #{dest}"
     end
   end
 end
