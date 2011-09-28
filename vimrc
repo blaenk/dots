@@ -8,6 +8,8 @@ let g:CommandTAcceptSelectionMap = '<C-t>'
 let g:CommandTAcceptSelectionTabMap = '<CR>'
 let g:CommandTMaxHeight=10
 
+let g:solarized_termcolors=256
+
 " objective-c
 let g:alternateExtensions_m = "h"
 let g:alternateExtensions_h = "m"
