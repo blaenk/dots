@@ -8,6 +8,10 @@ let g:CommandTAcceptSelectionMap = '<C-t>'
 let g:CommandTAcceptSelectionTabMap = '<CR>'
 let g:CommandTMaxHeight=10
 
+" objective-c
+let g:alternateExtensions_m = "h"
+let g:alternateExtensions_h = "m"
+
 let g:delimitMate_expand_cr = 1
 
 let g:gist_detect_filetype = 1

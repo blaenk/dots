@@ -49,3 +49,9 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = git@github.com:blaenk/oh-my-zsh.git
+[submodule "vim/bundle/vim-ragtag"]
+	path = vim/bundle/vim-ragtag
+	url = git://github.com/tpope/vim-ragtag.git
+[submodule "vim/bundle/a.vim"]
+	path = vim/bundle/a.vim
+	url = git://github.com/vim-scripts/a.vim.git
