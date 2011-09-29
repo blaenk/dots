@@ -55,3 +55,6 @@
 [submodule "vim/bundle/a.vim"]
 	path = vim/bundle/a.vim
 	url = git://github.com/vim-scripts/a.vim.git
+[submodule "vim/bundle/cocoa.vim"]
+	path = vim/bundle/cocoa.vim
+	url = git://github.com/msanders/cocoa.vim.git
