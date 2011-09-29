@@ -20,7 +20,6 @@ let g:gist_detect_filetype = 1
 let g:gist_open_browser_after_post = 1
 
 set paste
-"set viminfo^=!
 
 set backup
 set backupdir=~/.vim/backups
@@ -33,6 +32,7 @@ map <Leader><CR> o<Esc>ko
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 map <Leader>n :NERDTreeToggle<CR>
 set laststatus=2
+set statusline=%F%m%r%h%w\ %y\ [%l/%L,%c]\ (%p%%)
 set nowrap
 set tabstop=2
 set shiftwidth=2
