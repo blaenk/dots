@@ -27,6 +27,8 @@
 	rem = remote
 	rup = remote update
 	rh = reset --hard HEAD
+  ps = push
+  pl = pull
 [color]
 	ui = true
 	branch = auto
