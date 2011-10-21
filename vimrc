@@ -2,7 +2,7 @@ call pathogen#infect()
 set nocompatible
 syntax on
 
-colorscheme tomorrow-night
+colorscheme Tomorrow-Night
 
 let g:CommandTAcceptSelectionMap = '<C-t>'
 let g:CommandTAcceptSelectionTabMap = '<CR>'
@@ -26,13 +26,15 @@ set backupdir=~/.vim/backups
 set directory=~/.vim/tmp
 set undodir=~/.vim/undo
 
+cmap w!! %!sudo tee > /dev/null %
+
 let mapleader = ","
 nnoremap <silent> <Leader>l :TlistToggle<CR>
 map <Leader><CR> o<Esc>ko
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 map <Leader>n :NERDTreeToggle<CR>
 set laststatus=2
-set statusline=%F%m%r%h%w\ %y\ [%l/%L,%c]\ (%p%%)
+set statusline=%F%m%r%h%w\ %y\ [%l/%L,%c]\ (%p%%)\ %{fugitive#statusline()}
 set nowrap
 set tabstop=2
 set shiftwidth=2
