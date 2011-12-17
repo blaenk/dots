@@ -14,18 +14,29 @@ hi Cursor  guifg=NONE guibg=#aeafad gui=NONE
 hi Visual  guifg=NONE guibg=#373b41 gui=NONE
 hi CursorLine  guifg=NONE guibg=#282a2e gui=NONE
 hi CursorColumn  guifg=NONE guibg=#282a2e gui=NONE
-hi LineNr  guifg=#717474 guibg=#1d1f21 gui=NONE
+hi LineNr  guifg=#717474 guibg=#282a2e gui=NONE
 hi VertSplit  guifg=#3d3f40 guibg=#3d3f40 gui=NONE
 hi MatchParen  guifg=#b294bb  
 hi StatusLine  guifg=#c5c8c6 guibg=#3d3f40 
 hi StatusLineNC  guifg=#c5c8c6 guibg=#3d3f40 gui=NONE
 hi Pmenu  guifg=NONE  gui=NONE
 hi PmenuSel  guifg=NONE guibg=#373b41 gui=NONE
-hi IncSearch  guifg=NONE guibg=#573638 gui=NONE
-hi Search  guifg=NONE guibg=#573638 gui=NONE
+hi IncSearch  guifg=#224D70 guibg=#82A3BF gui=NONE
+hi Search  guifg=#224D70 guibg=#82A3BF gui=NONE
 hi Directory  guifg=#b5bd68  
 hi Folded  guifg=#969896 guibg=#1d1f21 gui=NONE
 hi Delimiter guifg=#cc6666
+
+hi DiffDelete guifg=#822021 guibg=#df5f5f
+hi diffRemoved guifg=#822021 guibg=#df5f5f
+
+hi DiffAdd guifg=#5c622b guibg=#c1c780
+hi diffAdded guifg=#5c622b guibg=#c1c780
+
+"hi diffOldFile
+"hi diffNewFile
+"hi diffLine
+"hi diffFile
 
 hi Normal  guifg=#c5c8c6 guibg=#1d1f21 gui=NONE
 hi Boolean  guifg=#de935f  
@@ -34,27 +45,31 @@ hi Comment  guifg=#969896
 hi Conditional  guifg=#b294bb  
 hi Constant  guifg=NONE  gui=NONE
 hi Define  guifg=#b294bb  
-hi ErrorMsg  guifg=#822021 guibg=#df5f5f 
-hi WarningMsg  guifg=#822021 guibg=#df5f5f 
+hi Error guifg=#822021 guibg=#df5f5f
+hi ErrorMsg  guifg=#822021 guibg=#df5f5f
+hi WarningMsg  guifg=#822021 guibg=#df5f5f
 hi Float  guifg=#de935f  
 hi Function  guifg=#81a2be  
-hi Identifier  guifg=#b294bb  
-hi Keyword  guifg=#b294bb  
+hi Identifier  guifg=#CC6666
+hi Keyword  guifg=#81A2BE
 hi Label  guifg=#b5bd68  
 hi NonText  guifg=#4b4e55 gui=NONE
 hi Number  guifg=#de935f  
 hi Operator  guifg=#81a2be  
 hi PreProc  guifg=#b294bb  
-hi Special  guifg=#c5c8c6  gui=NONE
+hi Special  guifg=#CC6666 gui=NONE
+"hi SpecialChar guifg=#CC6666
 hi SpecialKey  guifg=#4b4e55 guibg=#282a2e gui=NONE
 hi Statement  guifg=#b294bb  
 hi StorageClass  guifg=#b294bb  
 hi String  guifg=#b5bd68  
+hi Structure guifg=#F0C674
 hi Tag  guifg=#cc6666  
 hi Title  guifg=#c5c8c6  
-hi Todo  guifg=#969896  gui=inverse,bold
+hi Todo  guifg=#969896  gui=bold
 hi Type  guifg=NONE  gui=NONE
 hi Underlined  guifg=NONE  gui=underline
+
 hi rubyClass  guifg=#b294bb  
 hi rubyFunction  guifg=#81a2be  
 hi rubyInterpolationDelimiter  guifg=NONE  gui=NONE
