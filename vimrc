@@ -62,7 +62,7 @@ set expandtab
 set softtabstop=2
 set smartindent
 set autoindent
-set gfn=Menlo:h14
+set gfn=Menlo:h12
 set undofile
 
 filetype on
