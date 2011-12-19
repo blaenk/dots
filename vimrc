@@ -63,6 +63,7 @@ set softtabstop=2
 set smartindent
 set autoindent
 set gfn=Menlo:h12
+set gcr=a:blinkon0
 set undofile
 
 filetype on

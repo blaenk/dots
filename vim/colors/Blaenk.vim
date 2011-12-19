@@ -10,7 +10,7 @@ endif
 
 let g:colors_name = "Blaenk"
 
-hi Cursor  guifg=NONE guibg=#aeafad gui=NONE
+hi Cursor  guifg=#224D70 guibg=#82A3BF gui=NONE
 hi Visual  guifg=NONE guibg=#373b41 gui=NONE
 hi CursorLine  guifg=NONE guibg=#282a2e gui=NONE
 hi CursorColumn  guifg=NONE guibg=#282a2e gui=NONE
