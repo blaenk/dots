@@ -6,7 +6,7 @@ colorscheme Tomorrow-Night
 
 let mapleader = ","
 
-"set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 let g:ctrlp_by_filename = 1
 let g:ctrlp_open_new_file = 1
