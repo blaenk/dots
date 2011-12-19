@@ -4,6 +4,28 @@ syntax on
 
 colorscheme Tomorrow-Night
 
+let mapleader = ","
+
+"set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.so
+
+let g:ctrlp_by_filename = 1
+let g:ctrlp_open_new_file = 1
+let g:ctrlp_open_multi = '1t'
+let g:ctrlp_follow_symlinks = 1
+
+let g:ctrlp_prompt_mappings = {
+  \ 'AcceptSelection("e")': ['<c-t>'],
+  \ 'AcceptSelection("t")': ['<cr>']
+  \ }
+
+"let g:ctrlp_working_path_mode = 1 set working dir to parent dir of cur file
+map <leader>f :CtrlP<cr>
+map <leader>b :CtrlPBuffer<cr>
+
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>t :CommandTFlush<cr>\|:CommandT<cr>
+map <leader>T :CommandTFlush<cr>\|:CommandT %%<cr>
+
 let g:CommandTAcceptSelectionMap = '<C-t>'
 let g:CommandTAcceptSelectionTabMap = '<CR>'
 let g:CommandTMaxHeight=10
@@ -28,11 +50,9 @@ set undodir=~/.vim/undo
 
 cmap w!! %!sudo tee > /dev/null %
 
-let mapleader = ","
 nnoremap <silent> <Leader>l :TlistToggle<CR>
 map <Leader><CR> o<Esc>ko
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-map <Leader>n :NERDTreeToggle<CR>
 set laststatus=2
 set statusline=%F%m%r%h%w\ %y\ [%l/%L,%c]\ (%p%%)\ %{fugitive#statusline()}
 set nowrap
