@@ -16,13 +16,13 @@ hi CursorLine  guifg=NONE guibg=#282a2e gui=NONE
 hi CursorColumn  guifg=NONE guibg=#282a2e gui=NONE
 hi LineNr  guifg=#717474 guibg=#282a2e gui=NONE
 hi VertSplit  guifg=#3d3f40 guibg=#3d3f40 gui=NONE
-hi MatchParen  guifg=#b294bb  
+hi MatchParen guifg=#224d70 guibg=#82a3bf
 hi StatusLine  guifg=#c5c8c6 guibg=#3d3f40 
 hi StatusLineNC  guifg=#c5c8c6 guibg=#3d3f40 gui=NONE
 hi Pmenu  guifg=NONE  gui=NONE
 hi PmenuSel  guifg=NONE guibg=#373b41 gui=NONE
-hi IncSearch  guifg=#224D70 guibg=#82A3BF gui=NONE
-hi Search  guifg=#224D70 guibg=#82A3BF gui=NONE
+hi IncSearch  guibg=#224D70 guifg=#82A3BF gui=NONE
+hi Search  guibg=#224D70 guifg=#82A3BF gui=NONE
 hi Directory  guifg=#b5bd68  
 hi Folded  guifg=#969896 guibg=#1d1f21 gui=NONE
 hi Delimiter guifg=#cc6666
