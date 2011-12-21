@@ -23,7 +23,7 @@ hi Pmenu  guifg=NONE  gui=NONE
 hi PmenuSel  guifg=NONE guibg=#373b41 gui=NONE
 hi IncSearch  guibg=#224D70 guifg=#82A3BF gui=NONE
 hi Search  guibg=#224D70 guifg=#82A3BF gui=NONE
-hi Directory  guifg=#b5bd68  
+hi Directory  guifg=#99ad6a  
 hi Folded  guifg=#969896 guibg=#1d1f21 gui=NONE
 hi Delimiter guifg=#cc6666
 
@@ -51,18 +51,29 @@ hi WarningMsg  guifg=#822021 guibg=#df5f5f
 hi Float  guifg=#de935f  
 hi Function  guifg=#81a2be  
 hi Identifier  guifg=#CC6666
+
+" coffeescript
+hi coffeeObjAssign guifg=#81A2BE
+
+syn match shuttle /[-=]>/ contained containedin=coffeeExtendedOp display
+hi shuttle guifg=#00ff00
+
+syn match plusplus "++" contained containedin=coffeeExtendedOp display
+hi plusplus guifg=#0000ff
+
 hi Keyword  guifg=#81A2BE
-hi Label  guifg=#b5bd68  
+hi Label  guifg=#99ad6a  
 hi NonText  guifg=#4b4e55 gui=NONE
-hi Number  guifg=#de935f  
+hi Number  guifg=#cf6a4c  
 hi Operator  guifg=#81a2be  
-hi PreProc  guifg=#b294bb  
+hi PreProc  guifg=#CC6666  
 hi Special  guifg=#CC6666 gui=NONE
 "hi SpecialChar guifg=#CC6666
 hi SpecialKey  guifg=#4b4e55 guibg=#282a2e gui=NONE
 hi Statement  guifg=#b294bb  
 hi StorageClass  guifg=#b294bb  
-hi String  guifg=#b5bd68  
+hi String  guifg=#99ad6a
+hi StringDelimiter guifg=#556633
 hi Structure guifg=#F0C674
 hi Tag  guifg=#cc6666  
 hi Title  guifg=#c5c8c6  
@@ -75,8 +86,9 @@ hi rubyFunction  guifg=#81a2be
 hi rubyInterpolationDelimiter  guifg=NONE  gui=NONE
 hi rubySymbol  guifg=#b5bd68  
 hi rubyConstant  guifg=#f0c674  
-hi rubyStringDelimiter  guifg=#b5bd68  
-hi rubyBlockParameter  guifg=#de935f  
+hi! link rubyStringDelimiter StringDelimiter
+hi rubySymbolDelimiter guifg=#556633
+hi rubyBlockParameter  guifg=#CC6666
 hi rubyInstanceVariable  guifg=#cc6666  
 hi rubyInclude  guifg=#81a2be  
 hi rubyGlobalVariable  guifg=#cc6666  
@@ -88,26 +100,32 @@ hi rubyClassVariable  guifg=#cc6666
 hi rubyOperator  guifg=#81a2be  
 hi rubyException  guifg=#81a2be  
 hi rubyPseudoVariable  guifg=#cc6666  
+
 hi rubyRailsUserClass  guifg=#f0c674  
 hi rubyRailsARAssociationMethod  guifg=#81a2be  
 hi rubyRailsARMethod  guifg=#81a2be  
 hi rubyRailsRenderMethod  guifg=#81a2be  
 hi rubyRailsMethod  guifg=#81a2be  
+
 hi erubyDelimiter  guifg=#de935f  
 hi erubyComment  guifg=#969896  
 hi erubyRailsMethod  guifg=#81a2be  
+
 hi htmlTag  guifg=NONE  gui=NONE
 hi htmlEndTag  guifg=NONE  gui=NONE
 hi htmlTagName  guifg=NONE  gui=NONE
 hi htmlArg  guifg=NONE  gui=NONE
 hi htmlSpecialChar  guifg=#de935f  
+
 hi javaScriptFunction  guifg=#b294bb  
 hi javaScriptRailsFunction  guifg=#81a2be  
 hi javaScriptBraces  guifg=#cc6666  
+
 hi yamlKey  guifg=#cc6666  
 hi yamlAnchor  guifg=#cc6666  
 hi yamlAlias  guifg=#cc6666  
-hi yamlDocumentHeader  guifg=#b5bd68  
+hi yamlDocumentHeader  guifg=#99ad6a  
+
 hi cssURL  guifg=#de935f  
 hi cssFunctionName  guifg=#81a2be  
 hi cssColor  guifg=#81a2be  
