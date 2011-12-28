@@ -53,13 +53,16 @@ hi Function  guifg=#81a2be
 hi Identifier  guifg=#CC6666
 
 " coffeescript
+"runtime syntax/coffee.vim
+"unlet b:current_syntax
+
 hi coffeeObjAssign guifg=#81A2BE
 
 syn match shuttle /[-=]>/ contained containedin=coffeeExtendedOp display
-hi shuttle guifg=#00ff00
+"hi shuttle guifg=#00ff00
 
 syn match plusplus "++" contained containedin=coffeeExtendedOp display
-hi plusplus guifg=#0000ff
+"hi plusplus guifg=#0000ff
 
 hi Keyword  guifg=#81A2BE
 hi Label  guifg=#99ad6a  
