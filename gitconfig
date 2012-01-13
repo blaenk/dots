@@ -5,7 +5,7 @@
   user = blaenk
   token = a4a57063e6d556d1653c4532a8057ffa
 [core]
-  editor = mvim -f --nomru -c "au VimLeave * !open -a Terminal"
+  editor = mvim -f --nomru -c \"au VimLeave * !open -a Terminal\"
 [alias]
   br = branch
   bs = bisect
