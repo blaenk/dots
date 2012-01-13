@@ -1,8 +1,6 @@
-call pathogen#infect()
-set nocompatible
-syntax on
-
 colorscheme Tomorrow-Night
+syntax on
+source ~/.vim/conf/bundles.vim
 
 let mapleader = ","
 
@@ -67,7 +65,6 @@ set gcr+=a:blinkon0
 set undofile
 
 filetype on
-filetype plugin indent on
 au BufRead,BufNewFile *.json set filetype=javascript
 au BufRead,BufNewFile *.zsh-theme set filetype=zsh
 
