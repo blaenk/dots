@@ -4,6 +4,10 @@ source ~/.vim/conf/bundles.vim
 
 let mapleader = ","
 
+set gfn=Menlo:h12
+set gfn=Menlo\ for\ Powerline:h12
+let g:Powerline_symbols = 'fancy'
+
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 let g:ctrlp_by_filename = 1
@@ -60,7 +64,6 @@ set expandtab
 set softtabstop=2
 set smartindent
 set autoindent
-set gfn=Menlo:h12
 set gcr+=a:blinkon0
 set undofile
 
