@@ -8,6 +8,9 @@ set gfn=Menlo:h12
 set gfn=Menlo\ for\ Powerline:h12
 let g:Powerline_symbols = 'fancy'
 
+let g:syntastic_enable_signs = 1
+let g:syntastic_auto_loc_list = 0
+
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 let g:ctrlp_by_filename = 1
@@ -56,7 +59,6 @@ nnoremap <silent> <Leader>l :TlistToggle<CR>
 map <Leader><CR> o<Esc>ko
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 set laststatus=2
-set statusline=%F%m%r%h%w\ %y\ [%l/%L,%c]\ (%p%%)\ %{fugitive#statusline()}
 set nowrap
 set tabstop=2
 set shiftwidth=2
@@ -66,6 +68,7 @@ set smartindent
 set autoindent
 set gcr+=a:blinkon0
 set undofile
+"set statusline=%F%m%r%h%w\ %y\ [%l/%L,%c]\ (%p%%)\ %{fugitive#statusline()}
 
 filetype on
 au BufRead,BufNewFile *.json set filetype=javascript
@@ -114,7 +117,7 @@ vnoremap <F1> <ESC>
 
 nnoremap ; :
 
-nnoremap <leader>a :Ack
+nnoremap <leader>a :Ack 
 
 inoremap jj <ESC>
 
@@ -124,6 +127,5 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 nnoremap <silent> <C-l> :noh<CR><C-l>
-nmap <Leader>x <Plug>ToggleAutoCloseMappings
 
 nnoremap <leader>p :set rnu! list!<CR>
