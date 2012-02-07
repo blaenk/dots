@@ -8,6 +8,9 @@ set gfn=Menlo:h12
 set gfn=Menlo\ for\ Powerline:h12
 let g:Powerline_symbols = 'fancy'
 
+let g:syntastic_mode_map = { 'mode': 'passive',
+                            \ 'active_filetypes': [],
+                            \ 'passive_filetypes': [] }
 let g:syntastic_enable_signs = 1
 let g:syntastic_auto_loc_list = 0
 
