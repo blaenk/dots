@@ -3,7 +3,7 @@ require 'rake'
 desc "link files"
 task :link do
   Dir['*'].each do |file|
-    next if %[Rakefile README.md].include? file
+    next if %[Rakefile README.md Blaenk.terminal].include? file
 
     link file
   end
