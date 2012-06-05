@@ -5,11 +5,11 @@ task :link do
   Dir['*'].each do |file|
     next if %[Rakefile README.md Blaenk.terminal].include? file
 
-    link file
+    linkage file
   end
 end
 
-def link(file)
+def linkage(file)
   src = File.join(Dir.pwd, "#{file}")
   dest = File.join(ENV['HOME'], ".#{file}")
 
