@@ -1,6 +1,5 @@
+vim/bundle
 vim/bundle/*
-!vim/bundle/vundle/
-vim/bundle/vundle/doc/
 vim/backups/
 vim/tmp/
 vim/undo/

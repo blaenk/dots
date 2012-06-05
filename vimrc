@@ -1,5 +1,11 @@
 colorscheme Tomorrow-Night
 syntax on
+
+" awesome trick by github.com/rson
+if !isdirectory(expand("~/.vim/bundle/vundle/.git"))
+  !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+endif
+
 source ~/.vim/conf/bundles.vim
 
 let mapleader = ","
