@@ -30,7 +30,10 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
-alias t=tmux
+setopt correct nocorrectall
+
+alias t="tmux"
+alias ta="tmux a -t"
 export PATH=/usr/local/sbin:/usr/local/bin:$HOME/.rbenv/bin:$PATH
 export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
 eval "$(rbenv init -)"
