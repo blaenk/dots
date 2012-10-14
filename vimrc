@@ -78,7 +78,7 @@ set gcr+=a:blinkon0
 set undofile
 "set statusline=%F%m%r%h%w\ %y\ [%l/%L,%c]\ (%p%%)\ %{fugitive#statusline()}
 
-filetype on
+filetype plugin indent on
 au BufRead,BufNewFile *.json set filetype=javascript
 au BufRead,BufNewFile *.zsh-theme set filetype=zsh
 
