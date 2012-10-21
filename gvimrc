@@ -1,5 +1,5 @@
 if has("gui_macvim")
-  colorscheme Blaenk
+  colorscheme Excelsior
   set guioptions-=T
   set fuoptions=maxhorz,maxvert
   " macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-CR>

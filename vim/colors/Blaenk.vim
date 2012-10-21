@@ -14,7 +14,7 @@ hi Cursor  guifg=#224D70 guibg=#82A3BF gui=NONE
 hi Visual  guifg=NONE guibg=#373b41 gui=NONE
 hi CursorLine  guifg=NONE guibg=#282a2e gui=NONE
 hi CursorColumn  guifg=NONE guibg=#282a2e gui=NONE
-hi LineNr  guifg=#717474 guibg=#282a2e gui=NONE
+hi LineNr  guifg=#cf6a4c guibg=#282a2e gui=NONE
 hi SignColumn guifg=#717474 guibg=#1d1f21 gui=NONE
 hi VertSplit  guifg=#3d3f40 guibg=#3d3f40 gui=NONE
 hi MatchParen guifg=#822021 guibg=#df5f5f
@@ -34,15 +34,10 @@ hi diffRemoved guifg=#822021 guibg=#df5f5f
 hi DiffAdd guifg=#5c622b guibg=#c1c780
 hi diffAdded guifg=#5c622b guibg=#c1c780
 
-"hi diffOldFile
-"hi diffNewFile
-"hi diffLine
-"hi diffFile
-
 hi Normal  guifg=#c5c8c6 guibg=#1d1f21 gui=NONE
 hi Boolean  guifg=#de935f  
 hi Character  guifg=#de935f  
-hi Comment  guifg=#969896  
+hi Comment  guifg=#81A2BE
 hi Conditional  guifg=#b294bb  
 hi Constant  guifg=NONE  gui=NONE
 hi Define  guifg=#b294bb  
@@ -52,10 +47,6 @@ hi WarningMsg  guifg=#822021 guibg=#df5f5f
 hi Float  guifg=#de935f  
 hi Function  guifg=#81a2be  
 hi Identifier  guifg=#CC6666
-
-" coffeescript
-"runtime syntax/coffee.vim
-"unlet b:current_syntax
 
 hi coffeeObjAssign guifg=#81A2BE
 

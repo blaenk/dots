@@ -20,10 +20,12 @@ Bundle 'mileszs/ack.vim'
 Bundle 'msanders/cocoa.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Raimondi/delimitMate'
-Bundle 'scrooloose/syntastic'
 Bundle 'tomtom/tlib_vim'
 Bundle 'vim-scripts/a.vim'
 Bundle 'vim-scripts/taglist.vim'
+Bundle 'vim-scripts/python.vim--Vasiliev'
+Bundle 'wlangstroth/vim-haskell'
+Bundle 'xolox/vim-easytags'
 
 " tpope chorus
 Bundle 'tpope/vim-endwise'
