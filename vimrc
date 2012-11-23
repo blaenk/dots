@@ -10,10 +10,31 @@ source ~/.vim/conf/bundles.vim
 
 let mapleader = ","
 
-set gfn=Menlo:h12
-set gfn=Menlo\ for\ Powerline:h12
-let g:Powerline_symbols = 'fancy'
+" tab navigation
+nnoremap tn gt
+nnoremap tp gT
 
+" general system specific configurations
+if has('unix') && 'Darwin' != system('echo -n "$(uname)"')
+  " linux
+  if $COLORTERM == 'gnome-terminal'
+    set t_Co=256
+  endif
+
+  set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
+
+  " M is alt key; next tab is gt, previous tab is gT
+  nnoremap <M-]> gt
+  nnoremap <M-[> gT
+elseif has('unix') && 'Darwin' == system('echo -n "$(uname)"')
+  " mac
+  set gfn=Menlo\ for\ Powerline:h12
+elseif !has('unix')
+  " windows
+  set gfn=Consolas\ for\ Powerline:h10
+endif
+
+let g:Powerline_symbols = 'fancy'
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 let g:ctrlp_by_filename = 1
@@ -53,7 +74,6 @@ let g:easytags_dynamic_files = 1
 
 cmap w!! %!sudo tee > /dev/null %
 
-nnoremap <silent> <Leader>l :TlistToggle<CR>
 map <Leader><CR> o<Esc>ko
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 set laststatus=2
