@@ -26,12 +26,16 @@ if has('unix') && 'Darwin' != system('echo -n "$(uname)"')
   " M is alt key; next tab is gt, previous tab is gT
   nnoremap <M-]> gt
   nnoremap <M-[> gT
+
+  " make the default clipboard be X11's
+  set clipboard=unnamedplus
 elseif has('unix') && 'Darwin' == system('echo -n "$(uname)"')
   " mac
   set gfn=Menlo\ for\ Powerline:h12
 elseif !has('unix')
   " windows
   set gfn=Consolas\ for\ Powerline:h10
+  set clipboard=unnamed
 endif
 
 let g:Powerline_symbols = 'fancy'
