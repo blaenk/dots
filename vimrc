@@ -32,6 +32,8 @@ if has('unix') && 'Darwin' != system('echo -n "$(uname)"')
 elseif has('unix') && 'Darwin' == system('echo -n "$(uname)"')
   " mac
   set gfn=Menlo\ for\ Powerline:h12
+  " this doesn't work in mountain lion's default vim (does on macvim)
+  set clipboard=unnamed
 elseif !has('unix')
   " windows
   set gfn=Consolas\ for\ Powerline:h10
