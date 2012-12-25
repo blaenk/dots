@@ -83,7 +83,6 @@ cmap w!! %!sudo tee > /dev/null %
 map <Leader><CR> o<Esc>ko
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 set laststatus=2
-set nowrap
 set tabstop=2
 set shiftwidth=2
 set expandtab
@@ -118,6 +117,7 @@ set showmatch
 set hlsearch
 
 set wrap
+"set linebreak " wont work if list is on
 
 set list
 set listchars=tab:▸\ ,eol:¬
