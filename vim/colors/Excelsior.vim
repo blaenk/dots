@@ -8,9 +8,8 @@ if exists("syntax_on")
   syntax reset
 endif
 
-set background=light
+set background=dark
 hi clear
-syntax reset
 
 let g:colors_name = "Excelsior"
 
