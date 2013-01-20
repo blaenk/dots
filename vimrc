@@ -10,6 +10,8 @@ source ~/.vim/conf/bundles.vim
 
 let mapleader = ","
 
+nmap <silent> <leader>s :set spell!<CR>
+
 " tab navigation
 nnoremap tn gt
 nnoremap tp gT
