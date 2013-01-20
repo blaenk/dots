@@ -24,6 +24,7 @@ Bundle 'tomtom/tlib_vim'
 Bundle 'vim-scripts/a.vim'
 Bundle 'vim-scripts/python.vim--Vasiliev'
 Bundle 'wlangstroth/vim-haskell'
+Bundle 'godlygeek/tabular'
 
 " tpope chorus
 Bundle 'tpope/vim-endwise'
