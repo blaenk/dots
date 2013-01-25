@@ -10,6 +10,8 @@ source ~/.vim/conf/bundles.vim
 
 let mapleader = ","
 
+nmap <silent> <leader>s :set spell!<CR>
+
 " tab navigation
 nnoremap tn gt
 nnoremap tp gT
@@ -41,13 +43,14 @@ elseif !has('unix')
 endif
 
 let g:Powerline_symbols = 'fancy'
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
-let g:ctrlp_by_filename = 1
-let g:ctrlp_open_new_file = 1
-let g:ctrlp_open_multi = '1t'
-let g:ctrlp_follow_symlinks = 1
-
+let g:ctrlp_custom_ignore = {
+  \ 'dir': '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(DS_Store)$',
+  \ }
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_open_new_file = 't'
+let g:ctrlp_open_multiple_files = '1t'
 let g:ctrlp_prompt_mappings = {
   \ 'AcceptSelection("e")': ['<c-t>'],
   \ 'AcceptSelection("t")': ['<cr>']
