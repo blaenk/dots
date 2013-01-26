@@ -1,4 +1,4 @@
-" Excelsior - Full Colour and 256 Colour
+" Excelsior
 " http://blaenkdenum.com
 "
 " Forked from Chris Kempson's Tomorrow-Night: https://github.com/chriskempson/tomorrow-theme
@@ -236,23 +236,20 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 
   let s:red = "c82829"
   let s:dark_red = "b32d47"
-  let s:tomorrow_red = "cc6666"
-  let s:light_red = "cc6666"
+  let s:light_red = "e5786d"
 
   let s:orange = "f5871f"
-  let s:dark_orange = "cf6a4c"
 
   let s:yellow = "eab700"
 
   let s:green = "718c00"
   let s:light_green = "99ad6a"
-  let s:lights_green = "00cd00"
 
   let s:aqua = "3e999f"
   let s:blue = "4271ae"
   let s:threadless_blue = "3a89c9"
   let s:light_blue = "799dcc"
-  let s:purple = "a986bf"
+  let s:purple =  "a986bf"
   let s:window = "efefef"
   let s:search_fg = "224d70"
   let s:search_bg = "82a3bf"
@@ -345,7 +342,7 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
   call <SID>X("rubyAttribute", s:blue, "", "")
   call <SID>X("rubyBlock", s:orange, "", "")
   call <SID>X("rubyBlockParameter", s:dark_red, "", "")
-  call <SID>X("rubyBlockParameterList", s:delimiter, "", "")
+  call <SID>X("rubyBlockParameterList", s:light_red, "", "")
   call <SID>X("rubyClass", s:purple, "", "")
   call <SID>X("rubyConditional", s:purple, "", "")
   call <SID>X("rubyConstant", s:aqua, "", "")
