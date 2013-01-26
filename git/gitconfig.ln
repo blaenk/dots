@@ -1,0 +1,41 @@
+[user]
+  name = Jorge Israel Peña
+  email = jorgepblank@gmail.com
+[core]
+  editor = mvim -f --nomru -c \"au VimLeave * !open -a Terminal\"
+[alias]
+  br = branch
+  bs = bisect
+  ci = commit
+  cl = clone
+  co = checkout
+  cp = cherry-pick
+  df = diff
+  dfc = diff --cached
+  dft = difftool
+  dftc = difftool --cached
+  lg = log --graph --oneline --format='%Cgreen%h %Cred%aN%Cblue%d %Creset%s %C(yellow)(%cr)%Creset'
+  mrg = merge
+  pl = pull
+  ps = push
+  rem = remote
+  rh = reset --hard HEAD
+  rup = remote update
+  sb = status -sb
+  sh = stash
+  sm = submodule
+  st = status
+  up = remote update
+  vs = !gitx --all
+[color]
+  ui = true
+  branch = auto
+  diff = auto
+  grep = auto
+[diff]
+  # tool = p4merge
+  tool = Kaleidoscope
+[difftool]
+  prompt = false
+[difftool "Kaleidoscope"]
+  cmd = ksdiff-wrapper git \"$LOCAL\" \"$REMOTE\"

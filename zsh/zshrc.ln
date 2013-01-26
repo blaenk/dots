@@ -1,0 +1,22 @@
+autoload -U compinit promptinit colors select-word-style
+select-word-style bash
+compinit -i
+promptinit
+colors
+
+# history
+setopt append_history
+setopt hist_ignore_dups
+setopt share_history
+
+# ls
+export LSCOLORS="exfxcxdxbxegedabagacad"
+
+# env vars
+export EDITOR=vim
+export VISUAL=vim
+
+for file in ~/.dots/zsh/zsh/*.zsh; do
+  source $file
+done
+
