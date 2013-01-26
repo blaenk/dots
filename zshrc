@@ -1,4 +1,5 @@
-autoload -U compinit promptinit colors
+autoload -U compinit promptinit colors select-word-style
+select-word-style bash
 compinit -i
 promptinit
 colors
@@ -159,4 +160,7 @@ LEFT_ARROW="%{$fg[red]%}VI %{$reset_color%}"
 PROMPT='$LAMBDA ${PWD/#$HOME/~} ${vcs_info_msg_0_}${${KEYMAP/vicmd/$LEFT_ARROW}/(main|viins)/}$ARROW '
 
 # source scripts
-source zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+source ~/code/dotfiles/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+ZSH_HIGHLIGHT_STYLES[path]=none
