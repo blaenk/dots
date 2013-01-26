@@ -39,7 +39,3 @@
   prompt = false
 [difftool "Kaleidoscope"]
   cmd = ksdiff-wrapper git \"$LOCAL\" \"$REMOTE\"
-  
-[github]
-	user = blaenk
-	token = 2ae3a1792b0f396b93f55ac45f77f117
