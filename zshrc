@@ -11,11 +11,16 @@ setopt correct nocorrectall
 setopt complete_in_word
 setopt always_to_end
 
+zmodload -i zsh/complist
+
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+cdpath=(.)
+
 # directories
 setopt auto_name_dirs
 setopt auto_cd
 setopt multios
-setopt cdablevarS
+unsetopt cdablevars
 
 # prompt
 setopt prompt_subst
@@ -153,3 +158,5 @@ LEFT_ARROW="%{$fg[red]%}VI %{$reset_color%}"
 
 PROMPT='$LAMBDA ${PWD/#$HOME/~} ${vcs_info_msg_0_}${${KEYMAP/vicmd/$LEFT_ARROW}/(main|viins)/}$ARROW '
 
+# source scripts
+source zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
