@@ -11,7 +11,7 @@ endif
 set background=dark
 hi clear
 
-let g:colors_name = "Excelsior"
+let g:colors_name = "blaenk"
 
 if has("gui_running") || &t_Co == 88 || &t_Co == 256
   " Returns an approximate grey index for the given grey level
@@ -229,9 +229,9 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 
   " Default GUI Colours
   let s:foreground = "c5c8c6"
-  let s:background = "1d1f21"
-  let s:selection = "373b41"
-  let s:line = "282a2e"
+  let s:background = "2f2f2f"
+  let s:selection = "383838"
+  let s:line = "383838"
   let s:comment = "8e908c"
 
   let s:red = "c82829"
@@ -256,13 +256,13 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
   let s:delimiter = "787876"
 
   if !has("gui_running")
-    let s:background = "303030"
+    let s:background = "3a3a3a"
     let s:window = "5e5e5e"
-    let s:selection = "585858"
-    let s:line = "3a3a3a"
+    let s:selection = "3f3f3f"
+    let s:line = "3f3f3f"
   end
 
-  highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=#717474 guibg=#282a2e
+  highlight LineNr term=bold cterm=NONE ctermfg=DarkGray ctermbg=237 gui=NONE guifg=#717474 guibg=#383838
 
   call <SID>X("Directory", s:blue, "", "")
   call <SID>X("FoldColumn", "", s:background, "")
@@ -271,7 +271,7 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
   call <SID>X("MatchParen", "822021", "df5f5f", "")
   call <SID>X("ModeMsg", s:green, "", "")
   call <SID>X("MoreMsg", s:green, "", "")
-  call <SID>X("NonText", s:selection, "", "")
+  call <SID>X("NonText", "4d4d4c", "", "")
   call <SID>X("Normal", s:foreground, s:background, "")
   call <SID>X("Question", s:green, "", "")
   call <SID>X("Search", s:background, s:orange, "")

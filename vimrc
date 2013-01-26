@@ -1,4 +1,4 @@
-colorscheme Excelsior
+colorscheme blaenk
 syntax on
 
 " awesome trick by github.com/rson
