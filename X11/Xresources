@@ -1,0 +1,62 @@
+! Xft settings ---------------------------------------------------------------
+Xft.dpi:        96
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  hintslight
+
+!xterm*font: xft:Liberation Mono:size=10:antialias=true:hinting=true
+
+URxvt.geometry: 100x25
+URxvt.saveLines: 1000
+URxvt.font: xft:Liberation Mono:pixelsize=12:antialias=true:hinting=true
+URxvt.perl-ext-common: default,matcher,vtwheel
+
+URxvt.url-launcher: /usr/bin/chromium
+URxvt.matcher.button: 1
+
+URxvt.scrollBar: true
+URxvt.scrollBar_right: true
+URxvt.scrollstyle: plain
+
+!URxvt.borderLess: true
+
+! blaenk scheme
+*cursorColor: #6691bd
+*colorBD: #6691bd
+
+! term: 236
+*background: #303030
+*foreground: #cccccc
+! Black + DarkGrey
+!*color0:  #000000
+!*color8:  #555753
+! DarkRed + Red
+!*color1:  #822020
+!*color1:  #af0000
+*color1:  #d70000
+!*color9:  #cc6666
+*color9:  #af0000
+! DarkGreen + Green
+!*color2:  #407f00
+*color2:  #5f8700
+*color10: #c8e7a8
+! DarkYellow + Yellow
+*color3:  #999900
+!*color11: #ffc123
+*color11: #ffff00
+! DarkBlue + Blue
+!*color4:  #214c70
+!*color4:  #005faf
+*color4:  #005faf
+!*color12: #4271ae
+*color12:  #0087ff
+! DarkMangenta + Mangenta
+*color5:  #622f69
+*color13: #b294ba
+!DarkCyan + Cyan
+*color6:  #669199
+*color14: #46a4ff
+! LightGrey + White
+*color7:  #cccccc
+*color15: #ffffff
