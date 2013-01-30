@@ -9,8 +9,10 @@ Xft.hintstyle:  hintslight
 
 URxvt.geometry: 100x25
 URxvt.saveLines: 1000
-URxvt.font: xft:Liberation Mono:pixelsize=12:antialias=true:hinting=true
+URxvt.font: xft:Liberation Mono:size=10:antialias=true:hinting=true
 URxvt.perl-ext-common: default,matcher,vtwheel
+! fix font-width spacing in liberation
+URxvt.letterSpace: -1
 
 URxvt.url-launcher: /usr/bin/chromium
 URxvt.matcher.button: 1
@@ -26,37 +28,46 @@ URxvt.scrollstyle: plain
 *colorBD: #6691bd
 
 ! term: 236
-*background: #303030
+!*background: #303030
+*background: #1D1F20
 *foreground: #cccccc
-! Black + DarkGrey
-!*color0:  #000000
-!*color8:  #555753
-! DarkRed + Red
-!*color1:  #822020
-!*color1:  #af0000
-*color1:  #d70000
-!*color9:  #cc6666
-*color9:  #af0000
-! DarkGreen + Green
-!*color2:  #407f00
-*color2:  #5f8700
-*color10: #c8e7a8
-! DarkYellow + Yellow
-*color3:  #999900
-!*color11: #ffc123
-*color11: #ffff00
-! DarkBlue + Blue
+! Black + BoldGrey
+*color0:  #000000
+*color8:  #858585
+! BoldRed + Red
+!*color1:  #d70000
+*color1:  #822020
+!*color9:  #af0000
+*color9:  #cc6666
+! BoldGreen + Green
+!*color2:  #5f8700
+*color2:  #407F00
+!*color10: #c8e7a8
+*color10: #55FF55
+! BoldYellow + Yellow
+!*color3:  #999900
+*color3:  #FFFF00
+!*color11: #ffff00
+*color11: #999900
+! BoldBlue + Blue
 !*color4:  #214c70
 !*color4:  #005faf
-*color4:  #005faf
+*color4:  #214C70
 !*color12: #4271ae
-*color12:  #0087ff
-! DarkMangenta + Mangenta
-*color5:  #622f69
-*color13: #b294ba
-!DarkCyan + Cyan
-*color6:  #669199
-*color14: #46a4ff
+!*color12: #0087ff
+*color12: #80A1BD
+! BoldMangenta + Mangenta
+!*color5:  #622f69
+*color5:  #B294BA
+!*color13: #b294ba
+*color13: #622F69
+!BoldCyan + Cyan
+!*color6:  #669199
+*color6:  #55FFFF
+!*color14: #46a4ff
+*color14: #669199
 ! LightGrey + White
-*color7:  #cccccc
+!*color7:  #cccccc
+*color7:  #BBBBBB
+!*color15: #ffffff
 *color15: #ffffff
