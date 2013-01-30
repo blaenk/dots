@@ -98,7 +98,6 @@ set undofile
 
 filetype plugin indent on
 au BufRead,BufNewFile *.json set filetype=javascript
-au BufRead,BufNewFile *.zsh-theme set filetype=zsh
 
 set wildmenu
 set wildmode=list:longest
