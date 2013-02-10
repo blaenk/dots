@@ -4,6 +4,7 @@ if [[ "$OSTYPE" == linux* ]]; then
   export TERM=rxvt-256color
   alias sudo='sudo '
   alias sysd='systemd'
+  alias sysctl='systemctl'
   alias journ='journalctl'
   alias ls='ls --color'
 
