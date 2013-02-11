@@ -8,7 +8,7 @@ LEFT_ARROW="%{$fg[red]%}VI %{$reset_color%}"
 SLASH="%{$fg_bold[blue]%}/%{$reset_color%}"
 
 function color_path() {
-  print -P "${${PWD/#$HOME/~}//\//$SLASH}"
+  echo "${${PWD/#$HOME/~}//\//$SLASH}"
 }
 
 function vimode() {
@@ -19,5 +19,5 @@ if [[ -n $SSH_CONNECTION ]]; then
   SSH="%{$fg[green]%}{%{$reset_color%}%m%{$fg[green]%}}%{$reset_color%} "
 fi
 
-PROMPT='$SSH$LAMBDA ${${PWD/#$HOME/~}//\//$SLASH} ${vcs_info_msg_0_}${${KEYMAP/vicmd/$LEFT_ARROW}/(main|viins)/}$ARROW '
+PROMPT='$SSH$LAMBDA $(color_path) ${vcs_info_msg_0_}$(vimode)$ARROW '
 
