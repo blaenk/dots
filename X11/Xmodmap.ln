@@ -1,0 +1,10 @@
+remove Control = Control_R
+keycode 105 = XF86AudioRaiseVolume
+add Control = Control_R
+
+remove mod4 = Super_R
+keycode 134 = XF86AudioMute
+add mod4 = Super_R
+
+keycode 135 = XF86AudioLowerVolume
+
