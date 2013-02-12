@@ -9,10 +9,10 @@ Xft.lcdfilter: lcddefault
 
 URxvt.geometry: 100x25
 URxvt.saveLines: 1000
-URxvt.font: xft:Liberation Mono:pixelsize=12:antialias=true:hinting=true
+URxvt.font: xft:Liberation Mono for Powerline:pixelsize=12:antialias=true:hinting=true
 URxvt.perl-ext-common: default,matcher,vtwheel
 ! fix font-width spacing in liberation
-URxvt.letterSpace: -1
+URxvt.letterSpace: -2
 
 URxvt.url-launcher: /usr/bin/chromium
 URxvt.matcher.button: 1
@@ -36,45 +36,29 @@ URxvt.scrollstyle: plain
 *color8:  #858585
 
 ! red + bold red
-!*color1:  #d70000
 *color1:  #b32d47
-!*color9:  #af0000
 *color9:  #cc6666
 
 ! green + bold green
-!*color2:  #5f8700
 *color2:  #718c00
-!*color10: #c8e7a8
 *color10: #99ad6a
 
 ! BoldYellow + Yellow
-!*color3:  #999900
 *color3:  #eab700
-!*color11: #ffff00
 *color11: #999900
 
 ! BoldBlue + Blue
-!*color4:  #214c70
-!*color4:  #005faf
 *color4:  #3a89c9
-!*color12: #4271ae
-!*color12: #0087ff
 *color12: #80A1BD
 
 ! BoldMangenta + Mangenta
-!*color5:  #622f69
 *color5:  #a986bf
-!*color13: #b294ba
 *color13: #B294BA
 
 !BoldCyan + Cyan
-!*color6:  #669199
 *color6:  #3e999f
-!*color14: #46a4ff
 *color14: #799dcc
 
 ! LightGrey + White
-!*color7:  #cccccc
 *color7:  #BBBBBB
-!*color15: #ffffff
 *color15: #ffffff
