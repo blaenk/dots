@@ -2,7 +2,7 @@
   name = Jorge Israel Peña
   email = jorgepblank@gmail.com
 [core]
-  editor = mvim -f --nomru -c \"au VimLeave * !open -a Terminal\"
+  editor = vim
 [alias]
   br = branch
   bs = bisect
@@ -25,7 +25,6 @@
   sh = stash
   sm = submodule
   st = status
-  up = remote update
   vs = !gitx --all
 [color]
   ui = true
@@ -33,9 +32,8 @@
   diff = auto
   grep = auto
 [diff]
-  # tool = p4merge
-  tool = Kaleidoscope
+  tool = vimdiff
 [difftool]
   prompt = false
-[difftool "Kaleidoscope"]
-  cmd = ksdiff-wrapper git \"$LOCAL\" \"$REMOTE\"
+[push]
+  default = simple
