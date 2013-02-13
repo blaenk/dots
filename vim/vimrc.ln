@@ -25,11 +25,20 @@ if has('unix') && 'Darwin' != system('echo -n "$(uname)"')
     set t_Co=256
   endif
 
-  set guifont=Liberation\ Mono\ for\ Powerline\ 10
+  set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
 
   " M is alt key; next tab is gt, previous tab is gT
   nnoremap <M-]> gt
   nnoremap <M-[> gT
+
+  " meta key copying like in map
+  nnoremap <M-c> y
+  nnoremap <M-v> p
+
+  vnoremap <M-c> y
+  vnoremap <M-v> p
+
+  imap <M-v> <C-r>+
 
   " make the default clipboard be X11's
   set clipboard=unnamedplus

@@ -9,13 +9,27 @@ Xft.lcdfilter: lcddefault
 
 URxvt.geometry: 100x25
 URxvt.saveLines: 1000
-URxvt.font: xft:Liberation Mono for Powerline:pixelsize=12:antialias=true:hinting=true
-URxvt.perl-ext-common: default,matcher,vtwheel
+URxvt.font: xft:DejaVu Sans Mono for Powerline:pixelsize=12:antialias=true:hinting=true
+URxvt.perl-ext-common: default,vtwheel,clipboard,keyboard-select,url-select
 ! fix font-width spacing in liberation
-URxvt.letterSpace: -2
+URxvt.letterSpace: -1
 
 URxvt.url-launcher: /usr/bin/chromium
 URxvt.matcher.button: 1
+
+! keyboard select
+URxvt.keysym.M-i: perl:keyboard-select:activate
+
+! url select
+URxvt.keysym.M-u: perl:url-select:select_next
+
+! meta copy (like mac)
+URxvt.keysym.M-c: perl:clipboard:copy
+URxvt.keysym.M-v: perl:clipboard:paste
+URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+URxvt.clipboard.autocopy: true
+URxvt.clipboard.copycmd: xsel -ib
+URxvt.clipboard.pastecmd: xsel -ob
 
 URxvt.scrollBar: true
 URxvt.scrollBar_right: true
@@ -27,7 +41,6 @@ URxvt.scrollstyle: plain
 *cursorColor: #6691bd
 *colorBD: #6691bd
 
-!*background: #303030
 *background: #2f2f2f
 *foreground: #c5c8c6
 
