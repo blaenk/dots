@@ -16,7 +16,7 @@ AVCS_PROMPT="$VCS_PROMPT$AVCS_PRE%a$AVCS_SUF "
 
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr '+'
-zstyle ':vcs_info:*' unstagedstr 'x'
+zstyle ':vcs_info:*' unstagedstr '#'
 zstyle ':vcs_info:*' formats $VCS_PROMPT
 zstyle ':vcs_info:*' actionformats $AVCS_PROMPT
 zstyle ':vcs_info:*' enable git
@@ -56,9 +56,9 @@ function +vi-git-untracked(){
         # files in $PWD, use:
         #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
         if [[ -n ${hook_com[unstaged]} ]]; then
-          hook_com[unstaged]="-$DELIM${hook_com[unstaged]}"
+          hook_com[unstaged]=".$DELIM${hook_com[unstaged]}"
         else
-          hook_com[unstaged]="-"
+          hook_com[unstaged]="."
         fi
     fi
 }
