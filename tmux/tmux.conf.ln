@@ -20,8 +20,8 @@ bind h previous-window
 bind l next-window
 
 # bind h select-pane -L
-# bind j select-pane -D
-# bind k select-pane -U
+bind j select-pane -D
+bind k select-pane -U
 # bind l select-pane -R
 
 bind -r C-h select-window -t :-
