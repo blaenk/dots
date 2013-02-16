@@ -34,29 +34,35 @@ bind -r L resize-pane -R 5
 
 set -g default-terminal "screen-256color"
 
-set -g status-fg black
-set -g status-bg red
+set -g status-fg white
+set -g status-bg blue
+set -g status-attr bright
 
-setw -g window-status-fg black
+setw -g window-status-fg white
 setw -g window-status-bg default
-setw -g window-status-attr dim
 
-setw -g window-status-current-fg white
-setw -g window-status-current-bg default
-setw -g window-status-current-attr bright
+# colour31 file part of powerline
+setw -g window-status-current-fg white # colour23 # dark cyan
+setw -g window-status-current-bg red # colour15 # white
+setw -g window-status-current-attr bold
 
-# set -g pane-border-fg green
+setw -g window-status-current-format "#I#F#W"
+setw -g window-status-format "#I#F#W"
+
+set -g message-fg white
+set -g message-bg green
+set -g message-attr bright
+
+# prompts
+set -g status-utf8 on
+set -g status-left-length 30
+set -g status-left " #S "
+set -g status-left-bg green
+set -g status-right-length 4
+set -g status-right "tmux"
+
+# set -g pane-border-fg blue
 # set -g pane-border-bg black
 # set -g pane-active-border-fg white
 # set -g pane-active-border-bg yellow
 
-set -g message-fg white
-set -g message-bg red
-set -g message-attr bright
-
-# prompts
-# set -g status-left "#S"
-set -g status-utf8 on
-set -g status-left "#[fg=yellow,bold]#S #[default]➜"
-set -g status-right-length 50
-set -g status-right "#[fg=white]%m/%d/%Y %I:%M %p %z #[default]on #[fg=white]#H"

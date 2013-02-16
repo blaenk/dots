@@ -39,6 +39,6 @@ bindkey -M viins "^E" end-of-line
 bindkey -M viins "^R" history-incremental-search-backward # allow interactive incr search, ^G or ^C to exit
 bindkey -M viins "^S" history-incremental-search-forward
 bindkey -M viins "^H" backward-delete-char  # vi-backward-delete-char
-bindkey -M viins "^U" vi-kill-line             # vi-kill-line
+bindkey -M viins "^U" backward-kill-line             # vi-kill-line
 bindkey -M viins "^?" backward-delete-char  # vi-backward-delete-char
 

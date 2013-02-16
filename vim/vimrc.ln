@@ -16,8 +16,6 @@ nmap <silent> <leader>s :set spell!<CR>
 nnoremap tn gt
 nnoremap tp gT
 
-set mouse=a
-
 " general system specific configurations
 if has('unix') && 'Darwin' != system('echo -n "$(uname)"')
   " linux
