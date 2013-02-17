@@ -21,6 +21,8 @@ URxvt.keysym.M-i: perl:keyboard-select:activate
 
 ! url select
 URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.url-select.launcher: /usr/bin/chromium
+URxvt.url-select.button: 1
 
 ! meta copy (like mac)
 URxvt.keysym.M-c: perl:clipboard:copy
