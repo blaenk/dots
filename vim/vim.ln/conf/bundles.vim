@@ -27,6 +27,7 @@ Bundle 'vim-scripts/python.vim--Vasiliev'
 Bundle 'wlangstroth/vim-haskell'
 Bundle 'godlygeek/tabular'
 Bundle 'cakebaker/scss-syntax.vim'
+Bundle 'Valloric/YouCompleteMe'
 
 " tpope chorus
 Bundle 'tpope/vim-endwise'
