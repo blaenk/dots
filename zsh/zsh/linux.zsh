@@ -1,11 +1,15 @@
 if [[ "$OSTYPE" == linux* ]]; then
-  eval $(keychain --eval --agents ssh -Q --quiet id_rsa)
   # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
   alias sudo='sudo '
+
+  # only ask for ssh password on first use of ssh
+  alias ssh='eval $(keychain --eval --agents ssh -Q --quiet id_rsa) && ssh'
+
   alias sysd='systemd'
   alias sysctl='systemctl'
   alias journ='journalctl'
   alias ls='ls --color'
+  alias pacman='pacman-color'
 
   c16(){
     x=`tput op`

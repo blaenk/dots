@@ -3,6 +3,7 @@
   email = jorgepblank@gmail.com
 [core]
   editor = vim
+  pager = less -+$LESS -FRX
 [alias]
   br = branch
   bs = bisect
@@ -10,8 +11,8 @@
   cl = clone
   co = checkout
   cp = cherry-pick
-  df = diff
-  dfc = diff --cached
+  df = diff --word-diff
+  dfc = diff --cached --word-diff
   dft = difftool
   dftc = difftool --cached
   lg = log --graph --oneline --format='%Cgreen%h %Cred%aN%Cblue%d %Creset%s %C(yellow)(%cr)%Creset'
@@ -37,3 +38,5 @@
   prompt = false
 [push]
   default = simple
+[github]
+	user = blaenk

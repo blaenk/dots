@@ -28,6 +28,7 @@ Bundle 'wlangstroth/vim-haskell'
 Bundle 'godlygeek/tabular'
 Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'Valloric/YouCompleteMe'
+Bundle 'henrik/vim-indexed-search'
 
 " tpope chorus
 Bundle 'tpope/vim-endwise'

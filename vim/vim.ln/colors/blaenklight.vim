@@ -1,4 +1,4 @@
-" Blaenk
+" Blaenk light
 " http://blaenkdenum.com
 "
 " Forked from Chris Kempson's Tomorrow-Night: https://github.com/chriskempson/tomorrow-theme
@@ -8,10 +8,10 @@ if exists("syntax_on")
   syntax reset
 endif
 
-set background=dark
+set background=light
 hi clear
 
-let g:colors_name = "blaenk"
+let g:colors_name = "blaenklight"
 
 if has("gui_running") || &t_Co == 88 || &t_Co == 256
   " Returns an approximate grey index for the given grey level
@@ -210,11 +210,23 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 
   " Sets the highlighting for the given group
   fun <SID>X(group, fg, bg, attr)
+    if strlen(a:fg) == 6
+      let l:fg = <SID>rgb(a:fg)
+    else
+      let l:fg = a:fg
+    endif
+
+    if strlen(a:bg) == 6
+      let l:bg = <SID>rgb(a:bg)
+    else
+      let l:bg = a:bg
+    endif
+
     if a:fg != ""
-      exec "hi " . a:group . " guifg=#" . a:fg . " ctermfg=" . <SID>rgb(a:fg)
+      exec "hi " . a:group . " guifg=#" . a:fg . " ctermfg=" . l:fg
     endif
     if a:bg != ""
-      exec "hi " . a:group . " guibg=#" . a:bg . " ctermbg=" . <SID>rgb(a:bg)
+      exec "hi " . a:group . " guibg=#" . a:bg . " ctermbg=" . l:bg
     endif
     if a:attr != ""
       exec "hi " . a:group . " gui=" . a:attr . " cterm=" . a:attr
@@ -228,10 +240,17 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
   " Vim Highlighting
 
   " Default GUI Colours
-  let s:foreground = "c5c8c6"
-  let s:background = "2f2f2f"
-  let s:selection = "383838"
-  let s:line = "383838"
+  let s:foreground = "00427B"
+  let s:background = "F2F9FF"
+  let s:selection = "D0E9FF"
+  let s:line = "D0E9FF"
+
+  let s:redlight = "990000"
+  let s:cyanlight = "258fb8"
+  let s:stringlight = "d01040"
+  let s:numberlight = "099099"
+  let s:typelight = "445588"
+
   let s:comment = "8e908c"
 
   let s:red = "c82829"
@@ -240,6 +259,7 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 
   let s:orange = "f5871f"
 
+  "c5c8c6
   let s:yellow = "eab700"
 
   let s:green = "718c00"
@@ -256,13 +276,14 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
   let s:delimiter = "787876"
 
   if !has("gui_running")
-    let s:background = "3a3a3a"
-    let s:window = "5e5e5e"
-    let s:selection = "3f3f3f"
-    let s:line = "3f3f3f"
+    let s:foreground = "24"
+    "let s:background = "3a3a3a"
+    "let s:window = "5e5e5e"
+    let s:selection = "195"
+    let s:line = "195"
   end
 
-  highlight LineNr term=bold cterm=NONE ctermfg=DarkGray ctermbg=237 gui=NONE guifg=#717474 guibg=#383838
+  highlight LineNr term=bold cterm=NONE ctermfg=246 ctermbg=254 gui=NONE guifg=#717474 guibg=#ECECEC
 
   call <SID>X("Directory", s:blue, "", "")
   call <SID>X("FoldColumn", "", s:background, "")
@@ -271,10 +292,10 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
   call <SID>X("MatchParen", "822021", "df5f5f", "")
   call <SID>X("ModeMsg", s:green, "", "")
   call <SID>X("MoreMsg", s:green, "", "")
-  call <SID>X("NonText", "4d4d4c", "", "")
   call <SID>X("Normal", s:foreground, s:background, "")
   call <SID>X("Question", s:green, "", "")
   call <SID>X("Search", s:background, s:orange, "")
+  call <SID>X("NonText",s:selection, "", "")
   call <SID>X("SpecialKey", s:selection, "", "")
   call <SID>X("StatusLine", s:window, s:yellow, "reverse")
   call <SID>X("StatusLineNC", s:window, s:foreground, "reverse")
@@ -287,6 +308,7 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
     call <SID>X("Cursor", s:search_fg, s:search_bg, "none")
     call <SID>X("CursorColumn", "", s:line, "none")
     call <SID>X("CursorLine", "", s:line, "none")
+    call <SID>X("CursorLineNR", s:redlight, s:line, "bold")
     call <SID>X("PMenu", s:foreground, s:selection, "none")
     call <SID>X("PMenuSel", s:foreground, s:selection, "reverse")
   end
@@ -296,38 +318,39 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 
   " Standard Highlighting
   call <SID>X("Comment", s:threadless_blue, "", "")
-  call <SID>X("Conditional", s:foreground, "", "")
-  call <SID>X("Constant", s:red, "", "")
+  call <SID>X("Conditional", s:cyanlight, "", "")
+  call <SID>X("Constant", s:numberlight, "", "")
   call <SID>X("Define", s:purple, "", "none")
   call <SID>X("Delimiter", s:delimiter, s:background, "")
-  call <SID>X("Function", s:blue, "", "")
+  call <SID>X("Function", s:redlight, "", "bold")
   call <SID>X("Identifier", s:dark_red, "", "none")
   call <SID>X("Include", s:blue, "", "")
-  call <SID>X("Operator", s:light_blue, "", "none")
-  call <SID>X("PreProc", s:purple, "", "")
+  call <SID>X("PreProc", s:blue, "", "")
+  call <SID>X("Operator", s:redlight, "", "none")
   call <SID>X("Repeat", s:foreground, "", "")
   call <SID>X("Special", s:foreground, "", "")
   call <SID>X("Statement", s:foreground, "", "")
-  call <SID>X("String", s:green, "", "")
-  call <SID>X("Structure", s:purple, "", "")
+  call <SID>X("String", s:stringlight, "", "")
+  call <SID>X("Structure", s:cyanlight, "", "bold")
   call <SID>X("Title", s:comment, "", "")
   call <SID>X("Todo", s:comment, s:background, "")
   call <SID>X("Type", s:blue, "", "none")
 
   " Vim Highlighting
   call <SID>X("vimCommand", s:dark_red, "", "none")
-  call <SID>X("vimFuncVar", s:yellow, "", "none")
-  call <SID>X("vimNotFunc", s:purple, "", "none")
+  call <SID>X("vimVar", s:foreground, "", "none")
+  call <SID>X("vimFuncVar", s:foreground, "", "none")
+  call <SID>X("vimNotFunc", s:cyanlight, "", "bold")
 
   " C Highlighting
-  call <SID>X("cConditional", s:purple, "", "")
+  call <SID>X("cConditional", s:cyanlight, "", "bold")
   call <SID>X("cCustomClass", s:aqua, "", "")
-  call <SID>X("cCustomFunc", s:blue, "", "")
+  call <SID>X("cCustomFunc", s:redlight, "", "")
   call <SID>X("cCustomVar", s:yellow, "", "")
-  call <SID>X("cLabel", s:purple, "", "")
-  call <SID>X("cRepeat", s:purple, "", "")
-  call <SID>X("cStorageClass", s:purple, "", "")
-  call <SID>X("cType", s:yellow, "", "")
+  call <SID>X("cLabel", s:foreground, "", "bold")
+  call <SID>X("cRepeat", s:cyanlight, "", "bold")
+  call <SID>X("cStorageClass", s:cyanlight, "", "bold")
+  call <SID>X("cType", s:foreground, "", "bold")
   call <SID>X("cUserLabel", s:purple, "", "")
 
   " PHP Highlighting
@@ -338,16 +361,20 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
   call <SID>X("phpStatement", s:purple, "", "")
   call <SID>X("phpVarSelector", s:dark_red, "", "")
 
+  " MarkDown Highlighting
+  call <SID>X("markdownCode", s:stringlight, "", "")
+
   " Ruby Highlighting
   call <SID>X("rubyAttribute", s:blue, "", "")
   call <SID>X("rubyBlock", s:orange, "", "")
   call <SID>X("rubyBlockParameter", s:dark_red, "", "")
   call <SID>X("rubyBlockParameterList", s:light_red, "", "")
-  call <SID>X("rubyClass", s:purple, "", "")
-  call <SID>X("rubyConditional", s:purple, "", "")
+  call <SID>X("rubyClass", s:cyanlight, "", "bold")
+  call <SID>X("rubyConditional", s:cyanlight, "", "bold")
   call <SID>X("rubyConstant", s:aqua, "", "")
-  call <SID>X("rubyControl", s:purple, "", "")
+  call <SID>X("rubyControl", s:cyanlight, "", "bold")
   call <SID>X("rubyCurlyBlock", s:foreground, "", "")
+  call <SID>X("rubyDefine", s:cyanlight, "", "bold")
   call <SID>X("rubyException", s:purple, "", "")
   call <SID>X("rubyExceptional", s:purple, "", "")
   call <SID>X("rubyInclude", s:blue, "", "")
@@ -358,17 +385,19 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
   call <SID>X("rubyPseudoVariable", s:dark_red, "", "")
   call <SID>X("rubyRailsUserClass", s:aqua, "", "")
   call <SID>X("rubyRepeat", s:purple, "", "")
-  call <SID>X("rubyStringDelimiter", "99ad6a", "", "")
-  call <SID>X("rubyStringDelimiter", s:green, "", "")
+  "call <SID>X("rubyStringDelimiter", "99ad6a", "", "")
   call <SID>X("rubyStringEscape", s:light_red, "", "")
   call <SID>X("rubySymbol", s:green, "", "")
 
   " Haskell
-  call <SID>X("hsStatement", s:purple, "", "")
+  call <SID>X("hsStatement", s:cyanlight, "", "bold")
   call <SID>X("hsConditional", s:purple, "", "")
-  call <SID>X("hsType", s:aqua, "", "")
+  call <SID>X("hsImportLabel", s:cyanlight, "", "bold")
+  call <SID>X("hsType", s:foreground, "", "bold")
+  call <SID>X("hsTypeDef", s:cyanlight, "", "bold")
+  call <SID>X("hs_TypeOp", s:cyanlight, "", "bold")
   call <SID>X("hsCharacter", s:light_green, "", "")
-  call <SID>X("hsDelimiter", s:delimiter, "", "")
+  call <SID>X("hsDelimiter", s:foreground, "", "")
 
   " Python Highlighting
   call <SID>X("pythonConditional", s:purple, "", "")

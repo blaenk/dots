@@ -13,8 +13,8 @@ let mapleader = ","
 nmap <silent> <leader>s :set spell!<CR>
 
 " tab navigation
-nnoremap tn gt
-nnoremap tp gT
+nnoremap tl gt
+nnoremap th gT
 
 " general system specific configurations
 if has('unix') && 'Darwin' != system('echo -n "$(uname)"')
