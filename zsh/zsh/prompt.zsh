@@ -20,5 +20,5 @@ if [[ -n $SSH_CONNECTION ]]; then
 fi
 
 PROMPT='$SSH$LAMBDA $(color_path) ${vcs_info_msg_0_}
- $(vimode)$ARROW '
+$(vimode)$ARROW '
 
