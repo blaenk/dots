@@ -9,7 +9,6 @@ if [[ "$OSTYPE" == linux* ]]; then
   alias sysctl='systemctl'
   alias journ='journalctl'
   alias ls='ls --color'
-  alias pacman='pacman-color'
 
   c16(){
     x=`tput op`
