@@ -8,10 +8,9 @@ function accept_line {
   builtin zle .accept-line
 }
 
-function zle-line-init zle-keymap-select { zle reset-prompt }
+function zle-keymap-select { zle reset-prompt }
 
 autoload -U edit-command-line
-zle -N zle-line-init
 zle -N zle-keymap-select
 zle -N accept_line
 zle -N edit-command-line
