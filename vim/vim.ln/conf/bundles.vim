@@ -6,6 +6,7 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
+Bundle 'vim-pandoc/vim-pandoc'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'ddollar/nerdcommenter'
 Bundle 'garbas/vim-snipmate'
@@ -34,7 +35,6 @@ Bundle 'henrik/vim-indexed-search'
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-haml'
-Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-ragtag'
 Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-repeat'
