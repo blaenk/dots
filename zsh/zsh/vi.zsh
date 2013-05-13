@@ -22,8 +22,8 @@ bindkey -M vicmd v edit-command-line # ESC-v to edit in an external editor.
 bindkey ' ' magic-space 
 bindkey -M vicmd "gg" beginning-of-history
 bindkey -M vicmd "G" end-of-history
-bindkey -M vicmd "k" history-search-backward
-bindkey -M vicmd "j" history-search-forward
+bindkey -M vicmd "k" up-line-or-history # history-search-backward
+bindkey -M vicmd "j" down-line-or-history # history-search-forward
 bindkey -M vicmd "/" history-incremental-search-backward
 bindkey -M vicmd "?" history-incremental-search-forward
 
