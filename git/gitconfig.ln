@@ -11,8 +11,10 @@
   cl = clone
   co = checkout
   cp = cherry-pick
-  df = diff --word-diff
-  dfc = diff --cached --word-diff
+  df = diff
+  dfw = diff --word-diff
+  dfc = diff --cached
+  dfcw = diff --cached --word-diff
   dft = difftool
   dftc = difftool --cached
   lg = log --graph --oneline --format='%Cgreen%h %Cred%aN%Cblue%d %Creset%s %C(yellow)(%cr)%Creset'
