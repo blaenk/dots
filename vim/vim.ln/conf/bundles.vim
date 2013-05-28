@@ -6,13 +6,11 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
+Bundle 'vim-scripts/Align'
 Bundle 'vim-pandoc/vim-pandoc'
-Bundle 'altercation/vim-colors-solarized'
+Bundle 'yurifury/hexHighlight'
 Bundle 'ddollar/nerdcommenter'
-Bundle 'garbas/vim-snipmate'
 Bundle 'groenewege/vim-less'
-Bundle 'honza/snipmate-snippets'
-Bundle 'juvenn/mustache.vim'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'kien/ctrlp.vim'
 Bundle 'MarcWeber/vim-addon-mw-utils'
@@ -34,7 +32,6 @@ Bundle 'henrik/vim-indexed-search'
 " tpope chorus
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-ragtag'
 Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-repeat'

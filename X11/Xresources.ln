@@ -7,6 +7,7 @@ Xft.hintstyle: hintfull
 Xft.lcdfilter: lcddefault
 
 URxvt.geometry: 100x25
+URxvt.urgentOnBell: true
 URxvt.saveLines: 1000
 URxvt.font: xft:DejaVu Sans Mono for Powerline:pixelsize=12:antialias=true:hinting=true
 URxvt.perl-ext-common: default,vtwheel,clipboard,keyboard-select,url-select
@@ -61,7 +62,7 @@ URxvt.color9:  #cc6666
 URxvt.color2:  #718c00
 URxvt.color10: #99ad6a
 
-! BoldYellow + Yellow
+! Yellow + bold Yellow
 URxvt.color3:  #eab700
 URxvt.color11: #999900
 
