@@ -8,6 +8,7 @@ Config {
     -- NOTE: refresh rate uses deciseconds (1/10th of second)
       Run Date "%A, %B %_d" "date" 10
     , Run Date "%I:%M:%S %p" "time" 10
+    -- , Run DynNetwork ["-t", "<fc=#3a89c9><icon=/home/jorge/.xmonad/icons/net_down.xbm/></fc> <rx> <fc=#3a89c9><icon=/home/jorge/.xmonad/icons/net_up.xbm/></fc> <tx>"] 10
     , Run Com "~/.xmonad/scripts/pacman-updates.sh" [] "pacman" 6000 -- 10 minutes
     , Run PipeReader "/tmp/volume-pipe" "volume"
     , Run StdinReader

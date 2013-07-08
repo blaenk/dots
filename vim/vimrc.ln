@@ -53,6 +53,8 @@ endif
 
 let g:Powerline_symbols = 'fancy'
 
+let g:pandoc_no_folding = 1
+
 let g:ctrlp_custom_ignore = {
   \ 'dir': '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(DS_Store)$',
@@ -69,13 +71,11 @@ let g:ctrlp_prompt_mappings = {
 map <leader>f :CtrlP<cr>
 map <leader>b :CtrlPBuffer<cr>
 
-cnoremap %% <C-R>=expand('%:h').'/'<cr>
-
 " objective-c
 let g:alternateExtensions_m = "h"
 let g:alternateExtensions_h = "m"
 
-let g:delimitMate_expand_cr = 1
+" let g:delimitMate_expand_cr = 1
 
 let g:gist_detect_filetype = 1
 let g:gist_open_browser_after_post = 1
@@ -93,7 +93,6 @@ let g:easytags_dynamic_files = 1
 cmap w!! %!sudo tee > /dev/null %
 
 map <Leader><CR> o<Esc>ko
-cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 set laststatus=2
 set tabstop=2
 set shiftwidth=2

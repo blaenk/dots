@@ -4,6 +4,7 @@ import qualified XMonad.StackSet as S
 
 -- actions
 import XMonad.Actions.CycleWS
+import XMonad.Actions.SwapWorkspaces
 import XMonad.Actions.DynamicWorkspaces
 import XMonad.Actions.WindowBringer
 import XMonad.Actions.WithAll
@@ -33,6 +34,7 @@ import XMonad.Layout.NoBorders (noBorders, smartBorders)
 import Graphics.X11.ExtraTypes.XF86
 import Graphics.X11.Xlib.Misc
 import qualified Data.Map as M
+import qualified Data.List as L
 import Control.Monad
 
 myLayout = layoutHints $ avoidStruts $ mkToggle (single FULL) $ smartBorders $
@@ -51,10 +53,10 @@ myYellow = "#eab700"
 myBlue   = "#3a89c9"
 
 myPP = xmobarPP
-  { ppCurrent = clickableWS "white" myBlue
-  , ppVisible = clickableWS "white" myGreen
-  , ppHidden = clickableWS "white" myRed
-  , ppHiddenNoWindows = clickableWS "white" myRed
+  { ppCurrent = xmobarColor "white" myBlue . pad
+  , ppVisible = xmobarColor "white" myGreen . pad
+  , ppHidden = xmobarColor "white" myRed . pad
+  , ppHiddenNoWindows = xmobarColor "white" myRed . pad
   , ppWsSep = " "
   , ppSep = "  "
   , ppTitle = shorten 80
@@ -85,14 +87,30 @@ myXPConfig = defaultXPConfig
   , position = Bottom
   }
 
--- spawn a command with sound played at the end
 spawnWithSound cmd sound =
   spawn $ cmd ++ " && mplayer2 /usr/share/sounds/freedesktop/stereo/" ++ sound ++ ".oga"
 
+yeganesh = "exe=`dmenu_path_c | yeganesh -- " ++ yeganeshOptions ++ "` && eval \"exec $exe\""
+ where yeganeshOptions = L.intercalate " " $
+         [ "-fn 'DejaVu Sans Mono-11'"
+         , "-p '>'"
+         , "-nf '#c5c8c6'"
+         , "-nb '#2f2f2f'"
+         ]
+
+bringerOptions =
+          [ "-fn", "DejaVu Sans Mono-11"
+          , "-p", ">"
+          , "-nf", "#c5c8c6"
+          , "-nb", "#2f2f2f"
+          , "-l", "48"
+          ]
+
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
-myKeys (XConfig {XMonad.modMask = modMask}) =
+myKeys conf@(XConfig {XMonad.modMask = modMask}) =
   M.fromList $ [
     -- misc bindings
+    ((modMask, xK_p), spawn yeganesh),
     ((modMask, xK_Print), spawnWithSound "scrot" "screen-capture"),
     ((modMask .|. shiftMask, xK_Print), spawnWithSound "sleep 0.2; scrot -s" "screen-capture"),
 
@@ -124,8 +142,8 @@ myKeys (XConfig {XMonad.modMask = modMask}) =
     ((modMask, xK_i), sendMessage MirrorExpand),
 
     -- window bringer
-    ((modMask, xK_g), gotoMenu),
-    ((modMask, xK_b), bringMenu),
+    ((modMask, xK_g), gotoMenuArgs bringerOptions),
+    ((modMask, xK_b), bringMenuArgs bringerOptions),
 
     -- cycle all windows
     ((modMask .|. shiftMask .|. controlMask, xK_space), rotAllDown),
@@ -140,9 +158,13 @@ myKeys (XConfig {XMonad.modMask = modMask}) =
     ((modMask .|. shiftMask, xK_t), sinkAll)
   ] ++ [
     -- proper ordering of screens
+    -- this is broken on tiled layouts, just floats it and puts it back?
     ((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-      | (key, sc) <- zip [xK_e, xK_w] [0..]
+     | (key, sc) <- zip [xK_e, xK_w] [0..]
       , (f, m) <- [(S.view, 0), (S.shift, shiftMask)]
+  ] ++ [
+    ((modMask .|. controlMask, k), windows $ swapWithCurrent i)
+     | (i, k) <- zip (workspaces conf) [xK_1 ..]
   ]
 
 currentScreen :: X (WindowSpace -> Bool)
@@ -182,9 +204,7 @@ myManageHook = placeHook simpleSmart <+> manageDocks <+> composeOne [
   isFullscreen -?> (doF S.focusDown <+> doFullFloat),
   className =? "Steam" -?> doFloat, -- steam
   className =? "Wine" -?> doFloat, -- steam
-  className =? "mplayer2" -?> doFloat, -- mplayer
-  isDialog -?> doFloat,
-  transience
+  className =? "mplayer2" -?> doFloat -- mplayer
   ]
 
 isFloating :: Query Bool
