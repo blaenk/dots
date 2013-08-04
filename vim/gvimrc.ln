@@ -18,5 +18,5 @@ if has('gui_gtk')
   " gvim specifics
 endif
 
-if has('gui_win64')
+if has('gui_win32')
 endif

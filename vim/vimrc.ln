@@ -1,3 +1,7 @@
+if has('win32')
+  set rtp+=~/.vim
+endif
+
 colorscheme blaenk
 syntax on
 
@@ -47,7 +51,7 @@ elseif has('unix') && 'Darwin' == system('echo -n "$(uname)"')
   set clipboard=unnamed
 elseif !has('unix')
   " windows
-  set gfn=Consolas\ for\ Powerline:h10
+  set gfn=Consolas\ for\ Powerline\ FixedD:h10
   set clipboard=unnamed
 endif
 
@@ -81,6 +85,8 @@ let g:gist_detect_filetype = 1
 let g:gist_open_browser_after_post = 1
 
 set paste
+
+set backspace=indent,eol,start
 
 set backup
 set backupdir=~/.vim/backups
