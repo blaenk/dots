@@ -1,8 +1,11 @@
+set encoding=utf-8
+
 if has('win32')
   set rtp+=~/.vim
 endif
 
-colorscheme blaenk
+colorscheme solarized
+set background=light
 syntax on
 
 " awesome trick by github.com/rson
@@ -15,10 +18,14 @@ source ~/.vim/conf/bundles.vim
 let mapleader = ","
 
 nmap <silent> <leader>s :set spell!<CR>
+nnoremap <silent> <C-l> :noh<CR><C-l>
 
 " tab navigation
-nnoremap tl gt
-nnoremap th gT
+nnoremap <M-h> gT
+nnoremap <M-l> gt
+
+nnoremap <silent> <M-j> :execute "tabmove" tabpagenr() - 2 <CR>
+nnoremap <silent> <M-k> :execute "tabmove" tabpagenr() <CR>
 
 " general system specific configurations
 if has('unix') && 'Darwin' != system('echo -n "$(uname)"')
@@ -59,6 +66,7 @@ let g:Powerline_symbols = 'fancy'
 
 let g:pandoc_no_folding = 1
 
+let g:ctrlp_map = '<leader>f'
 let g:ctrlp_custom_ignore = {
   \ 'dir': '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(DS_Store)$',
@@ -72,22 +80,17 @@ let g:ctrlp_prompt_mappings = {
   \ }
 
 "let g:ctrlp_working_path_mode = 1 set working dir to parent dir of cur file
-map <leader>f :CtrlP<cr>
 map <leader>b :CtrlPBuffer<cr>
 
 " objective-c
 let g:alternateExtensions_m = "h"
 let g:alternateExtensions_h = "m"
 
-" let g:delimitMate_expand_cr = 1
-
 let g:gist_detect_filetype = 1
 let g:gist_open_browser_after_post = 1
 
-set paste
-
+set pastetoggle=<M-p>
 set backspace=indent,eol,start
-
 set backup
 set backupdir=~/.vim/backups
 set directory=~/.vim/tmp
@@ -98,7 +101,7 @@ let g:easytags_dynamic_files = 1
 
 cmap w!! %!sudo tee > /dev/null %
 
-map <Leader><CR> o<Esc>ko
+map <Leader>o o<Esc>ko
 set laststatus=2
 set tabstop=2
 set shiftwidth=2
@@ -114,7 +117,6 @@ au BufRead,BufNewFile *.json set filetype=javascript
 set wildmenu
 set wildmode=list:longest
 
-set encoding=utf-8
 set showmode
 set showcmd
 set hidden
@@ -123,6 +125,7 @@ set cursorline
 set ttyfast
 set ruler
 set relativenumber
+set number
 
 "nnoremap / /\v
 "vnoremap / /\v
@@ -131,10 +134,9 @@ set smartcase
 set incsearch
 set showmatch
 set hlsearch
+set splitright
 
 set wrap
-"set linebreak " wont work if list is on
-
 set list
 set listchars=tab:▸\ ,eol:¬
 
@@ -157,14 +159,8 @@ nnoremap <leader>a :Ack
 
 inoremap jj <ESC>
 
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-nnoremap <silent> <C-l> :noh<CR><C-l>
-
-nnoremap <leader>p :set rnu! list!<CR>
+nnoremap <silent> <leader>p :set rnu! list! number!<CR>
+nnoremap <silent> <leader>r :set relativenumber!<CR>
 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
   \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
