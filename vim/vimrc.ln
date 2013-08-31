@@ -27,6 +27,15 @@ nnoremap <M-l> gt
 nnoremap <silent> <M-j> :execute "tabmove" tabpagenr() - 2 <CR>
 nnoremap <silent> <M-k> :execute "tabmove" tabpagenr() <CR>
 
+" meta key copying like in map
+nnoremap <M-c> y
+nnoremap <M-v> p
+
+vnoremap <M-c> y
+vnoremap <M-v> p
+
+imap <M-v> <C-r>+
+
 " general system specific configurations
 if has('unix') && 'Darwin' != system('echo -n "$(uname)"')
   " linux
@@ -35,19 +44,6 @@ if has('unix') && 'Darwin' != system('echo -n "$(uname)"')
   endif
 
   set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
-
-  " M is alt key; next tab is gt, previous tab is gT
-  nnoremap <M-]> gt
-  nnoremap <M-[> gT
-
-  " meta key copying like in map
-  nnoremap <M-c> y
-  nnoremap <M-v> p
-
-  vnoremap <M-c> y
-  vnoremap <M-v> p
-
-  imap <M-v> <C-r>+
 
   " make the default clipboard be X11's
   set clipboard=unnamedplus
@@ -161,6 +157,7 @@ inoremap jj <ESC>
 
 nnoremap <silent> <leader>p :set rnu! list! number!<CR>
 nnoremap <silent> <leader>r :set relativenumber!<CR>
+nmap <leader>h <Plug>HexHighlightToggle
 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
   \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"

@@ -28,6 +28,7 @@ Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'henrik/vim-indexed-search'
 Bundle 'SirVer/ultisnips'
+Bundle 'yurifury/hexHighlight'
 
 " tpope chorus
 Bundle 'tpope/vim-endwise'
