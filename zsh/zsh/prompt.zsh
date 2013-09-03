@@ -5,7 +5,7 @@ setopt prompt_subst
 LAMBDA="%{$fg[blue]%}λ%{$reset_color%}"
 ARROW="%{$fg[blue]%}➜%{$reset_color%}"
 LEFT_ARROW="%{$fg_bold[red]%}VI %{$reset_color%}"
-SLASH="%{$fg_bold[blue]%}/%{$reset_color%}"
+SLASH="%{$fg[blue]%}/%{$reset_color%}"
 
 function color_path() {
   echo "${${PWD/#$HOME/~}//\//$SLASH}"
