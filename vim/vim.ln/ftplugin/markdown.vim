@@ -1,8 +1,8 @@
-nnoremap j gj
-nnoremap k gk
+nnoremap <buffer> j gj
+nnoremap <buffer> k gk
 
-nnoremap gj j
-nnoremap gk k
+nnoremap <buffer> gj j
+nnoremap <buffer> gk k
 
-set nolist
-set linebreak
+setlocal nolist
+setlocal linebreak

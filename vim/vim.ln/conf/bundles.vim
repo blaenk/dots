@@ -6,6 +6,9 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
+Bundle 'bling/vim-airline'
+Bundle 'kien/rainbow_parentheses.vim'
+Bundle 'airblade/vim-gitgutter'
 Bundle 'vim-scripts/Align'
 Bundle 'vim-pandoc/vim-pandoc'
 Bundle 'yurifury/hexHighlight'
@@ -17,7 +20,7 @@ Bundle 'mattn/webapi-vim'
 Bundle 'mattn/gist-vim'
 Bundle 'mileszs/ack.vim'
 Bundle 'msanders/cocoa.vim'
-Bundle 'Lokaltog/vim-powerline'
+Bundle 'sjl/gundo.vim'
 Bundle 'Raimondi/delimitMate'
 Bundle 'tomtom/tlib_vim'
 Bundle 'vim-scripts/a.vim'
@@ -25,10 +28,14 @@ Bundle 'vim-scripts/python.vim--Vasiliev'
 Bundle 'wlangstroth/vim-haskell'
 Bundle 'godlygeek/tabular'
 Bundle 'cakebaker/scss-syntax.vim'
-Bundle 'Valloric/YouCompleteMe'
 Bundle 'henrik/vim-indexed-search'
 Bundle 'SirVer/ultisnips'
 Bundle 'yurifury/hexHighlight'
+
+if has('unix')
+  Bundle 'Valloric/YouCompleteMe'
+  Bundle 'rking/ag.vim'
+endif
 
 " tpope chorus
 Bundle 'tpope/vim-endwise'
