@@ -22,14 +22,24 @@ let mapleader = ","
 
 nmap <silent> <leader>s :set spell!<CR>
 nnoremap <silent> <leader>u :GundoToggle<CR>
-nnoremap <silent> <C-l> :noh<CR><C-l>
+nnoremap <silent> <esc> :noh<return><esc>
+
+" consider hjkl cartesian x/y axis with
+" positve up and right, negative left down
+nnoremap <C-J> <C-W>-
+nnoremap <C-K> <C-W>+
+nnoremap <C-L> <C-W>>
+nnoremap <C-H> <C-W><
+
+vnoremap > >gv
+vnoremap < <gv
 
 " tab navigation
 nnoremap <M-h> gT
 nnoremap <M-l> gt
 
-nnoremap <silent> <M-j> :execute "tabmove" tabpagenr() - 2 <CR>
-nnoremap <silent> <M-k> :execute "tabmove" tabpagenr() <CR>
+nnoremap <silent> <M-j> :execute "tabmove" tabpagenr() - 2<CR>
+nnoremap <silent> <M-k> :execute "tabmove" tabpagenr()<CR>
 
 " meta key copying like in map
 nnoremap <M-c> y
@@ -83,19 +93,16 @@ function! AirLineBlaenk()
     return &modified ? "+" : ''
   endfunction
 
-  function! Fenc()
-    return printf('%s', &fenc)
-  endfunction
-
   call airline#parts#define_raw('filename', '%<%f')
   call airline#parts#define_function('modified', 'Modified')
-  call airline#parts#define_function('fenc', 'Fenc')
+  call airline#parts#define_function('ro', 'airline#parts#readonly')
 
-  let g:airline_section_b = airline#section#create_left(['branch', 'modified'])
-  let g:airline_section_c = airline#section#create(['filename'])
-  let g:airline_section_x = airline#section#create_right(['tagbar', 'fenc'])
-  let g:airline_section_y = airline#section#create_right(['filetype'])
-  let g:airline_section_z = airline#section#create_right(['%p %%', '# %l:%c '])
+  let g:airline_section_b = airline#section#create_left(['filename', 'modified'])
+  let g:airline_section_c = airline#section#create([''])
+  let g:airline_section_gutter = airline#section#create(['', '%='])
+  let g:airline_section_x = airline#section#create_right([''])
+  let g:airline_section_y = airline#section#create_right(['%c'])
+  let g:airline_section_z = airline#section#create(['branch', 'ro'])
 endfunction
 
 autocmd Vimenter * call AirLineBlaenk()
@@ -241,6 +248,8 @@ set smartcase
 set incsearch
 set showmatch
 set hlsearch
+
+set splitbelow
 set splitright
 
 set wrap
