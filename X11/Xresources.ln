@@ -11,7 +11,6 @@ URxvt.urgentOnBell: true
 URxvt.saveLines: 1000
 URxvt.font: xft:DejaVu Sans Mono for Powerline:pixelsize=12:antialias=true:hinting=true
 URxvt.perl-ext-common: default,vtwheel,clipboard,keyboard-select,url-select
-! fix font-width spacing in liberation
 ! URxvt.letterSpace: -1
 
 URxvt.url-launcher: /usr/bin/chromium
@@ -44,40 +43,85 @@ URxvt.scrollWithBuffer: true
 !URxvt.borderLess: true
 
 ! blaenk scheme
-URxvt.cursorColor: #6691bd
-URxvt.colorBD: #6691bd
+! URxvt.cursorColor: #6691bd
+! URxvt.colorBD: #6691bd
+! 
+! URxvt.background: #2f2f2f
+! URxvt.foreground: #c5c8c6
+! 
+! ! Black + BoldGrey
+! URxvt.color0:  #000000
+! URxvt.color8:  #858585
+! 
+! ! red + bold red
+! URxvt.color1:  #b32d47
+! URxvt.color9:  #cc6666
+! 
+! ! green + bold green
+! URxvt.color2:  #718c00
+! URxvt.color10: #99ad6a
+! 
+! ! Yellow + bold Yellow
+! URxvt.color3:  #eab700
+! URxvt.color11: #999900
+! 
+! ! BoldBlue + Blue
+! URxvt.color4:  #3a89c9
+! URxvt.color12: #80A1BD
+! 
+! ! BoldMangenta + Mangenta
+! URxvt.color5:  #a986bf
+! URxvt.color13: #B294BA
+! 
+! !BoldCyan + Cyan
+! URxvt.color6:  #3e999f
+! URxvt.color14: #799dcc
+! 
+! ! LightGrey + White
+! URxvt.color7:  #BBBBBB
+! URxvt.color15: #ffffff
 
-URxvt.background: #2f2f2f
-URxvt.foreground: #c5c8c6
+#define S_yellow        #b58900
+#define S_orange        #cb4b16
+#define S_red           #dc322f
+#define S_magenta       #d33682
+#define S_violet        #6c71c4
+#define S_blue          #268bd2
+#define S_cyan          #2aa198
+#define S_green         #859900
 
-! Black + BoldGrey
-URxvt.color0:  #000000
-URxvt.color8:  #858585
+! Light
 
-! red + bold red
-URxvt.color1:  #b32d47
-URxvt.color9:  #cc6666
+#define S_base03        #fdf6e3
+#define S_base02        #eee8d5
+#define S_base01        #93a1a1
+#define S_base00        #839496
+#define S_base0         #657b83
+#define S_base1         #586e75
+#define S_base2         #073642
+#define S_base3         #002b36
 
-! green + bold green
-URxvt.color2:  #718c00
-URxvt.color10: #99ad6a
+URxvt*background:              S_base03
+URxvt*foreground:              S_base0
+!URxvt*fading:                  20
+!URxvt*fadeColor:               S_base03
+URxvt*cursorColor:             S_base1
+URxvt*pointerColorBackground:  S_base01
+URxvt*pointerColorForeground:  S_base1
 
-! Yellow + bold Yellow
-URxvt.color3:  #eab700
-URxvt.color11: #999900
-
-! BoldBlue + Blue
-URxvt.color4:  #3a89c9
-URxvt.color12: #80A1BD
-
-! BoldMangenta + Mangenta
-URxvt.color5:  #a986bf
-URxvt.color13: #B294BA
-
-!BoldCyan + Cyan
-URxvt.color6:  #3e999f
-URxvt.color14: #799dcc
-
-! LightGrey + White
-URxvt.color7:  #BBBBBB
-URxvt.color15: #ffffff
+URxvt*color0:                  S_base02
+URxvt*color1:                  S_red
+URxvt*color2:                  S_green
+URxvt*color3:                  S_yellow
+URxvt*color4:                  S_blue
+URxvt*color5:                  S_magenta
+URxvt*color6:                  S_cyan
+URxvt*color7:                  S_base2
+URxvt*color9:                  S_orange
+URxvt*color8:                  S_base03
+URxvt*color10:                 S_base01
+URxvt*color11:                 S_base00
+URxvt*color12:                 S_base0
+URxvt*color13:                 S_violet
+URxvt*color14:                 S_base1
+URxvt*color15:                 S_base3
