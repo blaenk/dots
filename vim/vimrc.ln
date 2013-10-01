@@ -12,9 +12,9 @@ set background=light
 syntax on
 
 " awesome trick by github.com/rson
-if !isdirectory(expand("~/.vim/bundle/vundle/.git"))
-  !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
-endif
+" if !isdirectory(expand("~/.vim/bundle/vundle/.git"))
+"   !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+" endif
 
 source ~/.vim/conf/bundles.vim
 
@@ -72,6 +72,8 @@ elseif !has('unix')
   set clipboard=unnamed
 endif
 
+let g:airline_theme = 'solarized'
+
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
@@ -95,14 +97,13 @@ function! AirLineBlaenk()
 
   call airline#parts#define_raw('filename', '%<%f')
   call airline#parts#define_function('modified', 'Modified')
-  call airline#parts#define_function('ro', 'airline#parts#readonly')
 
   let g:airline_section_b = airline#section#create_left(['filename', 'modified'])
   let g:airline_section_c = airline#section#create([''])
   let g:airline_section_gutter = airline#section#create(['', '%='])
   let g:airline_section_x = airline#section#create_right([''])
   let g:airline_section_y = airline#section#create_right(['%c'])
-  let g:airline_section_z = airline#section#create(['branch', 'ro'])
+  let g:airline_section_z = airline#section#create(['branch'])
 endfunction
 
 autocmd Vimenter * call AirLineBlaenk()
@@ -130,10 +131,31 @@ function! AirLineBlaenkTheme(palette)
       \ 'CtrlParrow3': purple_violet,
       \ }
 
+    let secondary = ['#ffffff', '#657b83', 255, 240, '']
+
+    let magenta = ['#ffffff', '#d33682', 255, 125, '']
+    let blue = ['#ffffff', '#268bd2', 255, 33, '']
+    let green = ['#ffffff', '#859900', 255, 64, '']
+    let red = ['#ffffff', '#dc322f', 255, 160, '']
+    let orange = ['#ffffff', '#cb4b16', 255, 166, '']
+
+    let modes = {
+      \ 'normal': blue,
+      \ 'insert': green,
+      \ 'replace': magenta,
+      \ 'visual': orange
+      \}
+
     let a:palette.replace = copy(a:palette.insert)
-    let a:palette.replace.airline_a = ['#ffffff', '#d33682', 255, 5, '']
-    let a:palette.replace.airline_z = ['#ffffff', '#d33682', 255, 5, '']
     let a:palette.replace_modified = a:palette.insert_modified
+
+    for key in keys(modes)
+      let a:palette[key].airline_a = modes[key]
+      let a:palette[key].airline_z = modes[key]
+
+      let a:palette[key].airline_b = secondary
+      let a:palette[key].airline_y = secondary
+    endfor
 
     for key in ['insert', 'visual', 'normal']
       " no red on modified
@@ -182,7 +204,7 @@ let g:pandoc_no_empty_implicits = 1
 
 let g:ctrlp_map = '<leader>f'
 let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v[\/](\.(git|hg|svn))|deploy|dist|generated$',
+  \ 'dir': '\v[\/](\.(git|hg|svn))|deploy|dist|generated|build$',
   \ 'file': '\v\.(DS_Store)$',
   \ }
 let g:ctrlp_working_path_mode = 'ra'
