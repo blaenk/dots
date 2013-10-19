@@ -16,10 +16,10 @@ function vimode() {
 }
 
 if [[ -n $SSH_CONNECTION ]]; then
-  SSH="%{$fg[green]%}[%{$reset_color%}%m%{$fg[green]%}]%{$reset_color%} "
+  SSH="%{$fg[green]%}@%{$reset_color%}%m "
 fi
 
 PROMPT='
-$SSH$LAMBDA $(color_path) ${vcs_info_msg_0_}
-$(vimode)$ARROW '
+$LAMBDA $(color_path) ${vcs_info_msg_0_}
+$SSH$(vimode)$ARROW '
 
