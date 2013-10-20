@@ -26,6 +26,7 @@ bindkey -M vicmd "k" up-line-or-history # history-search-backward
 bindkey -M vicmd "j" down-line-or-history # history-search-forward
 bindkey -M vicmd "/" history-incremental-search-backward
 bindkey -M vicmd "?" history-incremental-search-forward
+bindkey -M vicmd "u" undo
 
 zle -A .backward-kill-word vi-backward-kill-word
 zle -A .backward-delete-char vi-backward-delete-char
