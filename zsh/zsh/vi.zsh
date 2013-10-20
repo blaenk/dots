@@ -32,6 +32,8 @@ zle -A .backward-delete-char vi-backward-delete-char
 
 bindkey -M viins 'jj' vi-cmd-mode
 bindkey -M viins "^L" clear-screen
+bindkey -M viins "^P" up-line-or-history
+bindkey -M viins "^N" down-line-or-history
 bindkey -M viins "^W" backward-kill-word
 bindkey -M viins "^A" beginning-of-line
 bindkey -M viins "^E" end-of-line
