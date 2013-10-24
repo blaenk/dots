@@ -202,6 +202,8 @@ nnoremap <leader>r :RainbowParenthesesToggle<CR>
 
 let g:pandoc_no_empty_implicits = 1
 
+"let g:markdown_fenced_languages = ['haskell', 'python', 'cpp']
+
 let g:ctrlp_map = '<leader>f'
 let g:ctrlp_custom_ignore = {
   \ 'dir': '\v[\/](\.(git|hg|svn))|deploy|dist|generated|build$',

@@ -1,14 +1,16 @@
+snippet pre "code ticks" b
+\`\`\`${1: ${2:language}}
+${3:code}
+\`\`\`$0
+endsnippet
+
 snippet ~ "code block" b
 ~~~${1: {lang="${2:language}"${3: text="${4:caption}"}}}
 ${5:code}
-~~~
-
-$0
+~~~$0
 endsnippet
 
 snippet $$ "latex" b
-$$ ${1:math} $$
-
-$0
+$$ ${1:math} $$$0
 endsnippet
 
