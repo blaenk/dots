@@ -83,7 +83,7 @@ let g:airline_left_alt_sep = '⮁'
 let g:airline_right_sep = '⮂'
 let g:airline_right_alt_sep = '⮃'
 let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = '⭤'
+let g:airline_symbols.readonly = 'RO'
 let g:airline_symbols.linenr = '⭡'
 
 let g:airline_powerline_fonts = 'fancy'
@@ -92,15 +92,15 @@ let g:airline#extensions#whitespace#enabled = 0
 
 function! AirLineBlaenk()
   function! Modified()
-    return &modified ? "+" : ''
+    return &modified ? " +" : ''
   endfunction
 
   call airline#parts#define_raw('filename', '%<%f')
   call airline#parts#define_function('modified', 'Modified')
 
-  let g:airline_section_b = airline#section#create_left(['filename', 'modified'])
+  let g:airline_section_b = airline#section#create_left(['filename'])
   let g:airline_section_c = airline#section#create([''])
-  let g:airline_section_gutter = airline#section#create(['', '%='])
+  let g:airline_section_gutter = airline#section#create(['modified', '%='])
   let g:airline_section_x = airline#section#create_right([''])
   let g:airline_section_y = airline#section#create_right(['%c'])
   let g:airline_section_z = airline#section#create(['branch'])
@@ -149,14 +149,6 @@ function! AirLineBlaenkTheme(palette)
     let a:palette.replace = copy(a:palette.insert)
     let a:palette.replace_modified = a:palette.insert_modified
 
-    for key in keys(modes)
-      let a:palette[key].airline_a = modes[key]
-      let a:palette[key].airline_z = modes[key]
-
-      let a:palette[key].airline_b = secondary
-      let a:palette[key].airline_y = secondary
-    endfor
-
     for key in ['insert', 'visual', 'normal']
       " no red on modified
       let a:palette[key . '_modified'].airline_c[0] = '#657b83'
@@ -171,6 +163,17 @@ function! AirLineBlaenkTheme(palette)
         endif
       endfor
     endfor
+
+    for key in keys(modes)
+      let a:palette[key].airline_a = modes[key]
+      let a:palette[key].airline_z = modes[key]
+
+      "let a:palette[key . '_modified'].airline_b = ['#002b36', '#93a1a1', 234, 245]
+
+      let a:palette[key].airline_b = secondary
+      let a:palette[key].airline_y = secondary
+    endfor
+
   endif
 endfunction
 
