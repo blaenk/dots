@@ -81,47 +81,27 @@ URxvt.scrollWithBuffer: true
 ! URxvt.color7:  #BBBBBB
 ! URxvt.color15: #ffffff
 
-#define S_yellow        #b58900
-#define S_orange        #cb4b16
-#define S_red           #dc322f
-#define S_magenta       #d33682
-#define S_violet        #6c71c4
-#define S_blue          #268bd2
-#define S_cyan          #2aa198
-#define S_green         #859900
-
-! Light
-
-#define S_base03        #fdf6e3
-#define S_base02        #eee8d5
-#define S_base01        #93a1a1
-#define S_base00        #839496
-#define S_base0         #657b83
-#define S_base1         #586e75
-#define S_base2         #073642
-#define S_base3         #002b36
-
-URxvt*background:              S_base03
-URxvt*foreground:              S_base0
+URxvt*background:              #fdf6e3
+URxvt*foreground:              #657b83
 !URxvt*fading:                  20
-!URxvt*fadeColor:               S_base03
-URxvt*cursorColor:             S_base1
-URxvt*pointerColorBackground:  S_base01
-URxvt*pointerColorForeground:  S_base1
+!URxvt*fadeColor:               #fdf6e3
+URxvt*cursorColor:             #586e75
+URxvt*pointerColorBackground:  #93a1a1
+URxvt*pointerColorForeground:  #586e75
 
-URxvt*color0:                  S_base02
-URxvt*color1:                  S_red
-URxvt*color2:                  S_green
-URxvt*color3:                  S_yellow
-URxvt*color4:                  S_blue
-URxvt*color5:                  S_magenta
-URxvt*color6:                  S_cyan
-URxvt*color7:                  S_base2
-URxvt*color9:                  S_orange
-URxvt*color8:                  S_base03
-URxvt*color10:                 S_base01
-URxvt*color11:                 S_base00
-URxvt*color12:                 S_base0
-URxvt*color13:                 S_violet
-URxvt*color14:                 S_base1
-URxvt*color15:                 S_base3
+URxvt*color0:                  #eee8d5
+URxvt*color1:                  #dc322f
+URxvt*color2:                  #859900
+URxvt*color3:                  #b58900
+URxvt*color4:                  #268bd2
+URxvt*color5:                  #d33682
+URxvt*color6:                  #2aa198
+URxvt*color7:                  #073642
+URxvt*color9:                  #cb4b16
+URxvt*color8:                  #fdf6e3
+URxvt*color10:                 #93a1a1
+URxvt*color11:                 #839496
+URxvt*color12:                 #657b83
+URxvt*color13:                 #6c71c4
+URxvt*color14:                 #586e75
+URxvt*color15:                 #002b36

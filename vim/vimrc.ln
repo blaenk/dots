@@ -72,6 +72,8 @@ elseif !has('unix')
   set clipboard=unnamed
 endif
 
+let g:ycm_filetype_whitelist = {'cpp': 0}
+
 let g:airline_theme = 'solarized'
 
 if !exists('g:airline_symbols')
