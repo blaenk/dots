@@ -886,6 +886,10 @@ exe "hi! pandocVerbatimInlineDefinition"     .s:fg_pdef  .s:bg_none  .s:fmt_none
 exe "hi! pandocSuperscriptDefinition"        .s:fg_pdef  .s:bg_none  .s:fmt_none
 exe "hi! pandocSubscriptDefinition"          .s:fg_pdef  .s:bg_none  .s:fmt_none
 
+" Abbreviations
+" ---------------------------------------------------------------------
+exe "hi! pandocAbbreviation"       .s:fg_blue  .s:bg_none  .s:fmt_undb
+
 " Tables
 " ---------------------------------------------------------------------
 let s:fg_ptable = s:fg_blue
