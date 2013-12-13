@@ -538,7 +538,7 @@ endif
 
 exe "hi! Normal"         .s:fmt_none   .s:fg_base0  .s:bg_back
 
-exe "hi! Comment"        .s:fmt_ital   .s:fg_base01 .s:bg_none
+exe "hi! Comment"        .s:fmt_none   .s:fg_base01 .s:bg_none
 "       *Comment         any comment
 
 exe "hi! Constant"       .s:fmt_none   .s:fg_cyan   .s:bg_none
@@ -609,8 +609,8 @@ else
     exe "hi! SpecialKey" .s:fmt_bold   .s:fg_base00 .s:bg_base02
     exe "hi! NonText"    .s:fmt_bold   .s:fg_base00 .s:bg_none
 endif
-exe "hi! StatusLine"     .s:fmt_none   .s:fg_base1  .s:bg_base02 .s:fmt_revbb
-exe "hi! StatusLineNC"   .s:fmt_none   .s:fg_base00 .s:bg_base02 .s:fmt_revbb
+exe "hi! StatusLine"     .s:fmt_bold   .s:fg_base0 .s:bg_base02
+exe "hi! StatusLineNC"   .s:fmt_bold   .s:fg_base01 .s:bg_base02
 exe "hi! Visual"         .s:fmt_none   .s:fg_base01 .s:bg_base03 .s:fmt_revbb
 exe "hi! Directory"      .s:fmt_none   .s:fg_blue   .s:bg_none
 exe "hi! ErrorMsg"       .s:fmt_revr   .s:fg_red    .s:bg_none
@@ -669,6 +669,7 @@ exe "hi! TabLineFill"    .s:fmt_undr   .s:fg_base0  .s:bg_base02  .s:sp_base0
 exe "hi! TabLineSel"     .s:fmt_undr   .s:fg_base01 .s:bg_base2   .s:sp_base0  .s:fmt_revbbu
 exe "hi! CursorColumn"   .s:fmt_none   .s:fg_none   .s:bg_base02
 exe "hi! CursorLine"     .s:fmt_uopt   .s:fg_none   .s:bg_base02  .s:sp_base1
+exe "hi! CursorLineNR"   .s:fmt_uopt   .s:fg_yellow   .s:bg_base02  .s:fmt_bold
 exe "hi! ColorColumn"    .s:fmt_none   .s:fg_none   .s:bg_base02
 exe "hi! Cursor"         .s:fmt_none   .s:fg_base03 .s:bg_base0
 hi! link lCursor Cursor
@@ -857,6 +858,7 @@ exe "hi! pandocTitleBlockTitle"          .s:fg_blue   .s:bg_none   .s:fmt_bold
 exe "hi! pandocTitleComment"             .s:fg_blue   .s:bg_none   .s:fmt_bold
 exe "hi! pandocComment"                  .s:fg_base01 .s:bg_none   .s:fmt_ital
 exe "hi! pandocVerbatimBlock"            .s:fg_yellow .s:bg_none   .s:fmt_none
+exe "hi! pandocDelimitedCodeBlock"       .s:fmt_none   .s:fg_base0  .s:bg_back
 hi! link pandocVerbatimBlockDeep         pandocVerbatimBlock
 hi! link pandocCodeBlock                 pandocVerbatimBlock
 hi! link pandocCodeBlockDelim            pandocVerbatimBlock
@@ -885,10 +887,6 @@ exe "hi! pandocStrikeoutDefinition"          .s:fg_pdef  .s:bg_none  .s:fmt_revr
 exe "hi! pandocVerbatimInlineDefinition"     .s:fg_pdef  .s:bg_none  .s:fmt_none
 exe "hi! pandocSuperscriptDefinition"        .s:fg_pdef  .s:bg_none  .s:fmt_none
 exe "hi! pandocSubscriptDefinition"          .s:fg_pdef  .s:bg_none  .s:fmt_none
-
-" Abbreviations
-" ---------------------------------------------------------------------
-exe "hi! pandocAbbreviation"       .s:fg_blue  .s:bg_none  .s:fmt_undb
 
 " Tables
 " ---------------------------------------------------------------------
