@@ -74,132 +74,9 @@ endif
 
 let g:pantondoc_use_pandoc_markdown = 1
 let g:pantondoc_formatting_settings = 's'
+let g:pandoc_use_embeds_in_codeblocks_for_langs = []
 
 let g:ycm_filetype_whitelist = {'cpp': 0}
-
-let g:airline_theme = 'solarized'
-
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = 'RO'
-let g:airline_symbols.linenr = '⭡'
-
-let g:airline_powerline_fonts = 'fancy'
-let g:airline#extensions#hunks#enabled = 0
-let g:airline#extensions#whitespace#enabled = 0
-
-function! AirLineBlaenk()
-  function! Modified()
-    return &modified ? " +" : ''
-  endfunction
-
-  call airline#parts#define_raw('filename', '%<%f')
-  call airline#parts#define_function('modified', 'Modified')
-
-  let g:airline_section_b = airline#section#create_left(['filename'])
-  let g:airline_section_c = airline#section#create([''])
-  let g:airline_section_gutter = airline#section#create(['modified', '%='])
-  let g:airline_section_x = airline#section#create_right([''])
-  let g:airline_section_y = airline#section#create_right(['%c'])
-  let g:airline_section_z = airline#section#create(['branch'])
-endfunction
-
-autocmd Vimenter * call AirLineBlaenk()
-
-let g:airline_theme_patch_func = 'AirLineBlaenkTheme'
-
-" 0,1: gfg, gbg; 2,3: tfg, tbg; 4: styles
-function! AirLineBlaenkTheme(palette)
-  if g:airline_theme == 'solarized'
-    let purple = ['#ffffff', '#5f5faf', 255, 13, '']
-    let violet = ['#5f5faf', '#aeaed7', 13, 61, '']
-    let inv_purple = ['#5f5faf', '#ffffff', 13, 255, '']
-    let purple_violet = ['#5f5faf', '#aeaed7', 61, 13, '']
-
-    " dark = middle
-    " white = focus
-    " light = edges
-
-    let a:palette.ctrlp = {
-      \ 'CtrlPlight' : purple,
-      \ 'CtrlPwhite' : inv_purple,
-      \ 'CtrlPdark'  : violet,
-      \ 'CtrlParrow1': inv_purple,
-      \ 'CtrlParrow2': purple,
-      \ 'CtrlParrow3': purple_violet,
-      \ }
-
-    let secondary = ['#ffffff', '#657b83', 255, 240, '']
-
-    let magenta = ['#ffffff', '#d33682', 255, 125, '']
-    let blue = ['#ffffff', '#268bd2', 255, 33, '']
-    let green = ['#ffffff', '#859900', 255, 64, '']
-    let red = ['#ffffff', '#dc322f', 255, 160, '']
-    let orange = ['#ffffff', '#cb4b16', 255, 166, '']
-
-    let modes = {
-      \ 'normal': blue,
-      \ 'insert': green,
-      \ 'replace': magenta,
-      \ 'visual': orange
-      \}
-
-    let a:palette.replace = copy(a:palette.insert)
-    let a:palette.replace_modified = a:palette.insert_modified
-
-    for key in ['insert', 'visual', 'normal']
-      " no red on modified
-      let a:palette[key . '_modified'].airline_c[0] = '#657b83'
-      let a:palette[key . '_modified'].airline_c[2] = 11
-
-      for section in ['a', 'b', 'y', 'z']
-        let airline_section = 'airline_' . section
-        if has_key(a:palette[key], airline_section)
-          " white foreground for most components; better contrast imo
-          let a:palette[key][airline_section][0] = '#ffffff'
-          let a:palette[key][airline_section][2] = 255
-        endif
-      endfor
-    endfor
-
-    for key in keys(modes)
-      let a:palette[key].airline_a = modes[key]
-      let a:palette[key].airline_z = modes[key]
-
-      "let a:palette[key . '_modified'].airline_b = ['#002b36', '#93a1a1', 234, 245]
-
-      let a:palette[key].airline_b = secondary
-      let a:palette[key].airline_y = secondary
-    endfor
-
-  endif
-endfunction
-
-let g:airline#extensions#default#section_truncate_width = {
-  \ 'x': 60,
-  \ 'y': 60
-  \ }
-
-let g:airline_mode_map = {
-  \ '__' : '-',
-  \ 'n'  : 'N',
-  \ 'i'  : 'I',
-  \ 'R'  : 'R',
-  \ 'v'  : 'V',
-  \ 'V'  : 'V-L',
-  \ 'c'  : 'C',
-  \ '' : 'V-B',
-  \ 's'  : 'S',
-  \ 'S'  : 'S-L',
-  \ '' : 'S-B',
-  \ }
 
 let g:gitgutter_enabled = 0
 let g:gitgutter_realtime = 0
@@ -252,7 +129,7 @@ cmap w!! %!sudo tee > /dev/null %
 map <Leader>o o<Esc>ko
 set laststatus=2
 set tabstop=2
-set shiftwidth=2
+set shiftwidth=0
 set expandtab
 set softtabstop=2
 set autoindent
@@ -260,7 +137,12 @@ set gcr+=a:blinkon0
 set undofile
 
 filetype plugin indent on
-au BufRead,BufNewFile *.json set filetype=javascript
+
+augroup filespecific
+  autocmd!
+  au BufRead,BufNewFile *.json set filetype=javascript
+  au BufRead,BufNewFile *.py set tabstop=4
+augroup END
 
 set wildmenu
 set wildmode=list:longest
@@ -271,7 +153,6 @@ set hidden
 set visualbell
 set cursorline
 set ttyfast
-set ruler
 set relativenumber
 set number
 
@@ -289,6 +170,115 @@ set splitright
 set wrap
 set listchars=tab:▸\ ,eol:¬
 set list
+
+function! Status(winnr)
+  let stat = ""
+  let active = winnr() == a:winnr
+
+  function! Color(active, num, content)
+    if a:active
+      return '%' . a:num . '*' . a:content . '%*'
+    else
+      return a:content
+    endif
+  endfunction
+
+  " column
+  let stat .= '%1*' . (col(".") / 100 >= 1 ? '%v ' : ' %2v ') . '%*'
+
+  " file
+  let stat .= Color(active, 4, active ? ' »' : ' «')
+  let stat .= ' %<%f '
+  let stat .= Color(active, 4, active ? '« ' : '» ')
+
+  " file modified
+  let stat .= Color(active, 2, getbufvar(winbufnr(a:winnr), '&modified') == 1 ? '+' : '')
+
+  " read only
+  let stat .= Color(active, 2, getbufvar(winbufnr(a:winnr), '&ro') == 1 ? '‼' : ' ')
+
+  " right side
+  let stat .= '%='
+
+  " git branch
+  if exists('*fugitive#head')
+    let head = fugitive#head()
+
+    if empty(head) && exists('*fugitive#detect') && !exists('b:git_dir')
+      call fugitive#detect(getcwd())
+      let head = fugitive#head()
+    endif
+  endif
+
+  if !empty(head)
+    let stat .= Color(active, 3, ' ← ') . head . ' '
+  endif
+
+  return stat
+endfunction
+
+function! SetStatus()
+  " inactives
+  for nr in filter(range(1, winnr('$')), 'v:val != winnr()')
+    call setwinvar(nr, '&statusline', '%!Status('.nr.')')
+  endfor
+
+  " actives
+  let nr = winnr()
+  call setwinvar(nr, '&statusline', '%!Status('.nr.')')
+endfunction
+
+augroup status
+  autocmd!
+  autocmd VimEnter,WinEnter,BufWinEnter,BufUnload * call SetStatus()
+augroup END
+
+augroup cursorline
+  autocmd!
+  autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  autocmd WinLeave * setlocal nocursorline
+augroup END
+
+hi User1 guifg=#268bd2  guibg=#fdf6e3 gui=bold
+hi User2 guifg=#d33682  guibg=#eee8d5 gui=bold
+hi User3 guifg=#719e07  guibg=#eee8d5 gui=bold
+hi User4 guifg=#2aa198  guibg=#eee8d5 gui=bold
+
+" hi User5 guifg=#ffffff  guibg=#5f5faf gui=bold
+" hi User7 guifg=#ffffff  guibg=#aeaed7 gui=bold
+" hi User8 guifg=#5f5faf  guibg=#ffffff gui=bold
+" hi User9 guifg=#aeaed7  guibg=#ffffff gui=bold
+
+hi CtrlP_Purple  guifg=#ffffff  guibg=#5f5faf gui=bold
+hi CtrlP_IPurple guifg=#5f5faf  guibg=#ffffff gui=bold
+hi CtrlP_Violet  guifg=#5f5faf  guibg=#aeaed7 gui=bold
+
+let g:ctrlp_status_func = {
+  \ 'main': 'CtrlP_main_status',
+  \ 'prog': 'CtrlP_progress_status'
+  \}
+
+" Arguments: focus, byfname, s:regexp, prv, item, nxt, marked
+"            a:1    a:2      a:3       a:4  a:5   a:6  a:7
+fu! CtrlP_main_status(...)
+  let byfname = '%#CtrlP_Violet# '.a:2.' %*'
+  let regex = a:3 ? '%#CtrlP_Violet#regex %*' : ''
+  let prv = '%#CtrlP_Purple# '.a:4.' %*'
+  let item = '%#CtrlP_IPurple# '.a:5.' %*'
+  let nxt = '%#CtrlP_Purple# '.a:6.' %*'
+  let dir = '%#CtrlP_Violet#%=%*%<%#CtrlP_Violet# '.getcwd().' %*'
+  retu prv . item . nxt . byfname . regex . dir
+endf
+ 
+" Argument: len
+"           a:1
+fu! CtrlP_progress_status(...)
+  let len = '%#Function# '.a:1.' %*'
+  let dir = ' %=%<%#LineNr# '.getcwd().' %*'
+  retu len.dir
+endf
+
+set shortmess=atToOI
 
 nnoremap <up> <nop>
 nnoremap <down> <nop>
@@ -311,8 +301,9 @@ nnoremap <leader>a :Ack!<space>
 
 inoremap jj <ESC>
 
-nnoremap <leader>p :set rnu! list! number!<CR>
+nnoremap <silent> <leader>p :set rnu! list! number!<CR>
 nnoremap <silent> <leader>n :set rnu!<CR>
+
 nmap <leader>h <Plug>HexHighlightToggle
 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'

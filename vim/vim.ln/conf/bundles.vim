@@ -6,7 +6,7 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
-Bundle 'bling/vim-airline'
+Bundle 'derekwyatt/vim-scala'
 Bundle 'kien/rainbow_parentheses.vim'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'vim-scripts/Align'
