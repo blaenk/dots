@@ -20,9 +20,9 @@ source ~/.vim/conf/bundles.vim
 
 let mapleader = ","
 
-nmap <silent> <leader>s :set spell!<CR>
+nnoremap <silent> <leader>s :set spell!<CR>
 nnoremap <silent> <leader>u :GundoToggle<CR>
-nnoremap <silent> <esc> :noh<return><esc>
+nnoremap <silent> <leader>l :noh<CR>
 
 " consider hjkl cartesian x/y axis with
 " positve up and right, negative left down
@@ -53,9 +53,7 @@ imap <M-v> <C-r>+
 " general system specific configurations
 if has('unix') && 'Darwin' != system('echo -n "$(uname)"')
   " linux
-  if $COLORTERM == 'gnome-terminal'
-    set t_Co=256
-  endif
+  set t_Co=256
 
   set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
 

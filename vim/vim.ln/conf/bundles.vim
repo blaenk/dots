@@ -40,7 +40,6 @@ if has('unix')
 endif
 
 " tpope chorus
-"Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-ragtag'
