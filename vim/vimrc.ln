@@ -241,19 +241,16 @@ augroup cursorline
   autocmd WinLeave * setlocal nocursorline
 augroup END
 
-hi User1 ctermfg=33  guifg=#268bd2  ctermbg=234 guibg=#fdf6e3 gui=bold
-hi User2 ctermfg=125 guifg=#d33682  ctermbg=235 guibg=#eee8d5 gui=bold
-hi User3 ctermfg=64  guifg=#719e07  ctermbg=235 guibg=#eee8d5 gui=bold
-hi User4 ctermfg=37  guifg=#2aa198  ctermbg=235 guibg=#eee8d5 gui=bold
+let g:solarized_termcolors = 256
 
-" hi User5 guifg=#ffffff  guibg=#5f5faf gui=bold
-" hi User7 guifg=#ffffff  guibg=#aeaed7 gui=bold
-" hi User8 guifg=#5f5faf  guibg=#ffffff gui=bold
-" hi User9 guifg=#aeaed7  guibg=#ffffff gui=bold
+hi User1 ctermfg=33  guifg=#268bd2  ctermbg=15 guibg=#fdf6e3 gui=bold
+hi User2 ctermfg=125 guifg=#d33682  ctermbg=7  guibg=#eee8d5 gui=bold
+hi User3 ctermfg=64  guifg=#719e07  ctermbg=7  guibg=#eee8d5 gui=bold
+hi User4 ctermfg=37  guifg=#2aa198  ctermbg=7  guibg=#eee8d5 gui=bold
 
-hi CtrlP_Purple  guifg=#ffffff  guibg=#5f5faf gui=bold
-hi CtrlP_IPurple guifg=#5f5faf  guibg=#ffffff gui=bold
-hi CtrlP_Violet  guifg=#5f5faf  guibg=#aeaed7 gui=bold
+hi CtrlP_Purple  ctermfg=255 guifg=#ffffff  ctermbg=54  guibg=#5f5faf gui=bold
+hi CtrlP_IPurple ctermfg=54  guifg=#5f5faf  ctermbg=255 guibg=#ffffff gui=bold
+hi CtrlP_Violet  ctermfg=54  guifg=#5f5faf  ctermbg=147 guibg=#aeaed7 gui=bold
 
 let g:ctrlp_status_func = {
   \ 'main': 'CtrlP_main_status',
