@@ -250,7 +250,7 @@ hi User4 ctermfg=37  guifg=#2aa198  ctermbg=7  guibg=#eee8d5 gui=bold
 
 hi CtrlP_Purple  ctermfg=255 guifg=#ffffff  ctermbg=54  guibg=#5f5faf
 hi CtrlP_IPurple ctermfg=54  guifg=#5f5faf  ctermbg=255 guibg=#ffffff
-hi CtrlP_Violet  ctermfg=54  guifg=#5f5faf  ctermbg=147 guibg=#aeaed7
+hi CtrlP_Violet  ctermfg=54  guifg=#5f5faf  ctermbg=104 guibg=#aeaed7
 
 let g:ctrlp_status_func = {
   \ 'main': 'CtrlP_main_status',
