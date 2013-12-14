@@ -265,7 +265,7 @@ fu! CtrlP_main_status(...)
   let item = '%#CtrlP_IPurple# '.a:5.' %*'
   let nxt = '%#CtrlP_Purple# '.a:6.' %*'
   let byfname = '%#CtrlP_Violet# '.a:2.' %*'
-  let dir = '%#CtrlP_Purple# '.getcwd().' %*'
+  let dir = '%#CtrlP_Purple# '.fnamemodify(getcwd(), ':~').' %*'
   retu prv . item . nxt . '%#CtrlP_Violet#%=%*%<' . byfname . regex . dir
 endf
  
