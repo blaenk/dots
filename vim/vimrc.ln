@@ -232,8 +232,8 @@ nnoremap <C-H> <C-W><
 nnoremap <M-h> gT
 nnoremap <M-l> gt
 
-nnoremap <silent> <M-j> :execute "tabmove" tabpagenr() - 2<CR>
-nnoremap <silent> <M-k> :execute "tabmove" tabpagenr()<CR>
+nnoremap <silent> <M-j> :tabmove -1<CR>
+nnoremap <silent> <M-k> :tabmove +1<CR>
 " }}}
 
 " Plugins_Misc: {{{2
