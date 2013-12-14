@@ -35,7 +35,10 @@ Bundle 'SirVer/ultisnips'
 Bundle 'yurifury/hexHighlight'
 
 if has('unix')
-  Bundle 'Valloric/YouCompleteMe'
+  if empty($SSH_CONNECTION)
+    Bundle 'Valloric/YouCompleteMe'
+  endif
+
   Bundle 'rking/ag.vim'
 endif
 
