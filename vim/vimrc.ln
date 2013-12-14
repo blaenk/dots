@@ -248,9 +248,9 @@ hi User2 ctermfg=125 guifg=#d33682  ctermbg=7  guibg=#eee8d5 gui=bold
 hi User3 ctermfg=64  guifg=#719e07  ctermbg=7  guibg=#eee8d5 gui=bold
 hi User4 ctermfg=37  guifg=#2aa198  ctermbg=7  guibg=#eee8d5 gui=bold
 
-hi CtrlP_Purple  ctermfg=255 guifg=#ffffff  ctermbg=54  guibg=#5f5faf gui=bold
-hi CtrlP_IPurple ctermfg=54  guifg=#5f5faf  ctermbg=255 guibg=#ffffff gui=bold
-hi CtrlP_Violet  ctermfg=54  guifg=#5f5faf  ctermbg=147 guibg=#aeaed7 gui=bold
+hi CtrlP_Purple  ctermfg=255 guifg=#ffffff  ctermbg=54  guibg=#5f5faf
+hi CtrlP_IPurple ctermfg=54  guifg=#5f5faf  ctermbg=255 guibg=#ffffff
+hi CtrlP_Violet  ctermfg=54  guifg=#5f5faf  ctermbg=147 guibg=#aeaed7
 
 let g:ctrlp_status_func = {
   \ 'main': 'CtrlP_main_status',
@@ -260,13 +260,13 @@ let g:ctrlp_status_func = {
 " Arguments: focus, byfname, s:regexp, prv, item, nxt, marked
 "            a:1    a:2      a:3       a:4  a:5   a:6  a:7
 fu! CtrlP_main_status(...)
-  let byfname = '%#CtrlP_Violet# '.a:2.' %*'
   let regex = a:3 ? '%#CtrlP_Violet#regex %*' : ''
   let prv = '%#CtrlP_Purple# '.a:4.' %*'
   let item = '%#CtrlP_IPurple# '.a:5.' %*'
   let nxt = '%#CtrlP_Purple# '.a:6.' %*'
-  let dir = '%#CtrlP_Violet#%=%*%<%#CtrlP_Violet# '.getcwd().' %*'
-  retu prv . item . nxt . byfname . regex . dir
+  let byfname = '%#CtrlP_Violet# '.a:2.' %*'
+  let dir = '%#CtrlP_Purple# '.getcwd().' %*'
+  retu prv . item . nxt . '%#CtrlP_Violet#%=%*%<' . byfname . regex . dir
 endf
  
 " Argument: len
