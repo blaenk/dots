@@ -50,23 +50,24 @@ vnoremap <M-v> p
 
 imap <M-v> <C-r>+
 
-" general system specific configurations
+" linux
 if has('unix') && 'Darwin' != system('echo -n "$(uname)"')
-  " linux
   set t_Co=256
 
-  set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
+  set guifont=DejaVu\ Sans\ Mono\ 10
 
   " make the default clipboard be X11's
   set clipboard=unnamedplus
+
+" mac
 elseif has('unix') && 'Darwin' == system('echo -n "$(uname)"')
-  " mac
-  set gfn=Menlo\ for\ Powerline:h12
+  set gfn=Menlo:h12
   " this doesn't work in mountain lion's default vim (does on macvim)
   set clipboard=unnamed
+
+" windows
 elseif !has('unix')
-  " windows
-  set gfn=Consolas\ for\ Powerline\ FixedD:h10
+  set gfn=Consolas:h10
   set clipboard=unnamed
 endif
 
@@ -84,8 +85,6 @@ nnoremap <leader>g :GitGutterToggle<CR>
 nnoremap <leader>r :RainbowParenthesesToggle<CR>
 
 let g:pandoc_no_empty_implicits = 1
-
-"let g:markdown_fenced_languages = ['haskell', 'python', 'cpp']
 
 let g:ctrlp_map = '<leader>f'
 let g:ctrlp_custom_ignore = {
@@ -112,7 +111,7 @@ let g:gist_open_browser_after_post = 1
 
 set textwidth=0
 set wrapmargin=0
-set pastetoggle=<M-p>
+nnoremap <silent> <M-p> :set paste!<CR>
 set backspace=indent,eol,start
 set backup
 set backupdir=~/.vim/backups
@@ -187,13 +186,18 @@ function! Status(winnr)
   " file
   let stat .= Color(active, 4, active ? ' »' : ' «')
   let stat .= ' %<%f '
-  let stat .= Color(active, 4, active ? '« ' : '» ')
+  let stat .= Color(active, 4, active ? '«' : '»')
 
   " file modified
-  let stat .= Color(active, 2, getbufvar(winbufnr(a:winnr), '&modified') == 1 ? '+' : '')
+  let stat .= Color(active, 2, getbufvar(winbufnr(a:winnr), '&modified') == 1 ? ' +' : '')
 
   " read only
-  let stat .= Color(active, 2, getbufvar(winbufnr(a:winnr), '&ro') == 1 ? '‼' : ' ')
+  let stat .= Color(active, 2, getbufvar(winbufnr(a:winnr), '&ro') == 1 ? ' ‼' : '')
+
+  " paste
+  if active && &paste
+    let stat .= ' %2*' . 'P' . '%*'
+  endif
 
   " right side
   let stat .= '%='
