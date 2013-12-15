@@ -116,10 +116,11 @@ endif
 function! Status(winnr)
   let stat = ""
   let active = winnr() == a:winnr
+  let buffer = winbufnr(a:winnr)
 
-  let modified = getbufvar(winbufnr(a:winnr), '&modified')
-  let readonly = getbufvar(winbufnr(a:winnr), '&ro')
-  let fname = bufname(winbufnr(a:winnr))
+  let modified = getbufvar(buffer, '&modified')
+  let readonly = getbufvar(buffer, '&ro')
+  let fname = bufname(buffer)
 
   function! Color(active, num, content)
     if a:active
@@ -291,12 +292,12 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(DS_Store)$',
   \ }
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_open_new_file = 't'
-let g:ctrlp_open_multiple_files = 't'
-let g:ctrlp_prompt_mappings = {
-  \ 'AcceptSelection("t")': ['<cr>'],
-  \ 'AcceptSelection("e")': ['<s-cr>']
-  \ }
+" let g:ctrlp_open_new_file = 't'
+" let g:ctrlp_open_multiple_files = 't'
+" let g:ctrlp_prompt_mappings = {
+"   \ 'AcceptSelection("t")': ['<cr>'],
+"   \ 'AcceptSelection("e")': ['<s-cr>']
+"   \ }
 
 "let g:ctrlp_working_path_mode = 1 set working dir to parent dir of cur file
 map <leader>b :CtrlPBuffer<cr>
