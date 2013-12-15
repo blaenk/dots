@@ -46,6 +46,7 @@ set softtabstop=2
 set shiftwidth=0
 set autoindent
 
+set gcr+=i-ci:block-Cursor/lCursor
 set gcr+=a:blinkon0
 set shortmess=atToOI
 
@@ -84,7 +85,7 @@ if has('win32')
 
 " UNIX: {{{2
 else
-  let s:kernel = system('echo -n "$(uname s)"')
+  let s:kernel = system('echo -n "$(uname -s)"')
 
 " Mac: {{{3
   if s:kernel == 'Darwin'
@@ -113,8 +114,12 @@ endif
 
 " Status Function: {{{2
 function! Status(winnr)
-  let s:stat = ""
-  let s:active = winnr() == a:winnr
+  let stat = ""
+  let active = winnr() == a:winnr
+
+  let modified = getbufvar(winbufnr(a:winnr), '&modified')
+  let readonly = getbufvar(winbufnr(a:winnr), '&ro')
+  let fname = bufname(winbufnr(a:winnr))
 
   function! Color(active, num, content)
     if a:active
@@ -125,26 +130,35 @@ function! Status(winnr)
   endfunction
 
   " column
-  let s:stat .= '%1*' . (col(".") / 100 >= 1 ? '%v ' : ' %2v ') . '%*'
+  let stat .= '%1*' . (col(".") / 100 >= 1 ? '%v ' : ' %2v ') . '%*'
 
   " file
-  let s:stat .= Color(s:active, 4, s:active ? ' »' : ' «')
-  let s:stat .= ' %<%f '
-  let s:stat .= Color(s:active, 4, s:active ? '«' : '»')
+  let stat .= Color(active, 4, active ? ' »' : ' «')
+  let stat .= ' %<'
+
+  if fname == '__Gundo__'
+    let stat .= 'Gundo'
+  elseif fname == '__Gundo_Preview__'
+    let stat .= 'Gundo Preview'
+  else
+    let stat .= '%f'
+  endif
+
+  let stat .= ' ' . Color(active, 4, active ? '«' : '»')
 
   " file modified
-  let s:stat .= Color(s:active, 2, getbufvar(winbufnr(a:winnr), '&modified') == 1 ? ' +' : '')
+  let stat .= Color(active, 2, modified ? ' +' : '')
 
   " read only
-  let s:stat .= Color(s:active, 2, getbufvar(winbufnr(a:winnr), '&ro') == 1 ? ' ‼' : '')
+  let stat .= Color(active, 2, readonly ? ' ‼' : '')
 
   " paste
-  if s:active && &paste
-    let s:stat .= ' %2*' . 'P' . '%*'
+  if active && &paste
+    let stat .= ' %2*' . 'P' . '%*'
   endif
 
   " right side
-  let s:stat .= '%='
+  let stat .= '%='
 
   " git branch
   if exists('*fugitive#head')
@@ -157,23 +171,18 @@ function! Status(winnr)
   endif
 
   if !empty(head)
-    let s:stat .= Color(s:active, 3, ' ← ') . head . ' '
+    let stat .= Color(active, 3, ' ← ') . head . ' '
   endif
 
-  return s:stat
+  return stat
 endfunction
 " }}}
 
 " Status AutoCMD: {{{
 function! SetStatus()
-  " inactives
-  for nr in filter(range(1, winnr('$')), 'v:val != winnr()')
+  for nr in range(1, winnr('$'))
     call setwinvar(nr, '&statusline', '%!Status('.nr.')')
   endfor
-
-  " actives
-  let nr = winnr()
-  call setwinvar(nr, '&statusline', '%!Status('.nr.')')
 endfunction
 
 augroup status
@@ -278,7 +287,7 @@ nnoremap <leader>g :GitGutterToggle<CR>
 " Settings: {{{3
 let g:ctrlp_map = '<leader>f'
 let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v[\/](\.(git|hg|svn))|deploy|dist|generated|build$',
+  \ 'dir': '\v[\/](\.(git|hg|svn))|deploy|dist|generated|build|images$',
   \ 'file': '\v\.(DS_Store)$',
   \ }
 let g:ctrlp_working_path_mode = 'ra'
