@@ -1,5 +1,6 @@
 vim/vim.ln/bundle
 vim/vim.ln/bundle/*
+vim/vim.ln/unite
 .DS_Store
 vim/vim.ln/.VimballRecord
 vim/vim.ln/.netrwhist
