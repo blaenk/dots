@@ -15,7 +15,7 @@ endif
 " }}}
 
 " Colors: {{{
-let g:solarized_termcolors = 256
+set t_Co=256
 colorscheme solarized
 set background=light
 syntax on
@@ -113,8 +113,6 @@ else
 
 " Linux: {{{3
   elseif s:kernel == 'Linux'
-    set t_Co=256
-
     set guifont=DejaVu_Sans_Mono_10
 
     " make the default clipboard be X11's
