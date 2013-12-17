@@ -113,7 +113,7 @@ else
 
 " Linux: {{{3
   elseif s:kernel == 'Linux'
-    set guifont=DejaVu_Sans_Mono_10
+    set guifont=DejaVu\ Sans\ Mono\ 10
 
     " make the default clipboard be X11's
     set clipboard=unnamedplus
