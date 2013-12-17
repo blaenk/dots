@@ -11,6 +11,8 @@ if [[ "$OSTYPE" == linux* ]]; then
   alias journ='journalctl'
   alias ls='ls --color'
 
+  eval `dircolors ~/.dircolors`
+
   c16(){
     x=`tput op`
     y=`printf %76s`

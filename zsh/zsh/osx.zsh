@@ -1,3 +1,5 @@
+export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+
 if [[ "$OSTYPE" == darwin* ]]; then
   # new tab in terminal.app stays in same dir
   if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
