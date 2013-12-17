@@ -387,9 +387,9 @@ let s:unite_ignores = [
 "call unite#filters#sorter_default#use(['sorter_rank'])
 " sorter_word
 " call unite#custom#source('line', 'matchers', 'matcher_fuzzy')
-call unite#custom#profile('files', 'filters', ['sorter_rank'])
+" call unite#custom#profile('files', 'filters', ['sorter_length'])
 call unite#custom#source('file,file/new,buffer,file_rec', 'matchers', 'matcher_fuzzy')
-call unite#custom#source('file,file/new,buffer,file_rec', 'sorters', 'sorter_rank')
+call unite#custom#source('file,file/new,buffer,file_rec', 'sorters', 'sorter_length')
 
 call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
   \ 'ignore_pattern', unite#get_all_sources('file_rec')['ignore_pattern'] .
