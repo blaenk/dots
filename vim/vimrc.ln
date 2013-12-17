@@ -16,9 +16,9 @@ endif
 
 " Colors: {{{
 set t_Co=256
-colorscheme solarized
+syntax enable
 set background=light
-syntax on
+colorscheme solarized
 " }}}
 
 " Vundle: {{{
@@ -328,7 +328,10 @@ function! HighlightGroups()
 endfunction
 
 nnoremap <leader>r :RainbowParenthesesToggle<CR>
-nnoremap <leader>h <Plug>HexHighlightToggle
+
+nmap <leader>ht <Plug>HexHighlightToggle
+nmap <leader>hr <Plug>HexHighlightRefresh
+
 nnoremap <silent> <leader>u :GundoToggle<CR>
 " }}}
 
