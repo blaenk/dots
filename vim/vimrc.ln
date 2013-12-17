@@ -266,8 +266,6 @@ nnoremap <silent> <leader>t :set rnu! list! number!<CR>
 nnoremap <silent> <leader>s :set spell!<CR>
 
 inoremap kj <ESC>
-
-nnoremap ; :
 " }}}
 
 " Editing: {{{2
@@ -277,9 +275,6 @@ cmap w!! %!sudo tee > /dev/null %
 map <Leader>o o<Esc>ko
 
 nmap gy `[v`]
-
-nnoremap ) %
-vnoremap ) %
 
 vnoremap > >gv
 vnoremap < <gv
@@ -451,13 +446,18 @@ map <leader>b :CtrlPBuffer<cr>
 " Arguments: focus, byfname, s:regexp, prv, item, nxt, marked
 "            a:1    a:2      a:3       a:4  a:5   a:6  a:7
 fu! CtrlP_main_status(...)
-  let regex = a:3 ? '%#CtrlP_Violet#regex %*' : ''
-  let prv = '%#CtrlP_Purple# '.a:4.' %*'
-  let item = '%#CtrlP_IPurple# '.a:5.' %*'
-  let nxt = '%#CtrlP_Purple# '.a:6.' %*'
-  let byfname = '%#CtrlP_Violet# '.a:2.' %*'
-  let dir = '%#CtrlP_Purple# '.fnamemodify(getcwd(), ':~').' %*'
-  retu prv . item . nxt . '%#CtrlP_Violet#%=%*%<' . byfname . regex . dir
+  let regex = a:3 ? '%2*regex %*' : ''
+  let prv = '%#StatusLineNC# '.a:4.' %*'
+  let item = ' ' . (a:5 == 'mru files' ? 'mru' : a:5) . ' '
+  let nxt = '%#StatusLineNC# '.a:6.' %*'
+  let byfname = '%2* '.a:2.' %*'
+  let dir = '%3* ← %*%#StatusLineNC#' . fnamemodify(getcwd(), ':~') . '%* '
+
+  " only outputs current mode
+  retu ' %4*»%*' . item . '%4*«%* ' . '%=%<' . dir
+
+  " outputs previous/next modes as well
+  " retu prv . '%4*»%*' . item . '%4*«%*' . nxt . '%=%<' . dir
 endf
  
 " Argument: len
