@@ -13,7 +13,13 @@ if [[ "$OSTYPE" == linux* ]]; then
 
   eval `dircolors ~/.dircolors`
 
-  c16(){
+  export GOPATH=/home/jorge/code/go
+
+  label() {
+    print -Pn "\e]2;$1\a"
+  }
+
+  c16 (){
     x=`tput op`
     y=`printf %76s`
     for i in {0..16}
@@ -23,7 +29,7 @@ if [[ "$OSTYPE" == linux* ]]; then
     done
   }
 
-  c256(){
+  c256 (){
     x=`tput op`
     y=`printf %76s`
     for i in {0..256}
