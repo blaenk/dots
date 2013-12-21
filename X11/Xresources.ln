@@ -10,9 +10,26 @@ URxvt.geometry: 100x25
 URxvt.urgentOnBell: true
 URxvt.saveLines: 1000
 URxvt.font: xft:DejaVu Sans Mono for Powerline:pixelsize=12:antialias=true:hinting=true
-URxvt.perl-ext-common: default,vtwheel,clipboard,keyboard-select,url-select
+URxvt.perl-ext-common: default,vtwheel,clipboard,keyboard-select,url-select,tabbedex
 ! URxvt.letterSpace: -1
 
+! tabs
+URxvt.keysym.M-h: perl:tabbedex:prev_tab
+URxvt.keysym.M-j: perl:tabbedex:move_tab_left
+URxvt.keysym.M-k: perl:tabbedex:move_tab_right
+URxvt.keysym.M-l: perl:tabbedex:next_tab
+URxvt.keysym.M-n: perl:tabbedex:new_tab
+URxvt.keysym.M-r: perl:tabbedex:rename_tab
+
+URxvt.tabbed.tab-fg:    15
+URxvt.tabbed.tab-bg:    2
+URxvt.tabbed.title-fg:  15
+URxvt.tabbed.title-bg:  1
+URxvt.tabbed.tabbar-fg: 15
+URxvt.tabbed.tabbar-bg: 4
+URxvt.tabbed.title: no
+
+! browser
 URxvt.url-launcher: /usr/bin/chromium
 URxvt.matcher.button: 1
 
