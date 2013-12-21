@@ -265,7 +265,7 @@ nnoremap <silent> <leader>n :set rnu!<CR>
 nnoremap <silent> <leader>t :set rnu! list! number!<CR>
 nnoremap <silent> <leader>s :set spell!<CR>
 
-inoremap kj <ESC>
+inoremap jj <ESC>
 " }}}
 
 " Editing: {{{2
@@ -369,7 +369,7 @@ let g:unite_winheight = 10
 let g:unite_force_overwrite_statusline = 0
 
 " mappings
-nnoremap <silent> <leader>u :Unite -toggle -auto-resize -buffer-name=files file_rec:!<CR>
+nnoremap <silent> <leader>u :Unite -toggle -auto-resize -buffer-name=files file_rec/async:!<CR>
 
 " appearance
 let g:unite_candidate_icon = '-'
@@ -381,13 +381,14 @@ let s:unite_ignores = [
   \ 'undo', 'tmp', 'backups',
   \ 'generated', 'build', 'images']
 
-"call unite#filters#matcher_default#use(['matcher_fuzzy'])
-"call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+" call unite#filters#sorter_default#use(['sorter_rank'])
 " sorter_word
 " call unite#custom#source('line', 'matchers', 'matcher_fuzzy')
 " call unite#custom#profile('files', 'filters', ['sorter_length'])
-call unite#custom#source('file,file/new,buffer,file_rec', 'matchers', 'matcher_fuzzy')
-call unite#custom#source('file,file/new,buffer,file_rec', 'sorters', 'sorter_length')
+" call unite#custom#source('file,file/new,buffer,file_rec', 'matchers', 'matcher_fuzzy')
+" call unite#custom#source('file,file/new,buffer,file_rec', 'sorters', 'sorter_length')
+" call unite#custom#source('file,file/new,buffer,file_rec', 'sorters', 'sorter_rank')
 
 call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
   \ 'ignore_pattern', unite#get_all_sources('file_rec')['ignore_pattern'] .
