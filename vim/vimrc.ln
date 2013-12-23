@@ -42,7 +42,6 @@ set backspace=indent,eol,start
 set laststatus=2
 set expandtab
 set tabstop=2
-set softtabstop=2
 set shiftwidth=0
 set autoindent
 
@@ -260,6 +259,7 @@ let mapleader = ","
 " Modes: {{{2
 nnoremap <silent> <M-p> :set paste!<CR>
 nnoremap <silent> <leader>l :noh<CR>
+nnoremap <silent> <leader>c :set list!<CR>
 nnoremap <silent> <leader>n :set rnu!<CR>
 nnoremap <silent> <leader>t :set rnu! list! number!<CR>
 nnoremap <silent> <leader>s :set spell!<CR>
@@ -500,7 +500,8 @@ filetype plugin indent on
 
 augroup filespecific
   autocmd!
-  au BufRead,BufNewFile *.go set noet | set ts=4 | set sts=0
+  au BufRead,BufNewFile *.go set noet | set ts=2 | set nolist
+set listchars=tab:▸\ ,eol:¬,trail:·
   au BufRead,BufNewFile *.json set ft=javascript
   au BufRead,BufNewFile *.py set ts=4
 augroup END
