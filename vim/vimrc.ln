@@ -500,8 +500,9 @@ filetype plugin indent on
 
 augroup filespecific
   autocmd!
-  au BufRead,BufNewFile *.json set filetype=javascript
-  au BufRead,BufNewFile *.py set tabstop=4
+  au BufRead,BufNewFile *.go set noet | set ts=4 | set sts=0
+  au BufRead,BufNewFile *.json set ft=javascript
+  au BufRead,BufNewFile *.py set ts=4
 augroup END
 
 augroup cursorline
