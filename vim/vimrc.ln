@@ -86,9 +86,8 @@ set hlsearch
 
 set splitbelow
 set splitright
-
 set wrap
-set listchars=tab:▸\ ,eol:¬
+set listchars=tab:▸\ ,eol:¬,trail:·
 set list
 " }}}
 
