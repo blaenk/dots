@@ -264,6 +264,9 @@ nnoremap <silent> <leader>n :set rnu!<CR>
 nnoremap <silent> <leader>t :set rnu! list! number!<CR>
 nnoremap <silent> <leader>s :set spell!<CR>
 
+nnoremap <leader>ph :PandocHighlight<space>
+nnoremap <leader>pu :PandocUnhighlight<space>
+
 inoremap jj <ESC>
 " }}}
 
@@ -500,10 +503,10 @@ filetype plugin indent on
 
 augroup filespecific
   autocmd!
-  au BufRead,BufNewFile *.go set noet | set ts=2 | set nolist
+  au BufRead,BufNewFile *.go setl noet | setl nolist
 set listchars=tab:▸\ ,eol:¬,trail:·
   au BufRead,BufNewFile *.json set ft=javascript
-  au BufRead,BufNewFile *.py set ts=4
+  au BufRead,BufNewFile *.py setl ts=4
 augroup END
 
 augroup cursorline

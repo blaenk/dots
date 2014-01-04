@@ -6,6 +6,7 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
+Bundle 'wting/rust.vim'
 Bundle 'jnwhiteh/vim-golang'
 Bundle 'Shougo/unite.vim'
 Bundle 'Shougo/vimproc.vim'

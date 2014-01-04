@@ -3,8 +3,11 @@ if [[ "$OSTYPE" == linux* ]]; then
   alias sudo='sudo '
 
   # only ask for passphrase on first use of ssh/git
-  alias ssh='eval $(keychain --eval --agents ssh -Q --quiet id_rsa) && ssh'
-  alias git='eval $(keychain --eval --agents ssh -Q --quiet id_rsa) && git'
+  # perhaps add SSH_CONNECTION check here
+  if [[ -n $SSH_CONNECTION ]]; then
+    alias ssh='eval $(keychain --eval --agents ssh -Q --quiet id_rsa) && ssh'
+  # alias git='eval $(keychain --eval --agents ssh -Q --quiet id_rsa) && git'
+  fi
 
   alias sysd='systemd'
   alias sysctl='systemctl'
