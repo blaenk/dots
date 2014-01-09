@@ -19,7 +19,24 @@ if [[ -n $SSH_CONNECTION ]]; then
   SSH=" %{$fg[green]%}R%{$reset_color%}"
 fi
 
+function vcs() {
+  res=${vcs_info_msg_0_}
+
+  if [[ " " != res ]]; then
+    echo " ${res}"
+  fi
+}
+
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+function virtual_env() {
+  if [[ -n $VIRTUAL_ENV ]]; then
+    # echo " %{$fg[green]%}{%{$reset_color%}%{$fg[green]%}}%{$reset_color%}"
+    echo " %{$fg[green]%}ENV%{$reset_color%}"
+  fi
+}
+
 PROMPT='
-$LAMBDA $(color_path)$SSH ${vcs_info_msg_0_}
+$LAMBDA $(color_path)$SSH$(vcs)$(virtual_env)
 $(vimode)$ARROW '
 
