@@ -44,6 +44,7 @@ set expandtab
 set tabstop=2
 set shiftwidth=0
 set autoindent
+set textwidth=0
 
 set gcr=a:block
 
@@ -183,7 +184,17 @@ function! Status(winnr)
   endfunction
 
   " column
-  let stat .= '%1*' . (col(".") / 100 >= 1 ? '%v ' : ' %2v ') . '%*'
+  "   this might seem a bit complicated but all it amounts to is
+  "   a calculation to see how much padding should be used for the
+  "   column number, so that it lines up nicely with the line numbers
+  "   note: to get the largest line in relnum: max([line('w0'), line('w$')])
+  let stat .= '%1*'
+
+  let ruler_width = max([strlen(line('$')), (&numberwidth - 1)])
+  let column_width = strlen(col('.'))
+
+  let stat .= repeat(' ', max([ruler_width - column_width, 0]))
+  let stat .= '%v %*'
 
   " file
   let stat .= Color(active, 4, active ? ' »' : ' «')

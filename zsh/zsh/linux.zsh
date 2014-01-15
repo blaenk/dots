@@ -17,6 +17,9 @@ if [[ "$OSTYPE" == linux* ]]; then
   eval `dircolors ~/.dircolors`
 
   export GOPATH=/home/jorge/code/go
+  export __GL_SYNC_TO_VBLANK=1
+  export __GL_SYNC_DISPLAY_DEVICE=DFP-0
+  export __VDPAU_NVIDIA_SYNC_DISPLAY_DEVICE=DFP-0
 
   label() {
     print -Pn "\e]2;$1\a"

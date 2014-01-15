@@ -35,7 +35,7 @@ Bundle 'wlangstroth/vim-haskell'
 Bundle 'godlygeek/tabular'
 Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'henrik/vim-indexed-search'
-Bundle 'SirVer/ultisnips'
+" Bundle 'SirVer/ultisnips'
 Bundle 'yurifury/hexHighlight'
 
 if has('unix')
