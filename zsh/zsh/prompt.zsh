@@ -37,6 +37,6 @@ function virtual_env() {
 }
 
 PROMPT='
-$LAMBDA $(color_path)$SSH$(vcs)$(virtual_env)
+$LAMBDA $(color_path)$(vcs)$(virtual_env)$SSH
 $(vimode)$ARROW '
 
