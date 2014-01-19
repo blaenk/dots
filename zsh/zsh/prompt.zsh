@@ -22,7 +22,7 @@ fi
 function vcs() {
   res=${vcs_info_msg_0_}
 
-  if [[ " " != res ]]; then
+  if [[ -n $res ]]; then
     echo " ${res}"
   fi
 }
