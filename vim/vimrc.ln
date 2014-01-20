@@ -191,7 +191,7 @@ function! Status(winnr)
   let stat .= '%1*'
 
   let ruler_width = max([strlen(line('$')), (&numberwidth - 1)])
-  let column_width = strlen(col('.'))
+  let column_width = strlen(virtcol('.'))
 
   let stat .= repeat(' ', max([ruler_width - column_width, 0]))
   let stat .= '%v %*'
