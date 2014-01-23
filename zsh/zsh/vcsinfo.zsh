@@ -30,10 +30,10 @@ function +vi-git-aheadbehind() {
   local -a gitstatus
 
   ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
-  (( $ahead )) && gitstatus+=( "%{$fg_bold[blue]%}+${ahead}%{$reset_color%}" )
+  (( $ahead )) && gitstatus+=( "%{$fg[blue]%}+${ahead}%{$reset_color%}" )
 
   behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
-  (( $behind )) && gitstatus+=( "%{$fg_bold[red]%}-${behind}%{$reset_color%}" )
+  (( $behind )) && gitstatus+=( "%{$fg[red]%}-${behind}%{$reset_color%}" )
 
   hook_com[misc]+=${(j::)gitstatus}
 
