@@ -61,7 +61,7 @@ set gcr+=a:blinkon0
 hi InsertCursor  ctermfg=15 guifg=#fdf6e3 ctermbg=37  guibg=#2aa198
 hi VisualCursor  ctermfg=15 guifg=#fdf6e3 ctermbg=125 guibg=#d33682
 hi ReplaceCursor ctermfg=15 guifg=#fdf6e3 ctermbg=65  guibg=#dc322f
-hi CommandCursor ctermfg=15 guifg=#fdf6e3 ctermbg=166 guibg=#cb4b16
+hi CommandCursor ctermfg=15 guifg=#fdf6e3 ctermbg=33  guibg=#268bd2
 
 set shortmess=atToOI
 set viewoptions+=unix,slash
@@ -169,7 +169,10 @@ set gtt=%{TabTip()}
 function! Status(focused)
   let stat = ''
 
-  let buffer = winbufnr(winnr())
+  " this function just outputs the content colored by the
+  " supplied colorgroup number, e.g. num = 2 -> User2
+  " it only colors the input if the window is the currently
+  " focused one
 
   function! Color(active, num, content)
     if a:active
@@ -188,8 +191,6 @@ function! Status(focused)
   "   the context of the window for which the statusline is being prepared
   "   this is crucial because the line and virtcol functions otherwise
   "   operate on the currently focused window
-
-  "   note: to get the largest line in relnum: max([line('w0'), line('w$')])
 
   function! ColPad()
     let ruler_width = max([strlen(line('$')), (&numberwidth - 1)])
@@ -215,7 +216,7 @@ function! Status(focused)
     let fname = expand('%')
 
     if fname == ''
-      return 'New File'
+      return 'New'
     elseif fname == '__Gundo__'
       return 'Gundo'
     elseif fname == '__Gundo_Preview__'
@@ -368,6 +369,7 @@ nnoremap <silent> <leader>u :GundoToggle<CR>
 
 " Pandoc: {{{2
 let g:pantondoc_use_pandoc_markdown = 1
+let g:pantondoc_folding_fold_yaml = 0
 let g:pantondoc_formatting_settings = 's'
 let g:pandoc_use_embeds_in_codeblocks_for_langs = []
 let g:pandoc_no_empty_implicits = 1
