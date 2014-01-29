@@ -166,7 +166,10 @@ set gtt=%{TabTip()}
 " Status Line: {{{
 
 " Status Function: {{{2
-function! Status(focused)
+function! Status(winnum)
+  let active = a:winnum == winnr()
+  let bufnum = winbufnr(a:winnum)
+
   let stat = ''
 
   " this function just outputs the content colored by the
@@ -182,6 +185,29 @@ function! Status(focused)
     endif
   endfunction
 
+  " this handles alternative statuslines
+  let usealt = 0
+  let altstat = Color(active, 4, ' »')
+
+  let type = getbufvar(bufnum, '&buftype')
+  let name = bufname(bufnum)
+
+  if type ==# 'help'
+    let altstat .= ' ' . fnamemodify(name, ':t:r')
+    let usealt = 1
+  elseif name ==# '__Gundo__'
+    let altstat .= ' Gundo'
+    let usealt = 1
+  elseif name ==# '__Gundo_Preview__'
+    let altstat .= ' Gundo Preview'
+    let usealt = 1
+  endif
+
+  if usealt
+    let altstat .= Color(active, 4, ' «')
+    return altstat
+  endif
+
   " column
   "   this might seem a bit complicated but all it amounts to is
   "   a calculation to see how much padding should be used for the
@@ -192,52 +218,43 @@ function! Status(focused)
   "   this is crucial because the line and virtcol functions otherwise
   "   operate on the currently focused window
 
-  function! ColPad()
+  function! Column()
+    let vc = virtcol('.')
     let ruler_width = max([strlen(line('$')), (&numberwidth - 1)])
-    let column_width = strlen(virtcol('.'))
+    let column_width = strlen(vc)
     let padding = ruler_width - column_width
+    let column = ''
 
     if padding <= 0
-      return ''
+      let column .= vc
     else
       " + 1 becuase for some reason vim eats one of the spaces
-      return repeat(' ', padding + 1)
+      let column .= repeat(' ', padding + 1) . vc
+    endif
+
+    return column . ' '
   endfunction
 
   let stat .= '%1*'
-  let stat .= '%{ColPad()}'
-  let stat .= '%v %*'
+  let stat .= '%{Column()}'
+  let stat .= '%*'
 
-  " file
-  let stat .= Color(a:focused, 4, a:focused ? ' »' : ' «')
+  " file name
+  let stat .= Color(active, 4, active ? ' »' : ' «')
   let stat .= ' %<'
-
-  function! Name()
-    let fname = expand('%')
-
-    if fname == ''
-      return 'New'
-    elseif fname == '__Gundo__'
-      return 'Gundo'
-    elseif fname == '__Gundo_Preview__'
-      return 'Gundo Preview'
-    else
-      return fname
-    endif
-  endfunction
-
-  let stat .= '%{Name()}'
-
-  let stat .= ' ' . Color(a:focused, 4, a:focused ? '«' : '»')
+  let stat .= '%f'
+  let stat .= ' ' . Color(active, 4, active ? '«' : '»')
 
   " file modified
-  let stat .= Color(a:focused, 2, "%{&modified ? ' +' : ''}")
+  let modified = getbufvar(bufnum, '&modified')
+  let stat .= Color(active, 2, modified ? ' +' : '')
 
   " read only
-  let stat .= Color(a:focused, 2, "%{&readonly ? ' ‼' : ''}")
+  let readonly = getbufvar(bufnum, '&readonly')
+  let stat .= Color(active, 2, readonly ? ' ‼' : '')
 
   " paste
-  if a:focused && &paste
+  if active && &paste
     let stat .= ' %2*' . 'P' . '%*'
   endif
 
@@ -255,18 +272,23 @@ function! Status(focused)
   endif
 
   if !empty(head)
-    let stat .= Color(a:focused, 3, ' ← ') . head . ' '
+    let stat .= Color(active, 3, ' ← ') . head . ' '
   endif
 
   return stat
 endfunction
 " }}}
 
+function! RefreshStatus()
+  for nr in range(1, winnr('$'))
+    call setwinvar(nr, '&statusline', '%!Status(' . nr . ')')
+  endfor
+endfunction
+
 " Status AutoCMD: {{{
 augroup status
   autocmd!
-  autocmd VimEnter,WinEnter,BufWinEnter * setl statusline=%!Status(1)
-  autocmd WinLeave * setl statusline=%!Status(0)
+  autocmd VimEnter,WinEnter,BufWinEnter,FileType,BufUnload * call RefreshStatus()
 augroup END
 " }}}
 
@@ -373,6 +395,12 @@ let g:pantondoc_folding_fold_yaml = 0
 let g:pantondoc_formatting_settings = 's'
 let g:pandoc_use_embeds_in_codeblocks_for_langs = []
 let g:pandoc_no_empty_implicits = 1
+let g:pandoc_use_conceal_for_rules = [
+  \"titleblock",
+  \"block",
+  \"abbrev",
+  \"footnote",
+  \"special"]
 " }}}
 
 " YCM: {{{2
