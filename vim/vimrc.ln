@@ -288,7 +288,7 @@ endfunction
 " Status AutoCMD: {{{
 augroup status
   autocmd!
-  autocmd VimEnter,WinEnter,BufWinEnter,FileType,BufUnload * call RefreshStatus()
+  autocmd VimEnter,WinEnter,BufWinEnter * call RefreshStatus()
 augroup END
 " }}}
 
