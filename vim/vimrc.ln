@@ -279,13 +279,14 @@ function! Status(winnum)
 endfunction
 " }}}
 
+" Status AutoCMD: {{{
+
 function! s:RefreshStatus()
   for nr in range(1, winnr('$'))
     call setwinvar(nr, '&statusline', '%!Status(' . nr . ')')
   endfor
 endfunction
 
-" Status AutoCMD: {{{
 augroup status
   autocmd!
   autocmd VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
@@ -547,8 +548,9 @@ let g:gist_open_browser_after_post = 1
 " }}}
 
 " Ack: {{{2
-let g:ackhighlight = 1
-nnoremap <leader>a :Ack!<space>
+let g:aghighlight = 1
+let g:ag_mapping_message = 0
+nnoremap <leader>a :Ag!<space>
 " }}}
 
 " }}}
