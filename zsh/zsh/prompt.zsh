@@ -3,7 +3,7 @@ setopt prompt_subst
 
 # prompt
 LAMBDA="%{$fg[blue]%}λ%{$reset_color%}"
-ARROW="%{$fg[blue]%}»%{$reset_color%}"
+ARROW="%{$fg[cyan]%}»%{$reset_color%}"
 LEFT_ARROW="%{$fg_bold[red]%}VI %{$reset_color%}"
 SLASH="%{$fg[cyan]%}/%{$reset_color%}"
 
