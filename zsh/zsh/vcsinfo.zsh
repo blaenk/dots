@@ -1,13 +1,13 @@
 # vcsinfo: thanks to github.com/sunaku/home/
 autoload -Uz vcs_info
 
-VCS_PRE="%{$fg[red]%}(%{$reset_color%}"
-VCS_SUF="%{$fg[red]%})%{$reset_color%}"
+VCS_PRE="%{$fg[magenta]%}(%{$reset_color%}"
+VCS_SUF="%{$fg[magenta]%})%{$reset_color%}"
 
 AVCS_PRE="%{$fg[green]%}{%{$reset_color%}"
 AVCS_SUF="%{$fg[green]%}}%{$reset_color%}"
 
-COLON="%{$fg[red]%}:%{$reset_color%}"
+COLON="%{$fg[cyan]%}:%{$reset_color%}"
 SPACE=" "
 DELIM=$SPACE
 
@@ -52,9 +52,9 @@ function +vi-git-untracked(){
         # files in $PWD, use:
         #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
         if [[ -n ${hook_com[unstaged]} ]]; then
-          hook_com[unstaged]=".$DELIM${hook_com[unstaged]}"
+          hook_com[unstaged]="·$DELIM${hook_com[unstaged]}"
         else
-          hook_com[unstaged]="."
+          hook_com[unstaged]="·"
         fi
     fi
 }
