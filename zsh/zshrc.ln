@@ -14,6 +14,18 @@ setopt share_history
 export EDITOR=vim
 export VISUAL=vim
 
+# bundles
+source ~/.dots/zsh/zsh/antigen/antigen.zsh
+
+# antigen
+antigen bundles <<EOBUNDLES
+  zsh-users/zsh-syntax-highlighting
+  zsh-users/zsh-completions
+EOBUNDLES
+
+antigen apply
+
+# configuration files
 for file in ~/.dots/zsh/zsh/*.zsh; do
   source $file
 done
