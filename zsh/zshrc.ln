@@ -16,7 +16,7 @@ export VISUAL=vim
 
 # bundles
 
-if [[ ! -d ~/.dots/zsh/zsh/antigen ]]; do
+if [[ ! -d ~/.dots/zsh/zsh/antigen ]]; then
   git clone https://github.com/zsh-users/antigen.git ~/.dots/zsh/zsh/antigen
 fi
 
