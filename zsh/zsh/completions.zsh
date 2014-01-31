@@ -25,4 +25,11 @@ cdpath=(.)
 # case-insensitive substring completion
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
-zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*:*:*:*:*' menu select select=1 _complete _ignored _approximate
+
+# use a cache
+zstyle ':completion::complete:*' use-cache on
+zstyle ':completion::complete:*' cache-path ~/.dots/zsh/zsh/cache
+
+# ignore _functions
+zstyle ':completion:*:functions' ignored-patterns '_*'
