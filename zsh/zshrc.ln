@@ -15,6 +15,11 @@ export EDITOR=vim
 export VISUAL=vim
 
 # bundles
+
+if [[ ! -d ~/.dots/zsh/zsh/antigen ]]; do
+  git clone https://github.com/zsh-users/antigen.git ~/.dots/zsh/zsh/antigen
+fi
+
 source ~/.dots/zsh/zsh/antigen/antigen.zsh
 
 # antigen
