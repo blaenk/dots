@@ -40,9 +40,11 @@ bindkey -M viins "^N" down-line-or-history
 bindkey -M viins "^W" backward-kill-word
 bindkey -M viins "^A" beginning-of-line
 bindkey -M viins "^E" end-of-line
-bindkey -M isearch "^P" history-incremental-search-backward # allow interactive incr search, ^G or ^C to exit
-bindkey -M isearch "^N" history-incremental-search-forward
 bindkey -M viins "^H" backward-delete-char  # vi-backward-delete-char
 bindkey -M viins "^U" backward-kill-line             # vi-kill-line
 bindkey -M viins "^?" backward-delete-char  # vi-backward-delete-char
 
+bindkey -M isearch "^P" history-incremental-search-backward # allow interactive incr search, ^G or ^C to exit
+bindkey -M isearch "^N" history-incremental-search-forward
+
+bindkey -M viins "^[[Z" reverse-menu-complete

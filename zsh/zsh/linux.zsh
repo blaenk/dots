@@ -14,8 +14,6 @@ if [[ "$OSTYPE" == linux* ]]; then
   alias journ='journalctl'
   alias ls='ls --color'
 
-  eval `dircolors ~/.dircolors`
-
   export GOPATH=/home/jorge/code/go
 
   # nvidia fix
