@@ -4,4 +4,4 @@ vim/vim.ln/unite
 .DS_Store
 vim/vim.ln/.VimballRecord
 vim/vim.ln/.netrwhist
-
+zsh/zsh/antigen
