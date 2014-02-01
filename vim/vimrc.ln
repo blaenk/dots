@@ -396,12 +396,21 @@ let g:pantondoc_folding_fold_yaml = 0
 let g:pantondoc_formatting_settings = 's'
 let g:pandoc_use_embeds_in_codeblocks_for_langs = []
 let g:pandoc_no_empty_implicits = 1
-let g:pandoc_use_conceal_for_rules = [
+
+let g:pandoc_syntax_dont_use_conceal_for_rules = [
   \"titleblock",
-  \"block",
-  \"abbrev",
-  \"footnote",
-  \"special"]
+  \"image",
+  \"superscript",
+  \"subscript",
+  \"strikeout",
+  \"atx",
+  \"codeblock_start",
+  \"codeblock_delim",
+  \"definition",
+  \"list",
+  \"newline",
+  \"hrule"
+  \]
 " }}}
 
 " YCM: {{{2
