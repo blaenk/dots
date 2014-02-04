@@ -392,7 +392,6 @@ nnoremap <silent> <leader>u :GundoToggle<CR>
 
 " Pandoc: {{{2
 let g:pantondoc_use_pandoc_markdown = 1
-let g:pantondoc_folding_fold_yaml = 0
 let g:pantondoc_formatting_settings = 's'
 let g:pandoc_use_embeds_in_codeblocks_for_langs = []
 let g:pandoc_no_empty_implicits = 1
