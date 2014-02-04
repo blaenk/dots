@@ -1,5 +1,5 @@
 # highlighting
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor root)
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern root)
 ZSH_HIGHLIGHT_STYLES[precommand]='fg=magenta'
 
 export LESS_TERMCAP_mb=$(tput setaf 2) # green
