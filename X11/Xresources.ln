@@ -1,34 +1,10 @@
-! Xft.dpi:       96
-! Xft.antialias: true
-! Xft.rgba:      rgba
-! Xft.autohint:  true
-! Xft.hinting:   true
-! Xft.hintstyle: hintslight
-! Xft.lcdfilter: lcddefault
-
+URxvt.internalBorder: 1
 URxvt.geometry: 100x25
 URxvt.urgentOnBell: true
 URxvt.saveLines: 1000
 URxvt.font: xft:DejaVu Sans Mono:size=10
 URxvt.boldFont: xft:DejaVu Sans Mono:bold:size=10
-URxvt.perl-ext-common: default,vtwheel,clipboard,keyboard-select,url-select,tabbedex
-! URxvt.letterSpace: -1
-
-! tabs
-URxvt.keysym.M-h: perl:tabbedex:prev_tab
-URxvt.keysym.M-j: perl:tabbedex:move_tab_left
-URxvt.keysym.M-k: perl:tabbedex:move_tab_right
-URxvt.keysym.M-l: perl:tabbedex:next_tab
-URxvt.keysym.M-n: perl:tabbedex:new_tab
-URxvt.keysym.M-r: perl:tabbedex:rename_tab
-
-URxvt.tabbed.tab-fg:    15
-URxvt.tabbed.tab-bg:    2
-URxvt.tabbed.title-fg:  15
-URxvt.tabbed.title-bg:  1
-URxvt.tabbed.tabbar-fg: 15
-URxvt.tabbed.tabbar-bg: 4
-URxvt.tabbed.title: no
+URxvt.perl-ext-common: default,vtwheel,clipboard,keyboard-select,url-select
 
 ! browser
 URxvt.url-launcher: /usr/bin/chromium
@@ -58,51 +34,8 @@ URxvt.scrollTtyOutput: false
 URxvt.scrollTtyKeypress: true
 URxvt.scrollWithBuffer: true
 
-!URxvt.borderLess: true
-
-! blaenk scheme
-! URxvt.cursorColor: #6691bd
-! URxvt.colorBD: #6691bd
-! 
-! URxvt.background: #2f2f2f
-! URxvt.foreground: #c5c8c6
-! 
-! ! Black + BoldGrey
-! URxvt.color0:  #000000
-! URxvt.color8:  #858585
-! 
-! ! red + bold red
-! URxvt.color1:  #b32d47
-! URxvt.color9:  #cc6666
-! 
-! ! green + bold green
-! URxvt.color2:  #718c00
-! URxvt.color10: #99ad6a
-! 
-! ! Yellow + bold Yellow
-! URxvt.color3:  #eab700
-! URxvt.color11: #999900
-! 
-! ! BoldBlue + Blue
-! URxvt.color4:  #3a89c9
-! URxvt.color12: #80A1BD
-! 
-! ! BoldMangenta + Mangenta
-! URxvt.color5:  #a986bf
-! URxvt.color13: #B294BA
-! 
-! !BoldCyan + Cyan
-! URxvt.color6:  #3e999f
-! URxvt.color14: #799dcc
-! 
-! ! LightGrey + White
-! URxvt.color7:  #BBBBBB
-! URxvt.color15: #ffffff
-
 URxvt*background:              #fdf6e3
 URxvt*foreground:              #657b83
-!URxvt*fading:                  20
-!URxvt*fadeColor:               #fdf6e3
 URxvt*cursorColor:             #586e75
 URxvt*pointerColorBackground:  #93a1a1
 URxvt*pointerColorForeground:  #586e75
