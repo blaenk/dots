@@ -2,17 +2,14 @@ if [[ "$OSTYPE" == linux* ]]; then
   # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
   alias sudo='sudo '
 
-  # only ask for passphrase on first use of ssh/git
-  # perhaps add SSH_CONNECTION check here
-  if [[ -n $SSH_CONNECTION ]]; then
-    alias ssh='eval $(keychain --eval --agents ssh -Q --quiet id_rsa) && ssh'
-  # alias git='eval $(keychain --eval --agents ssh -Q --quiet id_rsa) && git'
-  fi
-
   alias sysd='systemd'
   alias sysctl='systemctl'
-  alias journ='journalctl'
-  alias ls='ls --color'
+  alias jourctl='journalctl'
+  alias ls='ls --color=auto'
+
+  # add texlive netinstall to path
+  path+=('/usr/local/texlive/2013/bin/x86_64-linux')
+  export PATH
 
   export GOPATH=/home/jorge/code/go
 
@@ -23,29 +20,5 @@ if [[ "$OSTYPE" == linux* ]]; then
 
   # command not found; install pkgfile
   [[ -e /usr/share/doc/pkgfile/command-not-found.zsh ]] && source /usr/share/doc/pkgfile/command-not-found.zsh
-
-  label() {
-    print -Pn "\e]2;$1\a"
-  }
-
-  c16 (){
-    x=`tput op`
-    y=`printf %76s`
-    for i in {0..16}
-    do
-      o=00$i
-      echo -e ${o:${#o}-3:3} `tput setaf $i;tput setab $i`${y// /=}$x
-    done
-  }
-
-  c256 (){
-    x=`tput op`
-    y=`printf %76s`
-    for i in {0..256}
-    do
-      o=00$i
-      echo -e ${o:${#o}-3:3} `tput setaf $i;tput setab $i`${y// /=}$x
-    done
-  }
 fi
 
