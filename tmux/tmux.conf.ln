@@ -70,7 +70,7 @@ set -g status-left " ·"
 
 set -g status-right-length 30
 set -g status-right-fg colour11
-set -g status-right " #[fg=green]←#[fg=default] #S "
+set -g status-right " #[fg=cyan]«#[fg=default] #S "
 
 # no spaces in between components
 setw -g window-status-separator " · "
