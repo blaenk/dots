@@ -1,7 +1,30 @@
-set-window-option -g mode-keys vi
-set-option -g prefix C-a
-bind-key C-a last-window
-bind-key a send-prefix
+# cheatsheet: also just pre ? /
+# pre r             -- reload config
+
+# window management
+# m-c               -- create window
+# m-h, m-l          -- switch to left, right window
+# m-j, m-k          -- move window left, right
+# pre ,             -- rename window
+# pre $             -- rename session
+# pre &             -- kill window
+
+# panes
+# pre -             -- horizontal split
+# pre |             -- vertical split
+# pre x             -- kill pane
+
+# vi binds
+setw -g mode-keys vi
+setw -g status-keys vi
+
+# c-n/c-p in command mode
+bind-key -t vi-edit C-n history-down
+bind-key -t vi-edit C-p history-up
+
+bind C-c run "tmux save-buffer - | xclip -i -sel clipboard"
+bind C-v run "tmux set-buffer \"$(xclip -o -sel clipboard)\"; tmux paste-buffer"
+
 setw -g aggressive-resize on
 
 set -sg escape-time 1     # lower delay
@@ -12,57 +35,64 @@ setw -g utf8 on
 # easier way of reloading the config
 bind r source-file ~/.tmux.conf \; display "Reloaded!"
 
-# prefix 
+# prefix: this is already default, here for easy changing
+set-option -g prefix C-b
+
 bind | split-window -h
 bind - split-window -v
 
-bind h previous-window
-bind l next-window
+bind -r h select-pane -L
+bind -r j select-pane -D
+bind -r k select-pane -U
+bind -r l select-pane -R
 
-# bind h select-pane -L
-bind j select-pane -D
-bind k select-pane -U
-# bind l select-pane -R
+# switch between windows left/right
+bind -n M-h previous-window
+bind -n M-l next-window
 
-bind -r C-h select-window -t :-
-bind -r C-l select-window -t :+
+# move windows left/right
+bind -n M-j swap-window -t -1
+bind -n M-k swap-window -t +1
 
-bind -r H resize-pane -L 5
-bind -r J resize-pane -D 5
-bind -r K resize-pane -U 5
-bind -r L resize-pane -R 5
+# create window with name
+bind -n M-n command-prompt -p "Name of new window:" "new-window -n '%%'"
 
-set -g default-terminal "screen-256color"
-
-set -g status-fg white
-set -g status-bg blue
-set -g status-attr bright
-
-setw -g window-status-fg white
-setw -g window-status-bg default
-
-# colour31 file part of powerline
-setw -g window-status-current-fg white # colour23 # dark cyan
-setw -g window-status-current-bg red # colour15 # white
-setw -g window-status-current-attr bold
-
-setw -g window-status-current-format " #I#F#W "
-setw -g window-status-format " #I#F#W "
-
-set -g message-fg white
-set -g message-bg green
-set -g message-attr bright
+# copy mode
+bind -n M-p copy-mode
 
 # prompts
 set -g status-utf8 on
-set -g status-left-length 30
-set -g status-left " #S "
-set -g status-left-bg green
-set -g status-right-length 4
-set -g status-right "tmux"
+set -g status-position top
+set -g status-justify left
 
-# set -g pane-border-fg blue
-# set -g pane-border-bg black
-# set -g pane-active-border-fg white
-# set -g pane-active-border-bg yellow
+set -g status-left-length 2
+set -g status-left " ·"
+
+set -g status-right-length 30
+set -g status-right-fg colour11
+set -g status-right " #[fg=green]←#[fg=default] #S "
+
+# no spaces in between components
+setw -g window-status-separator " · "
+
+set -g default-terminal "screen-256color"
+
+set -g status-fg cyan
+set -g status-bg colour7
+
+setw -g window-status-current-fg colour11
+setw -g window-status-current-format "#W"
+setw -g window-status-current-attr bold
+
+setw -g window-status-fg colour14
+setw -g window-status-bg default
+setw -g window-status-format "#W"
+
+set -g monitor-activity on
+setw -g window-status-activity-attr bold
+setw -g window-status-activity-bg default
+setw -g window-status-activity-fg default
+
+set -g message-fg colour11
+set -g message-bg colour7
 
