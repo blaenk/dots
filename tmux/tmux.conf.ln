@@ -55,6 +55,7 @@ bind -n M-j swap-window -t -1
 bind -n M-k swap-window -t +1
 
 # create window with name
+bind -n M-r command-prompt 'rename-window %%'
 bind -n M-n command-prompt -p "Name of new window:" "new-window -n '%%'"
 
 # copy mode
