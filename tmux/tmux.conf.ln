@@ -84,12 +84,12 @@ setw -g window-status-current-fg colour11
 setw -g window-status-current-format "#W"
 setw -g window-status-current-attr bold
 
-setw -g window-status-fg colour14
+setw -g window-status-fg colour11
 setw -g window-status-bg default
 setw -g window-status-format "#W"
 
 set -g monitor-activity on
-setw -g window-status-activity-attr bold
+setw -g window-status-activity-attr underscore
 setw -g window-status-activity-bg default
 setw -g window-status-activity-fg default
 
