@@ -47,4 +47,6 @@ bindkey -M viins "^?" backward-delete-char  # vi-backward-delete-char
 bindkey -M isearch "^P" history-incremental-search-backward # allow interactive incr search, ^G or ^C to exit
 bindkey -M isearch "^N" history-incremental-search-forward
 
-bindkey -M viins "^[[Z" reverse-menu-complete
+bindkey -M menuselect "^M" .accept-line
+bindkey -M menuselect "^G" accept-line
+bindkey -M menuselect "^[[Z" reverse-menu-complete
