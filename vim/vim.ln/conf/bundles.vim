@@ -9,6 +9,7 @@ Bundle 'gmarik/vundle'
 " sort the bundles by plugin name with
 "   sort i /\/\zs.\+\ze'/ r
 
+Bundle 'a.vim'
 Bundle 'vim-scripts/a.vim'
 Bundle 'rking/ag.vim'
 Bundle 'msanders/cocoa.vim'
@@ -26,6 +27,7 @@ Bundle 'godlygeek/tabular'
 Bundle 'tomtom/tlib_vim'
 Bundle 'Shougo/unite.vim'
 Bundle 'MarcWeber/vim-addon-mw-utils'
+Bundle 'tommcdo/vim-exchange'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'jnwhiteh/vim-golang'
 Bundle 'wlangstroth/vim-haskell'
