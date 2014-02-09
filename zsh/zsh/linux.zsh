@@ -5,7 +5,6 @@ if [[ "$OSTYPE" == linux* ]]; then
   alias sysd='systemd'
   alias sysctl='systemctl'
   alias jourctl='journalctl'
-  alias ls='ls --color=auto'
 
   # add texlive netinstall to path
   path+=('/usr/local/texlive/2013/bin/x86_64-linux')

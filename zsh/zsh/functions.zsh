@@ -17,7 +17,7 @@ label() {
 }
 
 # print 16 colors
-c16 (){
+c16(){
   x=`tput op`
   y=`printf %76s`
   for i in {0..16}
@@ -27,8 +27,18 @@ c16 (){
   done
 }
 
+# print numerical permissions before each item in ls
+lsn() {
+  ls -lh --color=always $@ | \
+    awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/) \
+         *2^(8-i));if(k)printf("%0o ",k);print}'
+}
+
+# numerical permissions
+alias ls='lsn'
+
 # print 256 colors
-c256 (){
+c256(){
   x=`tput op`
   y=`printf %76s`
   for i in {0..256}
