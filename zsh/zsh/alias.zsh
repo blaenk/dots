@@ -18,7 +18,7 @@ if [[ -x `which pacman` ]]; then
 
   alias pacorphans="pacman -Qtdq"
 
-  if [[ -x `which aura` ]]; then
+  if [[ -x `which expac` ]]; then
     alias pacorphans="expac "%n:%N:%d" -Q $(expac "%n %G" | grep -v ' base') | awk -F: '$2 == "" {printf "%s: %s\n", $1, $3}"
   fi
 fi
