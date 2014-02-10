@@ -47,3 +47,16 @@ c256(){
     echo -e ${o:${#o}-3:3} `tput setaf $i;tput setab $i`${y// /=}$x
   done
 }
+
+# move back arbitrary number of directories
+# $ cd b...
+# $ cd ../../../
+cd() {
+  emulate -LR zsh
+
+  if [[ $1 == 'b.'* ]]; then
+    builtin cd ${${1//"b"/""}//"."/"../"}
+  else
+    builtin cd $*
+  fi
+}
