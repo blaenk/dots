@@ -609,8 +609,8 @@ else
     exe "hi! SpecialKey" .s:fmt_bold   .s:fg_base00 .s:bg_base02
     exe "hi! NonText"    .s:fmt_bold   .s:fg_base00 .s:bg_none
 endif
-exe "hi! StatusLine"     .s:fmt_bold   .s:fg_base0 .s:bg_base02
-exe "hi! StatusLineNC"   .s:fmt_bold   .s:fg_base01 .s:bg_base02
+exe "hi! StatusLine"     .s:fmt_none   .s:fg_base0 .s:bg_base02
+exe "hi! StatusLineNC"   .s:fmt_none   .s:fg_base01 .s:bg_base02
 exe "hi! Visual"         .s:fmt_none   .s:fg_base01 .s:bg_base03 .s:fmt_revbb
 exe "hi! Directory"      .s:fmt_none   .s:fg_blue   .s:bg_none
 exe "hi! ErrorMsg"       .s:fmt_revr   .s:fg_red    .s:bg_none
@@ -669,7 +669,7 @@ exe "hi! TabLineFill"    .s:fmt_undr   .s:fg_base0  .s:bg_base02  .s:sp_base0
 exe "hi! TabLineSel"     .s:fmt_undr   .s:fg_base01 .s:bg_base2   .s:sp_base0  .s:fmt_revbbu
 exe "hi! CursorColumn"   .s:fmt_none   .s:fg_none   .s:bg_base02
 exe "hi! CursorLine"     .s:fmt_uopt   .s:fg_none   .s:bg_base02  .s:sp_base1
-exe "hi! CursorLineNR"   .s:fmt_uopt   .s:fg_yellow   .s:bg_base02  .s:fmt_bold
+exe "hi! CursorLineNR"   .s:fmt_uopt   .s:fg_magenta   .s:bg_base02  .s:fmt_none
 exe "hi! ColorColumn"    .s:fmt_none   .s:fg_none   .s:bg_base02
 exe "hi! Cursor"         .s:fmt_none   .s:fg_base03 .s:bg_base0
 hi! link lCursor Cursor

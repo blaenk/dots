@@ -294,10 +294,10 @@ augroup END
 " }}}
 
 " Status Colors: {{{
-hi User1 ctermfg=33  guifg=#268bd2  ctermbg=15 guibg=#fdf6e3 gui=bold
-hi User2 ctermfg=125 guifg=#d33682  ctermbg=7  guibg=#eee8d5 gui=bold
-hi User3 ctermfg=64  guifg=#719e07  ctermbg=7  guibg=#eee8d5 gui=bold
-hi User4 ctermfg=37  guifg=#2aa198  ctermbg=7  guibg=#eee8d5 gui=bold
+hi User1 ctermfg=33  guifg=#268bd2  ctermbg=15 guibg=#fdf6e3
+hi User2 ctermfg=125 guifg=#d33682  ctermbg=7  guibg=#eee8d5
+hi User3 ctermfg=64  guifg=#719e07  ctermbg=7  guibg=#eee8d5
+hi User4 ctermfg=37  guifg=#2aa198  ctermbg=7  guibg=#eee8d5
 " }}}
 
 " }}}
