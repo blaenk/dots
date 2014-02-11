@@ -7,7 +7,6 @@ setopt complete_in_word
 setopt always_to_end
 
 setopt correct nocorrectall
-setopt complete_aliases
 
 # directories
 setopt auto_name_dirs
