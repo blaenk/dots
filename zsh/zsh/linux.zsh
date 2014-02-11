@@ -1,11 +1,4 @@
 if [[ "$OSTYPE" == linux* ]]; then
-  # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
-  alias sudo='sudo '
-
-  alias sysd='systemd'
-  alias sysctl='systemctl'
-  alias jourctl='journalctl'
-
   # add texlive netinstall to path
   path+=('/usr/local/texlive/2013/bin/x86_64-linux')
   export PATH

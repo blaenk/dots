@@ -5,6 +5,9 @@ alias ta="tmux a -t"
 # ;)
 alias ":q"="exit"
 
+# fixes weird problem in tmux and ssh with zsh-syntax-highlighting
+alias sudo='sudo '
+
 if [[ -x `which pacman` ]]; then
   alias pacup="sudo pacman -Syu"
   alias pacin="sudo pacman -S"
