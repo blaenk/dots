@@ -16,11 +16,12 @@ label() {
   print -Pn "\e]2;$1\a"
 }
 
-# print 16 colors
-c16(){
+# print colors
+# $ clist 16
+clist(){
   x=`tput op`
   y=`printf %76s`
-  for i in {0..16}
+  for i in {0..$1}
   do
     o=00$i
     echo -e ${o:${#o}-3:3} `tput setaf $i;tput setab $i`${y// /=}$x
@@ -36,17 +37,6 @@ lsn() {
 
 # numerical permissions
 alias ls='lsn'
-
-# print 256 colors
-c256(){
-  x=`tput op`
-  y=`printf %76s`
-  for i in {0..256}
-  do
-    o=00$i
-    echo -e ${o:${#o}-3:3} `tput setaf $i;tput setab $i`${y// /=}$x
-  done
-}
 
 # move back arbitrary number of directories
 # $ cd b...
