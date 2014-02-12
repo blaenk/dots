@@ -13,17 +13,19 @@ if [[ -x `which pacman` ]]; then
   alias pacin="sudo pacman -S"
   alias pacun="sudo pacman -Rs"
 
+  # search remote/local for package
   alias pacss="pacman -Ss"
   alias pacqs="pacman -Qs"
 
+  # information about a package
   alias pacqi="pacman -Qi"
   alias pacsi="pacman -Si"
 
-  alias pacorphans="pacman -Qtdq"
+  # list files owned by package
+  alias pacql="pacman -Ql"
 
-  if [[ -x `which expac` ]]; then
-    alias pacorphans="expac "%n:%N:%d" -Q $(expac "%n %G" | grep -v ' base') | awk -F: '$2 == "" {printf "%s: %s\n", $1, $3}"
-  fi
+  # who owns this file
+  alias pacqo="pacman -Qo"
 fi
 
 if [[ -x `which aura` ]]; then

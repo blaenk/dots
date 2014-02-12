@@ -12,13 +12,13 @@ function funcpath() {
 }
 
 # label the current window/tab
-label() {
+function label() {
   print -Pn "\e]2;$1\a"
 }
 
 # print colors
 # $ clist 16
-clist(){
+function clist(){
   x=`tput op`
   y=`printf %76s`
   for i in {0..$1}
@@ -29,7 +29,7 @@ clist(){
 }
 
 # print numerical permissions before each item in ls
-lsn() {
+function lsn() {
   ls -lh --color=always $@ | \
     awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/) \
          *2^(8-i));if(k)printf("%0o ",k);print}'
@@ -41,7 +41,7 @@ alias ls='lsn'
 # move back arbitrary number of directories
 # $ cd b...
 # $ cd ../../../
-cd() {
+function cd() {
   emulate -LR zsh
 
   if [[ $1 == 'b.'* ]]; then
@@ -49,4 +49,11 @@ cd() {
   else
     builtin cd $*
   fi
+}
+
+# list pacman packages not required by another package
+# also print their package description
+function pacorphans() {
+  expac "%n:%N:%d" -Q $(expac "%n %G" | grep -v ' base') |\
+    awk -F: '$2 == "" {printf "%s: %s\n", $1, $3}'
 }
