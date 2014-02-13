@@ -529,6 +529,12 @@ let g:ctrlp_working_path_mode = 'ra'
 "   \ 'AcceptSelection("e")': ['<s-cr>']
 "   \ }
 
+if executable('ag')
+  set grepprg=ag\ -nogroup\ --nocolor
+  let g:ctrlp_user_command = 'ag %s -l --hidden --nocolor -g ""'
+  let g:ctrlp_use_caching = 0
+endif
+
 map <leader>b :CtrlPBuffer<cr>
 " }}}
 
