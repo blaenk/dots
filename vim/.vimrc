@@ -516,8 +516,9 @@ endfunction
 
 " Settings: {{{3
 let g:ctrlp_map = '<leader>f'
+let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v[\/](\.(git|hg|svn))|deploy|dist|generated|build|images$',
+  \ 'dir': '\v[\/](\.(git|hg|svn))|deploy|dist|generated|build|images|bundle|backups|tmp|undo|unite$',
   \ 'file': '\v\.(DS_Store)$',
   \ }
 let g:ctrlp_working_path_mode = 'ra'
