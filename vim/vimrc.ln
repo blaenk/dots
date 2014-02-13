@@ -593,7 +593,6 @@ filetype plugin indent on
 augroup filespecific
   autocmd!
   au BufRead,BufNewFile *.go setl noet | setl nolist
-set listchars=tab:▸\ ,eol:¬,trail:·
   au BufRead,BufNewFile *.json set ft=javascript
   au BufRead,BufNewFile *.py setl ts=4
 augroup END
