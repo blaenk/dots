@@ -337,6 +337,9 @@ vnoremap <M-c> y
 vnoremap <M-v> p
 
 imap <M-v> <C-r>+
+
+" go to end of line from insert mode
+inoremap <C-l> <ESC>A
 " }}}
 
 " Navigation: {{{2
