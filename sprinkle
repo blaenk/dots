@@ -32,8 +32,7 @@ deploy () {
 "$(tput bold)s$(tput sgr0)kip, "\
 "$(tput bold)o$(tput sgr0)verwrite, "\
 "$(tput bold)b$(tput sgr0)ackup\n"\
-"          capitalize to apply to all remaining"
-  echo ''
+"          capitalize to apply to all remaining\n"
 
   overwrite_all=false
   backup_all=false
@@ -48,11 +47,11 @@ deploy () {
       overwrite=false
       backup=false
       skip=false
+      fname="$(tput bold)`basename $dest`$(tput sgr0)"
 
       if [ "$overwrite_all" == "false" ] &&\
          [ "$backup_all" == "false" ] &&\
          [ "$skip_all" == "false" ]; then
-        fname="$(tput bold)`basename $dest`$(tput sgr0)"
         if [ ! -L $dest ]; then
           user "$fname exists non-linked:"
         else
