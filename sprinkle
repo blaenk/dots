@@ -1,26 +1,21 @@
 #!/bin/bash
-# thanks to github.com/holman/dotfiles
-
-DOTFILES_ROOT="`pwd`"
 
 set -e
 
-echo ''
-
 info () {
-  printf "  [ \033[00;34m..\033[0m ] $1"
+  printf "  $(tput setaf 4)·$(tput sgr0) $1\n"
 }
 
 user () {
-  printf "\r  [ \033[0;33m?\033[0m ] $1 "
+  printf "\r  $(tput setaf 5)?$(tput sgr0) $1 "
 }
 
 success () {
-  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+  printf "\r$(tput el)  $(tput setaf 2)+$(tput sgr0) $1\n"
 }
 
 fail () {
-  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
+  printf "\r$(tput el)  $(tput setaf 1)-$(tput sgr0) $1\n"
   echo ''
   exit
 }
@@ -30,23 +25,39 @@ link_files () {
   success "linked $1 to $2"
 }
 
-install_dotfiles () {
-  info 'installing dotfiles'
+deploy () {
+  echo ''
+  info 'sprinkling dotfiles!'
+  info "help: "\
+"$(tput bold)s$(tput sgr0)kip, "\
+"$(tput bold)o$(tput sgr0)verwrite, "\
+"$(tput bold)b$(tput sgr0)ackup\n"\
+"          capitalize to apply to all remaining"
+  echo ''
 
   overwrite_all=false
   backup_all=false
   skip_all=false
 
-  for source in `find $DOTFILES_ROOT -maxdepth 2 -name \*.ln`; do
+  cd ~/.dots
+
+  for source in `find . -maxdepth 2 -name \*.ln`; do
     dest="$HOME/.`basename \"${source%.*}\"`"
 
-    if [ -L $dest ] || [ -f $dest ] || [ -d $dest ]; then
+    if [ -e $dest ]; then
       overwrite=false
       backup=false
       skip=false
 
-      if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]; then
-        user "File already exists: `basename $source`, what do you want to do? [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+      if [ "$overwrite_all" == "false" ] &&\
+         [ "$backup_all" == "false" ] &&\
+         [ "$skip_all" == "false" ]; then
+        fname="$(tput bold)`basename $dest`$(tput sgr0)"
+        if [ ! -L $dest ]; then
+          user "$fname exists non-linked:"
+        else
+          user "$fname is already linked:"
+        fi
         read -n 1 action
 
         case "$action" in
@@ -69,18 +80,18 @@ install_dotfiles () {
 
       if [ "$overwrite" == "true" ] || [ "$overwrite_all" == "true" ]; then
         rm -rf $dest
-        success "removed $dest"
+        success "removed $fname"
       fi
 
       if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]; then
         mv $dest $dest\.bak
-        success "moved $dest to $dest.bak"
+        success "moved $fname to $fname.bak"
       fi
 
       if [ "$skip" == "false" ] && [ "$skip_all" == "false" ]; then
         link_files $source $dest
       else
-        success "skipped $source"
+        success "skipped $fname"
       fi
 
     else
@@ -89,5 +100,5 @@ install_dotfiles () {
   done
 }
 
-install_dotfiles
+deploy
 

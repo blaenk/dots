@@ -5,6 +5,9 @@ alias ta="tmux a -t"
 # ;)
 alias ":q"="exit"
 
+# sprinkle the dots!
+alias sprinkle="~/.dots/sprinkle"
+
 # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
 alias sudo='sudo '
 
