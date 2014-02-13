@@ -1,13 +1,13 @@
-vim/vim.ln/bundle
-vim/vim.ln/bundle/*
-vim/vim.ln/unite
+vim/.vim/bundle
+vim/.vim/bundle/*
+vim/.vim/unite
 .DS_Store
-vim/vim.ln/.VimballRecord
-vim/vim.ln/.netrwhist
+vim/.vim/.VimballRecord
+vim/.vim/.netrwhist
 zsh/zsh/antigen
 
-xmonad/xmonad.ln/history
-xmonad/xmonad.ln/xmonad-x86_64-linux
-xmonad/xmonad.ln/xmonad.errors
-xmonad/xmonad.ln/xmonad.hi
-xmonad/xmonad.ln/xmonad.o
+xmonad/.xmonad/history
+xmonad/.xmonad/xmonad-x86_64-linux
+xmonad/.xmonad/xmonad.errors
+xmonad/.xmonad/xmonad.hi
+xmonad/.xmonad/xmonad.o

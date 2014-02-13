@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DOTFILES=~/.dots
+
 set -e
 
 info () {
@@ -16,13 +18,11 @@ success () {
 
 fail () {
   printf "\r$(tput el)  $(tput setaf 1)-$(tput sgr0) $1\n"
-  echo ''
-  exit
 }
 
 link_files () {
   ln -s $1 $2
-  success "linked $1 to $2"
+  success "linked $1 → $2"
 }
 
 deploy () {
@@ -38,12 +38,13 @@ deploy () {
   backup_all=false
   skip_all=false
 
-  cd ~/.dots
+  cd $DOTFILES
 
-  for source in `find . -maxdepth 2 -name \*.ln`; do
-    dest="$HOME/.`basename \"${source%.*}\"`"
+  dots="`pwd`"
+  for src in `find "$dots" -mindepth 1 -maxdepth 2  -name .\* ! -path "$dots/.git*"`; do
+    dest="$HOME/`basename \"$src\"`"
 
-    if [ -e $dest ]; then
+    if [ -e $dest ] || [ -L $dest ]; then
       overwrite=false
       backup=false
       skip=false
@@ -55,7 +56,7 @@ deploy () {
         if [ ! -L $dest ]; then
           user "$fname exists non-linked:"
         else
-          user "$fname is already linked:"
+          user "$fname is already linked to `readlink -mn \"$dest\"`:"
         fi
         read -n 1 action
 
@@ -79,7 +80,7 @@ deploy () {
 
       if [ "$overwrite" == "true" ] || [ "$overwrite_all" == "true" ]; then
         rm -rf $dest
-        success "removed $fname"
+        fail "removed $fname"
       fi
 
       if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]; then
@@ -88,13 +89,13 @@ deploy () {
       fi
 
       if [ "$skip" == "false" ] && [ "$skip_all" == "false" ]; then
-        link_files $source $dest
+        link_files $src $dest
       else
         success "skipped $fname"
       fi
 
     else
-      link_files $source $dest
+      link_files $src $dest
     fi
   done
 }
