@@ -45,7 +45,7 @@ function cd() {
   emulate -LR zsh
 
   if [[ $1 == 'b.'* ]]; then
-    builtin cd ${${1//"b"/""}//"."/"../"}
+    builtin cd ${${1/"b"}//"."/"../"}
   else
     builtin cd $*
   fi
