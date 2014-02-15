@@ -520,8 +520,9 @@ endfunction
 " Settings: {{{3
 let g:ctrlp_map = '<leader>f'
 let g:ctrlp_show_hidden = 1
+" this is ignored since we're using ag
 let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v[\/](\.(git|hg|svn))|deploy|dist|generated|build|images|bundle|backups|tmp|undo|unite$',
+  \ 'dir': '\v[\/]((\.(git|hg|svn))|build)$',
   \ 'file': '\v\.(DS_Store)$',
   \ }
 let g:ctrlp_working_path_mode = 'ra'
@@ -534,7 +535,7 @@ let g:ctrlp_working_path_mode = 'ra'
 
 if executable('ag')
   set grepprg=ag\ -nogroup\ --nocolor
-  let g:ctrlp_user_command = 'ag %s -l --hidden --nocolor -g ""'
+  let g:ctrlp_user_command = 'ag %s -l --hidden --nocolor --ignore-dir .git -g ""'
   let g:ctrlp_use_caching = 0
 endif
 
