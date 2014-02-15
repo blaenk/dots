@@ -57,3 +57,21 @@ function pacorphans() {
   expac "%n:%N:%d" -Q $(expac "%n %G" | grep -v ' base') |\
     awk -F: '$2 == "" {printf "%s: %s\n", $1, $3}'
 }
+
+# what is my ip? useful for syncplay and mumble
+# $ ip get
+#   copied <ip> to clipboard
+function ip() {
+  emulate -LR zsh
+
+  if [[ $1 == 'get' ]]; then
+    res=$(curl -s ipinfo.io/ip)
+    echo -n $res | xsel --clipboard
+    echo "copied $res to clipboard"
+  else
+    # only run ip if it exists
+    if (( $+commands[ip] )); then
+      command ip $*
+    fi
+  fi
+}
