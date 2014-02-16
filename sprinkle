@@ -67,6 +67,7 @@ function deploy() {
           # skip prompt if already deployed
           if [ "$link" == "$src" ]; then
             action=s
+            deployed=true
           else
             user "$fname is already linked to $link:"
             read -n 1 action
@@ -104,7 +105,7 @@ function deploy() {
       if [ "$skip" == "false" ] && [ "$skip_all" == "false" ]; then
         link_files $src $dest
       else
-        if [ "$action" == "s" ]; then
+        if [ "$deployed" == "true" ]; then
           info "$fname already deployed"
         else
           info "skipped $fname"
