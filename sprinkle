@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOTFILES=~/.dots
+DOTPATH=~/.dots
 
 set -e
 
@@ -27,7 +27,7 @@ link_files () {
 
 deploy () {
   echo ''
-  info 'sprinkling dotfiles!'
+  info 'sprinkling dots!'
   info "help: "\
 "$(tput bold)s$(tput sgr0)kip, "\
 "$(tput bold)o$(tput sgr0)verwrite, "\
@@ -38,10 +38,7 @@ deploy () {
   backup_all=false
   skip_all=false
 
-  cd $DOTFILES
-
-  dots="`pwd`"
-  for src in `find "$dots" -mindepth 1 -maxdepth 2  -name .\* ! -path "$dots/.git*"`; do
+  for src in `find "$DOTPATH" -mindepth 1 -maxdepth 2  -name .\* ! -path "$DOTPATH/.git*"`; do
     dest="$HOME/`basename \"$src\"`"
 
     if [ -e $dest ] || [ -L $dest ]; then
@@ -84,7 +81,7 @@ deploy () {
       fi
 
       if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]; then
-        mv $dest $dest\.bak
+        mv $dest{,.bak}
         success "moved $fname to $fname.bak"
       fi
 
