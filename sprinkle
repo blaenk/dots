@@ -1,33 +1,41 @@
 #!/bin/bash
 
-DOTPATH=~/.dots
-
 set -e
 
-info () {
-  printf "  $(tput setaf 4)·$(tput sgr0) $1\n"
+# determine path to dots dir
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DOTPATH="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+# utility functions
+function info() {
+  printf "\r$(tput el)  $(tput setaf 4)·$(tput sgr0) $1\n"
 }
 
-user () {
+function user() {
   printf "\r  $(tput setaf 5)?$(tput sgr0) $1 "
 }
 
-success () {
+function success() {
   printf "\r$(tput el)  $(tput setaf 2)+$(tput sgr0) $1\n"
 }
 
-fail () {
+function fail() {
   printf "\r$(tput el)  $(tput setaf 1)-$(tput sgr0) $1\n"
 }
 
-link_files () {
+function link_files() {
   ln -s $1 $2
   success "linked $1 → $2"
 }
 
-deploy () {
+function deploy() {
   echo ''
-  info 'sprinkling dots!'
+  info "sprinkling dots from $DOTPATH!"
   info "help: "\
 "$(tput bold)s$(tput sgr0)kip, "\
 "$(tput bold)o$(tput sgr0)verwrite, "\
@@ -38,7 +46,7 @@ deploy () {
   backup_all=false
   skip_all=false
 
-  for src in `find "$DOTPATH" -mindepth 1 -maxdepth 2  -name .\* ! -path "$DOTPATH/.git*"`; do
+  for src in `find "$DOTPATH" -mindepth 2 -maxdepth 2  -name .\* ! -path "$DOTPATH/.git*"`; do
     dest="$HOME/`basename \"$src\"`"
 
     if [ -e $dest ] || [ -L $dest ]; then
@@ -52,10 +60,18 @@ deploy () {
          [ "$skip_all" == "false" ]; then
         if [ ! -L $dest ]; then
           user "$fname exists non-linked:"
+          read -n 1 action
         else
-          user "$fname is already linked to `readlink -mn \"$dest\"`:"
+          link=`readlink -mn "$dest"`
+
+          # skip prompt if already deployed
+          if [ "$link" == "$src" ]; then
+            action=s
+          else
+            user "$fname is already linked to $link:"
+            read -n 1 action
+          fi
         fi
-        read -n 1 action
 
         case "$action" in
           o )
@@ -88,7 +104,11 @@ deploy () {
       if [ "$skip" == "false" ] && [ "$skip_all" == "false" ]; then
         link_files $src $dest
       else
-        success "skipped $fname"
+        if [ "$action" == "s" ]; then
+          info "$fname already deployed"
+        else
+          info "skipped $fname"
+        fi
       fi
 
     else
