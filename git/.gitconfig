@@ -17,7 +17,7 @@
   dfcw = diff --cached --word-diff
   dft = difftool
   dftc = difftool --cached
-  lg = log --graph --oneline --format='%Cgreen%h %Cred%aN%Cblue%d %Creset%s %C(yellow)(%cr)%Creset'
+  lg = log --graph --oneline --format='%C(green)%h%C(cyan)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%cr%Creset'
   mrg = merge
   pl = pull
   ps = push
@@ -41,4 +41,4 @@
 [push]
   default = simple
 [github]
-	user = blaenk
+  user = blaenk
