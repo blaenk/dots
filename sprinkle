@@ -37,14 +37,16 @@ function deploy() {
   echo ''
   info "sprinkling dots from $DOTPATH!"
   info "help: "\
-"$(tput bold)s$(tput sgr0)kip, "\
+"$(tput bold)b$(tput sgr0)ackup, "\
 "$(tput bold)o$(tput sgr0)verwrite, "\
-"$(tput bold)b$(tput sgr0)ackup\n"\
+"$(tput bold)r$(tput sgr0)emove, "\
+"$(tput bold)s$(tput sgr0)kip\n"\
 "          capitalize to apply to all remaining\n"
 
   overwrite_all=false
   backup_all=false
   skip_all=false
+  remove_all=false
 
   for src in `find "$DOTPATH" -mindepth 2 -maxdepth 2  -name .\* ! -path "$DOTPATH/.git*"`; do
     dest="$HOME/`basename \"$src\"`"
@@ -53,26 +55,21 @@ function deploy() {
       overwrite=false
       backup=false
       skip=false
+      remove=false
       fname="$(tput bold)`basename $dest`$(tput sgr0)"
 
       if [ "$overwrite_all" == "false" ] &&\
          [ "$backup_all" == "false" ] &&\
+         [ "$remove_all" == "false" ] &&\
          [ "$skip_all" == "false" ]; then
         if [ ! -L $dest ]; then
           user "$fname exists non-linked:"
-          read -n 1 action
         else
           link=`readlink -mn "$dest"`
-
-          # skip prompt if already deployed
-          if [ "$link" == "$src" ]; then
-            action=s
-            deployed=true
-          else
-            user "$fname is already linked to $link:"
-            read -n 1 action
-          fi
+          user "$fname is already linked to $link:"
         fi
+
+        read -n 1 action
 
         case "$action" in
           o )
@@ -87,29 +84,33 @@ function deploy() {
             skip=true;;
           S )
             skip_all=true;;
+          r )
+            remove=true;;
+          R )
+            remove_all=true;;
           * )
             ;;
         esac
       fi
 
-      if [ "$overwrite" == "true" ] || [ "$overwrite_all" == "true" ]; then
-        rm -rf $dest
-        fail "removed $fname"
-      fi
-
-      if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]; then
-        mv $dest{,.bak}
-        success "moved $fname to $fname.bak"
-      fi
-
       if [ "$skip" == "false" ] && [ "$skip_all" == "false" ]; then
-        link_files $src $dest
-      else
-        if [ "$deployed" == "true" ]; then
-          info "$fname already deployed"
-        else
-          info "skipped $fname"
+        if [ "$overwrite" == "true" ] || [ "$overwrite_all" == "true" ] ||\
+           [ "$remove" == "true" ] || [ "$remove_all" == "true" ]; then
+          rm -rf $dest
+          fail "removed $fname"
         fi
+
+        if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]; then
+          mv $dest{,.bak}
+          success "moved $fname to $fname.bak"
+        fi
+
+        if [ "$overwrite" == "true" ] || [ "$overwrite_all" == "true" ] ||\
+           [ "$backup" == "true" ] || [ "$backup_all" == "true" ]; then
+          link_files $src $dest
+        fi
+      else
+        info "skipped $fname"
       fi
 
     else
