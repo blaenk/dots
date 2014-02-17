@@ -30,7 +30,7 @@ function fail() {
 
 function link_files() {
   ln -s $1 $2
-  success "linked $1 → $2"
+  success "linked $1 $(tput setaf 2)→$(tput sgr0) $2"
 }
 
 function deploy() {
