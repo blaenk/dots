@@ -1,6 +1,6 @@
 # open man page and jump to specific option
-# $ manopt ls -l
-function manopt() {
+# $ manf ls -l
+function manf() {
   man -P "less -p \"^ +$2\"" $1
 }
 
@@ -29,14 +29,11 @@ function clist(){
 }
 
 # print numerical permissions before each item in ls
-function lsn() {
-  ls -lh --color=always $@ | \
+function ls() {
+  command ls -lh --color=always $@ | \
     awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/) \
          *2^(8-i));if(k)printf("%0o ",k);print}'
 }
-
-# numerical permissions
-alias ls='lsn'
 
 # move back arbitrary number of directories
 # $ cd b...

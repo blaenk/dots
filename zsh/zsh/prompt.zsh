@@ -31,7 +31,6 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 function virtual_env() {
   if [[ -n $VIRTUAL_ENV ]]; then
-    # echo " %{$fg[green]%}{%{$reset_color%}%{$fg[green]%}}%{$reset_color%}"
     echo " %{$fg[green]%}ENV%{$reset_color%}"
   fi
 }
