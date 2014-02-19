@@ -1,5 +1,7 @@
 URxvt.internalBorder: 1
 URxvt.geometry: 100x25
+! make tput bold actually be bold font, not just different color
+URxvt.intensityStyles: false
 URxvt.urgentOnBell: true
 URxvt.saveLines: 1000
 URxvt.font: xft:DejaVu Sans Mono:size=10
