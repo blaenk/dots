@@ -3,11 +3,17 @@ setopt prompt_subst
 
 # prompt
 LAMBDA="%{$fg[blue]%}λ%{$reset_color%}"
-ARROW="%{$fg[cyan]%}»%{$reset_color%}"
-LEFT_ARROW="%{$fg_bold[red]%}VI %{$reset_color%}"
-SLASH="%{$fg[cyan]%}/%{$reset_color%}"
+
+function arrow() {
+  if [[ $KEYMAP = "vicmd" ]]; then
+    echo "%{$fg[magenta]%}»%{$reset_color%}"
+  else
+    echo "%{$fg[cyan]%}»%{$reset_color%}"
+  fi
+}
 
 function color_path() {
+  SLASH="%{$fg[cyan]%}/%{$reset_color%}"
   echo "${${PWD/#$HOME/~}//\//$SLASH}"
 }
 
@@ -37,5 +43,5 @@ function virtual_env() {
 
 PROMPT='
 $LAMBDA $(color_path)$(vcs)$(virtual_env)$SSH
-$(vimode)$ARROW '
+$(arrow) '
 

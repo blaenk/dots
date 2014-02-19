@@ -8,10 +8,23 @@ function accept_line {
   builtin zle .accept-line
 }
 
-function zle-keymap-select { zle reset-prompt }
+function zle-keymap-select {
+  zle reset-prompt
+
+  if [[ $KEYMAP = "vicmd" ]]; then
+    echo -ne "\033]12;10\007"
+  else
+    echo -ne "\033]12;6\007"
+  fi
+}
+
+function zle-line-finish {
+  echo -ne "\033]12;6\007"
+}
 
 autoload -U edit-command-line
 zle -N zle-keymap-select
+zle -N zle-line-finish
 zle -N accept_line
 zle -N edit-command-line
 
