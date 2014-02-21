@@ -38,6 +38,7 @@ set undodir=~/.vim/undo
 set directory=~/.vim/tmp
 set tags=./tags;
 
+set display=lastline
 set backspace=indent,eol,start
 set laststatus=2
 set expandtab
@@ -396,10 +397,13 @@ nnoremap <silent> <leader>u :GundoToggle<CR>
 
 " Pandoc: {{{2
 let g:pantondoc_use_pandoc_markdown = 1
-let g:pantondoc_formatting_settings = 's'
+
+let g:pantondoc_enabled_modules = [
+  \"folding"
+  \]
+
 let g:pandoc_use_embeds_in_codeblocks_for_langs = []
 let g:pandoc_no_empty_implicits = 1
-
 let g:pandoc_syntax_dont_use_conceal_for_rules = [
   \"titleblock",
   \"image",
@@ -421,7 +425,7 @@ let g:UltiSnipsSnippetDirectories = ["snippets"]
 
 " make UltiSnips and YCM play nice
 function! g:UltiSnips_Complete()
-  call UltiSnips_ExpandSnippet()
+  call UltiSnips#ExpandSnippet()
   if g:ulti_expand_res == 0
     if pumvisible()
       return "\<C-n>"
