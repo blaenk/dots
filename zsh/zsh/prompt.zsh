@@ -1,47 +1,47 @@
 # prompt
 setopt prompt_subst
 
-# prompt
-LAMBDA="%{$fg[blue]%}λ%{$reset_color%}"
+# mode-aware arrow
 
-function arrow() {
+function arrow {
   if [[ $KEYMAP = "vicmd" ]]; then
-    echo "%{$fg[magenta]%}»%{$reset_color%}"
+    echo "%F{magenta}»%f"
   else
-    echo "%{$fg[cyan]%}»%{$reset_color%}"
+    echo "%F{cyan}»%f"
   fi
 }
 
-function color_path() {
-  SLASH="%{$fg[cyan]%}/%{$reset_color%}"
-  echo "${${PWD/#$HOME/~}//\//$SLASH}"
+# colored path
+
+function colored_path {
+  local slash
+  slash="%F{cyan}/%f"
+  echo "${${PWD/#$HOME/~}//\//$slash}"
 }
 
-function vimode() {
-  echo "${${KEYMAP/vicmd/$LEFT_ARROW}/(main|viins)/}"
+# remote host
+# not a function since, if it's a SSH session,
+# it's bound to stay an SSH session, might as
+# well not recompute each time
+
+[[ -n $SSH_CONNECTION ]] && SSHP=" %F{green}R%f"
+
+# git info
+
+function vcs {
+  vcs_info
+  echo $vcs_info_msg_0_
 }
 
-if [[ -n $SSH_CONNECTION ]]; then
-  SSH=" %{$fg[green]%}R%{$reset_color%}"
-fi
-
-function vcs() {
-  res=${vcs_info_msg_0_}
-
-  if [[ -n $res ]]; then
-    echo " ${res}"
-  fi
-}
+# virtualenv
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-function virtual_env() {
-  if [[ -n $VIRTUAL_ENV ]]; then
-    echo " %{$fg[green]%}ENV%{$reset_color%}"
-  fi
+function venv {
+  [[ -n $VIRTUAL_ENV ]] && echo " %F{green}ENV%f"
 }
 
 PROMPT='
-$LAMBDA $(color_path)$(vcs)$(virtual_env)$SSH
+%F{blue}λ%f $(colored_path)$(vcs)$(venv)$SSHP
 $(arrow) '
 

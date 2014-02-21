@@ -11,7 +11,7 @@ COLON="%{$fg[cyan]%}:%{$reset_color%}"
 SPACE=" "
 DELIM=$SPACE
 
-VCS_PROMPT="$VCS_PRE%b%u%c$VCS_SUF%m"
+VCS_PROMPT=" $VCS_PRE%b%u%c$VCS_SUF%m"
 AVCS_PROMPT="$VCS_PROMPT$AVCS_PRE%a$AVCS_SUF"
 
 zstyle ':vcs_info:*' check-for-changes true
@@ -21,7 +21,6 @@ zstyle ':vcs_info:*' formats $VCS_PROMPT
 zstyle ':vcs_info:*' actionformats $AVCS_PROMPT
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:git*+set-message:*' hooks git-aheadbehind git-untracked git-message
-precmd() { vcs_info }
 
 ### git: Show +N/-N when your local branch is ahead-of or behind remote HEAD.
 # Make sure you have added misc to your 'formats':  %m

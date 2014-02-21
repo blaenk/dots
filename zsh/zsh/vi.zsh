@@ -1,13 +1,5 @@
 # key bindings
 
-function accept_line {
-  if [[ -n "$rprompt_cached" ]]; then
-    RPROMPT="$rprompt_cached"
-    rprompt_cached=""
-  fi
-  builtin zle .accept-line
-}
-
 function zle-keymap-select {
   zle reset-prompt
 
@@ -19,17 +11,17 @@ function zle-keymap-select {
 }
 
 function zle-line-finish {
+  zle reset-prompt
+
   echo -ne "\033]12;6\007"
 }
 
 autoload -U edit-command-line
 zle -N zle-keymap-select
 zle -N zle-line-finish
-zle -N accept_line
 zle -N edit-command-line
 
 bindkey -v
-bindkey -M vicmd "^M" accept_line # Alow RETURN in vi command.
 bindkey -M vicmd v edit-command-line # ESC-v to edit in an external editor.
 
 bindkey ' ' magic-space 
@@ -57,7 +49,8 @@ bindkey -M viins "^H" backward-delete-char  # vi-backward-delete-char
 bindkey -M viins "^U" backward-kill-line             # vi-kill-line
 bindkey -M viins "^?" backward-delete-char  # vi-backward-delete-char
 
-bindkey -M isearch "^P" history-incremental-search-backward # allow interactive incr search, ^G or ^C to exit
+# allow interactive incr search, ^G or ^C to exit
+bindkey -M isearch "^P" history-incremental-search-backward
 bindkey -M isearch "^N" history-incremental-search-forward
 
 bindkey -M menuselect "^M" .accept-line
