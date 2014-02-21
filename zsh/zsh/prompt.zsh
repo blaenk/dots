@@ -40,7 +40,7 @@ function p_envs {
   local cabal
   cabal=( (../)#cabal.sandbox.config(N) )
 
-  [[ -n $SSH_CONNECTION ]] && envs+="S"
+  [[ -n $SSH_CONNECTION ]] && envs+="R"
   [[ -n $VIRTUAL_ENV ]] && envs+="P"
   (( $#cabal )) && envs+="H"
 
