@@ -422,25 +422,12 @@ let g:pandoc_syntax_dont_use_conceal_for_rules = [
 
 " UltiSnips: {{{2
 let g:UltiSnipsSnippetDirectories = ["snippets"]
-
-" make UltiSnips and YCM play nice
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res == 0
-    if pumvisible()
-      return "\<C-n>"
-    else
-      return "\<TAB>"
-    endif
-  endif
-  return ""
-endfunction
-
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+let g:UltiSnipsExpandTrigger = '<C-p>'
 " }}}
 
 " YCM: {{{2
 let g:ycm_filetype_whitelist = {'cpp': 1, 'c': 1}
+let g:ycm_key_list_select_completion = ['<C-y>', '<Down>']
 " }}}
 
 " GitGutter: {{{2
