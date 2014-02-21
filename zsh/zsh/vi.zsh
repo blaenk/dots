@@ -53,6 +53,7 @@ bindkey -M viins "^?" backward-delete-char  # vi-backward-delete-char
 bindkey -M isearch "^P" history-incremental-search-backward
 bindkey -M isearch "^N" history-incremental-search-forward
 
-bindkey -M menuselect "^M" .accept-line
-bindkey -M menuselect "^G" accept-line
+bindkey -M menuselect "^M" .accept-line # enter command by default
+bindkey -M menuselect "^G" accept-line # accept completion, don't enter
+bindkey -M menuselect "+" accept-and-menu-complete # accept completion, stay in menu
 bindkey -M menuselect "^[[Z" reverse-menu-complete
