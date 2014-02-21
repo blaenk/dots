@@ -4,7 +4,7 @@ function zle-keymap-select {
   zle reset-prompt
 
   if [[ $KEYMAP = "vicmd" ]]; then
-    echo -ne "\033]12;10\007"
+    echo -ne "\033]12;5\007"
   else
     echo -ne "\033]12;6\007"
   fi
