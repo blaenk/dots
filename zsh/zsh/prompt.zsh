@@ -14,8 +14,7 @@ function p_arrow {
 # colored path
 
 function p_colored_path {
-  local slash
-  slash="%F{cyan}/%f"
+  local slash="%F{cyan}/%f"
   echo "${${PWD/#$HOME/~}//\//$slash}"
 }
 
@@ -34,15 +33,14 @@ function p_vcs {
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 function p_envs {
-  local envs
-
   # check for cabal sandbox in parent directories, recursively
   local cabal
   cabal=( (../)#cabal.sandbox.config(N) )
 
+  local envs
   [[ -n $SSH_CONNECTION ]] && envs+="R"
-  [[ -n $VIRTUAL_ENV ]] && envs+="P"
-  (( $#cabal )) && envs+="H"
+  (( $#cabal ))            && envs+="H"
+  [[ -n $VIRTUAL_ENV ]]    && envs+="P"
 
   [[ -n $envs ]] && echo " %F{green}[%f$envs%F{green}]%f"
 }
