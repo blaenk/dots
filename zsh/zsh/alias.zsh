@@ -4,7 +4,7 @@ alias ta="tmux a -t"
 
 # ;)
 alias ":q"="exit"
-alias ":qa"="tmux confirm-before kill-session"
+alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'
 
 # sprinkle the dots!
 alias sprinkle="~/.dots/sprinkle"
