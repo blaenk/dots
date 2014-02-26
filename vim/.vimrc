@@ -31,7 +31,8 @@ source ~/.vim/conf/bundles.vim
 " }}}
 
 " Settings: {{{
-set backup
+" don't allow files with the same name to overwrite each other
+set writebackup
 set backupdir=~/.vim/backups
 set undofile
 set undodir=~/.vim/undo

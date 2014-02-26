@@ -12,6 +12,9 @@ alias sprinkle="~/.dots/sprinkle"
 # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
 alias sudo='sudo '
 
+# prompt if deleting more than 3 files
+alias rm='rm -I'
+
 if [[ -x `which pacman` ]]; then
   alias pacup="sudo pacman -Syu"
   alias pacin="sudo pacman -S"
