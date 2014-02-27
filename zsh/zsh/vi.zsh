@@ -58,3 +58,6 @@ bindkey -M menuselect "^M" .accept-line # enter command by default
 bindkey -M menuselect "^G" accept-line # accept completion, don't enter
 bindkey -M menuselect "+" accept-and-menu-complete # accept completion, stay in menu
 bindkey -M menuselect "^[[Z" reverse-menu-complete
+
+bindkey -M menuselect "^P" reverse-menu-complete
+bindkey -M menuselect "^N" menu-complete
