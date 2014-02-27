@@ -38,9 +38,9 @@ function p_envs {
   cabal=( (../)#cabal.sandbox.config(N) )
 
   local envs
-  [[ -n $SSH_CONNECTION ]] && envs+="R"
-  (( $#cabal ))            && envs+="H"
-  [[ -n $VIRTUAL_ENV ]]    && envs+="P"
+  [[ -n $SSH_CLIENT ]]  && envs+="R"
+  (( $#cabal ))         && envs+="H"
+  [[ -n $VIRTUAL_ENV ]] && envs+="P"
 
   [[ -n $envs ]] && echo " %F{green}[%f$envs%F{green}]%f"
 }
