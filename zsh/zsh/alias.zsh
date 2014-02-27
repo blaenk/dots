@@ -1,6 +1,7 @@
 # tmux
 alias t="tmux"
 alias ta="tmux a -t"
+alias tmr="tmux a -rt"
 
 # ;)
 alias ":q"="exit"
