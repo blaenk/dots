@@ -422,7 +422,7 @@ let g:pandoc_syntax_dont_use_conceal_for_rules = [
 " }}}
 
 " UltiSnips: {{{2
-let g:UltiSnipsSnippetDirectories = ["snippets"]
+let g:UltiSnipsSnippetDirectories = ["snips"]
 let g:UltiSnipsExpandTrigger = '<C-p>'
 " }}}
 
