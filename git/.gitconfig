@@ -1,6 +1,6 @@
 [user]
   name = Jorge Israel Peña
-  email = jorgepblank@gmail.com
+  email = jorge.israel.p@gmail.com
 [core]
   editor = vim
   pager = less -+$LESS -FRX
@@ -17,6 +17,7 @@
   dfcw = diff --cached --word-diff
   dft = difftool
   dftc = difftool --cached
+  gr = grep --break --heading --line-number
   lg = log --graph --oneline --format='%C(green)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%cr%Creset'
   mrg = merge
   pl = pull
@@ -40,5 +41,8 @@
   prompt = false
 [push]
   default = simple
+[grep]
+  extendRegexp = true
+  lineNumber = true
 [github]
   user = blaenk
