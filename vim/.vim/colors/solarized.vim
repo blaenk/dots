@@ -858,10 +858,6 @@ exe "hi! pandocTitleBlockTitle"          .s:fg_blue   .s:bg_none   .s:fmt_bold
 exe "hi! pandocTitleComment"             .s:fg_blue   .s:bg_none   .s:fmt_bold
 exe "hi! pandocComment"                  .s:fg_base01 .s:bg_none   .s:fmt_ital
 exe "hi! pandocVerbatimBlock"            .s:fg_yellow .s:bg_none   .s:fmt_none
-exe "hi! pandocDelimitedCodeBlock"       .s:fmt_none   .s:fg_base0  .s:bg_back
-hi! link pandocVerbatimBlockDeep         pandocVerbatimBlock
-hi! link pandocCodeBlock                 pandocVerbatimBlock
-hi! link pandocCodeBlockDelim            pandocVerbatimBlock
 exe "hi! pandocBlockQuote"               .s:fg_blue   .s:bg_none   .s:fmt_none
 exe "hi! pandocBlockQuoteLeader1"        .s:fg_blue   .s:bg_none   .s:fmt_none
 exe "hi! pandocBlockQuoteLeader2"        .s:fg_cyan   .s:bg_none   .s:fmt_none

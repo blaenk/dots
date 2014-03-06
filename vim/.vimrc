@@ -404,6 +404,7 @@ let g:pantondoc_enabled_modules = [
   \]
 
 let g:pandoc_no_empty_implicits = 1
+let g:pandoc_syntax_ignore_codeblocks = ['definition', 'delimited']
 let g:pandoc_syntax_dont_use_conceal_for_rules = [
   \"titleblock",
   \"image",
