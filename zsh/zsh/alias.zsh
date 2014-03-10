@@ -37,6 +37,6 @@ if [[ -x `which pacman` ]]; then
 fi
 
 if [[ -x `which aura` ]]; then
-  alias aura="sudo aura -x"
+  alias aura="aura -x"
   alias auru="sudo aura -Ayu"
 fi
