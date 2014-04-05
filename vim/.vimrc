@@ -21,10 +21,10 @@ set background=light
 colorscheme solarized
 " }}}
 
-" Vundle: {{{
-" awesome trick by github.com/rson
-if !isdirectory(expand("~/.vim/bundle/vundle/.git"))
-  !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+" Vundle Bootstrap: {{{
+if !isdirectory(expand("~/.vim/bundle/vundle"))
+  call mkdir(expand("~/.vim/bundle", 'p'))
+  exe '!git clone https://github.com/gmarik/vundle "' . expand("~/.vim/bundle/vundle") . '"'
 endif
 
 source ~/.vim/conf/bundles.vim
@@ -458,8 +458,8 @@ let g:ctrlp_working_path_mode = 'ra'
 "   \ }
 
 if executable('ag')
-  set grepprg=ag\ -nogroup\ --nocolor
-  let g:ctrlp_user_command = 'ag %s -l --hidden --nocolor --ignore-dir .git -g ""'
+  set grepprg=ag\ --nogroup\ --nocolor
+  let g:ctrlp_user_command = 'ag -l --hidden --nocolor --ignore-dir .git . %s'
   let g:ctrlp_use_caching = 0
 endif
 

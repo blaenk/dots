@@ -10,7 +10,6 @@ Bundle 'gmarik/vundle'
 "   sort i /\/\zs.\+\ze'/ r
 
 Bundle 'a.vim'
-Bundle 'vim-scripts/a.vim'
 Bundle 'rking/ag.vim'
 Bundle 'msanders/cocoa.vim'
 Bundle 'kien/ctrlp.vim'
@@ -19,7 +18,7 @@ Bundle 'mattn/gist-vim'
 Bundle 'sjl/gundo.vim'
 Bundle 'yurifury/hexHighlight'
 Bundle 'ddollar/nerdcommenter'
-Bundle 'vim-scripts/python.vim--Vasiliev'
+Bundle 'python.vim--Vasiliev'
 Bundle 'kien/rainbow_parentheses.vim'
 Bundle 'wting/rust.vim'
 Bundle 'cakebaker/scss-syntax.vim'
@@ -37,7 +36,7 @@ Bundle 'vim-pandoc/vim-pantondoc'
 Bundle 'derekwyatt/vim-scala'
 Bundle 'Shougo/vimproc.vim'
 Bundle 'mattn/webapi-vim'
-Bundle 'vim-scripts/yaml.vim'
+Bundle 'yaml.vim'
 
 if has('unix')
   if empty($SSH_CONNECTION)
