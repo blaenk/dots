@@ -22,11 +22,6 @@ colorscheme solarized
 " }}}
 
 " Vundle Bootstrap: {{{
-if !isdirectory(expand("~/.vim/bundle/vundle"))
-  call mkdir(expand("~/.vim/bundle", 'p'))
-  exe '!git clone https://github.com/gmarik/vundle "' . expand("~/.vim/bundle/vundle") . '"'
-endif
-
 source ~/.vim/conf/bundles.vim
 " }}}
 
