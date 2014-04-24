@@ -5,6 +5,7 @@
   editor = vim
   pager = less -+$LESS -FRX
 [alias]
+  au = add -u
   br = branch
   bs = bisect
   ci = commit
