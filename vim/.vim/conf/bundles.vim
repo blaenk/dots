@@ -46,6 +46,7 @@ if has('unix')
 endif
 
 " tpope chorus
+Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-ragtag'
