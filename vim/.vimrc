@@ -455,7 +455,7 @@ endif
 
 let g:ctrlp_user_command = [
   \ '.git',
-  \ 'cd %s && git ls-files . -co --exclude-standard',
+  \ 'git --git-dir=%s/.git ls-files -co --exclude-standard',
   \ s:ctrlp_fallback
   \ ]
 
