@@ -439,24 +439,25 @@ nnoremap <leader>g :GitGutterToggle<CR>
 " Settings: {{{3
 let g:ctrlp_map = '<leader>f'
 let g:ctrlp_show_hidden = 1
-" this is ignored since we're using ag
+
 let g:ctrlp_custom_ignore = {
   \ 'dir': '\v[\/]((\.(git|hg|svn))|build)$',
   \ 'file': '\v\.(DS_Store)$',
   \ }
-let g:ctrlp_working_path_mode = 'ra'
-" let g:ctrlp_open_new_file = 't'
-" let g:ctrlp_open_multiple_files = 't'
-" let g:ctrlp_prompt_mappings = {
-"   \ 'AcceptSelection("t")': ['<cr>'],
-"   \ 'AcceptSelection("e")': ['<s-cr>']
-"   \ }
 
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-  let g:ctrlp_user_command = 'ag -l --hidden --nocolor --ignore-dir .git . %s'
-  let g:ctrlp_use_caching = 0
+let g:ctrlp_working_path_mode = 'ra'
+
+let s:ctrlp_fallback = 'find %s -type f'
+
+if has('win32')
+  let s:ctrlp_fallback = 'dir %s /-n /b /s /a-d'
 endif
+
+let g:ctrlp_user_command = [
+  \ '.git',
+  \ 'cd %s && git ls-files . -co --exclude-standard',
+  \ s:ctrlp_fallback
+  \ ]
 
 map <leader>b :CtrlPBuffer<cr>
 " }}}
