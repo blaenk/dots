@@ -1,5 +1,6 @@
 # tmux
 alias t="tmux"
+alias tn="tmux new -s"
 alias ta="tmux a -t"
 alias tmr="tmux a -rt"
 
