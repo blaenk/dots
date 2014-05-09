@@ -23,8 +23,8 @@
   mrg = merge
   pl = pull
   ps = push
-  rem = remote
-  rh = reset --hard HEAD
+  re = remote
+  rh = reset --hard
   rup = remote update
   sb = status -sb
   sh = stash
