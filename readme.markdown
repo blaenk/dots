@@ -40,4 +40,17 @@ If you use urxvt, you'll want to merge the `.Xresources` into your `xrdb` to use
 $ xrdb -merge ~/.Xresources
 ```
 
+#### Command Not Found
+
+You can get functionality where, if you enter a command that's not installed on your system, zsh will tell you which package it _is_ available in, if it finds it in some package. This is available for Ubuntu and Archlinux.
+
+On arch, you'll have to install `pkgfile` and then generate the metadata needed for this:
+
+``` bash
+$ sudo pacman -S pkgfile
+$ sudo pkgfile -u
+$ abiword
+abiword may be found in the following packages:
+  extra/abiword 3.0.0-2 /usr/bin/abiword
+```
 
