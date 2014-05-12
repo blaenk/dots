@@ -21,6 +21,7 @@ if [[ -x `which pacman` ]]; then
   alias pacup="sudo pacman -Syu"
   alias pacin="sudo pacman -S"
   alias pacun="sudo pacman -Rs"
+  alias pacau="sudo pacman -U"
 
   # search remote/local for package
   alias pacss="pacman -Ss"
@@ -35,6 +36,9 @@ if [[ -x `which pacman` ]]; then
 
   # who owns this file
   alias pacqo="pacman -Qo"
+
+  # all foreign packages
+  alias pacqm="pacman -Qm"
 fi
 
 if [[ -x `which aura` ]]; then
