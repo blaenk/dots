@@ -17,6 +17,10 @@ alias sudo='sudo '
 # prompt if deleting more than 3 files
 alias rm='rm -I'
 
+if [[ -x `which systemctl` ]]; then
+  alias sc="systemctl"
+fi
+
 if [[ -x `which pacman` ]]; then
   alias pacup="sudo pacman -Syu"
   alias pacin="sudo pacman -S"
