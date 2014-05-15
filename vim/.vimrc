@@ -447,11 +447,10 @@ let g:ctrlp_custom_ignore = {
 
 let g:ctrlp_working_path_mode = 'ra'
 
-let s:ctrlp_fallback = 'find %s -type f'
-
-if has('win32')
-  let s:ctrlp_fallback = 'dir %s /-n /b /s /a-d'
-endif
+let s:ctrlp_fallback =
+  \ has('win32') ?
+    \ 'dir %s /-n /b /s /a-d' :
+    \ 'find %s -type f'
 
 let g:ctrlp_user_command = [
   \ '.git',
