@@ -242,7 +242,9 @@ function dots() {
     put )
       put_dots;;
     * )
-      msg_user "use the 'get' or 'put' commands";;
+      msg_user "use the 'get' or 'put' commands"
+      echo ''
+      ;;
   esac
 }
 
