@@ -95,7 +95,7 @@ function get_dots() {
 
   pre=$(git log -1 HEAD --pretty=format:%h)
 
-  msg_info "updating from $pre"
+  msg_info "checking for updates since $pre"
 
   if git pull > /dev/null 2>&1; then
     post=$(git log -1 HEAD --pretty=format:%h)
@@ -103,7 +103,7 @@ function get_dots() {
     if [[ "$pre" == "$post" ]]; then
       msg_info "no updates available"
     else
-      msg_success "updated to $post\n"
+      msg_success "updated to $post"
       git log --oneline --format='  %C(green)+%Creset %C(black)%h%Creset %s' $(pre)..HEAD
     fi
   else

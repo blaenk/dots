@@ -13,14 +13,22 @@ $ cd .dots
 Run the sprinkle script to deploy. It shows a prompt on how (or whether) to apply the files. The prompts are answered by providing the first letter of each word, e.g. "backup" would be "b". If you want to apply the action to every remaining item, capitalize the letter.
 
 ```
-$ ./sprinkle
+$ ./dots put
 
   · sprinkling dots from /home/user/.dots!
   · help: backup, overwrite, remove, skip
           capitalize to apply to all remaining
 ```
 
-Once the zsh configuration files are deployed, you can run the `sprinkle` command from anywhere.
+Once the zsh configuration files are deployed, you can use the `dots` command from anywhere to both deploy the dotfiles with `dots put` as well as update the dotfiles with `dots get`.
+
+```
+λ ~/.dots (master)
+» dots get
+
+  · updating from 22c6cb8
+  · no updates available
+```
 
 #### zsh
 
