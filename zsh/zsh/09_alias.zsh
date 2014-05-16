@@ -14,6 +14,15 @@ alias sudo='sudo '
 # prompt if deleting more than 3 files
 alias rm='rm -I'
 
+if (( $+commands[xsel] )); then
+  alias cbc='xsel -i -b'
+  alias cbp='xsel -o -b'
+fi
+
+if (( $+commands[gist] )); then
+  alias gist='gist -c -o'
+fi
+
 if (( $+commands[systemctl] )); then
   alias sc="systemctl"
 fi
