@@ -65,10 +65,24 @@ function ip() {
     res=$(curl -s ipinfo.io/ip)
     echo -n $res | xsel --clipboard
     echo "copied $res to clipboard"
-  else
-    # only run ip if it exists
-    if (( $+commands[ip] )); then
-      command ip $*
-    fi
+  # only run ip if it exists
+  elif (( $+commands[ip] )); then
+    command ip $*
+  fi
+}
+
+# open alias for xdg-open
+# it ignores stdout and stderr
+# pass-through for os x
+
+function open() {
+  emulate -LR zsh
+
+  # linux
+  if (( $+commands[xdg-open] )); then
+    xdg-open $* > /dev/null 2>&1
+  # mac
+  elif (( $+commands[open] )); then
+    open $*
   fi
 }
