@@ -89,14 +89,16 @@ function open() {
 
 # update the dotfiles
 function get_dots() {
-  pushd $DOTSPATH
+  emulate -LR zsh
 
-  pre=$(git log -1 HEAD --pretty-format:%h)
+  pushd $DOTSPATH > /dev/null
+
+  pre=$(git log -1 HEAD --pretty=format:%h)
 
   msg_info "updating from $pre"
 
-  if git pull -q; then
-    post=$(git log -1 HEAD --pretty-format:%h)
+  if git pull > /dev/null 2>&1; then
+    post=$(git log -1 HEAD --pretty=format:%h)
 
     if [[ $pre -eq $post ]]; then
       msg_info "no updates available"
@@ -108,13 +110,14 @@ function get_dots() {
     msg_fail "there was an error with updating"
   fi
 
-  popd
+  popd > /dev/null
 }
 
 # deploy the dotfiles
 function put_dots() {
-  echo ''
-  msg_info "deploying dots from $DOTSPATH!"
+  emulate -LR zsh
+
+  msg_info "deploying dots from $DOTSPATH"
   msg_info "help: "\
 "$(tput bold)b$(tput sgr0)ackup, "\
 "$(tput bold)o$(tput sgr0)verwrite, "\
@@ -130,25 +133,25 @@ function put_dots() {
   for src in `find "$DOTSPATH" -mindepth 2 -maxdepth 2  -name .\* ! -path "$DOTSPATH/.git*"`; do
     dest="$HOME/`basename \"$src\"`"
 
-    if [ -e $dest ] || [ -L $dest ]; then
+    if [[ -e $dest ]] || [[ -L $dest ]]; then
       overwrite=false
       backup=false
       skip=false
       remove=false
       fname="$(tput bold)`basename $dest`$(tput sgr0)"
 
-      if [ "$overwrite_all" == "false" ] &&\
-         [ "$backup_all" == "false" ] &&\
-         [ "$remove_all" == "false" ] &&\
-         [ "$skip_all" == "false" ]; then
-        if [ ! -L $dest ]; then
+      if [[ "$overwrite_all" == "false" ]] &&\
+         [[ "$backup_all" == "false" ]] &&\
+         [[ "$remove_all" == "false" ]] &&\
+         [[ "$skip_all" == "false" ]]; then
+        if [[ ! -L $dest ]]; then
           msg_user "$fname exists non-linked:"
         else
           link=`readlink -mn "$dest"`
           msg_user "$fname is already linked to $link:"
         fi
 
-        read -n 1 action
+        read -k 1 action
 
         case "$action" in
           o )
@@ -172,20 +175,20 @@ function put_dots() {
         esac
       fi
 
-      if [ "$skip" == "false" ] && [ "$skip_all" == "false" ]; then
-        if [ "$overwrite" == "true" ] || [ "$overwrite_all" == "true" ] ||\
-           [ "$remove" == "true" ] || [ "$remove_all" == "true" ]; then
+      if [[ "$skip" == "false" ]] && [[ "$skip_all" == "false" ]]; then
+        if [[ "$overwrite" == "true" ]] || [[ "$overwrite_all" == "true" ]] ||\
+           [[ "$remove" == "true" ]] || [[ "$remove_all" == "true" ]]; then
           rm -rf $dest
           msg_fail "removed $fname"
         fi
 
-        if [ "$backup" == "true" ] || [ "$backup_all" == "true" ]; then
+        if [[ "$backup" == "true" ]] || [[ "$backup_all" == "true" ]]; then
           mv $dest{,.bak}
           msg_success "moved $fname to $fname.bak"
         fi
 
-        if [ "$overwrite" == "true" ] || [ "$overwrite_all" == "true" ] ||\
-           [ "$backup" == "true" ] || [ "$backup_all" == "true" ]; then
+        if [[ "$overwrite" == "true" ]] || [[ "$overwrite_all" == "true" ]] ||\
+           [[ "$backup" == "true" ]] || [[ "$backup_all" == "true" ]]; then
           link_files $src $dest
         fi
       else
@@ -231,13 +234,15 @@ function link_files() {
 function dots() {
   emulate -LR zsh
 
+  echo ''
+
   case "$1" in
     get )
       get_dots;;
     put )
       put_dots;;
     * )
-      echo "use the 'get' or 'put' commands";;
+      msg_user "use the 'get' or 'put' commands";;
   esac
 }
 
