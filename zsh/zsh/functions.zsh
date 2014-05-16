@@ -100,7 +100,7 @@ function get_dots() {
   if git pull > /dev/null 2>&1; then
     post=$(git log -1 HEAD --pretty=format:%h)
 
-    if [[ $pre -eq $post ]]; then
+    if [[ "$pre" == "$post" ]]; then
       msg_info "no updates available"
     else
       msg_success "updated to $post\n"

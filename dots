@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+if [[ -z $DOTSPATH ]]; then
+  DOTSPATH="$(cd $(dirname ${(%):-%N}); pwd)"
+fi
+
+source $DOTSPATH/zsh/zsh/functions.zsh
+
+dots $*
