@@ -8,20 +8,17 @@ alias tmr="tmux a -rt"
 alias ":q"="exit"
 alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'
 
-# sprinkle the dots!
-alias sprinkle="~/.dots/sprinkle"
-
 # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
 alias sudo='sudo '
 
 # prompt if deleting more than 3 files
 alias rm='rm -I'
 
-if [[ -x `which systemctl` ]]; then
+if (( $+commands[systemctl] )); then
   alias sc="systemctl"
 fi
 
-if [[ -x `which pacman` ]]; then
+if (( $+commands[pacman] )); then
   alias pacup="sudo pacman -Syu"
   alias pacin="sudo pacman -S"
   alias pacun="sudo pacman -Rs"
@@ -45,7 +42,7 @@ if [[ -x `which pacman` ]]; then
   alias pacqm="pacman -Qm"
 fi
 
-if [[ -x `which aura` ]]; then
+if (( $+commands[aura] )); then
   alias aura="aura -x"
   alias auru="sudo aura -Ayu"
 fi

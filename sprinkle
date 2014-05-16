@@ -2,15 +2,6 @@
 
 set -e
 
-# determine path to dots dir
-SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do
-  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-  SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
-done
-DOTPATH="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-
 # utility functions
 function info() {
   printf "\r$(tput el)  $(tput setaf 4)·$(tput sgr0) $1\n"

@@ -28,7 +28,7 @@ zstyle ':completion:*:*:*:*:*' menu select=1 _complete _ignored _approximate
 
 # use a cache
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path ~/.dots/zsh/zsh/cache
+zstyle ':completion::complete:*' cache-path $DOTSPATH/zsh/zsh/cache
 
 # ignore _functions
 zstyle ':completion:*:functions' ignored-patterns '_*'

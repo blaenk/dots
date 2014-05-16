@@ -1,3 +1,6 @@
+# determine path to dots dir
+DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
+
 autoload -U compinit promptinit colors select-word-style
 select-word-style bash
 compinit -i
@@ -17,11 +20,11 @@ export VISUAL=vim
 
 # bundles
 
-if [[ ! -d ~/.dots/zsh/zsh/antigen ]]; then
-  git clone https://github.com/zsh-users/antigen.git ~/.dots/zsh/zsh/antigen
+if [[ ! -d $DOTSPATH/zsh/zsh/antigen ]]; then
+  git clone https://github.com/zsh-users/antigen.git $DOTSPATH/zsh/zsh/antigen
 fi
 
-source ~/.dots/zsh/zsh/antigen/antigen.zsh
+source $DOTSPATH/zsh/zsh/antigen/antigen.zsh
 
 # antigen
 antigen bundles <<EOBUNDLES
@@ -32,7 +35,7 @@ EOBUNDLES
 antigen apply
 
 # configuration files
-for file in ~/.dots/zsh/zsh/*.zsh; do
+for file in $DOTSPATH/zsh/zsh/*.zsh; do
   source $file
 done
 
