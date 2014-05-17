@@ -103,8 +103,8 @@ function get_dots() {
     if [[ "$pre" == "$post" ]]; then
       msg_info "no updates available"
     else
-      msg_success "updated to $post"
-      git log --oneline --format='  %C(green)+%Creset %C(black)%h%Creset %s' $(pre)..HEAD
+      msg_info "updated to $post\n"
+      git log --oneline --format='  %C(green)+%Creset %C(black)%h%Creset %s' $pre..HEAD
     fi
   else
     msg_fail "there was an error with updating"
