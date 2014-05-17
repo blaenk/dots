@@ -104,7 +104,7 @@ function get_dots() {
       msg_info "no updates available"
     else
       msg_info "updated to $post\n"
-      git log --oneline --format='  %C(green)+%Creset %C(black)%h%Creset %s' $pre..HEAD
+      git log --oneline --format='  %C(green)+%Creset %C(bold)%h%Creset %s' $pre..HEAD
     fi
   else
     msg_fail "there was an error with updating"
