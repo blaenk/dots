@@ -53,5 +53,6 @@ fi
 
 if (( $+commands[aura] )); then
   alias aura="aura -x"
+  alias aure="aura -A --hotedit"
   alias auru="sudo aura -Ayu"
 fi
