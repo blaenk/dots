@@ -26,8 +26,12 @@ Once the zsh configuration files are deployed, you can use the `dots` command fr
 λ ~/.dots (master)
 » dots get
 
-  · updating from 22c6cb8
-  · no updates available
+  · checking for updates since be6d115
+  · updated to b234aef
+
+  + b234aef this is one more test
+  + 8a9b1ab this is a test for update command
+
 ```
 
 #### zsh
