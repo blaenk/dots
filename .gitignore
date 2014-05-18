@@ -1,14 +1,17 @@
-vim/.vim/bundle
-vim/.vim/bundle/*
-vim/.vim/unite
 .DS_Store
+
+vim/.vim/bundle
+vim/.vim/unite
 vim/.vim/.VimballRecord
 vim/.vim/.netrwhist
+
 zsh/zsh/antigen
+zsh/zsh/cache
 
 xmonad/.xmonad/history
 xmonad/.xmonad/xmonad-x86_64-linux
 xmonad/.xmonad/xmonad.errors
 xmonad/.xmonad/xmonad.hi
 xmonad/.xmonad/xmonad.o
-zsh/zsh/cache/
+
+mpv/.mpv/watch_later

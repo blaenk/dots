@@ -1,0 +1,7 @@
+save-position-on-quit
+sid=1
+hwdec=vdpau
+vo=opengl-hq,opengl
+keep-open=yes
+title="${filename}"
+
