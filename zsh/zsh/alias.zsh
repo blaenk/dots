@@ -57,11 +57,37 @@ fi
 if (( $+commands[aura] )); then
   alias aura="aura -x"
 
-  alias aurup="sudo aura -Ayu"
-
   alias aurin="sudo aura -A"
+
+  # update packages, show pkgbuild diffs, remove orphan make deps
+  alias aurup="sudo aura -Akua"
+
+  # same as above but also update repo-sourced packages
+  alias aurud="sudo aura -Aka --devel"
+
+  # edit pkgbuild before install
   alias aured="aura -A --hotedit"
 
   alias aurai="aura -Ai"
-  alias auras="aura -As"
+
+  # only show first 10 results
+  alias auras="aura -As --head"
+
+  # check pkgbuild. useful when piped to vim -
+  alias aurap="aura -Ap"
+
+  # download tarball only
+  alias auraw="aura -Aw"
+
+  # downgrade specific packages
+  alias aurdg="aura -C"
+
+  # save n package versions, remove the rest from cache
+  alias aurcc="aura -Cc"
+
+  # show pacman log
+  alias aurlg="aura -L"
+
+  # show pacman log for certain package
+  alias aurli="aura -Li"
 fi
