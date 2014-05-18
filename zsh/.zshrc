@@ -34,8 +34,25 @@ EOBUNDLES
 
 antigen apply
 
-# configuration files
-for file in $DOTSPATH/zsh/zsh/*.zsh; do
-  source $file
+# strict control over source order
+sources=(
+  'path'
+  'rbenv'
+  'vcsinfo'
+  'prompt'
+  'completions'
+  'vi'
+  'highlight'
+  'functions'
+  'alias'
+  'linux'
+  'osx'
+)
+
+for src in $sources; do
+  source $DOTSPATH/zsh/zsh/$src.zsh
 done
 
+if [[ -e $DOTSPATH/zsh/zsh/custom.zsh ]]; then
+  source $DOTSPATH/zsh/zsh/custom.zsh
+fi

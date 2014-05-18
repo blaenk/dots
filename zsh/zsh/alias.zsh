@@ -11,6 +11,9 @@ alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'
 # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
 alias sudo='sudo '
 
+# don't interpret brackets in arguments as glob patterns
+alias rake='noglob rake'
+
 # prompt if deleting more than 3 files
 alias rm='rm -I'
 
