@@ -2,7 +2,7 @@
 alias t="tmux"
 alias tn="tmux new -s"
 alias ta="tmux a -t"
-alias tmr="tmux a -rt"
+alias taro="tmux a -rt"
 
 # ;)
 alias ":q"="exit"
@@ -30,8 +30,8 @@ fi
 if (( $+commands[pacman] )); then
   alias pacup="sudo pacman -Syu"
   alias pacin="sudo pacman -S"
+  alias packg="sudo pacman -U"
   alias pacun="sudo pacman -Rs"
-  alias pacau="sudo pacman -U"
 
   # search remote/local for package
   alias pacss="pacman -Ss"
@@ -53,6 +53,12 @@ fi
 
 if (( $+commands[aura] )); then
   alias aura="aura -x"
-  alias aure="aura -A --hotedit"
-  alias auru="sudo aura -Ayu"
+
+  alias aurup="sudo aura -Ayu"
+
+  alias aurin="sudo aura -A"
+  alias aured="aura -A --hotedit"
+
+  alias aurai="aura -Ai"
+  alias auras="aura -As"
 fi
