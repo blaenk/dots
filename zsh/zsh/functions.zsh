@@ -111,6 +111,9 @@ function get_dots() {
   fi
 
   popd > /dev/null
+
+  msg_info "\nreloading zsh"
+  exec zsh
 }
 
 # deploy the dotfiles

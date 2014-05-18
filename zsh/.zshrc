@@ -19,7 +19,6 @@ export EDITOR=vim
 export VISUAL=vim
 
 # bundles
-
 if [[ ! -d $DOTSPATH/zsh/zsh/antigen ]]; then
   git clone https://github.com/zsh-users/antigen.git $DOTSPATH/zsh/zsh/antigen
 fi
