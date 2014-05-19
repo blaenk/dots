@@ -1,22 +1,12 @@
 # vcsinfo: thanks to github.com/sunaku/home/
 autoload -Uz vcs_info
 
-VCS_PRE="%{$fg[magenta]%}(%{$reset_color%}"
-VCS_SUF="%{$fg[magenta]%})%{$reset_color%}"
-
-AVCS_PRE="%{$fg[green]%}{%{$reset_color%}"
-AVCS_SUF="%{$fg[green]%}}%{$reset_color%}"
-
-COLON="%{$fg[cyan]%}:%{$reset_color%}"
-SPACE=" "
-DELIM=$SPACE
-
-VCS_PROMPT=" $VCS_PRE%b%u%c$VCS_SUF%m"
-AVCS_PROMPT="$VCS_PROMPT$AVCS_PRE%a$AVCS_SUF"
+VCS_PROMPT=" %Bon %F{green}%b%F{cyan}%u%F{magenta}%c%f%m%%b"
+AVCS_PROMPT="$VCS_PROMPT %Bdoing %F{magenta}%a%f%%b"
 
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr '+'
-zstyle ':vcs_info:*' unstagedstr '#'
+zstyle ':vcs_info:*' unstagedstr "'"
 zstyle ':vcs_info:*' formats $VCS_PROMPT
 zstyle ':vcs_info:*' actionformats $AVCS_PROMPT
 zstyle ':vcs_info:*' enable git
@@ -28,43 +18,32 @@ function +vi-git-aheadbehind() {
   local ahead behind
   local -a gitstatus
 
-  ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
-  (( $ahead )) && gitstatus+=( "%{$fg[blue]%}+${ahead}%{$reset_color%}" )
-
   behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
-  (( $behind )) && gitstatus+=( "%{$fg[red]%}-${behind}%{$reset_color%}" )
+  (( $behind )) && gitstatus+=( " behind %F{red}${behind}%f" )
+
+  ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
+  (( $ahead )) && gitstatus+=( " ahead %F{blue}${ahead}%f" )
 
   hook_com[misc]+=${(j::)gitstatus}
-
-  if [[ -n ${hook_com[misc]} ]]; then
-    hook_com[misc]="$AVCS_PRE${hook_com[misc]}$AVCS_SUF"
-  fi
 }
 
 ### git: Show marker (T) if there are untracked files in repository
 # Make sure you have added staged to your 'formats':  %c
 function +vi-git-untracked(){
-    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
-        git status --porcelain | grep '??' &> /dev/null ; then
-        # This will show the marker if there are any untracked files in repo.
-        # If instead you want to show the marker only if there are untracked
-        # files in $PWD, use:
-        #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
-        if [[ -n ${hook_com[unstaged]} ]]; then
-          hook_com[unstaged]="·$DELIM${hook_com[unstaged]}"
-        else
-          hook_com[unstaged]="·"
-        fi
-    fi
+  if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+    git status --porcelain | grep '??' &> /dev/null ; then
+    # This will show the marker if there are any untracked files in repo.
+    hook_com[branch]="%F{cyan}.%F{green}${hook_com[branch]}%f"
+  fi
 }
 
 # proper spacing
 function +vi-git-message(){
   if [[ -n ${hook_com[unstaged]} ]]; then
     if [[ -n ${hook_com[staged]} ]]; then
-      hook_com[unstaged]=" ${hook_com[unstaged]}$DELIM"
+      hook_com[unstaged]="${hook_com[unstaged]} "
     else
-      hook_com[unstaged]=" ${hook_com[unstaged]}"
+      hook_com[unstaged]="${hook_com[unstaged]}"
     fi
   else
     if [[ -n ${hook_com[staged]} ]]; then
