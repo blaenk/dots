@@ -42,7 +42,7 @@ function p_envs {
   (( $#cabal ))         && envs+="H"
   [[ -n $VIRTUAL_ENV ]] && envs+="P"
 
-  [[ -n $envs ]] && echo " %B%F{green}[%F{cyan}$envs%f%F{green}]%f%b"
+  [[ -n $envs ]] && echo " %F{green}[%f$envs%F{green}]%f"
 }
 
 PROMPT='
