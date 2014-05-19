@@ -1,12 +1,12 @@
 # vcsinfo: thanks to github.com/sunaku/home/
 autoload -Uz vcs_info
 
-VCS_PROMPT=" %Bon %F{green}%b%F{cyan}%u%F{magenta}%c%f%m%%b"
-AVCS_PROMPT="$VCS_PROMPT %Bdoing %F{magenta}%a%f%%b"
+VCS_PROMPT=" %F{cyan}→ %F{green}%b%F{magenta}%u%F{magenta}%c%f%m"
+AVCS_PROMPT="$VCS_PROMPT %F{cyan}∷%f %F{magenta}%a%f"
 
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' stagedstr '+'
-zstyle ':vcs_info:*' unstagedstr "'"
+zstyle ':vcs_info:*' stagedstr "+"
+zstyle ':vcs_info:*' unstagedstr "#"
 zstyle ':vcs_info:*' formats $VCS_PROMPT
 zstyle ':vcs_info:*' actionformats $AVCS_PROMPT
 zstyle ':vcs_info:*' enable git
@@ -19,12 +19,16 @@ function +vi-git-aheadbehind() {
   local -a gitstatus
 
   behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
-  (( $behind )) && gitstatus+=( " behind %F{red}${behind}%f" )
+  (( $behind )) && gitstatus+=( " -%F{red}${behind}%f" )
 
   ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
-  (( $ahead )) && gitstatus+=( " ahead %F{blue}${ahead}%f" )
+  (( $ahead )) && gitstatus+=( " +%F{blue}${ahead}%f" )
 
   hook_com[misc]+=${(j::)gitstatus}
+
+  if [[ -n ${hook_com[misc]} ]]; then
+    hook_com[misc]=" %F{cyan}∷%f${hook_com[misc]}"
+  fi
 }
 
 ### git: Show marker (T) if there are untracked files in repository
@@ -33,7 +37,7 @@ function +vi-git-untracked(){
   if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
     git status --porcelain | grep '??' &> /dev/null ; then
     # This will show the marker if there are any untracked files in repo.
-    hook_com[branch]="%F{cyan}.%F{green}${hook_com[branch]}%f"
+    hook_com[branch]="%F{magenta}.%F{green}${hook_com[branch]}%f"
   fi
 }
 
