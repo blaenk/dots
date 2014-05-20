@@ -36,6 +36,9 @@ URxvt.scrollTtyOutput: false
 URxvt.scrollTtyKeypress: true
 URxvt.scrollWithBuffer: true
 
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
 URxvt*background:              #fdf6e3
 URxvt*foreground:              #657b83
 URxvt*cursorColor:             #2aa198
