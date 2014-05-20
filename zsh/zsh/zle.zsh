@@ -24,7 +24,7 @@ zle -N edit-command-line
 bindkey -v
 bindkey -M vicmd v edit-command-line # ESC-v to edit in an external editor.
 
-bindkey ' ' magic-space 
+bindkey ' ' magic-space
 bindkey -M vicmd "gg" beginning-of-history
 bindkey -M vicmd "G" end-of-history
 bindkey -M vicmd "k" up-line-or-history # history-search-backward
@@ -40,6 +40,7 @@ zle -A .backward-kill-word vi-backward-kill-word
 zle -A .backward-delete-char vi-backward-delete-char
 
 bindkey -M viins 'jj' vi-cmd-mode
+bindkey -M viins "^I" expand-or-complete-prefix
 bindkey -M viins "^L" clear-screen
 bindkey -M viins "^P" up-line-or-history
 bindkey -M viins "^N" down-line-or-history
@@ -62,3 +63,4 @@ bindkey -M menuselect "^[[Z" reverse-menu-complete
 
 bindkey -M menuselect "^P" reverse-menu-complete
 bindkey -M menuselect "^N" menu-complete
+
