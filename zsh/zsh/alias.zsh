@@ -64,7 +64,7 @@ if (( $+commands[aura] )); then
   alias aurup="sudo aura -Akua"
 
   # same as above but also update repo-sourced packages
-  alias aurud="sudo aura -Aka --devel"
+  alias aurud="sudo aura -Akua --devel"
 
   # edit pkgbuild before install
   alias aured="aura -A --hotedit"
