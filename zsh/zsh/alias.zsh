@@ -72,13 +72,13 @@ if (( $+commands[aura] )); then
   alias aurai="aura -Ai"
 
   # only show first 10 results
-  alias auras="aura -As --head"
+  alias auras="aura -As --head=5"
 
   # check pkgbuild. useful when piped to vim -
-  alias aurap="aura -Ap"
+  alias aurpb="aura -Ap"
 
   # download tarball only
-  alias auraw="aura -Aw"
+  alias aurdl="aura -Aw"
 
   # downgrade specific packages
   alias aurdg="aura -C"
