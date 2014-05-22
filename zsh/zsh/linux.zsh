@@ -10,5 +10,9 @@ if [[ "$OSTYPE" == linux* ]]; then
 
   [[ -e /etc/zsh_command_not_found ]] &&\
     source /etc/zsh_command_not_found
+
+  if [[ "$TERM" == xterm ]]; then
+    export TERM=xterm-256color
+  fi
 fi
 
