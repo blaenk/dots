@@ -1,7 +1,7 @@
 # vcsinfo: thanks to github.com/sunaku/home/
 autoload -Uz vcs_info
 
-VCS_PROMPT=" %F{cyan}→ %F{green}%b%F{magenta}%u%F{magenta}%c%f%m"
+VCS_PROMPT=" %F{cyan}→ %F{green}%b%F{magenta}%u%f%c%m"
 AVCS_PROMPT="$VCS_PROMPT %F{cyan}∷%f %F{magenta}%a%f"
 
 zstyle ':vcs_info:*' check-for-changes true
