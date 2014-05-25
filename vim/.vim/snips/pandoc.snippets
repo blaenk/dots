@@ -1,4 +1,4 @@
-snippet pre "code ticks" b
+snippet p "code ticks" b
 \`\`\` ${1:language}
 ${2:code}
 \`\`\`$0
@@ -8,4 +8,8 @@ snippet ~ "code block" b
 ~~~${1: {."${2:language}"${3: text="${4:caption}"}}}
 ${5:code}
 ~~~$0
+endsnippet
+
+snippet / "path" i
+\`${1:path}\`{.path} $0
 endsnippet
