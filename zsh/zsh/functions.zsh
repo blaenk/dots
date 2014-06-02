@@ -112,7 +112,7 @@ function get_dots() {
 
   popd > /dev/null
 
-  msg_info "\nreloading zsh"
+  msg_info "reloading zsh"
   exec zsh
 }
 
