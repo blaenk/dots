@@ -4,6 +4,9 @@ if [[ "$OSTYPE" == linux* ]]; then
   export __GL_SYNC_DISPLAY_DEVICE=DFP-0
   export __VDPAU_NVIDIA_SYNC_DISPLAY_DEVICE=DFP-0
 
+  # for man --html etc.
+  export BROWSER=chromium
+
   # command not found; install pkgfile
   [[ -e /usr/share/doc/pkgfile/command-not-found.zsh ]] &&\
     source /usr/share/doc/pkgfile/command-not-found.zsh

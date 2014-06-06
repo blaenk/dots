@@ -4,6 +4,18 @@ function manf() {
   man -P "less -p \"^ +$2\"" $1
 }
 
+# html man pages
+function manh() {
+  file=$(mktemp)
+  man --html=cat $1 > $file 2>/dev/null
+
+  if [[ -s $file ]]; then
+    $BROWSER $file 2>/dev/null
+  else
+    echo "no man page for '$1'"
+  fi
+}
+
 # find the zsh file that backs a command
 # $ funcpath ls
 # /usr/share/zsh/functions/Completion/Unix/_ls
@@ -14,6 +26,11 @@ function funcpath() {
 # label the current window/tab
 function label() {
   print -Pn "\e]2;$1\a"
+}
+
+# serve an application with vnc
+function streamapp() {
+  x11vnc -id $1 -display :0 -passwd $2 -viewonly -shared -forever
 }
 
 # print colors
