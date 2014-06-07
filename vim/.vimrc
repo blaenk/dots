@@ -392,10 +392,12 @@ nnoremap <silent> <leader>u :GundoToggle<CR>
 " Plugins: {{{
 
 " Pandoc: {{{2
-let g:pantondoc_use_pandoc_markdown = 1
-let g:pantondoc_folding_mode = 'relative'
+let g:pandoc#filetypes#pandoc_markdown = 1
+let g:pandoc#folding#mode = 'relative'
 
-let g:pantondoc_enabled_modules = [
+let g:pandoc#modules#enabled = [
+  \"formatting",
+  \"keyboard",
   \"folding"
   \]
 
