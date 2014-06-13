@@ -104,6 +104,16 @@ function open() {
   fi
 }
 
+# edit the dotfiles
+
+function edit_dots() {
+  emulate -LR zsh
+
+  # this might need customization
+  # but I don't want to use $EDITOR cause I prefer gvim
+  gvim --cmd "cd $DOTSPATH"
+}
+
 # update the dotfiles
 function get_dots() {
   emulate -LR zsh
@@ -126,6 +136,9 @@ function get_dots() {
   else
     msg_fail "there was an error with updating"
   fi
+
+  # msg_info "updating vim plugins"
+  # vim +PluginInstall +qall
 
   popd > /dev/null
 
@@ -261,6 +274,8 @@ function dots() {
       get_dots;;
     put )
       put_dots;;
+    edit )
+      edit_dots;;
     * )
       msg_user "use the 'get' or 'put' commands"
       echo ''
