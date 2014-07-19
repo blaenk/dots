@@ -66,7 +66,6 @@ set viewoptions+=unix,slash
 set wildmenu
 set wildmode=list:longest
 
-set scrolloff=5
 set showmode
 set showcmd
 set hidden
@@ -251,8 +250,14 @@ function! Status(winnum)
   let stat .= Color(active, 2, readonly ? ' ‼' : '')
 
   " paste
-  if active && &paste
-    let stat .= ' %2*' . 'P' . '%*'
+  if active
+    if &spell
+      let stat .= ' %2*' . 'S' . '%*'
+    endif
+
+    if &paste
+      let stat .= ' %2*' . 'P' . '%*'
+    endif
   endif
 
   " right side
@@ -310,13 +315,14 @@ nnoremap <silent> <leader>n :set rnu!<CR>
 nnoremap <silent> <leader>t :set rnu! list! number!<CR>
 nnoremap <silent> <leader>s :set spell!<CR>
 
-nnoremap <leader>ph :PandocHighlight<space>
-nnoremap <leader>pu :PandocUnhighlight<space>
+vnoremap // y/<C-R>"<CR>
 
 inoremap jj <ESC>
 " }}}
 
 " Editing: {{{2
+nnoremap ZS :w<CR>
+
 " 'force' write
 cmap w!! %!sudo tee > /dev/null %
 
@@ -336,8 +342,25 @@ vnoremap <M-v> p
 imap <M-v> <C-r>+
 cmap <M-v> <C-r>+
 
+inoremap <S-Tab> <C-d>
+
 " go to end of line from insert mode
 inoremap <C-l> <ESC>A
+
+function! BindH(lang)
+  let b:highlight_lang = matchstr(a:lang, "^[^=]*")
+
+  exe 'PandocHighlight ' . a:lang
+  inoremap <silent> <buffer> <c-p> code<C-R>=UltiSnips#Anon(
+    \"\\`\\`\\` " . b:highlight_lang . "\n" .
+    \"${1:${VISUAL}}\n" .
+    \"\\`\\`\\`$0", 'code')<cr>
+endfunction
+
+autocmd FileType pandoc command! -nargs=1 -complete=syntax Highlight call BindH(<f-args>)
+autocmd FileType pandoc nnoremap <leader>ph :Highlight<space>
+autocmd FileType pandoc nnoremap <leader>pu :PandocUnhighlight<space>
+
 " }}}
 
 " Navigation: {{{2
@@ -401,9 +424,8 @@ let g:pandoc#modules#enabled = [
   \"folding"
   \]
 
-let g:pandoc_no_empty_implicits = 1
-let g:pandoc_syntax_ignore_codeblocks = ['definition', 'delimited']
-let g:pandoc_syntax_dont_use_conceal_for_rules = [
+let g:pandoc#syntax#codeblocks#ignore = ['definition', 'delimited']
+let g:pandoc#syntax#conceal#blacklist = [
   \"titleblock",
   \"image",
   \"superscript",
@@ -450,16 +472,21 @@ let g:ctrlp_custom_ignore = {
 
 let g:ctrlp_working_path_mode = 'ra'
 
-let s:ctrlp_fallback =
-  \ has('win32') ?
-    \ 'dir %s /-n /b /s /a-d' :
-    \ 'find %s -type f'
+if executable('ag')
+  let g:ctrlp_use_caching = 0
+  let g:ctrlp_user_command = "ag --hidden --nocolor --ignore-dir .git -l -g '' %s"
+endif
 
-let g:ctrlp_user_command = [
-  \ '.git',
-  \ 'git --git-dir=%s/.git ls-files -co --exclude-standard',
-  \ s:ctrlp_fallback
-  \ ]
+" let s:ctrlp_fallback =
+"   \ has('win32') ?
+"     \ 'dir %s /-n /b /s /a-d' :
+"     \ 'find %s -type f'
+"
+" let g:ctrlp_user_command = [
+"   \ '.git',
+"   \ 'git --git-dir=%s/.git ls-files -co --exclude-standard',
+"   \ s:ctrlp_fallback
+"   \ ]
 
 map <leader>b :CtrlPBuffer<cr>
 " }}}
