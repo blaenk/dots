@@ -12,6 +12,8 @@ alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'
 # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
 alias sudo='sudo '
 
+alias svim='sudo vim'
+
 # don't interpret brackets in arguments as glob patterns
 alias rake='noglob rake'
 
@@ -21,7 +23,13 @@ alias rm='rm -I'
 if (( $+commands[xsel] )); then
   alias cbc='xsel -i -b'
   alias cbp='xsel -o -b'
+elif (( $+commands[pbcopy] )); then
+  alias cbc='pbcopy'
+  alias cbp='pbpaste'
 fi
+
+# copy the last command
+alias clc='echo "!!" | cbc'
 
 if (( $+commands[gist] )); then
   alias gist='gist -c -o'

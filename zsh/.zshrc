@@ -1,6 +1,11 @@
 # determine path to dots dir
 DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
 
+fpath=(
+  "$DOTSPATH/zsh/zsh/comp"
+  "${fpath[@]}"
+)
+
 autoload -U compinit promptinit colors select-word-style
 select-word-style bash
 compinit -i

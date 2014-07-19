@@ -1,0 +1,6 @@
+#compdef pacqv
+
+words[1]=(pacman -Qi)
+(( CURRENT ++ ))
+_normal
+

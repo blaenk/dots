@@ -72,6 +72,11 @@ function pacorphans() {
     awk -F: '$2 == "" {printf "%s: %s\n", $1, $3}'
 }
 
+# print the package's version
+function pacqv() {
+  echo $(pacman -Qi $1 | grep Version | tr -s ' ' | cut -d ' ' -f 3)
+}
+
 # what is my ip? useful for syncplay and mumble
 # $ ip get
 #   copied <ip> to clipboard
