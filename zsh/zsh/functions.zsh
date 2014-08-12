@@ -30,7 +30,7 @@ function label() {
 
 # serve an application with vnc
 function streamapp() {
-  x11vnc -id $1 -display :0 -passwd $2 -viewonly -shared -forever
+  x11vnc -id pick -display :0 -passwd $1 -viewonly -shared -forever
 }
 
 # print colors
