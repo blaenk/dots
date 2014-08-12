@@ -374,7 +374,7 @@ nnoremap <silent> <leader>n :set rnu!<CR>
 nnoremap <silent> <leader>t :set rnu! list! number!<CR>
 nnoremap <silent> <leader>s :set spell!<CR>
 
-vnoremap // y/<C-R>"<CR>
+"vnoremap // y/<C-R>"<CR>
 
 inoremap jj <ESC>
 " }}}

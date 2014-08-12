@@ -3,6 +3,8 @@ set guioptions-=T
 set guioptions-=m
 set guioptions-=rL
 
+set lines=25 columns=85
+
 if has('gui_macvim')
   set fuoptions=maxhorz,maxvert
   " macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-CR>
