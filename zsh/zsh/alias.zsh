@@ -5,6 +5,8 @@ alias tn="tmux new -s"
 alias ta="tmux a -t"
 alias taro="tmux a -rt"
 
+alias ls="ls -lh --color=auto"
+
 # ;)
 alias ":q"="exit"
 alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'
@@ -12,7 +14,7 @@ alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'
 # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
 alias sudo='sudo '
 
-alias svim='sudo vim'
+alias svim='sudoedit'
 
 # don't interpret brackets in arguments as glob patterns
 alias rake='noglob rake'
@@ -27,9 +29,6 @@ elif (( $+commands[pbcopy] )); then
   alias cbc='pbcopy'
   alias cbp='pbpaste'
 fi
-
-# copy the last command
-alias clc='echo "!!" | cbc'
 
 if (( $+commands[gist] )); then
   alias gist='gist -c -o'
@@ -75,7 +74,7 @@ if (( $+commands[aura] )); then
   alias aurud="sudo aura -Akua --devel"
 
   # edit pkgbuild before install
-  alias aured="aura -A --hotedit"
+  alias aured="sudo aura -A --hotedit"
 
   alias aurai="aura -Ai"
 
@@ -89,10 +88,10 @@ if (( $+commands[aura] )); then
   alias aurdl="aura -Aw"
 
   # downgrade specific packages
-  alias aurdg="aura -C"
+  alias aurdg="sudo aura -C"
 
   # save n package versions, remove the rest from cache
-  alias aurcc="aura -Cc"
+  alias aurcc="sudo aura -Cc"
 
   # show pacman log
   alias aurlg="aura -L"
