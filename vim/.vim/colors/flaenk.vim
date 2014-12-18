@@ -245,20 +245,20 @@ if (has("gui_running") && g:solarized_degrade == 0)
     let s:base03      = "#002b36"
     let s:base02      = "#073642"
     let s:base01      = "#586e75"
-    let s:base00      = "#657b83"
+    let s:base00      = "#555555"
     let s:base0       = "#839496"
     let s:base1       = "#93a1a1"
-    let s:base2       = "#eee8d5"
-    let s:base3       = "#fdf6e3"
+    let s:base2       = "#efefef"
+    let s:base3       = "#f7f7f7"
     let s:yellow      = "#b58900"
     let s:orange      = "#cb4b16"
-    let s:red         = "#dc322f"
+    let s:red         = "#C82829"
     let s:magenta     = "#d33682"
     let s:violet      = "#6c71c4"
     let s:blue        = "#268bd2"
     let s:cyan        = "#2aa198"
-    "let s:green       = "#859900" "original
-    let s:green       = "#719e07" "experimental
+    let s:green       = "#859900" "original
+    " let s:green       = "#719e07" "experimental
 elseif (has("gui_running") && g:solarized_degrade == 1)
     " These colors are identical to the 256 color mode. They may be viewed
     " while in gui mode via "let g:solarized_degrade=1", though this is not
@@ -541,7 +541,7 @@ exe "hi! Normal"         .s:fmt_none   .s:fg_base0  .s:bg_back
 exe "hi! Comment"        .s:fmt_none   .s:fg_base01 .s:bg_none
 "       *Comment         any comment
 
-exe "hi! Constant"       .s:fmt_none   .s:fg_cyan   .s:bg_none
+exe "hi! Constant"       .s:fmt_none   .s:fg_green   .s:bg_none
 "       *Constant        any constant
 "        String          a string constant: "this is a string"
 "        Character       a character constant: 'c', '\n'
@@ -553,7 +553,7 @@ exe "hi! Identifier"     .s:fmt_none   .s:fg_blue   .s:bg_none
 "       *Identifier      any variable name
 "        Function        function name (also: methods for classes)
 "
-exe "hi! Statement"      .s:fmt_none   .s:fg_green  .s:bg_none
+exe "hi! Statement"      .s:fmt_none   .s:fg_violet  .s:bg_none
 "       *Statement       any statement
 "        Conditional     if, then, else, endif, switch, etc.
 "        Repeat          for, do, while, etc.
@@ -562,14 +562,14 @@ exe "hi! Statement"      .s:fmt_none   .s:fg_green  .s:bg_none
 "        Keyword         any other keyword
 "        Exception       try, catch, throw
 
-exe "hi! PreProc"        .s:fmt_none   .s:fg_orange .s:bg_none
+exe "hi! PreProc"        .s:fmt_none   .s:fg_base1 .s:bg_none
 "       *PreProc         generic Preprocessor
 "        Include         preprocessor #include
 "        Define          preprocessor #define
 "        Macro           same as Define
 "        PreCondit       preprocessor #if, #else, #endif, etc.
 
-exe "hi! Type"           .s:fmt_none   .s:fg_yellow .s:bg_none
+exe "hi! Type"           .s:fmt_none   .s:fg_red .s:bg_none
 "       *Type            int, long, char, etc.
 "        StorageClass    static, register, volatile, etc.
 "        Structure       struct, union, enum, etc.
@@ -583,7 +583,7 @@ exe "hi! Special"        .s:fmt_none   .s:fg_red    .s:bg_none
 "        SpecialComment  special things inside a comment
 "        Debug           debugging statements
 
-exe "hi! Underlined"     .s:fmt_none   .s:fg_violet .s:bg_none
+exe "hi! Underlined"     .s:fmt_none   .s:fg_green .s:bg_none
 "       *Underlined      text that stands out, HTML links
 
 exe "hi! Ignore"         .s:fmt_none   .s:fg_none   .s:bg_none
@@ -815,6 +815,7 @@ exe "hi! rubyDefine"     . s:fg_base1  .s:bg_back   .s:fmt_bold
 " http://github.com/urso/dotrc/blob/master/vim/syntax/haskell.vim
 " ---------------------------------------------------------------------
 "
+exe "hi! pythonCoding"    . s:fg_base0   .s:bg_none   .s:fmt_none
 " Treat True and False specially, see the plugin referenced above
 let hs_highlight_boolean=1
 " highlight delims, see the plugin referenced above
@@ -822,10 +823,23 @@ let hs_highlight_delimiters=1
 
 exe "hi! cPreCondit". s:fg_orange.s:bg_none   .s:fmt_none
 
-exe "hi! VarId"    . s:fg_blue   .s:bg_none   .s:fmt_none
+exe "hi! VarId"    . s:fg_base0   .s:bg_none   .s:fmt_none
 exe "hi! ConId"    . s:fg_yellow .s:bg_none   .s:fmt_none
+
+exe "hi! rustDecNumber" . s:fg_orange.s:bg_none   .s:fmt_none
+exe "hi! rustMacro" . s:fg_cyan.s:bg_none   .s:fmt_none
+exe "hi! rustOperator" . s:fg_cyan.s:bg_none   .s:fmt_none
+exe "hi! rustEnumVariant" . s:fg_red.s:bg_none   .s:fmt_none
+
+exe "hi! clojureMacro" . s:fg_red.s:bg_none   .s:fmt_none
+exe "hi! clojureParen" . s:fg_base01.s:bg_none   .s:fmt_none
+exe "hi! clojureDefine" . s:fg_red.s:bg_none   .s:fmt_none
+exe "hi! clojureKeyword" . s:fg_cyan.s:bg_none   .s:fmt_none
+exe "hi! clojureFunc" . s:fg_blue.s:bg_none   .s:fmt_none
+
 exe "hi! hsImport" . s:fg_magenta.s:bg_none   .s:fmt_none
-exe "hi! hsString" . s:fg_base00 .s:bg_none   .s:fmt_none
+exe "hi! hsString" . s:fg_green .s:bg_none   .s:fmt_none
+exe "hi! hsPragma" . s:fg_base1 .s:bg_none   .s:fmt_none
 
 exe "hi! hsStructure"        . s:fg_cyan   .s:bg_none   .s:fmt_none
 exe "hi! hs_hlFunctionName"  . s:fg_blue   .s:bg_none
@@ -834,10 +848,11 @@ exe "hi! hsImportLabel"      . s:fg_cyan   .s:bg_none   .s:fmt_none
 exe "hi! hs_OpFunctionName"  . s:fg_yellow .s:bg_none   .s:fmt_none
 exe "hi! hs_DeclareFunction" . s:fg_orange .s:bg_none   .s:fmt_none
 exe "hi! hsVarSym"           . s:fg_cyan   .s:bg_none   .s:fmt_none
-exe "hi! hsType"             . s:fg_yellow .s:bg_none   .s:fmt_none
+exe "hi! hsType"             . s:fg_red .s:bg_none   .s:fmt_none
 exe "hi! hsTypedef"          . s:fg_cyan   .s:bg_none   .s:fmt_none
-exe "hi! hsModuleName"       . s:fg_green  .s:bg_none   .s:fmt_undr
+exe "hi! hsModuleName"       . s:fg_blue  .s:bg_none   .s:fmt_undr
 exe "hi! hsModuleStartLabel" . s:fg_magenta.s:bg_none   .s:fmt_none
+exe "hi! hsDelimiter" . s:fg_base0.s:bg_none   .s:fmt_none
 hi! link hsImportParams      Delimiter
 hi! link hsDelimTypeExport   Delimiter
 hi! link hsModuleStartLabel  hsStructure
@@ -858,7 +873,7 @@ exe "hi! pandocTitleBlockTitle"          .s:fg_blue   .s:bg_none   .s:fmt_bold
 exe "hi! pandocTitleComment"             .s:fg_blue   .s:bg_none   .s:fmt_bold
 exe "hi! pandocComment"                  .s:fg_base01 .s:bg_none   .s:fmt_ital
 exe "hi! pandocVerbatimBlock"            .s:fg_yellow .s:bg_none   .s:fmt_none
-exe "hi! pandocBlockQuote"               .s:fg_blue   .s:bg_none   .s:fmt_none
+exe "hi! pandocBlockQuote"               .s:fg_base0   .s:bg_none   .s:fmt_none
 exe "hi! pandocBlockQuoteLeader1"        .s:fg_blue   .s:bg_none   .s:fmt_none
 exe "hi! pandocBlockQuoteLeader2"        .s:fg_cyan   .s:bg_none   .s:fmt_none
 exe "hi! pandocBlockQuoteLeader3"        .s:fg_yellow .s:bg_none   .s:fmt_none
@@ -886,7 +901,7 @@ exe "hi! pandocSubscriptDefinition"          .s:fg_pdef  .s:bg_none  .s:fmt_none
 
 " Tables
 " ---------------------------------------------------------------------
-let s:fg_ptable = s:fg_blue
+let s:fg_ptable = s:fg_base0
 exe "hi! pandocTable"                        .s:fg_ptable.s:bg_none  .s:fmt_none
 exe "hi! pandocTableStructure"               .s:fg_ptable.s:bg_none  .s:fmt_none
 hi! link pandocTableStructureTop             pandocTableStructre
@@ -956,7 +971,9 @@ exe "hi! pandocRule"                     .s:fg_blue   .s:bg_none  .s:fmt_bold
 exe "hi! pandocRuleLine"                 .s:fg_blue   .s:bg_none  .s:fmt_bold
 exe "hi! pandocEscapePair"               .s:fg_red    .s:bg_none  .s:fmt_bold
 exe "hi! pandocCitationRef"              .s:fg_magenta.s:bg_none   .s:fmt_none
-exe "hi! pandocNonBreakingSpace"         . s:fg_red   .s:bg_none  .s:fmt_revr
+exe "hi! pandocNonBreakingSpace"         .s:fg_red   .s:bg_none  .s:fmt_revr
+exe "hi! pandocNoFormatted"              .s:fg_magenta .s:bg_none .s:fmt_none
+exe "hi! pandocDelimitedCodeBlockLanguage" .s:fg_base0 .s:bg_none .s:fmt_none
 hi! link pandocEscapedCharacter          pandocEscapePair
 hi! link pandocLineBreak                 pandocEscapePair
 
@@ -1115,9 +1132,10 @@ autocmd ColorScheme * if g:colors_name != "solarized" | silent! aunmenu Solarize
 " vim:foldmethod=marker:foldlevel=0
 "}}}
 "
+
 " Status Colors: {{{
-hi User1 ctermfg=33  guifg=#268bd2  ctermbg=15 guibg=#fdf6e3
-hi User2 ctermfg=125 guifg=#d33682  ctermbg=7  guibg=#eee8d5
-hi User3 ctermfg=64  guifg=#719e07  ctermbg=7  guibg=#eee8d5
-hi User4 ctermfg=37  guifg=#2aa198  ctermbg=7  guibg=#eee8d5
+hi User1 ctermfg=33  guifg=#268bd2  ctermbg=15 guibg=#f7f7f7
+hi User2 ctermfg=125 guifg=#d33682  ctermbg=7  guibg=#efefef
+hi User3 ctermfg=64  guifg=#719e07  ctermbg=7  guibg=#efefef
+hi User4 ctermfg=37  guifg=#2aa198  ctermbg=7  guibg=#efefef
 " }}}

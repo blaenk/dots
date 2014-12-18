@@ -46,11 +46,13 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'wting/rust.vim'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'godlygeek/tabular'
-Plugin 'tomtom/tcomment_vim'
 Plugin 'tomtom/tlib_vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'guns/vim-clojure-highlight'
+Plugin 'guns/vim-clojure-static'
 Plugin 'ap/vim-css-color'
+Plugin 'hail2u/vim-css3-syntax'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'jnwhiteh/vim-golang'
 Plugin 'wlangstroth/vim-haskell'
@@ -59,8 +61,9 @@ Plugin 'groenewege/vim-less'
 Plugin 'vim-pandoc/vim-pandoc'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
 Plugin 'derekwyatt/vim-scala'
+Plugin 'guns/vim-sexp'
 Plugin 'toyamarinyon/vim-swift'
-Plugin 'vim-scripts/VimClojure'
+Bundle 'cespare/vim-toml'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'mattn/webapi-vim'
 Plugin 'vim-scripts/yaml.vim'
@@ -74,11 +77,17 @@ endif
 " tpope chorus
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-fireplace'
+Plugin 'tpope/vim-leiningen'
+Plugin 'tpope/vim-projectionist'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-ragtag'
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-sexp-mappings-for-regular-people'
 
 call vundle#end()
 filetype plugin indent on
@@ -275,7 +284,7 @@ function! Status(winnum)
 
   function! Column()
     let vc = virtcol('.')
-    let ruler_width = max([strlen(line('$')), (&numberwidth - 1)])
+    let ruler_width = max([strlen(line('$')), (&numberwidth - 1)]) + &l:foldcolumn
     let column_width = strlen(vc)
     let padding = ruler_width - column_width
     let column = ''
@@ -354,13 +363,6 @@ augroup status
 augroup END
 " }}}
 
-" Status Colors: {{{
-hi User1 ctermfg=33  guifg=#268bd2  ctermbg=15 guibg=#fdf6e3
-hi User2 ctermfg=125 guifg=#d33682  ctermbg=7  guibg=#eee8d5
-hi User3 ctermfg=64  guifg=#719e07  ctermbg=7  guibg=#eee8d5
-hi User4 ctermfg=37  guifg=#2aa198  ctermbg=7  guibg=#eee8d5
-" }}}
-
 " }}}
 
 " Mappings: {{{
@@ -387,7 +389,7 @@ cmap w!! %!sudo tee > /dev/null %
 
 map <Leader>o o<Esc>ko
 
-nmap gy `[v`]
+nmap gp `[v`]
 
 vnoremap > >gv
 vnoremap < <gv
@@ -476,6 +478,7 @@ nnoremap <silent> <leader>u :GundoToggle<CR>
 " Pandoc: {{{2
 let g:pandoc#filetypes#pandoc_markdown = 1
 let g:pandoc#folding#mode = 'relative'
+let g:pandoc#folding#fdc = 0
 
 let g:pandoc#modules#enabled = [
   \"formatting",
@@ -498,6 +501,8 @@ let g:pandoc#syntax#conceal#blacklist = [
   \"newline",
   \"hrule"
   \]
+
+hi link pandocNoLabel Statement
 " }}}
 
 " UltiSnips: {{{2
@@ -518,6 +523,10 @@ let g:gitgutter_sign_modified = '#'
 nnoremap <leader>g :GitGutterToggle<CR>
 " }}}
 
+" vim-sexp: {{{2
+let g:sexp_enable_insert_mode_mappings = 0
+" }}}
+
 " CtrlP: {{{2
 
 " Settings: {{{3
@@ -533,7 +542,7 @@ let g:ctrlp_working_path_mode = 'ra'
 
 if executable('ag')
   let g:ctrlp_use_caching = 0
-  let g:ctrlp_user_command = "ag --hidden --nocolor --ignore-dir .git -l -g '' %s"
+  let g:ctrlp_user_command = "ag --hidden --nocolor --ignore .git -l -g '' %s"
 endif
 
 " let s:ctrlp_fallback =
@@ -607,13 +616,12 @@ vmap <leader>t: :Tabularize /:\zs/l0l1<CR>
 " }}}
 
 " AutoCMDs: {{{
-filetype plugin indent on
-
 augroup filespecific
   autocmd!
-  au BufRead,BufNewFile *.go setl noet | setl nolist
   au BufRead,BufNewFile *.json set ft=javascript
-  au BufRead,BufNewFile *.py setl ts=4
+  au FileType go set noet nolist
+  au FileType python setl ts=4
+  au FileType rust setl ts=2 sw=0 sts=0
 augroup END
 
 augroup cursorline
