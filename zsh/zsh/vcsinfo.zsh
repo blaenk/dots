@@ -27,7 +27,7 @@ function +vi-git-aheadbehind() {
   hook_com[misc]+=${(j::)gitstatus}
 
   if [[ -n ${hook_com[misc]} ]]; then
-    hook_com[misc]=" %F{cyan}∷%f${hook_com[misc]}"
+    hook_com[misc]=" %F{cyan}∷%f ${hook_com[misc]}"
   fi
 }
 
