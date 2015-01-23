@@ -425,9 +425,6 @@ autocmd FileType pandoc nnoremap <leader>pu :PandocUnhighlight<space>
 " }}}
 
 " Navigation: {{{2
-noremap H ^
-noremap L $
-
 nnoremap <C-J> <C-W>-
 nnoremap <C-K> <C-W>+
 nnoremap <C-L> <C-W>>
@@ -621,7 +618,7 @@ augroup filespecific
   au BufRead,BufNewFile *.json set ft=javascript
   au FileType go set noet nolist
   au FileType python setl ts=4
-  au FileType rust setl ts=2 sw=0 sts=0
+  au FileType rust setl sw=0 sts=0
 augroup END
 
 augroup cursorline
