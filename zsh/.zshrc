@@ -42,6 +42,7 @@ antigen apply
 sources=(
   'path'
   'rbenv'
+  'chruby'
   'vcsinfo'
   'prompt'
   'completions'
