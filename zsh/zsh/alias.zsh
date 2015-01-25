@@ -11,6 +11,8 @@ alias ls="ls -lh --color=auto"
 alias ":q"="exit"
 alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'
 
+alias timesync="sudo hwclock --hctosys --localtime"
+
 # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
 alias sudo='sudo '
 
