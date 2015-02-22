@@ -7,6 +7,8 @@ alias taro="tmux a -rt"
 
 alias ls="ls -lh --color=auto"
 
+alias rsup="multirust update nightly"
+
 # ;)
 alias ":q"="exit"
 alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'

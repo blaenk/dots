@@ -23,12 +23,21 @@ colorscheme solarized
 
 " Vundle: {{{
 set nocompatible
+
+let install_vundle = 0
+
+if !isdirectory($HOME . "/.vim/bundle/Vundle.vim")
+  silent !mkdir -p $HOME/.vim/bundle
+  silent !git clone https://github.com/gmarik/Vundle.vim $HOME/.vim/bundle/Vundle.vim
+  let install_vundle = 1
+endif
+
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
 " sort the bundles by plugin name with
 "   sort i /\/\zs.\+\ze'/ r
@@ -43,7 +52,7 @@ Plugin 'sjl/gundo.vim'
 Plugin 'yurifury/hexHighlight'
 Plugin 'vim-scripts/python.vim--Vasiliev'
 Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'wting/rust.vim'
+Plugin 'rust-lang/rust.vim'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'tomtom/tlib_vim'
@@ -70,7 +79,7 @@ Plugin 'vim-scripts/yaml.vim'
 
 if has('unix')
   if empty($SSH_CONNECTION)
-    Plugin 'Valloric/YouCompleteMe'
+    " Plugin 'Valloric/YouCompleteMe'
   endif
 endif
 
@@ -91,6 +100,12 @@ Plugin 'tpope/vim-sexp-mappings-for-regular-people'
 
 call vundle#end()
 filetype plugin indent on
+
+if install_vundle == 1
+  :silent! PluginInstall
+  :qa
+endif
+
 " }}}
 
 " Settings: {{{
@@ -596,7 +611,7 @@ let g:ctrlp_status_func = {
 
 " Gist: {{{2
 let g:gist_detect_filetype = 1
-let g:gist_open_browser_after_post = 1
+" let g:gist_open_browser_after_post = 1
 " }}}
 
 " Ag: {{{2

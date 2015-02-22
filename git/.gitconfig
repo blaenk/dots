@@ -7,6 +7,7 @@
 [alias]
   au = add -u
   br = branch
+  bri = branch -vv
   bs = bisect
   ci = commit
   cl = clone
@@ -21,10 +22,11 @@
   gr = grep --break --heading --line-number
   lg = log --graph --oneline --format='%C(green)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%cr%Creset'
   mrg = merge
-  pl = pull
-  ps = push
   re = remote
+  rb = rebase
+  rs = reset
   rh = reset --hard
+  rmc = rm --cache --
   rup = remote update
   sb = status -sb
   sh = stash
