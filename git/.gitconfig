@@ -33,6 +33,7 @@
   sm = submodule
   st = status
   vs = !gitx --all
+  ut = !GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --date=\"$(date)\"
 [color]
   ui = true
   branch = auto
