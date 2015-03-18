@@ -13,7 +13,7 @@ alias rsup="multirust update nightly"
 alias ":q"="exit"
 alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'
 
-alias timesync="sudo hwclock --hctosys --localtime"
+alias tsup="sudo ntpd -qg"
 
 # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
 alias sudo='sudo '
