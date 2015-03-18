@@ -1114,10 +1114,18 @@ autocmd ColorScheme * if g:colors_name != "solarized" | silent! aunmenu Solarize
 "
 " vim:foldmethod=marker:foldlevel=0
 "}}}
-"
+
 " Status Colors: {{{
-hi User1 ctermfg=33  guifg=#268bd2  ctermbg=15 guibg=#fdf6e3
-hi User2 ctermfg=125 guifg=#d33682  ctermbg=7  guibg=#eee8d5
-hi User3 ctermfg=64  guifg=#719e07  ctermbg=7  guibg=#eee8d5
-hi User4 ctermfg=37  guifg=#2aa198  ctermbg=7  guibg=#eee8d5
+exe "hi User1" .s:fg_blue    .s:bg_base03
+exe "hi User2" .s:fg_magenta .s:bg_base02
+exe "hi User3" .s:fg_green   .s:bg_base02
+exe "hi User4" .s:fg_cyan    .s:bg_base02
 " }}}
+
+" Cursor Colors: {{{
+exe "hi InsertCursor"  .s:fg_base03 .s:bg_cyan
+exe "hi VisualCursor"  .s:fg_base03 .s:bg_magenta
+exe "hi ReplaceCursor" .s:fg_base03 .s:bg_red
+exe "hi CommandCursor" .s:fg_base03 .s:bg_blue
+" }}}
+

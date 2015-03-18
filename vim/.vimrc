@@ -138,11 +138,6 @@ set gcr+=v-ve:VisualCursor
 
 set gcr+=a:blinkon0
 
-hi InsertCursor  ctermfg=15 guifg=#fdf6e3 ctermbg=37  guibg=#2aa198
-hi VisualCursor  ctermfg=15 guifg=#fdf6e3 ctermbg=125 guibg=#d33682
-hi ReplaceCursor ctermfg=15 guifg=#fdf6e3 ctermbg=65  guibg=#dc322f
-hi CommandCursor ctermfg=15 guifg=#fdf6e3 ctermbg=33  guibg=#268bd2
-
 set shortmess=atToOI
 set viewoptions+=unix,slash
 
