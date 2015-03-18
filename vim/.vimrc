@@ -449,6 +449,7 @@ nnoremap <silent> <M-k> :tabmove +1<CR>
 
 " Plugins_Misc: {{{2
 map <F10> :echo HighlightGroups()<CR>
+call togglebg#map("<F5>")
 
 function! HighlightGroups()
   let l:h = synIDattr(synID(line('.'), col('.'), 1), 'name')
