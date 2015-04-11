@@ -26,6 +26,9 @@ alias rake='noglob rake'
 # prompt if deleting more than 3 files
 alias rm='rm -I'
 
+# update vundle
+alias vimup='vim +PluginInstall! +qall'
+
 if (( $+commands[xsel] )); then
   alias cbc='xsel -i -b'
   alias cbp='xsel -o -b'

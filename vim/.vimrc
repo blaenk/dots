@@ -394,6 +394,8 @@ inoremap jj <ESC>
 " Editing: {{{2
 nnoremap ZS :w<CR>
 
+command! CloneBuffer new | put =getbufline('#',1,'$') | 1d_
+
 " 'force' write
 cmap w!! %!sudo tee > /dev/null %
 
@@ -607,6 +609,8 @@ let g:ctrlp_status_func = {
 
 " Gist: {{{2
 let g:gist_detect_filetype = 1
+let g:gist_post_private = 1
+let g:gist_show_privates = 1
 " let g:gist_open_browser_after_post = 1
 " }}}
 
