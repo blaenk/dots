@@ -7,8 +7,6 @@ alias taro="tmux a -rt"
 
 alias ls="ls -lh --color=auto"
 
-alias rsup="multirust update nightly"
-
 # ;)
 alias ":q"="exit"
 alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'
@@ -35,6 +33,11 @@ if (( $+commands[xsel] )); then
 elif (( $+commands[pbcopy] )); then
   alias cbc='pbcopy'
   alias cbp='pbpaste'
+fi
+
+if (( $+commands[multirust] )); then
+  alias mr='multirust'
+  alias mrup="multirust update"
 fi
 
 if (( $+commands[gist] )); then
