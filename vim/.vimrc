@@ -85,6 +85,7 @@ endif
 
 " tpope chorus
 Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-rsi'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-leiningen'
