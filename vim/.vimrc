@@ -452,8 +452,6 @@ function! BindH(lang)
 endfunction
 
 autocmd FileType pandoc command! -nargs=1 -complete=syntax Highlight call BindH(<f-args>)
-autocmd FileType pandoc nnoremap <leader>ph :Highlight<space>
-autocmd FileType pandoc nnoremap <leader>pu :PandocUnhighlight<space>
 
 " }}}
 
@@ -471,6 +469,8 @@ nnoremap <silent> <M-k> :tabmove +1<CR>
 " }}}
 
 " Plugins_Misc: {{{2
+nnoremap <leader>hc <Plug>RefreshColorScheme
+
 map <F10> :echo HighlightGroups()<CR>
 call togglebg#map("<F5>")
 
@@ -649,10 +649,10 @@ fu! CtrlP_main_status(...)
   let item = ' ' . (a:5 == 'mru files' ? 'mru' : a:5) . ' '
   let nxt = '%#StatusLineNC# '.a:6.' %*'
   let byfname = '%2* '.a:2.' %*'
-  let dir = '%3* ← %*%#StatusLineNC#' . fnamemodify(getcwd(), ':~') . '%* '
+  let dir = '%#SLBranch# ← %*%#StatusLineNC#' . fnamemodify(getcwd(), ':~') . '%* '
 
   " only outputs current mode
-  retu ' %4*»%*' . item . '%4*«%* ' . '%=%<' . dir
+  retu ' %#SLArrows#»%*' . item . '%#SLArrows#«%* ' . '%=%<' . dir
 
   " outputs previous/next modes as well
   " retu prv . '%4*»%*' . item . '%4*«%*' . nxt . '%=%<' . dir
