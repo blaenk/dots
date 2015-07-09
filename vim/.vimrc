@@ -257,9 +257,9 @@ function! Status(winnum)
   " it only colors the input if the window is the currently
   " focused one
 
-  function! Color(active, num, content)
+  function! Color(active, group, content)
     if a:active
-      return '%' . a:num . '*' . a:content . '%*'
+      return '%#' . a:group . '#' . a:content . '%*'
     else
       return a:content
     endif
@@ -267,13 +267,14 @@ function! Status(winnum)
 
   " this handles alternative statuslines
   let usealt = 0
-  let altstat = Color(active, 4, ' »')
 
   let type = getbufvar(bufnum, '&buftype')
   let name = bufname(bufnum)
 
+  let altstat = ''
+
   if type ==# 'help'
-    let altstat .= ' ' . fnamemodify(name, ':t:r')
+    let altstat .= '%#SLHelp# HELP %* ' . fnamemodify(name, ':t:r')
     let usealt = 1
   elseif name ==# '__Gundo__'
     let altstat .= ' Gundo'
@@ -284,7 +285,6 @@ function! Status(winnum)
   endif
 
   if usealt
-    let altstat .= Color(active, 4, ' «')
     return altstat
   endif
 
@@ -308,39 +308,43 @@ function! Status(winnum)
     if padding <= 0
       let column .= vc
     else
-      " + 1 becuase for some reason vim eats one of the spaces
+      " + 1 because for some reason vim eats one of the spaces
       let column .= repeat(' ', padding + 1) . vc
     endif
 
     return column . ' '
   endfunction
 
-  let stat .= '%1*'
+  let stat .= '%#SLColumn#'
   let stat .= '%{Column()}'
   let stat .= '%*'
 
+  if getwinvar(a:winnum, 'statusline_progress', 0)
+    let stat .= Color(active, 'SLProgress', ' %p ')
+  endif
+
   " file name
-  let stat .= Color(active, 4, active ? ' »' : ' «')
+  let stat .= Color(active, 'SLArrows', active ? ' »' : ' «')
   let stat .= ' %<'
   let stat .= '%f'
-  let stat .= ' ' . Color(active, 4, active ? '«' : '»')
+  let stat .= ' ' . Color(active, 'SLArrows', active ? '«' : '»')
 
   " file modified
   let modified = getbufvar(bufnum, '&modified')
-  let stat .= Color(active, 2, modified ? ' +' : '')
+  let stat .= Color(active, 'SLLineNr', modified ? ' +' : '')
 
   " read only
   let readonly = getbufvar(bufnum, '&readonly')
-  let stat .= Color(active, 2, readonly ? ' ‼' : '')
+  let stat .= Color(active, 'SLLineNR', readonly ? ' ‼' : '')
 
   " paste
   if active
-    if &spell
-      let stat .= ' %2*' . 'S' . '%*'
+    if getwinvar(a:winnum, '&spell')
+      let stat .= Color(active, 'SLLineNr', ' S')
     endif
 
-    if &paste
-      let stat .= ' %2*' . 'P' . '%*'
+    if getwinvar(a:winnum, '&paste')
+      let stat .= Color(active, 'SLLineNr', ' P')
     endif
   endif
 
@@ -358,7 +362,7 @@ function! Status(winnum)
   endif
 
   if !empty(head)
-    let stat .= Color(active, 3, ' ← ') . head . ' '
+    let stat .= Color(active, 'SLBranch', ' ← ') . head . ' '
   endif
 
   return stat
@@ -366,6 +370,17 @@ endfunction
 " }}}
 
 " Status AutoCMD: {{{
+function! s:ToggleStatusProgress()
+  if !exists('w:statusline_progress')
+    let w:statusline_progress = 0
+  endif
+
+  let w:statusline_progress = !w:statusline_progress
+endfunction
+
+command! ToggleStatusProgress :call s:ToggleStatusProgress()
+
+nnoremap <silent> ,p :ToggleStatusProgress<CR>
 
 function! s:RefreshStatus()
   for nr in range(1, winnr('$'))
@@ -373,9 +388,11 @@ function! s:RefreshStatus()
   endfor
 endfunction
 
+command! RefreshStatus :call <SID>RefreshStatus()
+
 augroup status
   autocmd!
-  autocmd VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
+  autocmd VimEnter,VimLeave,WinEnter,WinLeave,BufWinEnter,BufWinLeave * :RefreshStatus
 augroup END
 " }}}
 
@@ -391,8 +408,6 @@ nnoremap <silent> <leader>c :set list!<CR>
 nnoremap <silent> <leader>n :set rnu!<CR>
 nnoremap <silent> <leader>t :set rnu! list! number!<CR>
 nnoremap <silent> <leader>s :set spell!<CR>
-
-"vnoremap // y/<C-R>"<CR>
 
 inoremap jj <ESC>
 " }}}
@@ -500,6 +515,7 @@ autocmd FilterWritePre *
   \ if &diff |
   \   xnoremap <buffer> dp :diffput<CR> |
   \   xnoremap <buffer> do :diffget<CR> |
+  \   nnoremap <buffer> du :diffupdate<CR> |
   \ endif
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
@@ -513,7 +529,7 @@ function! ToggleGStatus()
     endif
 endfunction
 
-command ToggleGStatus :call ToggleGStatus()
+command! ToggleGStatus :call ToggleGStatus()
 
 cnoreabbrev <expr> Gcommit ((getcmdtype() is# ':' && getcmdline() is# 'Gcommit')?('Gcommit -v'):('Gcommit'))
 cnoreabbrev <expr> Gbrowse ((getcmdtype() is# ':' && getcmdline() is# 'Gbrowse')?('Gbrowse!'):('Gbrowse'))

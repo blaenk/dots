@@ -609,7 +609,7 @@ else
     exe "hi! SpecialKey" .s:fmt_bold   .s:fg_base00 .s:bg_none
     exe "hi! NonText"    .s:fmt_bold   .s:fg_base00 .s:bg_none
 endif
-exe "hi! StatusLine"     .s:fmt_none   .s:fg_base0 .s:bg_base02
+exe "hi! StatusLine"     .s:fmt_none   .s:fg_base1 .s:bg_base02
 exe "hi! StatusLineNC"   .s:fmt_none   .s:fg_base01 .s:bg_base02
 exe "hi! Visual"         .s:fmt_none   .s:fg_base01 .s:bg_base03 .s:fmt_revbb
 exe "hi! Directory"      .s:fmt_none   .s:fg_blue   .s:bg_none
@@ -1116,10 +1116,12 @@ autocmd ColorScheme * if g:colors_name != "solarized" | silent! aunmenu Solarize
 "}}}
 
 " Status Colors: {{{
-exe "hi User1" .s:fg_blue    .s:bg_base03
-exe "hi User2" .s:fg_magenta .s:bg_base02
-exe "hi User3" .s:fg_green   .s:bg_base02
-exe "hi User4" .s:fg_cyan    .s:bg_base02
+exe "hi SLColumn" .s:fg_blue    .s:bg_base03
+exe "hi SLLineNr" .s:fg_magenta .s:bg_base02
+exe "hi SLBranch" .s:fg_green   .s:bg_base02
+exe "hi SLArrows" .s:fg_cyan    .s:bg_base02
+exe "hi SLProgress" .s:fg_base02  .s:bg_orange
+exe "hi SLHelp" .s:fg_base02  .s:bg_red
 " }}}
 
 " Cursor Colors: {{{
