@@ -5,6 +5,9 @@ alias tn="tmux new -s"
 alias ta="tmux a -t"
 alias taro="tmux a -rt"
 
+# ag
+alias agq="ag -Q"
+
 alias ls="ls -lh --color=auto"
 
 # ;)
