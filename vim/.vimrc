@@ -44,13 +44,11 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'vim-scripts/a.vim'
 Plugin 'rking/ag.vim'
-Plugin 'PeterRincker/vim-argumentative'
 Plugin 'msanders/cocoa.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'mattn/gist-vim'
 Plugin 'sjl/gundo.vim'
-Plugin 'yurifury/hexHighlight'
 Plugin 'vim-scripts/python.vim--Vasiliev'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'rust-lang/rust.vim'
@@ -59,9 +57,9 @@ Plugin 'godlygeek/tabular'
 Plugin 'tomtom/tlib_vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'PeterRincker/vim-argumentative'
 Plugin 'guns/vim-clojure-highlight'
 Plugin 'guns/vim-clojure-static'
-Plugin 'ap/vim-css-color'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'airblade/vim-gitgutter'
@@ -89,19 +87,19 @@ endif
 
 " tpope chorus
 Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-rsi'
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-fireplace'
-Plugin 'tpope/vim-leiningen'
-Plugin 'tpope/vim-projectionist'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-dispatch'
+Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-leiningen'
+Plugin 'tpope/vim-projectionist'
 Plugin 'tpope/vim-ragtag'
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-rsi'
 Plugin 'tpope/vim-sexp-mappings-for-regular-people'
+Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 
 call vundle#end()
@@ -469,8 +467,6 @@ nnoremap <silent> <M-k> :tabmove +1<CR>
 " }}}
 
 " Plugins_Misc: {{{2
-nnoremap <leader>hc <Plug>RefreshColorScheme
-
 map <F10> :echo HighlightGroups()<CR>
 call togglebg#map("<F5>")
 
@@ -495,9 +491,6 @@ function! HighlightGroups()
 endfunction
 
 nnoremap <leader>r :RainbowParenthesesToggle<CR>
-
-nmap <leader>ht <Plug>HexHighlightToggle
-nmap <leader>hr <Plug>HexHighlightRefresh
 
 nnoremap <silent> <leader>u :GundoToggle<CR>
 " }}}
