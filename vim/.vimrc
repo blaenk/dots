@@ -491,6 +491,56 @@ nnoremap <silent> <leader>u :GundoToggle<CR>
 
 " Plugins: {{{
 
+" Fugitive: {{{2
+autocmd User Fugitive
+  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+  \   nnoremap <buffer> .. :edit %:h<CR> |
+  \ endif
+autocmd FilterWritePre *
+  \ if &diff |
+  \   xnoremap <buffer> dp :diffput<CR> |
+  \   xnoremap <buffer> do :diffget<CR> |
+  \ endif
+
+autocmd BufReadPost fugitive://* set bufhidden=delete
+autocmd QuickFixCmdPost *grep* cwindow
+
+function! ToggleGStatus()
+    if buflisted(bufname('.git/index'))
+        bd .git/index
+    else
+        Gstatus
+    endif
+endfunction
+
+command ToggleGStatus :call ToggleGStatus()
+
+cnoreabbrev <expr> Gcommit ((getcmdtype() is# ':' && getcmdline() is# 'Gcommit')?('Gcommit -v'):('Gcommit'))
+cnoreabbrev <expr> Gbrowse ((getcmdtype() is# ':' && getcmdline() is# 'Gbrowse')?('Gbrowse!'):('Gbrowse'))
+cnoreabbrev <expr> Gdiff ((getcmdtype() is# ':' && getcmdline() is# 'Gdiff')?('Gvdiff'):('Gdiff'))
+
+nnoremap ,gs :ToggleGStatus<CR>
+nnoremap ,gg :Ggrep ""<left>
+nnoremap ,gc :Gcommit -v -q<CR>
+nnoremap ,gh :silent! Glog<CR>
+nnoremap ,gl :silent! Glog --<CR>
+nnoremap ,gd :Gvdiff<CR>
+nnoremap ,gb :Gblame<CR>
+nnoremap ,gn :Gbrowse!<CR>
+
+" optional revision; no revision = index copy
+nnoremap ,ge :Gedit<CR>
+nnoremap ,gr :Gread<CR>
+nnoremap ,gw :Gwrite<CR>
+
+nnoremap ,go :Git checkout<space>
+
+" }}}
+
+" ToggleList: {{{2
+nnoremap <script> <silent> <leader>q :call ToggleQuickfixList()<CR>
+" }}}
+
 " Pandoc: {{{2
 let g:pandoc#filetypes#pandoc_markdown = 1
 let g:pandoc#folding#mode = 'relative'
@@ -533,10 +583,9 @@ let g:ycm_key_list_select_completion = ['<C-y>', '<Down>']
 
 " GitGutter: {{{2
 let g:gitgutter_enabled = 0
-let g:gitgutter_realtime = 0
 let g:gitgutter_sign_modified = '#'
 
-nnoremap <leader>g :GitGutterToggle<CR>
+nnoremap <leader>gm :GitGutterToggle<CR>
 " }}}
 
 " vim-sexp: {{{2
