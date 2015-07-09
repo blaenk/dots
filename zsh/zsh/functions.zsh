@@ -109,6 +109,13 @@ function open() {
   fi
 }
 
+# go to the dotfiles directory
+
+function go_dots() {
+  emulate -LR zsh
+  cd $DOTSPATH
+}
+
 # edit the dotfiles
 
 function edit_dots() {
@@ -281,6 +288,8 @@ function dots() {
       put_dots;;
     edit )
       edit_dots;;
+    go )
+      go_dots;;
     * )
       msg_user "use the 'get' or 'put' commands"
       echo ''
