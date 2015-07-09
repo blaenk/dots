@@ -1,9 +1,11 @@
 [user]
   name = Jorge Israel Peña
   email = jorge.israel.p@gmail.com
+
 [core]
   editor = vim
   pager = less -+$LESS -FRX
+
 [alias]
   au = add -u
   br = branch
@@ -34,19 +36,32 @@
   st = status
   vs = !gitx --all
   ut = !GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --date=\"$(date)\"
+
 [color]
   ui = true
   branch = auto
   diff = auto
   grep = auto
+
 [diff]
   tool = vimdiff
+
 [difftool]
   prompt = false
+
 [push]
   default = simple
+
 [grep]
   extendRegexp = true
   lineNumber = true
+
 [github]
   user = blaenk
+
+[web]
+  browser = clipboard
+
+[browser "clipboard"]
+  cmd = sh -c 'echo -n "$@" | xsel -i -b' --
+
