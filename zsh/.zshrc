@@ -40,6 +40,7 @@ antigen apply
 
 # strict control over source order
 sources=(
+  'hub'
   'path'
   'rbenv'
   'chruby'
