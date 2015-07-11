@@ -380,6 +380,20 @@ command! ToggleStatusProgress :call s:ToggleStatusProgress()
 
 nnoremap <silent> ,p :ToggleStatusProgress<CR>
 
+function! s:IsDiff()
+  let result = 0
+
+  for nr in range(1, winnr('$'))
+    let result = result || getwinvar(nr, '&diff')
+
+    if result
+      return result
+    endif
+  endfor
+
+  return result
+endfunction
+
 function! s:RefreshStatus()
   for nr in range(1, winnr('$'))
     call setwinvar(nr, '&statusline', '%!Status(' . nr . ')')
@@ -400,8 +414,7 @@ augroup END
 let mapleader = ","
 
 " Modes: {{{2
-nnoremap <silent> <M-p> :set paste!<CR>
-nnoremap <silent> <leader>l :noh<CR>
+nnoremap <silent> <leader>l :noh \| diffupdate<CR>
 nnoremap <silent> <leader>c :set list!<CR>
 nnoremap <silent> <leader>n :set rnu!<CR>
 nnoremap <silent> <leader>t :set rnu! list! number!<CR>
@@ -504,12 +517,17 @@ autocmd User Fugitive
   \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
   \   nnoremap <buffer> .. :edit %:h<CR> |
   \ endif
+
+autocmd VimResized * if <SID>IsDiff() | wincmd = | endif
 autocmd FilterWritePre *
-  \ if &diff |
-  \   xnoremap <buffer> dp :diffput<CR> |
-  \   xnoremap <buffer> do :diffget<CR> |
-  \   nnoremap <buffer> du :diffupdate<CR> |
+  \ if <SID>IsDiff() |
+  \   set columns=180 lines=55 | wincmd = |
+  \ else |
+  \   set columns=85 lines=25 |
   \ endif
+
+cnoreabbrev <expr> dp ((getcmdtype() is# ':' && getcmdline() is# "'<,'>dp")?('diffput'):('dp'))
+cnoreabbrev <expr> do ((getcmdtype() is# ':' && getcmdline() is# "'<,'>do")?('diffget'):('do'))
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
 autocmd QuickFixCmdPost *grep* cwindow
