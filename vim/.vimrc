@@ -547,6 +547,7 @@ nnoremap ,go :Git checkout<space>
 " }}}
 
 " ToggleList: {{{2
+let g:toggle_list_no_mappings = 0
 nnoremap <script> <silent> <leader>q :call ToggleQuickfixList()<CR>
 " }}}
 
