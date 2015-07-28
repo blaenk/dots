@@ -141,7 +141,7 @@
 (use-package browse-at-remote
   :ensure t
   :bind
-  ("C-c g o" . browse-at-remote/to-clipboard))
+  ("C-x g o" . browse-at-remote/to-clipboard))
 
 (use-package cider
   :ensure t
