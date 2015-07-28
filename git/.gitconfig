@@ -1,3 +1,6 @@
+[include]
+path = .gitconfig.local
+
 [user]
   name = Jorge Israel Peña
   email = jorge.israel.p@gmail.com
@@ -11,10 +14,9 @@
   br = branch
   bri = branch -vv
   bs = bisect
-  ci = commit
+  ci = commit -v
   cl = clone
   co = checkout
-  cp = cherry-pick
   df = diff
   dfw = diff --word-diff
   dfc = diff --cached
@@ -28,8 +30,6 @@
   rb = rebase
   rs = reset
   rh = reset --hard
-  rmc = rm --cache --
-  rup = remote update
   sb = status -sb
   sh = stash
   sm = submodule
@@ -55,9 +55,6 @@
 [grep]
   extendRegexp = true
   lineNumber = true
-
-[github]
-  user = blaenk
 
 [web]
   browser = clipboard
