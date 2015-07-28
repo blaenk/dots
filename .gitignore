@@ -16,3 +16,9 @@ xmonad/.xmonad/xmonad.hi
 xmonad/.xmonad/xmonad.o
 
 mpv/.mpv/watch_later/
+
+emacs/.emacs.d/autosaves
+emacs/.emacs.d/backups
+emacs/.emacs.d/elpa
+emacs/.emacs.d/undos
+emacs/.emacs.d/var
