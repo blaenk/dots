@@ -22,3 +22,12 @@ emacs/.emacs.d/backups
 emacs/.emacs.d/elpa
 emacs/.emacs.d/undos
 emacs/.emacs.d/var
+emacs/.emacs.d/eshell
+emacs/.emacs.d/ido.last
+emacs/.emacs.d/projectile-bookmarks.eld
+emacs/.emacs.d/recentf
+emacs/.emacs.d/saved-places
+emacs/.emacs.d/url
+emacs/.emacs.d/.#recentf
+emacs/.emacs.d/.last-package-update-day
+emacs/.emacs.d/.sx
