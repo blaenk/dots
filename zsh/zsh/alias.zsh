@@ -5,6 +5,11 @@ alias tn="tmux new -s"
 alias ta="tmux a -t"
 alias taro="tmux a -rt"
 
+# emacs
+alias em="emacsclient -nc"
+alias ema="emacsclient -nc"
+alias emc="emacsclient -nc"
+
 # ag
 alias agq="ag -Q"
 
@@ -49,6 +54,7 @@ fi
 
 if (( $+commands[systemctl] )); then
   alias sc="systemctl"
+  alias scu="systemctl --user"
 fi
 
 if (( $+commands[pacman] )); then
