@@ -306,14 +306,11 @@
 (use-package ggtags
   :ensure t
 
-  :init
-  ;; TODO use zsh vars
-  (setenv "GTAGSCONF" "/home/blaenk/.globalrc")
-  (setenv "GTAGSLABEL" "ctags")
-  (push "GTAGS not found" debug-ignored-errors)
-
   :config
-  (add-hook 'prog-mode-hook 'ggtags-mode))
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+                (ggtags-mode 1)))))
 
 (use-package gist
   :ensure t)

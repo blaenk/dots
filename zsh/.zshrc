@@ -53,6 +53,7 @@ sources=(
   'alias'
   'linux'
   'osx'
+  'gtags'
 )
 
 for src in $sources; do
