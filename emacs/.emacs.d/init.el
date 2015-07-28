@@ -496,8 +496,7 @@
    ("C-x g p" . magit-dispatch-popup))
 
   :config
-  (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
-  (add-hook 'git-commit-setup-hook 'magit-diff-while-committing))
+  (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell))
 
 (use-package magit-filenotify
   :ensure t
