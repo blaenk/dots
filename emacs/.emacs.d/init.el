@@ -312,6 +312,15 @@
 
   :init
   ;; (setq evil-search-module 'evil-search)
+  ;; TODO show trailing whitespace in combination with this?
+  ;; (setq evil-cross-lines t)
+  (setq evil-move-cursor-back nil)
+  (setq evil-symbol-word-search t)
+
+  (setq evil-want-C-w-in-emacs-state t)
+  (setq evil-want-C-w-delete t)
+  ;; NOTE this may be problematic
+  (setq evil-want-C-u-scroll t)
 
   :config
   (with-eval-after-load 'ggtags
@@ -320,7 +329,30 @@
     ;; force update evil keymaps after ggtags-mode loaded
     (add-hook 'ggtags-mode-hook #'evil-normalize-keymaps))
 
-  (define-key evil-normal-state-map (kbd "gp") 'exchange-point-and-mark)
+  (define-key evil-insert-state-map (kbd "RET") 'comment-indent-new-line)
+
+  (defun my-open-line ()
+    (interactive)
+    (if (elt (syntax-ppss) 4)
+        (progn
+          (end-of-visual-line)
+          (comment-indent-new-line)
+          (evil-insert 0))
+      (evil-open-below 1)))
+
+  (define-key evil-normal-state-map (kbd "o") 'my-open-line)
+  ;; (define-key evil-normal-state-map (kbd "O")
+  ;;   (lambda ()
+  ;;     (interactive)
+  ;;     (previous-line)
+  ;;     (my-open-line)))
+
+  (define-key evil-insert-state-map (kbd "C-u") 'my-kill-line)
+  (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+
+  (define-key evil-normal-state-map (kbd "g p") 'exchange-point-and-mark)
+
+  (define-key evil-normal-state-map (kbd "C-w q") 'evil-window-delete)
 
   (define-key evil-insert-state-map (kbd "M-v") 'evil-paste-before)
 
