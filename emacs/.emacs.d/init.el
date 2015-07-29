@@ -83,8 +83,8 @@
 (electric-pair-mode)
 (show-paren-mode)
 
-;; TODO remember what column limit was
-(add-hook 'rust-mode 'fci-mode)
+(add-hook 'prog-mode 'fci-mode)
+(add-hook 'prog-mode 'whitespace-mode)
 
 (defvaralias 'c-basic-offset 'tab-width)
 
