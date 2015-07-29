@@ -17,9 +17,11 @@
        (auto-save-list-prefix (expand-file-name "saves-" auto-save-dir))
        (place-dir (expand-file-name "saved-places" user-emacs-directory)))
   (setq backup-directory-alist `((".*" . ,backup-dir)))
+  (setq version-control t)
+  (setq delete-old-versions t)
   (setq undo-tree-history-directory-alist `((".*" . ,undo-history-dir)))
-  (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t)))
   (setq auto-save-list-file-prefix auto-save-list-prefix)
+  (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t)))
   (setq save-place-file place-dir))
 
 (setq debug-on-error t)
