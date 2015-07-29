@@ -431,7 +431,10 @@
                 (ggtags-mode 1)))))
 
 (use-package gist
-  :ensure t)
+  :ensure t
+  :bind
+  (("C-x p s" . gist-region-or-buffer-private)
+   ("C-x p p" . gist-region-or-buffer)))
 
 (use-package json-mode
   :ensure t)
@@ -448,9 +451,10 @@
 (use-package git-gutter
   :ensure t
   :bind
-  (("C-x g g t" . git-gutter:toggle)
-   ("C-x g g n" . git-gutter:next-hunk)
-   ("C-x g g p" . git-gutter:previous-hunk)))
+  ;; NOTE mnemonic is 'git ruler'
+  (("C-x g r t" . git-gutter:toggle)
+   ("C-x g r n" . git-gutter:next-hunk)
+   ("C-x g r p" . git-gutter:previous-hunk)))
 
 (use-package markdown-mode
   :ensure t
@@ -674,6 +678,10 @@
   (setq relative-line-numbers-format #'abs-rel-numbers)
 
   :config
+  (with-eval-after-load 'evil-leader
+    (evil-leader/set-key "n" 'relative-line-numbers-mode))
+
+  (setq relative-line-numbers-motion-function 'forward-visible-line)
   (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
 
 (use-package rust-mode
