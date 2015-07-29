@@ -28,11 +28,7 @@
 ;; * continue comment on newline
 
 (setq debug-on-error t)
-;; (setq-default show-trailing-whitespace t)
-;; FIXME
-;; use space-after-tab and vice versa instead of tabs
-;; this will make it possible to view tab-only files too?
-(setq whitespace-style '(face trailing tabs lines-tail empty))
+(setq whitespace-style '(face trailing lines-tail empty))
 
 (when window-system (set-frame-size (selected-frame) 96 41))
 
@@ -79,7 +75,6 @@
 (blink-cursor-mode 0)
 (savehist-mode)
 (recentf-mode)
-(global-whitespace-mode)
 (global-visual-line-mode)
 (column-number-mode)
 (flyspell-prog-mode)
