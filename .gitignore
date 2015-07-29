@@ -31,3 +31,5 @@ emacs/.emacs.d/url
 emacs/.emacs.d/.#recentf
 emacs/.emacs.d/.last-package-update-day
 emacs/.emacs.d/.sx
+/emacs/.emacs.d/projectile.cache
+/emacs/.emacs.d/history
