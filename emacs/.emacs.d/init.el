@@ -844,3 +844,12 @@
 
 (use-package wgrep
   :ensure t)
+(use-package buffer-move
+  :ensure t
+  :config
+  (with-eval-after-load 'evil
+    (define-key evil-window-map (kbd "m k") 'buf-move-up)
+    (define-key evil-window-map (kbd "m j") 'buf-move-down)
+    (define-key evil-window-map (kbd "m h") 'buf-move-left)
+    (define-key evil-window-map (kbd "m l") 'buf-move-right)))
+
