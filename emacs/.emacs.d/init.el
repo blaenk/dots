@@ -24,7 +24,20 @@
   (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t)))
   (setq save-place-file place-dir))
 
+;; TODO
+;; * continue comment on newline
+
 (setq debug-on-error t)
+;; (setq-default show-trailing-whitespace t)
+;; FIXME
+;; use space-after-tab and vice versa instead of tabs
+;; this will make it possible to view tab-only files too?
+(setq whitespace-style '(face trailing tabs lines-tail empty))
+
+(when window-system (set-frame-size (selected-frame) 96 41))
+
+(setq whitespace-line-column nil)
+(setq-default fill-column 80)
 (setq-default cursor-type 'box)
 (setq inhibit-startup-message t)
 (setq show-paren-delay 0)
@@ -33,19 +46,38 @@
 (setq mouse-wheel-progressive-speed t)
 (setq mouse-wheel-follow-mouse 't)
 (setq scroll-step 1)
+(setq scroll-conservatively 10000)
+(setq scroll-preserve-screen-position t)
 (setq gdb-many-windows t)
 (setq tab-width 4)
 (setq-default indent-tabs-mode nil)
+(setq-default echo-keystrokes 0.5)
+;; 64 mb before gc kicks in
+(setq gc-cons-threshold 64000000)
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq split-height-threshold 0)
+(setq split-width-threshold 0)
+(setq uniquify-buffer-name-style 'forward)
+(add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
+(setq frame-title-format
+      '((:eval (replace-regexp-in-string "^ +" "" (buffer-name)))))
+(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+(setq eldoc-idle-delay 0.1)
 
 (set-frame-font "DejaVu Sans Mono-11")
 
-(blink-cursor-mode 0)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(blink-cursor-mode 0)
+(savehist-mode)
+(recentf-mode)
+(global-whitespace-mode)
+(global-visual-line-mode)
 (column-number-mode)
 (flyspell-prog-mode)
 (winner-mode)
+(goto-address-mode)
 (electric-pair-mode)
 (show-paren-mode)
 
