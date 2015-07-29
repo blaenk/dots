@@ -618,9 +618,7 @@
 
   :config
   (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
-  (add-hook 'git-commit-setup-hook (lambda ()
-                                     (setq-default fill-column 50)
-                                     (fci-mode))))
+  (add-hook 'git-commit-setup-hook 'fci-mode))
 
 (use-package magit-filenotify
   :ensure t
