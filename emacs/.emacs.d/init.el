@@ -83,6 +83,9 @@
 (electric-pair-mode)
 (show-paren-mode)
 
+;; TODO remember what column limit was
+(add-hook 'rust-mode 'fci-mode)
+
 (defvaralias 'c-basic-offset 'tab-width)
 
 ;; ediff
@@ -228,7 +231,16 @@
   (add-hook 'cider-mode-hook #'eldoc-mode))
 
 (use-package company
-  :ensure t)
+  :ensure t
+  :config
+  ;; TODO audit
+  (setq company-idle-delay 0.1
+        company-minimum-prefix-length 2
+        company-selection-wrap-around t
+        company-show-numbers t
+        company-require-match 'never
+        company-dabbrev-downcase nil
+        company-dabbrev-ignore-case t))
 
 (use-package clojure-mode
   :ensure t)
@@ -246,6 +258,54 @@
   :config
   (add-hook 'sgml-mode-hook 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode))
+
+(use-package evil-anzu
+  :ensure t
+  :no-require t
+  :config
+  (with-eval-after-load 'evil
+    (require 'evil-anzu)))
+
+(use-package evil-commentary
+  :ensure t
+  :config
+  (evil-commentary-mode))
+
+(use-package evil-exchange
+  :ensure t
+  :config
+  (evil-exchange-install))
+
+(use-package evil-leader
+  :ensure t
+
+  :config
+  (global-evil-leader-mode)
+  (evil-leader/set-leader "<SPC>")
+
+  (evil-leader/set-key
+    "o" (lambda ()
+          (interactive)
+          (evil-open-above 1)
+          (newline-and-indent))
+    "l" 'evil-ex-nohighlight
+    "m" 'evil-visual-mark-mode))
+
+(use-package evil-numbers
+  :ensure t)
+
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+
+(use-package evil-visual-mark-mode
+  :ensure t)
+
+(use-package evil-visualstar
+  :ensure t
+  :config
+  (global-evil-visualstar-mode))
 
 (use-package evil
   :ensure t
@@ -315,57 +375,6 @@
     (add-hook mode-hook 'my-evil-off))
 
   (evil-mode 1))
-
-(use-package evil-anzu
-  :ensure t
-  :no-require t
-  :config
-  (with-eval-after-load 'evil
-    (require 'evil-anzu)))
-
-(use-package evil-commentary
-  :ensure t
-  :config
-  (evil-commentary-mode))
-
-(use-package evil-exchange
-  :ensure t
-  :config
-  (evil-exchange-install))
-
-(use-package evil-leader
-  :ensure t
-
-  :init
-  (setq evil-leader/in-all-states 1)
-
-  :config
-  (global-evil-leader-mode)
-  (evil-leader/set-leader ",")
-
-  (evil-leader/set-key
-    "n" 'relative-line-numbers-mode
-    "l" 'evil-ex-nohighlight
-    "m" 'evil-visual-mark-mode))
-
-(use-package evil-numbers
-  :ensure t)
-
-(use-package evil-paredit
-  :ensure t)
-
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
-
-(use-package evil-visual-mark-mode
-  :ensure t)
-
-(use-package evil-visualstar
-  :ensure t
-  :config
-  (global-evil-visualstar-mode))
 
 (use-package flycheck
   :ensure t)
