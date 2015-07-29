@@ -64,7 +64,14 @@
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (setq eldoc-idle-delay 0.1)
 
-(set-frame-font "DejaVu Sans Mono-11")
+(setq default-frame-alist '((font . "DejaVu Sans Mono-10.5")))
+
+(defun my-fix-emojis (&optional frame)
+  (set-fontset-font "fontset-default" nil "Symbola" frame 'append))
+
+(my-fix-emojis)
+
+(add-hook 'after-make-frame-functions 'my-fix-emojis)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -86,6 +93,8 @@
 ;; ediff
 
 (setq ediff-split-window-function 'split-window-horizontally)
+;; NOTE can toggle this in real-time with ediff-toggle-multiframe
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 (defun my-toggle-ediff-wide-display ()
   "Turn off wide-display mode (if was enabled) before quitting ediff."
@@ -100,6 +109,18 @@
                 (lambda ()
                   (interactive)
                   (select-window (split-window-below))))
+
+(defun my-kill-line ()
+  (interactive)
+  (if (looking-back "^[[:space:]]+")
+      (kill-line 0)
+    (progn
+      (let ((beg (point)))
+        (back-to-indentation)
+        (kill-region beg (point))))))
+
+(define-key global-map (kbd "M-u") 'universal-argument)
+(define-key universal-argument-map (kbd "M-u") 'universal-argument-more)
 
 (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
 
