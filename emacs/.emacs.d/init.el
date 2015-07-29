@@ -589,6 +589,8 @@
   :ensure t
   :init
   (setq guide-key/guide-key-sequence t)
+  (setq guide-key/idle-delay 0.5)
+  (setq guide-key/text-scale-amount -1)
   (setq guide-key/popup-window-position 'bottom)
   :config
   (guide-key-mode 1))
@@ -615,7 +617,10 @@
    ("C-x g p" . magit-dispatch-popup))
 
   :config
-  (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell))
+  (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
+  (add-hook 'git-commit-setup-hook (lambda ()
+                                     (setq-default fill-column 50)
+                                     (fci-mode))))
 
 (use-package magit-filenotify
   :ensure t
@@ -660,7 +665,11 @@
                (local-set-key (kbd "TAB") #'racer-complete-or-indent))))
 
 (use-package rainbow-mode
-  :ensure t)
+  :ensure t
+  :config
+  ;; disable highlighting color names
+  (setq rainbow-x-colors nil)
+  (rainbow-mode))
 
 (use-package rainbow-delimiters
   :ensure t
@@ -695,6 +704,8 @@
 
   :init
   (setq sp-show-pair-from-inside t)
+  (setq sp-autoescape-string-quote nil)
+  (setq sp-cancel-autoskip-on-backward-movement nil)
   
   :config
   (require 'smartparens-config)
@@ -884,6 +895,18 @@
 
 (use-package wgrep
   :ensure t)
+
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-reload-all))
+
+(use-package fill-column-indicator
+  :ensure t
+  :config
+  (with-eval-after-load 'magit
+    (add-hook 'git-commit-setup-hook 'fci-mode)))
+
 (use-package buffer-move
   :ensure t
   :config
@@ -893,3 +916,18 @@
     (define-key evil-window-map (kbd "m h") 'buf-move-left)
     (define-key evil-window-map (kbd "m l") 'buf-move-right)))
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values (quote ((eval progn (hs-minor-mode) (hs-hide-all))))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+;; Local Variables:
+;; eval: (progn (hs-minor-mode) (hs-hide-all))
+;; End:
