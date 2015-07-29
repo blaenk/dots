@@ -163,16 +163,43 @@
   (solarized-with-color-variables 'light
     (custom-theme-set-faces
      'solarized-light
+     `(whitespace-trailing ((,class (:background ,red-l))))
+     `(whitespace-tab ((,class (:background ,red-l))))
+     `(whitespace-line ((,class (:background
+                                 ,(solarized-color-blend
+                                   "#ffdddd" red 0.95)))))
+
+     `(region ((,class (:background ,base02))))
+
+     `(magit-hash ((,class (:foreground ,orange))))
+
+     `(rainbow-delimiters-depth-1-face ((,class (:foreground ,base01))))
+     `(rainbow-delimiters-depth-2-face ((,class (:foreground ,cyan))))
+     `(rainbow-delimiters-depth-3-face ((,class (:foreground ,yellow))))
+     `(rainbow-delimiters-depth-4-face ((,class (:foreground ,blue))))
+     `(rainbow-delimiters-depth-5-face ((,class (:foreground ,violet))))
+     `(rainbow-delimiters-depth-6-face ((,class (:foreground ,green))))
+     `(rainbow-delimiters-depth-7-face ((,class (:foreground ,yellow))))
+     `(rainbow-delimiters-depth-8-face ((,class (:foreground ,blue))))
+     `(rainbow-delimiters-depth-9-face ((,class (:foreground ,violet))))
+     `(rainbow-delimiters-depth-10-face ((,class (:foreground ,green))))
+     `(rainbow-delimiters-depth-11-face ((,class (:foreground ,yellow))))
+     `(rainbow-delimiters-depth-12-face ((,class (:foreground ,blue))))
+     `(rainbow-delimiters-depth-13-face ((,class (:foreground ,violet))))
+     `(rainbow-delimiters-unmatched-face
+       ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
+
      `(show-paren-match ((,class (:foreground unspecified
                                   :background ,base02
                                   :weight normal)))))
 
     (setq evil-emacs-state-cursor `(,red box))
-    (setq evil-normal-state-cursor `(,green box))
-    (setq evil-visual-state-cursor `(,orange box))
-    (setq evil-insert-state-cursor `(,red box))
+    (setq evil-normal-state-cursor `(,base0 box))
+    (setq evil-insert-state-cursor `(,cyan box))
+    (setq evil-visual-state-cursor `(,magenta box))
     (setq evil-replace-state-cursor `(,red (hbar . 4)))
-    (setq evil-operator-state-cursor `(,green (hbar . 4)))
+    (setq evil-operator-state-cursor `((hbar . 6)))
+    (setq evil-motion-state-cursor `((hbar . 6)))
     ))
 
 (use-package auto-package-update
