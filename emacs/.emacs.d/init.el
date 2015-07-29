@@ -197,7 +197,6 @@
     (setq evil-visual-state-cursor `(,magenta box))
     (setq evil-replace-state-cursor `(,red (hbar . 4)))
     (setq evil-operator-state-cursor `((hbar . 6)))
-    (setq evil-motion-state-cursor `((hbar . 6)))
     ))
 
 (use-package auto-package-update
