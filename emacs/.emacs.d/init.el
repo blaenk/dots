@@ -619,7 +619,13 @@
   (("C-x g s" . magit-status)
    ("C-x g p" . magit-dispatch-popup))
 
+  :init
+  (defvar my-magit-last-windows nil)
+
   :config
+  (defadvice magit-status (after magit-fullscreen activate)
+    (delete-other-windows))
+
   (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
   (add-hook 'git-commit-setup-hook 'fci-mode))
 
