@@ -173,8 +173,6 @@
 
      `(region ((,class (:background ,base02))))
 
-     `(magit-hash ((,class (:foreground ,orange))))
-
      `(rainbow-delimiters-depth-1-face ((,class (:foreground ,base01))))
      `(rainbow-delimiters-depth-2-face ((,class (:foreground ,cyan))))
      `(rainbow-delimiters-depth-3-face ((,class (:foreground ,yellow))))
