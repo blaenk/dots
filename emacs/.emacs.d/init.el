@@ -104,6 +104,10 @@
     (ediff-toggle-wide-display)))
 
 (add-hook 'ediff-cleanup-hook 'my-toggle-ediff-wide-display)
+(add-hook 'ediff-suspen-hook 'my-toggle-ediff-wide-display)
+(add-hook 'ediff-quit-hook 'my-toggle-ediff-wide-display)
+(add-hook 'ediff-quit-hook 'my-toggle-ediff-wide-display)
+(add-hook 'magit-ediff-quit-hook 'my-toggle-ediff-wide-display)
 
 (global-unset-key (kbd "C-x C-c"))
 
