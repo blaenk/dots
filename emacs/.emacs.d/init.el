@@ -262,6 +262,11 @@
   (add-hook 'sgml-mode-hook 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode))
 
+(use-package evil-matchit
+  :ensure t
+  :config
+  (global-evil-matchit-mode 1))
+
 (use-package evil-anzu
   :ensure t
   :no-require t
