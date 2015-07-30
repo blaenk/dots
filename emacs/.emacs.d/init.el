@@ -326,9 +326,9 @@
 
   :init
   ;; (setq evil-search-module 'evil-search)
-  ;; TODO show trailing whitespace in combination with this?
   ;; (setq evil-cross-lines t)
-  (setq evil-move-cursor-back nil)
+  ;; TODO show trailing whitespace in combination with this?
+  ;; (setq evil-move-cursor-back nil)
   (setq evil-symbol-word-search t)
 
   (setq evil-want-C-w-in-emacs-state t)
