@@ -63,6 +63,8 @@
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (setq eldoc-idle-delay 0.1)
 (setq x-underline-at-descent-line t)
+(setq bug-reference-bug-regexp
+ "\\([Ii]ssue ?#\\|[Bb]ug ?#\\|[Pp]atch ?#\\|RFE ?#\\|PR [a-z-+]+/\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
 
 (setq default-frame-alist '((font . "DejaVu Sans Mono-10.5")))
 
@@ -922,6 +924,12 @@
   :config
   (with-eval-after-load 'magit
     (add-hook 'git-commit-setup-hook 'fci-mode)))
+
+(use-package bug-reference-github
+  :ensure t
+
+  :config
+  (add-hook 'find-file-hook 'bug-reference-github-set-url-format))
 
 (use-package buffer-move
   :ensure t
