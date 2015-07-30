@@ -90,6 +90,8 @@
 (add-hook 'prog-mode 'fci-mode)
 (add-hook 'prog-mode 'whitespace-mode)
 
+(add-hook 'ediff-prepare-buffer-hook 'turn-off-hideshow)
+
 (defvaralias 'c-basic-offset 'tab-width)
 
 ;; ediff
