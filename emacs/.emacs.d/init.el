@@ -32,6 +32,9 @@
 
 (when window-system (set-frame-size (selected-frame) 96 41))
 
+;; NOTE should only apply when in vm
+;; TODO vm-local settings/env-vars
+(setq browse-url-browser-function 'kill-new)
 (setq whitespace-line-column nil)
 (setq-default fill-column 80)
 (setq-default cursor-type 'box)
