@@ -59,6 +59,7 @@
       '((:eval (replace-regexp-in-string "^ +" "" (buffer-name)))))
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (setq eldoc-idle-delay 0.1)
+(setq x-underline-at-descent-line t)
 
 (setq default-frame-alist '((font . "DejaVu Sans Mono-10.5")))
 
