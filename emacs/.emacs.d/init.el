@@ -185,6 +185,9 @@
 (require 'diminish)
 (require 'bind-key)
 
+(use-package paradox
+  :ensure t)
+
 (use-package solarized-theme
   :ensure t
   :config
