@@ -54,6 +54,7 @@ sources=(
   'linux'
   'osx'
   'gtags'
+  'gnome-keyring'
 )
 
 for src in $sources; do
