@@ -55,10 +55,3 @@ path = .gitconfig.local
 [grep]
   extendRegexp = true
   lineNumber = true
-
-[web]
-  browser = clipboard
-
-[browser "clipboard"]
-  cmd = sh -c 'echo -n "$@" | xsel -i -b' --
-
