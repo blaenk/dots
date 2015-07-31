@@ -197,6 +197,26 @@
      `(rainbow-delimiters-unmatched-face
        ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
 
+     `(mode-line
+       ((,class (:inverse-video unspecified
+                 :overline ,s-mode-line-underline
+                 :underline ,s-mode-line-underline
+                 :foreground ,s-mode-line-fg
+                 :background ,s-mode-line-bg
+                 :box (:line-width 2
+                       :color ,s-mode-line-bg
+                       :style unspecified)))))
+
+     `(mode-line-inactive
+       ((,class (:inverse-video unspecified
+                 :overline ,s-mode-line-underline
+                 :underline ,s-mode-line-underline
+                 :foreground ,s-mode-line-inactive-fg
+                 :background ,s-mode-line-inactive-bg
+                 :box (:line-width 2
+                       :color ,s-mode-line-inactive-bg
+                       :style unspecified)))))
+
      `(show-paren-match ((,class (:foreground unspecified
                                   :background ,base02
                                   :weight normal)))))
