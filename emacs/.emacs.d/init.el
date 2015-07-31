@@ -967,6 +967,28 @@
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
+(use-package tex-site
+  :ensure auctex
+  :init
+  (setq TeX-PDF-mode t)
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil)
+
+  (setq TeX-view-program-selection
+        '((output-dvi "DVI Viewer")
+          (output-pdf "PDF Viewer")
+          (output-html "HTML Viewer")))
+
+  (setq TeX-view-program-list
+        '(("DVI Viewer" "open %o")
+          ("PDF Viewer" "open %o")
+          ("HTML Viewer" "open %o")))
+  :config
+  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
+  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
