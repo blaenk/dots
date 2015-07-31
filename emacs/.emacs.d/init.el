@@ -702,6 +702,12 @@
   (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
   (add-hook 'cmake-mode-hook 'cmake-font-lock-activate))
 
+(use-package shackle
+  :ensure t
+  :init
+  (setq shackle-rules '((compilation-mode :noselect t))
+        shackle-default-rule '(:select t)))
+
 (use-package magit
   :ensure t
 
