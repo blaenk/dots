@@ -87,12 +87,13 @@
 (winner-mode)
 (goto-address-mode)
 (electric-pair-mode)
-(show-paren-mode)
 
-(add-hook 'prog-mode 'fci-mode)
-(add-hook 'prog-mode 'whitespace-mode)
+(add-hook 'prog-mode-hook 'fci-mode)
+(add-hook 'prog-mode-hook 'whitespace-mode)
 
 (add-hook 'ediff-prepare-buffer-hook 'turn-off-hideshow)
+(add-hook 'ediff-prepare-buffer-hook (lambda () (visual-line-mode -1)))
+(add-hook 'ediff-prepare-buffer-hook (lambda () (whitespace-mode -1)))
 
 (defvaralias 'c-basic-offset 'tab-width)
 
@@ -108,10 +109,8 @@
     (ediff-toggle-wide-display)))
 
 (add-hook 'ediff-cleanup-hook 'my-toggle-ediff-wide-display)
-(add-hook 'ediff-suspen-hook 'my-toggle-ediff-wide-display)
+(add-hook 'ediff-suspend-hook 'my-toggle-ediff-wide-display)
 (add-hook 'ediff-quit-hook 'my-toggle-ediff-wide-display)
-(add-hook 'ediff-quit-hook 'my-toggle-ediff-wide-display)
-(add-hook 'magit-ediff-quit-hook 'my-toggle-ediff-wide-display)
 
 (global-unset-key (kbd "C-x C-c"))
 
