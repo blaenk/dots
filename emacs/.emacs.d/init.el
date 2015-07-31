@@ -79,9 +79,10 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (blink-cursor-mode 0)
+
 (savehist-mode)
 (recentf-mode)
-(global-visual-line-mode)
+(visual-line-mode)
 (column-number-mode)
 (flyspell-prog-mode)
 (winner-mode)
@@ -92,6 +93,7 @@
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
 (add-hook 'ediff-prepare-buffer-hook 'turn-off-hideshow)
+(add-hook 'ediff-prepare-buffer-hook 'turn-off-fci-mode)
 (add-hook 'ediff-prepare-buffer-hook (lambda () (visual-line-mode -1)))
 (add-hook 'ediff-prepare-buffer-hook (lambda () (whitespace-mode -1)))
 
@@ -108,9 +110,8 @@
   (when ediff-wide-display-p
     (ediff-toggle-wide-display)))
 
-(add-hook 'ediff-cleanup-hook 'my-toggle-ediff-wide-display)
-(add-hook 'ediff-suspend-hook 'my-toggle-ediff-wide-display)
-(add-hook 'ediff-quit-hook 'my-toggle-ediff-wide-display)
+(add-hook 'ediff-suspend-hook 'my-toggle-ediff-wide-display 'append)
+(add-hook 'ediff-quit-hook 'my-toggle-ediff-wide-display 'append)
 
 (global-unset-key (kbd "C-x C-c"))
 
@@ -655,6 +656,9 @@
   :config
   (defadvice magit-status (after magit-fullscreen activate)
     (delete-other-windows))
+
+  (with-eval-after-load 'magit-ediff
+    (add-hook 'magit-ediff-quit-hook 'my-toggle-ediff-wide-display))
 
   (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
   (add-hook 'git-commit-setup-hook 'fci-mode))
