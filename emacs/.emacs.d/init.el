@@ -240,9 +240,18 @@
                        :color ,s-mode-line-inactive-bg
                        :style unspecified)))))
 
+     `(sp-show-pair-match-face ((,class (:foreground unspecified
+                                         :background ,base02
+                                         :weight normal))))
+
+     `(sp-show-pair-mismatch-face ((,class (:foreground unspecified
+                                            :background ,red
+                                            :weight normal))))
+
      `(show-paren-match ((,class (:foreground unspecified
                                   :background ,base02
-                                  :weight normal)))))
+                                  :weight normal))))
+     )
 
     (setq evil-emacs-state-cursor `(,red box))
     (setq evil-normal-state-cursor `(,base0 box))
@@ -768,12 +777,16 @@
 
   :init
   (setq sp-show-pair-from-inside t)
+  (setq sp-show-pair-delay 0)
+  (setq sp-highlight-pair-overlay nil)
   (setq sp-autoescape-string-quote nil)
   (setq sp-cancel-autoskip-on-backward-movement nil)
-  
+
   :config
   (require 'smartparens-config)
   (sp-use-smartparens-bindings)
+
+  (show-smartparens-global-mode)
 
   (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
   (add-hook 'clojure-mode-hook 'smartparens-mode)
