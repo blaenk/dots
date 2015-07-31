@@ -552,15 +552,40 @@
   :bind
   (("M-x" . helm-M-x)
    ("M-i" . helm-imenu)
+   ("C-c h" . helm-command-prefix)
    ("C-x b" . helm-buffers-list)
    ("C-x C-f" . helm-find-files)
+   ("C-h a" . helm-apropos)
+   ("C-h i" . helm-info-emacs)
    ("C-x r" . helm-recentf))
+
+  :init
+  (setq helm-quick-update t)
+  (setq helm-split-window-in-side-p t)
+  (setq helm-display-header-line nil)
+  (setq helm-autoresize-max-height 30)
+  (setq helm-autoresize-min-height 30)
 
   :config
   (require 'helm-config)
   (helm-autoresize-mode t)
 
+  (global-unset-key (kbd "C-x c"))
+
   (helm-mode 1))
+
+(use-package helm-ag
+  :ensure t)
+
+(use-package helm-gtags
+  :ensure t
+
+  :init
+  (setq helm-gtags-prefix-key "C-t")
+  (setq helm-gtags-suggested-key-mapping t)
+
+  :config
+  (helm-gtags-mode))
 
 (use-package helm-descbinds
   :ensure t
@@ -569,17 +594,12 @@
 
 (use-package helm-projectile
   :ensure t
-  :config
-  (helm-projectile-on)
 
-  (defun my-helm-projectile ()
-    (interactive)
-    (helm :sources '(helm-source-projectile-buffers-list
-                     helm-source-projectile-files-list
-                     helm-source-projectile-recentf-list)
-          :buffer "*my helm projectile*"
-          :ff-transformer-show-only-basename nil
-          :truncate-lines helm-buffers-truncate-lines))
+  :config
+  (add-to-list 'helm-projectile-sources-list
+               'helm-source-projectile-recentf-list)
+
+  (helm-projectile-on)
 
   (defmacro if-projectile (is-projectile is-not)
     `(lambda ()
@@ -588,11 +608,12 @@
            (,is-projectile)
          (,is-not))))
 
-  (define-key projectile-mode-map (kbd "M-p") 'my-helm-projectile)
+  (define-key projectile-mode-map (kbd "M-p") 'helm-projectile)
 
-  (evil-leader/set-key
-    "f" (if-projectile my-helm-projectile helm-find-files)
-    "b" (if-projectile helm-projectile-switch-to-buffer helm-buffers-list)))
+  (with-eval-after-load 'evil-leader
+    (evil-leader/set-key
+      "f" (if-projectile helm-projectile helm-find-files)
+      "b" (if-projectile helm-projectile-switch-to-buffer helm-buffers-list))))
 
 (use-package visual-regexp
   :ensure t)
@@ -697,9 +718,6 @@
   :bind
   (("C-x g s" . magit-status)
    ("C-x g p" . magit-dispatch-popup))
-
-  :init
-  (defvar my-magit-last-windows nil)
 
   :config
   (defadvice magit-status (after magit-fullscreen activate)
@@ -872,7 +890,7 @@
         (lambda ()
           (interactive)
           (sp-kill-sexp '(4))))
-      
+
       (defun sp-get-current-non-string-sexp (pos)
         "get the enclosing, non-string sexp"
         (let ((current-sexp (sp-get-sexp)))
@@ -939,7 +957,7 @@
         (sp-transpose-sexp)
         (backward-char)
         (on-parens-backward-sexp 2))
-          
+
       (defun move-symbol-forward (&optional arg)
         "move a symbol forward"
         (interactive "*p")
