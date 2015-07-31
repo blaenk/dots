@@ -105,13 +105,33 @@
 ;; NOTE can toggle this in real-time with ediff-toggle-multiframe
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
+(defun is-fullscreen ()
+  (memq (frame-parameter nil 'fullscreen) '(fullscreen fullboth)))
+
+(defun my-go-fullscreen ()
+  (interactive)
+  (set-frame-parameter nil 'fullscreen 'fullboth))
+
+(defun my-un-fullscreen ()
+  (set-frame-parameter nil 'fullscreen nil))
+
 (defun my-toggle-ediff-wide-display ()
   "Turn off wide-display mode (if was enabled) before quitting ediff."
   (when ediff-wide-display-p
     (ediff-toggle-wide-display)))
 
-(add-hook 'ediff-suspend-hook 'my-toggle-ediff-wide-display 'append)
-(add-hook 'ediff-quit-hook 'my-toggle-ediff-wide-display 'append)
+(defun my-ediff-start ()
+  (interactive)
+  (my-go-fullscreen))
+
+(defun my-ediff-quit ()
+  (interactive)
+  (my-toggle-ediff-wide-display)
+  (my-un-fullscreen))
+
+(add-hook 'ediff-startup-hook 'my-ediff-start)
+(add-hook 'ediff-suspend-hook 'my-ediff-quit 'append)
+(add-hook 'ediff-quit-hook 'my-ediff-quit 'append)
 
 (global-unset-key (kbd "C-x C-c"))
 
@@ -658,7 +678,7 @@
     (delete-other-windows))
 
   (with-eval-after-load 'magit-ediff
-    (add-hook 'magit-ediff-quit-hook 'my-toggle-ediff-wide-display))
+    (add-hook 'magit-ediff-quit-hook 'my-ediff-quit))
 
   (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
   (add-hook 'git-commit-setup-hook 'fci-mode))
