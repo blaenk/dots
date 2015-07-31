@@ -258,8 +258,7 @@
     (setq evil-insert-state-cursor `(,cyan box))
     (setq evil-visual-state-cursor `(,magenta box))
     (setq evil-replace-state-cursor `(,red (hbar . 4)))
-    (setq evil-operator-state-cursor `((hbar . 6)))
-    ))
+    (setq evil-operator-state-cursor `((hbar . 6)))))
 
 (use-package auto-package-update
   :ensure t)
@@ -346,7 +345,8 @@
   :ensure t
 
   :config
-  (global-evil-leader-mode)
+  (add-hook 'evil-mode-hook 'evil-leader-mode)
+  (add-hook 'evil-local-mode-hook 'evil-leader-mode)
   (evil-leader/set-leader "<SPC>")
 
   (evil-leader/set-key
@@ -376,6 +376,9 @@
 (use-package evil
   :ensure t
 
+  :bind
+  ("C-c e" . turn-on-evil-mode)
+
   :init
   ;; (setq evil-search-module 'evil-search)
   ;; (setq evil-cross-lines t)
@@ -395,23 +398,31 @@
     ;; force update evil keymaps after ggtags-mode loaded
     (add-hook 'ggtags-mode-hook #'evil-normalize-keymaps))
 
+  (add-hook 'prog-mode-hook 'turn-on-evil-mode)
+
   (define-key evil-insert-state-map (kbd "RET") 'comment-indent-new-line)
 
+  ;; FIXME
+  ;; a problem is that this leaves whitespace residue
+  ;; e.g. o then escape then o?
   (defun my-open-line ()
     (interactive)
+    (end-of-visual-line)
     (if (elt (syntax-ppss) 4)
         (progn
-          (end-of-visual-line)
           (comment-indent-new-line)
           (evil-insert 0))
       (evil-open-below 1)))
 
   (define-key evil-normal-state-map (kbd "o") 'my-open-line)
-  ;; (define-key evil-normal-state-map (kbd "O")
-  ;;   (lambda ()
-  ;;     (interactive)
-  ;;     (previous-line)
-  ;;     (my-open-line)))
+  (define-key evil-normal-state-map (kbd "O")
+    (lambda ()
+      (interactive)
+      (if (eq (line-number-at-pos (point)) 1)
+          (evil-open-above 1)
+          (progn
+            (previous-line)
+            (my-open-line)))))
 
   (define-key evil-insert-state-map (kbd "C-u") 'my-kill-line)
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
@@ -470,9 +481,7 @@
   (setq my-evil-blacklist '(magit-mode-hook))
 
   (dolist (mode-hook my-evil-blacklist)
-    (add-hook mode-hook 'my-evil-off))
-
-  (evil-mode 1))
+    (add-hook mode-hook 'my-evil-off)))
 
 (use-package flycheck
   :ensure t)
