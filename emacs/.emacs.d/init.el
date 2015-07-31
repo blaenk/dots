@@ -960,6 +960,13 @@
     (define-key evil-window-map (kbd "m h") 'buf-move-left)
     (define-key evil-window-map (kbd "m l") 'buf-move-right)))
 
+(use-package ace-window
+  :ensure t
+  :bind
+  ("C-x o" . ace-window)
+  :init
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
