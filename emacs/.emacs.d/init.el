@@ -688,16 +688,6 @@
   (add-hook 'irony-mode-hook 'my-irony-mode-hook)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
-(use-package guide-key
-  :ensure t
-  :init
-  (setq guide-key/guide-key-sequence t)
-  (setq guide-key/idle-delay 0.5)
-  (setq guide-key/text-scale-amount -1)
-  (setq guide-key/popup-window-position 'bottom)
-  :config
-  (guide-key-mode 1))
-
 (use-package js2-mode
   :ensure t
   :mode "\\.js\\'"
