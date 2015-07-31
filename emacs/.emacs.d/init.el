@@ -319,6 +319,13 @@
   (add-hook 'sgml-mode-hook 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode))
 
+(use-package which-key
+  :ensure t
+  :init
+  (setq which-key-use-C-h-for-paging nil)
+  :config
+  (which-key-mode))
+
 (use-package evil-matchit
   :ensure t
   :config
