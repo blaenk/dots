@@ -100,11 +100,6 @@
 ;; https://github.com/alpaker/Fill-Column-Indicator/issues/4
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
-(add-hook 'ediff-prepare-buffer-hook 'turn-off-hideshow)
-(add-hook 'ediff-prepare-buffer-hook 'turn-off-fci-mode)
-(add-hook 'ediff-prepare-buffer-hook (lambda () (visual-line-mode -1)))
-(add-hook 'ediff-prepare-buffer-hook (lambda () (whitespace-mode -1)))
-
 (defvaralias 'c-basic-offset 'tab-width)
 
 ;; ediff
@@ -127,6 +122,11 @@
   "Turn off wide-display mode (if was enabled) before quitting ediff."
   (when ediff-wide-display-p
     (ediff-toggle-wide-display)))
+
+(add-hook 'ediff-prepare-buffer-hook 'turn-off-hideshow)
+(add-hook 'ediff-prepare-buffer-hook 'turn-off-fci-mode)
+(add-hook 'ediff-prepare-buffer-hook (lambda () (visual-line-mode -1)))
+(add-hook 'ediff-prepare-buffer-hook (lambda () (whitespace-mode -1)))
 
 (defun my-ediff-start ()
   (interactive)
