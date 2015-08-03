@@ -256,11 +256,27 @@
          (branch (string-trim branch)))
     (format " %s " branch)))
 
+(defun my-anzu-update (here total)
+  (when anzu--state
+    (let ((status (cond
+                    ((eq anzu--state 'search) (format " %s of %d%s "
+                                    (anzu--format-here-position here total)
+                                    total (if anzu--overflow-p "+" "")))
+                    ((eq anzu--state 'replace-query) (format " %d replace " total))
+                    ((eq anzu--state 'replace) (format " %d of %d " here total)))))
+      (propertize status 'face 'anzu-mode-line))))
+
 ;; TODO
 ;; remote notification
 (setq mode-line-left
       `(
         (:propertize "%3c " face mode-line-column)
+        (anzu-mode
+         (:propertize
+          (:eval
+           (when (> anzu--total-matched 0) (anzu--update-mode-line)))
+          face
+          mode-line-anzu-face))
         (:eval (my-evil-indicator))
         ;; (:propertize
         ;;  (:eval (format " %s " mode-name))
@@ -282,9 +298,6 @@
         (:propertize (:eval (my-branch)) face mode-line-branch)
         ))
 
-;; FIXME
-;; anzu prepends to mode-line, need a way to take that into account
-;; in calculation, since otherwise it bumps the branch out of the view
 (setq-default
  mode-line-format
  `((:eval (simple-mode-line-render
@@ -310,6 +323,7 @@
 
   (make-face 'mode-line-column)
   (make-face 'mode-line-branch)
+  (make-face 'mode-line-anzu-face)
   (make-face 'mode-line-mode-name-face)
   (make-face 'mode-line-read-only)
   (make-face 'mode-line-modified-face)
@@ -353,6 +367,11 @@
 
      `(mode-line-branch
        ((,class (:background ,base0
+                 :foreground "white"
+                 :weight bold))))
+
+     `(mode-line-anzu-face
+       ((,class (:background ,orange-l
                  :foreground "white"
                  :weight bold))))
 
@@ -415,6 +434,9 @@
 (use-package anzu
   :ensure t
   :diminish anzu-mode
+  :init
+  (setq anzu-mode-line-update-function 'my-anzu-update)
+  (setq anzu-cons-mode-line-p nil)
   :config
   (global-anzu-mode +1))
 
