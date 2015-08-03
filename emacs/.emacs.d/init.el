@@ -93,8 +93,11 @@
 (winner-mode)
 (goto-address-mode)
 (electric-pair-mode)
+(show-paren-mode)
 
-(add-hook 'prog-mode-hook 'fci-mode)
+;; NOTE
+;; on empty lines, line number gone
+;; https://github.com/alpaker/Fill-Column-Indicator/issues/4
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
 (add-hook 'ediff-prepare-buffer-hook 'turn-off-hideshow)
@@ -257,13 +260,7 @@
                                   :background ,base02
                                   :weight normal))))
      )
-
-    (setq evil-emacs-state-cursor `(,red box))
-    (setq evil-normal-state-cursor `(,base0 box))
-    (setq evil-insert-state-cursor `(,cyan box))
-    (setq evil-visual-state-cursor `(,magenta box))
-    (setq evil-replace-state-cursor `(,red (hbar . 4)))
-    (setq evil-operator-state-cursor `((hbar . 6)))))
+  ))
 
 (use-package auto-package-update
   :ensure t)
@@ -338,10 +335,7 @@
 
 (use-package evil-anzu
   :ensure t
-  :no-require t
-  :config
-  (with-eval-after-load 'evil
-    (require 'evil-anzu)))
+  :requires evil)
 
 (use-package evil-commentary
   :ensure t
@@ -388,53 +382,98 @@
 (use-package evil
   :ensure t
 
-  :bind
-  ("C-c e" . turn-on-evil-mode)
-
   :init
+  ;; TODO check if these should all be in this
   ;; (setq evil-search-module 'evil-search)
   ;; (setq evil-cross-lines t)
   ;; TODO show trailing whitespace in combination with this?
   ;; (setq evil-move-cursor-back nil)
-  (setq evil-symbol-word-search t)
+  (setq-default evil-symbol-word-search t)
+
+  (defun my-real-function (fun)
+    "Figure out the actual symbol behind a function.
+Returns a different symbol if FUN is an alias, otherwise FUN."
+    (let ((symbol-function (symbol-function fun)))
+      (if (symbolp symbol-function)
+          symbol-function
+        fun)))
+
+  (defun my-derived-mode-p (mode modes)
+    (let ((parent (my-real-function mode)))
+      (while (and parent (not (memq parent modes)))
+        (setq parent (my-real-function (get parent 'derived-mode-parent))))
+      parent))
+
+  (with-eval-after-load 'evil-core
+    (defun evil-initial-state (mode &optional default)
+      "Return the Evil state to use for MODE.
+Returns DEFAULT if no initial state is associated with MODE.
+The initial state for a mode can be set with
+`evil-set-initial-state'."
+      (let (state modes)
+        (catch 'done
+          (dolist (entry (nreverse (evil-state-property t :modes)) default)
+            (setq state (car entry)
+                  modes (symbol-value (cdr entry)))
+            (when (or (memq mode modes)
+                      (my-derived-mode-p mode modes))
+              (throw 'done state)))))))
 
   (setq evil-want-C-w-in-emacs-state t)
   (setq evil-want-C-w-delete t)
-  ;; NOTE this may be problematic
   (setq evil-want-C-u-scroll t)
+  (setq evil-default-state 'emacs)
+  (setq evil-normal-state-modes '(text-mode prog-mode fundamental-mode
+                                  css-mode conf-mode TeX-mode LaTeX-mode
+                                  yaml-mode))
+  (setq evil-emacs-state-modes '(help-mode))
+
+  (add-hook 'with-editor-mode-hook 'evil-insert-state)
 
   :config
+  (solarized-with-color-variables 'light
+    (setq evil-normal-state-cursor `(,blue-l box))
+    (setq evil-insert-state-cursor `(,green-l box))
+    (setq evil-visual-state-cursor `(,magenta-l box))
+    (setq evil-replace-state-cursor `(,red-l (hbar . 4)))
+    (setq evil-operator-state-cursor `((hbar . 6)))
+    (setq evil-emacs-state-cursor `(,red-l box)))
+
   (with-eval-after-load 'ggtags
     (evil-make-overriding-map ggtags-mode-map)
 
     ;; force update evil keymaps after ggtags-mode loaded
     (add-hook 'ggtags-mode-hook #'evil-normalize-keymaps))
 
-  (add-hook 'prog-mode-hook 'turn-on-evil-mode)
-
   (define-key evil-insert-state-map (kbd "RET") 'comment-indent-new-line)
 
   ;; FIXME
   ;; a problem is that this leaves whitespace residue
   ;; e.g. o then escape then o?
-  (defun my-open-line ()
-    (interactive)
-    (end-of-visual-line)
-    (if (elt (syntax-ppss) 4)
-        (progn
-          (comment-indent-new-line)
-          (evil-insert 0))
-      (evil-open-below 1)))
+  ;; (defun my-open-line ()
+  ;;   (interactive)
+  ;;   (end-of-visual-line)
+  ;;   (if (elt (syntax-ppss) 4)
+  ;;       (progn
+  ;;         (comment-indent-new-line)
+  ;;         (evil-insert-state 1)
 
-  (define-key evil-normal-state-map (kbd "o") 'my-open-line)
-  (define-key evil-normal-state-map (kbd "O")
-    (lambda ()
-      (interactive)
-      (if (eq (line-number-at-pos (point)) 1)
-          (evil-open-above 1)
-          (progn
-            (previous-line)
-            (my-open-line)))))
+  ;;         (when evil-auto-indent
+  ;;           (indent-according-to-mode))
+
+  ;;         (add-hook 'post-command-hook #'evil-maybe-remove-spaces)
+  ;;         (setq this-command 'evil-open-below))
+  ;;     (evil-open-below 1)))
+
+  ;; (define-key evil-normal-state-map (kbd "o") 'my-open-line)
+  ;; (define-key evil-normal-state-map (kbd "O")
+  ;;   (lambda ()
+  ;;     (interactive)
+  ;;     (if (eq (line-number-at-pos (point)) 1)
+  ;;         (evil-open-above 1)
+  ;;         (progn
+  ;;           (previous-line)
+  ;;           (my-open-line)))))
 
   (define-key evil-insert-state-map (kbd "C-u") 'my-kill-line)
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
@@ -486,14 +525,7 @@
   (define-key evil-visual-state-map (kbd "<") 'visual-shift-left)
   (define-key evil-visual-state-map (kbd ">") 'visual-shift-right)
 
-  (defun my-evil-off ()
-    (interactive)
-    (turn-off-evil-mode))
-
-  (setq my-evil-blacklist '(magit-mode-hook))
-
-  (dolist (mode-hook my-evil-blacklist)
-    (add-hook mode-hook 'my-evil-off)))
+  (evil-mode 1))
 
 (use-package flycheck
   :ensure t)
