@@ -32,6 +32,11 @@
 
 (when window-system (set-frame-size (selected-frame) 96 41))
 
+(add-hook 'comint-output-filter-functions
+          'comint-strip-ctrl-m)
+
+(eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+
 ;; NOTE should only apply when in vm
 ;; TODO vm-local settings/env-vars
 (setq browse-url-browser-function 'kill-new)
