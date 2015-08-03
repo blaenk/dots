@@ -298,6 +298,9 @@
 (use-package fontawesome
   :ensure t)
 
+(use-package dired+
+  :ensure t)
+
 (use-package paradox
   :ensure t)
 
