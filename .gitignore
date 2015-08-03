@@ -31,6 +31,10 @@ emacs/.emacs.d/url
 emacs/.emacs.d/.#recentf
 emacs/.emacs.d/.last-package-update-day
 emacs/.emacs.d/.sx
-/emacs/.emacs.d/projectile.cache
-/emacs/.emacs.d/history
-/emacs/.emacs.d/snippets/
+emacs/.emacs.d/projectile.cache
+emacs/.emacs.d/history
+emacs/.emacs.d/snippets/
+emacs/.emacs.d/.emacs.desktop
+emacs/.emacs.d/.emacs.desktop.lock
+emacs/.emacs.d/el-get/
+emacs/.emacs.d/tramp
