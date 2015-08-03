@@ -266,6 +266,22 @@
                     ((eq anzu--state 'replace) (format " %d of %d " here total)))))
       (propertize status 'face 'anzu-mode-line))))
 
+(defun toggle-header-line ()
+  (interactive)
+  (if header-line-format
+      (progn
+        (setq header-line-format-save header-line-format)
+        (setq header-line-format nil))
+    (setq header-line-format header-line-format-save)))
+
+(setq-default
+ header-line-format-save
+ `(
+   (:propertize
+    (:eval (format " %s " (format-mode-line mode-name)))
+    face mode-line-mode-name-face)
+   ))
+
 ;; TODO
 ;; remote notification
 (setq mode-line-left
@@ -278,9 +294,6 @@
           face
           mode-line-anzu-face))
         (:eval (my-evil-indicator))
-        ;; (:propertize
-        ;;  (:eval (format " %s " mode-name))
-        ;;  face mode-line-mode-name-face)
         (:propertize " %b" face mode-line-buffer-id)
         ))
 
@@ -355,6 +368,14 @@
      `(rainbow-delimiters-depth-13-face ((,class (:foreground ,violet))))
      `(rainbow-delimiters-unmatched-face
        ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
+
+     `(header-line
+       ((,class (:inverse-video unspecified
+                 :overline ,s-mode-line-underline
+                 :underline ,s-mode-line-underline
+                 :foreground ,s-mode-line-fg
+                 :background ,s-mode-line-bg
+                 ))))
 
      `(mode-line
        ((,class (:inverse-video unspecified
