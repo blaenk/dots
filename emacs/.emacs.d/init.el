@@ -270,7 +270,7 @@
 ;; remote notification
 (setq mode-line-left
       `(
-        (:propertize "%3c " face mode-line-column)
+        (:propertize "%3c " face mode-line-column-face)
         (anzu-mode
          (:propertize
           (:eval
@@ -295,9 +295,9 @@
          face mode-line-modified-face)
         (:propertize
          (:eval (when buffer-read-only (concat " " (fontawesome "lock") " ")))
-         face mode-line-read-only)
+         face mode-line-read-only-face)
         ;; (:eval (my-remote-mode-line))
-        (:propertize (:eval (my-branch)) face mode-line-branch)
+        (:propertize (:eval (my-branch)) face mode-line-branch-face)
         ))
 
 (setq-default
@@ -323,11 +323,11 @@
   :config
   (load-theme 'solarized-light t)
 
-  (make-face 'mode-line-column)
-  (make-face 'mode-line-branch)
+  (make-face 'mode-line-column-face)
+  (make-face 'mode-line-branch-face)
   (make-face 'mode-line-anzu-face)
   (make-face 'mode-line-mode-name-face)
-  (make-face 'mode-line-read-only)
+  (make-face 'mode-line-read-only-face)
   (make-face 'mode-line-modified-face)
   (make-face 'mode-line-remote-face)
 
@@ -364,10 +364,10 @@
                  :background ,s-mode-line-bg
                  ))))
 
-     `(mode-line-column
+     `(mode-line-column-face
        ((,class (:background ,base03))))
 
-     `(mode-line-branch
+     `(mode-line-branch-face
        ((,class (:background ,base0
                  :foreground "white"
                  :weight bold))))
@@ -382,7 +382,7 @@
                  :foreground "white"
                  :weight bold))))
 
-     `(mode-line-read-only
+     `(mode-line-read-only-face
        ((,class (:background ,red-l
                  :foreground "white"))))
 
