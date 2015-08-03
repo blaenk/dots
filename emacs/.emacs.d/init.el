@@ -102,7 +102,6 @@
 (goto-address-mode)
 (electric-pair-mode)
 (show-paren-mode)
-(desktop-save-mode 1)
 
 ;; NOTE
 ;; on empty lines, line number gone
