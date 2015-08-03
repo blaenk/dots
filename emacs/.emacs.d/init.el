@@ -194,6 +194,9 @@
 (require 'diminish)
 (require 'bind-key)
 
+(with-eval-after-load 'whitespace
+  (diminish 'whitespace-mode))
+
 ;; http://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html
 (defun shorten-directory (dir max-length)
   "Show up to `max-length' characters of a directory name `dir'."
@@ -307,9 +310,7 @@
      'solarized-light
      `(whitespace-trailing ((,class (:background ,red-l))))
      `(whitespace-tab ((,class (:background ,red-l))))
-     `(whitespace-line ((,class (:background
-                                 ,(solarized-color-blend
-                                   "#ffdddd" red 0.95)))))
+     `(whitespace-line ((,class (:underline t))))
 
      `(region ((,class (:background ,base02))))
 
