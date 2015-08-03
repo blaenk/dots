@@ -986,19 +986,16 @@ The initial state for a mode can be set with
   (setq sp-highlight-pair-overlay nil)
   (setq sp-autoescape-string-quote nil)
   (setq sp-cancel-autoskip-on-backward-movement nil)
+  (setq sp-autoescape-string-quote nil)
 
   :config
   (require 'smartparens-config)
   (sp-use-smartparens-bindings)
 
-  (show-smartparens-global-mode)
-
   (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
   (add-hook 'clojure-mode-hook 'smartparens-mode)
   (add-hook 'racket-mode-hook 'smartparens-mode)
   (add-hook 'scheme-mode-hook 'smartparens-mode)
-
-  ;; (add-hook 'smartparens-enabled-hook #'smartparens-strict-mode)
 
   (define-key smartparens-mode-map (kbd "M-S") 'sp-split-sexp)
   (define-key smartparens-mode-map (kbd "M-J") 'sp-join-sexp)
