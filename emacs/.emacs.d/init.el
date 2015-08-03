@@ -289,7 +289,9 @@
 (setq mode-line-right
       `(
         (:propertize
-         (:eval (when (and (not buffer-read-only) (buffer-modified-p (window-buffer nil))) " + "))
+         (:eval
+          (when (and (not buffer-read-only) (buffer-modified-p (window-buffer nil)))
+            " + "))
          face mode-line-modified-face)
         (:propertize
          (:eval (when buffer-read-only (concat " " (fontawesome "lock") " ")))
