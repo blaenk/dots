@@ -193,6 +193,99 @@
 (require 'diminish)
 (require 'bind-key)
 
+;; http://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html
+(defun shorten-directory (dir max-length)
+  "Show up to `max-length' characters of a directory name `dir'."
+  (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
+        (output ""))
+    (when (and path (equal "" (car path)))
+      (setq path (cdr path)))
+    (while (and path (< (length output) (- max-length 4)))
+      (setq output (concat (car path) "/" output))
+      (setq path (cdr path)))
+    (when path
+      (setq output (concat ".../" output)))
+    output))
+
+(defun my-is-evil-on ()
+  (if (evil-emacs-state-p)
+      nil
+    (or
+     (bound-and-true-p evil-mode)
+     (bound-and-true-p evil-local-mode))))
+
+;; FIXME
+;; cloud icon and others take up more than one column width
+;; NOTE may need substring-no-properties
+(defun simple-mode-line-render (left right)
+  (let* ((available-width (- (window-total-width) 1 (string-width left)))
+         (pad-width (- available-width (string-width right)))
+         (fmt (format "%%s %%%ds" available-width)))
+    (format fmt left right)))
+
+(defun my-remote-mode-line ()
+  (when (and (stringp default-directory)
+             (file-remote-p default-directory))
+    (concat " " (fontawesome "cloud") " ")))
+
+(defun my-evil-indicator ()
+  (let* ((is-evil (my-is-evil-on))
+        (indicator (if is-evil "V" "E")))
+    (propertize (concat " " indicator " ")
+                'face
+                (solarized-with-color-variables 'light
+                 (if is-evil
+                      `(:background ,blue-l :foreground "white" :weight bold)
+                    `(:background ,red-l :foreground "white" :weight bold))))))
+
+(defun my-branch ()
+  (let* ((no-props (substring-no-properties vc-mode))
+         (branch (replace-regexp-in-string
+                  (format "^ %s[:-]" (vc-backend buffer-file-name)) "" no-props))
+         (branch (string-trim branch)))
+    (format " %s " branch)))
+
+;; TODO
+;; remote notification
+(setq mode-line-left
+      `(
+        (:propertize "%3c " face mode-line-column)
+        (:eval (my-evil-indicator))
+        ;; (:propertize
+        ;;  (:eval (format " %s " mode-name))
+        ;;  face mode-line-mode-name-face)
+        (:propertize " %b" face mode-line-buffer-id)
+        ))
+
+;; TODO
+;; flycheck integration
+(setq mode-line-right
+      `(
+        (:propertize
+         (:eval (when (and (not buffer-read-only) (buffer-modified-p (window-buffer nil))) " + "))
+         face mode-line-modified-face)
+        (:propertize
+         (:eval (when buffer-read-only (concat " " (fontawesome "lock") " ")))
+         face mode-line-read-only)
+        ;; (:eval (my-remote-mode-line))
+        (:propertize (:eval (my-branch)) face mode-line-branch)
+        ))
+
+;; FIXME
+;; anzu prepends to mode-line, need a way to take that into account
+;; in calculation, since otherwise it bumps the branch out of the view
+(setq-default
+ mode-line-format
+ `((:eval (simple-mode-line-render
+           (format-mode-line mode-line-left)
+           (format-mode-line mode-line-right)))))
+
+;; TODO
+;; use (member "Symbola" (font-family-list))
+;; to fall back on unicode icons
+(use-package fontawesome
+  :ensure t)
+
 (use-package paradox
   :ensure t)
 
@@ -200,6 +293,13 @@
   :ensure t
   :config
   (load-theme 'solarized-light t)
+
+  (make-face 'mode-line-column)
+  (make-face 'mode-line-branch)
+  (make-face 'mode-line-mode-name-face)
+  (make-face 'mode-line-read-only)
+  (make-face 'mode-line-modified-face)
+  (make-face 'mode-line-remote-face)
 
   (solarized-with-color-variables 'light
     (custom-theme-set-faces
@@ -234,9 +334,36 @@
                  :underline ,s-mode-line-underline
                  :foreground ,s-mode-line-fg
                  :background ,s-mode-line-bg
-                 :box (:line-width 2
-                       :color ,s-mode-line-bg
-                       :style unspecified)))))
+                 ))))
+
+     `(mode-line-column
+       ((,class (:background ,base03))))
+
+     `(mode-line-branch
+       ((,class (:background ,base0
+                 :foreground "white"
+                 :weight bold))))
+
+     `(mode-line-mode-name-face
+       ((,class (:background ,cyan-l
+                 :foreground "white"
+                 :weight bold))))
+
+     `(mode-line-read-only
+       ((,class (:background ,red-l
+                 :foreground "white"))))
+
+     `(mode-line-modified-face
+       ((,class (:background ,green-l
+                 :foreground "white"
+                 :weight bold
+                 ))))
+
+     `(mode-line-remote-face
+       ((,class (:background ,green-l
+                 :foreground "white"
+                 :weight bold
+                 ))))
 
      `(mode-line-inactive
        ((,class (:inverse-video unspecified
@@ -244,9 +371,7 @@
                  :underline ,s-mode-line-underline
                  :foreground ,s-mode-line-inactive-fg
                  :background ,s-mode-line-inactive-bg
-                 :box (:line-width 2
-                       :color ,s-mode-line-inactive-bg
-                       :style unspecified)))))
+                 ))))
 
      `(sp-show-pair-match-face ((,class (:foreground unspecified
                                          :background ,base02
@@ -277,6 +402,7 @@
 
 (use-package anzu
   :ensure t
+  :diminish anzu-mode
   :config
   (global-anzu-mode +1))
 
@@ -287,8 +413,10 @@
 
 (use-package cider
   :ensure t
+
   :init
   (setq cider-auto-mode nil)
+
   :config
   (add-hook 'cider-mode-hook #'eldoc-mode))
 
@@ -323,6 +451,7 @@
 
 (use-package which-key
   :ensure t
+  :diminish which-key-mode
   :init
   (setq which-key-use-C-h-for-paging nil)
   :config
@@ -339,6 +468,7 @@
 
 (use-package evil-commentary
   :ensure t
+  :diminish evil-commentary-mode
   :config
   (evil-commentary-mode))
 
@@ -586,6 +716,8 @@ The initial state for a mode can be set with
 
 (use-package helm
   :ensure t
+  :diminish helm-mode
+
   :bind
   (("M-x" . helm-M-x)
    ("M-i" . helm-imenu)
@@ -616,6 +748,7 @@ The initial state for a mode can be set with
 
 (use-package helm-gtags
   :ensure t
+  :diminish helm-gtags-mode
 
   :init
   (setq helm-gtags-prefix-key "C-t")
@@ -631,6 +764,7 @@ The initial state for a mode can be set with
 
 (use-package helm-projectile
   :ensure t
+  :diminish projectile-mode
 
   :config
   (add-to-list 'helm-projectile-sources-list
@@ -780,36 +914,37 @@ The initial state for a mode can be set with
 
 (use-package projectile
   :ensure t
+
   :init
   (setq projectile-completion-system 'helm)
+
   :config
   (projectile-global-mode))
 
-(use-package racer
-  :ensure t
-  :no-require t
+(with-eval-after-load 'rust-mode
+  (use-package racer
+    :ensure t
+    :no-require t
 
-  :init
-  (setq racer-rust-src-path "~/code/rust/rust/src")
-  (setq racer-cmd "~/code/rust/racer/target/release/racer")
-  (add-to-list 'load-path "~/code/rust/racer/editors/emacs")
+    :init
+    (setq racer-rust-src-path "~/code/rust/rust/src")
+    (setq racer-cmd "~/code/rust/racer/target/release/racer")
+    (add-to-list 'load-path "~/code/rust/racer/editors/emacs")
 
-  :config
-  (with-eval-after-load 'rust-mode
-    (require 'racer))
-
-  (add-hook 'rust-mode-hook
-            '(lambda ()
-               (racer-activate)
-               ;; (local-set-key (kbd "M-.") #'racer-find-definition)
-               (local-set-key (kbd "TAB") #'racer-complete-or-indent))))
+    :config
+    (add-hook 'rust-mode-hook
+              '(lambda ()
+                 (racer-activate)
+                 ;; (local-set-key (kbd "M-.") #'racer-find-definition)
+                 (local-set-key (kbd "TAB") #'racer-complete-or-indent)))))
 
 (use-package rainbow-mode
   :ensure t
+  :diminish rainbow-mode
   :config
   ;; disable highlighting color names
   (setq rainbow-x-colors nil)
-  (rainbow-mode))
+  (add-hook 'prog-mode-hook 'rainbow-mode))
 
 (use-package rainbow-delimiters
   :ensure t
@@ -841,6 +976,7 @@ The initial state for a mode can be set with
 
 (use-package smartparens
   :ensure t
+  :diminish smartparens-mode
 
   :init
   (setq sp-show-pair-from-inside t)
@@ -1024,6 +1160,7 @@ The initial state for a mode can be set with
 
 (use-package undo-tree
   :ensure t
+  :diminish undo-tree-mode
   :init
   (setq undo-tree-auto-save-history t)
 
