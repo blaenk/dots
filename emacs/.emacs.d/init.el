@@ -735,6 +735,40 @@ The initial state for a mode can be set with
 
   (evil-mode 1))
 
+(use-package evil-args
+  :ensure t
+
+  :config
+  ;; bind evil-args text objects
+  (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
+  (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
+
+  ;; bind evil-forward/backward-args
+  (define-key evil-normal-state-map "L" 'evil-forward-arg)
+  (define-key evil-normal-state-map "H" 'evil-backward-arg)
+
+  (define-key evil-motion-state-map "L" 'evil-forward-arg)
+  (define-key evil-motion-state-map "H" 'evil-backward-arg)
+
+  ;; bind evil-jump-out-args
+  (define-key evil-normal-state-map "K" 'evil-jump-out-args)
+
+  (defun evil-arg-swap-forward ()
+    (interactive)
+    (apply 'evil-exchange (evil-inner-arg))
+    (call-interactively 'evil-forward-arg)
+    (apply 'evil-exchange (evil-inner-arg)))
+
+  (defun evil-arg-swap-backward ()
+    (interactive)
+    (apply 'evil-exchange (evil-inner-arg))
+    (evil-forward-arg 1)
+    (evil-backward-arg 2)
+    (apply 'evil-exchange (evil-inner-arg)))
+
+  (define-key evil-normal-state-map (kbd "< a") 'evil-arg-swap-backward)
+  (define-key evil-normal-state-map (kbd "> a") 'evil-arg-swap-forward))
+
 (use-package flycheck
   :ensure t)
 
