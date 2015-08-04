@@ -330,6 +330,9 @@
            (if (my-is-remote-buffer) 1 0)
            (format-mode-line mode-line-right)))))
 
+;; NOTE
+;; * enhanced-ruby-mode
+
 ;; TODO
 ;; use (member "Symbola" (font-family-list))
 ;; to fall back on unicode icons
@@ -340,6 +343,9 @@
   :ensure t
   :init
   (setq diredp-hide-details-initially-flag nil))
+
+(use-package latex-preview-pane
+  :ensure t)
 
 (use-package paradox
   :ensure t)
@@ -1354,6 +1360,11 @@ The initial state for a mode can be set with
 
 (use-package wgrep
   :ensure t)
+
+(use-package discover-my-major
+  :ensure t
+  :bind
+  ("C-h C-m" . discover-my-major))
 
 (use-package yasnippet
   :ensure t
