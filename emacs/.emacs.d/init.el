@@ -789,13 +789,11 @@ The initial state for a mode can be set with
 (use-package undo-tree
   :ensure t
   :diminish undo-tree-mode
+
   :init
   (setq undo-tree-auto-save-history t)
   ;; FIXME
   ;; this doesn't work, still can't bind to C-x r
-  (with-eval-after-load 'undo-tree
-    (define-key undo-tree-map (kbd "C-x r U") nil)
-    (define-key undo-tree-map (kbd "C-x r u") nil))
 
   :config
   (global-undo-tree-mode)
@@ -815,8 +813,7 @@ The initial state for a mode can be set with
    ("C-x b" . helm-buffers-list)
    ("C-x C-f" . helm-find-files)
    ("C-h a" . helm-apropos)
-   ("C-h i" . helm-info-emacs)
-   ("C-x r" . helm-recentf))
+   ("C-h i" . helm-info-emacs))
 
   :init
   (setq helm-quick-update t)
