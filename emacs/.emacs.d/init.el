@@ -346,7 +346,9 @@
   :ensure t)
 
 (use-package dired+
-  :ensure t)
+  :ensure t
+  :init
+  (setq diredp-hide-details-initially-flag nil))
 
 (use-package paradox
   :ensure t)
