@@ -292,8 +292,6 @@
     face mode-line-mode-name-face)
    ))
 
-;; FIXME
-;; anzu-mode status shows up for any window/buffer
 (setq mode-line-left
       `(
         (:propertize "%3c " face mode-line-column-face)
