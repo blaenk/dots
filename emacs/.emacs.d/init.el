@@ -231,9 +231,9 @@
      (bound-and-true-p evil-mode)
      (bound-and-true-p evil-local-mode))))
 
-(defun simple-mode-line-render (left right)
-  (let* ((available-width (- (window-total-width) 1 (string-width left)))
-         (pad-width (- available-width (string-width right)))
+(defun simple-mode-line-render (left sub right)
+  (let* ((available-width (- (window-total-width) (string-width left)))
+         (pad-width (- available-width (string-width right) sub))
          (specified-space (propertize " " 'display `((space :width ,pad-width))))
          (fmt (concat "%s" specified-space "%s")))
     (format fmt left right)))
@@ -292,8 +292,6 @@
     face mode-line-mode-name-face)
    ))
 
-;; TODO
-;; remote notification
 ;; FIXME
 ;; anzu-mode status shows up for any window/buffer
 (setq mode-line-left
@@ -306,6 +304,9 @@
           face
           mode-line-anzu-face))
         (:eval (my-evil-indicator))
+        (:propertize
+         (:eval (my-remote-mode-line))
+         face mode-line-remote-face)
         (:propertize " %b" face mode-line-buffer-id)
         ))
 
@@ -313,12 +314,6 @@
 ;; flycheck integration
 (setq mode-line-right
       `(
-        ;; NOTE: major hack
-        ;; emacs says some of the icons take up only one column,
-        ;; when they clearly take up more than that. the work-around
-        ;; I came up with is to prepend empty spaces for each
-        ;; icon used, to simulate the 'extra' column being taken up
-        (:eval (when (my-is-remote-buffer) " "))
         (:propertize
          (:eval
           (when (my-is-modified) " + "))
@@ -328,15 +323,13 @@
          face mode-line-read-only-face)
         (:propertize (:eval (my-branch))
          face mode-line-branch-face)
-        (:propertize
-         (:eval (my-remote-mode-line))
-         face mode-line-remote-face)
         ))
 
 (setq-default
  mode-line-format
  `((:eval (simple-mode-line-render
            (format-mode-line mode-line-left)
+           (if (my-is-remote-buffer) 1 0)
            (format-mode-line mode-line-right)))))
 
 ;; TODO
@@ -436,7 +429,7 @@
                  ))))
 
      `(mode-line-remote-face
-       ((,class (:background ,violet-l
+       ((,class (:background ,green-lc
                  :foreground "white"
                  :weight bold
                  ))))
