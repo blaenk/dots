@@ -77,8 +77,7 @@
 (setq split-width-threshold 0)
 (setq uniquify-buffer-name-style 'forward)
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
-(setq frame-title-format
-      '((:eval (replace-regexp-in-string "^ +" "" (buffer-name)))))
+(setq frame-title-format '(:eval (blaenk/file-name)))
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (setq eldoc-idle-delay 0.1)
 (setq x-underline-at-descent-line t)
@@ -292,6 +291,18 @@
     face mode-line-mode-name-face)
    ))
 
+(defun blaenk/file-name ()
+  (let* ((name (buffer-file-name)))
+    (if name
+        (let* ((abbrev (abbreviate-file-name name))
+               (directory (or (file-name-directory abbrev) ""))
+               (file-name (file-name-nondirectory abbrev)))
+          (format " %s%s "
+                  (propertize directory 'face 'mode-line-stem-face)
+                  (propertize file-name 'face 'mode-line-buffer-id)))
+      (progn
+        (propertize " %b " 'face 'mode-line-buffer-id)))))
+
 (setq mode-line-left
       `(
         (:propertize "%3c " face mode-line-column-face)
@@ -305,7 +316,7 @@
         (:propertize
          (:eval (my-remote-mode-line))
          face mode-line-remote-face)
-        (:propertize " %b" face mode-line-buffer-id)
+        (:eval (blaenk/file-name))
         ))
 
 ;; TODO
@@ -362,6 +373,7 @@
   (make-face 'mode-line-read-only-face)
   (make-face 'mode-line-modified-face)
   (make-face 'mode-line-remote-face)
+  (make-face 'mode-line-stem-face)
 
   (solarized-with-color-variables 'light
     (custom-theme-set-faces
@@ -439,6 +451,9 @@
                  :foreground "white"
                  :weight bold
                  ))))
+
+     `(mode-line-stem-face
+       ((,class (:foreground ,base0))))
 
      `(mode-line-inactive
        ((,class (:inverse-video unspecified
