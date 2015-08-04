@@ -791,6 +791,24 @@ The initial state for a mode can be set with
   :config
   (add-hook 'haskell-mode-hook 'haskell-indentation-mode))
 
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode
+  :init
+  (setq undo-tree-auto-save-history t)
+  ;; FIXME
+  ;; this doesn't work, still can't bind to C-x r
+  (with-eval-after-load 'undo-tree
+    (define-key undo-tree-map (kbd "C-x r U") nil)
+    (define-key undo-tree-map (kbd "C-x r u") nil))
+
+  :config
+  (global-undo-tree-mode)
+
+  (defadvice undo-tree-make-history-save-file-name
+      (after undo-tree activate)
+    (setq ad-return-value (concat ad-return-value ".gz"))))
+
 (use-package helm
   :ensure t
   :diminish helm-mode
@@ -816,7 +834,107 @@ The initial state for a mode can be set with
   (require 'helm-config)
   (helm-autoresize-mode t)
 
-  (global-unset-key (kbd "C-x c"))
+  (defun blaenk/solarized-put-color (color table)
+    (puthash (downcase (symbol-value color)) (symbol-name color) table))
+
+  (defmacro blaenk/create-solarized-color-table ()
+    (let ((table (make-hash-table :test 'equal))
+          (colors '(yellow orange red magenta
+                    violet blue cyan green))
+          (grays '(base03 base02 base01 base00
+                   base0 base1 base2 base3)))
+      (dolist (color grays table)
+        (blaenk/solarized-put-color color table))
+
+      (dolist (color colors table)
+        (let* ((s-n (symbol-name color))
+               (light (intern (concat s-n "-lc")))
+               (dark (intern (concat s-n "-hc"))))
+          (blaenk/solarized-put-color dark table)
+          (blaenk/solarized-put-color color table)
+          (blaenk/solarized-put-color light table)))))
+
+  ;; TODO infer variant
+  (defvar blaenk/solarized-colors-table
+    (solarized-with-color-variables 'light
+      (blaenk/create-solarized-color-table)))
+
+  (defun blaenk/hash-table-keys (table)
+    (let (keys)
+      (maphash (lambda (k v) (push k keys)) table)
+      keys))
+
+  (defun blaenk/solarized-colors-get-hex (candidate)
+    "Get color name."
+    (string-trim
+     (with-temp-buffer
+       (insert candidate)
+       (goto-char (point-min))
+       (search-forward-regexp "\\s-\\{2,\\}")
+       (delete-region (point) (point-max))
+       (buffer-string))))
+
+  (defun blaenk/solarized-colors-init-source ()
+    (unless (helm-candidate-buffer)
+      (save-selected-window
+        (list-colors-display
+         (blaenk/hash-table-keys blaenk/solarized-colors-table)
+         "*Solarized Colors*")
+        (message nil))
+      (helm-init-candidates-in-buffer
+          'global
+        (with-current-buffer (get-buffer "*Solarized Colors*")
+          (buffer-string)))
+      (let ((windows (get-buffer-window-list "*Solarized Colors*")))
+        (while windows
+          (delete-window (pop windows))))
+      (kill-buffer "*Solarized Colors*")
+      ))
+
+  (defun blaenk/solarized-colors-get-name (candidate)
+    (gethash (blaenk/solarized-colors-get-hex candidate) blaenk/solarized-colors-table))
+
+  (defun blaenk/solarized-color-insert-name (candidate)
+    (with-helm-current-buffer
+      (insert (blaenk/solarized-colors-get-name candidate))))
+
+  (defun blaenk/solarized-color-run-insert-name ()
+    "Insert name of color from `helm-source-colors'"
+    (interactive)
+    (with-helm-alive-p
+      (helm-quit-and-execute-action 'blaenk/solarized-color-insert-name)))
+
+  (defun blaenk/solarized-color-kill-name (candidate)
+    (kill-new (blaenk/solarized-colors-get-name candidate)))
+
+  (defun blaenk/solarized-color-run-kill-name ()
+    "Kill name of color from `helm-source-colors'"
+    (interactive)
+    (with-helm-alive-p
+      (helm-quit-and-execute-action 'blaenk/solarized-color-kill-name)))
+
+  (defvar blaenk/solarized-color-map
+    (let ((map (make-sparse-keymap)))
+      (set-keymap-parent map helm-map)
+      (define-key map (kbd "C-c n") 'blaenk/solarized-color-run-kill-name)
+      (define-key map (kbd "C-c N") 'blaenk/solarized-color-run-insert-name)
+      map))
+
+  (defvar blaenk/solarized-colors-source
+    (helm-build-in-buffer-source "Solarized Colors"
+      :init 'blaenk/solarized-colors-init-source
+      :get-line 'buffer-substring
+      :keymap blaenk/solarized-color-map
+      :persistent-help "Insert name"
+      :persistent-action 'blaenk/solarized-color-insert-name
+      :action
+      '(("Insert Name (C-c N)" . blaenk/solarized-color-insert-name)
+        ("Copy Name (C-c n)" . blaenk/solarized-color-kill-name))))
+
+  (defun helm-solarized-colors ()
+    (interactive)
+    (helm :sources '(blaenk/solarized-colors-source)
+          :buffer "*helm solarized colors*"))
 
   (helm-mode 1))
 
@@ -1231,19 +1349,6 @@ The initial state for a mode can be set with
 
 (use-package toml-mode
   :ensure t)
-
-(use-package undo-tree
-  :ensure t
-  :diminish undo-tree-mode
-  :init
-  (setq undo-tree-auto-save-history t)
-
-  :config
-  (global-undo-tree-mode)
-
-  (defadvice undo-tree-make-history-save-file-name
-      (after undo-tree activate)
-    (setq ad-return-value (concat ad-return-value ".gz"))))
 
 (use-package web-mode
   :ensure t)
