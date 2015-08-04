@@ -849,6 +849,10 @@ The initial state for a mode can be set with
       (after undo-tree activate)
     (setq ad-return-value (concat ad-return-value ".gz"))))
 
+(use-package helm-unicode
+  :ensure t
+  :bind ("C-x 8 RET" . helm-unicode))
+
 (use-package helm
   :ensure t
   :diminish helm-mode
@@ -983,10 +987,6 @@ The initial state for a mode can be set with
 (use-package helm-gtags
   :ensure t
   :diminish helm-gtags-mode
-
-  :init
-  (setq helm-gtags-prefix-key "C-t")
-  (setq helm-gtags-suggested-key-mapping t)
 
   :config
   (helm-gtags-mode))
