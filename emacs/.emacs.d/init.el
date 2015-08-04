@@ -81,8 +81,13 @@
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (setq eldoc-idle-delay 0.1)
 (setq x-underline-at-descent-line t)
-(setq bug-reference-bug-regexp
- "\\([Ii]ssue ?#\\|[Bb]ug ?#\\|[Pp]atch ?#\\|RFE ?#\\|PR [a-z-+]+/\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
+(setq bug-reference-bug-regexp "\\(\
+[Ii]ssue ?#\\|\
+[Bb]ug ?#\\|\
+[Pp]atch ?#\\|\
+RFE ?#\\|\
+PR [a-z-+]+/\
+\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
 
 (setq default-frame-alist '((font . "DejaVu Sans Mono-10.5")))
 
