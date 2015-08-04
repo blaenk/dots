@@ -231,18 +231,19 @@
      (bound-and-true-p evil-mode)
      (bound-and-true-p evil-local-mode))))
 
-;; FIXME
-;; cloud icon and others take up more than one column width
-;; NOTE may need substring-no-properties
 (defun simple-mode-line-render (left right)
   (let* ((available-width (- (window-total-width) 1 (string-width left)))
          (pad-width (- available-width (string-width right)))
-         (fmt (format "%%s %%%ds" available-width)))
+         (specified-space (propertize " " 'display `((space :width ,pad-width))))
+         (fmt (concat "%s" specified-space "%s")))
     (format fmt left right)))
 
+(defun my-is-remote-buffer ()
+  (and (stringp default-directory)
+       (file-remote-p default-directory)))
+
 (defun my-remote-mode-line ()
-  (when (and (stringp default-directory)
-             (file-remote-p default-directory))
+  (when (my-is-remote-buffer)
     (concat " " (fontawesome "cloud") " ")))
 
 (defun my-evil-indicator ()
@@ -280,6 +281,9 @@
         (setq header-line-format nil))
     (setq header-line-format header-line-format-save)))
 
+(defun my-is-modified ()
+  (and (not buffer-read-only) (buffer-modified-p (window-buffer nil))))
+
 (setq-default
  header-line-format-save
  `(
@@ -290,6 +294,8 @@
 
 ;; TODO
 ;; remote notification
+;; FIXME
+;; anzu-mode status shows up for any window/buffer
 (setq mode-line-left
       `(
         (:propertize "%3c " face mode-line-column-face)
@@ -307,16 +313,24 @@
 ;; flycheck integration
 (setq mode-line-right
       `(
+        ;; NOTE: major hack
+        ;; emacs says some of the icons take up only one column,
+        ;; when they clearly take up more than that. the work-around
+        ;; I came up with is to prepend empty spaces for each
+        ;; icon used, to simulate the 'extra' column being taken up
+        (:eval (when (my-is-remote-buffer) " "))
         (:propertize
          (:eval
-          (when (and (not buffer-read-only) (buffer-modified-p (window-buffer nil)))
-            " + "))
+          (when (my-is-modified) " + "))
          face mode-line-modified-face)
         (:propertize
          (:eval (when buffer-read-only (concat " " (fontawesome "lock") " ")))
          face mode-line-read-only-face)
-        ;; (:eval (my-remote-mode-line))
-        (:propertize (:eval (my-branch)) face mode-line-branch-face)
+        (:propertize (:eval (my-branch))
+         face mode-line-branch-face)
+        (:propertize
+         (:eval (my-remote-mode-line))
+         face mode-line-remote-face)
         ))
 
 (setq-default
@@ -420,7 +434,7 @@
                  ))))
 
      `(mode-line-remote-face
-       ((,class (:background ,green-l
+       ((,class (:background ,violet-l
                  :foreground "white"
                  :weight bold
                  ))))
