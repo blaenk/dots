@@ -368,6 +368,8 @@
 
      `(region ((,class (:background ,base02))))
 
+     `(highlight-quoted-quote ((,class (:foreground ,red-hc))))
+
      `(rainbow-delimiters-depth-1-face ((,class (:foreground ,base01))))
      `(rainbow-delimiters-depth-2-face ((,class (:foreground ,cyan))))
      `(rainbow-delimiters-depth-3-face ((,class (:foreground ,yellow))))
@@ -759,6 +761,13 @@ The initial state for a mode can be set with
 
 (use-package json-mode
   :ensure t)
+
+(use-package highlight-quoted
+  :ensure t
+  :init
+  (setq highlight-quoted-highlight-symbols nil)
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'highlight-quoted-mode))
 
 (use-package gitconfig-mode
   :ensure t)
