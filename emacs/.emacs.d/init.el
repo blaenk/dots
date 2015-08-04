@@ -87,12 +87,12 @@
 
 (setq default-frame-alist '((font . "DejaVu Sans Mono-10.5")))
 
-(defun my-fix-emojis (&optional frame)
-  (set-fontset-font "fontset-default" nil "Symbola" frame 'append))
-
-(my-fix-emojis)
-
-(add-hook 'after-make-frame-functions 'my-fix-emojis)
+(cond
+ ((eq system-type 'darwin)
+  (set-fontset-font "fontset-default" nil "Symbola" nil 'append))
+ ((eq system-type 'gnu/linux)
+  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
+  (set-fontset-font t 'symbol (font-spec :family "Apple Symbols") nil 'append)))
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
