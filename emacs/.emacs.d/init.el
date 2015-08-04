@@ -27,6 +27,12 @@
 ;; TODO
 ;; * continue comment on newline
 
+(defun imenu-use-package ()
+  (add-to-list 'imenu-generic-expression
+               '("Used Packages"
+                 "\\(^\\s-*(use-package +\\)\\(\\_<.+\\_>\\)" 2)))
+(add-hook 'emacs-lisp-mode-hook 'imenu-use-package)
+
 (setq debug-on-error t)
 (setq whitespace-style '(face trailing lines-tail empty))
 
