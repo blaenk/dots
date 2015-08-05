@@ -1487,3 +1487,37 @@ The initial state for a mode can be set with
 
   :config
   (shackle-mode))
+
+(use-package dired
+  :defer t
+  :init
+  (setq dired-auto-revert-buffer t)
+  (setq dired-listing-switches "-alhF")
+
+  (when (or (memq system-type '(gnu gnu/linux))
+            (string= (file-name-nondirectory insert-directory-program) "gls"))
+    (setq dired-listing-switches
+          (concat dired-listing-switches " --group-directories-first -v"))))
+
+(use-package dired-x
+  :bind
+  (("C-x C-j" . dired-jump))
+
+  :init
+  (add-hook 'dired-mode-hook #'dired-omit-mode)
+
+  :config
+  (setq dired-omit-verbose nil)
+
+  (when (eq system-type 'darwin)
+    (setq dired-guess-shell-gnutar "tar")))
+
+(use-package reveal-in-osx-finder
+  :if (eq system-type 'darwin)
+  :ensure t)
+
+(use-package highlight-numbers
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'highlight-numbers-mode))
+
