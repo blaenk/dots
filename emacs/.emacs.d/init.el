@@ -68,11 +68,13 @@
 (setq scroll-conservatively 10000)
 (setq scroll-preserve-screen-position t)
 (setq gdb-many-windows t)
+(setq delete-by-moving-to-trash t)
 (setq tab-width 4)
 (setq-default indent-tabs-mode nil)
 (setq-default echo-keystrokes 0.5)
 ;; 64 mb before gc kicks in
 (setq gc-cons-threshold 64000000)
+(setq use-dialog-box nil)
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq split-height-threshold 0)
 (setq split-width-threshold 0)
