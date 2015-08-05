@@ -1127,12 +1127,6 @@ The initial state for a mode can be set with
   (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
   (add-hook 'cmake-mode-hook 'cmake-font-lock-activate))
 
-(use-package shackle
-  :ensure t
-  :init
-  (setq shackle-rules '((compilation-mode :noselect t))
-        shackle-default-rule '(:select t)))
-
 (use-package magit
   :ensure t
 
@@ -1141,9 +1135,6 @@ The initial state for a mode can be set with
    ("C-x g p" . magit-dispatch-popup))
 
   :config
-  (defadvice magit-status (after magit-fullscreen activate)
-    (delete-other-windows))
-
   (with-eval-after-load 'magit-ediff
     (add-hook 'magit-ediff-quit-hook 'my-ediff-quit))
 
@@ -1474,3 +1465,15 @@ The initial state for a mode can be set with
   (add-hook 'LaTeX-mode-hook 'visual-line-mode)
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
+
+(use-package shackle
+  :ensure t
+  :init
+  (setq shackle-rules
+        '((help-mode :select t)
+          (compilation-mode :noselect t)
+          ("\\`\\*magit: .*?\\*\\'" :regexp t :same t)
+          ))
+
+  :config
+  (shackle-mode))
