@@ -34,7 +34,8 @@
 (add-hook 'emacs-lisp-mode-hook 'imenu-use-package)
 
 (setq debug-on-error t)
-(setq whitespace-style '(face trailing lines-tail empty))
+(setq whitespace-style '(face indentation trailing lines-tail empty
+                         space-after-tab space-before-tab tab-mark))
 
 (when window-system (set-frame-size (selected-frame) 96 41))
 
@@ -54,8 +55,8 @@
 ;; NOTE should only apply when in vm
 ;; TODO vm-local settings/env-vars
 (setq browse-url-browser-function 'kill-new)
-(setq whitespace-line-column nil)
 (setq-default fill-column 80)
+(setq whitespace-line-column nil)
 (setq-default cursor-type 'box)
 (setq inhibit-startup-message t)
 (setq show-paren-delay 0)
