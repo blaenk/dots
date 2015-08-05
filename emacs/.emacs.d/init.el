@@ -651,10 +651,19 @@ The initial state for a mode can be set with
   (setq evil-want-C-w-delete t)
   (setq evil-want-C-u-scroll t)
   (setq evil-default-state 'emacs)
-  (setq evil-normal-state-modes '(text-mode prog-mode fundamental-mode
-                                  css-mode conf-mode TeX-mode LaTeX-mode
-                                  yaml-mode))
-  (setq evil-emacs-state-modes '(help-mode))
+  (setq evil-normal-state-modes
+        '(text-mode
+          prog-mode
+          fundamental-mode
+          css-mode
+          conf-mode
+          TeX-mode
+          LaTeX-mode
+          yaml-mode
+          ))
+  (setq evil-emacs-state-modes
+        '(help-mode
+          undo-tree-visualizer-mode))
 
   (add-hook 'with-editor-mode-hook 'evil-insert-state)
 
@@ -859,8 +868,8 @@ The initial state for a mode can be set with
 
   :init
   (setq undo-tree-auto-save-history t)
-  ;; FIXME
-  ;; this doesn't work, still can't bind to C-x r
+  (setq undo-tree-visualizer-timestamps t)
+  (setq undo-tree-visualizer-diff t)
 
   :config
   (global-undo-tree-mode)
