@@ -1377,6 +1377,10 @@ See URL `http://flowtype.org/'."
   (setq magit-refs-show-commit-count 'all)
 
   :config
+  (magit-add-section-hook
+   'magit-status-sections-hook
+   'magit-insert-unpulled-module-commits)
+
   (add-hook 'magit-status-mode-hook 'delete-other-windows)
 
   (with-eval-after-load 'magit-ediff
