@@ -297,3 +297,11 @@ function dots() {
   esac
 }
 
+function texi-to-epub() {
+    name=${1%.*}
+    makeinfo --docbook $1 -o "${name}.docbook"
+    xsltproc /usr/share/xml/docbook/xsl-stylesheets-1.78.1/epub/docbook.xsl "${name}.docbook"
+    echo "application/epub+zip" > mimetype
+    zip -0Xq "${name}.epub" mimetype
+    zip -Xr9D "${name}.epub" META-INF OEBPS
+}
