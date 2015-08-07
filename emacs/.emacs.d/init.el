@@ -632,65 +632,6 @@
   :init
   (setq which-key-use-C-h-for-paging nil))
 
-(use-package evil-matchit
-  :ensure t
-  :config
-  (global-evil-matchit-mode 1))
-
-(use-package evil-anzu
-  :ensure t
-  :requires evil)
-
-(use-package evil-commentary
-  :ensure t
-  :diminish evil-commentary-mode
-  :config
-  (evil-commentary-mode))
-
-(use-package evil-exchange
-  :ensure t
-  :config
-  (evil-exchange-install))
-
-(use-package evil-leader
-  :ensure t
-
-  :config
-  (add-hook 'evil-mode-hook 'evil-leader-mode)
-  (add-hook 'evil-local-mode-hook 'evil-leader-mode)
-
-  (evil-leader/set-leader "<SPC>")
-
-  (evil-leader/set-key
-    "o" (lambda ()
-          (interactive)
-          (end-of-line)
-          (newline)
-          (evil-open-above 1)
-          (setq this-command 'evil-open-below))
-    "l" 'evil-ex-nohighlight
-    "m" 'evil-visual-mark-mode))
-
-(use-package evil-numbers
-  :ensure t)
-
-(use-package evil-smartparens
-  ;; :ensure t
-  )
-
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
-
-(use-package evil-visual-mark-mode
-  :ensure t)
-
-(use-package evil-visualstar
-  :ensure t
-  :config
-  (global-evil-visualstar-mode))
-
 (use-package evil
   :ensure t
 
@@ -864,6 +805,65 @@ The initial state for a mode can be set with
   (define-key evil-visual-state-map (kbd ">") 'visual-shift-right)
 
   (evil-mode 1))
+
+(use-package evil-matchit
+  :ensure t
+  :config
+  (global-evil-matchit-mode 1))
+
+(use-package evil-anzu
+  :ensure t
+  :requires evil)
+
+(use-package evil-commentary
+  :ensure t
+  :diminish evil-commentary-mode
+  :config
+  (evil-commentary-mode))
+
+(use-package evil-exchange
+  :ensure t
+  :config
+  (evil-exchange-install))
+
+(use-package evil-leader
+  :ensure t
+
+  :config
+  (add-hook 'evil-mode-hook 'evil-leader-mode)
+  (add-hook 'evil-local-mode-hook 'evil-leader-mode)
+
+  (evil-leader/set-leader "<SPC>")
+
+  (evil-leader/set-key
+    "o" (lambda ()
+          (interactive)
+          (end-of-line)
+          (newline)
+          (evil-open-above 1)
+          (setq this-command 'evil-open-below))
+    "l" 'evil-ex-nohighlight
+    "m" 'evil-visual-mark-mode))
+
+(use-package evil-numbers
+  :ensure t)
+
+(use-package evil-smartparens
+  :ensure t
+  :disabled t)
+
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+
+(use-package evil-visual-mark-mode
+  :ensure t)
+
+(use-package evil-visualstar
+  :ensure t
+  :config
+  (global-evil-visualstar-mode))
 
 (use-package evil-args
   :ensure t
