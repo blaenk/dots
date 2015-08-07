@@ -909,7 +909,30 @@ The initial state for a mode can be set with
 (use-package flycheck
   :ensure t
   :config
-  ;; TODO audit
+  (flycheck-define-checker cargo-rust
+    "A Rust syntax checker using cargo rustc.
+This syntax checker needs Rust 1.1 or newer.
+See URL `http://www.rust-lang.org'."
+    :command ("cargo" "rustc" "--" "-Z" "no-trans")
+    :error-patterns
+    ((error line-start (file-name) ":" line ":" column ": "
+            (one-or-more digit) ":" (one-or-more digit) " error: "
+            (or
+             ;; Multiline errors
+             (and (message (minimal-match (one-or-more anything)))
+                  " [" (id "E" (one-or-more digit)) "]")
+             (message))
+            line-end)
+     (warning line-start (file-name) ":" line ":" column ": "
+              (one-or-more digit) ":" (one-or-more digit) " warning: "
+              (message) line-end)
+     (info line-start (file-name) ":" line ":" column ": "
+           (one-or-more digit) ":" (one-or-more digit) " " (or "note" "help") ": "
+           (message) line-end))
+    :modes rust-mode
+    :predicate (lambda ()
+                 (flycheck-buffer-saved-p)))
+
   (flycheck-define-checker javascript-flow
     "A JavaScript syntax and style checker using Flow.
 See URL `http://flowtype.org/'."
@@ -924,8 +947,7 @@ See URL `http://flowtype.org/'."
             ": "
             (message (minimal-match (and (one-or-more anything) "\n")))
             line-end))
-    :modes js-mode)
-  )
+    :modes js-mode))
 
 (use-package flycheck-irony
   :ensure t
