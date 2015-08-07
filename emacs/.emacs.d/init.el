@@ -123,9 +123,6 @@
 (electric-pair-mode)
 (show-paren-mode)
 
-(with-eval-after-load 'evil-vars
-  (setq evil-want-C-w-in-emacs-state t))
-
 (defun blaenk/get-faces (pos)
   "Get the font faces at POS."
   (remq nil
@@ -636,6 +633,8 @@
   :ensure t
 
   :init
+  (setq evil-want-C-w-in-emacs-state t)
+
   ;; TODO check if these should all be in this
   (setq evil-search-module 'evil-search)
   ;; (setq evil-cross-lines t)
