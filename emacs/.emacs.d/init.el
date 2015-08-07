@@ -1,15 +1,9 @@
 (require 'package)
 
-;; TODO
-;;
-;; * check out eldoc mode
-
-;; backups
+(setq debug-on-error t)
+(setq load-prefer-newer t)
 
 (setq backup-by-copying t)
-
-(require 'saveplace)
-(setq-default save-place t)
 
 (let* ((backup-dir (expand-file-name "backups/" user-emacs-directory))
        (undo-history-dir (expand-file-name "undos/" user-emacs-directory))
@@ -24,75 +18,86 @@
   (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t)))
   (setq save-place-file place-dir))
 
-;; TODO
-;; * continue comment on newline
+(add-to-list 'package-archives '("elpa" . "http://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 
-(defun imenu-use-package ()
-  (add-to-list 'imenu-generic-expression
-               '("Used Packages"
-                 "\\(^\\s-*(use-package +\\)\\(\\_<.+\\_>\\)" 2)))
-(add-hook 'emacs-lisp-mode-hook 'imenu-use-package)
+(package-initialize)
 
-(setq debug-on-error t)
-(setq whitespace-style '(face indentation trailing lines-tail empty
-                         space-after-tab space-before-tab tab-mark))
+(package-install 'use-package)
+
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
 
 (when window-system (set-frame-size (selected-frame) 96 41))
 
-(add-hook 'comint-output-filter-functions
-          'comint-strip-ctrl-m)
+(when (getenv "VM")
+  (setq browse-url-browser-function 'kill-new))
 
-(eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+(setq x-select-enable-clipboard t)
+(setq x-select-enable-primary t)
+(setq x-underline-at-descent-line t)
+(setq save-interprogram-paste-before-kill t)
 
-(setq x-select-enable-clipboard t
-      x-select-enable-primary t
-      save-interprogram-paste-before-kill t
-      apropos-do-all t
-      mouse-yank-at-point t
-      visible-bell t
-      load-prefer-newer t)
-
-;; NOTE should only apply when in vm
-;; TODO vm-local settings/env-vars
-(setq browse-url-browser-function 'kill-new)
-(setq-default fill-column 80)
-(setq whitespace-line-column nil)
-(setq-default cursor-type 'box)
+(setq inhibit-splash-screen t)
+(setq inhibit-startup-echo-area-message t)
 (setq inhibit-startup-message t)
-(setq show-paren-delay 0)
-(setq ring-bell-function 'ignore)
+
+(setq apropos-do-all t)
+
+(setq mouse-yank-at-point t)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 (setq mouse-wheel-progressive-speed t)
 (setq mouse-wheel-follow-mouse 't)
+
 (setq scroll-step 1)
 (setq scroll-conservatively 10000)
 (setq scroll-preserve-screen-position t)
+
+;; NOTE gdb also requires argument `-i=mi`
 (setq gdb-many-windows t)
-(setq delete-by-moving-to-trash t)
-(setq tab-width 4)
-(setq-default indent-tabs-mode nil)
-(setq-default echo-keystrokes 0.5)
-;; 64 mb before gc kicks in
-(setq gc-cons-threshold 64000000)
-(setq use-dialog-box nil)
-(fset 'yes-or-no-p 'y-or-n-p)
+(setq gdb-show-main t)
+
 (setq split-height-threshold 0)
 (setq split-width-threshold 0)
+
+(setq show-paren-delay 0)
+
+(setq-default fill-column 80)
+
+(setq visible-bell t)
+(setq ring-bell-function 'ignore)
+
+(setq delete-by-moving-to-trash t)
+
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history 1)
+
+(setq-default indent-tabs-mode nil)
+(setq tab-width 2)
+
+(setq use-dialog-box nil)
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(setq sentence-end-double-space nil)
+(setq-default cursor-type 'box)
+(setq-default echo-keystrokes 0.1)
+(setq gc-cons-threshold 64000000)
+(setq eldoc-idle-delay 0.1)
 (setq uniquify-buffer-name-style 'forward)
-(add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
 (setq frame-title-format '(:eval (blaenk/file-name)))
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
-(setq eldoc-idle-delay 0.1)
-(setq x-underline-at-descent-line t)
-(setq bug-reference-bug-regexp "\\(\
-[Ii]ssue ?#\\|\
-[Bb]ug ?#\\|\
-[Pp]atch ?#\\|\
-RFE ?#\\|\
-PR [a-z-+]+/\
-\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
 
+(add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
 (setq default-frame-alist '((font . "DejaVu Sans Mono-10.5")))
+
+(global-set-key [remap eval-expression] 'pp-eval-expression)
+
+(define-key global-map (kbd "M-u") 'universal-argument)
+(define-key global-map (kbd "C-c k") 'kill-this-buffer)
+(define-key global-map (kbd "C-c b") 'bury-buffer)
+(define-key universal-argument-map (kbd "M-u") 'universal-argument-more)
 
 (cond
  ((eq system-type 'darwin)
@@ -106,86 +111,20 @@ PR [a-z-+]+/\
 (scroll-bar-mode -1)
 (blink-cursor-mode 0)
 
+(add-hook 'prog-mode-hook 'hs-minor-mode)
 (savehist-mode)
 (recentf-mode)
 (visual-line-mode)
 (column-number-mode)
 (flyspell-prog-mode)
 (winner-mode)
-(goto-address-mode)
 (electric-pair-mode)
 (show-paren-mode)
 
-;; NOTE
-;; on empty lines, line number gone
-;; https://github.com/alpaker/Fill-Column-Indicator/issues/4
-(add-hook 'prog-mode-hook 'whitespace-mode)
+(with-eval-after-load 'evil-vars
+  (setq evil-want-C-w-in-emacs-state t))
 
-(defvaralias 'c-basic-offset 'tab-width)
-
-;; ediff
-
-(setq ediff-split-window-function 'split-window-horizontally)
-;; NOTE can toggle this in real-time with ediff-toggle-multiframe
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-(defun is-fullscreen ()
-  (memq (frame-parameter nil 'fullscreen) '(fullscreen fullboth)))
-
-(defun my-go-fullscreen ()
-  (interactive)
-  (set-frame-parameter nil 'fullscreen 'fullboth))
-
-(defun my-un-fullscreen ()
-  (set-frame-parameter nil 'fullscreen nil))
-
-(defun my-toggle-ediff-wide-display ()
-  "Turn off wide-display mode (if was enabled) before quitting ediff."
-  (when ediff-wide-display-p
-    (ediff-toggle-wide-display)))
-
-(add-hook 'ediff-prepare-buffer-hook 'turn-off-hideshow)
-(add-hook 'ediff-prepare-buffer-hook 'turn-off-fci-mode)
-(add-hook 'ediff-prepare-buffer-hook (lambda () (visual-line-mode -1)))
-(add-hook 'ediff-prepare-buffer-hook (lambda () (whitespace-mode -1)))
-
-(defun my-ediff-start ()
-  (interactive)
-  (my-go-fullscreen))
-
-(defun my-ediff-quit ()
-  (interactive)
-  (my-toggle-ediff-wide-display)
-  (my-un-fullscreen))
-
-(add-hook 'ediff-startup-hook 'my-ediff-start)
-(add-hook 'ediff-suspend-hook 'my-ediff-quit 'append)
-(add-hook 'ediff-quit-hook 'my-ediff-quit 'append)
-
-(global-unset-key (kbd "C-x C-c"))
-
-(global-set-key (kbd "C-x 2")
-                (lambda ()
-                  (interactive)
-                  (select-window (split-window-below))))
-
-(defun my-kill-line ()
-  (interactive)
-  (if (looking-back "^[[:space:]]+")
-      (kill-line 0)
-    (progn
-      (let ((beg (point)))
-        (back-to-indentation)
-        (kill-region beg (point))))))
-
-(define-key global-map (kbd "M-u") 'universal-argument)
-(define-key universal-argument-map (kbd "M-u") 'universal-argument-more)
-
-(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
-
-;; commands
-
-(defun get-faces (pos)
+(defun blaenk/get-faces (pos)
   "Get the font faces at POS."
   (remq nil
         (list
@@ -195,90 +134,8 @@ PR [a-z-+]+/\
 
 (defun what-face (pos)
   (interactive "d")
-  (let ((face (get-faces pos)))
+  (let ((face (blaenk/get-faces pos)))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
-
-;; packages
-
-(add-to-list 'package-archives
-             '("elpa" . "http://elpa.gnu.org/packages/") t)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
-
-(package-initialize)
-
-(package-install 'use-package)
-
-(eval-when-compile
-  (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
-
-(with-eval-after-load 'whitespace
-  (diminish 'whitespace-mode))
-
-;; http://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html
-(defun shorten-directory (dir max-length)
-  "Show up to `max-length' characters of a directory name `dir'."
-  (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
-        (output ""))
-    (when (and path (equal "" (car path)))
-      (setq path (cdr path)))
-    (while (and path (< (length output) (- max-length 4)))
-      (setq output (concat (car path) "/" output))
-      (setq path (cdr path)))
-    (when path
-      (setq output (concat ".../" output)))
-    output))
-
-(defun my-is-evil-on ()
-  (if (evil-emacs-state-p)
-      nil
-    (or
-     (bound-and-true-p evil-mode)
-     (bound-and-true-p evil-local-mode))))
-
-(defun simple-mode-line-render (left sub right)
-  (let* ((available-width (- (window-total-width) (string-width left)))
-         (pad-width (- available-width (string-width right) sub))
-         (specified-space (propertize " " 'display `((space :width ,pad-width))))
-         (fmt (concat "%s" specified-space "%s")))
-    (format fmt left right)))
-
-(defun my-is-remote-buffer ()
-  (and (stringp default-directory)
-       (file-remote-p default-directory)))
-
-(defun my-remote-mode-line ()
-  (when (my-is-remote-buffer)
-    (concat " " (fontawesome "cloud") " ")))
-
-(defun my-evil-indicator ()
-  (let* ((is-evil (my-is-evil-on))
-        (indicator (if is-evil "V" "E")))
-    (propertize (concat " " indicator " ")
-                'face
-                (solarized-with-color-variables 'light
-                 (if is-evil
-                      `(:background ,blue-l :foreground "white" :weight bold)
-                    `(:background ,red-l :foreground "white" :weight bold))))))
-
-(defun my-branch ()
-  (let* ((no-props (substring-no-properties vc-mode))
-         (branch (replace-regexp-in-string
-                  (format "^ %s[:-]" (vc-backend buffer-file-name)) "" no-props))
-         (branch (string-trim branch)))
-    (format " %s " branch)))
-
-(defun my-anzu-update (here total)
-  (when anzu--state
-    (let ((status (cond
-                    ((eq anzu--state 'search) (format " %s of %d%s "
-                                    (anzu--format-here-position here total)
-                                    total (if anzu--overflow-p "+" "")))
-                    ((eq anzu--state 'replace-query) (format " %d replace " total))
-                    ((eq anzu--state 'replace) (format " %d of %d " here total)))))
-      (propertize status 'face 'anzu-mode-line))))
 
 (defun toggle-header-line ()
   (interactive)
@@ -288,69 +145,217 @@ PR [a-z-+]+/\
         (setq header-line-format nil))
     (setq header-line-format header-line-format-save)))
 
-(defun my-is-modified ()
-  (and (not buffer-read-only) (buffer-modified-p (window-buffer nil))))
+(defun blaenk/setup-mode-line ()
+  (defun blaenk/is-evil-on ()
+    (if (evil-emacs-state-p)
+        nil
+      (or
+       (bound-and-true-p evil-mode)
+       (bound-and-true-p evil-local-mode))))
 
-(setq-default
- header-line-format-save
- `(
-   (:propertize
-    (:eval (format " %s " (format-mode-line mode-name)))
-    face mode-line-mode-name-face)
-   ))
+  (defun blaenk/render-mode-line (left sub right)
+    (let* ((available-width (- (window-total-width) (string-width left)))
+           (pad-width (- available-width (string-width right) sub))
+           (specified-space (propertize " " 'display `((space :width ,pad-width))))
+           (fmt (concat "%s" specified-space "%s")))
+      (format fmt left right)))
 
-(defun blaenk/file-name ()
-  (let* ((name (buffer-file-name)))
-    (if name
-        (let* ((abbrev (abbreviate-file-name name))
-               (directory (or (file-name-directory abbrev) ""))
-               (file-name (file-name-nondirectory abbrev)))
-          (format " %s%s "
-                  (propertize directory 'face 'mode-line-stem-face)
-                  (propertize file-name 'face 'mode-line-buffer-id)))
-      (progn
-        (propertize " %b " 'face 'mode-line-buffer-id)))))
+  (defun blaenk/is-remote-buffer ()
+    (and (stringp default-directory)
+         (file-remote-p default-directory)))
 
-(setq mode-line-left
-      `(
-        (:propertize "%3c " face mode-line-column-face)
-        (anzu-mode
-         (:propertize
-          (:eval
-           (when (> anzu--total-matched 0) (anzu--update-mode-line)))
-          face
-          mode-line-anzu-face))
-        (:eval (my-evil-indicator))
-        (:propertize
-         (:eval (my-remote-mode-line))
-         face mode-line-remote-face)
-        (:eval (blaenk/file-name))
-        ))
+  (defun blaenk/remote-mode-line ()
+    (when (blaenk/is-remote-buffer)
+      (concat " " (fontawesome "cloud") " ")))
 
-;; TODO
-;; flycheck integration
-(setq mode-line-right
-      `(
-        (:propertize
-         (:eval
-          (when (my-is-modified) " + "))
-         face mode-line-modified-face)
-        (:propertize
-         (:eval (when buffer-read-only (concat " " (fontawesome "lock") " ")))
-         face mode-line-read-only-face)
-        (:propertize (:eval (my-branch))
-         face mode-line-branch-face)
-        ))
+  (defun blaenk/evil-indicator ()
+    (let* ((is-evil (blaenk/is-evil-on))
+           (indicator (if is-evil "V" "E")))
+      (propertize
+       (concat " " indicator " ")
+       'face
+       (solarized-with-color-variables
+         'light
+         (if is-evil
+             `(:background ,blue-l :foreground "white" :weight bold)
+           `(:background ,red-l :foreground "white" :weight bold))))))
 
-(setq-default
- mode-line-format
- `((:eval (simple-mode-line-render
-           (format-mode-line mode-line-left)
-           (if (my-is-remote-buffer) 1 0)
-           (format-mode-line mode-line-right)))))
+  (defun blaenk/vc-branch ()
+    (let* ((no-props (substring-no-properties vc-mode))
+           (branch (replace-regexp-in-string
+                    (format "^ %s[:-]" (vc-backend buffer-file-name)) "" no-props))
+           (branch (string-trim branch)))
+      (format " %s " branch)))
 
-;; NOTE
-;; * enhanced-ruby-mode
+  (defun blaenk/is-modified ()
+    (and (not buffer-read-only) (buffer-modified-p (window-buffer nil))))
+
+  (setq-default
+   header-line-format-save
+   `(
+     (:propertize
+      (:eval (format " %s " (format-mode-line mode-name)))
+      face mode-line-mode-name-face)
+     ))
+
+  (defun blaenk/file-name ()
+    (let* ((name (buffer-file-name)))
+      (if name
+          (let* ((abbrev (abbreviate-file-name name))
+                 (directory (or (file-name-directory abbrev) ""))
+                 (file-name (file-name-nondirectory abbrev)))
+            (format " %s%s "
+                    (propertize directory 'face 'mode-line-stem-face)
+                    (propertize file-name 'face 'mode-line-buffer-id)))
+        (progn
+          (propertize " %b " 'face 'mode-line-buffer-id)))))
+
+  (setq mode-line-left
+        `(
+          (:propertize "%3c " face mode-line-column-face)
+          (anzu-mode
+           (:propertize
+            (:eval
+             (when (> anzu--total-matched 0) (anzu--update-mode-line)))
+            face
+            mode-line-anzu-face))
+          (:eval (blaenk/evil-indicator))
+          (:propertize
+           (:eval (blaenk/remote-mode-line))
+           face mode-line-remote-face)
+          (:eval (blaenk/file-name))
+          ))
+
+  ;; TODO
+  ;; flycheck integration
+  (setq mode-line-right
+        `(
+          (:propertize
+           (:eval
+            (when (blaenk/is-modified) " + "))
+           face mode-line-modified-face)
+          (:propertize
+           (:eval (when buffer-read-only (concat " " (fontawesome "lock") " ")))
+           face mode-line-read-only-face)
+          (:propertize (:eval (blaenk/vc-branch))
+                       face mode-line-branch-face)
+          ))
+
+  (setq-default
+   mode-line-format
+   `(:eval (blaenk/render-mode-line
+            (format-mode-line mode-line-left)
+            (if (blaenk/is-remote-buffer) 1 0)
+            (format-mode-line mode-line-right)))))
+
+(blaenk/setup-mode-line)
+
+(use-package whitespace
+  :defer t
+  :diminish whitespace-mode
+  :init
+  (setq whitespace-style '(face indentation trailing lines-tail empty
+                           space-after-tab space-before-tab tab-mark))
+  (setq whitespace-line-column nil)
+  (add-hook 'prog-mode-hook 'whitespace-mode))
+
+(use-package sh-script
+  :mode ("\\.zsh\\'" . sh-mode))
+
+(use-package tramp
+  :defer t
+  :init
+  (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash")))
+
+(use-package saveplace
+  :init
+  (setq-default save-place t))
+
+(use-package imenu
+  :defer t
+
+  :init
+  (defun imenu-use-package ()
+    (add-to-list 'imenu-generic-expression
+                 '("Used Packages"
+                   "\\(^\\s-*(use-package +\\)\\(\\_<.+\\_>\\)" 2)))
+
+  (add-hook 'emacs-lisp-mode-hook 'imenu-use-package))
+
+(use-package ediff
+  :init
+  (setq ediff-split-window-function 'split-window-horizontally)
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+  (defun blaenk/is-fullscreen ()
+    (memq (frame-parameter nil 'fullscreen) '(fullscreen fullboth)))
+
+  (defun blaenk/go-fullscreen ()
+    (interactive)
+    (set-frame-parameter nil 'fullscreen 'fullboth))
+
+  (defun blaenk/un-fullscreen ()
+    (set-frame-parameter nil 'fullscreen nil))
+
+  (defun blaenk/toggle-ediff-wide-display ()
+    "Turn off wide-display mode (if was enabled) before quitting ediff."
+    (when ediff-wide-display-p
+      (ediff-toggle-wide-display)))
+
+  (defun blaenk/ediff-prepare ()
+    (turn-off-hideshow)
+    (turn-off-fci-mode)
+    (visual-line-mode -1)
+    (whitespace-mode -1))
+
+  (defun blaenk/ediff-start ()
+    (interactive)
+    (blaenk/go-fullscreen))
+
+  (defun blaenk/ediff-quit ()
+    (interactive)
+    (blaenk/toggle-ediff-wide-display)
+    (blaenk/un-fullscreen))
+
+  (add-hook 'ediff-prepare-buffer-hook 'blaenk/ediff-prepare)
+  (add-hook 'ediff-startup-hook 'blaenk/ediff-start)
+  (add-hook 'ediff-suspend-hook 'blaenk/ediff-quit 'append)
+  (add-hook 'ediff-quit-hook 'blaenk/ediff-quit 'append))
+
+(use-package stickyfunc-enhance
+  :ensure t
+  :config
+  (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
+  (semantic-mode 1))
+
+(use-package dtrt-indent
+  :ensure t)
+
+(use-package clean-aindent-mode
+  :ensure t)
+
+(use-package python
+  :defer t
+  :config
+  ;; TODO other PEP8 stuff
+  (add-hook 'python-mode-hook (lambda () (setq fill-column 79)))
+
+  (let ((ipython (executable-find "ipython")))
+    (when ipython
+      (setq python-shell-interpreter ipython))))
+
+(use-package anaconda-mode
+  :ensure t
+
+  :config
+  (add-hook 'python-mode-hook 'anaconda-mode)
+  (add-hook 'python-mode-hook 'eldoc-mode))
+
+(use-package company-anaconda
+  :ensure t
+  :config
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends 'company-anaconda)))
 
 ;; TODO
 ;; use (member "Symbola" (font-family-list))
@@ -358,10 +363,22 @@ PR [a-z-+]+/\
 (use-package fontawesome
   :ensure t)
 
-(use-package dired+
+;; (use-package dired+
+;;   :ensure t
+;;   :init
+;;   (setq diredp-hide-details-initially-flag nil))
+
+(use-package company-tern
   :ensure t
-  :init
-  (setq diredp-hide-details-initially-flag nil))
+  :config
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends 'company-tern)))
+
+(use-package company-cabal
+  :ensure t
+  :config
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends 'company-cabal)))
 
 (use-package latex-preview-pane
   :ensure t)
@@ -495,14 +512,25 @@ PR [a-z-+]+/\
 
 (use-package ag
   :ensure t
-  :config
+  :init
+  (setq ag-reuse-buffers t)
   (setq ag-highlight-search t))
 
 (use-package anzu
   :ensure t
   :diminish anzu-mode
   :init
-  (setq anzu-mode-line-update-function 'my-anzu-update)
+  (defun blaenk/anzu-update (here total)
+    (when anzu--state
+      (let ((status (cond
+                     ((eq anzu--state 'search) (format " %s of %d%s "
+                                                       (anzu--format-here-position here total)
+                                                       total (if anzu--overflow-p "+" "")))
+                     ((eq anzu--state 'replace-query) (format " %d replace " total))
+                     ((eq anzu--state 'replace) (format " %d of %d " here total)))))
+        (propertize status 'face 'anzu-mode-line))))
+
+  (setq anzu-mode-line-update-function 'blaenk/anzu-update)
   (setq anzu-cons-mode-line-p nil)
   :config
   (global-anzu-mode +1))
@@ -510,8 +538,15 @@ PR [a-z-+]+/\
 (use-package browse-at-remote
   :ensure t
   :bind
-  ("C-x g o" . browse-at-remote/to-clipboard))
+  ("C-c g o" . browse-at-remote/to-clipboard))
 
+(use-package dockerfile-mode
+  :ensure t
+  :mode ("Dockerfile\\'" . dockerfile-mode))
+
+;; TODO
+;; configure thoroughly when used
+;; https://github.com/clojure-emacs/cider
 (use-package cider
   :ensure t
 
@@ -519,19 +554,55 @@ PR [a-z-+]+/\
   (setq cider-auto-mode nil)
 
   :config
-  (add-hook 'cider-mode-hook #'eldoc-mode))
+  (add-hook 'cider-mode-hook #'eldoc-mode)
+  (add-hook 'cider-repl-mode-hook 'company-mode)
+  (add-hook 'cider-mode-hook 'company-mode))
+
+;; TODO
+;; requires extra setup
+;; choose between ghc and haskell-mode
+(use-package ghc
+  :ensure t)
+
+(use-package haskell-mode
+  :ensure t
+  :config
+  (add-hook 'haskell-mode-hook 'haskell-indentation-mode))
 
 (use-package company
   :ensure t
   :config
+  (setq company-idle-delay nil)
   ;; TODO audit
-  (setq company-idle-delay 0.1
-        company-minimum-prefix-length 2
+  (setq company-echo-delay 0
+        company-minimum-prefix-length 0
         company-selection-wrap-around t
-        company-show-numbers t
         company-require-match 'never
+        company-global-modes '(not git-commit-mode)
         company-dabbrev-downcase nil
-        company-dabbrev-ignore-case t))
+        company-dabbrev-ignore-case t)
+
+  :config
+  (add-hook 'prog-mode-hook 'company-mode))
+
+(use-package company-statistics
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'company-statistics-mode)
+  (company-statistics-mode))
+
+(use-package company-quickhelp
+  :ensure t
+
+  :init
+  (setq company-quickhelp-delay nil)
+
+  :config
+  (company-quickhelp-mode 1))
+
+(use-package company-web
+  :ensure t
+  :config)
 
 (use-package clojure-mode
   :ensure t)
@@ -550,13 +621,14 @@ PR [a-z-+]+/\
   (add-hook 'sgml-mode-hook 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode))
 
+;; NOTE
+;; should adapt helm-descbinds to save prefix keys
 (use-package which-key
   :ensure t
+  :disabled t
   :diminish which-key-mode
   :init
-  (setq which-key-use-C-h-for-paging nil)
-  :config
-  (which-key-mode))
+  (setq which-key-use-C-h-for-paging nil))
 
 (use-package evil-matchit
   :ensure t
@@ -584,18 +656,25 @@ PR [a-z-+]+/\
   :config
   (add-hook 'evil-mode-hook 'evil-leader-mode)
   (add-hook 'evil-local-mode-hook 'evil-leader-mode)
+
   (evil-leader/set-leader "<SPC>")
 
   (evil-leader/set-key
     "o" (lambda ()
           (interactive)
+          (end-of-line)
+          (newline)
           (evil-open-above 1)
-          (newline-and-indent))
+          (setq this-command 'evil-open-below))
     "l" 'evil-ex-nohighlight
     "m" 'evil-visual-mark-mode))
 
 (use-package evil-numbers
   :ensure t)
+
+(use-package evil-smartparens
+  ;; :ensure t
+  )
 
 (use-package evil-surround
   :ensure t
@@ -615,13 +694,15 @@ PR [a-z-+]+/\
 
   :init
   ;; TODO check if these should all be in this
-  ;; (setq evil-search-module 'evil-search)
+  (setq evil-search-module 'evil-search)
   ;; (setq evil-cross-lines t)
   ;; TODO show trailing whitespace in combination with this?
   ;; (setq evil-move-cursor-back nil)
   (setq-default evil-symbol-word-search t)
+  ;; TODO necessary?
+  (setq-default evil-shift-width 2)
 
-  (defun my-real-function (fun)
+  (defun blaenk/evil--real-function (fun)
     "Figure out the actual symbol behind a function.
 Returns a different symbol if FUN is an alias, otherwise FUN."
     (let ((symbol-function (symbol-function fun)))
@@ -629,11 +710,17 @@ Returns a different symbol if FUN is an alias, otherwise FUN."
           symbol-function
         fun)))
 
-  (defun my-derived-mode-p (mode modes)
-    (let ((parent (my-real-function mode)))
+  (defun blaenk/evil--derived-mode-p (mode modes)
+    (let ((parent (blaenk/evil--real-function mode)))
       (while (and parent (not (memq parent modes)))
-        (setq parent (my-real-function (get parent 'derived-mode-parent))))
+        (setq parent (blaenk/evil--real-function (get parent 'derived-mode-parent))))
       parent))
+
+  (with-eval-after-load 'company
+    (defun company-complete-lambda (arg) (company-complete))
+
+    (setq evil-complete-next-func 'company-complete-lambda)
+    (setq evil-complete-previous-func 'company-complete-lambda))
 
   (with-eval-after-load 'evil-core
     (defun evil-initial-state (mode &optional default)
@@ -647,10 +734,9 @@ The initial state for a mode can be set with
             (setq state (car entry)
                   modes (symbol-value (cdr entry)))
             (when (or (memq mode modes)
-                      (my-derived-mode-p mode modes))
+                      (blaenk/evil--derived-mode-p mode modes))
               (throw 'done state)))))))
 
-  (setq evil-want-C-w-in-emacs-state t)
   (setq evil-want-C-w-delete t)
   (setq evil-want-C-u-scroll t)
   (setq evil-default-state 'emacs)
@@ -690,32 +776,42 @@ The initial state for a mode can be set with
   ;; FIXME
   ;; a problem is that this leaves whitespace residue
   ;; e.g. o then escape then o?
-  ;; (defun my-open-line ()
-  ;;   (interactive)
-  ;;   (end-of-visual-line)
-  ;;   (if (elt (syntax-ppss) 4)
-  ;;       (progn
-  ;;         (comment-indent-new-line)
-  ;;         (evil-insert-state 1)
+  (defun blaenk/evil-open-line ()
+    (interactive)
+    (end-of-visual-line)
+    (if (elt (syntax-ppss) 4)
+        (progn
+          (comment-indent-new-line)
+          (evil-insert-state 1)
 
-  ;;         (when evil-auto-indent
-  ;;           (indent-according-to-mode))
+          (when evil-auto-indent
+            (indent-according-to-mode))
 
-  ;;         (add-hook 'post-command-hook #'evil-maybe-remove-spaces)
-  ;;         (setq this-command 'evil-open-below))
-  ;;     (evil-open-below 1)))
+          (add-hook 'post-command-hook #'evil-maybe-remove-spaces)
+          (setq this-command 'evil-open-below))
+      (evil-open-below 1))
+    (setq this-command 'evil-open-below))
 
-  ;; (define-key evil-normal-state-map (kbd "o") 'my-open-line)
-  ;; (define-key evil-normal-state-map (kbd "O")
-  ;;   (lambda ()
-  ;;     (interactive)
-  ;;     (if (eq (line-number-at-pos (point)) 1)
-  ;;         (evil-open-above 1)
-  ;;         (progn
-  ;;           (previous-line)
-  ;;           (my-open-line)))))
+  (define-key evil-normal-state-map (kbd "o") 'blaenk/evil-open-line)
+  (define-key evil-normal-state-map (kbd "O")
+    (lambda ()
+      (interactive)
+      (if (eq (line-number-at-pos (point)) 1)
+          (evil-open-above 1)
+          (progn
+            (previous-line)
+            (blaenk/evil-open-line)))))
 
-  (define-key evil-insert-state-map (kbd "C-u") 'my-kill-line)
+  (defun blaenk/kill-line ()
+    (interactive)
+    (if (looking-back "^[[:space:]]+")
+        (kill-line 0)
+      (progn
+        (let ((beg (point)))
+          (back-to-indentation)
+          (kill-region beg (point))))))
+
+  (define-key evil-insert-state-map (kbd "C-u") 'blaenk/kill-line)
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 
   (define-key evil-normal-state-map (kbd "g p") 'exchange-point-and-mark)
@@ -801,8 +897,39 @@ The initial state for a mode can be set with
   (define-key evil-normal-state-map (kbd "< a") 'evil-arg-swap-backward)
   (define-key evil-normal-state-map (kbd "> a") 'evil-arg-swap-forward))
 
-(use-package flycheck
+(use-package olivetti
   :ensure t)
+
+(use-package ace-link
+  :ensure t
+  :config
+  (ace-link-setup-default))
+
+(use-package flycheck
+  :ensure t
+  :config
+  ;; TODO audit
+  (flycheck-define-checker javascript-flow
+    "A JavaScript syntax and style checker using Flow.
+See URL `http://flowtype.org/'."
+    :command ("flow" source-original)
+    :error-patterns
+    ((error line-start
+            (file-name)
+            ":"
+            line
+            ":"
+            (minimal-match (one-or-more not-newline))
+            ": "
+            (message (minimal-match (and (one-or-more anything) "\n")))
+            line-end))
+    :modes js-mode)
+  )
+
+(use-package flycheck-irony
+  :ensure t
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
 (use-package flycheck-rust
   :ensure t
@@ -814,10 +941,22 @@ The initial state for a mode can be set with
   :config
   (global-hl-todo-mode))
 
+;; NOTE
+;; see moo-jump-local
+(use-package function-args
+  :ensure t
+  :init
+  (set-default 'semantic-case-fold t)
+  :config
+  (fa-config-default))
+
 (use-package ggtags
   :ensure t
 
   :config
+  ;; TODO audit
+  (setq-local eldoc-documentation-function #'ggtags-eldoc-function)
+  (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
   (add-hook 'prog-mode-hook
             (lambda ()
               (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
@@ -826,10 +965,13 @@ The initial state for a mode can be set with
 (use-package gist
   :ensure t
   :bind
-  (("C-x p s" . gist-region-or-buffer-private)
-   ("C-x p p" . gist-region-or-buffer)))
+  (("C-c p s" . gist-region-or-buffer-private)
+   ("C-c p p" . gist-region-or-buffer)))
 
 (use-package json-mode
+  :ensure t)
+
+(use-package systemd
   :ensure t)
 
 (use-package highlight-quoted
@@ -848,22 +990,17 @@ The initial state for a mode can be set with
 (use-package gitattributes-mode
   :ensure t)
 
-(use-package git-gutter
+(use-package git-gutter-fringe
   :ensure t
   :bind
   ;; NOTE mnemonic is 'git ruler'
-  (("C-x g r t" . git-gutter:toggle)
-   ("C-x g r n" . git-gutter:next-hunk)
-   ("C-x g r p" . git-gutter:previous-hunk)))
+  (("C-c g r t" . git-gutter:toggle)
+   ("C-c g r n" . git-gutter:next-hunk)
+   ("C-c g r p" . git-gutter:previous-hunk)))
 
 (use-package markdown-mode
   :ensure t
   :mode ("\\.markdown\\'" "\\.md\\'"))
-
-(use-package haskell-mode
-  :ensure t
-  :config
-  (add-hook 'haskell-mode-hook 'haskell-indentation-mode))
 
 (use-package undo-tree
   :ensure t
@@ -881,9 +1018,25 @@ The initial state for a mode can be set with
       (after undo-tree activate)
     (setq ad-return-value (concat ad-return-value ".gz"))))
 
+(use-package inf-ruby
+  :ensure t
+  :config
+  (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
+  (add-hook 'enh-ruby-mode-hook 'inf-ruby-minor-mode)
+  (inf-ruby-switch-setup))
+
+(use-package enh-ruby-mode
+  :ensure t)
+
+(use-package helm-c-yasnippet
+  :ensure t)
+
 (use-package helm-unicode
   :ensure t
   :bind ("C-x 8 RET" . helm-unicode))
+
+(use-package paxedit
+  :ensure t)
 
 (use-package helm
   :ensure t
@@ -891,6 +1044,7 @@ The initial state for a mode can be set with
 
   :bind
   (("M-x" . helm-M-x)
+   ("M-y" . helm-show-kill-ring)
    ("M-i" . helm-imenu)
    ("C-c h" . helm-command-prefix)
    ("C-x b" . helm-buffers-list)
@@ -904,10 +1058,15 @@ The initial state for a mode can be set with
   (setq helm-display-header-line nil)
   (setq helm-autoresize-max-height 30)
   (setq helm-autoresize-min-height 30)
+  (setq helm-imenu-execute-action-at-once-if-one nil)
 
   :config
   (require 'helm-config)
   (helm-autoresize-mode t)
+
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
+  (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+  (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
   (defun blaenk/solarized-put-color (color table)
     (puthash (downcase (symbol-value color)) (symbol-name color) table))
@@ -1020,6 +1179,17 @@ The initial state for a mode can be set with
   :ensure t
   :diminish helm-gtags-mode
 
+  ;; TODO audit
+  :init
+  (setq
+   helm-gtags-ignore-case t
+   helm-gtags-auto-update t
+   helm-gtags-use-input-at-cursor t
+   helm-gtags-pulse-at-cursor t
+   helm-gtags-prefix-key "\C-cg"
+   helm-gtags-suggested-key-mapping t
+   )
+
   :config
   (helm-gtags-mode))
 
@@ -1073,13 +1243,25 @@ The initial state for a mode can be set with
 (use-package go-mode
   :ensure t)
 
+(use-package company-go
+  :ensure t
+  :config
+  (add-hook 'go-mode-hook
+            (lambda ()
+              (set (make-local-variable 'company-backends) '(company-go))
+              (company-mode))))
+
 (use-package less-css-mode
   :ensure t)
 
 (use-package robe
   :ensure t
   :config
-  (add-hook 'ruby-mode-hook 'robe-mode) )
+  (with-eval-after-load 'company
+    (push 'company-robe company-backends))
+
+  (add-hook 'ruby-mode-hook 'robe-mode)
+  (add-hook 'enh-ruby-mode-hook 'robe-mode))
 
 (use-package scss-mode
   :ensure t
@@ -1092,6 +1274,9 @@ The initial state for a mode can be set with
   :ensure t)
 
 (use-package racket-mode
+  :ensure t)
+
+(use-package helm-flycheck
   :ensure t)
 
 (use-package helm-flyspell
@@ -1117,14 +1302,40 @@ The initial state for a mode can be set with
 
   ;; replace the `completion-at-point' and `complete-symbol' bindings in
   ;; irony-mode's buffers by irony-mode's function
-  (defun my-irony-mode-hook ()
+  (defun blaenk/irony-mode-hook ()
     (define-key irony-mode-map [remap completion-at-point]
       'irony-completion-at-point-async)
     (define-key irony-mode-map [remap complete-symbol]
       'irony-completion-at-point-async))
-  (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+  (add-hook 'irony-mode-hook 'blaenk/irony-mode-hook)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
+;; TODO
+;; requires completion server?
+(use-package company-irony
+  :ensure t
+
+  :config
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends 'company-irony))
+
+  (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands))
+
+(use-package swift-mode
+  :if (eq system-type 'darwin)
+  :ensure t
+
+  :config
+  (with-eval-after-load 'flycheck
+    (add-to-list 'flycheck-checkers 'swift)))
+
+(use-package irony-eldoc
+  :ensure t)
+
+(use-package vimrc-mode
+  :ensure t)
+
+;; TODO ensure imenu
 (use-package js2-mode
   :ensure t
   :mode "\\.js\\'"
@@ -1139,16 +1350,41 @@ The initial state for a mode can be set with
   (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
   (add-hook 'cmake-mode-hook 'cmake-font-lock-activate))
 
+(use-package skewer-mode
+  :ensure t)
+
+(use-package git-messenger
+  :ensure t)
+
+(use-package git-timemachine
+  :ensure t)
+
 (use-package magit
   :ensure t
 
+  :diminish
+  (magit-wip-after-save-local-mode
+   magit-wip-before-change-mode)
+
   :bind
-  (("C-x g s" . magit-status)
-   ("C-x g p" . magit-dispatch-popup))
+  (("C-c g s" . magit-status)
+   ("C-c g p" . magit-dispatch-popup))
+
+  :init
+  (setq magit-save-repository-buffers 'dontask)
+  (setq magit-push-always-verify 'dontask)
+  (setq magit-refs-show-commit-count 'all)
 
   :config
+  (add-hook 'magit-status-mode-hook 'delete-other-windows)
+
   (with-eval-after-load 'magit-ediff
-    (add-hook 'magit-ediff-quit-hook 'my-ediff-quit))
+    (add-hook 'magit-ediff-quit-hook 'blaenk/ediff-quit))
+
+  ;; NOTE remove if perf hit
+  (magit-wip-after-save-mode)
+  (magit-wip-after-apply-mode)
+  (magit-wip-before-change-mode)
 
   (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
   (add-hook 'git-commit-setup-hook 'fci-mode))
@@ -1178,22 +1414,27 @@ The initial state for a mode can be set with
   :config
   (projectile-global-mode))
 
-(with-eval-after-load 'rust-mode
-  (use-package racer
-    :ensure t
-    :no-require t
+(use-package zeal-at-point
+  :ensure t)
 
-    :init
-    (setq racer-rust-src-path "~/code/rust/rust/src")
-    (setq racer-cmd "~/code/rust/racer/target/release/racer")
-    (add-to-list 'load-path "~/code/rust/racer/editors/emacs")
+(use-package dash-at-point
+  :ensure t)
 
-    :config
-    (add-hook 'rust-mode-hook
-              '(lambda ()
-                 (racer-activate)
-                 ;; (local-set-key (kbd "M-.") #'racer-find-definition)
-                 (local-set-key (kbd "TAB") #'racer-complete-or-indent)))))
+(use-package racer
+  :ensure t
+  :no-require t
+
+  :init
+  (setq racer-rust-src-path "~/code/rust/rust/src")
+  (setq racer-cmd "~/code/rust/racer/target/release/racer")
+  (add-to-list 'load-path "~/code/rust/racer/editors/emacs")
+
+  :config
+  (add-hook 'rust-mode-hook
+            '(lambda ()
+               (racer-activate)
+               ;; (local-set-key (kbd "M-.") #'racer-find-definition)
+               (local-set-key (kbd "TAB") #'racer-complete-or-indent))))
 
 (use-package rainbow-mode
   :ensure t
@@ -1261,7 +1502,7 @@ The initial state for a mode can be set with
     (with-eval-after-load 'evil
       ;; https://github.com/tpope/vim-sexp-mappings-for-regular-people
 
-      (defun my-evil-goto-char (pos)
+      (defun blaenk/evil-goto-char (pos)
         (when (evil-normal-state-p) (decf pos))
         (goto-char pos))
 
@@ -1272,7 +1513,7 @@ The initial state for a mode can be set with
           (interactive)
           (on-parens-forward-slurp)
           ;; get back on paren
-          (sp-get (sp-get-enclosing-sexp) (my-evil-goto-char :end))))
+          (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char :end))))
 
       (define-key evil-normal-state-map (kbd "< )")
         (lambda ()
@@ -1293,7 +1534,7 @@ The initial state for a mode can be set with
           (interactive)
           (on-parens-backward-slurp)
           ;; get back on paren
-          (sp-get (sp-get-enclosing-sexp) (my-evil-goto-char (+ :beg 1)))))
+          (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char (+ :beg 1)))))
 
       ;; NOTE can use evil-define-motion to create motions out of these
       (define-key evil-normal-state-map (kbd "W") 'on-parens-forward-sexp)
@@ -1334,9 +1575,9 @@ The initial state for a mode can be set with
 
         (let ((end (sp-get (sp-get-current-non-string-sexp pos) :end)))
           (when end
-            (my-evil-goto-char end))))
+            (blaenk/evil-goto-char end))))
 
-      (defmacro my-save-position (&rest body)
+      (defmacro blaenk/save-position (&rest body)
         "restore column and form-relative line number"
         `(let* ((column (current-column))
                 (pos (point))
@@ -1353,14 +1594,14 @@ The initial state for a mode can be set with
         "move a form forward"
         (interactive "d *p")
 
-        (my-save-position
+        (blaenk/save-position
           (sp-transpose-sexp)))
 
       (defun move-form-backward (pos &optional arg)
         "move a form backward"
         (interactive "d *p")
 
-        (my-save-position
+        (blaenk/save-position
          (sp-transpose-sexp -1)))
 
       (define-key evil-normal-state-map (kbd "< f")
@@ -1410,12 +1651,26 @@ The initial state for a mode can be set with
       (define-key evil-normal-state-map (kbd "> i") 'insert-after-form))))
 
 (use-package toml-mode
-  :ensure t)
+  :ensure t
+
+  :init
+  (defvar toml-keywords
+    '(("\\[\\{1,2\\}\}[a-zA-Z][^ \n\t\r]+\\]" . font-lock-keyword-face)
+      ("[0-9]\\{4\\}-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9][Zz]"
+       . font-lock-variable-name-face)
+      ("\\b[-+]?\\(?:[0-9]*\\.[0-9]+|[0-9]+\\)\\b" . font-lock-variable-name-face))
+    ))
 
 (use-package web-mode
-  :ensure t)
+  :ensure t
+  :mode "\\.html?\\'"
+  :init
+  (setq web-mode-enable-current-element-highlight t))
 
 (use-package wgrep
+  :ensure t)
+
+(use-package wgrep-ag
   :ensure t)
 
 (use-package discover-my-major
@@ -1433,6 +1688,30 @@ The initial state for a mode can be set with
   :config
   (with-eval-after-load 'magit
     (add-hook 'git-commit-setup-hook 'fci-mode)))
+
+(use-package bug-reference
+  :defer t
+  :init
+  (setq bug-reference-bug-regexp "\\(\
+[Ii]ssue ?#\\|\
+[Bb]ug ?#\\|\
+[Pp]atch ?#\\|\
+RFE ?#\\|\
+PR [a-z-+]+/\
+\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
+
+  (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
+  (add-hook 'prog-mode-hook #'bug-reference-prog-mode))
+
+(use-package sx
+  :ensure t)
+
+(use-package goto-addr
+  :defer t
+  :init
+  (add-hook 'prog-mode-hook #'goto-address-prog-mode)
+  (add-hook 'text-mode-hook #'goto-address-mode)
+  (goto-address-mode))
 
 (use-package bug-reference-github
   :ensure t
@@ -1473,6 +1752,7 @@ The initial state for a mode can be set with
         '(("DVI Viewer" "open %o")
           ("PDF Viewer" "open %o")
           ("HTML Viewer" "open %o")))
+
   :config
   (add-hook 'LaTeX-mode-hook 'visual-line-mode)
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
@@ -1483,9 +1763,7 @@ The initial state for a mode can be set with
   :init
   (setq shackle-rules
         '((help-mode :select t)
-          (compilation-mode :noselect t)
-          ("\\`\\*magit: .*?\\*\\'" :regexp t :same t)
-          ))
+          (compilation-mode :noselect t)))
 
   :config
   (shackle-mode))
@@ -1523,3 +1801,36 @@ The initial state for a mode can be set with
   :config
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
+(use-package helm-company
+  :ensure t
+  :config
+  (define-key company-mode-map (kbd "C-:") 'helm-company)
+  (define-key company-active-map (kbd "C-:") 'helm-company))
+
+(use-package helm-make
+  :ensure t)
+
+;; TODO
+;; this also cons mode-line
+;; need a more robust way of reformatting mode-line
+;; perhaps advice on force-mode-line-update?
+(use-package eldoc
+  :defer t
+  :config
+  (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode))
+
+(use-package restclient
+  :ensure t)
+
+(use-package company-restclient
+  :ensure t
+  :config
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends 'company-restclient)))
+
+(use-package compile
+  :config
+  (setq compilation-scroll-output 'first-error)
+  (setq compilation-ask-about-save nil)
+  (setq compilation-set-skip-threshold 0)
+  (setq compilation-always-kill t))
