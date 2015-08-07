@@ -38,3 +38,4 @@ emacs/.emacs.d/.emacs.desktop
 emacs/.emacs.d/.emacs.desktop.lock
 emacs/.emacs.d/el-get/
 emacs/.emacs.d/tramp
+emacs/.emacs.d/company-statistics-cache.el
