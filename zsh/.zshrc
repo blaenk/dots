@@ -65,3 +65,4 @@ if [[ -e $DOTSPATH/zsh/zsh/custom.zsh ]]; then
   source $DOTSPATH/zsh/zsh/custom.zsh
 fi
 
+source ~/.zsh.local
