@@ -1651,15 +1651,7 @@ See URL `http://flowtype.org/'."
       (define-key evil-normal-state-map (kbd "> i") 'insert-after-form))))
 
 (use-package toml-mode
-  :ensure t
-
-  :init
-  (defvar toml-keywords
-    '(("\\[\\{1,2\\}\}[a-zA-Z][^ \n\t\r]+\\]" . font-lock-keyword-face)
-      ("[0-9]\\{4\\}-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9][Zz]"
-       . font-lock-variable-name-face)
-      ("\\b[-+]?\\(?:[0-9]*\\.[0-9]+|[0-9]+\\)\\b" . font-lock-variable-name-face))
-    ))
+  :ensure t)
 
 (use-package web-mode
   :ensure t
