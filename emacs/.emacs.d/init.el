@@ -1381,6 +1381,27 @@ See URL `http://flowtype.org/'."
    'magit-status-sections-hook
    'magit-insert-unpulled-module-commits)
 
+  (defun blaenk/pull-request-url ()
+    "Build the URL or the pull requestion on GitHub corresponding
+to the current branch. Uses Magit."
+    (interactive)
+    (format "%s/compare/%s"
+            (replace-regexp-in-string
+             (rx (and
+                  string-start
+                  (1+ any)
+                  "github.com:"
+                  (group (1+ any))
+                  ".git"
+                  string-end))
+             "https://github.com/\\1"
+             (magit-get "remote" (magit-get-remote) "url"))
+            (magit-get-current-branch)))
+
+  (defun blaenk/open-pr ()
+    (interactive)
+    (browse-url (blaenk/pull-request-url)))
+
   (add-hook 'magit-status-mode-hook 'delete-other-windows)
 
   (with-eval-after-load 'magit-ediff
