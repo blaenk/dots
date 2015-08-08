@@ -904,6 +904,8 @@ The initial state for a mode can be set with
   (defun blaenk/flycheck-cargo-rust-predicate () (flycheck-buffer-saved-p))
 
   :config
+  (add-hook 'after-init-hook 'global-flycheck-mode)
+
   (flycheck-define-checker blaenk/cargo-rust
     "A Rust syntax checker using cargo rustc.
 This syntax checker needs Rust 1.1 or newer.
