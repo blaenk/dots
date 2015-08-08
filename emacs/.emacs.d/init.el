@@ -1517,7 +1517,11 @@ to the current branch. Uses Magit."
   (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
 
 (use-package rust-mode
-  :ensure t)
+  :ensure t
+  :init
+  (add-hook 'rust-mode-hook
+            (lambda ()
+              (set (make-local-variable 'compile-command) "cargo build"))))
 
 (use-package on-parens
   :ensure t)
