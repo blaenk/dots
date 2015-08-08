@@ -76,7 +76,6 @@
 (setq-default indent-tabs-mode nil)
 (setq tab-width 2)
 
-(setq use-dialog-box nil)
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (setq sentence-end-double-space nil)
