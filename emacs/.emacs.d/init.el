@@ -932,6 +932,8 @@ See URL `http://www.rust-lang.org'."
     :modes rust-mode
     :predicate blaenk/flycheck-cargo-rust-predicate)
 
+  (add-to-list 'flycheck-checkers 'blaenk/cargo-rust)
+
   (flycheck-define-checker javascript-flow
     "A JavaScript syntax and style checker using Flow.
 See URL `http://flowtype.org/'."
@@ -948,7 +950,6 @@ See URL `http://flowtype.org/'."
             line-end))
     :modes js-mode)
 
-  (add-to-list 'flycheck-checkers 'blaenk/cargo-rust)
   (add-to-list 'flycheck-checkers 'javascript-flow))
 
 (use-package flycheck-irony
@@ -957,6 +958,7 @@ See URL `http://flowtype.org/'."
   (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
 (use-package flycheck-rust
+  :disabled t
   :ensure t
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
