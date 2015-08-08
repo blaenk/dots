@@ -985,8 +985,8 @@ See URL `http://flowtype.org/'."
 (use-package gist
   :ensure t
   :bind
-  (("C-c p s" . gist-region-or-buffer-private)
-   ("C-c p p" . gist-region-or-buffer)))
+  (("C-c g p s" . gist-region-or-buffer-private)
+   ("C-c g p p" . gist-region-or-buffer)))
 
 (use-package json-mode
   :ensure t)
