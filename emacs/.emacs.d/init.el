@@ -904,8 +904,12 @@ The initial state for a mode can be set with
 
 (use-package flycheck
   :ensure t
+
+  :preface
+  (defun blaenk/flycheck-cargo-rust-predicate () (flycheck-buffer-saved-p))
+
   :config
-  (flycheck-define-checker cargo-rust
+  (flycheck-define-checker blaenk/cargo-rust
     "A Rust syntax checker using cargo rustc.
 This syntax checker needs Rust 1.1 or newer.
 See URL `http://www.rust-lang.org'."
@@ -926,8 +930,7 @@ See URL `http://www.rust-lang.org'."
            (one-or-more digit) ":" (one-or-more digit) " " (or "note" "help") ": "
            (message) line-end))
     :modes rust-mode
-    :predicate (lambda ()
-                 (flycheck-buffer-saved-p)))
+    :predicate blaenk/flycheck-cargo-rust-predicate)
 
   (flycheck-define-checker javascript-flow
     "A JavaScript syntax and style checker using Flow.
@@ -943,7 +946,10 @@ See URL `http://flowtype.org/'."
             ": "
             (message (minimal-match (and (one-or-more anything) "\n")))
             line-end))
-    :modes js-mode))
+    :modes js-mode)
+
+  (add-to-list 'flycheck-checkers 'blaenk/cargo-rust)
+  (add-to-list 'flycheck-checkers 'javascript-flow))
 
 (use-package flycheck-irony
   :ensure t
