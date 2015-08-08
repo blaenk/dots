@@ -61,9 +61,6 @@
 (setq gdb-many-windows t)
 (setq gdb-show-main t)
 
-(setq split-height-threshold 0)
-(setq split-width-threshold 0)
-
 (setq show-paren-delay 0)
 
 (setq-default fill-column 80)
