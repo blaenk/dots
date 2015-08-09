@@ -33,6 +33,12 @@
 
 (setq use-package-always-ensure t)
 
+(defun blaenk/edit-init ()
+  (interactive)
+  (find-file (expand-file-name "init.el" user-emacs-directory)))
+
+(global-set-key (kbd "C-c e") 'blaenk/edit-init)
+
 (when window-system (set-frame-size (selected-frame) 96 41))
 
 (when (getenv "VM")
