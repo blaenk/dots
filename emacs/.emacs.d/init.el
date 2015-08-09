@@ -177,8 +177,11 @@
            `(:background ,red-l :foreground "white" :weight bold))))))
 
   (defun blaenk/vc-branch ()
-    (let ((backend (symbol-name (vc-backend (buffer-file-name)))))
-      (format " %s " (substring vc-mode (+ (length backend) 2)))))
+    (let ((backend (vc-backend (buffer-file-name))))
+      (when backend
+        (format " %s " (substring
+                        vc-mode
+                        (+ (length (symbol-name backend)) 2))))))
 
   (defun blaenk/is-modified ()
     (and (not buffer-read-only) (buffer-modified-p (window-buffer nil))))
