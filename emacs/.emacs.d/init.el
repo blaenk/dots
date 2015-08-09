@@ -32,6 +32,8 @@
 (require 'diminish)
 (require 'bind-key)
 
+(setq use-package-always-ensure t)
+
 (when window-system (set-frame-size (selected-frame) 96 41))
 
 (when (getenv "VM")
@@ -246,8 +248,10 @@
 (blaenk/setup-mode-line)
 
 (use-package whitespace
+  :ensure nil
   :defer t
   :diminish whitespace-mode
+
   :init
   (setq whitespace-style '(face indentation trailing lines-tail empty
                            space-after-tab space-before-tab tab-mark))
@@ -255,18 +259,23 @@
   (add-hook 'prog-mode-hook 'whitespace-mode))
 
 (use-package sh-script
+  :ensure nil
   :mode ("\\.zsh\\'" . sh-mode))
 
 (use-package tramp
+  :ensure nil
   :defer t
+
   :init
   (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash")))
 
 (use-package saveplace
+  :ensure nil
   :init
   (setq-default save-place t))
 
 (use-package imenu
+  :ensure nil
   :defer t
 
   :init
@@ -278,6 +287,7 @@
   (add-hook 'emacs-lisp-mode-hook 'imenu-use-package))
 
 (use-package ediff
+  :ensure nil
   :init
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -318,19 +328,18 @@
   (add-hook 'ediff-quit-hook 'blaenk/ediff-quit 'append))
 
 (use-package stickyfunc-enhance
-  :ensure t
   :config
   (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
   (semantic-mode 1))
 
-(use-package dtrt-indent
-  :ensure t)
+(use-package dtrt-indent)
 
-(use-package clean-aindent-mode
-  :ensure t)
+(use-package clean-aindent-mode)
 
 (use-package python
+  :ensure nil
   :defer t
+
   :config
   ;; TODO other PEP8 stuff
   (add-hook 'python-mode-hook (lambda () (setq fill-column 79)))
@@ -340,14 +349,11 @@
       (setq python-shell-interpreter ipython))))
 
 (use-package anaconda-mode
-  :ensure t
-
   :config
   (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'eldoc-mode))
 
 (use-package company-anaconda
-  :ensure t
   :config
   (with-eval-after-load 'company
     (add-to-list 'company-backends 'company-anaconda)))
@@ -355,34 +361,27 @@
 ;; TODO
 ;; use (member "Symbola" (font-family-list))
 ;; to fall back on unicode icons
-(use-package fontawesome
-  :ensure t)
+(use-package fontawesome)
 
 ;; (use-package dired+
-;;   :ensure t
 ;;   :init
 ;;   (setq diredp-hide-details-initially-flag nil))
 
 (use-package company-tern
-  :ensure t
   :config
   (with-eval-after-load 'company
     (add-to-list 'company-backends 'company-tern)))
 
 (use-package company-cabal
-  :ensure t
   :config
   (with-eval-after-load 'company
     (add-to-list 'company-backends 'company-cabal)))
 
-(use-package latex-preview-pane
-  :ensure t)
+(use-package latex-preview-pane)
 
-(use-package paradox
-  :ensure t)
+(use-package paradox)
 
 (use-package solarized-theme
-  :ensure t
   :config
   (load-theme 'solarized-light t)
 
@@ -497,22 +496,18 @@
      )
   ))
 
-(use-package auto-package-update
-  :ensure t)
+(use-package auto-package-update)
 
 (use-package lua-mode
-  :ensure t
   :mode "\\.lua$"
   :interpreter "lua")
 
 (use-package ag
-  :ensure t
   :init
   (setq ag-reuse-buffers t)
   (setq ag-highlight-search t))
 
 (use-package anzu
-  :ensure t
   :diminish anzu-mode
   :init
   (defun blaenk/anzu-update (here total)
@@ -531,20 +526,16 @@
   (global-anzu-mode +1))
 
 (use-package browse-at-remote
-  :ensure t
   :bind
   ("C-c g o" . browse-at-remote/to-clipboard))
 
 (use-package dockerfile-mode
-  :ensure t
   :mode ("Dockerfile\\'" . dockerfile-mode))
 
 ;; TODO
 ;; configure thoroughly when used
 ;; https://github.com/clojure-emacs/cider
 (use-package cider
-  :ensure t
-
   :init
   (setq cider-auto-mode nil)
 
@@ -556,16 +547,13 @@
 ;; TODO
 ;; requires extra setup
 ;; choose between ghc and haskell-mode
-(use-package ghc
-  :ensure t)
+(use-package ghc)
 
 (use-package haskell-mode
-  :ensure t
   :config
   (add-hook 'haskell-mode-hook 'haskell-indentation-mode))
 
 (use-package company
-  :ensure t
   :config
   (setq company-idle-delay nil)
   ;; TODO audit
@@ -581,14 +569,11 @@
   (add-hook 'prog-mode-hook 'company-mode))
 
 (use-package company-statistics
-  :ensure t
   :config
   (add-hook 'after-init-hook 'company-statistics-mode)
   (company-statistics-mode))
 
 (use-package company-quickhelp
-  :ensure t
-
   :init
   (setq company-quickhelp-delay nil)
 
@@ -596,22 +581,17 @@
   (company-quickhelp-mode 1))
 
 (use-package company-web
-  :ensure t
   :config)
 
-(use-package clojure-mode
-  :ensure t)
+(use-package clojure-mode)
 
-(use-package diminish
-  :ensure t)
+(use-package diminish)
 
 (use-package expand-region
-  :ensure t
   :bind
   ("C-=" . er/expand-region))
 
 (use-package emmet-mode
-  :ensure t
   :config
   (add-hook 'sgml-mode-hook 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode))
@@ -619,15 +599,12 @@
 ;; NOTE
 ;; should adapt helm-descbinds to save prefix keys
 (use-package which-key
-  :ensure t
   :disabled t
   :diminish which-key-mode
   :init
   (setq which-key-use-C-h-for-paging nil))
 
 (use-package evil
-  :ensure t
-
   :init
   (setq evil-want-C-w-in-emacs-state t)
 
@@ -802,23 +779,18 @@ The initial state for a mode can be set with
   (evil-mode 1))
 
 (use-package evil-anzu
-  :ensure t
   :requires evil)
 
 (use-package evil-commentary
-  :ensure t
   :diminish evil-commentary-mode
   :config
   (evil-commentary-mode))
 
 (use-package evil-exchange
-  :ensure t
   :config
   (evil-exchange-install))
 
 (use-package evil-leader
-  :ensure t
-
   :config
   (add-hook 'evil-mode-hook 'evil-leader-mode)
   (add-hook 'evil-local-mode-hook 'evil-leader-mode)
@@ -835,29 +807,22 @@ The initial state for a mode can be set with
     "l" 'evil-ex-nohighlight
     "m" 'evil-visual-mark-mode))
 
-(use-package evil-numbers
-  :ensure t)
+(use-package evil-numbers)
 
 (use-package evil-smartparens
-  :ensure t
   :disabled t)
 
 (use-package evil-surround
-  :ensure t
   :config
   (global-evil-surround-mode 1))
 
-(use-package evil-visual-mark-mode
-  :ensure t)
+(use-package evil-visual-mark-mode)
 
 (use-package evil-visualstar
-  :ensure t
   :config
   (global-evil-visualstar-mode))
 
 (use-package evil-args
-  :ensure t
-
   :config
   ;; bind evil-args text objects
   (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
@@ -889,17 +854,13 @@ The initial state for a mode can be set with
   (define-key evil-normal-state-map (kbd "< a") 'evil-arg-swap-backward)
   (define-key evil-normal-state-map (kbd "> a") 'evil-arg-swap-forward))
 
-(use-package olivetti
-  :ensure t)
+(use-package olivetti)
 
 (use-package ace-link
-  :ensure t
   :config
   (ace-link-setup-default))
 
 (use-package flycheck
-  :ensure t
-
   :preface
   (defun blaenk/flycheck-cargo-rust-predicate () (flycheck-buffer-saved-p))
 
@@ -950,33 +911,27 @@ See URL `http://flowtype.org/'."
   (add-to-list 'flycheck-checkers 'javascript-flow))
 
 (use-package flycheck-irony
-  :ensure t
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
 (use-package flycheck-rust
   :disabled t
-  :ensure t
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 (use-package hl-todo
-  :ensure t
   :config
   (global-hl-todo-mode))
 
 ;; NOTE
 ;; see moo-jump-local
 (use-package function-args
-  :ensure t
   :init
   (set-default 'semantic-case-fold t)
   :config
   (fa-config-default))
 
 (use-package ggtags
-  :ensure t
-
   :config
   ;; TODO audit
   (setq-local eldoc-documentation-function #'ggtags-eldoc-function)
@@ -987,35 +942,27 @@ See URL `http://flowtype.org/'."
                 (ggtags-mode 1)))))
 
 (use-package gist
-  :ensure t
   :bind
   (("C-c g p s" . gist-region-or-buffer-private)
    ("C-c g p p" . gist-region-or-buffer)))
 
-(use-package json-mode
-  :ensure t)
+(use-package json-mode)
 
-(use-package systemd
-  :ensure t)
+(use-package systemd)
 
 (use-package highlight-quoted
-  :ensure t
   :init
   (setq highlight-quoted-highlight-symbols nil)
   :config
   (add-hook 'emacs-lisp-mode-hook 'highlight-quoted-mode))
 
-(use-package gitconfig-mode
-  :ensure t)
+(use-package gitconfig-mode)
 
-(use-package gitignore-mode
-  :ensure t)
+(use-package gitignore-mode)
 
-(use-package gitattributes-mode
-  :ensure t)
+(use-package gitattributes-mode)
 
 (use-package git-gutter-fringe
-  :ensure t
   :bind
   ;; NOTE mnemonic is 'git ruler'
   (("C-c g r t" . git-gutter:toggle)
@@ -1023,11 +970,13 @@ See URL `http://flowtype.org/'."
    ("C-c g r p" . git-gutter:previous-hunk)))
 
 (use-package markdown-mode
-  :ensure t
-  :mode ("\\.markdown\\'" "\\.md\\'"))
+  :mode
+  (("\\.markdown\\'" . gfm-mode)
+   ("\\.md\\'" . gfm-mode))
+  :init
+  (setq markdown-enable-math t))
 
 (use-package undo-tree
-  :ensure t
   :diminish undo-tree-mode
 
   :init
@@ -1043,27 +992,16 @@ See URL `http://flowtype.org/'."
     (setq ad-return-value (concat ad-return-value ".gz"))))
 
 (use-package inf-ruby
-  :ensure t
   :config
   (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
   (add-hook 'enh-ruby-mode-hook 'inf-ruby-minor-mode)
   (inf-ruby-switch-setup))
 
-(use-package enh-ruby-mode
-  :ensure t)
+(use-package enh-ruby-mode)
 
-(use-package helm-c-yasnippet
-  :ensure t)
-
-(use-package helm-unicode
-  :ensure t
-  :bind ("C-x 8 RET" . helm-unicode))
-
-(use-package paxedit
-  :ensure t)
+(use-package paxedit)
 
 (use-package helm
-  :ensure t
   :diminish helm-mode
 
   :bind
@@ -1196,11 +1134,14 @@ See URL `http://flowtype.org/'."
 
   (helm-mode 1))
 
-(use-package helm-ag
-  :ensure t)
+(use-package helm-c-yasnippet)
+
+(use-package helm-unicode
+  :bind ("C-x 8 RET" . helm-unicode))
+
+(use-package helm-ag)
 
 (use-package helm-gtags
-  :ensure t
   :diminish helm-gtags-mode
 
   ;; TODO audit
@@ -1218,12 +1159,10 @@ See URL `http://flowtype.org/'."
   (helm-gtags-mode))
 
 (use-package helm-descbinds
-  :ensure t
   :config
   (helm-descbinds-mode))
 
 (use-package helm-projectile
-  :ensure t
   :diminish projectile-mode
 
   :config
@@ -1246,40 +1185,30 @@ See URL `http://flowtype.org/'."
       "f" (if-projectile helm-projectile helm-find-files)
       "b" (if-projectile helm-projectile-switch-to-buffer helm-buffers-list))))
 
-(use-package visual-regexp
-  :ensure t)
+(use-package visual-regexp)
 
-(use-package multiple-cursors
-  :ensure t)
+(use-package multiple-cursors)
 
-(use-package sx
-  :ensure t)
+(use-package sx)
 
-(use-package yaml-mode
-  :ensure t)
+(use-package yaml-mode)
 
-(use-package erlang
-  :ensure t)
+(use-package erlang)
 
-(use-package scala-mode2
-  :ensure t)
+(use-package scala-mode2)
 
-(use-package go-mode
-  :ensure t)
+(use-package go-mode)
 
 (use-package company-go
-  :ensure t
   :config
   (add-hook 'go-mode-hook
             (lambda ()
               (set (make-local-variable 'company-backends) '(company-go))
               (company-mode))))
 
-(use-package less-css-mode
-  :ensure t)
+(use-package less-css-mode)
 
 (use-package robe
-  :ensure t
   :config
   (with-eval-after-load 'company
     (push 'company-robe company-backends))
@@ -1288,26 +1217,19 @@ See URL `http://flowtype.org/'."
   (add-hook 'enh-ruby-mode-hook 'robe-mode))
 
 (use-package scss-mode
-  :ensure t
   :mode "\\.scss\\'")
 
-(use-package elixir-mode
-  :ensure t)
+(use-package elixir-mode)
 
-(use-package alchemist
-  :ensure t)
+(use-package alchemist)
 
-(use-package racket-mode
-  :ensure t)
+(use-package racket-mode)
 
-(use-package helm-flycheck
-  :ensure t)
+(use-package helm-flycheck)
 
-(use-package helm-flyspell
-  :ensure t)
+(use-package helm-flyspell)
 
 (use-package swiper
-  :ensure t
   :init
   (setq ivy-use-virtual-buffers t)
 
@@ -1318,7 +1240,6 @@ See URL `http://flowtype.org/'."
    ([f6] . ivy-resume)))
 
 (use-package irony
-  :ensure t
   :config
   (add-hook 'c++-mode-hook 'irony-mode)
   (add-hook 'c-mode-hook 'irony-mode)
@@ -1337,8 +1258,6 @@ See URL `http://flowtype.org/'."
 ;; TODO
 ;; requires completion server?
 (use-package company-irony
-  :ensure t
-
   :config
   (with-eval-after-load 'company
     (add-to-list 'company-backends 'company-irony))
@@ -1347,45 +1266,34 @@ See URL `http://flowtype.org/'."
 
 (use-package swift-mode
   :if (eq system-type 'darwin)
-  :ensure t
 
   :config
   (with-eval-after-load 'flycheck
     (add-to-list 'flycheck-checkers 'swift)))
 
-(use-package irony-eldoc
-  :ensure t)
+(use-package irony-eldoc)
 
-(use-package vimrc-mode
-  :ensure t)
+(use-package vimrc-mode)
 
 ;; TODO ensure imenu
 (use-package js2-mode
-  :ensure t
   :mode "\\.js\\'"
   :interpreter "node")
 
-(use-package cmake-mode
-  :ensure t)
+(use-package cmake-mode)
 
 (use-package cmake-font-lock
-  :ensure t
   :config
   (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
   (add-hook 'cmake-mode-hook 'cmake-font-lock-activate))
 
-(use-package skewer-mode
-  :ensure t)
+(use-package skewer-mode)
 
-(use-package git-messenger
-  :ensure t)
+(use-package git-messenger)
 
-(use-package git-timemachine
-  :ensure t)
+(use-package git-timemachine)
 
 (use-package magit
-  :ensure t
-
   :diminish
   (magit-wip-after-save-local-mode
    magit-wip-before-change-mode)
@@ -1439,38 +1347,29 @@ to the current branch. Uses Magit."
   (add-hook 'git-commit-setup-hook 'fci-mode))
 
 (use-package magit-filenotify
-  :ensure t
   :config
   (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
 
 (use-package magit-gh-pulls
-  :ensure t
   :config
   (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
 
-(use-package magit-gitflow
-  :ensure t)
+(use-package magit-gitflow)
 
-(use-package multiple-cursors
-  :ensure t)
+(use-package multiple-cursors)
 
 (use-package projectile
-  :ensure t
-
   :init
   (setq projectile-completion-system 'helm)
 
   :config
   (projectile-global-mode))
 
-(use-package zeal-at-point
-  :ensure t)
+(use-package zeal-at-point)
 
-(use-package dash-at-point
-  :ensure t)
+(use-package dash-at-point)
 
 (use-package racer
-  :ensure t
   :no-require t
 
   :init
@@ -1486,7 +1385,6 @@ to the current branch. Uses Magit."
                (local-set-key (kbd "TAB") #'racer-complete-or-indent))))
 
 (use-package rainbow-mode
-  :ensure t
   :diminish rainbow-mode
   :config
   ;; disable highlighting color names
@@ -1494,12 +1392,10 @@ to the current branch. Uses Magit."
   (add-hook 'prog-mode-hook 'rainbow-mode))
 
 (use-package rainbow-delimiters
-  :ensure t
   :config
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (use-package relative-line-numbers
-  :ensure t
   :init
   (defun abs-rel-numbers (offset)
     (if (= offset 0)
@@ -1516,17 +1412,14 @@ to the current branch. Uses Magit."
   (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
 
 (use-package rust-mode
-  :ensure t
   :init
   (add-hook 'rust-mode-hook
             (lambda ()
               (set (make-local-variable 'compile-command) "cargo build"))))
 
-(use-package on-parens
-  :ensure t)
+(use-package on-parens)
 
 (use-package smartparens
-  :ensure t
   :diminish smartparens-mode
 
   :init
@@ -1703,39 +1596,34 @@ to the current branch. Uses Magit."
       (define-key evil-normal-state-map (kbd "< i") 'insert-before-form)
       (define-key evil-normal-state-map (kbd "> i") 'insert-after-form))))
 
-(use-package toml-mode
-  :ensure t)
+(use-package toml-mode)
 
 (use-package web-mode
-  :ensure t
   :mode "\\.html?\\'"
   :init
   (setq web-mode-enable-current-element-highlight t))
 
-(use-package wgrep
-  :ensure t)
+(use-package wgrep)
 
-(use-package wgrep-ag
-  :ensure t)
+(use-package wgrep-ag)
 
 (use-package discover-my-major
-  :ensure t
   :bind
   ("C-h C-m" . discover-my-major))
 
 (use-package yasnippet
-  :ensure t
   :config
   (yas-reload-all))
 
 (use-package fill-column-indicator
-  :ensure t
   :config
   (with-eval-after-load 'magit
     (add-hook 'git-commit-setup-hook 'fci-mode)))
 
 (use-package bug-reference
+  :ensure nil
   :defer t
+
   :init
   (setq bug-reference-bug-regexp "\\(\
 [Ii]ssue ?#\\|\
@@ -1748,24 +1636,22 @@ PR [a-z-+]+/\
   (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
   (add-hook 'prog-mode-hook #'bug-reference-prog-mode))
 
-(use-package sx
-  :ensure t)
+(use-package sx)
 
 (use-package goto-addr
+  :ensure nil
   :defer t
+
   :init
   (add-hook 'prog-mode-hook #'goto-address-prog-mode)
   (add-hook 'text-mode-hook #'goto-address-mode)
   (goto-address-mode))
 
 (use-package bug-reference-github
-  :ensure t
-
   :config
   (add-hook 'find-file-hook 'bug-reference-github-set-url-format))
 
 (use-package buffer-move
-  :ensure t
   :config
   (with-eval-after-load 'evil
     (define-key evil-window-map (kbd "m k") 'buf-move-up)
@@ -1774,7 +1660,6 @@ PR [a-z-+]+/\
     (define-key evil-window-map (kbd "m l") 'buf-move-right)))
 
 (use-package ace-window
-  :ensure t
   :bind
   ("C-x o" . ace-window)
   :init
@@ -1804,7 +1689,6 @@ PR [a-z-+]+/\
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
 
 (use-package shackle
-  :ensure t
   :init
   (setq shackle-rules
         '((help-mode :select t)
@@ -1814,7 +1698,9 @@ PR [a-z-+]+/\
   (shackle-mode))
 
 (use-package dired
+  :ensure nil
   :defer t
+
   :init
   (setq dired-auto-revert-buffer t)
   (setq dired-listing-switches "-alhF")
@@ -1825,6 +1711,7 @@ PR [a-z-+]+/\
           (concat dired-listing-switches " --group-directories-first -v"))))
 
 (use-package dired-x
+  :ensure nil
   :bind
   (("C-x C-j" . dired-jump))
 
@@ -1838,42 +1725,39 @@ PR [a-z-+]+/\
     (setq dired-guess-shell-gnutar "tar")))
 
 (use-package reveal-in-osx-finder
-  :if (eq system-type 'darwin)
-  :ensure t)
+  :if (eq system-type 'darwin))
 
 (use-package highlight-numbers
-  :ensure t
   :config
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
 (use-package helm-company
-  :ensure t
   :config
   (define-key company-mode-map (kbd "C-:") 'helm-company)
   (define-key company-active-map (kbd "C-:") 'helm-company))
 
-(use-package helm-make
-  :ensure t)
+(use-package helm-make)
 
 ;; TODO
 ;; this also cons mode-line
 ;; need a more robust way of reformatting mode-line
 ;; perhaps advice on force-mode-line-update?
 (use-package eldoc
+  :ensure nil
   :defer t
+
   :config
   (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode))
 
-(use-package restclient
-  :ensure t)
+(use-package restclient)
 
 (use-package company-restclient
-  :ensure t
   :config
   (with-eval-after-load 'company
     (add-to-list 'company-backends 'company-restclient)))
 
 (use-package compile
+  :ensure nil
   :config
   (setq compilation-scroll-output 'first-error)
   (setq compilation-ask-about-save nil)
