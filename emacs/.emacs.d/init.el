@@ -178,11 +178,8 @@
            `(:background ,red-l :foreground "white" :weight bold))))))
 
   (defun blaenk/vc-branch ()
-    (let* ((no-props (substring-no-properties vc-mode))
-           (branch (replace-regexp-in-string
-                    (format "^ %s[:-]" (vc-backend buffer-file-name)) "" no-props))
-           (branch (string-trim branch)))
-      (format " %s " branch)))
+    (let ((backend (symbol-name (vc-backend (buffer-file-name)))))
+      (format " %s " (substring vc-mode (+ (length backend) 2)))))
 
   (defun blaenk/is-modified ()
     (and (not buffer-read-only) (buffer-modified-p (window-buffer nil))))
