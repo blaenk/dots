@@ -406,6 +406,8 @@
      `(whitespace-tab ((,class (:background ,red-l))))
      `(whitespace-line ((,class (:underline t))))
 
+     `(mmm-default-submode-face ((,class (:background unspecified))))
+
      `(region ((,class (:background ,base02))))
 
      `(highlight-quoted-quote ((,class (:foreground ,red-hc))))
@@ -978,8 +980,60 @@ See URL `http://flowtype.org/'."
   :mode
   (("\\.markdown\\'" . gfm-mode)
    ("\\.md\\'" . gfm-mode))
+
   :init
   (setq markdown-enable-math t))
+
+(use-package yaml-mode)
+
+(use-package mmm-mode
+  :demand t
+
+  :bind
+  ("C-c m" . mmm-parse-buffer)
+
+  :init
+  (setq mmm-global-mode 'maybe)
+  (setq mmm-parse-when-idle t)
+
+  :config
+  (mmm-add-classes
+   '((gfm-toml-metadata
+      :submode toml-mode
+      :front "\\`---$"
+      :back "\n---$")))
+
+  (mmm-add-mode-ext-class 'gfm-mode nil 'gfm-toml-metadata)
+  (add-hook 'mmm-toml-mode-submode-hook 'blaenk/disable-whitespace-mode)
+
+  (defun blaenk/disable-whitespace-mode ()
+    (whitespace-mode -1))
+
+  (defun blaenk/mmm-markdown-auto-class (lang &optional submode)
+    "Define a mmm-mode class for LANG in `markdown-mode' using SUBMODE.
+If SUBMODE is not provided, use `LANG-mode' by default."
+    (let ((class (intern (concat "gfm-" lang)))
+          (submode (or submode (intern (concat lang "-mode"))))
+          (front (concat "^``` ?" lang "[\n\r]+"))
+          (back "^```"))
+      (mmm-add-classes (list (list class :submode submode :front front :back back)))
+      (mmm-add-mode-ext-class 'gfm-mode nil class)
+      ;; NOTE error when using whitespace-mode in an mmm region
+      (add-hook (intern (format "mmm-%s-submode-hook" submode)) 'blaenk/disable-whitespace-mode)))
+
+  (mapc 'blaenk/mmm-markdown-auto-class
+        '("c"
+          "cpp"
+          "haskell"
+          "html"
+          "python"
+          "ruby"
+          ))
+
+  ;; NOTE for when language and mode-name differ
+  (blaenk/mmm-markdown-auto-class "shell" 'sh-mode)
+  (blaenk/mmm-markdown-auto-class "bash" 'sh-mode)
+  (blaenk/mmm-markdown-auto-class "elisp" 'emacs-lisp-mode))
 
 (use-package undo-tree
   :diminish undo-tree-mode
@@ -1217,8 +1271,6 @@ See URL `http://flowtype.org/'."
 (use-package multiple-cursors)
 
 (use-package sx)
-
-(use-package yaml-mode)
 
 (use-package erlang)
 
