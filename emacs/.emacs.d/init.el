@@ -1027,6 +1027,28 @@ See URL `http://flowtype.org/'."
   (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
   (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
+  (defun helm-buffer-switch-new-window (candidate)
+    "Display buffers in new windows."
+    ;; Select the bottom right window
+    (require 'winner)
+    (select-window (car (last (winner-sorted-window-list))))
+    ;; Display buffers in new windows
+    (dolist (buf (helm-marked-candidates))
+      (select-window (split-window-below))
+      (switch-to-buffer buf))
+    (balance-windows))
+
+  ;; (add-to-list 'helm-type-buffer-actions
+  ;;              '("Display buffer(s) in new window(s)" .
+  ;;                helm-buffer-switch-new-window))
+
+  (defun helm-buffer-switch-new-window ()
+    (interactive)
+    (with-helm-alive-p
+      (helm-quit-and-execute-action 'helm-buffer-switch-to-new-window)))
+
+  ;; (define-key helm-buffer-map (kbd "M-o") #'helm-buffer-switch-new-window)
+
   (defun blaenk/solarized-put-color (color table)
     (puthash (downcase (symbol-value color)) (symbol-name color) table))
 
