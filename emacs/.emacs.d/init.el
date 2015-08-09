@@ -18,7 +18,6 @@
   (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t)))
   (setq save-place-file place-dir))
 
-(add-to-list 'package-archives '("elpa" . "http://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 
 (package-initialize)
