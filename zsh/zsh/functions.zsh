@@ -4,6 +4,11 @@ function manf() {
   man -P "less -p \"^ +$2\"" $1
 }
 
+# open man page and jump to examples section
+function eg(){
+  man -P "less -p \"^EXAMPLES?\"" $1
+}
+
 # html man pages
 function manh() {
   file=$(mktemp)
