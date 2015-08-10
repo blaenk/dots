@@ -265,7 +265,12 @@
 
 (use-package sh-script
   :ensure nil
-  :mode ("\\.zsh\\'" . sh-mode))
+  :mode ("\\.zsh\\'" . sh-mode)
+  :config
+  (add-hook 'sh-mode-hook
+            (lambda ()
+              (if (string-match "\\.zsh$" (buffer-file-name))
+                  (sh-set-shell "zsh")))))
 
 (use-package tramp
   :ensure nil
