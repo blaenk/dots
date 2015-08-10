@@ -1031,6 +1031,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
           "cpp"
           "haskell"
           "html"
+          "java"
           "python"
           "ruby"
           ))
