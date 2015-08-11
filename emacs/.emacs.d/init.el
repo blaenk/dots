@@ -280,7 +280,7 @@
   :config
   (add-hook 'sh-mode-hook
             (lambda ()
-              (if (string-match "\\.zsh$" (buffer-file-name))
+              (if (string-match "\\.zsh$" (or (buffer-file-name) ""))
                   (sh-set-shell "zsh")))))
 
 (use-package tramp
