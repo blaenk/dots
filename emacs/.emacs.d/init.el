@@ -39,7 +39,7 @@
 (use-package exec-path-from-shell
   :config
   (exec-path-from-shell-copy-envs
-   '("VM" "PATH" "GTAGSCONF" "GTAGSLABEL")))
+   '("VM" "PATH" "GTAGSCONF" "GTAGSLABEL" "SSH_AUTH_SOCK")))
 
 (defun blaenk/edit-init ()
   (interactive)
