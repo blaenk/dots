@@ -998,7 +998,10 @@ See URL `http://flowtype.org/'."
    ("\\.md\\'" . gfm-mode))
 
   :init
-  (setq markdown-enable-math t))
+  (setq markdown-enable-math t)
+
+  :config
+  (add-hook 'gfm-mode-hook 'whitespace-mode))
 
 (use-package yaml-mode)
 
@@ -1020,10 +1023,6 @@ See URL `http://flowtype.org/'."
       :back "\n---$")))
 
   (mmm-add-mode-ext-class 'gfm-mode nil 'gfm-toml-metadata)
-  (add-hook 'mmm-toml-mode-submode-hook 'blaenk/disable-whitespace-mode)
-
-  (defun blaenk/disable-whitespace-mode ()
-    (whitespace-mode -1))
 
   (defun blaenk/mmm-markdown-auto-class (lang &optional submode)
     "Define a mmm-mode class for LANG in `markdown-mode' using SUBMODE.
@@ -1033,9 +1032,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
           (front (concat "^``` ?" lang "[\n\r]+"))
           (back "^```"))
       (mmm-add-classes (list (list class :submode submode :front front :back back)))
-      (mmm-add-mode-ext-class 'gfm-mode nil class)
-      ;; NOTE error when using whitespace-mode in an mmm region
-      (add-hook (intern (format "mmm-%s-submode-hook" submode)) 'blaenk/disable-whitespace-mode)))
+      (mmm-add-mode-ext-class 'gfm-mode nil class)))
 
   (mapc 'blaenk/mmm-markdown-auto-class
         '("c"
