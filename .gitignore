@@ -40,3 +40,4 @@ emacs/.emacs.d/el-get/
 emacs/.emacs.d/tramp
 emacs/.emacs.d/company-statistics-cache.el
 emacs/.emacs.d/semanticdb/
+emacs/.emacs.d/.#company-statistics-cache.el
