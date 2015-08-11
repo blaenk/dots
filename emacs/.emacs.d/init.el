@@ -33,6 +33,14 @@
 
 (setq use-package-always-ensure t)
 
+;; TODO
+;; use this or systemctl --user import-environment?
+;; this is probably more predictable
+(use-package exec-path-from-shell
+  :config
+  (exec-path-from-shell-copy-envs
+   '("VM" "PATH" "GTAGSCONF" "GTAGSLABEL")))
+
 (defun blaenk/edit-init ()
   (interactive)
   (find-file (expand-file-name "init.el" user-emacs-directory)))
