@@ -35,6 +35,10 @@ alias rm='rm -I'
 # update vundle
 alias vimup='vim +PluginInstall! +qall'
 
+if (( $+commands[tlmgr] )); then
+    alias tlmgr-search-file='tlmgr search --global --file'
+fi
+
 if (( $+commands[xsel] )); then
   alias cbc='xsel -i -b'
   alias cbp='xsel -o -b'
