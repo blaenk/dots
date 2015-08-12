@@ -1359,9 +1359,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
    helm-gtags-auto-update t
    helm-gtags-use-input-at-cursor t
    helm-gtags-pulse-at-cursor t
-   helm-gtags-prefix-key "\C-cg"
-   helm-gtags-suggested-key-mapping t
-   )
+   helm-gtags-suggested-key-mapping t)
 
   :config
   (helm-gtags-mode))
