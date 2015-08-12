@@ -1066,18 +1066,21 @@ See URL `http://flowtype.org/'."
 
 (use-package ggtags
   :config
+  (defun blaenk/gtags-enable ()
+    (ggtags-mode 1)
+    (setq-local eldoc-documentation-function #'ggtags-eldoc-function)
+    (setq-local imenu-create-index-function #'ggtags-build-imenu-index))
+
   ;; TODO audit
-  (setq-local eldoc-documentation-function #'ggtags-eldoc-function)
-  (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
   (add-hook 'prog-mode-hook
             (lambda ()
-              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-                (ggtags-mode 1)))))
+              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
+                (blaenk/gtags-enable)))))
 
 (use-package gist
   :bind
-  (("C-c g p s" . gist-region-or-buffer-private)
-   ("C-c g p p" . gist-region-or-buffer)))
+  (("C-c g g s" . gist-region-or-buffer-private)
+   ("C-c g g p" . gist-region-or-buffer)))
 
 (use-package json-mode)
 
