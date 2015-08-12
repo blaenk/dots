@@ -101,6 +101,7 @@
 (setq uniquify-buffer-name-style 'forward)
 (setq frame-title-format '(:eval (blaenk/file-name)))
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+(setq hl-line-sticky-flag t)
 
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
 (setq default-frame-alist '((font . "DejaVu Sans Mono-10.5")))
@@ -125,6 +126,7 @@
 (blink-cursor-mode 0)
 
 (add-hook 'prog-mode-hook 'hs-minor-mode)
+(add-hook 'prog-mode-hook 'hl-line-mode)
 (savehist-mode)
 (recentf-mode)
 (visual-line-mode)
@@ -424,7 +426,21 @@
 
      `(mmm-default-submode-face ((,class (:background unspecified))))
 
+     `(hl-line ((,class (:background ,(solarized-color-blend base02 base03 0.5)))))
      `(region ((,class (:background ,base02))))
+
+     `(sp-show-pair-match-face ((,class (:foreground unspecified
+                                         :background ,base02
+                                         :weight bold))))
+
+     `(show-paren-match ((,class (:foreground unspecified
+                                  :background ,base02
+                                  :weight bold
+                                  ))))
+
+     `(sp-show-pair-mismatch-face ((,class (:foreground unspecified
+                                            :background ,red
+                                            :weight normal))))
 
      `(highlight-quoted-quote ((,class (:foreground ,red-hc))))
 
@@ -504,18 +520,6 @@
                  :foreground ,s-mode-line-inactive-fg
                  :background ,s-mode-line-inactive-bg
                  ))))
-
-     `(sp-show-pair-match-face ((,class (:foreground unspecified
-                                         :background ,base02
-                                         :weight normal))))
-
-     `(sp-show-pair-mismatch-face ((,class (:foreground unspecified
-                                            :background ,red
-                                            :weight normal))))
-
-     `(show-paren-match ((,class (:foreground unspecified
-                                  :background ,base02
-                                  :weight normal))))
      )
   ))
 
