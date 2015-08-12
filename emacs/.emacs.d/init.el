@@ -136,6 +136,15 @@
 (electric-pair-mode)
 (show-paren-mode)
 
+(defun blaenk/pop-to-frame ()
+  (interactive)
+  (let ((buffer (current-buffer)))
+    (unless (one-window-p)
+      (delete-window))
+    (display-buffer-pop-up-frame buffer nil)))
+
+(global-set-key (kbd "C-c f") 'blaenk/pop-to-frame)
+
 (defun blaenk/get-faces (pos)
   "Get the font faces at POS."
   (remq nil
