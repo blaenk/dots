@@ -894,6 +894,99 @@ The initial state for a mode can be set with
   (define-key evil-normal-state-map (kbd "< a") 'evil-arg-swap-backward)
   (define-key evil-normal-state-map (kbd "> a") 'evil-arg-swap-forward))
 
+(use-package buffer-move
+  :config
+  (with-eval-after-load 'evil
+    (define-key evil-window-map (kbd "m k") 'buf-move-up)
+    (define-key evil-window-map (kbd "m j") 'buf-move-down)
+    (define-key evil-window-map (kbd "m h") 'buf-move-left)
+    (define-key evil-window-map (kbd "m l") 'buf-move-right)))
+
+(use-package frame-cmds)
+
+(use-package hydra
+  :config
+  (defun blaenk/move-splitter-left (arg)
+    "Move window splitter left."
+    (interactive "p")
+    (if (let ((windmove-wrap-around))
+          (windmove-find-other-window 'right))
+        (shrink-window-horizontally arg)
+      (enlarge-window-horizontally arg)))
+
+  (defun blaenk/move-splitter-right (arg)
+    "Move window splitter right."
+    (interactive "p")
+    (if (let ((windmove-wrap-around))
+          (windmove-find-other-window 'right))
+        (enlarge-window-horizontally arg)
+      (shrink-window-horizontally arg)))
+
+  (defun blaenk/move-splitter-up (arg)
+    "Move window splitter up."
+    (interactive "p")
+    (if (let ((windmove-wrap-around))
+          (windmove-find-other-window 'up))
+        (enlarge-window arg)
+      (shrink-window arg)))
+
+  (defun blaenk/move-splitter-down (arg)
+    "Move window splitter down."
+    (interactive "p")
+    (if (let ((windmove-wrap-around))
+          (windmove-find-other-window 'up))
+        (shrink-window arg)
+      (enlarge-window arg)))
+
+  (defhydra hydra-move-to-window (evil-window-map "g")
+    "move to window"
+    ("q" nil)
+
+    ("j" evil-window-down)
+    ("k" evil-window-up)
+    ("h" evil-window-left)
+    ("l" evil-window-right))
+
+  (defhydra hydra-move-buffer (evil-window-map "m")
+    "move buffer"
+    ("q" nil)
+
+    ("j" buf-move-down)
+    ("k" buf-move-up)
+    ("h" buf-move-left)
+    ("l" buf-move-right))
+
+  (defhydra hydra-resize-frame (evil-window-map "f")
+    "resize frame"
+    ("q" nil)
+
+    ("j" enlarge-frame)
+    ("k" shrink-frame)
+    ("h" shrink-frame-horizontally)
+    ("l" enlarge-frame-horizontally))
+
+  (defhydra hydra-resize-window (evil-window-map "r")
+    "resize window"
+    ("q" nil)
+
+    ("=" balance-windows)
+    ("m" evil-window-set-height)
+
+    ("f" hydra-resize-frame/body "resize frame" :exit t)
+
+    ;; NOTE
+    ;; not as intuitive when multiple windows
+    ;; ("j" blaenk/move-splitter-down)
+    ;; ("k" blaenk/move-splitter-up)
+    ;; ("h" blaenk/move-splitter-left)
+    ;; ("l" blaenk/move-splitter-right))
+
+    ("j" shrink-window)
+    ("k" enlarge-window)
+    ("h" shrink-window-horizontally)
+    ("l" enlarge-window-horizontally))
+  )
+
 (use-package olivetti)
 
 (use-package ace-link
