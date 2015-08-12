@@ -1857,14 +1857,6 @@ PR [a-z-+]+/\
   :config
   (add-hook 'find-file-hook 'bug-reference-github-set-url-format))
 
-(use-package buffer-move
-  :config
-  (with-eval-after-load 'evil
-    (define-key evil-window-map (kbd "m k") 'buf-move-up)
-    (define-key evil-window-map (kbd "m j") 'buf-move-down)
-    (define-key evil-window-map (kbd "m h") 'buf-move-left)
-    (define-key evil-window-map (kbd "m l") 'buf-move-right)))
-
 (use-package ace-window
   :bind
   ("C-x o" . ace-window)
