@@ -796,6 +796,7 @@ The initial state for a mode can be set with
     :type line
     (interactive "<r><vc>")
     (evil-shift-left beg end)
+    ;; TODO necessary?
     (evil-normal-state)
     (evil-visual-restore))
 
@@ -840,7 +841,10 @@ The initial state for a mode can be set with
           (newline)
           (evil-open-above 1)
           (setq this-command 'evil-open-below))
-    "l" 'evil-ex-nohighlight
+    "l" (lambda ()
+          (interactive)
+          (evil-ex-nohighlight)
+          (force-mode-line-update))
     "m" 'evil-visual-mark-mode))
 
 (use-package evil-numbers)
