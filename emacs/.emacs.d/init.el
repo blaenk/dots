@@ -1589,15 +1589,28 @@ to the current branch. Uses Magit."
                (local-set-key (kbd "TAB") #'racer-complete-or-indent))))
 
 (use-package rainbow-mode
+  :demand t
   :diminish rainbow-mode
+  :bind
+  ("C-c r c" . rainbow-mode)
+
   :config
   ;; disable highlighting color names
   (setq rainbow-x-colors nil)
   (add-hook 'prog-mode-hook 'rainbow-mode))
 
+(use-package rainbow-blocks
+  :bind
+  ("C-c r b" . rainbow-blocks-mode))
+
 (use-package rainbow-delimiters
+  :demand t
+  :bind
+  ("C-c r d" . rainbow-delimiters-mode)
+
   :config
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
 
 (use-package relative-line-numbers
   :init
