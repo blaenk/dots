@@ -436,7 +436,11 @@
 
      `(mmm-default-submode-face ((,class (:background unspecified))))
 
-     `(hl-line ((,class (:background ,(solarized-color-blend base02 base03 0.5)))))
+     ;; NOTE
+     ;; daemon mode messes this line up, so set
+     ;; color directly. otherwise always becomes #ffffff
+     ;; `(hl-line ((,class (:background ,(solarized-color-blend base02 base03 0.5)))))
+     `(hl-line ((,class (:background "#f5efdc"))))
      `(region ((,class (:background ,base02))))
 
      `(sp-show-pair-match-face ((,class (:foreground unspecified
