@@ -209,7 +209,10 @@
                         (+ (length (symbol-name backend)) 2))))))
 
   (defun blaenk/is-modified ()
-    (and (not buffer-read-only) (buffer-modified-p (window-buffer nil))))
+    (and
+     (not buffer-read-only)
+     (buffer-file-name)
+     (buffer-modified-p (window-buffer nil))))
 
   (setq-default
    header-line-format-save
