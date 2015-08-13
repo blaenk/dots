@@ -424,8 +424,15 @@
   (make-face 'mode-line-remote-face)
   (make-face 'mode-line-stem-face)
 
+  (defvar blaenk/theme-loaded nil)
+
   (defun blaenk/load-theme ()
-    (load-theme 'solarized-light t)
+    (if blaenk/theme-loaded
+        (enable-theme 'solarized-light)
+      (progn
+        (load-theme 'solarized-light t)
+        (setq blaenk/theme-loaded t)))
+
     (solarized-with-color-variables 'light
       (custom-theme-set-faces
         'solarized-light
