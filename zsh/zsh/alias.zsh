@@ -59,6 +59,8 @@ fi
 if (( $+commands[systemctl] )); then
   alias sc="systemctl"
   alias scu="systemctl --user"
+  alias jc="journalctl"
+  alias jcu="journalctl --user-unit"
 fi
 
 if (( $+commands[pacman] )); then
