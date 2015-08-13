@@ -1,6 +1,5 @@
 (require 'package)
 
-(setq debug-on-error t)
 (setq load-prefer-newer t)
 
 (setq backup-by-copying t)
