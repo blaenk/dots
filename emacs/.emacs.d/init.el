@@ -415,8 +415,6 @@
 
 (use-package solarized-theme
   :config
-  (load-theme 'solarized-light t)
-
   (make-face 'mode-line-column-face)
   (make-face 'mode-line-branch-face)
   (make-face 'mode-line-anzu-face)
@@ -426,115 +424,121 @@
   (make-face 'mode-line-remote-face)
   (make-face 'mode-line-stem-face)
 
-  (solarized-with-color-variables 'light
-    (custom-theme-set-faces
-     'solarized-light
-     `(whitespace-trailing ((,class (:background ,red-l))))
-     `(whitespace-tab ((,class (:background ,red-l))))
-     `(whitespace-line ((,class (:underline t))))
+  (defun blaenk/load-theme ()
+    (load-theme 'solarized-light t)
+    (solarized-with-color-variables 'light
+      (custom-theme-set-faces
+        'solarized-light
+        `(whitespace-trailing ((,class (:background ,red-l))))
+        `(whitespace-tab ((,class (:background ,red-l))))
+        `(whitespace-line ((,class (:underline t))))
 
-     `(mmm-default-submode-face ((,class (:background unspecified))))
+        `(mmm-default-submode-face ((,class (:background unspecified))))
 
-     ;; NOTE
-     ;; daemon mode messes this line up, so set
-     ;; color directly. otherwise always becomes #ffffff
-     ;; `(hl-line ((,class (:background ,(solarized-color-blend base02 base03 0.5)))))
-     `(hl-line ((,class (:background "#f5efdc"))))
-     `(region ((,class (:background ,base02))))
+        `(hl-line ((,class (:background
+                            ,(solarized-color-blend
+                              base02 base03 0.5)))))
+        `(region ((,class (:background ,base02))))
 
-     `(sp-show-pair-match-face ((,class (:foreground unspecified
-                                         :background ,base02
-                                         :weight bold))))
+        `(sp-show-pair-match-face ((,class (:foreground unspecified
+                                            :background ,base02
+                                            :weight bold))))
 
-     `(show-paren-match ((,class (:foreground unspecified
-                                  :background ,base02
-                                  :weight bold
-                                  ))))
+        `(show-paren-match ((,class (:foreground unspecified
+                                      :background ,base02
+                                      :weight bold
+                                      ))))
 
-     `(sp-show-pair-mismatch-face ((,class (:foreground unspecified
-                                            :background ,red
-                                            :weight normal))))
+        `(sp-show-pair-mismatch-face ((,class (:foreground unspecified
+                                                :background ,red
+                                                :weight normal))))
 
-     `(highlight-quoted-quote ((,class (:foreground ,red-hc))))
+        `(highlight-quoted-quote ((,class (:foreground ,red-hc))))
 
-     `(rainbow-delimiters-depth-1-face ((,class (:foreground ,base01))))
-     `(rainbow-delimiters-depth-2-face ((,class (:foreground ,cyan))))
-     `(rainbow-delimiters-depth-3-face ((,class (:foreground ,yellow))))
-     `(rainbow-delimiters-depth-4-face ((,class (:foreground ,blue))))
-     `(rainbow-delimiters-depth-5-face ((,class (:foreground ,violet))))
-     `(rainbow-delimiters-depth-6-face ((,class (:foreground ,green))))
-     `(rainbow-delimiters-depth-7-face ((,class (:foreground ,yellow))))
-     `(rainbow-delimiters-depth-8-face ((,class (:foreground ,blue))))
-     `(rainbow-delimiters-depth-9-face ((,class (:foreground ,violet))))
-     `(rainbow-delimiters-depth-10-face ((,class (:foreground ,green))))
-     `(rainbow-delimiters-depth-11-face ((,class (:foreground ,yellow))))
-     `(rainbow-delimiters-depth-12-face ((,class (:foreground ,blue))))
-     `(rainbow-delimiters-depth-13-face ((,class (:foreground ,violet))))
-     `(rainbow-delimiters-unmatched-face
-       ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
+        `(rainbow-delimiters-depth-1-face ((,class (:foreground ,base01))))
+        `(rainbow-delimiters-depth-2-face ((,class (:foreground ,cyan))))
+        `(rainbow-delimiters-depth-3-face ((,class (:foreground ,yellow))))
+        `(rainbow-delimiters-depth-4-face ((,class (:foreground ,blue))))
+        `(rainbow-delimiters-depth-5-face ((,class (:foreground ,violet))))
+        `(rainbow-delimiters-depth-6-face ((,class (:foreground ,green))))
+        `(rainbow-delimiters-depth-7-face ((,class (:foreground ,yellow))))
+        `(rainbow-delimiters-depth-8-face ((,class (:foreground ,blue))))
+        `(rainbow-delimiters-depth-9-face ((,class (:foreground ,violet))))
+        `(rainbow-delimiters-depth-10-face ((,class (:foreground ,green))))
+        `(rainbow-delimiters-depth-11-face ((,class (:foreground ,yellow))))
+        `(rainbow-delimiters-depth-12-face ((,class (:foreground ,blue))))
+        `(rainbow-delimiters-depth-13-face ((,class (:foreground ,violet))))
+        `(rainbow-delimiters-unmatched-face
+          ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
 
-     `(header-line
-       ((,class (:inverse-video unspecified
-                 :overline ,s-mode-line-underline
-                 :underline ,s-mode-line-underline
-                 :foreground ,s-mode-line-fg
-                 :background ,s-mode-line-bg
-                 ))))
+        `(header-line
+          ((,class (:inverse-video unspecified
+                    :overline ,s-mode-line-underline
+                    :underline ,s-mode-line-underline
+                    :foreground ,s-mode-line-fg
+                    :background ,s-mode-line-bg
+                    ))))
 
-     `(mode-line
-       ((,class (:inverse-video unspecified
-                 :overline ,s-mode-line-underline
-                 :underline ,s-mode-line-underline
-                 :foreground ,s-mode-line-fg
-                 :background ,s-mode-line-bg
-                 ))))
+        `(mode-line
+          ((,class (:inverse-video unspecified
+                    :overline ,s-mode-line-underline
+                    :underline ,s-mode-line-underline
+                    :foreground ,s-mode-line-fg
+                    :background ,s-mode-line-bg
+                    ))))
 
-     `(mode-line-column-face
-       ((,class (:background ,base03))))
+        `(mode-line-column-face
+          ((,class (:background ,base03))))
 
-     `(mode-line-branch-face
-       ((,class (:background ,base0
-                 :foreground "white"
-                 :weight bold))))
+        `(mode-line-branch-face
+          ((,class (:background ,base0
+                    :foreground "white"
+                    :weight bold))))
 
-     `(mode-line-anzu-face
-       ((,class (:background ,orange-l
-                 :foreground "white"
-                 :weight bold))))
+        `(mode-line-anzu-face
+          ((,class (:background ,orange-l
+                    :foreground "white"
+                    :weight bold))))
 
-     `(mode-line-mode-name-face
-       ((,class (:background ,cyan-l
-                 :foreground "white"
-                 :weight bold))))
+        `(mode-line-mode-name-face
+          ((,class (:background ,cyan-l
+                    :foreground "white"
+                    :weight bold))))
 
-     `(mode-line-read-only-face
-       ((,class (:background ,red-l
-                 :foreground "white"))))
+        `(mode-line-read-only-face
+          ((,class (:background ,red-l
+                    :foreground "white"))))
 
-     `(mode-line-modified-face
-       ((,class (:background ,green-l
-                 :foreground "white"
-                 :weight bold
-                 ))))
+        `(mode-line-modified-face
+          ((,class (:background ,green-l
+                    :foreground "white"
+                    :weight bold
+                    ))))
 
-     `(mode-line-remote-face
-       ((,class (:background ,green-lc
-                 :foreground "white"
-                 :weight bold
-                 ))))
+        `(mode-line-remote-face
+          ((,class (:background ,green-lc
+                    :foreground "white"
+                    :weight bold
+                    ))))
 
-     `(mode-line-stem-face
-       ((,class (:foreground ,base0))))
+        `(mode-line-stem-face
+          ((,class (:foreground ,base0))))
 
-     `(mode-line-inactive
-       ((,class (:inverse-video unspecified
-                 :overline ,s-mode-line-underline
-                 :underline ,s-mode-line-underline
-                 :foreground ,s-mode-line-inactive-fg
-                 :background ,s-mode-line-inactive-bg
-                 ))))
-     )
-  ))
+        `(mode-line-inactive
+          ((,class (:inverse-video unspecified
+                    :overline ,s-mode-line-underline
+                    :underline ,s-mode-line-underline
+                    :foreground ,s-mode-line-inactive-fg
+                    :background ,s-mode-line-inactive-bg
+                    ))))
+        )))
+
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+                (lambda (frame)
+                  (with-selected-frame frame
+                    (blaenk/load-theme))))
+    (blaenk/load-theme)))
 
 (use-package auto-package-update)
 
