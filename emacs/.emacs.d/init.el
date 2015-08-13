@@ -52,6 +52,7 @@
 (when (getenv "VM")
   (setq browse-url-browser-function 'kill-new))
 
+(setq inhibit-x-resources t)
 (setq x-select-enable-clipboard t)
 (setq x-select-enable-primary t)
 (setq x-underline-at-descent-line t)
