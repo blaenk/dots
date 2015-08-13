@@ -1616,6 +1616,10 @@ to the current branch. Uses Magit."
   (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
   (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
 
+(use-package color-identifiers-mode
+  :bind
+  ("C-c r i" . color-identifiers-mode))
+
 (use-package relative-line-numbers
   :init
   (defun abs-rel-numbers (offset)
