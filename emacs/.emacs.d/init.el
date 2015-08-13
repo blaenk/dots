@@ -93,6 +93,8 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(setq explicit-shell-file-name "/bin/zsh")
+
 (setq sentence-end-double-space nil)
 (setq-default cursor-type 'box)
 (setq-default echo-keystrokes 0.1)
