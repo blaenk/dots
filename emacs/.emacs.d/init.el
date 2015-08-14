@@ -1236,28 +1236,72 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
   (define-key helm-map (kbd "C-z") 'helm-select-action)
 
-  (defun helm-buffer-switch-new-window (candidate)
-    "Display buffers in new windows."
+  ;; open in horizontal split
+  (require 'helm-files)
+
+  (defun blaenk/helm-action-horizontal-split (candidate)
+    "Display buffer in horizontal split"
     ;; Select the bottom right window
     (require 'winner)
-    (select-window (car (last (winner-sorted-window-list))))
     ;; Display buffers in new windows
     (dolist (buf (helm-marked-candidates))
       (select-window (split-window-below))
-      (switch-to-buffer buf))
+      (if (get-buffer buf)
+          (switch-to-buffer buf)
+        (find-file buf)))
     (balance-windows))
 
-  ;; (add-to-list 'helm-type-buffer-actions
-  ;;              '("Display buffer(s) in new window(s)" .
-  ;;                helm-buffer-switch-new-window))
+  (defun blaenk/helm-action-vertical-split (candidate)
+    "Display buffer in vertical split"
+    ;; Select the bottom right window
+    (require 'winner)
+    ;; Display buffers in new windows
+    (dolist (buf (helm-marked-candidates))
+      (select-window (split-window-right))
+      (if (get-buffer buf)
+          (switch-to-buffer buf)
+       (find-file buf)))
+    (balance-windows))
 
-  (defun helm-buffer-switch-new-window ()
+  (add-to-list 'helm-find-files-actions
+               '("Display buffer in horizontal split" .
+                 blaenk/helm-action-horizontal-split) t)
+
+  (add-to-list 'helm-type-buffer-actions
+               '("Display buffer in horizontal split" .
+                 blaenk/helm-action-horizontal-split) t)
+
+  (add-to-list 'helm-find-files-actions
+               '("Display buffer in vertical split" .
+                 blaenk/helm-action-vertical-split) t)
+
+  (add-to-list 'helm-type-buffer-actions
+               '("Display buffer in vertical split" .
+                 blaenk/helm-action-vertical-split) t)
+
+  (defun blaenk/helm-horizontal-split ()
     (interactive)
     (with-helm-alive-p
-      (helm-quit-and-execute-action 'helm-buffer-switch-to-new-window)))
+      (helm-quit-and-execute-action 'blaenk/helm-action-horizontal-split)))
 
-  ;; (define-key helm-buffer-map (kbd "M-o") #'helm-buffer-switch-new-window)
+  (defun blaenk/helm-vertical-split ()
+    (interactive)
+    (with-helm-alive-p
+      (helm-quit-and-execute-action 'blaenk/helm-action-vertical-split)))
 
+  (define-key helm-find-files-map
+    (kbd "M-h") 'blaenk/helm-horizontal-split)
+
+  (define-key helm-buffer-map
+    (kbd "M-h") 'blaenk/helm-horizontal-split)
+
+  (define-key helm-find-files-map
+    (kbd "M-v") 'blaenk/helm-vertical-split)
+
+  (define-key helm-buffer-map
+    (kbd "M-v") 'blaenk/helm-vertical-split)
+
+  ;; helm-solarized-colors
   (defun blaenk/solarized-put-color (color table)
     (puthash (downcase (symbol-value color)) (symbol-name color) table))
 
@@ -1391,6 +1435,11 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   :diminish projectile-mode
 
   :config
+  (define-key helm-projectile-find-file-map
+    (kbd "M-h") 'blaenk/helm-horizontal-split)
+
+  (define-key helm-projectile-find-file-map
+    (kbd "M-v") 'blaenk/helm-vertical-split)
 
   (helm-projectile-on)
 
