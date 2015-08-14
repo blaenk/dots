@@ -1391,8 +1391,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   :diminish projectile-mode
 
   :config
-  (add-to-list 'helm-projectile-sources-list
-               'helm-source-projectile-recentf-list)
 
   (helm-projectile-on)
 
