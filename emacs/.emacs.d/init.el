@@ -723,6 +723,7 @@ The initial state for a mode can be set with
           ))
   (setq evil-emacs-state-modes
         '(help-mode
+          term-mode
           undo-tree-visualizer-mode))
 
   (add-hook 'with-editor-mode-hook 'evil-insert-state)
@@ -1207,6 +1208,11 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (use-package paxedit)
 
+(use-package multi-term
+  :init
+  (setq multi-term-buffer-name "term")
+  (setq multi-term-program "/bin/zsh"))
+
 (use-package helm
   :diminish helm-mode
 
@@ -1405,6 +1411,9 @@ If SUBMODE is not provided, use `LANG-mode' by default."
           :buffer "*helm solarized colors*"))
 
   (helm-mode 1))
+
+(use-package helm-mt
+  :bind ("C-c t" . helm-mt))
 
 (use-package helm-c-yasnippet)
 
