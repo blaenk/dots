@@ -1415,6 +1415,10 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 (use-package helm-mt
   :bind ("C-c t" . helm-mt))
 
+(use-package helm-open-github)
+
+(use-package helm-mode-manager)
+
 (use-package helm-c-yasnippet)
 
 (use-package helm-unicode
