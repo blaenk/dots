@@ -572,6 +572,10 @@
 (use-package ag
   :init
   (setq ag-reuse-buffers t)
+  (setq ag-project-root-function
+        (lambda (file-or-dir-name)
+          (let ((default-directory file-or-dir-name))
+            (projectile-project-rooto))))
   (setq ag-highlight-search t))
 
 (use-package anzu
