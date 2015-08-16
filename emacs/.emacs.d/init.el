@@ -227,10 +227,22 @@
   (defun blaenk/file-name ()
     (let* ((name (buffer-file-name)))
       (if name
-          (let* ((abbrev (abbreviate-file-name name))
-                 (directory (or (file-name-directory abbrev) ""))
-                 (file-name (file-name-nondirectory abbrev)))
-            (format " %s%s "
+          (let* ((project-root (if (projectile-project-p)
+                                   (projectile-project-root)
+                                 nil))
+                 (name (if project-root
+                           (replace-regexp-in-string
+                            (regexp-quote project-root) ""
+                            name)
+                         (abbreviate-file-name name)))
+                 (directory (or (file-name-directory name) ""))
+                 (file-name (file-name-nondirectory name)))
+            (format "%s %s%s "
+                    (if project-root
+                        (propertize
+                         (format " %s " (projectile-project-name))
+                         'face 'mode-line-branch-face)
+                      "")
                     (propertize directory 'face 'mode-line-stem-face)
                     (propertize file-name 'face 'mode-line-buffer-id)))
         (progn
