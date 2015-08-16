@@ -1075,7 +1075,7 @@ See URL `http://flowtype.org/'."
 
 (use-package hl-todo
   :config
-  (global-hl-todo-mode))
+  (add-hook 'prog-mode-hook 'hl-todo-mode))
 
 ;; NOTE
 ;; see moo-jump-local
