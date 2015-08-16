@@ -245,8 +245,7 @@
                       "")
                     (propertize directory 'face 'mode-line-stem-face)
                     (propertize file-name 'face 'mode-line-buffer-id)))
-        (progn
-          (propertize " %b " 'face 'mode-line-buffer-id)))))
+        (propertize " %b " 'face 'mode-line-buffer-id))))
 
   (setq mode-line-left
         `(
