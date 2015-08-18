@@ -1192,6 +1192,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
           "java"
           "python"
           "ruby"
+          "rust"
           ))
 
   ;; NOTE for when language and mode-name differ
