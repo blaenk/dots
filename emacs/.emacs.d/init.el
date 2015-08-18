@@ -1799,11 +1799,13 @@ to the current branch. Uses Magit."
           ;; get back on paren
           (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char (+ :beg 1)))))
 
+      ;; TODO
+      ;; this should be turned off when smartparens is not on
       ;; NOTE can use evil-define-motion to create motions out of these
-      (define-key evil-normal-state-map (kbd "W") 'on-parens-forward-sexp)
-      (define-key evil-normal-state-map (kbd "E") 'on-parens-forward-sexp-end)
-      (define-key evil-normal-state-map (kbd "g E") 'on-parens-backward-sexp-end)
-      (define-key evil-normal-state-map (kbd "B") 'on-parens-backward-sexp)
+      ;; (define-key evil-normal-state-map (kbd "W") 'on-parens-forward-sexp)
+      ;; (define-key evil-normal-state-map (kbd "E") 'on-parens-forward-sexp-end)
+      ;; (define-key evil-normal-state-map (kbd "g E") 'on-parens-backward-sexp-end)
+      ;; (define-key evil-normal-state-map (kbd "B") 'on-parens-backward-sexp)
 
       (define-key evil-normal-state-map (kbd "< u") 'sp-splice-sexp-killing-backward)
       (define-key evil-normal-state-map (kbd "> u") 'sp-splice-sexp-killing-forward)
