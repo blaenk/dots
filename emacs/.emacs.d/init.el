@@ -101,7 +101,7 @@
 (setq gc-cons-threshold 64000000)
 (setq eldoc-idle-delay 0.1)
 (setq uniquify-buffer-name-style 'forward)
-(setq frame-title-format '(:eval (blaenk/file-name)))
+(setq frame-title-format '(:eval (blaenk/file-name t)))
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 (setq hl-line-sticky-flag t)
 
@@ -224,7 +224,7 @@
       face mode-line-mode-name-face)
      ))
 
-  (defun blaenk/file-name ()
+  (defun blaenk/file-name (for-title)
     (let* ((name (buffer-file-name)))
       (if name
           (let* ((project-root (if (projectile-project-p)
@@ -237,12 +237,13 @@
                          (abbreviate-file-name name)))
                  (directory (or (file-name-directory name) ""))
                  (file-name (file-name-nondirectory name)))
-            (format "%s %s%s "
+            (format "%s%s %s%s "
                     (if project-root
                         (propertize
                          (format " %s " (projectile-project-name))
                          'face 'mode-line-branch-face)
                       "")
+                    (if for-title "→" "")
                     (propertize directory 'face 'mode-line-stem-face)
                     (propertize file-name 'face 'mode-line-buffer-id)))
         (propertize " %b " 'face 'mode-line-buffer-id))))
@@ -260,7 +261,7 @@
           (:propertize
            (:eval (blaenk/remote-mode-line))
            face mode-line-remote-face)
-          (:eval (blaenk/file-name))
+          (:eval (blaenk/file-name nil))
           ))
 
   ;; TODO
@@ -575,7 +576,7 @@
   (setq ag-project-root-function
         (lambda (file-or-dir-name)
           (let ((default-directory file-or-dir-name))
-            (projectile-project-rooto))))
+            (projectile-project-root))))
   (setq ag-highlight-search t))
 
 (use-package anzu
