@@ -1926,11 +1926,7 @@ to the current branch. Uses Magit."
       (define-key evil-normal-state-map (kbd "< i") 'insert-before-form)
       (define-key evil-normal-state-map (kbd "> i") 'insert-after-form))))
 
-(use-package toml-mode
-  ;; NOTE
-  ;; remove :load-path when this is merged
-  ;; https://github.com/dryman/toml-mode.el/pull/5
-  :load-path "~/code/emacs/toml-mode.el")
+(use-package toml-mode)
 
 (use-package web-mode
   :mode "\\.html?\\'"
