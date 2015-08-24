@@ -1752,9 +1752,7 @@ to the current branch. Uses Magit."
   (setq sp-show-pair-from-inside t)
   (setq sp-show-pair-delay 0)
   (setq sp-highlight-pair-overlay nil)
-  (setq sp-autoescape-string-quote nil)
   (setq sp-cancel-autoskip-on-backward-movement nil)
-  (setq sp-autoescape-string-quote nil)
 
   :config
   (require 'smartparens-config)
