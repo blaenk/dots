@@ -1510,7 +1510,8 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (use-package sx)
 
-(use-package erlang)
+(use-package erlang
+  :defer t)
 
 (use-package scala-mode2)
 
