@@ -854,7 +854,16 @@ The initial state for a mode can be set with
 
 (use-package evil-quickscope
   :config
-  (global-evil-quickscope-mode 1))
+  (global-evil-quickscope-mode 1)
+
+  (solarized-with-color-variables
+    'light
+    (custom-theme-set-faces
+     'solarized-light
+     `(evil-quickscope-first-face ((,class (:weight bold :underline t))))
+     `(evil-quickscope-second-face ((,class (:foreground ,red-lc :weight bold))))
+     ))
+  )
 
 (use-package evil-anzu
   :requires evil)
