@@ -1674,8 +1674,6 @@ to the current branch. Uses Magit."
 
 (use-package magit-gitflow)
 
-(use-package multiple-cursors)
-
 (use-package projectile
   :init
   (setq projectile-completion-system 'helm)
