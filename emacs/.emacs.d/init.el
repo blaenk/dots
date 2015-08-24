@@ -1167,7 +1167,8 @@ See URL `http://flowtype.org/'."
   (setq markdown-enable-math t)
 
   :config
-  (add-hook 'gfm-mode-hook 'whitespace-mode))
+  (add-hook 'gfm-mode-hook 'whitespace-mode)
+  (add-hook 'gfm-mode-hook 'flyspell-mode))
 
 (use-package yaml-mode)
 
