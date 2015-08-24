@@ -1942,8 +1942,7 @@ to the current branch. Uses Magit."
   ("C-h C-m" . discover-my-major))
 
 (use-package yasnippet
-  :config
-  (yas-reload-all))
+  :commands (yas-reload-all yas-global-mode yas-minor-mode))
 
 (use-package fill-column-indicator
   :config
