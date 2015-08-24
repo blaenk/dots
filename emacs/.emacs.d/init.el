@@ -1686,19 +1686,14 @@ to the current branch. Uses Magit."
 (use-package dash-at-point)
 
 (use-package racer
-  :no-require t
-
   :init
   (setq racer-rust-src-path "~/code/rust/rust/src")
   (setq racer-cmd "~/code/rust/racer/target/release/racer")
-  (add-to-list 'load-path "~/code/rust/racer/editors/emacs")
 
   :config
-  (add-hook 'rust-mode-hook
-            '(lambda ()
-               (racer-activate)
-               ;; (local-set-key (kbd "M-.") #'racer-find-definition)
-               (local-set-key (kbd "TAB") #'racer-complete-or-indent))))
+  (setq company-tooltip-align-annotations t)
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode))
 
 (use-package rainbow-mode
   :demand t
