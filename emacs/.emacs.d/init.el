@@ -1046,7 +1046,7 @@ The initial state for a mode can be set with
   (defun blaenk/flycheck-cargo-rust-predicate () (flycheck-buffer-saved-p))
 
   :init
-  (setq-default flycheck-disabled-checkers '(rust))
+  (setq-default flycheck-disabled-checkers '(rust emacs-lisp-checkdoc))
 
   :config
   (add-hook 'after-init-hook 'global-flycheck-mode)
