@@ -2048,11 +2048,6 @@ PR [a-z-+]+/\
   :config
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
-(use-package helm-company
-  :config
-  (define-key company-mode-map (kbd "C-:") 'helm-company)
-  (define-key company-active-map (kbd "C-:") 'helm-company))
-
 (use-package helm-make)
 
 ;; TODO
