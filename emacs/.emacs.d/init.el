@@ -759,8 +759,6 @@ The initial state for a mode can be set with
     ;; force update evil keymaps after ggtags-mode loaded
     (add-hook 'ggtags-mode-hook #'evil-normalize-keymaps))
 
-  (define-key evil-insert-state-map (kbd "RET") 'comment-indent-new-line)
-
   ;; FIXME
   ;; a problem is that this leaves whitespace residue
   ;; e.g. o then escape then o?
