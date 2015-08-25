@@ -6,9 +6,8 @@ alias ta="tmux a -t"
 alias taro="tmux a -rt"
 
 # emacs
-alias em="emacsclient -nc"
-alias ema="emacsclient -nc"
-alias emc="emacsclient -nc"
+alias e="emacsclient -nc"
+alias em="emacs"
 
 # ag
 alias agq="ag -Q"
