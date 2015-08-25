@@ -1131,16 +1131,10 @@ See URL `http://flowtype.org/'."
 
 (use-package ggtags
   :config
-  (defun blaenk/gtags-enable ()
-    (ggtags-mode 1)
-    (setq-local eldoc-documentation-function #'ggtags-eldoc-function)
-    (setq-local imenu-create-index-function #'ggtags-build-imenu-index))
-
-  ;; TODO audit
   (add-hook 'prog-mode-hook
             (lambda ()
               (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
-                (blaenk/gtags-enable)))))
+                (ggtags-mode 1)))))
 
 (use-package gist
   :bind
