@@ -427,10 +427,6 @@
   (blaenk/set-char-widths
    `((2 . (,(string-to-char (fontawesome "cloud")))))))
 
-;; (use-package dired+
-;;   :init
-;;   (setq diredp-hide-details-initially-flag nil))
-
 (use-package company-tern
   :config
   (with-eval-after-load 'company
