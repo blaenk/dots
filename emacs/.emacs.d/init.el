@@ -1690,6 +1690,14 @@ to the current branch. Uses Magit."
   :config
   (projectile-global-mode))
 
+(use-package perspective
+  :config
+  (persp-mode))
+
+(use-package persp-projectile
+  :config
+  (define-key projectile-command-map (kbd "p") 'projectile-persp-switch-project))
+
 (use-package zeal-at-point)
 
 (use-package dash-at-point)
