@@ -253,8 +253,7 @@
           (:propertize "%3c " face mode-line-column-face)
           (anzu-mode
            (:propertize
-            (:eval
-             (when (> anzu--total-matched 0) (anzu--update-mode-line)))
+            (:eval (anzu--update-mode-line))
             face
             mode-line-anzu-face))
           (:eval (blaenk/evil-indicator))
@@ -595,6 +594,7 @@
   (setq anzu-mode-line-update-function 'blaenk/anzu-update)
   (setq anzu-cons-mode-line-p nil)
   :config
+  (add-hook 'anzu-mode-hook (lambda () (make-local-variable 'anzu--state)))
   (global-anzu-mode +1))
 
 (use-package browse-at-remote
