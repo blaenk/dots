@@ -627,10 +627,8 @@
 
 (use-package company
   :config
-  (setq company-idle-delay nil)
-  ;; TODO audit
-  (setq company-echo-delay 0
-        company-minimum-prefix-length 0
+  (setq company-idle-delay nil
+        company-minimum-prefix-length 1
         company-selection-wrap-around t
         company-require-match 'never
         company-global-modes '(not git-commit-mode)
