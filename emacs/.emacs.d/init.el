@@ -1459,7 +1459,14 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   (helm-mode 1))
 
 (use-package helm-mt
-  :bind ("C-c t" . helm-mt))
+  :bind ("C-c t" . helm-mt)
+
+  :config
+  (define-key helm-mt/keymap
+    (kbd "M-h") 'blaenk/helm-horizontal-split)
+
+  (define-key helm-mt/keymap
+    (kbd "M-v") 'blaenk/helm-vertical-split))
 
 (use-package helm-open-github)
 
