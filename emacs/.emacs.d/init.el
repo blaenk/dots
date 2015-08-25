@@ -176,9 +176,9 @@
        (bound-and-true-p evil-mode)
        (bound-and-true-p evil-local-mode))))
 
-  (defun blaenk/render-mode-line (left sub right)
+  (defun blaenk/render-mode-line (left right)
     (let* ((available-width (- (window-total-width) (string-width left)))
-           (pad-width (- available-width (string-width right) sub))
+           (pad-width (- available-width (string-width right)))
            (specified-space (propertize " " 'display `((space :width ,pad-width))))
            (fmt (concat "%s" specified-space "%s")))
       (format fmt left right)))
@@ -282,7 +282,6 @@
    mode-line-format
    `(:eval (blaenk/render-mode-line
             (format-mode-line mode-line-left)
-            (if (blaenk/is-remote-buffer) 1 0)
             (format-mode-line mode-line-right)))))
 
 (blaenk/setup-mode-line)
@@ -409,7 +408,24 @@
 ;; TODO
 ;; use (member "Symbola" (font-family-list))
 ;; to fall back on unicode icons
-(use-package fontawesome)
+(use-package fontawesome
+  :init
+  (defun blaenk/set-char-widths (alist)
+    (while (char-table-parent char-width-table)
+      (setq char-width-table (char-table-parent char-width-table)))
+    (dolist (pair alist)
+      (let ((width (car pair))
+            (chars (cdr pair))
+            (table (make-char-table nil)))
+        (dolist (char chars)
+          (set-char-table-range table char width))
+        (optimize-char-table table)
+        (set-char-table-parent table char-width-table)
+        (setq char-width-table table))))
+
+
+  (blaenk/set-char-widths
+   `((2 . (,(string-to-char (fontawesome "cloud")))))))
 
 ;; (use-package dired+
 ;;   :init
