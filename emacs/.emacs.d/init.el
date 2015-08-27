@@ -1667,10 +1667,6 @@ to the current branch. Uses Magit."
   (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
   (add-hook 'git-commit-setup-hook 'fci-mode))
 
-(use-package magit-filenotify
-  :config
-  (add-hook 'magit-status-mode-hook 'magit-filenotify-mode))
-
 (use-package magit-gh-pulls
   :config
   (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
