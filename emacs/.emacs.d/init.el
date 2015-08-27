@@ -468,6 +468,9 @@
         `(whitespace-tab ((,class (:background ,red-l))))
         `(whitespace-line ((,class (:underline t))))
 
+        `(evil-quickscope-first-face ((,class (:weight bold :underline t))))
+        `(evil-quickscope-second-face ((,class (:foreground ,red-lc :weight bold))))
+
         `(mmm-default-submode-face ((,class (:background unspecified))))
 
         `(hl-line ((,class (:background
@@ -862,16 +865,7 @@ The initial state for a mode can be set with
 
 (use-package evil-quickscope
   :config
-  (global-evil-quickscope-mode 1)
-
-  (solarized-with-color-variables
-    'light
-    (custom-theme-set-faces
-     'solarized-light
-     `(evil-quickscope-first-face ((,class (:weight bold :underline t))))
-     `(evil-quickscope-second-face ((,class (:foreground ,red-lc :weight bold))))
-     ))
-  )
+  (global-evil-quickscope-mode 1))
 
 (use-package evil-anzu
   :requires evil)
