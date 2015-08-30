@@ -810,6 +810,8 @@ The initial state for a mode can be set with
           (back-to-indentation)
           (kill-region beg (point))))))
 
+  (define-key evil-insert-state-map (kbd "<S-return>") 'comment-indent-new-line)
+
   (define-key evil-insert-state-map (kbd "C-u") 'blaenk/kill-line)
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 
