@@ -147,6 +147,13 @@
 
 (global-set-key (kbd "C-c f") 'blaenk/pop-to-frame)
 
+(defun blaenk/force-save ()
+  (interactive)
+  (set-buffer-modified-p t)
+  (save-buffer))
+
+(global-set-key (kbd "C-S-x C-S-s") 'blaenk/force-save)
+
 (defun blaenk/get-faces (pos)
   "Get the font faces at POS."
   (remq nil
