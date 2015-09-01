@@ -2079,6 +2079,8 @@ PR [a-z-+]+/\
   (with-eval-after-load 'company
     (add-to-list 'company-backends 'company-restclient)))
 
+(use-package company-emoji)
+
 (use-package compile
   :ensure nil
   :config
