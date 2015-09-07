@@ -117,6 +117,8 @@
   (let ((buffer-modified-p nil))
     (kill-buffer (current-buffer))))
 
+(define-key global-map (kbd "C-c s") 'save-buffer)
+
 (define-key global-map (kbd "C-c k") 'blaenk/kill-this-buffer)
 (define-key global-map (kbd "C-c b") 'bury-buffer)
 (define-key universal-argument-map (kbd "M-u") 'universal-argument-more)
