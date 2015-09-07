@@ -872,6 +872,8 @@ The initial state for a mode can be set with
 
   (define-key evil-insert-state-map (kbd "<S-return>") 'comment-indent-new-line)
 
+  (define-key evil-insert-state-map (kbd "C-l") 'move-end-of-line)
+
   (define-key evil-insert-state-map (kbd "C-u") 'blaenk/kill-line)
   (define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
 
