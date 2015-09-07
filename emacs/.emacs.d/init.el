@@ -119,6 +119,11 @@
 
 (define-key global-map (kbd "C-c s") 'save-buffer)
 
+(defun blaenk/q-switch-buffer ()
+  (interactive)
+  (switch-to-buffer (other-buffer)))
+
+(define-key global-map (kbd "C-c o") 'blaenk/q-switch-buffer)
 (define-key global-map (kbd "C-c k") 'blaenk/kill-this-buffer)
 (define-key global-map (kbd "C-c b") 'bury-buffer)
 (define-key universal-argument-map (kbd "M-u") 'universal-argument-more)
