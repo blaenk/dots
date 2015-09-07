@@ -708,6 +708,9 @@
         company-dabbrev-ignore-case t)
 
   :config
+  ;; get back the use of kill word even if company is active
+  (define-key company-active-map (kbd "C-w") nil)
+
   (add-hook 'prog-mode-hook 'company-mode))
 
 (use-package company-statistics
