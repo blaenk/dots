@@ -1227,6 +1227,14 @@ See URL `http://flowtype.org/'."
   (setq markdown-enable-math t)
 
   :config
+  (add-hook 'gfm-mode-hook (lambda ()
+                             (interactive)
+                             (set-face-attribute
+                              'markdown-comment-face nil
+                              :strike-through nil)
+                             (evil-leader/set-key
+                               "k" 'beginning-of-defun
+                               "j" 'end-of-defun)))
   (add-hook 'gfm-mode-hook 'whitespace-mode)
   (add-hook 'gfm-mode-hook 'flyspell-mode))
 
