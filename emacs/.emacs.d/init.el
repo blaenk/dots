@@ -1758,7 +1758,8 @@ to the current branch. Uses Magit."
 
 (use-package persp-projectile
   :config
-  (define-key projectile-command-map (kbd "p") 'projectile-persp-switch-project))
+  (define-key projectile-command-map
+    (kbd "p") 'projectile-persp-switch-project))
 
 (use-package zeal-at-point)
 
@@ -2162,6 +2163,13 @@ PR [a-z-+]+/\
 (use-package floobits)
 
 (use-package list-environment)
+
+(use-package pkgbuild-mode)
+
+(use-package groovy-mode
+  :mode "\\.gradle\\'")
+
+(use-package gradle-mode)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
