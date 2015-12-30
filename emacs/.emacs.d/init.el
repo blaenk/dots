@@ -285,9 +285,8 @@
   (defun blaenk/file-name (for-title)
     (let* ((name (buffer-file-name)))
       (if name
-          (let* ((project-root (if (projectile-project-p)
-                                   (projectile-project-root)
-                                 nil))
+          (let* ((project-root (when (projectile-project-p)
+                                 (projectile-project-root)))
                  (name (if project-root
                            (replace-regexp-in-string
                             (regexp-quote project-root) ""
