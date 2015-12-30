@@ -1,8 +1,14 @@
 typeset -U path
 
 # prepends
-path=(~/.rbenv/bin "$path[@]")
-path=(~/.cabal/bin "$path[@]")
+path=(
+    ~/.cargo/bin
+    ~/.multirust/toolchains/stable/cargo/bin
+    ~/.multirust/toolchains/beta/cargo/bin
+    ~/.multirust/toolchains/nightly/cargo/bin
+    ~/.rbenv/bin
+    ~/.cabal/bin
+    "$path[@]")
 
 # appends
 path+=(/usr/local/texlive/2013/bin/x86_64-linux)
