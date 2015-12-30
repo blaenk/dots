@@ -1692,7 +1692,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
   :init
   (setq magit-save-repository-buffers 'dontask)
-  (setq magit-push-always-verify 'dontask)
   (setq magit-refs-show-commit-count 'all)
 
   :config
@@ -1721,7 +1720,15 @@ to the current branch. Uses Magit."
     (interactive)
     (browse-url (blaenk/pull-request-url)))
 
-  (add-hook 'magit-status-mode-hook 'delete-other-windows)
+  (setq magit-display-buffer-function
+        (lambda (buffer)
+          (if magit-display-buffer-noselect
+              (magit-display-buffer-traditional buffer)
+            (progn
+              (delete-other-windows)
+              (set-window-dedicated-p nil nil)
+              (set-window-buffer nil buffer)
+              (get-buffer-window buffer)))))
 
   (with-eval-after-load 'magit-ediff
     (add-hook 'magit-ediff-quit-hook 'blaenk/ediff-quit))
