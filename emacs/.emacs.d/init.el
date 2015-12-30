@@ -437,8 +437,10 @@
 
 (use-package stickyfunc-enhance
   :config
-  (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
-  (semantic-mode 1))
+  ;; (add-to-list
+  ;;  'semantic-default-submodes
+  ;;  'global-semantic-stickyfunc-mode)
+  )
 
 (use-package dtrt-indent)
 
