@@ -90,6 +90,11 @@
 
 (setq-default indent-tabs-mode nil)
 (setq js-indent-level 2)
+
+(setq sh-learn-basic-offset t)
+(setq sh-basic-offset 2)
+(setq sh-indentation 2)
+
 (setq tab-width 2)
 
 (fset 'yes-or-no-p 'y-or-n-p)
