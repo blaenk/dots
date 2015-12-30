@@ -1698,7 +1698,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   :init
   (setq magit-save-repository-buffers 'dontask)
   (setq magit-refs-show-commit-count 'all)
-  (setq magit-diff-refine-hunk 'all)
   (setq magit-log-auto-more t)
 
   :config
