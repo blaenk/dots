@@ -1119,60 +1119,39 @@ The initial state for a mode can be set with
 
 (use-package flycheck
   :preface
-  (defun blaenk/flycheck-cargo-rust-predicate () (flycheck-buffer-saved-p))
+  ;; (defun blaenk/flycheck-cargo-rust-predicate () (flycheck-buffer-saved-p))
 
   :init
-  (setq-default flycheck-disabled-checkers '(rust emacs-lisp-checkdoc))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 
   :config
   (add-hook 'after-init-hook 'global-flycheck-mode)
 
-  (flycheck-define-checker blaenk/cargo-rust
-    "A Rust syntax checker using cargo rustc.
-This syntax checker needs Rust 1.1 or newer.
-See URL `http://www.rust-lang.org'."
-    :command ("cargo" "rustc" "--" "-Z" "no-trans")
-    :error-patterns
-    ((error line-start (file-name) ":" line ":" column ": "
-            (one-or-more digit) ":" (one-or-more digit) " error: "
-            (or
-             ;; Multiline errors
-             (and (message (minimal-match (one-or-more anything)))
-                  " [" (id "E" (one-or-more digit)) "]")
-             (message))
-            line-end)
-     (warning line-start (file-name) ":" line ":" column ": "
-              (one-or-more digit) ":" (one-or-more digit) " warning: "
-              (message) line-end)
-     (info line-start (file-name) ":" line ":" column ": "
-           (one-or-more digit) ":" (one-or-more digit) " " (or "note" "help") ": "
-           (message) line-end))
-    :modes rust-mode
-    :predicate blaenk/flycheck-cargo-rust-predicate)
+;;   (flycheck-define-checker blaenk/cargo-rust
+;;     "A Rust syntax checker using cargo rustc.
+;; This syntax checker needs Rust 1.1 or newer.
+;; See URL `http://www.rust-lang.org'."
+;;     :command ("cargo" "rustc" "--" "-Z" "no-trans")
+;;     :error-patterns
+;;     ((error line-start (file-name) ":" line ":" column ": "
+;;             (one-or-more digit) ":" (one-or-more digit) " error: "
+;;             (or
+;;              ;; Multiline errors
+;;              (and (message (minimal-match (one-or-more anything)))
+;;                   " [" (id "E" (one-or-more digit)) "]")
+;;              (message))
+;;             line-end)
+;;      (warning line-start (file-name) ":" line ":" column ": "
+;;               (one-or-more digit) ":" (one-or-more digit) " warning: "
+;;               (message) line-end)
+;;      (info line-start (file-name) ":" line ":" column ": "
+;;            (one-or-more digit) ":" (one-or-more digit) " " (or "note" "help") ": "
+;;            (message) line-end))
+;;     :modes rust-mode
+;;     :predicate blaenk/flycheck-cargo-rust-predicate)
 
-  (add-to-list 'flycheck-checkers 'blaenk/cargo-rust)
-
-  (flycheck-define-checker javascript-flow
-    "A JavaScript syntax and style checker using Flow.
-See URL `http://flowtype.org/'."
-    :command ("flow" source-original)
-    :error-patterns
-    ((error line-start
-            (file-name)
-            ":"
-            line
-            ":"
-            (minimal-match (one-or-more not-newline))
-            ": "
-            (message (minimal-match (and (one-or-more anything) "\n")))
-            line-end))
-    :modes js-mode)
-
-  (add-to-list 'flycheck-checkers 'javascript-flow))
-
-(use-package flycheck-irony
-  :config
-  (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+  ;; (add-to-list 'flycheck-checkers 'blaenk/cargo-rust)
+  )
 
 (use-package flycheck-rust
   :disabled t
@@ -1187,9 +1166,7 @@ See URL `http://flowtype.org/'."
 ;; see moo-jump-local
 (use-package function-args
   :init
-  (set-default 'semantic-case-fold t)
-  :config
-  (fa-config-default))
+  (set-default 'semantic-case-fold t))
 
 (use-package ggtags
   :config
@@ -1667,6 +1644,10 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
   (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands))
 
+(use-package flycheck-irony
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
 (use-package swift-mode
   :if (eq system-type 'darwin)
 
@@ -1781,7 +1762,7 @@ to the current branch. Uses Magit."
 (use-package racer
   :init
   (setq racer-rust-src-path "~/code/rust/rust/src")
-  (setq racer-cmd "~/code/rust/racer/target/release/racer")
+  ;; (setq racer-cmd "~/code/rust/racer/target/release/racer")
 
   :config
   (setq company-tooltip-align-annotations t)
@@ -2163,7 +2144,10 @@ PR [a-z-+]+/\
   (with-eval-after-load 'company
     (add-to-list 'company-backends 'company-restclient)))
 
-(use-package company-emoji)
+(use-package cc-mode
+  :ensure nil
+  :config
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode)))
 
 (use-package compile
   :ensure nil
@@ -2183,6 +2167,26 @@ PR [a-z-+]+/\
   :mode "\\.gradle\\'")
 
 (use-package gradle-mode)
+
+(use-package narrow-indirect)
+
+(use-package cargo
+  :init
+  (add-hook 'rust-mode-hook 'cargo-minor-mode))
+
+(use-package clang-format
+  :config
+  (define-key c-mode-base-map (kbd "C-c C-f") 'clang-format-buffer))
+
+(use-package rustfmt
+  :config
+  (define-key rust-mode-map (kbd "C-c C-f") 'rustfmt-format-buffer))
+
+(use-package google-c-style)
+
+(use-package git-link)
+
+(use-package cmake-ide)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
