@@ -1,68 +1,91 @@
-# tmux
-alias tmux="tmux -2"
-alias t="tmux"
-alias tn="tmux new -s"
-alias ta="tmux a -t"
-alias taro="tmux a -rt"
-
-# emacs
-alias e="emacsclient -nc"
-alias em="emacs"
-
-# ag
-alias agq="ag -Q"
+alias ":q"="exit"
 
 alias ls="ls -lh --color=auto"
-
-# ;)
-alias ":q"="exit"
-alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'
 
 alias tsup="sudo ntpd -qg"
 
 # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
 alias sudo='sudo '
 
-alias svim='sudoedit'
-
-# don't interpret brackets in arguments as glob patterns
-alias rake='noglob rake'
+alias sedit='sudoedit'
 
 # prompt if deleting more than 3 files
 alias rm='rm -I'
 
-# update vundle
-alias vimup='vim +PluginInstall! +qall'
+function command_exists() {
+  (( $+commands[$1]))
+}
 
-if (( $+commands[tlmgr] )); then
-    alias tlmgr-search-file='tlmgr search --global --file'
+if command_exists git; then
+  alias g='git'
 fi
 
-if (( $+commands[xsel] )); then
+if command_exists tlmgr; then
+  alias tlmgr-search-file='tlmgr search --global --file'
+fi
+
+if command_exists vim; then
+  # update vundle
+  alias vimup='vim +PluginInstall! +qall'
+fi
+
+if command_exists ag; then
+  alias agq="ag -Q"
+fi
+
+if command_exists emacs; then
+  alias e="emacsclient -nc"
+  alias em="emacs"
+fi
+
+if command_exists tmux; then
+  alias t="tmux"
+  alias tmux="tmux -2"
+  alias tn="tmux new -s"
+  alias ta="tmux a -t"
+  alias taro="tmux a -rt"
+  alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'
+fi
+
+if command_exists rake; then
+  # don't interpret brackets in arguments as glob patterns
+  alias rake='noglob rake'
+fi
+
+if command_exists xsel; then
   alias cbc='xsel -i -b'
   alias cbp='xsel -o -b'
-elif (( $+commands[pbcopy] )); then
+elif command_exists pbcopy; then
   alias cbc='pbcopy'
   alias cbp='pbpaste'
 fi
 
-if (( $+commands[multirust] )); then
+if command_exists multirust; then
   alias mr='multirust'
   alias mrup="multirust update"
 fi
 
-if (( $+commands[gist] )); then
+if command_exists gist; then
   alias gist='gist -c -o'
 fi
 
-if (( $+commands[systemctl] )); then
+if command_exists systemctl; then
   alias sc="systemctl"
   alias scu="systemctl --user"
   alias jc="journalctl"
   alias jcu="journalctl --user-unit"
 fi
 
-if (( $+commands[pacman] )); then
+if command_exists npm; then
+  alias n="npm"
+  alias nis="npm --save install"
+  alias nus="npm --save unstall"
+  alias nex='PATH=$(npm bin):$PATH'
+fi
+
+if command_exists pacman; then
+  alias p="pacman"
+
   alias pacup="sudo pacman -Syu"
   alias pacin="sudo pacman -S"
   alias packg="sudo pacman -U"
@@ -86,7 +109,7 @@ if (( $+commands[pacman] )); then
   alias pacqm="pacman -Qm"
 fi
 
-if (( $+commands[aura] )); then
+if command_exists aura; then
   alias aura="aura -x"
 
   alias aurin="sudo aura -A"
