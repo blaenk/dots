@@ -89,6 +89,7 @@
 (setq savehist-save-minibuffer-history 1)
 
 (setq-default indent-tabs-mode nil)
+(setq js-indent-level 2)
 (setq tab-width 2)
 
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -480,9 +481,12 @@
         (set-char-table-parent table char-width-table)
         (setq char-width-table table))))
 
-
   (blaenk/set-char-widths
    `((2 . (,(string-to-char (fontawesome "cloud")))))))
+
+(use-package tern
+  :config
+  (add-hook 'js2-mode-hook 'tern-mode))
 
 (use-package company-tern
   :config
@@ -725,8 +729,7 @@
   :config
   (company-quickhelp-mode 1))
 
-(use-package company-web
-  :config)
+(use-package company-web)
 
 (use-package clojure-mode)
 
@@ -1195,7 +1198,9 @@ See URL `http://flowtype.org/'."
   (("C-c g g s" . gist-region-or-buffer-private)
    ("C-c g g p" . gist-region-or-buffer)))
 
-(use-package json-mode)
+(use-package json-mode
+  :init
+  (setq json-reformat:indent-width 2))
 
 (use-package systemd)
 
@@ -1671,7 +1676,10 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 ;; TODO ensure imenu
 (use-package js2-mode
   :mode "\\.js\\'"
-  :interpreter "node")
+  :interpreter "node"
+
+  :init
+  (setq-default js2-basic-offset 2))
 
 (use-package cmake-mode)
 
