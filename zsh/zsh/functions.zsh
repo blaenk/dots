@@ -5,7 +5,7 @@ function manf() {
 }
 
 # open man page and jump to examples section
-function eg(){
+function eg() {
   man -P "less -p \"^EXAMPLES?\"" $1
 }
 
