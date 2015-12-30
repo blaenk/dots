@@ -41,3 +41,6 @@ emacs/.emacs.d/tramp
 emacs/.emacs.d/company-statistics-cache.el
 emacs/.emacs.d/semanticdb/
 emacs/.emacs.d/.#company-statistics-cache.el
+emacs/.emacs.d/anaconda-mode/
+emacs/.emacs.d/helm-doc.org
+emacs/.emacs.d/irony/
