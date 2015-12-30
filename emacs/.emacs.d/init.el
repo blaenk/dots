@@ -397,6 +397,8 @@
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
+  (defvar blaenk/ediff-last-windows nil)
+
   (defun blaenk/is-fullscreen ()
     (memq (frame-parameter nil 'fullscreen) '(fullscreen fullboth)))
 
@@ -413,6 +415,7 @@
       (ediff-toggle-wide-display)))
 
   (defun blaenk/ediff-prepare ()
+    (setq blaenk/ediff-last-windows (current-window-configuration))
     (turn-off-hideshow)
     (turn-off-fci-mode)
     (visual-line-mode -1)
@@ -424,6 +427,7 @@
 
   (defun blaenk/ediff-quit ()
     (interactive)
+    (set-window-configuration blaenk/ediff-last-windows)
     (blaenk/toggle-ediff-wide-display)
     (blaenk/un-fullscreen))
 
