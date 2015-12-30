@@ -1785,8 +1785,7 @@ to the current branch. Uses Magit."
 
   :config
   ;; disable highlighting color names
-  (setq rainbow-x-colors nil)
-  (add-hook 'prog-mode-hook 'rainbow-mode))
+  (setq rainbow-x-colors nil))
 
 (use-package rainbow-blocks
   :bind
