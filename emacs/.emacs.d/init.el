@@ -2151,6 +2151,19 @@ PR [a-z-+]+/\
   (with-eval-after-load 'company
     (add-to-list 'company-backends 'company-restclient)))
 
+(use-package emojify
+  :init
+  (setq emojify-prog-contexts 'comments)
+
+  :config
+  (add-to-list 'emojify-inhibit-major-modes 'magit-status-mode)
+  (add-to-list 'emojify-inhibit-major-modes 'magit-revision-mode)
+  (add-hook 'after-init-hook 'global-emojify-mode))
+
+(use-package emoji-cheat-sheet-plus
+  :bind
+  ("C-x 8 e" . emoji-cheat-sheet-plus-insert))
+
 (use-package cc-mode
   :ensure nil
   :config
