@@ -1212,6 +1212,7 @@ The initial state for a mode can be set with
 
   :init
   (setq markdown-enable-math t)
+  (setq markdown-asymmetric-header t)
 
   :config
   (add-hook 'gfm-mode-hook (lambda ()
