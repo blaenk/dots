@@ -1671,7 +1671,10 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   :interpreter "node"
 
   :init
-  (setq-default js2-basic-offset 2))
+  (setq-default js2-basic-offset 2)
+
+  :config
+  (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
 
 (use-package cmake-mode)
 
