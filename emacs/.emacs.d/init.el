@@ -1248,6 +1248,7 @@ The initial state for a mode can be set with
 (use-package yaml-mode)
 
 (use-package mmm-mode
+  :disabled t
   :demand t
 
   :bind
