@@ -1205,6 +1205,10 @@ The initial state for a mode can be set with
 
 (use-package systemd)
 
+(use-package highlight-escape-sequences
+  :config
+  (hes-mode))
+
 (use-package highlight-quoted
   :init
   (setq highlight-quoted-highlight-symbols nil)
