@@ -259,13 +259,37 @@
     (let* ((is-evil (blaenk/is-evil-on))
            (indicator (if is-evil "V" "E")))
       (propertize
-       (concat " " indicator " ")
+       (format " %s " indicator)
        'face
-       (solarized-with-color-variables
-         'light
-         (if is-evil
-             `(:background ,blue-l :foreground "white" :weight bold)
-           `(:background ,red-l :foreground "white" :weight bold))))))
+       (if is-evil
+           'mode-line-evil-mode-indicator-face
+         'mode-line-emacs-mode-indicator-face))))
+
+  (defun blaenk/format-flycheck-errors ()
+    (let* ((error-counts (flycheck-count-errors flycheck-current-errors))
+           (errors (or (cdr (assq 'error error-counts)) 0))
+           (warnings (or (cdr (assq 'warning error-counts)) 0))
+           (error-str (if (= errors 0)
+                          ""
+                        (propertize (format " %s " errors)
+                                    'face 'mode-line-flycheck-errors-face)))
+           (warning-str (if (= warnings 0)
+                            ""
+                          (propertize (format " %s " warnings)
+                                      'face 'mode-line-flycheck-warnings-face))))
+      (format "%s%s" warning-str error-str)))
+
+  (defun blaenk/flycheck-mode-line ()
+    (pcase flycheck-last-status-change
+      (`not-checked nil)
+      (`no-checker nil)
+      (`suspicious (propertize "suspicious" 'face 'error))
+      (`errored (propertize "errored" 'face 'error))
+      (`interrupted (propertize "interrupted" 'face 'error))
+      (`running (propertize
+                 (format " %s " (fontawesome "refresh"))
+                 'face 'mode-line-flycheck-checking-face))
+      (`finished (blaenk/format-flycheck-errors))))
 
   (defun blaenk/vc-branch ()
     (let ((backend (vc-backend (buffer-file-name))))
@@ -334,16 +358,16 @@
           (which-func-mode (:eval (blaenk/which-func)))
           ))
 
-  ;; TODO
-  ;; flycheck integration
   (setq mode-line-right
         `(
           (:propertize
            (:eval
             (when (blaenk/is-modified) " + "))
            face mode-line-modified-face)
+          (:eval (blaenk/flycheck-mode-line))
           (:propertize
-           (:eval (when buffer-read-only (concat " " (fontawesome "lock") " ")))
+           (:eval (when buffer-read-only
+                    (concat " " (fontawesome "lock") " ")))
            face mode-line-read-only-face)
           (:propertize (:eval (blaenk/vc-branch))
                        face mode-line-branch-face)
@@ -528,6 +552,11 @@
   (make-face 'mode-line-anzu-face)
   (make-face 'mode-line-mode-name-face)
   (make-face 'mode-line-read-only-face)
+  (make-face 'mode-line-emacs-mode-indicator-face)
+  (make-face 'mode-line-evil-mode-indicator-face)
+  (make-face 'mode-line-flycheck-warnings-face)
+  (make-face 'mode-line-flycheck-checking-face)
+  (make-face 'mode-line-flycheck-errors-face)
   (make-face 'mode-line-which-func-arrow-face)
   (make-face 'mode-line-modified-face)
   (make-face 'mode-line-remote-face)
@@ -627,6 +656,31 @@
         `(mode-line-read-only-face
           ((,class (:background ,red-l
                     :foreground "white"))))
+
+        `(mode-line-emacs-mode-indicator-face
+          ((,class (:background ,red-l
+                    :foreground "white"
+                    :weight bold))))
+
+        `(mode-line-evil-mode-indicator-face
+          ((,class (:background ,blue-l
+                    :foreground "white"
+                    :weight bold))))
+
+        `(mode-line-flycheck-warnings-face
+          ((,class (:background ,yellow-lc
+                    :foreground "white"
+                    :weight bold))))
+
+        `(mode-line-flycheck-checking-face
+          ((,class (:background ,base01
+                    :foreground "white"
+                    :weight bold))))
+
+        `(mode-line-flycheck-errors-face
+          ((,class (:background ,red-l
+                    :foreground "white"
+                    :weight bold))))
 
         `(mode-line-which-func-arrow-face
           ((,class (:foreground ,green
@@ -1801,7 +1855,8 @@ to the current branch. Uses Magit."
 
 (use-package perspective
   :config
-  (persp-mode))
+  ;; (persp-mode)
+  )
 
 (use-package persp-projectile
   :config
