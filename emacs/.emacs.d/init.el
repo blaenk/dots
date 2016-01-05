@@ -1679,13 +1679,16 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (use-package vimrc-mode)
 
-;; TODO ensure imenu
 (use-package js2-mode
   :mode "\\.js\\'"
   :interpreter "node"
 
   :init
   (setq-default js2-basic-offset 2)
+  (setq-default js2-global-externs
+                '("require" "global" "module"
+                  "describe" "it" "assert"
+                  "sinon"))
 
   :config
   (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
