@@ -759,10 +759,6 @@
 
 (use-package diminish)
 
-(use-package expand-region
-  :bind
-  ("C-=" . er/expand-region))
-
 (use-package emmet-mode
   :config
   (add-hook 'sgml-mode-hook 'emmet-mode)
@@ -954,9 +950,26 @@ The initial state for a mode can be set with
 
   (evil-mode 1))
 
+(use-package evil-indent-plus
+  :config
+  (evil-indent-plus-default-bindings))
+
 (use-package evil-quickscope
   :config
   (global-evil-quickscope-mode 1))
+
+(use-package evil-textobj-anyblock
+  :config
+  (define-key evil-inner-text-objects-map "b" 'evil-textobj-anyblock-inner-block)
+  (define-key evil-outer-text-objects-map "b" 'evil-textobj-anyblock-a-block))
+
+(use-package expand-region
+  :bind
+  ("C-=" . er/expand-region)
+
+  :config
+  ;; (evil-define-key 'visual global-map (kbd "v") 'er/expand-region)
+  )
 
 (use-package evil-anzu
   :requires evil)
@@ -978,6 +991,7 @@ The initial state for a mode can be set with
   (evil-leader/set-leader "<SPC>")
 
   (evil-leader/set-key
+    "v" 'er/expand-region
     "o" (lambda ()
           (interactive)
           (end-of-line)
