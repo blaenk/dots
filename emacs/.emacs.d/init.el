@@ -156,6 +156,7 @@
 (winner-mode)
 (electric-pair-mode)
 (show-paren-mode)
+(which-function-mode)
 
 (defun blaenk/pop-to-frame ()
   (interactive)
@@ -310,6 +311,13 @@
                     (propertize file-name 'face 'mode-line-buffer-id)))
         (propertize " %b " 'face 'mode-line-buffer-id))))
 
+  (defun blaenk/which-func ()
+    (let ((loc (gethash (selected-window) which-func-table))
+          (arrow (propertize "→" 'face 'mode-line-which-func-arrow-face)))
+      (if loc
+          (format "%s %s " arrow loc)
+        "")))
+
   (setq mode-line-left
         `(
           (:propertize "%3c " face mode-line-column-face)
@@ -323,6 +331,7 @@
            (:eval (blaenk/remote-mode-line))
            face mode-line-remote-face)
           (:eval (blaenk/file-name nil))
+          (which-func-mode (:eval (blaenk/which-func)))
           ))
 
   ;; TODO
@@ -519,6 +528,7 @@
   (make-face 'mode-line-anzu-face)
   (make-face 'mode-line-mode-name-face)
   (make-face 'mode-line-read-only-face)
+  (make-face 'mode-line-which-func-arrow-face)
   (make-face 'mode-line-modified-face)
   (make-face 'mode-line-remote-face)
   (make-face 'mode-line-stem-face)
@@ -617,6 +627,10 @@
         `(mode-line-read-only-face
           ((,class (:background ,red-l
                     :foreground "white"))))
+
+        `(mode-line-which-func-arrow-face
+          ((,class (:foreground ,green
+                    :weight bold))))
 
         `(mode-line-modified-face
           ((,class (:background ,green-l
