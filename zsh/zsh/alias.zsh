@@ -80,6 +80,8 @@ if command_exists npm; then
   alias n="npm"
   alias nis="npm --save install"
   alias nus="npm --save unstall"
+  alias nisd="npm --save-dev install"
+  alias nusd="npm --save-dev uninstall"
   alias nex='PATH=$(npm bin):$PATH'
 fi
 
