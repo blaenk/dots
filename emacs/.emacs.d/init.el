@@ -101,6 +101,8 @@
 
 (setq explicit-shell-file-name "/bin/zsh")
 
+(setq load-prefer-newer t)
+
 (setq sentence-end-double-space nil)
 (setq-default cursor-type 'box)
 (setq-default echo-keystrokes 0.1)
@@ -394,6 +396,11 @@
           space-before-tab tab-mark))
   (setq whitespace-line-column nil)
   (add-hook 'prog-mode-hook 'whitespace-mode))
+
+(use-package auto-compile
+  :config
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
 
 (use-package sh-script
   :ensure nil
