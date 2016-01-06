@@ -15,7 +15,12 @@
   (setq undo-tree-history-directory-alist `((".*" . ,undo-history-dir)))
   (setq auto-save-list-file-prefix auto-save-list-prefix)
   (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t)))
-  (setq save-place-file place-dir))
+  (setq save-place-file place-dir)
+
+  (defun emacs-session-filename (session-id)
+    (expand-file-name
+     (concat "sessions/" session-id)
+     user-emacs-directory)))
 
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 
