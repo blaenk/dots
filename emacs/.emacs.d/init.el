@@ -480,16 +480,7 @@
   (add-hook 'ediff-suspend-hook 'blaenk/ediff-quit 'append)
   (add-hook 'ediff-quit-hook 'blaenk/ediff-quit 'append))
 
-(use-package stickyfunc-enhance
-  :config
-  ;; (add-to-list
-  ;;  'semantic-default-submodes
-  ;;  'global-semantic-stickyfunc-mode)
-  )
-
 (use-package dtrt-indent)
-
-(use-package clean-aindent-mode)
 
 (use-package python
   :ensure nil
@@ -724,8 +715,6 @@
                     (blaenk/load-theme))))
     (blaenk/load-theme)))
 
-(use-package auto-package-update)
-
 (use-package lua-mode
   :mode "\\.lua$"
   :interpreter "lua")
@@ -824,14 +813,6 @@
   :config
   (add-hook 'sgml-mode-hook 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode))
-
-;; NOTE
-;; should adapt helm-descbinds to save prefix keys
-(use-package which-key
-  :disabled t
-  :diminish which-key-mode
-  :init
-  (setq which-key-use-C-h-for-paging nil))
 
 (use-package evil
   :init
@@ -1067,9 +1048,6 @@ The initial state for a mode can be set with
 
 (use-package evil-numbers)
 
-(use-package evil-smartparens
-  :disabled t)
-
 (use-package evil-surround
   :config
   (global-evil-surround-mode 1))
@@ -1256,12 +1234,6 @@ The initial state for a mode can be set with
   :config
   (add-hook 'prog-mode-hook 'hl-todo-mode))
 
-;; NOTE
-;; see moo-jump-local
-(use-package function-args
-  :init
-  (set-default 'semantic-case-fold t))
-
 (use-package ggtags
   :config
   (add-hook 'prog-mode-hook
@@ -1295,13 +1267,6 @@ The initial state for a mode can be set with
 (use-package gitignore-mode)
 
 (use-package gitattributes-mode)
-
-(use-package git-gutter-fringe
-  :bind
-  ;; NOTE mnemonic is 'git ruler'
-  (("C-c g r t" . git-gutter:toggle)
-   ("C-c g r n" . git-gutter:next-hunk)
-   ("C-c g r p" . git-gutter:previous-hunk)))
 
 (use-package markdown-mode
   :mode
@@ -1613,10 +1578,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (use-package helm-open-github)
 
-(use-package helm-mode-manager)
-
-(use-package helm-c-yasnippet)
-
 (use-package helm-unicode
   :bind ("C-x 8 RET" . helm-unicode))
 
@@ -1668,10 +1629,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (use-package visual-regexp)
 
-(use-package multiple-cursors)
-
-(use-package sx)
-
 (use-package erlang
   :defer t)
 
@@ -1703,8 +1660,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (use-package alchemist)
 
-(use-package racket-mode)
-
 (use-package helm-flycheck)
 
 (use-package helm-flyspell)
@@ -1715,8 +1670,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
   :bind
   (("C-s" . swiper)
-   ("C-r" . swiper)
-   ("C-c C-r" . ivy-resume)
    ([f6] . ivy-resume)))
 
 (use-package irony
@@ -1735,8 +1688,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   (add-hook 'irony-mode-hook 'blaenk/irony-mode-hook)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
-;; TODO
-;; requires completion server?
 (use-package company-irony
   :config
   (with-eval-after-load 'company
@@ -1779,8 +1730,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   :config
   (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
   (add-hook 'cmake-mode-hook 'cmake-font-lock-activate))
-
-(use-package skewer-mode)
 
 (use-package git-messenger)
 
@@ -1851,7 +1800,7 @@ to the current branch. Uses Magit."
   :config
   (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
 
-(use-package magit-gitflow)
+(use-package pt)
 
 (use-package projectile
   :init
@@ -1861,18 +1810,17 @@ to the current branch. Uses Magit."
   (projectile-global-mode))
 
 (use-package perspective
+  :disabled t
   :config
   ;; (persp-mode)
   )
 
 (use-package persp-projectile
+  :disabled t
   :config
-  (define-key projectile-command-map
-    (kbd "p") 'projectile-persp-switch-project))
-
-(use-package zeal-at-point)
-
-(use-package dash-at-point)
+  ;; (define-key projectile-command-map
+  ;;   (kbd "p") 'projectile-persp-switch-project)
+  )
 
 (use-package racer
   :init
@@ -2123,13 +2071,6 @@ to the current branch. Uses Magit."
 
 (use-package wgrep-ag)
 
-(use-package discover-my-major
-  :bind
-  ("C-h C-m" . discover-my-major))
-
-(use-package yasnippet
-  :commands (yas-reload-all yas-global-mode yas-minor-mode))
-
 (use-package fill-column-indicator
   :config
   (with-eval-after-load 'magit
@@ -2150,8 +2091,6 @@ PR [a-z-+]+/\
 
   (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
   (add-hook 'prog-mode-hook #'bug-reference-prog-mode))
-
-(use-package sx)
 
 (use-package goto-addr
   :ensure nil
@@ -2292,16 +2231,9 @@ PR [a-z-+]+/\
   (setq compilation-set-skip-threshold 0)
   (setq compilation-always-kill t))
 
-(use-package floobits)
-
 (use-package list-environment)
 
 (use-package pkgbuild-mode)
-
-(use-package groovy-mode
-  :mode "\\.gradle\\'")
-
-(use-package gradle-mode)
 
 (use-package narrow-indirect)
 
