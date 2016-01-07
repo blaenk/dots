@@ -2233,6 +2233,7 @@ PR [a-z-+]+/\
 (use-package emojify
   :init
   (setq emojify-prog-contexts 'comments)
+  (setq emojify-point-entered-behaviour 'uncover)
 
   :config
   (add-to-list 'emojify-inhibit-major-modes 'magit-status-mode)
