@@ -2233,7 +2233,31 @@ PR [a-z-+]+/\
 (use-package cc-mode
   :ensure nil
   :config
-  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode)))
+  (defun blaenk/insert-include-guard ()
+    (interactive)
+    (let* ((project-root (when (projectile-project-p)
+                           (projectile-project-root)))
+           (buf-name (or (buffer-file-name) (buffer-name)))
+           (name (if project-root
+                     (replace-regexp-in-string
+                      (regexp-quote project-root) ""
+                      buf-name)
+                   buf-name))
+           (filtered (replace-regexp-in-string
+                      (regexp-opt '("source/" "src/")) "" name))
+           (ident (concat
+                   (upcase
+                    (replace-regexp-in-string "[/.-]" "_" filtered))
+                   "_")))
+      (save-excursion
+        (beginning-of-buffer)
+        (insert "#ifndef " ident "\n")
+        (insert "#define " ident "\n\n")
+        (end-of-buffer)
+        (insert "\n#endif // " ident))))
+
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+  (push '(nil "^TEST\\(_F\\)?(\\([^)]+\\))" 2) imenu-generic-expression))
 
 (ignore-errors
   (require 'ansi-color)
