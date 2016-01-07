@@ -2297,7 +2297,14 @@ PR [a-z-+]+/\
 
 (use-package git-link)
 
-(use-package cmake-ide)
+(use-package rtags)
+
+;; cmake-ide seems to require this
+(use-package levenshtein)
+
+(use-package cmake-ide
+  :config
+  (cmake-ide-setup))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
