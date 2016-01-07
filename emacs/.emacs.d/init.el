@@ -1385,7 +1385,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   :bind
   (("M-x" . helm-M-x)
    ("M-y" . helm-show-kill-ring)
-   ("M-i" . helm-imenu)
+   ("M-i" . helm-semantic-or-imenu)
    ("C-c h" . helm-command-prefix)
    ("C-x b" . helm-buffers-list)
    ("C-x C-f" . helm-find-files)
