@@ -123,6 +123,10 @@
 
 (global-set-key [remap eval-expression] 'pp-eval-expression)
 
+;; unicode mappings
+(define-key 'iso-transl-ctl-x-8-map "l" "→")
+(define-key 'iso-transl-ctl-x-8-map "h" "←")
+
 (define-key global-map (kbd "M-u") 'universal-argument)
 
 (defun blaenk/kill-this-buffer ()
