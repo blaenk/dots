@@ -828,6 +828,8 @@
   :init
   (setq evil-want-C-w-in-emacs-state t)
 
+  (setq evil-text-object-change-visual-type nil)
+
   ;; TODO check if these should all be in this
   (setq evil-search-module 'evil-search)
   ;; (setq evil-cross-lines t)
