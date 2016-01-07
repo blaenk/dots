@@ -177,6 +177,7 @@
     (display-buffer-pop-up-frame buffer nil)))
 
 (global-set-key (kbd "C-c f") 'blaenk/pop-to-frame)
+
 (defun blaenk/flyspell-goto-previous-error (arg)
   "Go to arg previous spelling error."
   (interactive "p")
