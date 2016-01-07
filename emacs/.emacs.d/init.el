@@ -1591,7 +1591,8 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 (use-package helm-open-github)
 
 (use-package helm-unicode
-  :bind ("C-x 8 RET" . helm-unicode))
+  :config
+  (define-key global-map [remap insert-char] 'helm-unicode))
 
 (use-package helm-ag)
 
