@@ -895,6 +895,26 @@ The initial state for a mode can be set with
   (add-hook 'with-editor-mode-hook 'evil-insert-state)
 
   :config
+  (evil-define-operator blaenk/evil-join (beg end)
+    "Join the selected lines."
+    :motion evil-line
+    (let ((count (count-lines beg end)))
+      (when (> count 1)
+        (setq count (1- count)))
+      (dotimes (var count)
+        (join-line 1)
+        ;; remove comment delimiters
+        (when (nth 4 (syntax-ppss))
+          (forward-char)
+          (while (looking-at
+                  (concat
+                   "\\s<"
+                   "\\|" (substring comment-start 0 1) "\\|"
+                   "\\s-"))
+            (delete-char 1))))))
+
+  (define-key evil-normal-state-map "J" 'blaenk/evil-join)
+
   (solarized-with-color-variables 'light
     (setq evil-normal-state-cursor `(,blue-l box))
     (setq evil-insert-state-cursor `(,green-l box))
