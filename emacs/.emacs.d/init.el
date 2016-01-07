@@ -2320,9 +2320,6 @@ PR [a-z-+]+/\
 
 (use-package rtags)
 
-;; cmake-ide seems to require this
-(use-package levenshtein)
-
 (use-package cmake-ide
   :config
   (cmake-ide-setup))
