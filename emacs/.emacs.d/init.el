@@ -2223,6 +2223,13 @@ PR [a-z-+]+/\
   :bind
   ("C-x 8 e" . emoji-cheat-sheet-plus-insert))
 
+(use-package semantic
+  :ensure nil
+  :config
+  (global-semanticdb-minor-mode 1)
+  (global-semantic-idle-scheduler-mode 1)
+  (semantic-mode 1))
+
 (use-package cc-mode
   :ensure nil
   :config
