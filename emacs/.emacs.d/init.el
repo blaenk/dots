@@ -4,23 +4,29 @@
 
 (setq backup-by-copying t)
 
-(let* ((backup-dir (expand-file-name "backups/" user-emacs-directory))
-       (undo-history-dir (expand-file-name "undos/" user-emacs-directory))
-       (auto-save-dir (expand-file-name "autosaves/" user-emacs-directory))
-       (auto-save-list-prefix (expand-file-name "saves-" auto-save-dir))
-       (place-dir (expand-file-name "saved-places" user-emacs-directory)))
-  (setq backup-directory-alist `((".*" . ,backup-dir)))
-  (setq version-control t)
-  (setq delete-old-versions t)
-  (setq undo-tree-history-directory-alist `((".*" . ,undo-history-dir)))
-  (setq auto-save-list-file-prefix auto-save-list-prefix)
-  (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t)))
-  (setq save-place-file place-dir)
+(defun blaenk/emacs-dir (path)
+  (expand-file-name path user-emacs-directory))
 
-  (defun emacs-session-filename (session-id)
-    (expand-file-name
-     (concat "sessions/" session-id)
-     user-emacs-directory)))
+(defun blaenk/cache-dir (path)
+  (blaenk/emacs-dir (concat "cache/" path)))
+
+(let* ((auto-save-dir (blaenk/cache-dir "autosaves/")))
+  (setq auto-save-list-file-prefix (expand-file-name "saves-" auto-save-dir))
+  (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t))))
+
+(setq backup-directory-alist `((".*" . ,(blaenk/cache-dir "backups/"))))
+(setq save-place-file (blaenk/cache-dir "saved-places"))
+(setq bookmark-default-file (blaenk/cache-dir "bookmarks"))
+(setq recentf-save-file (blaenk/cache-dir "recentf"))
+(setq savehist-file (blaenk/cache-dir "history"))
+(setq ido-save-directory-list-file (blaenk/cache-dir "ido.last"))
+(setq eshell-directory (blaenk/cache-dir "eshell"))
+
+(setq custom-file (blaenk/cache-dir "custom.el"))
+(load custom-file 'noerror)
+
+(defun emacs-session-filename (session-id)
+  (blaenk/cache-dir (concat "sessions/" session-id)))
 
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 
@@ -47,7 +53,7 @@
 
 (defun blaenk/edit-init ()
   (interactive)
-  (find-file (expand-file-name "init.el" user-emacs-directory)))
+  (find-file (blaenk/emacs-dir "init.el")))
 
 (global-set-key (kbd "C-c e") 'blaenk/edit-init)
 
@@ -55,6 +61,9 @@
 
 (when (getenv "VM")
   (setq browse-url-browser-function 'kill-new))
+
+(setq version-control t)
+(setq delete-old-versions t)
 
 (setq inhibit-x-resources t)
 (setq x-select-enable-clipboard t)
@@ -505,6 +514,8 @@
       (setq python-shell-interpreter ipython))))
 
 (use-package anaconda-mode
+  :init
+  (setq anaconda-mode-installation-directory (blaenk/cache-dir "anaconda-mode"))
   :config
   (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'eldoc-mode))
@@ -802,6 +813,8 @@
   (add-hook 'prog-mode-hook 'company-mode))
 
 (use-package company-statistics
+  :init
+  (setq company-statistics-file (blaenk/cache-dir "company-statistics-cache.el"))
   :config
   (add-hook 'after-init-hook 'company-statistics-mode)
   (company-statistics-mode))
@@ -1273,6 +1286,14 @@ The initial state for a mode can be set with
               (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
                 (ggtags-mode 1)))))
 
+(use-package pcache
+  :config
+  ;; TODO
+  ;; pending https://github.com/sigma/pcache/issues/6
+  ;; should change this, might hide other things that may be stored in var/
+  ;; (delete-directory (concat user-emacs-directory "var") 'recursive)
+  (setq pcache-directory (blaenk/cache-dir "var/pcache")))
+
 (use-package gist
   :bind
   (("C-c g g s" . gist-region-or-buffer-private)
@@ -1373,6 +1394,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   :diminish undo-tree-mode
 
   :init
+  (setq undo-tree-history-directory-alist `((".*" . ,(blaenk/cache-dir "undos/"))))
   (setq undo-tree-auto-save-history t)
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t)
@@ -1413,6 +1435,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
    ("C-h i" . helm-info-emacs))
 
   :init
+  (setq helm-adaptive-history-file (blaenk/cache-dir "helm-adaptive-history"))
   (setq helm-quick-update t)
   (setq helm-split-window-in-side-p t)
   (setq helm-display-header-line nil)
@@ -1706,6 +1729,8 @@ If SUBMODE is not provided, use `LANG-mode' by default."
    ([f6] . ivy-resume)))
 
 (use-package irony
+  :init
+  (setq irony-user-dir (blaenk/cache-dir "irony"))
   :config
   (add-hook 'c++-mode-hook 'irony-mode)
   (add-hook 'c-mode-hook 'irony-mode)
@@ -1838,6 +1863,8 @@ to the current branch. Uses Magit."
 (use-package projectile
   :init
   (setq projectile-completion-system 'helm)
+  (setq projectile-cache-file (blaenk/cache-dir "projectile.cache"))
+  (setq projectile-known-projects-file (blaenk/cache-dir "projectile-bookmarks.eld"))
 
   :config
   (projectile-global-mode))
@@ -2246,6 +2273,9 @@ PR [a-z-+]+/\
 
 (use-package semantic
   :ensure nil
+  :init
+  (setq semanticdb-default-save-directory (blaenk/cache-dir "semanticdb"))
+
   :config
   (global-semanticdb-minor-mode 1)
   (global-semantic-idle-scheduler-mode 1)
