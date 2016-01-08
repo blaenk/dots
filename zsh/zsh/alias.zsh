@@ -71,7 +71,13 @@ fi
 
 if command_exists systemctl; then
   alias sc="systemctl"
+  alias scs="systemctl status"
+  alias scr="systemctl restart"
+
   alias scu="systemctl --user"
+  alias scus="systemctl --user status"
+  alias scur="systemctl --user restart"
+
   alias jc="journalctl"
   alias jcu="journalctl --user-unit"
 fi
