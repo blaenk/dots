@@ -9,6 +9,9 @@ path = .gitconfig.local
   editor = vim
   pager = less -+$LESS -FRX
 
+[status]
+submoduleSummary = true
+
 [alias]
   au = add -u
   br = branch
@@ -45,6 +48,7 @@ path = .gitconfig.local
 
 [diff]
   tool = vimdiff
+  submodule = log
 
 [difftool]
   prompt = false
