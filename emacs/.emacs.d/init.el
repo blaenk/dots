@@ -57,8 +57,6 @@
 
 (global-set-key (kbd "C-c e") 'blaenk/edit-init)
 
-(when window-system (set-frame-size (selected-frame) 96 41))
-
 (when (getenv "VM")
   (setq browse-url-browser-function 'kill-new))
 
@@ -128,7 +126,11 @@
 (setq hl-line-sticky-flag t)
 
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
-(setq default-frame-alist '((font . "DejaVu Sans Mono-10.5")))
+(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10.5"))
+(add-to-list 'default-frame-alist '(width . 86))
+(add-to-list 'default-frame-alist '(height . 36))
+
+;; (when window-system (set-frame-size (selected-frame) 85 35))
 
 (global-set-key [remap eval-expression] 'pp-eval-expression)
 
