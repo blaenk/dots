@@ -2,12 +2,12 @@
 path = .gitconfig.local
 
 [user]
-  name = Jorge Israel Peña
-  email = jorge.israel.p@gmail.com
+name = Jorge Israel Peña
+email = jorge.israel.p@gmail.com
 
 [core]
-  editor = vim
-  pager = less -+$LESS -FRX
+editor = vim
+pager = less -+$LESS -FRX
 
 [status]
 submoduleSummary = true
