@@ -1397,8 +1397,21 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   :diminish undo-tree-mode
 
   :init
-  (setq undo-tree-history-directory-alist `((".*" . ,(blaenk/cache-dir "undos/"))))
-  (setq undo-tree-auto-save-history t)
+  ;; NOTE
+  ;; undo-tree breaks sometimes, some people think it may be
+  ;; the persistent history feature that is causing this
+  ;;
+  ;; it's a huge pain when it breaks because I lose a lot of
+  ;; undo history, so I'm gonna try to disable the persistent
+  ;; feature for a while to see if the problem goes away
+  ;;
+  ;; https://github.com/syl20bnr/spacemacs/issues/298
+  ;; https://github.com/syl20bnr/spacemacs/issues/774
+  ;; https://github.com/syl20bnr/spacemacs/commit/885d092e72aeaa470253c19831ba42e2eecf3514
+  ;; http://comments.gmane.org/gmane.emacs.vim-emulation/2079
+  ;; (setq undo-tree-history-directory-alist
+  ;;       `((".*" . ,(blaenk/cache-dir "undos/"))))
+  ;; (setq undo-tree-auto-save-history t)
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t)
 
