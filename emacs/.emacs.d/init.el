@@ -544,7 +544,8 @@
         (setq char-width-table table))))
 
   (blaenk/set-char-widths
-   `((2 . (,(string-to-char (fontawesome "cloud")))))))
+   `((2 . (,(string-to-char (fontawesome "cloud"))
+           ,(string-to-char (fontawesome "refresh")))))))
 
 (use-package tern
   :config
