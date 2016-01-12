@@ -111,7 +111,7 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(setq explicit-shell-file-name "/bin/zsh")
+(setq explicit-shell-file-name "/usr/bin/zsh")
 
 (setq load-prefer-newer t)
 
@@ -1636,6 +1636,10 @@ If SUBMODE is not provided, use `LANG-mode' by default."
           :buffer "*helm solarized colors*"))
 
   (helm-mode 1))
+
+(use-package multi-term
+  :init
+  (setq multi-term-program "/usr/bin/zsh"))
 
 (use-package helm-mt
   :bind ("C-c t" . helm-mt)
