@@ -173,17 +173,21 @@
 (scroll-bar-mode -1)
 (blink-cursor-mode 0)
 
-(add-hook 'prog-mode-hook 'hs-minor-mode)
-(add-hook 'prog-mode-hook 'hl-line-mode)
 (savehist-mode)
 (recentf-mode)
 (visual-line-mode)
 (column-number-mode)
-(flyspell-prog-mode)
 (winner-mode)
 (electric-pair-mode)
 (show-paren-mode)
 (which-function-mode)
+
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(add-hook 'flyspell-mode-hook 'flyspell-buffer)
+
+(add-hook 'prog-mode-hook 'hs-minor-mode)
+(add-hook 'prog-mode-hook 'hl-line-mode)
 
 (defun blaenk/pop-to-frame ()
   (interactive)
