@@ -954,9 +954,12 @@ The initial state for a mode can be set with
     ;; force update evil keymaps after ggtags-mode loaded
     (add-hook 'ggtags-mode-hook #'evil-normalize-keymaps))
 
-  ;; FIXME
-  ;; a problem is that this leaves whitespace residue
-  ;; e.g. o then escape then o?
+  (defun blaenk/evil-maybe-remove-spaces ()
+    (unless (memq this-command '(evil-open-above evil-open-below))
+      (remove-hook 'post-command-hook 'blaenk/evil-maybe-remove-spaces)
+      (when (not (evil-insert-state-p))
+        (delete-char 1))))
+
   (defun blaenk/evil-open-line ()
     (interactive)
     (end-of-visual-line)
@@ -965,13 +968,14 @@ The initial state for a mode can be set with
           (comment-indent-new-line)
           (evil-insert-state 1)
 
+          (add-hook 'post-command-hook #'blaenk/evil-maybe-remove-spaces)
+
           (when evil-auto-indent
             (indent-according-to-mode))
-
-          (add-hook 'post-command-hook #'evil-maybe-remove-spaces)
           (setq this-command 'evil-open-below))
-      (evil-open-below 1))
-    (setq this-command 'evil-open-below))
+      (progn
+        (evil-open-below 1)
+        (setq this-command 'evil-open-below))))
 
   (define-key evil-normal-state-map (kbd "o") 'blaenk/evil-open-line)
   ;; (define-key evil-normal-state-map (kbd "O")
