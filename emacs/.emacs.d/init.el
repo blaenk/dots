@@ -987,14 +987,46 @@ The initial state for a mode can be set with
   ;;           (previous-line)
   ;;           (blaenk/evil-open-line)))))
 
+  ;; if the point is in a comment that has non-whitespace content, delete up
+  ;; until the beginning of the comment. if already at the beginning of the
+  ;; comment, delete up to the indentation point. if already at the indentation
+  ;; point, delete to the beginning of the line
   (defun blaenk/kill-line ()
     (interactive)
-    (if (looking-back "^[[:space:]]+")
-        (kill-line 0)
-      (progn
-        (let ((beg (point)))
-          (back-to-indentation)
-          (kill-region beg (point))))))
+    (let* ((starts
+            (-non-nil
+             ;; add comment-start-regexps to this as needed
+             `("\\s<"
+               ,(regexp-quote (s-trim-right comment-start))
+               ,c-comment-start-regexp)))
+           (comment-starts (s-join "\\|" starts))
+           (start-re (concat "\\(" comment-starts "\\)")))
+      (if (and
+           ;; in a comment
+           (elt (syntax-ppss) 4)
+           ;; we're in a single line comment
+           (looking-back (concat start-re ".+")
+                         (line-beginning-position))
+           ;; not right after starting delimiter
+           (not (looking-back (concat start-re "\\s-?")
+                              (line-beginning-position))))
+          (let ((beg (point)))
+            (beginning-of-visual-line)
+            ;; go after comment position
+            (re-search-forward
+             (concat ".+" start-re "\\s-?")
+             (line-end-position))
+            ;; kill rest of line
+            (kill-region (point) beg))
+        (if (looking-back "^[[:space:]]+")
+            ;; kill entire line
+            (kill-line 0)
+          ;; kill up to indentation point
+          (let ((beg (point)))
+            (when (not (equal beg (line-beginning-position)))
+              (back-to-indentation)
+              (kill-region beg (point))))))))
+
 
   (define-key evil-insert-state-map (kbd "<S-return>") 'comment-indent-new-line)
 
