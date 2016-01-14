@@ -1535,9 +1535,11 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   (setq helm-quick-update t)
   (setq helm-split-window-in-side-p t)
   (setq helm-display-header-line nil)
-  (setq helm-autoresize-max-height 30)
-  (setq helm-autoresize-min-height 30)
+  ;; (setq helm-autoresize-max-height 30)
+  ;; (setq helm-autoresize-min-height 30)
   (setq helm-imenu-execute-action-at-once-if-one nil)
+  (setq helm-mode-fuzzy-match t)
+  (setq helm-completion-in-region-fuzzy-match t)
 
   :config
   (require 'helm-config)
