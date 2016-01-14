@@ -17,6 +17,7 @@ function command_exists() {
 }
 
 if command_exists git; then
+  alias git='noglob git'
   alias g='git'
 fi
 
