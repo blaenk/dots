@@ -789,16 +789,19 @@
   :init
   (defun blaenk/anzu-update (here total)
     (when anzu--state
-      (let ((status (cond
-                     ((eq anzu--state 'search) (format " %s of %d%s "
-                                                       (anzu--format-here-position here total)
-                                                       total (if anzu--overflow-p "+" "")))
-                     ((eq anzu--state 'replace-query) (format " %d replace " total))
-                     ((eq anzu--state 'replace) (format " %d of %d " here total)))))
+      (let ((status
+             (cond
+              ((eq anzu--state 'search)
+               (format " %s of %d%s "
+                       (anzu--format-here-position here total)
+                       total (if anzu--overflow-p "+" "")))
+              ((eq anzu--state 'replace-query) (format " %d replace " total))
+              ((eq anzu--state 'replace) (format " %d of %d " here total)))))
         (propertize status 'face 'anzu-mode-line))))
 
   (setq anzu-mode-line-update-function 'blaenk/anzu-update)
   (setq anzu-cons-mode-line-p nil)
+
   :config
   (add-hook 'anzu-mode-hook (lambda () (make-local-variable 'anzu--state)))
   (global-anzu-mode +1))
@@ -875,7 +878,6 @@
 (use-package evil
   :init
   (setq evil-want-C-w-in-emacs-state t)
-
   (setq evil-text-object-change-visual-type nil)
 
   ;; TODO check if these should all be in this
@@ -1383,6 +1385,7 @@ The initial state for a mode can be set with
 (use-package highlight-quoted
   :init
   (setq highlight-quoted-highlight-symbols nil)
+
   :config
   (add-hook 'emacs-lisp-mode-hook 'highlight-quoted-mode))
 
@@ -1819,6 +1822,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 (use-package irony
   :init
   (setq irony-user-dir (blaenk/cache-dir "irony"))
+
   :config
   (add-hook 'c++-mode-hook 'irony-mode)
   (add-hook 'c-mode-hook 'irony-mode)
@@ -1831,6 +1835,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
       'irony-completion-at-point-async)
     (define-key irony-mode-map [remap complete-symbol]
       'irony-completion-at-point-async))
+
   (add-hook 'irony-mode-hook 'blaenk/irony-mode-hook)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
