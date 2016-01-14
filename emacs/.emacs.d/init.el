@@ -155,11 +155,18 @@
 (define-key universal-argument-map (kbd "M-u") 'universal-argument-more)
 
 (cond
- ((eq system-type 'darwin)
-  (set-fontset-font "fontset-default" nil "Symbola" nil 'append))
  ((eq system-type 'gnu/linux)
-  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend)
-  (set-fontset-font t 'symbol (font-spec :family "Apple Symbols") nil 'append)))
+  (set-fontset-font "fontset-default" nil
+                    (font-spec :name "Symbola") nil 'append))
+ ((eq system-type 'darwin)
+  (set-fontset-font t 'symbol
+                    (font-spec :family "Apple Color Emoji") nil 'prepend)
+  (set-fontset-font t 'symbol
+                    (font-spec :family "Apple Symbols") nil 'append)))
+
+(use-package unicode-fonts
+  :config
+  (unicode-fonts-setup))
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
