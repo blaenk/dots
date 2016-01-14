@@ -43,9 +43,9 @@
 
 (setq use-package-always-ensure t)
 
-;; TODO
-;; use this or systemctl --user import-environment?
-;; this is probably more predictable
+(use-package s)
+(use-package dash)
+
 (use-package exec-path-from-shell
   :config
   (exec-path-from-shell-copy-envs
