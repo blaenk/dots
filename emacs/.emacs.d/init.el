@@ -2417,7 +2417,7 @@ PR [a-z-+]+/\
         (insert "#ifndef " ident "\n")
         (insert "#define " ident "\n\n")
         (end-of-buffer)
-        (insert "\n#endif // " ident))))
+        (insert "\n#endif  // " ident))))
 
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
   (push '(nil "^TEST\\(_F\\)?(\\([^)]+\\))" 2) imenu-generic-expression))
