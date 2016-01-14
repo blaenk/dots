@@ -130,8 +130,6 @@
 (add-to-list 'default-frame-alist '(width . 86))
 (add-to-list 'default-frame-alist '(height . 36))
 
-;; (when window-system (set-frame-size (selected-frame) 85 35))
-
 (global-set-key [remap eval-expression] 'pp-eval-expression)
 
 ;; unicode mappings
