@@ -1,43 +1,44 @@
 [include]
-path = .gitconfig.local
+  path = .gitconfig.local
 
 [user]
-name = Jorge Israel Peña
-email = jorge.israel.p@gmail.com
+  name = Jorge Israel Peña
+  email = jorge.israel.p@gmail.com
+
+[pull]
+  rebase = preserve
 
 [core]
-editor = vim
-pager = less -+$LESS -FRX
+  editor = vim
+  pager = less -+$LESS -FRX
 
 [status]
-submoduleSummary = true
+  submoduleSummary = true
 
 [alias]
-  au = add -u
   br = branch
-  bri = branch -vv
   bs = bisect
   ci = commit -v
   cl = clone
   co = checkout
   df = diff
-  dfw = diff --word-diff
-  dfc = diff --cached
-  dfcw = diff --cached --word-diff
-  dft = difftool
-  dftc = difftool --cached
-  gr = grep --break --heading --line-number
-  lg = log --graph --oneline --format='%C(green)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%cr%Creset'
   mrg = merge
-  re = remote
   rb = rebase
+  re = remote
   rs = reset
-  rh = reset --hard
-  sb = status -sb
   sh = stash
   sm = submodule
   st = status
-  vs = !gitx --all
+
+  au = add -u
+  bri = branch -vv
+  dfc = diff --cached
+  dfcw = diff --cached --word-diff
+  dfw = diff --word-diff
+  gr = grep --break --heading --line-number
+  lg = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset'
+  rh = reset --hard
+  sb = status -sb
   ut = !GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --date=\"$(date)\"
 
 [color]
@@ -47,11 +48,7 @@ submoduleSummary = true
   grep = auto
 
 [diff]
-  tool = vimdiff
   submodule = log
-
-[difftool]
-  prompt = false
 
 [push]
   default = simple
@@ -59,5 +56,6 @@ submoduleSummary = true
 [grep]
   extendRegexp = true
   lineNumber = true
+
 [rerere]
-	enabled = true
+  enabled = true
