@@ -1,16 +1,16 @@
 # open man page and jump to specific option
 # $ manf ls -l
-function manf() {
+manf() {
   man -P "less -p \"^ +$2\"" $1
 }
 
 # open man page and jump to examples section
-function eg() {
+eg() {
   man -P "less -p \"^EXAMPLES?\"" $1
 }
 
 # html man pages
-function manh() {
+manh() {
   file=$(mktemp)
   man --html=cat $1 > $file 2>/dev/null
 
@@ -24,23 +24,23 @@ function manh() {
 # find the zsh file that backs a command
 # $ funcpath ls
 # /usr/share/zsh/functions/Completion/Unix/_ls
-function funcpath() {
+funcpath() {
   echo ${^fpath}/_${1}(N)
 }
 
 # label the current window/tab
-function label() {
+label() {
   print -Pn "\e]2;$1\a"
 }
 
 # serve an application with vnc
-function streamapp() {
+streamapp() {
   x11vnc -id pick -display :0 -passwd $1 -viewonly -shared -forever
 }
 
 # print colors
 # $ clist 16
-function clist(){
+clist(){
   x=`tput op`
   y=`printf %76s`
   for i in {0..$1}
@@ -51,7 +51,7 @@ function clist(){
 }
 
 # print numerical permissions before each item in ls
-function lsp() {
+lsp() {
   command ls -lh --time-style '+%m/%d/%y %I:%M %p' --color=always $@ |\
     awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/)\
          *2^(8-i));if(k)printf("%0o ",k);print}'
@@ -60,7 +60,7 @@ function lsp() {
 # move back arbitrary number of directories
 # $ cd b...
 # $ cd ../../../
-function cd() {
+cd() {
   emulate -LR zsh
 
   if [[ $1 == 'b.'* ]]; then
@@ -72,20 +72,20 @@ function cd() {
 
 # list pacman packages not required by another package
 # also print their package description
-function pacorphans() {
+pacorphans() {
   expac "%n:%N:%d" -Q $(expac "%n %G" | grep -v ' base') |\
     awk -F: '$2 == "" {printf "%s: %s\n", $1, $3}'
 }
 
 # print the package's version
-function pacqv() {
+pacqv() {
   echo $(pacman -Qi $1 | grep Version | tr -s ' ' | cut -d ' ' -f 3)
 }
 
 # what is my ip? useful for syncplay and mumble
 # $ ip get
 #   copied <ip> to clipboard
-function ip() {
+ip() {
   emulate -LR zsh
 
   if [[ $1 == 'get' ]]; then
@@ -102,7 +102,7 @@ function ip() {
 # it ignores stdout and stderr
 # pass-through for os x
 
-function open() {
+open() {
   emulate -LR zsh
 
   # linux
@@ -116,14 +116,14 @@ function open() {
 
 # go to the dotfiles directory
 
-function go_dots() {
+go_dots() {
   emulate -LR zsh
   cd $DOTSPATH
 }
 
 # edit the dotfiles
 
-function edit_dots() {
+edit_dots() {
   emulate -LR zsh
 
   # this might need customization
@@ -132,7 +132,7 @@ function edit_dots() {
 }
 
 # update the dotfiles
-function get_dots() {
+get_dots() {
   emulate -LR zsh
 
   pushd $DOTSPATH > /dev/null
@@ -164,7 +164,7 @@ function get_dots() {
 }
 
 # deploy the dotfiles
-function put_dots() {
+put_dots() {
   emulate -LR zsh
 
   msg_info "deploying dots from $DOTSPATH"
@@ -252,36 +252,36 @@ function put_dots() {
 }
 
 # message functions
-function tput_msg() {
+tput_msg() {
   printf "\r$(tput el)  $(tput setaf $1)$2$(tput sgr0) $3\n"
 }
 
-function msg_info() {
+msg_info() {
   printf "\r$(tput el)  $(tput setaf 4)·$(tput sgr0) $1\n"
   # tput_msg "4" "·" $1
 }
 
-function msg_success() {
+msg_success() {
   printf "\r$(tput el)  $(tput setaf 2)+$(tput sgr0) $1\n"
   # tput_msg "2" "+" $1
 }
 
-function msg_fail() {
+msg_fail() {
   printf "\r$(tput el)  $(tput setaf 1)-$(tput sgr0) $1\n"
   # tput_msg "1" "-" $1
 }
 
-function msg_user() {
+msg_user() {
   printf "\r  $(tput setaf 5)?$(tput sgr0) $1 "
 }
 
-function link_files() {
+link_files() {
   ln -s $1 $2
   msg_success "linked $1 $(tput setaf 2)→$(tput sgr0) $2"
 }
 
 # update and deploy dots
-function dots() {
+dots() {
   emulate -LR zsh
 
   echo ''
@@ -302,7 +302,7 @@ function dots() {
   esac
 }
 
-function texi-to-epub() {
+texi-to-epub() {
     name=${1%.*}
     makeinfo --docbook $1 -o "${name}.docbook"
     xsltproc /usr/share/xml/docbook/xsl-stylesheets-1.78.1/epub/docbook.xsl "${name}.docbook"

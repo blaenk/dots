@@ -12,7 +12,7 @@ alias sedit='sudoedit'
 # prompt if deleting more than 3 files
 alias rm='rm -I'
 
-function command_exists() {
+command_exists() {
   (( $+commands[$1]))
 }
 
