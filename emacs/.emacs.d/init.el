@@ -945,6 +945,8 @@ The initial state for a mode can be set with
   (add-hook 'with-editor-mode-hook 'evil-insert-state)
 
   :config
+  ;; see skip-syntax-forward ^<
+  ;; (skip characters whose syntax is now comment start)
   (evil-define-operator blaenk/evil-join (beg end)
     "Join the selected lines."
     :motion evil-line
