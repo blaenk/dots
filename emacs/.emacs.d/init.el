@@ -977,7 +977,7 @@ The initial state for a mode can be set with
         (evil-open-below 1)
         (setq this-command 'evil-open-below))))
 
-  (define-key evil-normal-state-map (kbd "o") 'blaenk/evil-open-line)
+  ;; (define-key evil-normal-state-map (kbd "o") 'blaenk/evil-open-line)
   ;; (define-key evil-normal-state-map (kbd "O")
   ;;   (lambda ()
   ;;     (interactive)
