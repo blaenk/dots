@@ -1052,6 +1052,13 @@ The initial state for a mode can be set with
               (back-to-indentation)
               (kill-region beg (point))))))))
 
+  (define-key evil-normal-state-map (kbd "z =") 'helm-flyspell-correct)
+
+  (define-key evil-normal-state-map (kbd "[ s") 'flyspell-goto-previous-error)
+  (define-key evil-normal-state-map (kbd "] s") 'flyspell-goto-next-error)
+
+  (define-key evil-normal-state-map (kbd "[ S") 'check-previous-spelling-error)
+  (define-key evil-normal-state-map (kbd "] S") 'check-next-spelling-error)
 
   (define-key evil-insert-state-map (kbd "<S-return>") 'comment-indent-new-line)
 
