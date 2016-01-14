@@ -251,12 +251,12 @@
          (get-char-property pos 'face)
          (plist-get (text-properties-at pos) 'face))))
 
-(defun what-face (pos)
+(defun blaenk/what-face (pos)
   (interactive "d")
   (let ((face (blaenk/get-faces pos)))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
-(defun toggle-header-line ()
+(defun blaenk/toggle-header-line ()
   (interactive)
   (if header-line-format
       (progn
