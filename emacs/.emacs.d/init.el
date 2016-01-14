@@ -1786,7 +1786,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
            (,is-projectile)
          (,is-not))))
 
-  (define-key projectile-mode-map (kbd "M-p") 'helm-projectile)
+  ;; (define-key projectile-mode-map (kbd "M-p") 'helm-projectile)
 
   (with-eval-after-load 'evil-leader
     (evil-leader/set-key
