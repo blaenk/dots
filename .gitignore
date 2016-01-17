@@ -1,7 +1,10 @@
 .DS_Store
 
-emacs/.emacs.d/cache
-emacs/.emacs.d/elpa
+zsh/zsh/antigen/
+zsh/zsh/cache/
+
+emacs/.emacs.d/cache/
+emacs/.emacs.d/elpa/
 emacs/.emacs.d/**/*.elc
 
 vim/.vim/bundle/
@@ -9,9 +12,6 @@ vim/.vim/unite/
 vim/.vim/spell/
 vim/.vim/.VimballRecord
 vim/.vim/.netrwhist
-
-zsh/zsh/antigen/
-zsh/zsh/cache/
 
 mpv/.mpv/watch_later/
 
