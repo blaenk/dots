@@ -5,6 +5,7 @@ zsh/zsh/cache/
 
 emacs/.emacs.d/cache/
 emacs/.emacs.d/elpa/
+emacs/.emacs.d/var/
 emacs/.emacs.d/**/*.elc
 
 vim/.vim/bundle/
