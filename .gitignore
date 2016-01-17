@@ -2,6 +2,7 @@
 
 emacs/.emacs.d/cache
 emacs/.emacs.d/elpa
+emacs/.emacs.d/**/*.elc
 
 vim/.vim/bundle/
 vim/.vim/unite/
