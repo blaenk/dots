@@ -1,61 +1,62 @@
 [include]
-  path = .gitconfig.local
+	path = .gitconfig.local
 
 [user]
-  name = Jorge Israel Peña
-  email = jorge.israel.p@gmail.com
+	name = Jorge Israel Peña
+	email = jorge.israel.p@gmail.com
 
 [pull]
-  rebase = preserve
+	rebase = preserve
 
 [core]
-  editor = vim
-  pager = less -+$LESS -FRX
+	editor = vim
+	pager = less -+$LESS -FRX
 
 [status]
-  submoduleSummary = true
+	submoduleSummary = true
 
 [alias]
-  br = branch
-  bs = bisect
-  ci = commit -v
-  cl = clone
-  co = checkout
-  df = diff
-  mrg = merge
-  rb = rebase
-  re = remote
-  rs = reset
-  sh = stash
-  sm = submodule
-  st = status
+	br = branch
+	bs = bisect
+	ci = commit -v
+	cl = clone
+	co = checkout
+	df = diff
+	mrg = merge
+	rb = rebase
+	re = remote
+	rs = reset
+	sh = stash
+	sm = submodule
+	st = status
 
-  au = add -u
-  bri = branch -vv
-  dfc = diff --cached
-  dfcw = diff --cached --word-diff
-  dfw = diff --word-diff
-  gr = grep --break --heading --line-number
-  lg = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset'
-  rh = reset --hard
-  sb = status -sb
-  ut = !GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --date=\"$(date)\"
+	au = add -u
+	bri = branch -vv
+	dfsm = diff --submodule
+	dfc = diff --cached
+	dfcw = diff --cached --word-diff
+	dfw = diff --word-diff
+	gr = grep --break --heading --line-number
+	lg = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset'
+	rh = reset --hard
+	sb = status -sb
+	ut = !GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --date=\"$(date)\"
 
 [color]
-  ui = true
-  branch = auto
-  diff = auto
-  grep = auto
+	ui = true
+	branch = auto
+	diff = auto
+	grep = auto
 
-[diff]
-  submodule = log
+# [diff]
+#	submodule = log
 
 [push]
-  default = simple
+	default = simple
 
 [grep]
-  extendRegexp = true
-  lineNumber = true
+	extendRegexp = true
+	lineNumber = true
 
 [rerere]
-  enabled = true
+	enabled = true
