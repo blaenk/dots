@@ -86,7 +86,6 @@
 (setq delete-by-moving-to-trash t)
 
 (setq history-delete-duplicates t)
-(setq savehist-save-minibuffer-history 1)
 
 (setq-default indent-tabs-mode nil)
 

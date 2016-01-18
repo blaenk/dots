@@ -20,8 +20,8 @@
 
 (use-package savehist
   :ensure nil
-  :defines savehist-file
   :init
+  (setq savehist-save-minibuffer-history 1)
   (setq savehist-file (blaenk/cache-dir "history")))
 
 (use-package ido
