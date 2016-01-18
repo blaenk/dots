@@ -106,7 +106,7 @@
                          (format " %s " (projectile-project-name))
                          'face 'mode-line-branch-face)
                       "")
-                    (if for-title "→" "")
+                    (if for-title "—" "")
                     (propertize directory 'face 'mode-line-stem-face)
                     (propertize file-name 'face 'mode-line-buffer-id)))
         (propertize " %b " 'face 'mode-line-buffer-id))))
