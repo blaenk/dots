@@ -129,7 +129,7 @@
 
 (use-package browse-at-remote
   :bind
-  ("C-c g o" . browse-at-remote/to-clipboard))
+  ("C-c g o" . browse-at-remote/kill))
 
 ;; TODO necessary? required with use-package
 (use-package diminish)
