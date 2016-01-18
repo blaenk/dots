@@ -44,6 +44,9 @@
 
 (setq use-package-always-ensure t)
 
+(defmacro blaenk/setq-append (var &rest elems)
+  `(setq ,var (append ,var '(,@elems))))
+
 (use-package s)
 (use-package dash)
 

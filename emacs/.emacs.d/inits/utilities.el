@@ -300,8 +300,11 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   (setq emojify-point-entered-behaviour 'uncover)
 
   :config
-  (add-to-list 'emojify-inhibit-major-modes 'magit-status-mode)
-  (add-to-list 'emojify-inhibit-major-modes 'magit-revision-mode)
+  (blaenk/setq-append
+   emojify-inhibit-major-modes
+   'magit-status-mode
+   'magit-revision-mode)
+
   (add-hook 'after-init-hook 'global-emojify-mode))
 
 (use-package emoji-cheat-sheet-plus
