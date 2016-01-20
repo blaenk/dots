@@ -263,8 +263,7 @@ PR [a-z-+]+/\
 
   :init
   (add-hook 'prog-mode-hook #'goto-address-prog-mode)
-  (add-hook 'text-mode-hook #'goto-address-mode)
-  (goto-address-mode))
+  (add-hook 'text-mode-hook #'goto-address-mode))
 
 (use-package dired
   :ensure nil
