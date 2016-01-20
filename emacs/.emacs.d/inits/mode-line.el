@@ -16,6 +16,12 @@
        (bound-and-true-p evil-mode)
        (bound-and-true-p evil-local-mode))))
 
+  ;; TODO
+  ;; also take 'center' param
+  ;; it won't be aligned center or anything, it will simply follow
+  ;; 'left' but it'll be truncated to fit
+  ;; should happen in stages, e.g. the file-name should show
+  ;; basename for better fit, then not show which-func
   (defun blaenk/render-mode-line (left right)
     (let* ((available-width (- (window-total-width) (string-width left)))
            (pad-width (- available-width (string-width right)))
@@ -130,6 +136,8 @@
           (:propertize
            (:eval (blaenk/remote-mode-line))
            face mode-line-remote-face)
+          ;; TODO
+          ;; truncate this to fit
           (:eval (blaenk/file-name nil))
           (which-func-mode (:eval (blaenk/which-func)))
           ))
