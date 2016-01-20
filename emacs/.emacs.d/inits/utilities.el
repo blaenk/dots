@@ -327,3 +327,5 @@ If SUBMODE is not provided, use `LANG-mode' by default."
                 (ggtags-mode 1)))))
 
 (use-package rtags)
+
+(use-package recentf-ext)

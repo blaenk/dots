@@ -16,7 +16,14 @@
   :ensure nil
   :defines recentf-save-file
   :init
-  (setq recentf-save-file (blaenk/cache-dir "recentf")))
+  (setq recentf-save-file (blaenk/cache-dir "recentf"))
+  (setq recentf-max-saved-items 50)
+  :config
+  (global-set-key (kbd "C-x C-r") 'helm-recentf)
+  (recentf-mode 1)
+  ;; save recent files every 5 minutes
+  ;; (run-at-time nil (* 5 60) 'recentf-save-list)
+  )
 
 (use-package savehist
   :ensure nil

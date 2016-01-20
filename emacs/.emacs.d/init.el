@@ -151,7 +151,6 @@
 (blink-cursor-mode 0)
 
 (savehist-mode)
-(recentf-mode)
 (visual-line-mode)
 (column-number-mode)
 (winner-mode)
