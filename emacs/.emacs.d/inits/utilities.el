@@ -328,4 +328,7 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 
 (use-package rtags)
 
+(use-package esup
+  :commands esup)
+
 (use-package recentf-ext)
