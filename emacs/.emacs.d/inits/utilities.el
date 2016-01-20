@@ -263,7 +263,6 @@ If SUBMODE is not provided, use `LANG-mode' by default."
 (use-package fill-column-indicator
   :config
   (with-eval-after-load 'magit
-    ;; TODO does this actually work?
     (add-hook 'git-commit-setup-hook 'fci-mode)))
 
 (use-package bug-reference-github
