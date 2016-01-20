@@ -13,7 +13,7 @@
 ;; use (member "Symbola" (font-family-list))
 ;; to fall back on unicode icons
 (use-package fontawesome
-  :init
+  :config
   (defun blaenk/set-char-widths (alist)
     (while (char-table-parent char-width-table)
       (setq char-width-table (char-table-parent char-width-table)))

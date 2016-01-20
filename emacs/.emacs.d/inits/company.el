@@ -17,19 +17,19 @@
   (add-hook 'prog-mode-hook 'company-mode))
 
 (use-package company-anaconda
+  :after company
   :config
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'company-anaconda)))
+  (add-to-list 'company-backends 'company-anaconda))
 
 (use-package company-tern
+  :after company
   :config
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'company-tern)))
+  (add-to-list 'company-backends 'company-tern))
 
 (use-package company-cabal
+  :after company
   :config
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'company-cabal)))
+  (add-to-list 'company-backends 'company-cabal))
 
 (use-package company-statistics
   :init
@@ -48,9 +48,9 @@
 (use-package company-web)
 
 (use-package company-irony
+  :after company
   :config
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'company-irony))
+  (add-to-list 'company-backends 'company-irony)
 
   (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands))
 
@@ -62,6 +62,6 @@
               (company-mode))))
 
 (use-package company-restclient
+  :after company
   :config
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'company-restclient)))
+  (add-to-list 'company-backends 'company-restclient))
