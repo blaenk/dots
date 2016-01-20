@@ -36,6 +36,7 @@
 (use-package paradox)
 
 (use-package ag
+  :defer t
   :init
   (setq ag-reuse-buffers t)
   (setq ag-project-root-function
