@@ -93,6 +93,15 @@
   :config
   (ace-link-setup-default))
 
+(use-package link-hint
+  :defer t
+  :bind
+  ("C-c l o" . link-hint-open-link)
+  ("C-c l c" . link-hint-copy-link)
+
+  :init
+  (setq link-hint-avy-style 'post))
+
 (use-package hl-todo
   :config
   (add-hook 'prog-mode-hook 'hl-todo-mode))
