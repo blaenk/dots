@@ -116,8 +116,8 @@
 
 (use-package gist
   :bind
-  (("C-c g g s" . gist-region-or-buffer-private)
-   ("C-c g g p" . gist-region-or-buffer)))
+  (("C-c g g s" . gist-region-or-buffer-private) ;; s for secret
+   ("C-c g g p" . gist-region-or-buffer)))       ;; p for public
 
 (use-package highlight-escape-sequences
   :config
