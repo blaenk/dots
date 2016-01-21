@@ -145,6 +145,11 @@ The initial state for a mode can be set with
   ;;           (previous-line)
   ;;           (blaenk/evil-open-line)))))
 
+  (defun blaenk/nil-if-void (sym)
+    (if (boundp sym)
+        (symbol-value sym)
+      nil))
+
   ;; if the point is in a comment that has non-whitespace content, delete up
   ;; until the beginning of the comment. if already at the beginning of the
   ;; comment, delete up to the indentation point. if already at the indentation
@@ -156,7 +161,7 @@ The initial state for a mode can be set with
              ;; add comment-start-regexps to this as needed
              `("\\s<"
                ,(regexp-quote (s-trim-right comment-start))
-               ,c-comment-start-regexp)))
+               ,(blaenk/nil-if-void 'c-comment-start-regexp))))
            (comment-starts (s-join "\\|" starts))
            (start-re (concat "\\(" comment-starts "\\)")))
       (if (and
@@ -248,54 +253,11 @@ The initial state for a mode can be set with
   (define-key evil-visual-state-map (kbd "<") 'visual-shift-left)
   (define-key evil-visual-state-map (kbd ">") 'visual-shift-right)
 
-  (require 'buffer-move)
-  (define-key evil-window-map (kbd "m k") 'buf-move-up)
-  (define-key evil-window-map (kbd "m j") 'buf-move-down)
-  (define-key evil-window-map (kbd "m h") 'buf-move-left)
-  (define-key evil-window-map (kbd "m l") 'buf-move-right)
-
-  (require 'hydra)
-  (require 'frame-cmds)
-  (defhydra hydra-move-to-window (evil-window-map "g")
-    "move to window"
-    ("q" nil)
-
-    ("j" evil-window-down)
-    ("k" evil-window-up)
-    ("h" evil-window-left)
-    ("l" evil-window-right))
-
-  (defhydra hydra-move-buffer (evil-window-map "m")
-    "move buffer"
-    ("q" nil)
-
-    ("j" buf-move-down)
-    ("k" buf-move-up)
-    ("h" buf-move-left)
-    ("l" buf-move-right))
-
-  (defhydra hydra-resize-frame (evil-window-map "f")
-    "resize frame"
-    ("q" nil)
-
-    ("j" enlarge-frame)
-    ("k" shrink-frame)
-    ("h" shrink-frame-horizontally)
-    ("l" enlarge-frame-horizontally))
-
-  (defhydra hydra-resize-window (evil-window-map "r")
-    "resize window"
-    ("q" nil)
-
-    ("=" balance-windows)
-    ("m" evil-window-set-height)
-
-    ("f" hydra-resize-frame/body "resize frame" :exit t)
-
-    ("j" shrink-window)
-    ("k" enlarge-window)
-    ("h" shrink-window-horizontally)
-    ("l" enlarge-window-horizontally))
+  ;; (with-eval-after-load 'buffer-move
+  ;;   (define-key evil-window-map (kbd "m k") 'buf-move-up)
+  ;;   (define-key evil-window-map (kbd "m j") 'buf-move-down)
+  ;;   (define-key evil-window-map (kbd "m h") 'buf-move-left)
+  ;;   (define-key evil-window-map (kbd "m l") 'buf-move-right))
 
   (evil-mode 1)
 
@@ -312,8 +274,7 @@ The initial state for a mode can be set with
     (define-key evil-inner-text-objects-map "b" 'evil-textobj-anyblock-inner-block)
     (define-key evil-outer-text-objects-map "b" 'evil-textobj-anyblock-a-block))
 
-  (use-package evil-anzu
-    :requires evil)
+  (use-package evil-anzu)
 
   (use-package evil-commentary
     :diminish evil-commentary-mode

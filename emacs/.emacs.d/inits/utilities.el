@@ -31,9 +31,11 @@
    `((2 . (,(string-to-char (fontawesome "cloud"))
            ,(string-to-char (fontawesome "refresh")))))))
 
-(use-package dtrt-indent)
+(use-package dtrt-indent
+  :defer t)
 
-(use-package paradox)
+(use-package paradox
+  :defer t)
 
 (use-package ag
   :defer t
@@ -68,13 +70,15 @@
   (global-anzu-mode +1))
 
 (use-package browse-at-remote
+  :defer t
   :bind
   ("C-c g o" . browse-at-remote/kill))
 
-;; TODO necessary? required with use-package
+;; TODO remove
 (use-package diminish)
 
 (use-package expand-region
+  :defer t
   :bind
   ("C-=" . er/expand-region)
 
@@ -86,11 +90,61 @@
 
 (use-package frame-cmds)
 
-(use-package hydra)
+(use-package hydra
+  :config
+  (with-eval-after-load 'evil
+    (require 'evil-vars)
+    (require 'evil-commands)
 
-(use-package olivetti)
+    (defhydra hydra-move-to-window (evil-window-map "g")
+      "move to window"
+      ("q" nil)
+
+      ("j" evil-window-down)
+      ("k" evil-window-up)
+      ("h" evil-window-left)
+      ("l" evil-window-right))
+
+    (with-eval-after-load 'buffer-move
+      (require 'evil-vars)
+      (defhydra hydra-move-buffer (evil-window-map "m")
+        "move buffer"
+        ("q" nil)
+
+        ("j" buf-move-down)
+        ("k" buf-move-up)
+        ("h" buf-move-left)
+        ("l" buf-move-right)))
+
+    (with-eval-after-load 'frame-cmds
+      (defhydra hydra-resize-frame (evil-window-map "f")
+        "resize frame"
+        ("q" nil)
+
+        ("j" enlarge-frame)
+        ("k" shrink-frame)
+        ("h" shrink-frame-horizontally)
+        ("l" enlarge-frame-horizontally)))
+
+    (defhydra hydra-resize-window (evil-window-map "r")
+      "resize window"
+      ("q" nil)
+
+      ("=" balance-windows)
+      ("m" evil-window-set-height)
+
+      ("f" hydra-resize-frame/body "resize frame" :exit t)
+
+      ("j" shrink-window)
+      ("k" enlarge-window)
+      ("h" shrink-window-horizontally)
+      ("l" enlarge-window-horizontally))))
+
+(use-package olivetti
+  :defer t)
 
 (use-package ace-link
+  :defer t
   :config
   (ace-link-setup-default))
 
@@ -104,10 +158,12 @@
   (setq link-hint-avy-style 'post))
 
 (use-package hl-todo
-  :config
+  :defer t
+  :init
   (add-hook 'prog-mode-hook 'hl-todo-mode))
 
 (use-package pcache
+  :defer t
   :config
   ;; TODO
   ;; pending https://github.com/sigma/pcache/issues/6
@@ -116,20 +172,208 @@
   (setq pcache-directory (blaenk/cache-dir "var/pcache")))
 
 (use-package gist
+  :defer t
   :bind
   (("C-c g g s" . gist-region-or-buffer-private) ;; s for secret
    ("C-c g g p" . gist-region-or-buffer)))       ;; p for public
 
 (use-package highlight-escape-sequences
-  :config
-  (hes-mode))
+  :defer t
+  :init
+  (add-hook 'prog-mode-hook 'hes-mode))
 
 (use-package highlight-quoted
+  :defer t
   :init
   (setq highlight-quoted-highlight-symbols nil)
+  (add-hook 'emacs-lisp-mode-hook 'highlight-quoted-mode))
+
+(use-package undo-tree
+  :diminish undo-tree-mode
+
+  :init
+  ;; NOTE
+  ;; undo-tree breaks sometimes, some people think it may be
+  ;; the persistent history feature that is causing this
+  ;;
+  ;; it's a huge pain when it breaks because I lose a lot of
+  ;; undo history, so I'm gonna try to disable the persistent
+  ;; feature for a while to see if the problem goes away
+  ;;
+  ;; https://github.com/syl20bnr/spacemacs/issues/298
+  ;; https://github.com/syl20bnr/spacemacs/issues/774
+  ;; https://github.com/syl20bnr/spacemacs/commit/885d092e72aeaa470253c19831ba42e2eecf3514
+  ;; http://comments.gmane.org/gmane.emacs.vim-emulation/2079
+  ;; (setq undo-tree-history-directory-alist
+  ;;       `((".*" . ,(blaenk/cache-dir "undos/"))))
+  ;; (setq undo-tree-auto-save-history t)
+  (setq undo-tree-visualizer-timestamps t)
+  (setq undo-tree-visualizer-diff t)
 
   :config
-  (add-hook 'emacs-lisp-mode-hook 'highlight-quoted-mode))
+  (global-undo-tree-mode)
+
+  (defadvice undo-tree-make-history-save-file-name
+      (after undo-tree activate)
+    (setq ad-return-value (concat ad-return-value ".gz"))))
+
+(use-package multi-term
+  :defer t
+  :init
+  (setq multi-term-buffer-name "term")
+  (setq multi-term-program "/usr/bin/zsh"))
+
+(use-package visual-regexp
+  :defer t)
+
+(use-package swiper
+  :defer t
+  :init
+  (setq ivy-use-virtual-buffers t)
+
+  :bind
+  (("C-s" . swiper)
+   ([f6] . ivy-resume)))
+
+(use-package pt
+  :defer t)
+
+(use-package rainbow-mode
+  :defer t
+  :diminish rainbow-mode
+  :bind
+  ("C-c r c" . rainbow-mode)
+
+  :init
+  ;; disable highlighting color names
+  (setq rainbow-x-colors nil))
+
+(use-package rainbow-blocks
+  :defer t
+  :bind
+  ("C-c r b" . rainbow-blocks-mode))
+
+(use-package rainbow-delimiters
+  :defer t
+  :bind
+  ("C-c r d" . rainbow-delimiters-mode)
+
+  :init
+  (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
+
+(use-package color-identifiers-mode
+  :defer t
+  :bind
+  ("C-c r i" . color-identifiers-mode))
+
+(use-package relative-line-numbers
+  :init
+  (defun abs-rel-numbers (offset)
+    (if (= offset 0)
+        (format "%3d " (line-number-at-pos))
+      (format "%3d " (abs offset))))
+
+  (setq relative-line-numbers-format #'abs-rel-numbers)
+
+  :config
+  (with-eval-after-load 'evil-leader
+    (evil-leader/set-key "n" 'relative-line-numbers-mode))
+
+  (setq relative-line-numbers-motion-function 'forward-visible-line)
+  (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
+
+(use-package wgrep
+  :defer t)
+
+(use-package wgrep-ag
+  :defer t)
+
+(use-package fill-column-indicator
+  :defer t
+  :init
+  (with-eval-after-load 'magit
+    (add-hook 'git-commit-setup-hook 'fci-mode)))
+
+(use-package bug-reference-github
+  :defer t
+  :init
+  (add-hook 'find-file-hook 'bug-reference-github-set-url-format))
+
+(use-package ace-window
+  :defer t
+  :bind
+  ("C-x o" . ace-window)
+  :init
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+
+(use-package shackle
+  :init
+  (setq shackle-rules
+        '((help-mode :select t)
+          (compilation-mode :noselect t)))
+
+  :config
+  (shackle-mode))
+
+(use-package reveal-in-osx-finder
+  :if (eq system-type 'darwin)
+  :defer t)
+
+(use-package highlight-numbers
+  :defer t
+  :init
+  (add-hook 'prog-mode-hook 'highlight-numbers-mode))
+
+(use-package restclient
+  :defer t)
+
+(use-package emojify
+  :defer t
+  :init
+  (setq emojify-prog-contexts 'comments)
+  (setq emojify-point-entered-behaviour 'uncover)
+
+  (add-hook 'after-init-hook 'global-emojify-mode)
+
+  :config
+  (blaenk/setq-append
+   emojify-inhibit-major-modes
+   'magit-status-mode
+   'magit-revision-mode))
+
+(use-package emoji-cheat-sheet-plus
+  :defer t
+  :bind
+  ("C-x 8 e" . emoji-cheat-sheet-plus-insert))
+
+(use-package list-environment
+  :defer t)
+
+(use-package narrow-indirect
+  :defer t)
+
+(use-package emmet-mode
+  :defer t
+  :init
+  (add-hook 'sgml-mode-hook 'emmet-mode)
+  (add-hook 'css-mode-hook  'emmet-mode))
+
+(use-package ggtags
+  :defer t
+  :init
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
+                (ggtags-mode 1)))))
+
+(use-package rtags
+  :defer t)
+
+(use-package esup
+  :commands esup)
+
+(use-package recentf-ext)
 
 (use-package mmm-mode
   :disabled t
@@ -176,168 +420,3 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   (blaenk/mmm-markdown-auto-class "shell" 'sh-mode)
   (blaenk/mmm-markdown-auto-class "bash" 'sh-mode)
   (blaenk/mmm-markdown-auto-class "elisp" 'emacs-lisp-mode))
-
-(use-package undo-tree
-  :diminish undo-tree-mode
-
-  :init
-  ;; NOTE
-  ;; undo-tree breaks sometimes, some people think it may be
-  ;; the persistent history feature that is causing this
-  ;;
-  ;; it's a huge pain when it breaks because I lose a lot of
-  ;; undo history, so I'm gonna try to disable the persistent
-  ;; feature for a while to see if the problem goes away
-  ;;
-  ;; https://github.com/syl20bnr/spacemacs/issues/298
-  ;; https://github.com/syl20bnr/spacemacs/issues/774
-  ;; https://github.com/syl20bnr/spacemacs/commit/885d092e72aeaa470253c19831ba42e2eecf3514
-  ;; http://comments.gmane.org/gmane.emacs.vim-emulation/2079
-  ;; (setq undo-tree-history-directory-alist
-  ;;       `((".*" . ,(blaenk/cache-dir "undos/"))))
-  ;; (setq undo-tree-auto-save-history t)
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff t)
-
-  :config
-  (global-undo-tree-mode)
-
-  (defadvice undo-tree-make-history-save-file-name
-      (after undo-tree activate)
-    (setq ad-return-value (concat ad-return-value ".gz"))))
-
-(use-package multi-term
-  :init
-  (setq multi-term-buffer-name "term")
-  (setq multi-term-program "/usr/bin/zsh"))
-
-(use-package visual-regexp)
-
-(use-package swiper
-  :init
-  (setq ivy-use-virtual-buffers t)
-
-  :bind
-  (("C-s" . swiper)
-   ([f6] . ivy-resume)))
-
-(use-package pt)
-
-(use-package rainbow-mode
-  :demand t
-  :diminish rainbow-mode
-  :bind
-  ("C-c r c" . rainbow-mode)
-
-  :config
-  ;; disable highlighting color names
-  (setq rainbow-x-colors nil))
-
-(use-package rainbow-blocks
-  :bind
-  ("C-c r b" . rainbow-blocks-mode))
-
-(use-package rainbow-delimiters
-  :demand t
-  :bind
-  ("C-c r d" . rainbow-delimiters-mode)
-
-  :config
-  (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
-  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
-
-(use-package color-identifiers-mode
-  :bind
-  ("C-c r i" . color-identifiers-mode))
-
-(use-package relative-line-numbers
-  :init
-  (defun abs-rel-numbers (offset)
-    (if (= offset 0)
-        (format "%3d " (line-number-at-pos))
-      (format "%3d " (abs offset))))
-
-  (setq relative-line-numbers-format #'abs-rel-numbers)
-
-  :config
-  (with-eval-after-load 'evil-leader
-    (evil-leader/set-key "n" 'relative-line-numbers-mode))
-
-  (setq relative-line-numbers-motion-function 'forward-visible-line)
-  (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
-
-(use-package wgrep)
-
-(use-package wgrep-ag)
-
-(use-package fill-column-indicator
-  :config
-  (with-eval-after-load 'magit
-    (add-hook 'git-commit-setup-hook 'fci-mode)))
-
-(use-package bug-reference-github
-  :config
-  (add-hook 'find-file-hook 'bug-reference-github-set-url-format))
-
-(use-package ace-window
-  :bind
-  ("C-x o" . ace-window)
-  :init
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
-
-(use-package shackle
-  :init
-  (setq shackle-rules
-        '((help-mode :select t)
-          (compilation-mode :noselect t)))
-
-  :config
-  (shackle-mode))
-
-(use-package reveal-in-osx-finder
-  :if (eq system-type 'darwin))
-
-(use-package highlight-numbers
-  :config
-  (add-hook 'prog-mode-hook 'highlight-numbers-mode))
-
-(use-package restclient)
-
-(use-package emojify
-  :init
-  (setq emojify-prog-contexts 'comments)
-  (setq emojify-point-entered-behaviour 'uncover)
-
-  :config
-  (blaenk/setq-append
-   emojify-inhibit-major-modes
-   'magit-status-mode
-   'magit-revision-mode)
-
-  (add-hook 'after-init-hook 'global-emojify-mode))
-
-(use-package emoji-cheat-sheet-plus
-  :bind
-  ("C-x 8 e" . emoji-cheat-sheet-plus-insert))
-
-(use-package list-environment)
-(use-package narrow-indirect)
-
-(use-package emmet-mode
-  :config
-  (add-hook 'sgml-mode-hook 'emmet-mode)
-  (add-hook 'css-mode-hook  'emmet-mode))
-
-(use-package ggtags
-  :config
-  (add-hook 'prog-mode-hook
-            (lambda ()
-              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
-                (ggtags-mode 1)))))
-
-(use-package rtags)
-
-(use-package esup
-  :commands esup)
-
-(use-package recentf-ext)

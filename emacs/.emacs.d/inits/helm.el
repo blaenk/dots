@@ -2,6 +2,7 @@
 
 (use-package helm
   :diminish helm-mode
+  :defer t
 
   :bind
   (("M-x" . helm-M-x)
@@ -174,7 +175,8 @@
     ;;     "b" (if-projectile helm-projectile-switch-to-buffer helm-buffers-list)))
     )
 
-  (use-package helm-flycheck)
+  (with-eval-after-load 'flycheck
+    (use-package helm-flycheck))
 
   (use-package helm-flyspell)
 

@@ -1,7 +1,8 @@
 (require 'use-package)
 
 (use-package company
-  :config
+  :defer t
+  :init
   (setq company-idle-delay nil
         company-minimum-prefix-length 1
         company-selection-wrap-around t
@@ -10,11 +11,11 @@
         company-dabbrev-downcase nil
         company-dabbrev-ignore-case t)
 
+  (add-hook 'prog-mode-hook 'company-mode)
+
   :config
   ;; get back the use of kill word even if company is active
-  (define-key company-active-map (kbd "C-w") nil)
-
-  (add-hook 'prog-mode-hook 'company-mode))
+  (define-key company-active-map (kbd "C-w") nil))
 
 (use-package company-anaconda
   :after company
@@ -32,6 +33,7 @@
   (add-to-list 'company-backends 'company-cabal))
 
 (use-package company-statistics
+  :after company
   :init
   (setq company-statistics-file (blaenk/cache-dir "company-statistics-cache.el"))
   :config
@@ -39,13 +41,15 @@
   (company-statistics-mode))
 
 (use-package company-quickhelp
+  :after company
   :init
   (setq company-quickhelp-delay nil)
 
   :config
   (company-quickhelp-mode 1))
 
-(use-package company-web)
+(use-package company-web
+  :after company)
 
 (use-package company-irony
   :after company
@@ -55,6 +59,7 @@
   (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands))
 
 (use-package company-go
+  :after company
   :config
   (add-hook 'go-mode-hook
             (lambda ()
@@ -65,3 +70,8 @@
   :after company
   :config
   (add-to-list 'company-backends 'company-restclient))
+
+(use-package company-emoji
+  :after company
+  :config
+  (add-to-list 'company-backends 'company-emoji))

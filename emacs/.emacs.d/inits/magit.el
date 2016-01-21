@@ -1,10 +1,16 @@
 (require 'use-package)
 
-(use-package git-messenger)
-(use-package git-timemachine)
-(use-package git-link)
+(use-package git-messenger
+  :defer t)
+
+(use-package git-timemachine
+  :defer t)
+
+(use-package git-link
+  :defer t)
 
 (use-package magit
+  :defer t
   :diminish
   (magit-wip-after-save-local-mode
    magit-wip-before-change-mode)
@@ -66,5 +72,6 @@ to the current branch. Uses Magit."
   (add-hook 'git-commit-setup-hook 'fci-mode))
 
 (use-package magit-gh-pulls
-  :config
+  :defer t
+  :init
   (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))

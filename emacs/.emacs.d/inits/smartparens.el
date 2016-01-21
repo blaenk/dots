@@ -1,11 +1,14 @@
 (require 'use-package)
 
-(use-package paxedit)
+(use-package paxedit
+  :defer t)
 
-(use-package on-parens)
+(use-package on-parens
+  :defer t)
 
 (use-package smartparens
   :diminish smartparens-mode
+  :defer t
 
   :init
   (setq sp-show-pair-from-inside t)
@@ -13,7 +16,6 @@
   (setq sp-highlight-pair-overlay nil)
   (setq sp-cancel-autoskip-on-backward-movement nil)
 
-  :config
   (require 'smartparens-config)
   (sp-use-smartparens-bindings)
 

@@ -1,14 +1,15 @@
 (require 'use-package)
 
 (use-package anaconda-mode
+  :defer t
   :init
   (setq anaconda-mode-installation-directory (blaenk/cache-dir "anaconda-mode"))
-  :config
   (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'eldoc-mode))
 
 (use-package tern
-  :config
+  :defer t
+  :init
   (add-hook 'js2-mode-hook 'tern-mode))
 
 (use-package latex-preview-pane)
@@ -24,36 +25,47 @@
 ;; configure thoroughly when used
 ;; https://github.com/clojure-emacs/cider
 (use-package cider
+  :defer t
   :init
   (setq cider-auto-mode nil)
-
-  :config
-  (add-hook 'cider-mode-hook #'eldoc-mode)
+  (add-hook 'cider-mode-hook 'eldoc-mode)
   (add-hook 'cider-repl-mode-hook 'company-mode)
   (add-hook 'cider-mode-hook 'company-mode))
 
 ;; TODO
 ;; requires extra setup
 ;; choose between ghc and haskell-mode
-(use-package ghc)
+(use-package ghc
+  :defer t)
 
 (use-package haskell-mode
-  :config
+  :defer t
+  :init
   (add-hook 'haskell-mode-hook 'haskell-indentation-mode))
 
-(use-package clojure-mode)
+(use-package clojure-mode
+  :defer t)
 
 (use-package json-mode
+  :defer t
   :init
   (setq json-reformat:indent-width 2))
 
-(use-package systemd)
+(use-package systemd
+  :defer t)
 
-(use-package gitconfig-mode)
-(use-package gitignore-mode)
-(use-package gitattributes-mode)
+(use-package gitconfig-mode
+  :defer t)
+
+(use-package gitignore-mode
+  :defer t)
+
+(use-package gitattributes-mode
+  :defer t)
 
 (use-package markdown-mode
+  :defer t
+
   :mode
   (("\\.markdown\\'" . gfm-mode)
    ("\\.md\\'" . gfm-mode))
@@ -62,7 +74,6 @@
   (setq markdown-enable-math t)
   (setq markdown-asymmetric-header t)
 
-  :config
   (add-hook 'gfm-mode-hook (lambda ()
                              (interactive)
                              (set-face-attribute
@@ -74,27 +85,36 @@
   (add-hook 'gfm-mode-hook 'whitespace-mode)
   (add-hook 'gfm-mode-hook 'flyspell-mode))
 
-(use-package yaml-mode)
+(use-package yaml-mode
+  :defer t)
 
 (use-package inf-ruby
-  :config
+  :defer t
+  :init
   (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
   (add-hook 'enh-ruby-mode-hook 'inf-ruby-minor-mode)
+
+  :config
   (inf-ruby-switch-setup))
 
-(use-package enh-ruby-mode)
+(use-package enh-ruby-mode
+  :defer t)
 
 (use-package erlang
   :defer t)
 
-(use-package scala-mode2)
+(use-package scala-mode2
+  :defer t)
 
-(use-package go-mode)
+(use-package go-mode
+  :defer t)
 
-(use-package less-css-mode)
+(use-package less-css-mode
+  :defer t)
 
 (use-package robe
-  :config
+  :defer t
+  :init
   (with-eval-after-load 'company
     (push 'company-robe company-backends))
 
@@ -102,17 +122,20 @@
   (add-hook 'enh-ruby-mode-hook 'robe-mode))
 
 (use-package scss-mode
+  :defer t
   :mode "\\.scss\\'")
 
-(use-package elixir-mode)
+(use-package elixir-mode
+  :defer t)
 
-(use-package alchemist)
+(use-package alchemist
+  :defer t)
 
 (use-package irony
+  :defer t
   :init
   (setq irony-user-dir (blaenk/cache-dir "irony"))
 
-  :config
   (add-hook 'c++-mode-hook 'irony-mode)
   (add-hook 'c-mode-hook 'irony-mode)
   (add-hook 'objc-mode-hook 'irony-mode)
@@ -128,19 +151,23 @@
   (add-hook 'irony-mode-hook 'blaenk/irony-mode-hook)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
-(use-package irony-eldoc)
+(use-package irony-eldoc
+  :defer t)
 
 (use-package swift-mode
   :if (eq system-type 'darwin)
+  :defer t
 
   :config
   (with-eval-after-load 'flycheck
     (add-to-list 'flycheck-checkers 'swift)))
 
-(use-package vimrc-mode)
+(use-package vimrc-mode
+  :defer t)
 
 (use-package js2-mode
   :mode "\\.js\\'"
+  :defer t
   :interpreter "node"
 
   :init
@@ -150,41 +177,46 @@
                   "describe" "it" "assert"
                   "sinon"))
 
-  :config
   (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
 
-(use-package cmake-mode)
+(use-package cmake-mode
+  :defer t)
 
 (use-package cmake-font-lock
-  :config
+  :defer t
+  :init
   (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
   (add-hook 'cmake-mode-hook 'cmake-font-lock-activate))
 
 (use-package racer
+  :defer t
   :init
   (setq racer-rust-src-path "~/code/rust/rust/src")
+  (setq company-tooltip-align-annotations t)
   ;; (setq racer-cmd "~/code/rust/racer/target/release/racer")
 
-  :config
-  (setq company-tooltip-align-annotations t)
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode))
+  (add-hook 'rust-mode-hook 'racer-mode)
+  (add-hook 'racer-mode-hook 'eldoc-mode))
 
 (use-package rust-mode
+  :defer t
   :init
   (add-hook 'rust-mode-hook
             (lambda ()
               (set (make-local-variable 'compile-command) "cargo build"))))
 
-(use-package toml-mode)
+(use-package toml-mode
+  :defer t)
 
 (use-package web-mode
   :mode "\\.html?\\'"
+  :defer t
   :init
   (setq web-mode-enable-current-element-highlight t))
 
 (use-package tex-site
   :ensure auctex
+  :defer t
   :init
   (setq TeX-PDF-mode t)
   (setq TeX-auto-save t)
@@ -206,22 +238,27 @@
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
 
-(use-package pkgbuild-mode)
+(use-package pkgbuild-mode
+  :defer t)
 
 (use-package clang-format
+  :defer t
   :config
   (define-key c-mode-base-map (kbd "C-c C-f") 'clang-format-buffer))
 
 (use-package rustfmt
+  :defer t
   :config
   (define-key rust-mode-map (kbd "C-c C-f") 'rustfmt-format-buffer))
 
-(use-package google-c-style)
+(use-package google-c-style
+  :defer t)
 
 (use-package cmake-ide
   :config
   (cmake-ide-setup))
 
 (use-package cargo
+  :defer t
   :init
   (add-hook 'rust-mode-hook 'cargo-minor-mode))

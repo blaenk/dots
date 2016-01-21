@@ -2,56 +2,61 @@
 
 (use-package saveplace
   :ensure nil
+  :defer t
   :defines save-place-file
   :init
   (setq save-place-file (blaenk/cache-dir "saved-places")))
 
 (use-package bookmark
   :ensure nil
+  :defer t
   :defines bookmark-default-file
   :init
   (setq bookmark-default-file (blaenk/cache-dir "bookmarks")))
 
 (use-package recentf
   :ensure nil
+  :defer t
   :defines recentf-save-file
   :init
   (setq recentf-save-file (blaenk/cache-dir "recentf"))
   (setq recentf-max-saved-items 50)
   :config
   (global-set-key (kbd "C-x C-r") 'helm-recentf)
-  (recentf-mode 1)
-  ;; save recent files every 5 minutes
-  ;; (run-at-time nil (* 5 60) 'recentf-save-list)
-  )
+  (recentf-mode 1))
 
 (use-package savehist
   :ensure nil
+  :defer t
   :init
   (setq savehist-save-minibuffer-history 1)
   (setq savehist-file (blaenk/cache-dir "history")))
 
 (use-package ido
   :ensure nil
+  :defer t
   :defines ido-save-directory-list-file
   :init
   (setq ido-save-directory-list-file (blaenk/cache-dir "ido.last")))
 
 (use-package eshell
   :ensure nil
+  :defer t
   :defines eshell-directory
   :init
   (setq eshell-directory (blaenk/cache-dir "eshell")))
 
 (use-package apropos
- :ensure nil
- :defines apropos-do-all
- :init
- (setq apropos-do-all t))
+  :ensure nil
+  :defer t
+  :defines apropos-do-all
+  :init
+  (setq apropos-do-all t))
 
 ;; NOTE gdb also requires argument `-i=mi`
 (use-package gdb-mi
- :ensure nil
+  :ensure nil
+  :defer t
   :defines (gdb-many-windows gdb-show-main)
   :init
   (setq gdb-many-windows t)
@@ -59,12 +64,14 @@
 
 (use-package paren
   :ensure nil
+  :defer t
   :defines show-paren-delay
   :init
   (setq show-paren-delay 0))
 
 (use-package shell
   :ensure nil
+  :defer t
   :defines explicit-shell-file-name
   :init
   (setq explicit-shell-file-name "/usr/bin/zsh"))
@@ -85,11 +92,13 @@
 
 (use-package js
   :ensure nil
+  :defer t
   :init
   (setq js-indent-level 2))
 
 (use-package sh-script
   :ensure nil
+  :defer t
   :mode ("\\.zsh\\(rc\\)?\\'" . sh-mode)
   :init
   (setq sh-learn-basic-offset t)
@@ -116,6 +125,7 @@
 
 (use-package semantic
   :ensure nil
+  :defer t
   :defines
   semanticdb-default-save-directory
   :init
@@ -129,6 +139,7 @@
 
 (use-package cc-mode
   :ensure nil
+  :defer t
   :config
   (defun blaenk/insert-include-guard ()
     (interactive)
@@ -165,6 +176,7 @@
 
 (use-package saveplace
   :ensure nil
+  :defer t
   :init
   (setq-default save-place t))
 
@@ -182,6 +194,7 @@
 
 (use-package ediff
   :ensure nil
+  :defer t
   :init
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -280,6 +293,7 @@ PR [a-z-+]+/\
 
 (use-package dired-x
   :ensure nil
+  :defer t
   :bind
   (("C-x C-j" . dired-jump))
 
@@ -300,6 +314,7 @@ PR [a-z-+]+/\
 
 (use-package compile
   :ensure nil
+  :defer t
   :init
   (setq compilation-scroll-output 'first-error)
   (setq compilation-ask-about-save nil)
@@ -308,6 +323,7 @@ PR [a-z-+]+/\
 
 (use-package hl-line
   :ensure nil
+  :defer t
   :init
   (setq hl-line-sticky-flag t)
   :config
@@ -315,11 +331,13 @@ PR [a-z-+]+/\
 
 (use-package hideshow
   :ensure nil
+  :defer t
   :config
   (add-hook 'prog-mode-hook 'hs-minor-mode))
 
 (use-package flyspell
   :ensure nil
+  :defer t
   :config
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
