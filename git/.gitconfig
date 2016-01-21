@@ -51,8 +51,9 @@
 	diff = auto
 	grep = auto
 
-# [diff]
-#	submodule = log
+[diff]
+	submodule = log
+	wordRegex = .
 
 [push]
 	default = simple
