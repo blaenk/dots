@@ -19,7 +19,6 @@
 [alias]
 	br = branch
 	bs = bisect
-	ci = commit -v
 	cl = clone
 	co = checkout
 	df = diff
@@ -30,6 +29,9 @@
 	sh = stash
 	sm = submodule
 	st = status
+
+	# show diff between HEAD and index in commit window
+	ci = commit -v
 
 	au = add -u
 	bri = branch -vv
