@@ -1,16 +1,18 @@
 # vcsinfo: thanks to github.com/sunaku/home/
+setopt promptsubst
 autoload -Uz vcs_info
 
 VCS_PROMPT=" %F{cyan}→ %F{green}%b%F{magenta}%u%f%c%m"
 AVCS_PROMPT="$VCS_PROMPT %F{cyan}∷%f %F{magenta}%a%f"
 
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' get-revision true
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr "+"
 zstyle ':vcs_info:*' unstagedstr "#"
 zstyle ':vcs_info:*' formats $VCS_PROMPT
 zstyle ':vcs_info:*' actionformats $AVCS_PROMPT
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git*+set-message:*' hooks git-aheadbehind git-untracked git-message
+zstyle ':vcs_info:git*+set-message:*' hooks git-aheadbehind git-untracked git-message git-stash
 
 ### git: Show +N/-N when your local branch is ahead-of or behind remote HEAD.
 # Make sure you have added misc to your 'formats':  %m
@@ -31,7 +33,7 @@ function +vi-git-aheadbehind() {
   fi
 }
 
-### git: Show marker (T) if there are untracked files in repository
+### git: Show marker if there are untracked files in repository
 # Make sure you have added staged to your 'formats':  %c
 function +vi-git-untracked(){
   if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
@@ -56,3 +58,12 @@ function +vi-git-message(){
   fi
 }
 
+# Show count of stashed changes
+function +vi-git-stash() {
+    local -a stashes
+
+    if [[ -s ${hook_com[base]}/.git/refs/stash ]] ; then
+        stashes=$(git stash list 2>/dev/null | wc -l)
+        hook_com[misc]+=" •"
+    fi
+}
