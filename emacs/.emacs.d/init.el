@@ -107,9 +107,6 @@
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
-(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10.5"))
-(add-to-list 'default-frame-alist '(width . 86))
-(add-to-list 'default-frame-alist '(height . 36))
 
 (global-set-key [remap eval-expression] 'pp-eval-expression)
 
@@ -135,15 +132,24 @@
 (define-key global-map (kbd "C-c b") 'bury-buffer)
 (define-key universal-argument-map (kbd "M-u") 'universal-argument-more)
 
-(cond
- ((eq system-type 'gnu/linux)
-  (set-fontset-font "fontset-default" nil
-                    (font-spec :name "Symbola") nil 'append))
- ((eq system-type 'darwin)
-  (set-fontset-font t 'symbol
-                    (font-spec :family "Apple Color Emoji") nil 'prepend)
-  (set-fontset-font t 'symbol
-                    (font-spec :family "Apple Symbols") nil 'append)))
+(defun blaenk/frame-options (frame)
+  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10.5"))
+  (add-to-list 'default-frame-alist '(width . 86))
+  (add-to-list 'default-frame-alist '(height . 36))
+
+  (cond
+   ((eq system-type 'gnu/linux)
+    (set-fontset-font "fontset-default" nil
+                      (font-spec :name "Symbola") nil 'prepend))
+   ((eq system-type 'darwin)
+    (set-fontset-font t 'symbol
+                      (font-spec :family "Apple Color Emoji") nil 'prepend)
+    (set-fontset-font t 'symbol
+                      (font-spec :family "Apple Symbols") nil 'prepend))))
+
+(blaenk/frame-options nil)
+
+(add-hook 'after-make-frame-functions 'blaenk/frame-options)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
