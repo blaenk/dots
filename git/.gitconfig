@@ -30,20 +30,73 @@
 	sm = submodule
 	st = status
 
+	# create an empty commit, e.g. for when initializing a repo
+	root = commit --allow-empty
+
+	# rebase local changes
+	rebase-local = rebase -i @{u}
+
+	# delete remote branch
+	delete-remote-branch = "!f() { git push $1 :$2}; f"
+
+	# interactively clean up
+	clean-up = clean -i
+
+	# stash working tree including untracked files
+	stash-it = stash save -u
+
+	# pop stash
+	unstash-it = stash pop --index
+
 	# show diff between HEAD and index in commit window
 	ci = commit -v
 
+	# add all working directory changes for files that were already staged
 	au = add -u
-	bri = branch -vv
-	dfsm = diff --submodule
-	dfc = diff --cached
-	dfcw = diff --cached --word-diff
-	dfw = diff --word-diff
-	gr = grep --break --heading --line-number
-	lg = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset'
+
+	# reset hard
 	rh = reset --hard
-	sb = status -sb
+
+	# custom log
+	lg = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset'
+
+	# ammend without editing the message
+	oops = commit --amend --no-edit
+
+	# show branches and their upstreams
+	bri = branch -vv
+
+	# show submodule diffs as well
+	dfsm = diff --submodule
+
+	# word diff using color to differentiate
+	dfw = diff --word-diff=color
+
+	# show diff between index and working tree
+	dfc = diff --cached
+
+	# word diff between index and working tree
+	dfcw = diff --cached --word-diff=color
+
+	# search using git grep
+	gr = grep --break --heading --line-number
+
+	# finds the last two commits that contain modifications matching the specified
+	# pattern inside of the specified file.
+	# git lg-grep 'Secure_?Random' some/file.txt
+	lg-find-last-modified = "!f() { git log -G $1 -2 -- $2; }; f"
+
+	# find the last two commits that changed the number of occurrences of text
+	# that matches the provided pattern. i.e. either the matching text was
+	# removed or added. this differs from the above because the above will match
+	# even if it just modified the text, but didn't outright remove it or add it
+	lg-find-last-removed-or-added = "!f() { git log -S $1 --pickaxe-regex -2 -- $2; }; f"
+
+	# reset commiter date of previous commit
 	ut = !GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --date=\"$(date)\"
+
+	# view man page in html format
+	web-help = help -w
 
 [color]
 	ui = true
