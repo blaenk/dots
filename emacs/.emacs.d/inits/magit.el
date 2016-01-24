@@ -72,6 +72,7 @@ to the current branch. Uses Magit."
   (add-hook 'git-commit-setup-hook 'fci-mode))
 
 (use-package magit-gh-pulls
+  :disabled t
   :defer t
   :init
   (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
