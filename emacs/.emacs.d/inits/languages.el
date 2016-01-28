@@ -244,13 +244,19 @@
 
 (use-package clang-format
   :defer t
-  :config
-  (define-key c-mode-base-map (kbd "C-c C-f") 'clang-format-buffer))
+  :init
+  (defun blaenk/clang-format ()
+    (define-key c-mode-base-map (kbd "C-c C-f") 'clang-format-buffer))
+
+  (add-hook 'c++-mode-hook 'blaenk/clang-format)
+  (add-hook 'c-mode-hook 'blaenk/clang-format))
 
 (use-package rustfmt
   :defer t
-  :config
-  (define-key rust-mode-map (kbd "C-c C-f") 'rustfmt-format-buffer))
+  :init
+  (add-hook 'rust-mode-hook
+            (lambda ()
+              (define-key rust-mode-map (kbd "C-c C-f") 'rustfmt-format-buffer))))
 
 (use-package google-c-style
   :defer t)
