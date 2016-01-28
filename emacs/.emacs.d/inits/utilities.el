@@ -311,8 +311,14 @@
 (use-package fill-column-indicator
   :defer t
   :init
+  (setq fci-rule-use-dashes t)
+  (setq fci-dash-pattern 0.50)
+
+  (with-eval-after-load 'evil-leader
+    (evil-leader/set-key "c" 'fci-mode))
+
   (with-eval-after-load 'magit
-    (add-hook 'git-commit-setup-hook 'fci-mode)))
+    (add-hook 'git-commit-setup-hook (lambda () (fci-mode 1)))))
 
 (use-package bug-reference-github
   :defer t
