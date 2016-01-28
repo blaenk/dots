@@ -256,6 +256,19 @@ The initial state for a mode can be set with
 
   (evil-mode 1)
 
+  (with-eval-after-load 'bind-map
+    (bind-map-set-keys blaenk/leader-map
+      "o" (lambda ()
+            (interactive)
+            (end-of-line)
+            (newline)
+            (evil-open-above 1)
+            (setq this-command 'evil-open-below))
+      "l" (lambda ()
+            (interactive)
+            (evil-ex-nohighlight)
+            (force-mode-line-update))))
+
   (use-package evil-indent-plus
     :config
     (evil-indent-plus-default-bindings))
@@ -280,34 +293,17 @@ The initial state for a mode can be set with
     :config
     (evil-exchange-install))
 
-  (use-package evil-leader
-    :config
-    (add-hook 'evil-mode-hook 'evil-leader-mode)
-    (add-hook 'evil-local-mode-hook 'evil-leader-mode)
-
-    (evil-leader/set-leader "<SPC>")
-
-    (evil-leader/set-key
-      "v" 'er/expand-region
-      "o" (lambda ()
-            (interactive)
-            (end-of-line)
-            (newline)
-            (evil-open-above 1)
-            (setq this-command 'evil-open-below))
-      "l" (lambda ()
-            (interactive)
-            (evil-ex-nohighlight)
-            (force-mode-line-update))
-      "m" 'evil-visual-mark-mode))
-
   (use-package evil-numbers)
 
   (use-package evil-surround
     :config
     (global-evil-surround-mode 1))
 
-  (use-package evil-visual-mark-mode)
+  (use-package evil-visual-mark-mode
+    :config
+    (with-eval-after-load 'bind-map
+      (bind-map-set-keys blaenk/leader-map
+        "m" 'evil-visual-mark-mode)))
 
   (use-package evil-visualstar
     :config

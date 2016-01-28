@@ -10,6 +10,13 @@
   :config
   (unicode-fonts-setup))
 
+(use-package bind-map
+  :config
+  (bind-map blaenk/leader-map
+            :keys ("M-m")
+            :evil-keys ("SPC")
+            :evil-states (normal motion visual)))
+
 ;; TODO
 ;; use (member "Symbola" (font-family-list))
 ;; to fall back on unicode icons
@@ -107,9 +114,11 @@
   :bind
   ("C-=" . er/expand-region)
 
-  :config
+  :init
   ;; (evil-define-key 'visual global-map (kbd "v") 'er/expand-region)
-  )
+  (with-eval-after-load 'bind-map
+    (bind-map-set-keys blaenk/leader-map
+      "v" 'er/expand-region)))
 
 (use-package buffer-move)
 
@@ -302,8 +311,9 @@
   (setq relative-line-numbers-format #'abs-rel-numbers)
 
   :config
-  (with-eval-after-load 'evil-leader
-    (evil-leader/set-key "n" 'relative-line-numbers-mode))
+  (with-eval-after-load 'bind-map
+    (bind-map-set-keys blaenk/leader-map
+      "n" 'relative-line-numbers-mode))
 
   (setq relative-line-numbers-motion-function 'forward-visible-line)
   (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
@@ -320,8 +330,9 @@
   (setq fci-rule-use-dashes t)
   (setq fci-dash-pattern 0.50)
 
-  (with-eval-after-load 'evil-leader
-    (evil-leader/set-key "c" 'fci-mode))
+  (with-eval-after-load 'bind-map
+    (bind-map-set-keys blaenk/leader-map
+      "c" 'fci-mode))
 
   (with-eval-after-load 'magit
     (add-hook 'git-commit-setup-hook (lambda () (fci-mode 1)))))
