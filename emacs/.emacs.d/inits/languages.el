@@ -132,7 +132,6 @@
   :defer t)
 
 (use-package irony
-  :defer t
   :init
   (setq irony-user-dir (blaenk/cache-dir "irony"))
 
@@ -152,7 +151,9 @@
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
 (use-package irony-eldoc
-  :defer t)
+  :defer t
+  :init
+  (add-hook 'irony-mode-hook 'irony-eldoc))
 
 (use-package swift-mode
   :if (eq system-type 'darwin)
