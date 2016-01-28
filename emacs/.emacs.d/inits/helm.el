@@ -100,18 +100,6 @@
 
   (helm-mode 1)
 
-  ;; TODO test this
-  (use-package helm-dictionary
-    :init
-    (define-key helm-command-map (kbd "d") 'helm-dictionary)
-
-    ;; arch package `words`
-    (setq helm-dictionary-database "/usr/share/dict/words")
-    (setq helm-dictionary-online-dicts
-          '(("Google" . "https://www.google.com/search?q=define:%s")
-            ("Merriam-Webster" . "http://www.merriam-webster.com/dictionary/%s")
-            ("en.wiktionary.org" . "http://en.wiktionary.org/wiki/%s"))))
-
   (use-package helm-mt
     :bind ("C-c t" . helm-mt)
 
