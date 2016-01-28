@@ -58,6 +58,12 @@
   (setq projectile-known-projects-file (blaenk/cache-dir "projectile-bookmarks.eld"))
 
   :config
+  (global-set-key
+   (kbd "C-c e")
+   (lambda ()
+     (interactive)
+     (projectile-switch-project-by-name "~/.dots")))
+
   (projectile-global-mode))
 
 (use-package perspective
