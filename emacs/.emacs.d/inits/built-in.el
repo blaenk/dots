@@ -254,6 +254,9 @@
   (setq eldoc-idle-delay 0.1)
 
   :config
+  (add-hook 'c++-mode-hook 'eldoc-mode)
+  (add-hook 'c-mode-hook 'eldoc-mode)
+  (add-hook 'objc-mode-hook 'eldoc-mode)
   (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode))
 
 (use-package bug-reference
