@@ -145,11 +145,6 @@ The initial state for a mode can be set with
   ;;           (previous-line)
   ;;           (blaenk/evil-open-line)))))
 
-  (defun blaenk/nil-if-void (sym)
-    (if (boundp sym)
-        (symbol-value sym)
-      nil))
-
   ;; if the point is in a comment that has non-whitespace content, delete up
   ;; until the beginning of the comment. if already at the beginning of the
   ;; comment, delete up to the indentation point. if already at the indentation
@@ -161,7 +156,7 @@ The initial state for a mode can be set with
              ;; add comment-start-regexps to this as needed
              `("\\s<"
                ,(regexp-quote (s-trim-right comment-start))
-               ,(blaenk/nil-if-void 'c-comment-start-regexp))))
+               ,(bound-and-true-p c-comment-start-regexp))))
            (comment-starts (s-join "\\|" starts))
            (start-re (concat "\\(" comment-starts "\\)")))
       (if (and
