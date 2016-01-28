@@ -199,6 +199,8 @@
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
+  (global-set-key (kbd "C-c d") 'ediff-current-file)
+
   :config
   (defvar blaenk/ediff-last-windows nil)
 
