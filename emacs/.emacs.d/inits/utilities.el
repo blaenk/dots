@@ -374,8 +374,6 @@
 (use-package esup
   :commands esup)
 
-(use-package recentf-ext)
-
 (use-package mmm-mode
   :disabled t
   :demand t

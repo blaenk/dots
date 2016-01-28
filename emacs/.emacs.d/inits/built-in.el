@@ -16,11 +16,12 @@
 
 (use-package recentf
   :ensure nil
-  :defer t
   :defines recentf-save-file
+
   :init
   (setq recentf-save-file (blaenk/cache-dir "recentf"))
   (setq recentf-max-saved-items 50)
+
   :config
   (global-set-key (kbd "C-x C-r") 'helm-recentf)
   (recentf-mode 1))
