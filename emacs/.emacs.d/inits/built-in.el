@@ -220,10 +220,10 @@
 
   (defun blaenk/ediff-prepare ()
     (setq blaenk/ediff-last-windows (current-window-configuration))
-    (turn-off-hideshow)
-    (turn-off-fci-mode)
-    (visual-line-mode -1)
-    (whitespace-mode -1))
+    (when (bound-and-true-p hs-minor-mode) (hs-minor-mode -1))
+    (when (bound-and-true-p fci-mode) (fci-mode -1))
+    (when (bound-and-true-p visual-line-mode) (visual-line-mode -1))
+    (when (bound-and-true-p whitespace-mode) (whitespace-mode -1)))
 
   (defun blaenk/ediff-start ()
     (interactive)
