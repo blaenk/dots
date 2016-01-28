@@ -3,8 +3,7 @@
 (use-package paxedit
   :defer t)
 
-(use-package on-parens
-  :defer t)
+(use-package on-parens)
 
 (use-package smartparens
   :diminish smartparens-mode
