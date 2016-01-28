@@ -110,6 +110,7 @@
 
 [push]
 	default = simple
+	recurseSubmodules = on-demand
 
 [grep]
 	extendRegexp = true
