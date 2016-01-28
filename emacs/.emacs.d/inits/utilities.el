@@ -48,6 +48,24 @@
             (projectile-project-root))))
   (setq ag-highlight-search t))
 
+;; TODO
+;; can configure test dirs by configuring projectile-test-prefix etc
+;; see default implementation
+(use-package projectile
+  :init
+  (setq projectile-completion-system 'helm)
+  (setq projectile-cache-file (blaenk/cache-dir "projectile.cache"))
+  (setq projectile-known-projects-file (blaenk/cache-dir "projectile-bookmarks.eld"))
+
+  :config
+  (projectile-global-mode))
+
+(use-package perspective
+  :disabled t
+  :config
+  ;; (persp-mode)
+  )
+
 (use-package anzu
   :diminish anzu-mode
   :init
