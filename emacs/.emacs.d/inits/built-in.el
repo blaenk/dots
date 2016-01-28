@@ -293,19 +293,7 @@ PR [a-z-+]+/\
 
 (use-package simple
   :ensure nil
-  :bind (("C-c q" . blaenk/auto-fill-comments))
-  :init
-  (set (make-local-variable 'blaenk/auto-fill-comments-enabled) nil)
-
-  (defun blaenk/auto-fill-comments ()
-    (interactive)
-    (setq-local blaenk/auto-fill-comments-enabled
-                (not blaenk/auto-fill-comments-enabled))
-    (setq-local comment-auto-fill-only-comments
-                blaenk/auto-fill-comments-enabled)
-    (auto-fill-mode (if blaenk/auto-fill-comments-enabled 1 -1))
-    (message "auto-fill-comments %s"
-             (if blaenk/auto-fill-comments-enabled "on" "off"))))
+  :bind (("C-c q" . auto-fill-mode)))
 
 (use-package dired-x
   :ensure nil
