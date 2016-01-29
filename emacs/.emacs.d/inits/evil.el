@@ -204,7 +204,11 @@ The initial state for a mode can be set with
 
   (define-key evil-normal-state-map (kbd "C-w q") 'evil-window-delete)
 
-  (define-key evil-insert-state-map (kbd "M-v") 'evil-paste-before)
+  (define-key evil-insert-state-map (kbd "C-y")
+    (lambda ()
+      (interactive)
+      (evil-paste-before 1)
+      (forward-char)))
 
   (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
   (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
