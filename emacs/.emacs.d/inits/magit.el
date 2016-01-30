@@ -50,15 +50,23 @@ to the current branch. Uses Magit."
     (interactive)
     (browse-url (blaenk/pull-request-url)))
 
-  (setq magit-display-buffer-function
-        (lambda (buffer)
-          (if magit-display-buffer-noselect
-              (magit-display-buffer-traditional buffer)
-            (progn
-              (delete-other-windows)
-              (set-window-dedicated-p nil nil)
-              (set-window-buffer nil buffer)
-              (get-buffer-window buffer)))))
+  (defun blaenk/magit-display-buffer (buffer)
+    (if magit-display-buffer-noselect
+        (magit-display-buffer-traditional buffer)
+      (progn
+        (delete-other-windows)
+        (set-window-dedicated-p nil nil)
+        (set-window-buffer nil buffer)
+        (blaenk/fullscreen-if-wasnt)
+        (get-buffer-window buffer))))
+
+  (setq magit-display-buffer-function 'blaenk/magit-display-buffer)
+
+  (defun blaenk/magit-bury-buffer (buffer)
+    (magit-restore-window-configuration buffer)
+    (blaenk/unfullscreen-if-wasnt))
+
+  (setq magit-bury-buffer-function 'blaenk/magit-bury-buffer)
 
   (with-eval-after-load 'magit-ediff
     (add-hook 'magit-ediff-quit-hook 'blaenk/ediff-quit))

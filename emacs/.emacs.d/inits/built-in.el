@@ -205,16 +205,6 @@
   :config
   (defvar blaenk/ediff-last-windows nil)
 
-  (defun blaenk/is-fullscreen ()
-    (memq (frame-parameter nil 'fullscreen) '(fullscreen fullboth)))
-
-  (defun blaenk/go-fullscreen ()
-    (interactive)
-    (set-frame-parameter nil 'fullscreen 'fullboth))
-
-  (defun blaenk/un-fullscreen ()
-    (set-frame-parameter nil 'fullscreen nil))
-
   (defun blaenk/toggle-ediff-wide-display ()
     (require 'ediff-util)
     "Turn off wide-display mode (if was enabled) before quitting ediff."
@@ -230,13 +220,13 @@
 
   (defun blaenk/ediff-start ()
     (interactive)
-    (blaenk/go-fullscreen))
+    (blaenk/fullscreen-if-wasnt))
 
   (defun blaenk/ediff-quit ()
     (interactive)
     (set-window-configuration blaenk/ediff-last-windows)
     (blaenk/toggle-ediff-wide-display)
-    (blaenk/un-fullscreen))
+    (blaenk/unfullscreen-if-wasnt))
 
   (add-hook 'ediff-prepare-buffer-hook 'blaenk/ediff-prepare)
   (add-hook 'ediff-startup-hook 'blaenk/ediff-start)

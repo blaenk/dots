@@ -16,6 +16,27 @@
   (dolist (name names)
       (load (blaenk/inits-dir name))))
 
+(defun blaenk/is-fullscreen ()
+  (memq (frame-parameter nil 'fullscreen) '(fullscreen fullboth)))
+
+(defun blaenk/go-fullscreen ()
+  (interactive)
+  (set-frame-parameter nil 'fullscreen 'fullboth))
+
+(defun blaenk/un-fullscreen ()
+  (set-frame-parameter nil 'fullscreen nil))
+
+(defun blaenk/fullscreen-if-wasnt ()
+  (if (blaenk/is-fullscreen)
+      (setq blaenk/was-fullscreen t)
+    (progn
+      (setq blaenk/was-fullscreen nil)
+      (blaenk/go-fullscreen))))
+
+(defun blaenk/unfullscreen-if-wasnt ()
+  (when (not blaenk/was-fullscreen)
+    (blaenk/un-fullscreen)))
+
 (let* ((auto-save-dir (blaenk/cache-dir "autosaves/")))
   (setq auto-save-list-file-prefix (expand-file-name "saves-" auto-save-dir))
   (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t))))
