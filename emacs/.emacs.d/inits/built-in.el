@@ -23,7 +23,7 @@
   (setq recentf-max-saved-items 50)
 
   :config
-  (global-set-key (kbd "C-x C-r") 'helm-recentf)
+  (bind-key "C-x C-r" 'helm-recentf)
   (recentf-mode 1))
 
 (use-package savehist
@@ -200,7 +200,7 @@
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
-  (global-set-key (kbd "C-c d") 'ediff-current-file)
+  (bind-key "C-c d" 'ediff-current-file)
 
   :config
   (defvar blaenk/ediff-last-windows nil)

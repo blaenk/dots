@@ -15,7 +15,7 @@
 
   :config
   ;; get back the use of kill word even if company is active
-  (define-key company-active-map (kbd "C-w") nil)
+  (unbind-key "C-w" company-active-map)
 
   (use-package company-anaconda
     :config

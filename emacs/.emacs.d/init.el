@@ -129,29 +129,31 @@
 
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
 
-(global-set-key [remap eval-expression] 'pp-eval-expression)
+(bind-key [remap eval-expression] 'pp-eval-expression)
 
 ;; unicode mappings
-(define-key 'iso-transl-ctl-x-8-map "l" "→")
-(define-key 'iso-transl-ctl-x-8-map "h" "←")
+(require 'iso-transl)
+(bind-key "l" "→" iso-transl-ctl-x-8-map)
+(bind-key "h" "←" iso-transl-ctl-x-8-map)
 
-(define-key global-map (kbd "M-u") 'universal-argument)
+;; TODO why this, then rebind to universal-argument-more?
+(bind-key "M-u" 'universal-argument)
 
 (defun blaenk/kill-this-buffer ()
   (interactive)
   (let ((buffer-modified-p nil))
     (kill-buffer (current-buffer))))
 
-(define-key global-map (kbd "C-c k") 'blaenk/kill-this-buffer)
-(define-key global-map (kbd "C-c s") 'save-buffer)
+(bind-key "C-c k" 'blaenk/kill-this-buffer)
+(bind-key "C-c s" 'save-buffer)
 
 (defun blaenk/q-switch-buffer ()
   (interactive)
   (switch-to-buffer (other-buffer)))
 
-(define-key global-map (kbd "C-c o") 'blaenk/q-switch-buffer)
-(define-key global-map (kbd "C-c b") 'bury-buffer)
-(define-key universal-argument-map (kbd "M-u") 'universal-argument-more)
+(bind-key "C-c o" 'blaenk/q-switch-buffer)
+(bind-key "C-c b" 'bury-buffer)
+(bind-key "M-u" 'universal-argument-more universal-argument-map)
 
 (defun blaenk/frame-options (frame)
   (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10.5"))
@@ -192,14 +194,14 @@
       (delete-window))
     (display-buffer-pop-up-frame buffer nil)))
 
-(global-set-key (kbd "C-c f") 'blaenk/pop-to-frame)
+(bind-key "C-c f" 'blaenk/pop-to-frame)
 
 (defun blaenk/force-save ()
   (interactive)
   (set-buffer-modified-p t)
   (save-buffer))
 
-(global-set-key (kbd "C-S-x C-S-s") 'blaenk/force-save)
+(bind-key "C-S-x C-S-s" 'blaenk/force-save)
 
 (defun blaenk/get-faces (pos)
   "Get the font faces at POS."

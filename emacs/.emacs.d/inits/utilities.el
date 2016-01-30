@@ -65,8 +65,8 @@
   (setq projectile-known-projects-file (blaenk/cache-dir "projectile-bookmarks.eld"))
 
   :config
-  (global-set-key
-   (kbd "C-c e")
+  (bind-key
+   "C-c e"
    (lambda ()
      (interactive)
      (projectile-switch-project-by-name "~/.dots")))
@@ -116,9 +116,8 @@
 
   :init
   ;; (evil-define-key 'visual global-map (kbd "v") 'er/expand-region)
-  (with-eval-after-load 'bind-map
-    (bind-map-set-keys blaenk/leader-map
-      "v" 'er/expand-region)))
+  (bind-key "v" 'er/expand-region blaenk/leader-map)
+  )
 
 (use-package buffer-move)
 
@@ -311,9 +310,7 @@
   (setq relative-line-numbers-format #'abs-rel-numbers)
 
   :config
-  (with-eval-after-load 'bind-map
-    (bind-map-set-keys blaenk/leader-map
-      "n" 'relative-line-numbers-mode))
+  (bind-key "n" 'relative-line-numbers-mode blaenk/leader-map)
 
   (setq relative-line-numbers-motion-function 'forward-visible-line)
   (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
@@ -330,9 +327,7 @@
   (setq fci-rule-use-dashes t)
   (setq fci-dash-pattern 0.50)
 
-  (with-eval-after-load 'bind-map
-    (bind-map-set-keys blaenk/leader-map
-      "c" 'fci-mode))
+  (bind-key "c" 'fci-mode blaenk/leader-map)
 
   (with-eval-after-load 'magit
     (add-hook 'git-commit-setup-hook (lambda () (fci-mode 1)))))
