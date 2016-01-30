@@ -71,12 +71,6 @@
 (use-package s)
 (use-package dash)
 
-(defun blaenk/edit-init ()
-  (interactive)
-  (find-file (blaenk/emacs-dir "init.el")))
-
-(global-set-key (kbd "C-c e") 'blaenk/edit-init)
-
 (when (getenv "VM")
   (setq browse-url-browser-function 'kill-new))
 
