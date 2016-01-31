@@ -9,6 +9,9 @@
 (use-package git-link
   :defer t)
 
+(use-package github-clone
+  :defer t)
+
 (use-package magit
   :defer t
   :diminish
