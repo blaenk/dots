@@ -194,12 +194,12 @@ The initial state for a mode can be set with
 
   (bind-key "C-w q" 'evil-window-delete evil-normal-state-map)
 
-  (bind-key "C-y"
-            (lambda ()
-              (interactive)
-              (evil-paste-before 1)
-              (forward-char))
-            evil-insert-state-map)
+  (defun blaenk/evil-insert-mode-paste ()
+    (interactive)
+    (evil-paste-before 1)
+    (forward-char))
+
+  (bind-key "C-y" 'blaenk/evil-insert-mode-paste evil-insert-state-map)
 
   (bind-key "j" 'evil-next-visual-line evil-normal-state-map)
   (bind-key "k" 'evil-previous-visual-line evil-normal-state-map)
@@ -251,18 +251,22 @@ The initial state for a mode can be set with
 
   (evil-mode 1)
 
+  (defun blaenk/evil-open-in-between ()
+    (interactive)
+    (end-of-line)
+    (newline)
+    (evil-open-above 1)
+    (setq this-command 'evil-open-below))
+
+  (defun blaenk/clear-search ()
+    (interactive)
+    (evil-ex-nohighlight)
+    (force-mode-line-update))
+
   (with-eval-after-load 'bind-map
     (bind-keys :map blaenk/leader-map
-      ("o" . (lambda ()
-              (interactive)
-              (end-of-line)
-              (newline)
-              (evil-open-above 1)
-              (setq this-command 'evil-open-below)))
-      ("l" . (lambda ()
-               (interactive)
-               (evil-ex-nohighlight)
-               (force-mode-line-update)))))
+      ("o" . 'blaenk/evil-open-in-between)
+      ("l" . 'blaenk/clear-search)))
 
   (use-package evil-indent-plus
     :config
