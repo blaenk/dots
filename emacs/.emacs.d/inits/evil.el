@@ -30,10 +30,10 @@ Returns a different symbol if FUN is an alias, otherwise FUN."
       parent))
 
   (with-eval-after-load 'company
-    (defun company-complete-lambda (arg) (company-complete))
+    (defun blaenk/evil-company (arg) (company-complete))
 
-    (setq evil-complete-next-func 'company-complete-lambda)
-    (setq evil-complete-previous-func 'company-complete-lambda))
+    (setq evil-complete-next-func 'blaenk/evil-company)
+    (setq evil-complete-previous-func 'blaenk/evil-company))
 
   (with-eval-after-load 'evil-core
     (defun evil-initial-state (mode &optional default)
