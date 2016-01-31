@@ -107,10 +107,11 @@
   (setq sh-indentation 2)
 
   :config
-  (add-hook 'sh-mode-hook
-            (lambda ()
-              (if (string-match "\\.zsh\\(rc\\)?$" (or (buffer-file-name) ""))
-                  (sh-set-shell "zsh")))))
+  (defun blaenk/sh-mode ()
+    (if (string-match "\\.zsh\\(rc\\)?$" (or (buffer-file-name) ""))
+        (sh-set-shell "zsh")))
+
+  (add-hook 'sh-mode-hook 'blaenk/sh-mode))
 
 (use-package python
   :ensure nil
@@ -118,7 +119,10 @@
 
   :config
   ;; TODO other PEP8 stuff
-  (add-hook 'python-mode-hook (lambda () (setq fill-column 79)))
+  (defun blaenk/python-hook ()
+    (setq fill-column 79))
+
+  (add-hook 'python-mode-hook 'blaenk/python-hook)
 
   (let ((ipython (executable-find "ipython")))
     (when ipython
