@@ -127,8 +127,10 @@
 
 ;; unicode mappings
 (require 'iso-transl)
-(bind-key "l" "→" iso-transl-ctl-x-8-map)
-(bind-key "h" "←" iso-transl-ctl-x-8-map)
+(bind-keys :map iso-transl-ctl-x-8-map
+           ("<right>" . "→")
+           ("<left>" . "←")
+           ("n" . "ñ"))
 
 ;; TODO why this, then rebind to universal-argument-more?
 (bind-key "M-u" 'universal-argument)
