@@ -145,6 +145,9 @@
 (use-package cc-mode
   :ensure nil
   :defer t
+  :init
+  (setq c-tab-always-indent nil)
+
   :config
   (defun blaenk/insert-include-guard ()
     (interactive)
