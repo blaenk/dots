@@ -53,10 +53,11 @@
 
   (use-package company-go
     :config
-    (add-hook 'go-mode-hook
-              (lambda ()
-                (set (make-local-variable 'company-backends) '(company-go))
-                (company-mode))))
+    (defun blaenk/company-go ()
+      (set (make-local-variable 'company-backends) '(company-go))
+      (company-mode))
+
+    (add-hook 'go-mode-hook 'blaenk/company-go))
 
   (use-package company-restclient
     :config
