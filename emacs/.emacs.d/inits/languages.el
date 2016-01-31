@@ -74,15 +74,16 @@
   (setq markdown-enable-math t)
   (setq markdown-asymmetric-header t)
 
-  (add-hook 'gfm-mode-hook
-            (lambda ()
-              (interactive)
-              (set-face-attribute
-               'markdown-comment-face nil
-               :strike-through nil)
-              (bind-keys :map blaenk/leader-map
-                ("k" . 'beginning-of-defun)
-                ("j" . 'end-of-defun))))
+  (defun blaenk/gfm-hook ()
+    (interactive)
+    (set-face-attribute
+     'markdown-comment-face nil
+     :strike-through nil)
+    (bind-keys :map blaenk/leader-map
+               ("k" . 'beginning-of-defun)
+               ("j" . 'end-of-defun)))
+
+  (add-hook 'gfm-mode-hook 'blaenk/gfm-hook)
   (add-hook 'gfm-mode-hook 'whitespace-mode)
   (add-hook 'gfm-mode-hook 'flyspell-mode))
 
