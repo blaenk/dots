@@ -48,27 +48,28 @@
 (use-package ag
   :defer t
   :init
+  (defun blaenk/ag-root-function (file-or-dir-name)
+    (let ((default-directory file-or-dir-name))
+      (projectile-project-root)))
+
   (setq ag-highlight-search t)
-  (setq ag-project-root-function
-        (lambda (file-or-dir-name)
-          (let ((default-directory file-or-dir-name))
-            (projectile-project-root)))))
+  (setq ag-project-root-function 'blaenk/ag-root-function))
 
 ;; TODO
 ;; can configure test dirs by configuring projectile-test-prefix etc
 ;; see default implementation
 (use-package projectile
   :init
+  (defun blaenk/edit-inits ()
+    (interactive)
+    (projectile-switch-project-by-name "~/.dots"))
+
   (setq projectile-completion-system 'helm)
   (setq projectile-cache-file (blaenk/cache-dir "projectile.cache"))
   (setq projectile-known-projects-file (blaenk/cache-dir "projectile-bookmarks.eld"))
 
   :config
-  (bind-key
-   "C-c e"
-   (lambda ()
-     (interactive)
-     (projectile-switch-project-by-name "~/.dots")))
+  (bind-key "C-c e" 'blaenk/edit-inits)
 
   (projectile-global-mode))
 
@@ -93,11 +94,14 @@
               ((eq anzu--state 'replace) (format " %d of %d " here total)))))
         (propertize status 'face 'anzu-mode-line))))
 
+  (defun blaenk/anzu-hook ()
+    (make-local-variable 'anzu--state))
+
   (setq anzu-mode-line-update-function 'blaenk/anzu-update)
   (setq anzu-cons-mode-line-p nil)
 
   :config
-  (add-hook 'anzu-mode-hook (lambda () (make-local-variable 'anzu--state)))
+  (add-hook 'anzu-mode-hook 'blaenk/anzu-hook)
   (global-anzu-mode +1))
 
 (use-package browse-at-remote
@@ -328,8 +332,11 @@
 
   (bind-key "c" 'fci-mode blaenk/leader-map)
 
+  (defun blaenk/git-commit-fill-column ()
+    (fci-mode 1))
+
   (with-eval-after-load 'magit
-    (add-hook 'git-commit-setup-hook (lambda () (fci-mode 1)))))
+    (add-hook 'git-commit-setup-hook 'blaenk/git-commit-fill-column)))
 
 (use-package bug-reference-github
   :defer t
@@ -398,10 +405,11 @@
 (use-package ggtags
   :defer t
   :init
-  (add-hook 'prog-mode-hook
-            (lambda ()
-              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
-                (ggtags-mode 1)))))
+  (defun blaenk/ggtags-hook ()
+    (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
+      (ggtags-mode 1)))
+
+  (add-hook 'prog-mode-hook 'blaenk/ggtags-hook))
 
 (use-package rtags
   :defer t)
