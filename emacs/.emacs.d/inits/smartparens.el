@@ -38,37 +38,37 @@
 
       ;; TODO evil-commentary delegating sp-comment wrapper?
 
-      (bind-key "> )"
-        (lambda ()
-          (interactive)
-          (on-parens-forward-slurp)
-          ;; get back on paren
-          (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char :end)))
-        evil-normal-state-map)
+      (defun blaenk/move-closing-paren-forward ()
+        (interactive)
+        (on-parens-forward-slurp)
+        ;; get back on paren
+        (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char :end)))
 
-      (bind-key "< )"
-        (lambda ()
-          (interactive)
-          (on-parens-forward-barf)
-          ;; get back on paren
-          (sp-restrict-to-object 'sp-prefix-pair-object 'sp-backward-down-sexp))
-        evil-normal-state-map)
+      (bind-key "> )" 'blaenk/move-closing-paren-forward evil-normal-state-map)
 
-      (bind-key "> ("
-        (lambda ()
-          (interactive)
-          (on-parens-backward-barf)
-          ;; get back on paren
-          (sp-restrict-to-object 'sp-prefix-pair-object 'sp-next-sexp))
-        evil-normal-state-map)
+      (defun blaenk/move-closing-paren-backward ()
+        (interactive)
+        (on-parens-forward-barf)
+        ;; get back on paren
+        (sp-restrict-to-object 'sp-prefix-pair-object 'sp-backward-down-sexp))
 
-      (bind-key "< ("
-        (lambda ()
-          (interactive)
-          (on-parens-backward-slurp)
-          ;; get back on paren
-          (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char (+ :beg 1))))
-        evil-normal-state-map)
+      (bind-key "< )" 'blaenk/move-closing-paren-backward evil-normal-state-map)
+
+      (defun blaenk/move-opening-paren-forward ()
+        (interactive)
+        (on-parens-backward-barf)
+        ;; get back on paren
+        (sp-restrict-to-object 'sp-prefix-pair-object 'sp-next-sexp))
+
+      (bind-key "> (" 'blaenk/move-opening-paren-forward evil-normal-state-map)
+
+      (defun blaenk/move-opening-paren-backward ()
+        (interactive)
+        (on-parens-backward-slurp)
+        ;; get back on paren
+        (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char (+ :beg 1))))
+
+      (bind-key "< (" 'blaenk/move-opening-paren-backward evil-normal-state-map)
 
       ;; TODO
       ;; this should be turned off when smartparens is not on
@@ -81,19 +81,19 @@
       (bind-key "< u" 'sp-splice-sexp-killing-backward evil-normal-state-map)
       (bind-key "> u" 'sp-splice-sexp-killing-forward evil-normal-state-map)
 
-      (bind-key "< d"
-        (lambda ()
-          (interactive)
-          (sp-kill-sexp '(-4)))
-        evil-normal-state-map)
+      (defun blaenk/delete-sexp-backward ()
+        (interactive)
+        (sp-kill-sexp '(-4)))
 
-      (bind-key "> d"
-        (lambda ()
-          (interactive)
-          (sp-kill-sexp '(4)))
-        evil-normal-state-map)
+      (bind-key "< d" 'blaenk/delete-sexp-backward evil-normal-state-map)
 
-      (defun sp-get-current-non-string-sexp (pos)
+      (defun blaenk/delete-sexp-forward ()
+        (interactive)
+        (sp-kill-sexp '(4)))
+
+      (bind-key "> d" 'blaenk/delete-sexp-forward evil-normal-state-map)
+
+      (defun blaenk/sp-get-current-non-string-sexp (pos)
         "get the enclosing, non-string sexp"
         (let ((current-sexp (sp-get-sexp)))
           (if (or (eq pos (sp-get current-sexp :beg))
@@ -104,14 +104,14 @@
                    (end (sp-get enclosing-sexp :end)))
               (when enclosing-sexp
                 (if (string-equal op "\"")
-                    (sp-get-current-non-string-sexp (goto-char end))
+                    (blaenk/sp-get-current-non-string-sexp (goto-char end))
                   enclosing-sexp))))))
 
-      (defun sp-end-of-current-sexp (pos)
+      (defun blaenk/sp-end-of-current-sexp (pos)
         "jump to the end of the current, non-string sexp"
         (interactive "d")
 
-        (let ((end (sp-get (sp-get-current-non-string-sexp pos) :end)))
+        (let ((end (sp-get (blaenk/sp-get-current-non-string-sexp pos) :end)))
           (when end
             (blaenk/evil-goto-char end))))
 
@@ -120,7 +120,7 @@
         `(let* ((column (current-column))
                 (pos (point))
                 (begin-line (line-number-at-pos pos)))
-           (sp-end-of-current-sexp pos)
+           (blaenk/sp-end-of-current-sexp pos)
            (when (evil-normal-state-p) (forward-char))
 
            (let* ((end-line (line-number-at-pos (point))))
