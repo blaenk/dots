@@ -202,9 +202,10 @@
 (use-package rust-mode
   :defer t
   :init
-  (add-hook 'rust-mode-hook
-            (lambda ()
-              (set (make-local-variable 'compile-command) "cargo build"))))
+  (defun blaenk/rust-hook ()
+    (set (make-local-variable 'compile-command) "cargo build"))
+
+  (add-hook 'rust-mode-hook 'blaenk/rust-hook))
 
 (use-package toml-mode
   :defer t)
@@ -254,10 +255,10 @@
 (use-package rustfmt
   :defer t
   :init
-  (add-hook 'rust-mode-hook
-            (lambda ()
-              (bind-key "C-c C-f" 'rustfmt-format-buffer rust-mode-map)
-              )))
+  (defun blaenk/rustfmt ()
+    (bind-key "C-c C-f" 'rustfmt-format-buffer rust-mode-map))
+
+  (add-hook 'rust-mode-hook 'blaenk/rustfmt))
 
 (use-package google-c-style
   :defer t)
