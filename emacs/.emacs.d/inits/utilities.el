@@ -48,12 +48,11 @@
 (use-package ag
   :defer t
   :init
-  (setq ag-reuse-buffers t)
+  (setq ag-highlight-search t)
   (setq ag-project-root-function
         (lambda (file-or-dir-name)
           (let ((default-directory file-or-dir-name))
-            (projectile-project-root))))
-  (setq ag-highlight-search t))
+            (projectile-project-root)))))
 
 ;; TODO
 ;; can configure test dirs by configuring projectile-test-prefix etc
