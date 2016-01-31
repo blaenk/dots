@@ -172,7 +172,10 @@
         (goto-char (point-max))
         (insert "\n#endif  // " ident))))
 
+  ;; use C++ mode in header files
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+  ;; add googletest TESTs to imenu
   (push '(nil "^TEST\\(_F\\)?(\\([^)]+\\))" 2) imenu-generic-expression))
 
 (use-package tramp
