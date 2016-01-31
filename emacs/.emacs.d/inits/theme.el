@@ -1,10 +1,12 @@
 (require 'use-package)
 
 (use-package solarized
+  :if window-system
   :ensure solarized-theme
   :config
   (eval-when-compile
     (require 'solarized))
+
   (make-face 'mode-line-column-face)
   (make-face 'mode-line-branch-face)
   (make-face 'mode-line-anzu-face)
@@ -37,9 +39,8 @@
         `(whitespace-line ((,class (:underline t))))
 
         `(evil-quickscope-first-face ((,class (:weight bold :underline t))))
-        `(evil-quickscope-second-face ((,class (:foreground ,red-lc :weight bold))))
-
-        `(mmm-default-submode-face ((,class (:background unspecified))))
+        `(evil-quickscope-second-face ((,class (:foreground ,red-lc
+                                                :weight bold))))
 
         `(hl-line ((,class (:background
                             ,(solarized-color-blend
@@ -76,6 +77,8 @@
         `(rainbow-delimiters-depth-13-face ((,class (:foreground ,violet))))
         `(rainbow-delimiters-unmatched-face
           ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
+
+        `(mmm-default-submode-face ((,class (:background unspecified))))
 
         `(header-line
           ((,class (:inverse-video unspecified
@@ -166,13 +169,16 @@
                     :foreground ,s-mode-line-inactive-fg
                     :background ,s-mode-line-inactive-bg
                     ))))
-        )))
+        ))
+    )
 
   (if (daemonp)
       (add-hook 'after-make-frame-functions
                 (lambda (frame)
                   (with-selected-frame frame
                     (blaenk/load-theme))))
+    ;; can get current frame with
+    ;; (window-frame (get-buffer-window))
     (blaenk/load-theme)))
 
 ;; (use-package helm
