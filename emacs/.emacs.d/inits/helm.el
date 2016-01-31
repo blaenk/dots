@@ -29,9 +29,9 @@
   (require 'helm-config)
   (helm-autoresize-mode t)
 
-  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-  (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
-  (define-key helm-map (kbd "C-z") 'helm-select-action)
+  (bind-key "<tab>" 'helm-execute-persistent-action helm-map)
+  (bind-key "C-i" 'helm-execute-persistent-action helm-map)
+  (bind-key "C-z" 'helm-select-action helm-map)
 
   ;; open in horizontal split
   (require 'helm-files)
@@ -86,17 +86,11 @@
     (with-helm-alive-p
       (helm-exit-and-execute-action 'blaenk/helm-action-vertical-split)))
 
-  (define-key helm-find-files-map
-    (kbd "M-h") 'blaenk/helm-horizontal-split)
+  (bind-key "M-h" 'blaenk/helm-horizontal-split helm-find-files-map)
+  (bind-key "M-h" 'blaenk/helm-horizontal-split helm-buffer-map)
 
-  (define-key helm-buffer-map
-    (kbd "M-h") 'blaenk/helm-horizontal-split)
-
-  (define-key helm-find-files-map
-    (kbd "M-v") 'blaenk/helm-vertical-split)
-
-  (define-key helm-buffer-map
-    (kbd "M-v") 'blaenk/helm-vertical-split)
+  (bind-key "M-v" 'blaenk/helm-vertical-split helm-find-files-map)
+  (bind-key "M-v" 'blaenk/helm-vertical-split helm-buffer-map)
 
   (helm-mode 1)
 
@@ -104,17 +98,16 @@
     :bind ("C-c t" . helm-mt)
 
     :config
-    (define-key helm-mt/keymap
-      (kbd "M-h") 'blaenk/helm-horizontal-split)
+    (bind-key "M-h" 'blaenk/helm-horizontal-split helm-mt/keymap)
 
-    (define-key helm-mt/keymap
-      (kbd "M-v") 'blaenk/helm-vertical-split))
+    (bind-key "M-v" 'blaenk/helm-vertical-split helm-mt/keymap))
 
   (use-package helm-open-github)
 
   (use-package helm-unicode
     :config
-    (define-key global-map [remap insert-char] 'helm-unicode))
+    (bind-key [remap insert-char] 'helm-unicode)
+    )
 
   (use-package helm-ag)
 
@@ -140,11 +133,9 @@
     :diminish projectile-mode
 
     :config
-    (define-key helm-projectile-find-file-map
-      (kbd "M-h") 'blaenk/helm-horizontal-split)
+    (bind-key "M-h" 'blaenk/helm-horizontal-split helm-projectile-find-file-map)
 
-    (define-key helm-projectile-find-file-map
-      (kbd "M-v") 'blaenk/helm-vertical-split)
+    (bind-key "M-v" 'blaenk/helm-vertical-split helm-projectile-find-file-map)
 
     (helm-projectile-on)
 
