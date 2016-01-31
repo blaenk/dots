@@ -23,8 +23,8 @@
   (add-hook 'racket-mode-hook 'smartparens-mode)
   (add-hook 'scheme-mode-hook 'smartparens-mode)
 
-  (define-key smartparens-mode-map (kbd "M-S") 'sp-split-sexp)
-  (define-key smartparens-mode-map (kbd "M-J") 'sp-join-sexp)
+  (bind-key "M-S" 'sp-split-sexp smartparens-mode-map)
+  (bind-key "M-J" 'sp-join-sexp smartparens-mode-map)
 
   ;; TODO bind % to jump toggle matching pair
 
@@ -38,33 +38,37 @@
 
       ;; TODO evil-commentary delegating sp-comment wrapper?
 
-      (define-key evil-normal-state-map (kbd "> )")
+      (bind-key "> )"
         (lambda ()
           (interactive)
           (on-parens-forward-slurp)
           ;; get back on paren
-          (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char :end))))
+          (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char :end)))
+        evil-normal-state-map)
 
-      (define-key evil-normal-state-map (kbd "< )")
+      (bind-key "< )"
         (lambda ()
           (interactive)
           (on-parens-forward-barf)
           ;; get back on paren
-          (sp-restrict-to-object 'sp-prefix-pair-object 'sp-backward-down-sexp)))
+          (sp-restrict-to-object 'sp-prefix-pair-object 'sp-backward-down-sexp))
+        evil-normal-state-map)
 
-      (define-key evil-normal-state-map (kbd "> (")
+      (bind-key "> ("
         (lambda ()
           (interactive)
           (on-parens-backward-barf)
           ;; get back on paren
-          (sp-restrict-to-object 'sp-prefix-pair-object 'sp-next-sexp)))
+          (sp-restrict-to-object 'sp-prefix-pair-object 'sp-next-sexp))
+        evil-normal-state-map)
 
-      (define-key evil-normal-state-map (kbd "< (")
+      (bind-key "< ("
         (lambda ()
           (interactive)
           (on-parens-backward-slurp)
           ;; get back on paren
-          (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char (+ :beg 1)))))
+          (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char (+ :beg 1))))
+        evil-normal-state-map)
 
       ;; TODO
       ;; this should be turned off when smartparens is not on
@@ -74,18 +78,20 @@
       ;; (define-key evil-normal-state-map (kbd "g E") 'on-parens-backward-sexp-end)
       ;; (define-key evil-normal-state-map (kbd "B") 'on-parens-backward-sexp)
 
-      (define-key evil-normal-state-map (kbd "< u") 'sp-splice-sexp-killing-backward)
-      (define-key evil-normal-state-map (kbd "> u") 'sp-splice-sexp-killing-forward)
+      (bind-key "< u" 'sp-splice-sexp-killing-backward evil-normal-state-map)
+      (bind-key "> u" 'sp-splice-sexp-killing-forward evil-normal-state-map)
 
-      (define-key evil-normal-state-map (kbd "< d")
+      (bind-key "< d"
         (lambda ()
           (interactive)
-          (sp-kill-sexp '(-4))))
+          (sp-kill-sexp '(-4)))
+        evil-normal-state-map)
 
-      (define-key evil-normal-state-map (kbd "> d")
+      (bind-key "> d"
         (lambda ()
           (interactive)
-          (sp-kill-sexp '(4))))
+          (sp-kill-sexp '(4)))
+        evil-normal-state-map)
 
       (defun sp-get-current-non-string-sexp (pos)
         "get the enclosing, non-string sexp"
@@ -136,11 +142,9 @@
         (blaenk/save-position
          (sp-transpose-sexp -1)))
 
-      (define-key evil-normal-state-map (kbd "< f")
-        (sp-restrict-to-object-interactive 'sp-prefix-pair-object 'move-form-backward))
+      (bind-key "< f" (sp-restrict-to-object-interactive 'sp-prefix-pair-object 'move-form-backward) evil-normal-state-map)
 
-      (define-key evil-normal-state-map (kbd "> f")
-        (sp-restrict-to-object-interactive 'sp-prefix-pair-object 'move-form-forward))
+      (bind-key "> f" (sp-restrict-to-object-interactive 'sp-prefix-pair-object 'move-form-forward) evil-normal-state-map)
 
       (defun move-symbol-backward (&optional arg)
         "move a symbol backward"
@@ -162,8 +166,8 @@
         (backward-char)
         (on-parens-backward-sexp arg))
 
-      (define-key evil-normal-state-map (kbd "< s") 'move-symbol-backward)
-      (define-key evil-normal-state-map (kbd "> s") 'move-symbol-forward)
+      (bind-key "< s" 'move-symbol-backward evil-normal-state-map)
+      (bind-key "> s" 'move-symbol-forward evil-normal-state-map)
 
       (defun insert-before-form ()
         "jump to the beginning of the sexp and go into insert mode"
@@ -179,5 +183,6 @@
         (sp-end-of-sexp)
         (evil-insert 0))
 
-      (define-key evil-normal-state-map (kbd "< i") 'insert-before-form)
-      (define-key evil-normal-state-map (kbd "> i") 'insert-after-form))))
+      (bind-key "< i" 'insert-before-form evil-normal-state-map)
+      (bind-key "> i" 'insert-after-form evil-normal-state-map)
+      )))
