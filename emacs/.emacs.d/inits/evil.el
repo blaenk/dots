@@ -265,8 +265,8 @@ The initial state for a mode can be set with
 
   (with-eval-after-load 'bind-map
     (bind-keys :map blaenk/leader-map
-      ("o" . 'blaenk/evil-open-in-between)
-      ("l" . 'blaenk/clear-search)))
+      ("o" . blaenk/evil-open-in-between)
+      ("l" . blaenk/clear-search)))
 
   (use-package evil-indent-plus
     :config
