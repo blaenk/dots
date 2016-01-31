@@ -98,13 +98,15 @@ The initial state for a mode can be set with
 
   (eval-when-compile
     (require 'solarized))
-  (solarized-with-color-variables 'light
-    (setq evil-normal-state-cursor `(,blue-l box))
-    (setq evil-insert-state-cursor `(,green-l box))
-    (setq evil-visual-state-cursor `(,magenta-l box))
-    (setq evil-replace-state-cursor `(,red-l (hbar . 4)))
-    (setq evil-operator-state-cursor `((hbar . 6)))
-    (setq evil-emacs-state-cursor `(,red-l box)))
+
+  (with-eval-after-load 'solarized
+    (solarized-with-color-variables 'light
+      (setq evil-normal-state-cursor `(,blue-l box))
+      (setq evil-insert-state-cursor `(,green-l box))
+      (setq evil-visual-state-cursor `(,magenta-l box))
+      (setq evil-replace-state-cursor `(,red-l (hbar . 4)))
+      (setq evil-operator-state-cursor `((hbar . 6)))
+      (setq evil-emacs-state-cursor `(,red-l box))))
 
   (with-eval-after-load 'ggtags
     (evil-make-overriding-map ggtags-mode-map)
