@@ -58,14 +58,12 @@ to the current branch. Uses Magit."
         (delete-other-windows)
         (set-window-dedicated-p nil nil)
         (set-window-buffer nil buffer)
-        (blaenk/fullscreen-if-wasnt)
         (get-buffer-window buffer))))
 
   (setq magit-display-buffer-function 'blaenk/magit-display-buffer)
 
   (defun blaenk/magit-bury-buffer (buffer)
-    (magit-restore-window-configuration buffer)
-    (blaenk/unfullscreen-if-wasnt))
+    (magit-restore-window-configuration buffer))
 
   (setq magit-bury-buffer-function 'blaenk/magit-bury-buffer)
 
