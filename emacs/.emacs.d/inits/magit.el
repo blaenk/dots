@@ -54,6 +54,7 @@ to the current branch. Uses Magit."
     (if magit-display-buffer-noselect
         (magit-display-buffer-traditional buffer)
       (progn
+        (magit-save-window-configuration)
         (delete-other-windows)
         (set-window-dedicated-p nil nil)
         (set-window-buffer nil buffer)
