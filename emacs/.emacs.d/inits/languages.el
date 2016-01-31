@@ -118,7 +118,7 @@
   :defer t
   :init
   (with-eval-after-load 'company
-    (push 'company-robe company-backends))
+    (add-to-list 'company-backends 'company-robe))
 
   (add-hook 'ruby-mode-hook 'robe-mode)
   (add-hook 'enh-ruby-mode-hook 'robe-mode))
