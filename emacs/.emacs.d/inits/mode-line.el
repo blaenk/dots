@@ -1,4 +1,7 @@
 (require 'use-package)
+(require 'f)
+(require 's)
+(require 'dash)
 
 (defun blaenk/toggle-header-line ()
   (interactive)
@@ -103,9 +106,9 @@
                            (replace-regexp-in-string
                             (regexp-quote project-root) ""
                             name)
-                         (abbreviate-file-name name)))
-                 (directory (or (file-name-directory name) ""))
-                 (file-name (file-name-nondirectory name)))
+                         (f-short name)))
+                 (directory (or (f-dirname name) ""))
+                 (file-name (f-filename name)))
             (format "%s%s %s%s "
                     (if project-root
                         (propertize
