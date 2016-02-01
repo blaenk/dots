@@ -69,6 +69,7 @@
   `(setq ,var (append ,var '(,@elems))))
 
 (use-package s)
+(use-package f)
 (use-package dash)
 
 (when (getenv "VM")
