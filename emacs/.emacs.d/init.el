@@ -137,6 +137,8 @@
 ;; TODO why this, then rebind to universal-argument-more?
 (bind-key "M-u" 'universal-argument)
 
+(bind-key "C-c u" 'paradox-list-packages)
+
 (defun blaenk/kill-this-buffer ()
   (interactive)
   (let ((buffer-modified-p nil))
