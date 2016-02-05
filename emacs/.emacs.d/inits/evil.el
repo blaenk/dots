@@ -177,6 +177,8 @@ The initial state for a mode can be set with
               (back-to-indentation)
               (kill-region beg (point))))))))
 
+  (bind-key "C-w" 'evil-window-map evil-emacs-state-map)
+
   (bind-key "z =" 'helm-flyspell-correct evil-normal-state-map)
 
   (bind-key "[ s" 'flyspell-goto-previous-error evil-normal-state-map)
@@ -193,8 +195,6 @@ The initial state for a mode can be set with
   (bind-key "C-u" 'evil-scroll-up evil-normal-state-map)
 
   (bind-key "g p" 'exchange-point-and-mark evil-normal-state-map)
-
-  (bind-key "C-w q" 'evil-window-delete evil-normal-state-map)
 
   (defun blaenk/evil-insert-mode-paste ()
     (interactive)
