@@ -147,18 +147,18 @@
 (bind-key "C-c k" 'blaenk/kill-this-buffer)
 (bind-key "C-c s" 'save-buffer)
 
-(defun blaenk/q-switch-buffer ()
+(defun blaenk/switch-to-previous-buffer ()
   (interactive)
   (switch-to-buffer (other-buffer)))
 
-(bind-key "C-c o" 'blaenk/q-switch-buffer)
+(bind-key "C-c o" 'blaenk/switch-to-previous-buffer)
 
-(defun blaenk/split-previous ()
+(defun blaenk/split-with-previous-buffer ()
   (interactive)
   (select-window (split-window-below))
-  (blaenk/q-switch-buffer))
+  (blaenk/switch-to-previous-buffer))
 
-(bind-key "C-c x" 'blaenk/split-previous)
+(bind-key "C-c x" 'blaenk/split-with-previous-buffer)
 
 (bind-key "C-c b" 'bury-buffer)
 (bind-key "M-u" 'universal-argument-more universal-argument-map)
