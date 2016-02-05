@@ -152,6 +152,14 @@
   (switch-to-buffer (other-buffer)))
 
 (bind-key "C-c o" 'blaenk/q-switch-buffer)
+
+(defun blaenk/split-previous ()
+  (interactive)
+  (select-window (split-window-below))
+  (blaenk/q-switch-buffer))
+
+(bind-key "C-c x" 'blaenk/split-previous)
+
 (bind-key "C-c b" 'bury-buffer)
 (bind-key "M-u" 'universal-argument-more universal-argument-map)
 
