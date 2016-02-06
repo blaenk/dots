@@ -18,6 +18,9 @@
             :evil-keys ("SPC")
             :evil-states (normal motion visual)))
 
+(use-package help-fns+
+  :commands describe-keymap)
+
 ;; TODO
 ;; use (member "Symbola" (font-family-list))
 ;; to fall back on unicode icons
