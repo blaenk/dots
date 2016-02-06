@@ -8,12 +8,32 @@
 
   ;; TODO check if these should all be in this
   (setq evil-search-module 'evil-search)
+  (setq-default evil-symbol-word-search t)
+
   ;; (setq evil-cross-lines t)
+
   ;; TODO show trailing whitespace in combination with this?
   ;; (setq evil-move-cursor-back nil)
-  (setq-default evil-symbol-word-search t)
+
   ;; TODO necessary?
   (setq-default evil-shift-width 2)
+  (setq evil-want-C-w-delete t)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-default-state 'emacs)
+  (setq evil-normal-state-modes
+        '(text-mode
+          prog-mode
+          fundamental-mode
+          css-mode
+          conf-mode
+          TeX-mode
+          LaTeX-mode
+          yaml-mode
+          ))
+  (setq evil-emacs-state-modes
+        '(help-mode
+          term-mode
+          undo-tree-visualizer-mode))
 
   (defun blaenk/evil--real-function (fun)
     "Figure out the actual symbol behind a function.
@@ -49,26 +69,6 @@ The initial state for a mode can be set with
             (when (or (memq mode modes)
                       (blaenk/evil--derived-mode-p mode modes))
               (throw 'done state)))))))
-
-  (setq evil-want-C-w-delete t)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-default-state 'emacs)
-  (setq evil-normal-state-modes
-        '(text-mode
-          prog-mode
-          fundamental-mode
-          css-mode
-          conf-mode
-          TeX-mode
-          LaTeX-mode
-          yaml-mode
-          ))
-  (setq evil-emacs-state-modes
-        '(help-mode
-          term-mode
-          undo-tree-visualizer-mode))
-
-  (add-hook 'with-editor-mode-hook 'evil-insert-state)
 
   :config
   ;; see skip-syntax-forward ^<

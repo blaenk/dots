@@ -11,6 +11,7 @@
   (unicode-fonts-setup))
 
 (use-package bind-map
+  :after evil
   :config
   (bind-map blaenk/leader-map
             :keys ("M-m")
@@ -119,7 +120,8 @@
 
   :init
   ;; (evil-define-key 'visual global-map (kbd "v") 'er/expand-region)
-  (bind-key "v" 'er/expand-region blaenk/leader-map)
+  (with-eval-after-load 'bind-map
+    (bind-key "v" 'er/expand-region blaenk/leader-map))
   )
 
 (use-package buffer-move)
@@ -313,7 +315,8 @@
   (setq relative-line-numbers-format #'abs-rel-numbers)
 
   :config
-  (bind-key "n" 'relative-line-numbers-mode blaenk/leader-map)
+  (with-eval-after-load 'bind-map
+    (bind-key "n" 'relative-line-numbers-mode blaenk/leader-map))
 
   (setq relative-line-numbers-motion-function 'forward-visible-line)
   (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
@@ -330,7 +333,8 @@
   (setq fci-rule-use-dashes t)
   (setq fci-dash-pattern 0.50)
 
-  (bind-key "c" 'fci-mode blaenk/leader-map)
+  (with-eval-after-load 'bind-map
+    (bind-key "c" 'fci-mode blaenk/leader-map))
 
   (defun blaenk/git-commit-fill-column ()
     (fci-mode 1))
