@@ -17,6 +17,7 @@
 
   ;; TODO necessary?
   (setq-default evil-shift-width 2)
+  (setq-default evil-shift-round nil)
   (setq evil-want-C-w-delete t)
   (setq evil-want-C-u-scroll t)
   (setq evil-default-state 'emacs)
