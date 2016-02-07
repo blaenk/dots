@@ -107,7 +107,7 @@
                             (regexp-quote project-root) ""
                             name)
                          (f-short name)))
-                 (directory (or (f-dirname name) ""))
+                 (directory (or (f-slash (f-dirname name)) ""))
                  (file-name (f-filename name)))
             (format "%s%s %s%s "
                     (if project-root
