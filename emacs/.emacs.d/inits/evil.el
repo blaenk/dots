@@ -71,30 +71,42 @@ The initial state for a mode can be set with
               (throw 'done state)))))))
 
   :config
-  ;; see skip-syntax-forward ^<
-  ;; (skip characters whose syntax is now comment start)
   (eval-when-compile
     (require 'evil-macros)
     (require 'evil-types))
+
+  ;; if joined lines are comments, remove delimiters
   (evil-define-operator blaenk/evil-join (beg end)
     "Join the selected lines."
     :motion evil-line
-    (let ((count (count-lines beg end)))
-      (when (> count 1)
-        (setq count (1- count)))
+    (let* ((count (count-lines beg end))
+           ;; we join pairs at a time
+           (count (if (> count 1) (1- count) count))
+           ;; if the first line is empty, join it manually
+           (count (if (= (line-beginning-position) (line-end-position))
+                      (progn
+                        (join-line 1)
+                        (1- count))
+                    count))
+           ;; the mark at the middle of the joined pair of lines
+           (fixup-mark (make-marker)))
       (dotimes (var count)
-        (join-line 1)
-        ;; remove comment delimiters
-        (when (nth 4 (syntax-ppss))
-          (forward-char)
-          (while (looking-at
-                  (concat
-                   "\\s<"
-                   "\\|" (substring comment-start 0 1) "\\|"
-                   "\\s-"))
-            (delete-char 1))))))
+        (let* ((end (1- (line-end-position 2)))
+               (fill-column (- end beg)))
+          ;; save the mark at the middle of the pair
+          (set-marker fixup-mark (1- (line-beginning-position 2)))
+          ;; join it via fill
+          (fill-region-as-paragraph beg end)
+          ;; jump back to the middle
+          (goto-char fixup-mark)
+          ;; context-dependent whitespace fixup
+          (fixup-whitespace)))
+
+      ;; remove the mark
+      (set-marker fixup-mark nil)))
 
   (bind-key "J" 'blaenk/evil-join evil-normal-state-map)
+  (bind-key "J" 'blaenk/evil-join evil-visual-state-map)
 
   (eval-when-compile
     (require 'solarized))
