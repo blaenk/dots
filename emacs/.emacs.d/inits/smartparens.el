@@ -89,6 +89,11 @@
 
       (defun blaenk/delete-sexp-forward ()
         (interactive)
+        ;; FIXME
+        ;; doesn't work when point is on/before closing brace
+        ;; so we'll hack it by simply using forward-char
+        ;; even on-parens-kill-sexp doesn't seem to work
+        (forward-char)
         (sp-kill-sexp '(4)))
 
       (bind-key "> d" 'blaenk/delete-sexp-forward evil-normal-state-map)
