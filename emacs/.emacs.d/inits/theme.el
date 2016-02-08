@@ -1,7 +1,6 @@
 (require 'use-package)
 
 (use-package solarized
-  :if window-system
   :ensure solarized-theme
   :config
   (eval-when-compile
