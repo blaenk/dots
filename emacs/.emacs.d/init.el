@@ -125,6 +125,7 @@
 
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
 
+(bind-key [remap eval-last-sexp] 'pp-eval-last-sexp)
 (bind-key [remap eval-expression] 'pp-eval-expression)
 
 ;; unicode mappings
