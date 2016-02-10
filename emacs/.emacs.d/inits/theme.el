@@ -168,7 +168,15 @@
                     :foreground ,s-mode-line-inactive-fg
                     :background ,s-mode-line-inactive-bg
                     ))))
-        ))
+
+        ;; smerge
+       `(smerge-markers
+         ((,class (:inherit magit-diff-hunk-heading-highlight))))
+       `(smerge-mine
+         ((,class (:inherit magit-diff-removed-highlight))))
+       `(smerge-other
+         ((,class (:inherit magit-diff-added-highlight)))))
+      )
     )
 
   (if (daemonp)

@@ -7,6 +7,21 @@
   :init
   (setq save-place-file (blaenk/cache-dir "saved-places")))
 
+(use-package smerge-mode
+  :ensure nil
+  :init
+  ;; this hack advises smerge-start-session so that if smerge remains enabled,
+  ;; we require magit-ediff for the appropriate font-faces. this enables us to
+  ;; defer loading of magit-ediff unless it's actually necessary
+  (defun blaenk/require-magit-ediff-if-smerge ()
+    (when (bound-and-true-p smerge-mode)
+      (require 'magit-ediff)))
+
+  (advice-add 'smerge-start-session :after 'blaenk/require-magit-ediff-if-smerge)
+
+  ;; attempt to start smerge, automatically disabling it if not relevant
+  (add-hook 'find-file-hook 'smerge-start-session))
+
 (use-package bookmark
   :ensure nil
   :defer t
