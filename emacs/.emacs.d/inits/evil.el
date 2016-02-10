@@ -83,24 +83,21 @@ The initial state for a mode can be set with
     (let* ((count (count-lines beg end))
            ;; we join pairs at a time
            (count (if (> count 1) (1- count) count))
+           ;; the mark at the middle of the joined pair of lines
            (fixup-mark (make-marker)))
       (dotimes (var count)
-        ;; if the current or next line is empty, do a regular join-line
-        (if (or
-             (= (line-beginning-position) (line-end-position))
-             (= (line-beginning-position 2) (line-end-position 2)))
+        (if (and (bolp) (eolp))
             (join-line 1)
-          (let* ((end (1- (line-end-position 2)))
-                 (fill-column (- end beg)))
+          (let* ((end (line-beginning-position 3))
+                 (fill-column (1+ (- end beg))))
             ;; save the mark at the middle of the pair
-            (set-marker fixup-mark (1- (line-beginning-position 2)))
+            (set-marker fixup-mark (line-end-position))
             ;; join it via fill
             (fill-region-as-paragraph beg end)
             ;; jump back to the middle
             (goto-char fixup-mark)
             ;; context-dependent whitespace fixup
             (fixup-whitespace))))
-
       ;; remove the mark
       (set-marker fixup-mark nil)))
 
