@@ -184,14 +184,7 @@
       )
     )
 
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions
-                (lambda (frame)
-                  (with-selected-frame frame
-                    (blaenk/load-theme))))
-    ;; can get current frame with
-    ;; (window-frame (get-buffer-window))
-    (blaenk/load-theme)))
+  (blaenk/after-frame (blaenk/load-theme)))
 
 ;; (use-package helm
 ;;   :no-require t

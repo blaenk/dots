@@ -3,39 +3,10 @@
 (setq load-prefer-newer t)
 (setq backup-by-copying t)
 
-(defun blaenk/emacs-dir (path)
-  (expand-file-name path user-emacs-directory))
+(add-to-list 'load-path
+             (expand-file-name "inits/common/" user-emacs-directory))
 
-(defun blaenk/cache-dir (path)
-  (blaenk/emacs-dir (concat "cache/" path)))
-
-(defun blaenk/inits-dir (path)
-  (blaenk/emacs-dir (concat "inits/" path)))
-
-(defun blaenk/load-inits (names)
-  (dolist (name names)
-      (load (blaenk/inits-dir name))))
-
-(defun blaenk/is-fullscreen ()
-  (memq (frame-parameter nil 'fullscreen) '(fullscreen fullboth)))
-
-(defun blaenk/go-fullscreen ()
-  (interactive)
-  (set-frame-parameter nil 'fullscreen 'fullboth))
-
-(defun blaenk/un-fullscreen ()
-  (set-frame-parameter nil 'fullscreen nil))
-
-(defun blaenk/fullscreen-if-wasnt ()
-  (if (blaenk/is-fullscreen)
-      (setq blaenk/was-fullscreen t)
-    (progn
-      (setq blaenk/was-fullscreen nil)
-      (blaenk/go-fullscreen))))
-
-(defun blaenk/unfullscreen-if-wasnt ()
-  (when (not blaenk/was-fullscreen)
-    (blaenk/un-fullscreen)))
+(require 'init-common)
 
 (let* ((auto-save-dir (blaenk/cache-dir "autosaves/")))
   (setq auto-save-list-file-prefix (expand-file-name "saves-" auto-save-dir))
@@ -64,9 +35,6 @@
 (require 'bind-key)
 
 (setq use-package-always-ensure t)
-
-(defmacro blaenk/setq-append (var &rest elems)
-  `(setq ,var (append ,var '(,@elems))))
 
 (use-package s)
 (use-package f)
@@ -212,25 +180,16 @@
 
 (bind-key "C-S-x C-S-s" 'blaenk/force-save)
 
-(defun blaenk/get-faces (pos)
-  "Get the font faces at POS."
-  (remq nil
-        (list
-         (get-char-property pos 'read-face-name)
-         (get-char-property pos 'face)
-         (plist-get (text-properties-at pos) 'face))))
-
-(defun blaenk/what-face (pos)
-  (interactive "d")
-  (let ((face (blaenk/get-faces pos)))
-    (if face (message "Face: %s" face) (message "No face at %d" pos))))
-
 (byte-recompile-directory (blaenk/inits-dir "") 0)
+
+(defun blaenk/load-inits (names)
+  (dolist (name names)
+      (load (blaenk/inits-dir name))))
 
 (blaenk/load-inits
  '(
-   "built-in"
    "theme"
+   "built-in"
    "utilities"
    "languages"
    "flycheck"
