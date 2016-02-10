@@ -33,10 +33,12 @@
     (solarized-with-color-variables 'light
       (custom-theme-set-faces
         'solarized-light
+        ;; whitespace
         `(whitespace-trailing ((,class (:background ,red-l))))
         `(whitespace-tab ((,class (:background ,red-l))))
         `(whitespace-line ((,class (:underline t))))
 
+        ;; evil-quickscope
         `(evil-quickscope-first-face ((,class (:weight bold :underline t))))
         `(evil-quickscope-second-face ((,class (:foreground ,red-lc
                                                 :weight bold))))
@@ -46,14 +48,15 @@
                               base02 base03 0.5)))))
         `(region ((,class (:background ,base02))))
 
-        `(sp-show-pair-match-face ((,class (:foreground unspecified
-                                            :background ,base02
-                                            :weight bold))))
-
         `(show-paren-match ((,class (:foreground unspecified
                                       :background ,base02
                                       :weight bold
                                       ))))
+
+        ;; smartparents
+        `(sp-show-pair-match-face ((,class (:foreground unspecified
+                                            :background ,base02
+                                            :weight bold))))
 
         `(sp-show-pair-mismatch-face ((,class (:foreground unspecified
                                                 :background ,red
@@ -61,6 +64,7 @@
 
         `(highlight-quoted-quote ((,class (:foreground ,red-hc))))
 
+        ;; rainbow delimiters
         `(rainbow-delimiters-depth-1-face ((,class (:foreground ,base01))))
         `(rainbow-delimiters-depth-2-face ((,class (:foreground ,cyan))))
         `(rainbow-delimiters-depth-3-face ((,class (:foreground ,yellow))))
@@ -77,6 +81,7 @@
         `(rainbow-delimiters-unmatched-face
           ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
 
+        ;; mmm-mode
         `(mmm-default-submode-face ((,class (:background unspecified))))
 
         `(header-line
