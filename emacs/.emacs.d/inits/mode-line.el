@@ -25,12 +25,18 @@
   ;; 'left' but it'll be truncated to fit
   ;; should happen in stages, e.g. the file-name should show
   ;; basename for better fit, then not show which-func
-  (defun blaenk/render-mode-line (left right)
-    (let* ((available-width (- (window-total-width) (string-width left)))
-           (pad-width (- available-width (string-width right)))
-           (specified-space (propertize " " 'display `((space :width ,pad-width))))
-           (fmt (concat "%s" specified-space "%s")))
-      (format fmt left right)))
+  (defun blaenk/render-mode-line (left center right)
+    (let* ((available-width (-
+                             (window-total-width)
+                             (+ (string-width left) (string-width right))))
+           (center-fmt
+            (if (> (string-width center) available-width)
+                (s-truncate available-width center)
+              (concat center
+                (propertize " " 'display
+                  `((space :width ,(- available-width (string-width center))))))
+              )))
+      (concat left center-fmt right)))
 
   (defun blaenk/is-remote-buffer ()
     (and (stringp default-directory)
@@ -97,6 +103,8 @@
       face mode-line-mode-name-face)
      ))
 
+  ;; TODO
+  ;; would be nice to not show the directory if it didn't fit
   (defun blaenk/file-name (for-title)
     (let* ((name (buffer-file-name)))
       (if name
@@ -139,6 +147,10 @@
           (:propertize
            (:eval (blaenk/remote-mode-line))
            face mode-line-remote-face)
+          ))
+
+  (setq mode-line-center
+        `(
           ;; TODO
           ;; truncate this to fit
           (:eval (blaenk/file-name nil))
@@ -164,6 +176,7 @@
    mode-line-format
    `(:eval (blaenk/render-mode-line
             (format-mode-line mode-line-left)
+            (format-mode-line mode-line-center)
             (format-mode-line mode-line-right)))))
 
 (blaenk/setup-mode-line)
