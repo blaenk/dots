@@ -33,6 +33,9 @@
     (solarized-with-color-variables 'light
       (custom-theme-set-faces
         'solarized-light
+        ;; ucs char
+        `(helm-ucs-char ((,class (:foreground unspecified))))
+
         ;; whitespace
         `(whitespace-trailing ((,class (:background ,red-l))))
         `(whitespace-tab ((,class (:background ,red-l))))
