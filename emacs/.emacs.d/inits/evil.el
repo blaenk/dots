@@ -306,6 +306,9 @@ The initial state for a mode can be set with
 
   (use-package evil-surround
     :config
+    (setq-default
+     evil-surround-pairs-alist
+     (cons '(? . ("" . "")) evil-surround-pairs-alist))
     (global-evil-surround-mode 1))
 
   (use-package evil-visual-mark-mode
