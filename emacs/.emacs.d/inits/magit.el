@@ -75,10 +75,11 @@ to the current branch. Uses Magit."
   (magit-wip-before-change-mode)
 
   (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
-  (add-hook 'git-commit-setup-hook 'fci-mode))
+  (add-hook 'git-commit-setup-hook 'fci-mode)
 
-(use-package magit-gh-pulls
-  :disabled t
-  :defer t
-  :init
-  (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls))
+  (use-package magit-gh-pulls
+    :init
+    (magit-define-popup-action 'magit-dispatch-popup
+      ?# "Pull requests" 'magit-gh-pulls-popup ?!)
+
+    (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)))
