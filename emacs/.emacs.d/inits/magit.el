@@ -28,10 +28,6 @@
   (setq magit-log-auto-more t)
 
   :config
-  (magit-add-section-hook
-   'magit-status-sections-hook
-   'magit-insert-unpulled-module-commits)
-
   (defun blaenk/pull-request-url ()
     "Build the URL or the pull requestion on GitHub corresponding
 to the current branch. Uses Magit."
