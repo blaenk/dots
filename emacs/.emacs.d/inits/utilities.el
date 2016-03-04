@@ -383,6 +383,7 @@
   :init
   (setq emojify-prog-contexts 'comments)
   (setq emojify-point-entered-behaviour 'uncover)
+  (setq emojify-emojis-dir (blaenk/cache-dir "emojis"))
 
   (add-hook 'after-init-hook 'global-emojify-mode)
 
