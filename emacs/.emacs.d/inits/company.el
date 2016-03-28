@@ -45,11 +45,19 @@
 
   (use-package company-web)
 
+  (use-package company-rtags
+    :ensure nil
+    :config
+    (add-to-list 'company-backends 'company-rtags))
+
   (use-package company-irony
     :config
-    (add-to-list 'company-backends 'company-irony)
+    ;; (add-to-list 'company-backends 'company-irony)
+    )
 
-    (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands))
+  (use-package company-irony-c-headers
+    :config
+    (add-to-list 'company-backends '(company-irony-c-headers company-irony)))
 
   (use-package company-go
     :config

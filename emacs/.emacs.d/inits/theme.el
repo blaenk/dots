@@ -33,6 +33,11 @@
     (solarized-with-color-variables 'light
       (custom-theme-set-faces
         'solarized-light
+        ;; rtags
+        `(rtags-warnline ((,class (:underline "goldenrod4"))))
+        `(rtags-errline ((,class (:underline "red"))))
+        `(rtags-fixitline ((,class (:underline "blue"))))
+
         ;; ucs char
         `(helm-ucs-char ((,class (:foreground unspecified))))
 

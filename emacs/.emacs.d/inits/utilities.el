@@ -420,7 +420,13 @@
   (add-hook 'prog-mode-hook 'blaenk/ggtags-hook))
 
 (use-package rtags
-  :defer t)
+  :init
+  (setq rtags-completions-enabled t)
+  (setq rtags-autostart-diagnostics t)
+
+  :config
+  ;; (rtags-diagnostics)
+  )
 
 (use-package esup
   :commands esup)

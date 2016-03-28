@@ -12,3 +12,14 @@
   :defer t
   :init
   (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+(use-package flycheck-rtags
+  :ensure nil
+  :config
+  (defun blaenk/flycheck-rtags-setup  ()
+    ;; (flycheck-select-checker 'rtags)
+    ;; (setq-local flycheck-highlighting-mode nil)
+    ;; (setq-local flycheck-check-syntax-automatically nil)
+    )
+
+  (add-hook 'c-mode-common-hook 'blaenk/flycheck-rtags-setup))
