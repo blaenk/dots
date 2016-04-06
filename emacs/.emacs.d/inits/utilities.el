@@ -72,6 +72,12 @@
   (setq projectile-cache-file (blaenk/cache-dir "projectile.cache"))
   (setq projectile-known-projects-file (blaenk/cache-dir "projectile-bookmarks.eld"))
 
+  ;; consider files ending in _test to be tests
+  (defun blaenk/projectile-test-suffix-function (project-type)
+    (or (projectile-test-suffix project-type) "_test"))
+
+  (setq projectile-test-suffix-function 'blaenk/projectile-test-suffix-function)
+
   :config
   (bind-key "C-c e" 'blaenk/edit-inits)
 
