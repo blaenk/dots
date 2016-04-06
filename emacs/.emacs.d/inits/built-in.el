@@ -317,10 +317,11 @@ PR [a-z-+]+/\
   :bind (("C-c q" . auto-fill-mode))
 
   :init
-  (setq comment-auto-fill-only-comments t)
+  (defun blaenk/prog-auto-fill ()
+    (setq-local comment-auto-fill-only-comments t)
+    (auto-fill-mode 1))
 
-  (add-hook 'prog-mode-hook 'auto-fill-mode)
-  (add-hook 'text-mode-hook 'auto-fill-mode))
+  (add-hook 'prog-mode-hook 'blaenk/prog-auto-fill))
 
 (use-package dired-x
   :ensure nil
