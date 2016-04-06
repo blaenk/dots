@@ -172,7 +172,7 @@ The initial state for a mode can be set with
             (beginning-of-visual-line)
             ;; go after comment position
             (re-search-forward
-             (concat ".+" start-re "\\s-?")
+             (concat ".*" start-re "\\s-?")
              (line-end-position))
             ;; kill rest of line
             (kill-region (point) beg))
