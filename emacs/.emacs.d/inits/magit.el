@@ -70,9 +70,10 @@ to the current branch. Uses Magit."
     (add-hook 'magit-ediff-quit-hook 'blaenk/ediff-quit))
 
   ;; NOTE remove if perf hit
-  (magit-wip-after-save-mode)
-  (magit-wip-after-apply-mode)
-  (magit-wip-before-change-mode)
+  ;; NOTE see https://github.com/magit/magit/issues/2609
+  ;; (magit-wip-after-save-mode)
+  ;; (magit-wip-after-apply-mode)
+  ;; (magit-wip-before-change-mode)
 
   (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
   (add-hook 'git-commit-setup-hook 'fci-mode)
