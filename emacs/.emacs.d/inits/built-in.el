@@ -314,7 +314,13 @@ PR [a-z-+]+/\
 
 (use-package simple
   :ensure nil
-  :bind (("C-c q" . auto-fill-mode)))
+  :bind (("C-c q" . auto-fill-mode))
+
+  :init
+  (setq comment-auto-fill-only-comments t)
+
+  (add-hook 'prog-mode-hook 'auto-fill-mode)
+  (add-hook 'text-mode-hook 'auto-fill-mode))
 
 (use-package dired-x
   :ensure nil
