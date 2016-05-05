@@ -23,6 +23,7 @@ URxvt.url-select.button: 1
 ! meta copy (like mac)
 URxvt.keysym.M-c: perl:clipboard:copy
 URxvt.keysym.M-v: perl:clipboard:paste
+URxvt.keysym.C-y: perl:clipboard:paste
 URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
 URxvt.clipboard.autocopy: true
 URxvt.clipboard.copycmd: xsel -ib
