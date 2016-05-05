@@ -73,6 +73,7 @@
   :init
   (setq markdown-enable-math t)
   (setq markdown-asymmetric-header t)
+  (setq markdown-gfm-use-electric-backquote nil)
 
   (defun blaenk/gfm-hook ()
     (interactive)
