@@ -80,6 +80,12 @@
     (interactive)
 
     (setq-local word-wrap t)
+
+    (with-eval-after-load 'evil-surround
+      (push '(?s . ("**" . "**")) evil-surround-pairs-alist)
+      (push '(?i . ("_" . "_")) evil-surround-pairs-alist)
+      (push '(?p . ("<span class=\"path\">" . "</span>")) evil-surround-pairs-alist))
+
     (set-face-attribute
      'markdown-comment-face nil
      :strike-through nil)
