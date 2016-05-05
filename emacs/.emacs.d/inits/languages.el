@@ -89,11 +89,13 @@
     (set-face-attribute
      'markdown-comment-face nil
      :strike-through nil)
+
     (bind-keys :map blaenk/leader-map
                ("k" . beginning-of-defun)
                ("j" . end-of-defun)))
 
   (add-hook 'gfm-mode-hook 'blaenk/gfm-hook)
+  (add-hook 'gfm-mode-hook 'outline-minor-mode)
   (add-hook 'gfm-mode-hook 'whitespace-mode)
   (add-hook 'gfm-mode-hook 'flyspell-mode))
 
