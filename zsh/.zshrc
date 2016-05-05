@@ -35,6 +35,7 @@ source $DOTSPATH/zsh/zsh/antigen/antigen.zsh
 antigen bundles <<EOBUNDLES
   zsh-users/zsh-syntax-highlighting
   zsh-users/zsh-completions src
+  command-not-found
 EOBUNDLES
 
 antigen apply
