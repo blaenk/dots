@@ -75,6 +75,7 @@
   (setq markdown-asymmetric-header t)
   (setq markdown-gfm-use-electric-backquote nil)
   (setq markdown-italic-underscore t)
+  (setq markdown-use-pandoc-style-yaml-metadata t)
 
   (defun blaenk/gfm-hook ()
     (interactive)
@@ -97,7 +98,14 @@
   (add-hook 'gfm-mode-hook 'blaenk/gfm-hook)
   (add-hook 'gfm-mode-hook 'outline-minor-mode)
   (add-hook 'gfm-mode-hook 'whitespace-mode)
-  (add-hook 'gfm-mode-hook 'flyspell-mode))
+  (add-hook 'gfm-mode-hook 'flyspell-mode)
+
+  :config
+  (setq markdown-regex-multimarkdown-metadata
+        "^\\([[:alpha:]][[:alpha:] _-]*?\\)\\([:=][ \t]*\\)\\(.*\\)$")
+
+  (add-to-list 'markdown-gfm-additional-languages "cpp")
+  (add-to-list 'markdown-gfm-additional-languages "elisp"))
 
 (use-package yaml-mode
   :defer t)
