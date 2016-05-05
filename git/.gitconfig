@@ -42,12 +42,6 @@
 	# interactively clean up
 	clean-up = clean -i
 
-	# stash working tree including untracked files
-	stash-it = stash save -u
-
-	# pop stash
-	unstash-it = stash pop --index
-
 	# show diff between HEAD and index in commit window
 	ci = commit -v
 
