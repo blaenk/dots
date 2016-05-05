@@ -57,19 +57,6 @@ lsp() {
          *2^(8-i));if(k)printf("%0o ",k);print}'
 }
 
-# move back arbitrary number of directories
-# $ cd b...
-# $ cd ../../../
-cd() {
-  emulate -LR zsh
-
-  if [[ $1 == 'b.'* ]]; then
-    builtin cd ${${1/"b"}//"."/"../"}
-  else
-    builtin cd $*
-  fi
-}
-
 # list pacman packages not required by another package
 # also print their package description
 pacorphans() {
@@ -309,4 +296,37 @@ texi-to-epub() {
     echo "application/epub+zip" > mimetype
     zip -0Xq "${name}.epub" mimetype
     zip -Xr9D "${name}.epub" META-INF OEBPS
+}
+
+# this is from https://github.com/driv/upto
+# less hassle to just embed it here than to submodule it etc
+function up() {
+  local EXPRESSION="$1"
+  if [ -z "$EXPRESSION" ]; then
+    echo "A folder expression must be provided." >&2
+    return 1
+  fi
+  if [ "$EXPRESSION" = "/" ]; then
+    cd "/"
+    return 0
+  fi
+  local CURRENT_FOLDER="$(pwd)"
+  local MATCHED_DIR=""
+  local MATCHING=true
+
+  while [ "$MATCHING" = true ]; do
+    if [[ "$CURRENT_FOLDER" =~ "$EXPRESSION" ]]; then
+      MATCHED_DIR="$CURRENT_FOLDER"
+      CURRENT_FOLDER=$(dirname "$CURRENT_FOLDER")
+    else
+      MATCHING=false
+    fi
+  done
+  if [ -n "$MATCHED_DIR" ]; then
+    cd "$MATCHED_DIR"
+    return 0
+  else
+    echo "No Match." >&2
+    return 1
+  fi
 }
