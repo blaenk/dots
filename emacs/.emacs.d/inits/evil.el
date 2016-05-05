@@ -192,6 +192,14 @@ The initial state for a mode can be set with
   (bind-key "[ s" 'flyspell-goto-previous-error evil-normal-state-map)
   (bind-key "] s" 'flyspell-goto-next-error evil-normal-state-map)
 
+  (defun blaenk/flyspell-last ()
+    (interactive)
+    (save-excursion
+      (check-previous-spelling-error)))
+
+  (bind-key "C-;" 'blaenk/flyspell-last evil-normal-state-map)
+  (bind-key "C-;" 'blaenk/flyspell-last evil-insert-state-map)
+
   (bind-key "[ S" 'check-previous-spelling-error evil-normal-state-map)
   (bind-key "] S" 'check-next-spelling-error evil-normal-state-map)
 
