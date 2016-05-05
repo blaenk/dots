@@ -6,9 +6,10 @@ fpath=(
   "${fpath[@]}"
 )
 
-autoload -U compinit promptinit colors select-word-style
+autoload -U compinit bashcompinit promptinit colors select-word-style
 select-word-style bash
 compinit -i
+bashcompinit
 promptinit
 colors
 
