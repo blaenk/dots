@@ -9,7 +9,6 @@
    ("M-y" . helm-show-kill-ring)
    ("M-i" . helm-semantic-or-imenu)
    ("C-c h" . helm-command-prefix)
-   ("C-<" . helm-buffers-list)
    ("C-x b" . helm-buffers-list)
    ("C-x C-f" . helm-find-files)
    ("C-h a" . helm-apropos)
@@ -133,7 +132,8 @@
   (use-package helm-projectile
     :diminish projectile-mode
     :bind
-    (("C->" . helm-projectile))
+    (("C-<" . helm-projectile-switch-to-buffer)
+     ("C->" . helm-projectile))
 
     :config
     (bind-key "M-h" 'blaenk/helm-horizontal-split helm-projectile-find-file-map)
