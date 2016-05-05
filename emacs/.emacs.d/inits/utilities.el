@@ -467,21 +467,25 @@ If SUBMODE is not provided, use `LANG-mode' by default."
           (submode (or submode (intern (concat lang "-mode"))))
           (front (concat "^``` ?" lang "[\n\r]+"))
           (back "^```"))
-      (mmm-add-classes (list (list class :submode submode :front front :back back)))
+      (mmm-add-classes (list (list class
+                                   :submode submode
+                                   :front front
+                                   :back back)))
       (mmm-add-mode-ext-class 'gfm-mode nil class)))
 
-  (mapc 'blaenk/mmm-markdown-auto-class
-        '("c"
-          "cpp"
-          "haskell"
-          "html"
-          "java"
-          "python"
-          "ruby"
-          "rust"
-          ))
+  ;; (mapc 'blaenk/mmm-markdown-auto-class
+  ;;       '("c"
+  ;;         "haskell"
+  ;;         "html"
+  ;;         "java"
+  ;;         "python"
+  ;;         "ruby"
+  ;;         "rust"
+  ;;         ))
 
-  ;; NOTE for when language and mode-name differ
-  (blaenk/mmm-markdown-auto-class "shell" 'sh-mode)
-  (blaenk/mmm-markdown-auto-class "bash" 'sh-mode)
-  (blaenk/mmm-markdown-auto-class "elisp" 'emacs-lisp-mode))
+  ;; ;; NOTE for when language and mode-name differ
+  ;; (blaenk/mmm-markdown-auto-class "cpp" 'c++-mode)
+  ;; (blaenk/mmm-markdown-auto-class "shell" 'sh-mode)
+  ;; (blaenk/mmm-markdown-auto-class "bash" 'sh-mode)
+  ;; (blaenk/mmm-markdown-auto-class "elisp" 'emacs-lisp-mode)
+  )
