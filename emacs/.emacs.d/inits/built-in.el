@@ -437,3 +437,8 @@ PR [a-z-+]+/\
     (interactive)
     (push-mark (point) t nil)
     (message "Pushed mark to ring")))
+
+(use-package css-mode
+  :ensure nil
+  :init
+  (setq css-indent-offset 2))
