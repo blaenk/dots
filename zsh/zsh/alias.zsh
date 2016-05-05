@@ -61,9 +61,8 @@ elif command_exists pbcopy; then
   alias cbp='pbpaste'
 fi
 
-if command_exists multirust; then
-  alias mr='multirust'
-  alias mrup="multirust update"
+if command_exists rustup; then
+  alias rup='rustup'
 fi
 
 if command_exists gist; then
