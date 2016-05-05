@@ -218,6 +218,12 @@
 
   (add-hook 'emacs-lisp-mode-hook 'imenu-use-package))
 
+(use-package diff
+  :ensure nil
+  :defer t
+  :init
+  (setq diff-switches "-u"))
+
 (use-package ediff
   :ensure nil
   :defer t
