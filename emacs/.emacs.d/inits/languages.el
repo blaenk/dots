@@ -78,6 +78,8 @@
 
   (defun blaenk/gfm-hook ()
     (interactive)
+
+    (setq-local word-wrap t)
     (set-face-attribute
      'markdown-comment-face nil
      :strike-through nil)
