@@ -81,6 +81,9 @@
   :config
   (bind-key "C-c e" 'blaenk/edit-inits)
 
+  (add-to-list 'projectile-other-file-alist '("cc" "h" "hpp" "hh"))
+  (add-to-list 'projectile-other-file-alist '("h" "c" "cpp" "cc"))
+
   (projectile-global-mode))
 
 (use-package perspective
