@@ -41,6 +41,10 @@
         ;; ucs char
         `(helm-ucs-char ((,class (:foreground unspecified))))
 
+        ;; markdown
+        `(markdown-pre-face ((,class (:foreground unspecified))))
+        `(markdown-language-keyword-face ((,class (:weight bold))))
+
         ;; whitespace
         `(whitespace-trailing ((,class (:background ,red-l))))
         `(whitespace-tab ((,class (:background ,red-l))))
