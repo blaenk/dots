@@ -370,7 +370,9 @@
   :init
   (setq shackle-rules
         '((help-mode :select t)
-          (compilation-mode :noselect t)))
+          (compilation-mode :noselect t)
+          ("*Diff*" :select t :frame t)
+          ))
 
   :config
   (shackle-mode))
