@@ -222,16 +222,25 @@
   :ensure nil
   :defer t
   :init
-  (setq diff-switches "-u"))
+  (setq diff-switches "-u")
+
+  (defun blaenk/diff ()
+    "Generate unified diff of current buffer with backing file."
+    (interactive)
+    (diff-buffer-with-file (current-buffer))))
 
 (use-package ediff
   :ensure nil
   :defer t
   :init
+  (setq ediff-custom-diff-options "-u")
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
   (bind-key "C-c d" 'ediff-current-file)
+
+  ;; doing M-x ediff-show-diff-output from ediff-current-file doesn't work
+  ;; https://emacs.stackexchange.com/questions/22090/
 
   :config
   (defvar blaenk/ediff-last-windows nil)
