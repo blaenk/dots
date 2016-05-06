@@ -81,6 +81,7 @@
     (interactive)
 
     (setq-local word-wrap t)
+    (setq-local outline-regexp "^\\(?:\\(#+\\)[ \t]+\\(.*?\\)[ \t]*\\(#*\\)\\)$")
 
     (with-eval-after-load 'evil-surround
       (push '(?s . ("**" . "**")) evil-surround-pairs-alist)
