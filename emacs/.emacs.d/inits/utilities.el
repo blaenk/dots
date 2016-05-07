@@ -50,6 +50,7 @@
   :defer t)
 
 (use-package ag
+  :if (executable-find "ag")
   :defer t
   :init
   (defun blaenk/ag-root-function (file-or-dir-name)
@@ -286,6 +287,7 @@
    ([f6] . ivy-resume)))
 
 (use-package pt
+  :if (executable-find "pt")
   :defer t)
 
 (use-package rainbow-mode
