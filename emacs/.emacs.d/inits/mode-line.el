@@ -56,6 +56,13 @@
            'mode-line-evil-mode-indicator-face
          'mode-line-emacs-mode-indicator-face))))
 
+  (defun blaenk/emacs-indicator ()
+    (when (not (blaenk/is-evil-on))
+      (propertize
+       " E "
+       'face
+       'mode-line-emacs-mode-indicator-face)))
+
   (defun blaenk/format-flycheck-errors ()
     (let* ((error-counts (flycheck-count-errors flycheck-current-errors))
            (errors (or (cdr (assq 'error error-counts)) 0))
@@ -148,7 +155,7 @@
             (:eval (anzu--update-mode-line))
             face
             mode-line-anzu-face))
-          (:eval (blaenk/evil-indicator))
+          (:eval (blaenk/emacs-indicator))
           (:propertize
            (:eval (blaenk/remote-mode-line))
            face mode-line-remote-face)
