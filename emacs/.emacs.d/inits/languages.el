@@ -88,10 +88,6 @@
       (push '(?i . ("_" . "_")) evil-surround-pairs-alist)
       (push '(?p . ("<span class=\"path\">" . "</span>")) evil-surround-pairs-alist))
 
-    (set-face-attribute
-     'markdown-comment-face nil
-     :strike-through nil)
-
     (bind-keys :map blaenk/leader-map
                ("k" . beginning-of-defun)
                ("j" . end-of-defun)))

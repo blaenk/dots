@@ -45,6 +45,7 @@
         ;; markdown
         `(markdown-pre-face ((,class (:foreground unspecified))))
         `(markdown-language-keyword-face ((,class (:weight bold))))
+        `(markdown-comment-face ((,class (:strike-through nil))))
 
         ;; whitespace
         `(whitespace-trailing ((,class (:background ,red-l))))
