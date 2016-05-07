@@ -86,11 +86,8 @@
     (with-eval-after-load 'evil-surround
       (push '(?s . ("**" . "**")) evil-surround-pairs-alist)
       (push '(?i . ("_" . "_")) evil-surround-pairs-alist)
-      (push '(?p . ("<span class=\"path\">" . "</span>")) evil-surround-pairs-alist))
-
-    (bind-keys :map blaenk/leader-map
-               ("k" . beginning-of-defun)
-               ("j" . end-of-defun)))
+      (push '(?p . ("<span class=\"path\">" . "</span>"))
+            evil-surround-pairs-alist)))
 
   (add-hook 'gfm-mode-hook 'blaenk/gfm-hook)
   (add-hook 'gfm-mode-hook 'outline-minor-mode)
