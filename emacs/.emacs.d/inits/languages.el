@@ -165,8 +165,10 @@
   ;; replace the `completion-at-point' and `complete-symbol' bindings in
   ;; irony-mode's buffers by irony-mode's function
   (defun blaenk/irony-mode-hook ()
-    (bind-key [remap completion-at-point] 'irony-completion-at-point-async irony-mode-map)
-    (bind-key [remap complete-symbol] 'irony-completion-at-point-async irony-mode-map))
+    (bind-key [remap completion-at-point]
+              'irony-completion-at-point-async irony-mode-map)
+    (bind-key [remap complete-symbol]
+              'irony-completion-at-point-async irony-mode-map))
 
   (add-hook 'irony-mode-hook 'blaenk/irony-mode-hook)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
