@@ -15,6 +15,7 @@
   (make-face 'mode-line-evil-mode-indicator-face)
   (make-face 'mode-line-flycheck-warnings-face)
   (make-face 'mode-line-flycheck-checking-face)
+  (make-face 'mode-line-flycheck-infos-face)
   (make-face 'mode-line-flycheck-errors-face)
   (make-face 'mode-line-which-func-arrow-face)
   (make-face 'mode-line-modified-face)
@@ -146,6 +147,11 @@
 
         `(mode-line-flycheck-warnings-face
           ((,class (:background ,yellow-lc
+                    :foreground "white"
+                    :weight bold))))
+
+        `(mode-line-flycheck-infos-face
+          ((,class (:background ,blue-l
                     :foreground "white"
                     :weight bold))))
 
