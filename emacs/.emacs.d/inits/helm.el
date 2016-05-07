@@ -12,7 +12,11 @@
    ("C-x b" . helm-buffers-list)
    ("C-x C-f" . helm-find-files)
    ("C-h a" . helm-apropos)
-   ("C-h i" . helm-info-emacs))
+   ("C-h i" . helm-info-emacs)
+   :map helm-map
+   ("<tab>" . helm-execute-persistent-action)
+   ("C-i" . helm-execute-persistent-action)
+   ("C-z" . helm-select-action))
 
   :init
   (setq helm-adaptive-history-file (blaenk/cache-dir "helm-adaptive-history"))
@@ -28,10 +32,6 @@
   :config
   (require 'helm-config)
   (helm-autoresize-mode t)
-
-  (bind-key "<tab>" 'helm-execute-persistent-action helm-map)
-  (bind-key "C-i" 'helm-execute-persistent-action helm-map)
-  (bind-key "C-z" 'helm-select-action helm-map)
 
   ;; open in horizontal split
   (require 'helm-files)
@@ -95,19 +95,18 @@
   (helm-mode 1)
 
   (use-package helm-mt
-    :bind ("C-c t" . helm-mt)
+    :bind
+    (("C-c t" . helm-mt))
 
     :config
     (bind-key "M-h" 'blaenk/helm-horizontal-split helm-mt/keymap)
-
     (bind-key "M-v" 'blaenk/helm-vertical-split helm-mt/keymap))
 
   (use-package helm-open-github)
 
   (use-package helm-unicode
     :config
-    (bind-key [remap insert-char] 'helm-unicode)
-    )
+    (bind-key [remap insert-char] 'helm-unicode))
 
   (use-package helm-ag)
 
@@ -169,4 +168,9 @@
     ;;   (kbd "p") 'projectile-persp-switch-project)
     )
 
-  (use-package helm-make))
+  (use-package helm-make)
+
+  (use-package ace-jump-helm-line
+    :bind
+    (:map helm-map
+          ("C-'" . ace-jump-helm-line))))
