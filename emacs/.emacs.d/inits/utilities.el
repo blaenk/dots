@@ -280,12 +280,18 @@
 
 (use-package swiper
   :defer t
-  :init
-  (setq ivy-use-virtual-buffers t)
 
   :bind
   (("C-s" . swiper)
-   ([f6] . ivy-resume)))
+   ("M-/" . swiper)
+   ("M-?" . swiper-all)
+   ([f6] . ivy-resume))
+
+  :init
+  (setq ivy-use-virtual-buffers t))
+
+(use-package counsel
+  :defer t)
 
 (use-package pt
   :if (executable-find "pt")
