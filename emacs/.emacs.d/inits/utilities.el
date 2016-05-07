@@ -81,6 +81,7 @@
 
   :config
   (bind-key "C-c e" 'blaenk/edit-inits)
+  (bind-key "C-M-/" 'helm-projectile-ag)
 
   (add-to-list 'projectile-other-file-alist '("cc" "h" "hpp" "hh"))
   (add-to-list 'projectile-other-file-alist '("h" "c" "cpp" "cc"))
