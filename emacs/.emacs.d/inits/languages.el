@@ -99,7 +99,16 @@
         "^\\([[:alpha:]][[:alpha:] _-]*?\\)\\([:=][ \t]*\\)\\(.*\\)$")
 
   (add-to-list 'markdown-gfm-additional-languages "cpp")
-  (add-to-list 'markdown-gfm-additional-languages "elisp"))
+  (add-to-list 'markdown-gfm-additional-languages "elisp")
+
+  (bind-map blaenk/markdown-map
+    :keys ("M-m")
+    :evil-keys ("SPC")
+    :evil-states (normal motion visual)
+    :major-modes (markdown-mode gfm-mode))
+
+  (bind-key "k" 'beginning-of-defun blaenk/markdown-map)
+  (bind-key "j" 'end-of-defun blaenk/markdown-map))
 
 (use-package yaml-mode
   :defer t)
