@@ -173,4 +173,14 @@
   (use-package ace-jump-helm-line
     :bind
     (:map helm-map
-          ("C-'" . ace-jump-helm-line))))
+          ("C-'" . ace-jump-helm-line))
+
+    :init
+    (setq ace-jump-helm-line-default-action 'select)
+
+    ;; press 'o' before the avy anchor to only move to it
+    (setq ace-jump-helm-line-move-only-key ?o)
+
+    ;; press 'p' before the avy anchor to move to it and execute
+    ;; it's persistent action
+    (setq ace-jump-helm-line-persistent-key ?p)))
