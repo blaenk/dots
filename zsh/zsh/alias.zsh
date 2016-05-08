@@ -123,10 +123,10 @@ if command_exists aura; then
   alias aurin="sudo aura -A"
 
   # update packages, show pkgbuild diffs, remove orphan make deps
-  alias aurup="sudo aura -Akua"
+  alias aurup="sudo aura -Aua"
 
   # same as above but also update repo-sourced packages
-  alias aurud="sudo aura -Akua --devel"
+  alias aurud="sudo aura -Aua --devel"
 
   # edit pkgbuild before install
   alias aured="sudo aura -A --hotedit"
