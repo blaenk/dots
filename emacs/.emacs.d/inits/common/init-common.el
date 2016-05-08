@@ -56,6 +56,22 @@
   (let ((face (blaenk/get-faces pos)))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
+(defmacro bind-keys-for-major-modes (modes &rest binds)
+  (let* ((mode-list (-map (lambda (mode)
+                            (s-chop-suffix "-mode" (symbol-name mode)))
+                          modes))
+         (modes-string (s-join "-" mode-list))
+         (map-name (intern (concat "blaenk/" modes-string "-map"))))
+    `(progn
+       (bind-map ,map-name
+         :keys ("M-m")
+         :evil-keys ("SPC")
+         :evil-states (normal motion visual)
+         :major-modes ,modes)
+       (bind-keys :map ,map-name ,@binds))))
+
+(put 'bind-keys-for-major-modes 'lisp-indent-function 'defun)
+
 ; (defun blaenk/eval-after-load-all (features body)
 ;   (if (null features)
 ;       body

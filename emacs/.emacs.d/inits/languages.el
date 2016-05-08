@@ -1,4 +1,5 @@
 (require 'use-package)
+(require 'init-common)
 
 (use-package anaconda-mode
   :defer t
@@ -101,14 +102,9 @@
   (add-to-list 'markdown-gfm-additional-languages "cpp")
   (add-to-list 'markdown-gfm-additional-languages "elisp")
 
-  (bind-map blaenk/markdown-map
-    :keys ("M-m")
-    :evil-keys ("SPC")
-    :evil-states (normal motion visual)
-    :major-modes (markdown-mode gfm-mode))
-
-  (bind-key "k" 'beginning-of-defun blaenk/markdown-map)
-  (bind-key "j" 'end-of-defun blaenk/markdown-map))
+  (bind-keys-for-major-modes (markdown-mode gfm-mode)
+    ("k" . beginning-of-defun)
+    ("j" . end-of-defun)))
 
 (use-package yaml-mode
   :defer t)
