@@ -11,6 +11,37 @@
         (setq header-line-format nil))
     (setq header-line-format header-line-format-save)))
 
+;; (defvar blaenk/selected-window (frame-selected-window))
+
+;; (defun blaenk/set-selected-window ()
+;;   "sets the variable `blaenk/selected-window` appropriately"
+;;   (when (not (minibuffer-window-active-p (frame-selected-window)))
+;;     (setq blaenk/selected-window (frame-selected-window))))
+
+;; (defun blaenk/unset-selected-window ()
+;;   "Unsets the variable `blaenk/selected-window` and updates the modeline"
+;;   (setq blaenk/selected-window nil)
+;;   (force-mode-line-update))
+
+;; (add-hook 'window-configuration-change-hook 'blaenk/set-selected-window)
+
+;; (add-hook 'focus-in-hook 'blaenk/set-selected-window)
+;; (add-hook 'focus-out-hook 'blaenk/unset-selected-window)
+
+;;  ;; Executes after the window manager requests that the user's events
+;; ;; be directed to a different frame.
+;; (defadvice handle-switch-frame
+;;     (after blaenk/set-selected-window-after-switch-frame activate)
+;;   (blaenk/set-selected-window))
+
+;; (defadvice select-window (after blaenk/select-window activate)
+;;   "makes powerline aware of window changes"
+;;   (blaenk/set-selected-window))
+
+;; (defun blaenk/selected-window-active ()
+;;   "Return whether the current window is active."
+;;   (eq blaenk/selected-window (selected-window)))
+
 (defun blaenk/setup-mode-line ()
   (defun blaenk/is-evil-on ()
     (if (evil-emacs-state-p)
