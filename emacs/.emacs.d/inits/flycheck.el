@@ -1,15 +1,14 @@
 (require 'use-package)
 
 (use-package flycheck
-  :defer t
   :init
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
 
   (add-hook 'after-init-hook 'global-flycheck-mode)
 
+  :config
   (use-package flycheck-irony
-    :defer t
     :init
     (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
@@ -27,8 +26,9 @@
   (use-package flycheck-google-cpplint
     :init
     (setq flycheck-c/c++-googlelint-executable "cpplint")
+    (setq flycheck-googlelint-filter "-legal")
 
     :config
     (flycheck-add-next-checker
-     'c/c++-clang
+     'irony
      '(warning . c/c++-googlelint))))
