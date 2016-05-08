@@ -410,8 +410,8 @@
   :config
   (blaenk/setq-append
    emojify-inhibit-major-modes
-   'magit-status-mode
-   'magit-revision-mode))
+   magit-status-mode
+   magit-revision-mode))
 
 (use-package emoji-cheat-sheet-plus
   :defer t
