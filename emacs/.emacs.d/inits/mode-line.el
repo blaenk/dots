@@ -95,11 +95,12 @@
       (`finished (blaenk/format-flycheck-errors))))
 
   (defun blaenk/vc-branch ()
-    (let ((backend (vc-backend (buffer-file-name))))
-      (when backend
-        (format " %s " (substring
-                        vc-mode
-                        (+ (length (symbol-name backend)) 2))))))
+    (or
+     (when (and vc-mode (buffer-file-name))
+       (let ((backend (vc-backend (buffer-file-name))))
+         (when backend
+           (format " %s " (vc-working-revision (buffer-file-name) backend)))))
+     ""))
 
   (defun blaenk/is-modified ()
     (and
