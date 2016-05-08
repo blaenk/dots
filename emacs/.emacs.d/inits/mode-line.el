@@ -90,7 +90,7 @@
       (`errored (propertize "errored" 'face 'error))
       (`interrupted (propertize "interrupted" 'face 'error))
       (`running (propertize
-                 (format " %s " (fontawesome "refresh"))
+                 " R "
                  'face 'mode-line-flycheck-checking-face))
       (`finished (blaenk/format-flycheck-errors))))
 
