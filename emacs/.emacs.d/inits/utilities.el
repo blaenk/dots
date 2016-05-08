@@ -401,7 +401,7 @@
 (use-package emojify
   :defer t
   :init
-  (setq emojify-prog-contexts 'comments)
+  (setq emojify-program-contexts 'comments)
   (setq emojify-point-entered-behaviour 'uncover)
   (setq emojify-emojis-dir (blaenk/cache-dir "emojis"))
 
