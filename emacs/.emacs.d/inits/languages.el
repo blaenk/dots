@@ -81,6 +81,9 @@
   (defun blaenk/gfm-hook ()
     (interactive)
 
+    (require 'org-table)
+    (orgtbl-mode 1)
+
     (setq-local word-wrap t)
     (setq-local outline-regexp "^\\(?:\\(#+\\)[ \t]+\\(.*?\\)[ \t]*\\(#*\\)\\)$")
 
