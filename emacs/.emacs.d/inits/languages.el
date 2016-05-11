@@ -64,6 +64,24 @@
 (use-package gitattributes-mode
   :defer t)
 
+(use-package ox-gfm
+  :defer t)
+
+(use-package org-table
+  :ensure nil
+
+  :config
+  (defun blaenk/orgtbl-ret ()
+    (interactive)
+    (if (org-at-table-p)
+        (org-table-hline-and-move)
+      (let (orgtbl-mode)
+        (call-interactively (key-binding (kbd "C-c RET"))))))
+
+  (add-hook 'orgtbl-mode-hook
+            (defun blaenk/orgtbl-hook ()
+              (bind-key "C-c RET" 'blaenk/orgtbl-ret))))
+
 (use-package markdown-mode
   :defer t
 
