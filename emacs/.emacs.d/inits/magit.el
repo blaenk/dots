@@ -13,7 +13,6 @@
   :defer t)
 
 (use-package magit
-  :defer t
   :diminish
   (magit-wip-after-save-local-mode
    magit-wip-before-change-mode)
