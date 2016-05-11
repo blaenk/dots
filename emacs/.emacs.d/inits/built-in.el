@@ -323,6 +323,8 @@ PR [a-z-+]+/\
   :bind (("C-c q" . auto-fill-mode))
 
   :init
+  (setq next-error-recenter '(4))
+
   (defun blaenk/prog-auto-fill ()
     (setq-local comment-auto-fill-only-comments t)
     (auto-fill-mode 1))
