@@ -288,6 +288,7 @@
    ([f6] . ivy-resume))
 
   :init
+  (setq swiper-action-recenter t)
   (setq ivy-use-virtual-buffers t))
 
 (use-package counsel
