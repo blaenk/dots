@@ -12,6 +12,10 @@
     :init
     (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
+  (use-package flycheck-rust
+    :init
+    (add-hook 'flycheck-mode-hook 'flycheck-rust-setup))
+
   (use-package flycheck-rtags
     :ensure nil
     :config
