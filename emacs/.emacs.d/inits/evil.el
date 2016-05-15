@@ -290,6 +290,12 @@ The initial state for a mode can be set with
     :config
     (evil-indent-plus-default-bindings))
 
+  (use-package evil-snipe
+    :disabled t
+    :config
+    (evil-snipe-mode 1)
+    (evil-snipe-override-mode 1))
+
   (use-package evil-quickscope
     :config
     (global-evil-quickscope-mode 1))
