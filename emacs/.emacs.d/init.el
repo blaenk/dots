@@ -87,7 +87,6 @@
 (setq sentence-end-double-space nil)
 (setq-default cursor-type 'box)
 (setq-default echo-keystrokes 0.1)
-(setq gc-cons-threshold 64000000)
 (setq uniquify-buffer-name-style 'forward)
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 
