@@ -116,11 +116,10 @@ The initial state for a mode can be set with
       (setq evil-operator-state-cursor `((hbar . 6)))
       (setq evil-emacs-state-cursor `(,red-l box))))
 
-  (with-eval-after-load 'ggtags
-    (evil-make-overriding-map ggtags-mode-map)
+  (with-eval-after-load 'helm-gtags
+    (evil-make-overriding-map helm-gtags-mode-map)
 
-    ;; force update evil keymaps after ggtags-mode loaded
-    (add-hook 'ggtags-mode-hook #'evil-normalize-keymaps))
+    (add-hook 'helm-gtags-mode-hook #'evil-normalize-keymaps))
 
   (defun blaenk/evil-maybe-remove-spaces ()
     (unless (memq this-command '(evil-open-above evil-open-below))
