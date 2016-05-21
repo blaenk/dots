@@ -159,6 +159,11 @@
 
   (use-package helm-make)
 
+  (use-package helm-company
+    :config
+    (with-eval-after-load 'company
+      (bind-key "M-/" 'helm-company company-active-map)))
+
   (use-package ace-jump-helm-line
     :bind
     (:map helm-map
