@@ -444,6 +444,7 @@
   (add-hook 'css-mode-hook  'emmet-mode))
 
 (use-package ggtags
+  :disabled t
   :defer t
   :init
   (defun blaenk/ggtags-hook ()
