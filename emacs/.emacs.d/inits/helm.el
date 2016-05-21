@@ -134,6 +134,11 @@
     :config
     (helm-descbinds-mode))
 
+  (use-package helm-swoop
+    :defer t
+    :init
+    (setq helm-swoop-speed-or-color t))
+
   (use-package helm-projectile
     :diminish projectile-mode
     :bind
