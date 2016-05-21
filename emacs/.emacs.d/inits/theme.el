@@ -44,6 +44,9 @@
         ;; ucs char
         `(helm-ucs-char ((,class (:foreground unspecified))))
 
+        ;; pulse highlight
+        `(pulse-highlight-start-face ((,class (:background ,base02))))
+
         ;; markdown
         `(markdown-pre-face ((,class (:foreground unspecified))))
         `(markdown-language-keyword-face ((,class (:weight bold))))
