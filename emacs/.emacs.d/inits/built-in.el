@@ -89,12 +89,21 @@
   :diminish whitespace-mode
 
   :init
+  (setq whitespace-line-column nil)
+
   ;; NOTE
   ;; lines-tail to see which lines go beyond max col
   (setq whitespace-style
         '(face indentation trailing empty space-after-tab
           space-before-tab tab-mark))
-  (setq whitespace-line-column nil)
+
+  (setq whitespace-display-mappings
+        '((space-mark 32 [183] [46])
+          (space-mark 160 [164] [95])
+          (newline-mark 10 [36 10])
+          (tab-mark 9 [9656 9] [183 9] [187 9] [92 9])
+          ))
+
   (add-hook 'prog-mode-hook 'whitespace-mode))
 
 (use-package js
