@@ -50,7 +50,12 @@
            ,(string-to-char (fontawesome "refresh")))))))
 
 (use-package dtrt-indent
-  :defer t)
+  :defer t
+  :init
+  (setq dtrt-indent-verbosity 0)
+
+  :config
+  (dtrt-indent-mode 1))
 
 (use-package paradox
   :defer t)
