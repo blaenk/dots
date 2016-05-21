@@ -56,6 +56,12 @@
         `(whitespace-trailing ((,class (:background ,red-l))))
         `(whitespace-tab ((,class (:background ,red-l))))
         `(whitespace-line ((,class (:underline t))))
+        `(whitespace-space-after-tab ((,class (:foreground ,red-l))))
+        `(whitespace-space-before-tab ((,class (:foreground ,red-l))))
+        `(whitespace-indentation ((,class (:background unspecified
+                                           :foreground ,base02
+                                           :inverse-video unspecified
+                                           :weight unspecified))))
 
         ;; evil-quickscope
         `(evil-quickscope-first-face ((,class (:weight bold :underline t))))
