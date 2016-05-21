@@ -19,15 +19,10 @@
    ("C-z" . helm-select-action))
 
   :init
-  (setq helm-adaptive-history-file (blaenk/cache-dir "helm-adaptive-history"))
-  (setq helm-quick-update t)
+  (setq helm-adaptive-history-file
+        (blaenk/cache-dir "helm-adaptive-history"))
   (setq helm-split-window-in-side-p t)
   (setq helm-display-header-line nil)
-  ;; (setq helm-autoresize-max-height 30)
-  ;; (setq helm-autoresize-min-height 30)
-  (setq helm-imenu-execute-action-at-once-if-one nil)
-  (setq helm-mode-fuzzy-match t)
-  (setq helm-completion-in-region-fuzzy-match t)
 
   :config
   (require 'helm-config)
