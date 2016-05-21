@@ -2,6 +2,7 @@
 
 (use-package solarized
   :ensure solarized-theme
+
   :config
   (eval-when-compile
     (require 'solarized))
@@ -13,6 +14,7 @@
   (make-face 'mode-line-read-only-face)
   (make-face 'mode-line-emacs-mode-indicator-face)
   (make-face 'mode-line-evil-mode-indicator-face)
+  (make-face 'mode-line-flycheck-no-errors-face)
   (make-face 'mode-line-flycheck-warnings-face)
   (make-face 'mode-line-flycheck-checking-face)
   (make-face 'mode-line-flycheck-infos-face)
@@ -143,6 +145,11 @@
 
         `(mode-line-evil-mode-indicator-face
           ((,class (:background ,blue-l
+                    :foreground "white"
+                    :weight bold))))
+
+        `(mode-line-flycheck-no-errors-face
+          ((,class (:background ,base0
                     :foreground "white"
                     :weight bold))))
 

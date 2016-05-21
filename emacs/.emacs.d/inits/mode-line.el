@@ -95,23 +95,25 @@
        'mode-line-emacs-mode-indicator-face)))
 
   (defun blaenk/format-flycheck-errors ()
-    (let* ((error-counts (flycheck-count-errors flycheck-current-errors))
-           (errors (or (cdr (assq 'error error-counts)) 0))
-           (warnings (or (cdr (assq 'warning error-counts)) 0))
-           (infos (or (cdr (assq 'info error-counts)) 0))
-           (info-str (if (= infos 0)
-                          ""
-                        (propertize (format " %s " infos)
-                                    'face 'mode-line-flycheck-infos-face)))
-           (error-str (if (= errors 0)
-                          ""
-                        (propertize (format " %s " errors)
-                                    'face 'mode-line-flycheck-errors-face)))
-           (warning-str (if (= warnings 0)
-                            ""
-                          (propertize (format " %s " warnings)
-                                      'face 'mode-line-flycheck-warnings-face))))
-      (format "%s%s%s" info-str warning-str error-str)))
+    (if (flycheck-has-current-errors-p)
+        (let* ((error-counts (flycheck-count-errors flycheck-current-errors))
+               (errors (or (cdr (assq 'error error-counts)) 0))
+               (warnings (or (cdr (assq 'warning error-counts)) 0))
+               (infos (or (cdr (assq 'info error-counts)) 0))
+               (info-str (if (= infos 0)
+                             ""
+                           (propertize (format " %s " infos)
+                                       'face 'mode-line-flycheck-infos-face)))
+               (error-str (if (= errors 0)
+                              ""
+                            (propertize (format " %s " errors)
+                                        'face 'mode-line-flycheck-errors-face)))
+               (warning-str (if (= warnings 0)
+                                ""
+                              (propertize (format " %s " warnings)
+                                          'face 'mode-line-flycheck-warnings-face))))
+          (format "%s%s%s" info-str warning-str error-str))
+      (propertize " ✔ " 'face 'mode-line-flycheck-no-errors-face)))
 
   (defun blaenk/flycheck-mode-line ()
     (pcase flycheck-last-status-change
