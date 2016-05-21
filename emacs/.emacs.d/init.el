@@ -95,6 +95,8 @@
 (bind-key [remap eval-last-sexp] 'pp-eval-last-sexp)
 (bind-key [remap eval-expression] 'pp-eval-expression)
 
+(bind-key "TAB" (lambda () (interactive) (insert-tab)))
+
 ;; unicode mappings
 (require 'iso-transl)
 (bind-keys :map iso-transl-ctl-x-8-map
