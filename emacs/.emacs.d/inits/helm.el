@@ -142,25 +142,9 @@
 
     :config
     (bind-key "M-h" 'blaenk/helm-horizontal-split helm-projectile-find-file-map)
-
     (bind-key "M-v" 'blaenk/helm-vertical-split helm-projectile-find-file-map)
 
-    (helm-projectile-on)
-
-    (defmacro if-projectile (is-projectile is-not)
-      `(lambda ()
-        (interactive)
-        (if (projectile-project-p)
-            (,is-projectile)
-          (,is-not))))
-
-    ;; (define-key projectile-mode-map (kbd "M-p") 'helm-projectile)
-
-    ;; (with-eval-after-load 'evil-leader
-    ;;   (evil-leader/set-key
-    ;;     "f" (if-projectile helm-projectile helm-find-files)
-    ;;     "b" (if-projectile helm-projectile-switch-to-buffer helm-buffers-list)))
-    )
+    (helm-projectile-on))
 
   (with-eval-after-load 'flycheck
     (use-package helm-flycheck))
@@ -170,9 +154,8 @@
   (use-package persp-projectile
     :disabled t
     :config
-    ;; (define-key projectile-command-map
-    ;;   (kbd "p") 'projectile-persp-switch-project)
-    )
+    (define-key projectile-command-map
+      (kbd "p") 'projectile-persp-switch-project))
 
   (use-package helm-make)
 
