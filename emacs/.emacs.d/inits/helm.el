@@ -108,16 +108,27 @@
   (use-package helm-gtags
     :diminish helm-gtags-mode
 
-    ;; TODO audit
     :init
-    (setq
-     helm-gtags-ignore-case t
-     helm-gtags-auto-update t
-     helm-gtags-use-input-at-cursor t
-     helm-gtags-pulse-at-cursor t)
+    (setq helm-gtags-ignore-case t)
+    (setq helm-gtags-auto-update t)
+    (setq helm-gtags-use-input-at-cursor t)
+    (setq helm-gtags-direct-helm-completing t)
+    (setq helm-gtags-prefix-key "\C-t")
+    (setq helm-gtags-suggested-key-mapping t)
+
+    (add-hook 'c-mode-hook 'helm-gtags-mode)
+    (add-hook 'c++-mode-hook 'helm-gtags-mode)
 
     :config
-    (helm-gtags-mode))
+    (bind-key "M-." 'helm-gtags-dwim helm-gtags-mode-map)
+    (bind-key "C-M-." 'helm-gtags-select helm-gtags-mode-map)
+
+    (bind-key "M-," 'helm-gtags-pop-stack helm-gtags-mode-map)
+    (bind-key "C-M-," 'helm-gtags-show-stack helm-gtags-mode-map)
+
+    (bind-key "C-S-h" 'helm-gtags-previous-history helm-gtags-mode-map)
+    (bind-key "C-S-l" 'helm-gtags-next-history helm-gtags-mode-map)
+    )
 
   (use-package helm-descbinds
     :config
