@@ -19,7 +19,8 @@
 
   :bind
   (("C-c g s" . magit-status)
-   ("C-c g p" . magit-dispatch-popup))
+   ("C-c g p" . magit-dispatch-popup)
+   ("C-c g f" . magit-file-popup))
 
   :init
   (setq magit-save-repository-buffers 'dontask)
