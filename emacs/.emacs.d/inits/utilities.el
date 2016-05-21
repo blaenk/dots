@@ -422,6 +422,7 @@
   :config
   (blaenk/setq-append
    emojify-inhibit-major-modes
+   flycheck-error-list-mode
    magit-status-mode
    magit-revision-mode))
 
