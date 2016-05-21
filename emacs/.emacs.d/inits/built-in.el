@@ -273,13 +273,20 @@
   :defer t
 
   :init
-  (setq eldoc-idle-delay 0.1)
+  (setq eldoc-idle-delay 0)
 
   :config
+  (add-hook 'emacs-lisp-mode 'eldoc-mode)
   (add-hook 'c++-mode-hook 'eldoc-mode)
   (add-hook 'c-mode-hook 'eldoc-mode)
   (add-hook 'objc-mode-hook 'eldoc-mode)
   (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode))
+
+(use-package css-mode
+  :ensure nil
+
+  :init
+  (add-hook 'css-mode-hook 'turn-on-css-eldoc))
 
 (use-package bug-reference
   :ensure nil

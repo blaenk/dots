@@ -6,7 +6,7 @@
   :init
   (setq anaconda-mode-installation-directory (blaenk/cache-dir "anaconda-mode"))
   (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-hook 'python-mode-hook 'eldoc-mode))
+  (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
 
 (use-package tern
   :defer t
@@ -28,10 +28,7 @@
 (use-package cider
   :defer t
   :init
-  (setq cider-auto-mode nil)
-  (add-hook 'cider-mode-hook 'eldoc-mode)
-  (add-hook 'cider-repl-mode-hook 'company-mode)
-  (add-hook 'cider-mode-hook 'company-mode))
+  (add-hook 'cider-mode-hook 'eldoc-mode))
 
 ;; TODO
 ;; requires extra setup
@@ -151,27 +148,33 @@
 (use-package go-mode
   :defer t)
 
+(use-package go-eldoc
+  :defer t
+  :init
+  (add-hook 'go-mode-hook 'go-eldoc-setup))
+
 (use-package less-css-mode
-  :defer t)
+  :defer t
+  :init
+  (add-hook 'less-css-mode-hook 'turn-on-css-eldoc))
 
 (use-package robe
   :defer t
   :init
-  (with-eval-after-load 'company
-    (add-to-list 'company-backends 'company-robe))
-
   (add-hook 'ruby-mode-hook 'robe-mode)
   (add-hook 'enh-ruby-mode-hook 'robe-mode))
 
 (use-package scss-mode
   :defer t
-  :mode "\\.scss\\'")
+  :mode "\\.scss\\'"
+  :init
+  (add-hook 'scss-mode-hook 'turn-on-css-eldoc))
 
 (use-package elixir-mode
   :defer t)
 
 (use-package alchemist
-  :defer t)
+  :disabled t)
 
 (use-package irony
   :init
@@ -235,7 +238,6 @@
   :defer t
   :init
   (setq racer-rust-src-path "~/code/rust/rust/src")
-  (setq company-tooltip-align-annotations t)
   ;; (setq racer-cmd "~/code/rust/racer/target/release/racer")
 
   (add-hook 'rust-mode-hook 'racer-mode)
@@ -245,7 +247,8 @@
   :defer t
   :init
   (defun blaenk/rust-hook ()
-    (set (make-local-variable 'compile-command) "cargo build"))
+    (set (make-local-variable 'compile-command) "cargo build")
+    (helm-gtags-mode))
 
   (add-hook 'rust-mode-hook 'blaenk/rust-hook))
 
