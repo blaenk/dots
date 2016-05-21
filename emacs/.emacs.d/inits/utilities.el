@@ -10,6 +10,12 @@
   :config
   (unicode-fonts-setup))
 
+(use-package clean-aindent-mode
+  :init
+  (bind-key "RET" 'newline-and-indent)
+
+  (add-hook 'after-init-hook 'clean-aindent-mode))
+
 (use-package bind-map
   :after evil
   :config
