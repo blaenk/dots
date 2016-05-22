@@ -132,7 +132,11 @@
      (when (and vc-mode (buffer-file-name))
        (let ((backend (vc-backend (buffer-file-name))))
          (when backend
-           (format " %s " (vc-working-revision (buffer-file-name) backend)))))
+           (let* ((rev (vc-working-revision (buffer-file-name) backend))
+                  (rev (if (string-match "[0-9a-f]\\{7,40\\}" rev)
+                           (substring rev 0 7)
+                         rev)))
+             (format " %s " rev)))))
      ""))
 
   (defun blaenk/is-modified ()
