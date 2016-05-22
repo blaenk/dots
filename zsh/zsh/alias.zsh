@@ -36,7 +36,6 @@ fi
 
 if command_exists emacs; then
   alias e="emacsclient -nc"
-  alias em="emacs"
 fi
 
 if command_exists tmux; then

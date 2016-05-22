@@ -9,6 +9,13 @@ eg() {
   man -P "less -p \"^EXAMPLES?\"" $1
 }
 
+# run emacs in a new session
+# this way closing the shell it was started from won't
+# kill emacs, nor will it usurp the shell
+em() {
+  ( setsid emacs $* > /dev/null 2>&1 & );
+}
+
 # html man pages
 manh() {
   file=$(mktemp)
