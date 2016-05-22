@@ -40,6 +40,7 @@
         `(rtags-warnline ((,class (:underline "goldenrod4"))))
         `(rtags-errline ((,class (:underline "red"))))
         `(rtags-fixitline ((,class (:underline "blue"))))
+        `(rtags-skippedline ((,class (:background ,base02))))
 
         ;; ucs char
         `(helm-ucs-char ((,class (:foreground unspecified))))
