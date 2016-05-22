@@ -3,6 +3,8 @@
 (setq load-prefer-newer t)
 (setq backup-by-copying t)
 
+(setq enable-recursive-minibuffers t)
+
 (add-to-list 'load-path
              (expand-file-name "inits/common/" user-emacs-directory))
 
