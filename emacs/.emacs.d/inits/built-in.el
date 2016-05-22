@@ -273,6 +273,30 @@
   (add-hook 'ediff-suspend-hook 'blaenk/ediff-quit 'append)
   (add-hook 'ediff-quit-hook 'blaenk/ediff-quit 'append))
 
+(use-package elec-pair
+  :ensure nil
+
+  :config
+  ;; NOTE
+  ;; This needs to be hooked onto the minibuffer-setup-hook
+  ;; instead of using the eval-expression-minibuffer-setup-hook
+  ;; because the eval-expression command adds the latter to the
+  ;; _beginning_ of the minibuffer-setup-hook. Since I don't want
+  ;; electric-pair-mode in regular minibuffers such as ag, I'd
+  ;; turn it off in a minibuffer-setup-hook, which would have the
+  ;; effect of unconditionally disabling it after the
+  ;; eval-expression-minibuffer-setup-hook enabled it.
+  ;;
+  ;; This gets around that by simply checking which command was run.
+  ;; It would need to be updated if using regular eval-expression
+  (defun blaenk/minibuffer-elec-pair ()
+    (if (eq this-command 'pp-eval-expression)
+        (electric-pair-mode +1)
+      (electric-pair-mode -1)))
+
+  (add-hook 'minibuffer-setup-hook 'blaenk/minibuffer-elec-pair)
+  (electric-pair-mode))
+
 ;; TODO
 ;; this also cons mode-line
 ;; need a more robust way of reformatting mode-line

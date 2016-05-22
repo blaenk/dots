@@ -163,7 +163,6 @@
 (visual-line-mode)
 (column-number-mode)
 (winner-mode)
-(electric-pair-mode)
 (show-paren-mode)
 (which-function-mode)
 
