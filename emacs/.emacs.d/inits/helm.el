@@ -23,6 +23,7 @@
         (blaenk/cache-dir "helm-adaptive-history"))
   (setq helm-split-window-in-side-p t)
   (setq helm-display-header-line nil)
+  (setq helm-imenu-execute-action-at-once-if-one nil)
 
   :config
   (require 'helm-config)
