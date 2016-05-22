@@ -113,7 +113,7 @@
                               (propertize (format " %s " warnings)
                                           'face 'mode-line-flycheck-warnings-face))))
           (format "%s%s%s" info-str warning-str error-str))
-      (propertize " ✔ " 'face 'mode-line-flycheck-no-errors-face)))
+      (propertize " ✔" 'face 'mode-line-flycheck-no-errors-face)))
 
   (defun blaenk/flycheck-mode-line ()
     (pcase flycheck-last-status-change
