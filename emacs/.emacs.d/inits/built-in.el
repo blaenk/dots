@@ -305,9 +305,6 @@
   :ensure nil
   :defer t
 
-  :init
-  (setq eldoc-idle-delay 0)
-
   :config
   (add-hook 'emacs-lisp-mode 'eldoc-mode)
   (add-hook 'c++-mode-hook 'eldoc-mode)
