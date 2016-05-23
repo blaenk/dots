@@ -49,27 +49,11 @@ to the current branch. Uses Magit."
     (interactive)
     (browse-url (blaenk/pull-request-url)))
 
-  (defun blaenk/magit-display-buffer (buffer)
-    (if magit-display-buffer-noselect
-        (magit-display-buffer-traditional buffer)
-      (progn
-        (magit-save-window-configuration)
-        (delete-other-windows)
-        (set-window-dedicated-p nil nil)
-        (set-window-buffer nil buffer)
-        (get-buffer-window buffer))))
-
-  (setq magit-display-buffer-function 'blaenk/magit-display-buffer)
-
-  (defun blaenk/magit-bury-buffer (buffer)
-    (magit-restore-window-configuration buffer))
-
-  (setq magit-bury-buffer-function 'blaenk/magit-bury-buffer)
+  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
 
   (with-eval-after-load 'magit-ediff
     (add-hook 'magit-ediff-quit-hook 'blaenk/ediff-quit))
 
-  ;; NOTE remove if perf hit
   (magit-wip-after-save-mode)
   (magit-wip-after-apply-mode)
   (magit-wip-before-change-mode)
