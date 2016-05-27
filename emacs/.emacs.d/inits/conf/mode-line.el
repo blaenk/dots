@@ -127,6 +127,8 @@
                  'face 'mode-line-flycheck-checking-face))
       (`finished (blaenk/format-flycheck-errors))))
 
+  ;; TODO
+  ;; this goes stale easily, have to revert-buffer to fix
   (defun blaenk/vc-branch ()
     (or
      (when (and vc-mode (buffer-file-name))
@@ -231,3 +233,5 @@
 
 (blaenk/setup-mode-line)
 (setq frame-title-format '(:eval (blaenk/file-name t)))
+
+(provide 'conf/mode-line)

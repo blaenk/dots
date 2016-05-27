@@ -191,3 +191,5 @@
       (bind-key "< i" 'insert-before-form evil-normal-state-map)
       (bind-key "> i" 'insert-after-form evil-normal-state-map)
       )))
+
+(provide 'conf/smartparens)

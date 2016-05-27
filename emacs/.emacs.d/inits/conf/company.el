@@ -7,7 +7,7 @@
   (setq company-selection-wrap-around t)
   (setq company-tooltip-limit 20)
   (setq company-tooltip-align-annotations t)
-  ;; (setq company-require-match 'never)
+  (setq company-require-match 'never)
   ;; (setq company-global-modes '(not git-commit-mode))
   ;; (setq company-dabbrev-downcase nil)
   ;; (setq company-dabbrev-ignore-case t)
@@ -105,3 +105,5 @@
   (use-package company-emoji
     :config
     (add-to-list 'company-backends 'company-emoji t)))
+
+(provide 'conf/company)

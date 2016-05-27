@@ -67,3 +67,5 @@ to the current branch. Uses Magit."
       ?# "Pull requests" 'magit-gh-pulls-popup ?!)
 
     (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)))
+
+(provide 'conf/magit)

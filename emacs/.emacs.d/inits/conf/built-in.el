@@ -160,6 +160,7 @@
 (use-package cc-mode
   :ensure nil
   :defer t
+  :no-require t
   :init
   (setq c-tab-always-indent nil)
 
@@ -196,9 +197,10 @@
 (use-package tramp
   :ensure nil
   :defer t
+  :no-require t
 
-  :init
-  (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash")))
+  :config
+  (setenv "SHELL" "/bin/bash"))
 
 (use-package saveplace
   :ensure nil
@@ -304,6 +306,7 @@
 (use-package eldoc
   :ensure nil
   :defer t
+  :no-require t
 
   :config
   (add-hook 'emacs-lisp-mode 'eldoc-mode)
@@ -341,6 +344,22 @@ PR [a-z-+]+/\
   :init
   (add-hook 'prog-mode-hook #'goto-address-prog-mode)
   (add-hook 'text-mode-hook #'goto-address-mode))
+
+(use-package org-table
+  :ensure nil
+  :no-require t
+
+  :config
+  (defun blaenk/orgtbl-ret ()
+    (interactive)
+    (if (org-at-table-p)
+        (org-table-hline-and-move)
+      (let (orgtbl-mode)
+        (call-interactively (key-binding (kbd "C-c RET"))))))
+
+  (add-hook 'orgtbl-mode-hook
+            (defun blaenk/orgtbl-hook ()
+              (bind-key "C-c RET" 'blaenk/orgtbl-ret))))
 
 (use-package dired
   :ensure nil
@@ -405,6 +424,12 @@ PR [a-z-+]+/\
   (setq hl-line-sticky-flag t)
   :config
   (add-hook 'prog-mode-hook 'hl-line-mode))
+
+(use-package help-mode
+  :ensure nil
+  :config
+  (bind-key "[" 'help-go-back help-mode-map)
+  (bind-key "]" 'help-go-forward help-mode-map))
 
 (use-package hideshow
   :ensure nil
@@ -481,3 +506,5 @@ PR [a-z-+]+/\
   :ensure nil
   :init
   (setq css-indent-offset 2))
+
+(provide 'conf/built-in)

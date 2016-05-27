@@ -19,7 +19,6 @@
   (setq-default evil-shift-width 2)
   (setq-default evil-shift-round nil)
   (setq evil-want-C-w-delete t)
-  (setq evil-want-C-u-scroll t)
   (setq evil-default-state 'emacs)
   (setq evil-normal-state-modes
         '(text-mode
@@ -209,6 +208,9 @@ The initial state for a mode can be set with
   (bind-key "C-u" 'blaenk/kill-line evil-insert-state-map)
   (bind-key "C-u" 'evil-scroll-up evil-normal-state-map)
 
+  (bind-key "C-j" 'evil-scroll-down evil-normal-state-map)
+  (bind-key "C-k" 'evil-scroll-up evil-normal-state-map)
+
   (bind-key "g p" 'exchange-point-and-mark evil-normal-state-map)
 
   (defun blaenk/evil-insert-mode-paste ()
@@ -364,3 +366,5 @@ The initial state for a mode can be set with
     (bind-key "< a" 'evil-arg-swap-backward evil-normal-state-map)
     (bind-key "> a" 'evil-arg-swap-forward evil-normal-state-map)
     ))
+
+(provide 'conf/evil)

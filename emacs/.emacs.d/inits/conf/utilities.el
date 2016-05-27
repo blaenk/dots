@@ -18,6 +18,16 @@
             :evil-keys ("SPC")
             :evil-states (normal motion visual)))
 
+(use-package which-key
+  :diminish which-key-mode
+
+  :init
+  (setq which-key-idle-delay 1.0)
+  (setq which-key-use-C-h-commands nil)
+
+  :config
+  (which-key-mode))
+
 (use-package help-fns+
   :commands describe-keymap)
 
@@ -25,6 +35,7 @@
 ;; use (member "Symbola" (font-family-list))
 ;; to fall back on unicode icons
 (use-package fontawesome
+  :defer t
   :config
   (defun blaenk/set-char-widths (alist)
     (while (char-table-parent char-width-table)
@@ -130,7 +141,7 @@
   ("C-c g o" . browse-at-remote/kill))
 
 ;; TODO remove
-(use-package diminish)
+;; (use-package diminish)
 
 (use-package expand-region
   :defer t
@@ -143,11 +154,14 @@
     (bind-key "v" 'er/expand-region blaenk/leader-map))
   )
 
-(use-package buffer-move)
+(use-package buffer-move
+  :defer t)
 
-(use-package frame-cmds)
+(use-package frame-cmds
+  :defer t)
 
 (use-package hydra
+  :defer t
   :config
   (with-eval-after-load 'evil
     (require 'evil-vars)
@@ -163,7 +177,6 @@
       ("l" evil-window-right))
 
     (with-eval-after-load 'buffer-move
-      (require 'evil-vars)
       (defhydra hydra-move-buffer (evil-window-map "m")
         "move buffer"
         ("q" nil)
@@ -387,6 +400,7 @@
         '((help-mode :select t)
           (compilation-mode :noselect t)
           ("*Diff*" :select t :frame t)
+          ("*Package Commit List*" :select t)
           ))
 
   :config
@@ -448,6 +462,7 @@
   (add-hook 'prog-mode-hook 'blaenk/ggtags-hook))
 
 (use-package rtags
+  :defer t
   :init
   (setq rtags-completions-enabled t)
   (setq rtags-autostart-diagnostics t)
@@ -508,3 +523,5 @@ If SUBMODE is not provided, use `LANG-mode' by default."
   ;; (blaenk/mmm-markdown-auto-class "bash" 'sh-mode)
   ;; (blaenk/mmm-markdown-auto-class "elisp" 'emacs-lisp-mode)
   )
+
+(provide 'conf/utilities)

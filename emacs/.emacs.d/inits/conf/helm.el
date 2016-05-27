@@ -26,67 +26,71 @@
   (setq helm-imenu-execute-action-at-once-if-one nil)
 
   :config
-  (require 'helm-config)
-  (helm-autoresize-mode t)
+  (use-package helm-config
+    :ensure nil
+    :config
+    (helm-autoresize-mode t))
 
   ;; open in horizontal split
-  (require 'helm-files)
+  (use-package helm-files
+    :ensure nil
 
-  (defun blaenk/helm-action-horizontal-split (candidate)
-    "Display buffer in horizontal split"
-    ;; Select the bottom right window
-    (require 'winner)
-    ;; Display buffers in new windows
-    (dolist (buf (helm-marked-candidates))
-      (select-window (split-window-below))
-      (if (get-buffer buf)
-          (switch-to-buffer buf)
-        (find-file buf)))
-    (balance-windows))
+    :config
+    (defun blaenk/helm-action-horizontal-split (candidate)
+      "Display buffer in horizontal split"
+      ;; Select the bottom right window
+      (require 'winner)
+      ;; Display buffers in new windows
+      (dolist (buf (helm-marked-candidates))
+        (select-window (split-window-below))
+        (if (get-buffer buf)
+            (switch-to-buffer buf)
+          (find-file buf)))
+      (balance-windows))
 
-  (defun blaenk/helm-action-vertical-split (candidate)
-    "Display buffer in vertical split"
-    ;; Select the bottom right window
-    (require 'winner)
-    ;; Display buffers in new windows
-    (dolist (buf (helm-marked-candidates))
-      (select-window (split-window-right))
-      (if (get-buffer buf)
-          (switch-to-buffer buf)
-       (find-file buf)))
-    (balance-windows))
+    (defun blaenk/helm-action-vertical-split (candidate)
+      "Display buffer in vertical split"
+      ;; Select the bottom right window
+      (require 'winner)
+      ;; Display buffers in new windows
+      (dolist (buf (helm-marked-candidates))
+        (select-window (split-window-right))
+        (if (get-buffer buf)
+            (switch-to-buffer buf)
+          (find-file buf)))
+      (balance-windows))
 
-  (add-to-list 'helm-find-files-actions
-               '("Display buffer in horizontal split" .
-                 blaenk/helm-action-horizontal-split) t)
+    (add-to-list 'helm-find-files-actions
+                 '("Display buffer in horizontal split" .
+                   blaenk/helm-action-horizontal-split) t)
 
-  (add-to-list 'helm-type-buffer-actions
-               '("Display buffer in horizontal split" .
-                 blaenk/helm-action-horizontal-split) t)
+    (add-to-list 'helm-type-buffer-actions
+                 '("Display buffer in horizontal split" .
+                   blaenk/helm-action-horizontal-split) t)
 
-  (add-to-list 'helm-find-files-actions
-               '("Display buffer in vertical split" .
-                 blaenk/helm-action-vertical-split) t)
+    (add-to-list 'helm-find-files-actions
+                 '("Display buffer in vertical split" .
+                   blaenk/helm-action-vertical-split) t)
 
-  (add-to-list 'helm-type-buffer-actions
-               '("Display buffer in vertical split" .
-                 blaenk/helm-action-vertical-split) t)
+    (add-to-list 'helm-type-buffer-actions
+                 '("Display buffer in vertical split" .
+                   blaenk/helm-action-vertical-split) t)
 
-  (defun blaenk/helm-horizontal-split ()
-    (interactive)
-    (with-helm-alive-p
-      (helm-exit-and-execute-action 'blaenk/helm-action-horizontal-split)))
+    (defun blaenk/helm-horizontal-split ()
+      (interactive)
+      (with-helm-alive-p
+        (helm-exit-and-execute-action 'blaenk/helm-action-horizontal-split)))
 
-  (defun blaenk/helm-vertical-split ()
-    (interactive)
-    (with-helm-alive-p
-      (helm-exit-and-execute-action 'blaenk/helm-action-vertical-split)))
+    (defun blaenk/helm-vertical-split ()
+      (interactive)
+      (with-helm-alive-p
+        (helm-exit-and-execute-action 'blaenk/helm-action-vertical-split)))
 
-  (bind-key "M-h" 'blaenk/helm-horizontal-split helm-find-files-map)
-  (bind-key "M-h" 'blaenk/helm-horizontal-split helm-buffer-map)
+    (bind-key "M-h" 'blaenk/helm-horizontal-split helm-find-files-map)
+    (bind-key "M-h" 'blaenk/helm-horizontal-split helm-buffer-map)
 
-  (bind-key "M-v" 'blaenk/helm-vertical-split helm-find-files-map)
-  (bind-key "M-v" 'blaenk/helm-vertical-split helm-buffer-map)
+    (bind-key "M-v" 'blaenk/helm-vertical-split helm-find-files-map)
+    (bind-key "M-v" 'blaenk/helm-vertical-split helm-buffer-map))
 
   (helm-mode 1)
 
@@ -184,3 +188,5 @@
     ;; press 'p' before the avy anchor to move to it and execute
     ;; it's persistent action
     (setq ace-jump-helm-line-persistent-key ?p)))
+
+(provide 'conf/helm)

@@ -327,3 +327,5 @@
 ;;     (interactive)
 ;;     (helm :sources '(blaenk/solarized-colors-source)
 ;;           :buffer "*helm solarized colors*")))
+
+(provide 'conf/theme)

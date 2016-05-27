@@ -13,8 +13,6 @@
   :init
   (add-hook 'js2-mode-hook 'tern-mode))
 
-(use-package latex-preview-pane)
-
 (use-package lua-mode
   :mode "\\.lua$"
   :interpreter "lua")
@@ -63,21 +61,6 @@
 
 (use-package ox-gfm
   :defer t)
-
-(use-package org-table
-  :ensure nil
-
-  :config
-  (defun blaenk/orgtbl-ret ()
-    (interactive)
-    (if (org-at-table-p)
-        (org-table-hline-and-move)
-      (let (orgtbl-mode)
-        (call-interactively (key-binding (kbd "C-c RET"))))))
-
-  (add-hook 'orgtbl-mode-hook
-            (defun blaenk/orgtbl-hook ()
-              (bind-key "C-c RET" 'blaenk/orgtbl-ret))))
 
 (use-package markdown-mode
   :defer t
@@ -285,6 +268,8 @@
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
 
+(use-package latex-preview-pane)
+
 (use-package pkgbuild-mode
   :defer t)
 
@@ -316,3 +301,5 @@
   :defer t
   :init
   (add-hook 'rust-mode-hook 'cargo-minor-mode))
+
+(provide 'conf/languages)

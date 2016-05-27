@@ -36,3 +36,5 @@
     (flycheck-add-next-checker
      'irony
      '(warning . c/c++-googlelint))))
+
+(provide 'conf/flycheck)

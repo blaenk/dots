@@ -5,8 +5,10 @@
 
 (setq enable-recursive-minibuffers t)
 
+;; TODO
+;; add this in with last part?
 (add-to-list 'load-path
-             (expand-file-name "inits/common/" user-emacs-directory))
+             (expand-file-name "inits/conf/common/" user-emacs-directory) t)
 
 (require 'init-common)
 
@@ -25,7 +27,12 @@
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
-  (package-install 'use-package))
+  (package-install 'use-package)
+  (package-install 'auto-compile)
+  (package-install 'benchmark-init))
+
+(require 'benchmark-init)
+(benchmark-init/activate)
 
 (require 'auto-compile)
 (auto-compile-on-load-mode)
@@ -62,6 +69,8 @@
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 (setq mouse-wheel-progressive-speed t)
 (setq mouse-wheel-follow-mouse 't)
+
+(setq help-window-select t)
 
 (setq scroll-step 1)
 (setq scroll-conservatively 10000)
@@ -188,20 +197,50 @@
   (dolist (name names)
       (load (blaenk/inits-dir name))))
 
-(blaenk/load-inits
- '(
-   "theme"
-   "built-in"
-   "utilities"
-   "languages"
-   "flycheck"
-   "mode-line"
-   "evil"
-   "helm"
-   "magit"
-   "company"
-   "smartparens"
-   ))
+(add-to-list 'load-path (blaenk/emacs-dir "inits/") t)
+
+(require 'conf/theme)
+(require 'conf/built-in)
+(require 'conf/utilities)
+(require 'conf/languages)
+(require 'conf/flycheck)
+(require 'conf/mode-line)
+(require 'conf/evil)
+(require 'conf/helm)
+(require 'conf/magit)
+(require 'conf/company)
+(require 'conf/smartparens)
+
+;; (blaenk/load-inits
+;;  '(
+;;    ;; "theme"
+;;    "built-in"
+;;    "utilities"
+;;    "languages"
+;;    "flycheck"
+;;    "mode-line"
+;;    "evil"
+;;    "helm"
+;;    "magit"
+;;    "company"
+;;    "smartparens"
+;;    ))
+
+;; TODO
+;; replace load with require
+
+;; (use-package f
+;;   :commands (f-files f-no-ext f-relative f-ext?)
+
+;;   :config
+;;   (mapc (lambda (file)
+;;           (let ((feature-name (f-no-ext (f-relative file main-dir))))
+;;             (require (intern feature-name))))
+;;         (f-files (expand-file-name "conf" main-dir)
+;;                  (lambda (file) (f-ext? file "el"))
+;;                  t)))
 
 (setq custom-file (blaenk/cache-dir "custom.el"))
 (load custom-file 'noerror)
+
+(benchmark-init/deactivate)
