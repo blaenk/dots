@@ -1,7 +1,8 @@
 (require 'use-package)
 
 (use-package exec-path-from-shell
-  :if (not (equal system-type 'windows-nt))
+  :if (and (daemonp)
+           (not (equal system-type 'windows-nt)))
   :config
   (exec-path-from-shell-copy-envs
    '("VM" "PATH" "GTAGSCONF" "GTAGSLABEL" "SSH_AUTH_SOCK")))
