@@ -11,14 +11,6 @@
   :config
   (unicode-fonts-setup))
 
-(use-package bind-map
-  :after evil
-  :config
-  (bind-map blaenk/leader-map
-            :keys ("M-m")
-            :evil-keys ("SPC")
-            :evil-states (normal motion visual)))
-
 (use-package which-key
   :diminish which-key-mode
 
