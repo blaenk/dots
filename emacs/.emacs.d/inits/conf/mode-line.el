@@ -113,7 +113,9 @@
                               (propertize (format " %s " warnings)
                                           'face 'mode-line-flycheck-warnings-face))))
           (format "%s%s%s" info-str warning-str error-str))
-      (propertize " ✔" 'face 'mode-line-flycheck-no-errors-face)))
+      ;; FIXME
+      ;; if there's no branch then this can't omit the space
+      (propertize " ✔ " 'face 'mode-line-flycheck-no-errors-face)))
 
   (defun blaenk/flycheck-mode-line ()
     (pcase flycheck-last-status-change
@@ -215,11 +217,11 @@
            (:eval
             (when (blaenk/is-modified) " + "))
            face mode-line-modified-face)
-          (:eval (blaenk/flycheck-mode-line))
           (:propertize
            (:eval (when buffer-read-only
                     (concat " " (fontawesome "lock") " ")))
            face mode-line-read-only-face)
+          (:eval (blaenk/flycheck-mode-line))
           (:propertize (:eval (blaenk/vc-branch))
                        face mode-line-branch-face)
           ))

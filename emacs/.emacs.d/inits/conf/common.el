@@ -1,3 +1,26 @@
+(require 'use-package)
+
+(use-package general
+  :config
+  (put 'general-define-key 'lisp-indent-function 'defun)
+  (put 'general-create-definer 'lisp-indent-function 'defun)
+
+  (general-create-definer bind)
+  (put 'bind 'lisp-indent-function 'defun)
+
+  (general-create-definer bind-local :keymaps 'local)
+  (put 'bind-local 'lisp-indent-function 'defun)
+
+  ;; NOTE
+  ;; on gnome, have to unbind M-SPC, known as Alt+Space in
+  ;; settings → windows → activate the window menu
+  (general-create-definer bind*
+    :states '(emacs normal visual motion insert)
+    :non-normal-prefix "M-SPC"
+    :prefix "SPC")
+
+  (put 'bind* 'lisp-indent-function 'defun))
+
 (defun blaenk/emacs-dir (path)
   (expand-file-name path user-emacs-directory))
 
@@ -56,22 +79,6 @@
   (let ((face (blaenk/get-faces pos)))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
-(defmacro bind-keys-for-major-modes (modes &rest binds)
-  (let* ((mode-list (-map (lambda (mode)
-                            (s-chop-suffix "-mode" (symbol-name mode)))
-                          modes))
-         (modes-string (s-join "-" mode-list))
-         (map-name (intern (concat "blaenk/" modes-string "-map"))))
-    `(progn
-       (bind-map ,map-name
-         :keys ("M-m")
-         :evil-keys ("SPC")
-         :evil-states (normal motion visual)
-         :major-modes ,modes)
-       (bind-keys :map ,map-name ,@binds))))
-
-(put 'bind-keys-for-major-modes 'lisp-indent-function 'defun)
-
 ; (defun blaenk/eval-after-load-all (features body)
 ;   (if (null features)
 ;       body
@@ -85,4 +92,4 @@
 ;     `(eval-after-load (quote ,(car features))
 ;        (quote (blaenk/eval-after-load-all-macro ,(cdr features) ,body)))))
 
-(provide 'init-common)
+(provide 'conf/common)

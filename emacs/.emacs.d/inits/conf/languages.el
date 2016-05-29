@@ -1,5 +1,5 @@
 (require 'use-package)
-(require 'init-common)
+(require 'conf/common)
 
 (use-package anaconda-mode
   :defer t
@@ -79,7 +79,6 @@
   (defun blaenk/gfm-hook ()
     (interactive)
 
-    (require 'org-table)
     (orgtbl-mode 1)
 
     (setq-local word-wrap t)
@@ -103,9 +102,9 @@
   (add-to-list 'markdown-gfm-additional-languages "cpp")
   (add-to-list 'markdown-gfm-additional-languages "elisp")
 
-  (bind-keys-for-major-modes (markdown-mode gfm-mode)
-    ("k" . beginning-of-defun)
-    ("j" . end-of-defun)))
+  (bind* :keymaps '(markdown-mode-map gfm-mode-map)
+    "k" 'beginning-of-defun
+    "j" 'end-of-defun))
 
 (use-package yaml-mode
   :defer t)
@@ -137,20 +136,30 @@
   (add-hook 'go-mode-hook 'go-eldoc-setup))
 
 (use-package less-css-mode
-  :defer t
-  :init
-  (add-hook 'less-css-mode-hook 'turn-on-css-eldoc))
+  :defer t)
 
 (use-package robe
   :defer t
   :init
   (add-hook 'ruby-mode-hook 'robe-mode)
-  (add-hook 'enh-ruby-mode-hook 'robe-mode))
+  (add-hook 'enh-ruby-mode-hook 'robe-mode)
+  )
 
 (use-package scss-mode
   :defer t
-  :mode "\\.scss\\'"
+  :mode ("\\.scss\\'" "\\.sass\\'")
   :init
+  (defun blaenk/scss-hook ()
+    (setq-local comment-end "")
+    (setq-local comment-start "//"))
+
+  (add-hook 'scss-mode-hook 'blaenk/scss-hook))
+
+(use-package css-eldoc
+  :defer t
+  :init
+  (add-hook 'css-mode-hook 'turn-on-css-eldoc)
+  (add-hook 'less-css-mode-hook 'turn-on-css-eldoc)
   (add-hook 'scss-mode-hook 'turn-on-css-eldoc))
 
 (use-package elixir-mode
@@ -160,6 +169,7 @@
   :disabled t)
 
 (use-package irony
+  :defer t
   :init
   (setq irony-user-dir (blaenk/cache-dir "irony"))
 
@@ -170,10 +180,9 @@
   ;; replace the `completion-at-point' and `complete-symbol' bindings in
   ;; irony-mode's buffers by irony-mode's function
   (defun blaenk/irony-mode-hook ()
-    (bind-key [remap completion-at-point]
-              'irony-completion-at-point-async irony-mode-map)
-    (bind-key [remap complete-symbol]
-              'irony-completion-at-point-async irony-mode-map))
+    (bind :keymaps 'irony-mode-map
+      [remap completion-at-point] 'irony-completion-at-point-async
+      [remap complete-symbol] 'irony-completion-at-point-async))
 
   (add-hook 'irony-mode-hook 'blaenk/irony-mode-hook)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
@@ -208,6 +217,26 @@
 
   (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
 
+(use-package ggtags
+  :disabled t
+  :defer t
+  :init
+  (defun blaenk/ggtags-hook ()
+    (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
+      (ggtags-mode 1)))
+
+  (add-hook 'prog-mode-hook 'blaenk/ggtags-hook))
+
+(use-package rtags
+  :defer t
+  :init
+  (setq rtags-completions-enabled t)
+  (setq rtags-autostart-diagnostics t)
+
+  :config
+  ;; (rtags-diagnostics)
+  )
+
 (use-package cmake-mode
   :defer t)
 
@@ -216,6 +245,11 @@
   :init
   (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
   (add-hook 'cmake-mode-hook 'cmake-font-lock-activate))
+
+(use-package cmake-ide
+  :defer t
+  :config
+  (add-hook 'after-init-hook 'cmake-ide-setup))
 
 (use-package racer
   :defer t
@@ -266,9 +300,10 @@
   :config
   (add-hook 'LaTeX-mode-hook 'visual-line-mode)
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 
-(use-package latex-preview-pane)
+  (use-package latex-preview-pane
+    :defer t))
 
 (use-package pkgbuild-mode
   :defer t)
@@ -277,7 +312,8 @@
   :defer t
   :init
   (defun blaenk/clang-format ()
-    (bind-key "C-c C-f" 'clang-format-buffer c-mode-base-map))
+    (bind :keymaps 'c-mode-base-map
+      "C-c C-f" 'clang-format-buffer))
 
   (add-hook 'c++-mode-hook 'blaenk/clang-format)
   (add-hook 'c-mode-hook 'blaenk/clang-format))
@@ -286,16 +322,13 @@
   :defer t
   :init
   (defun blaenk/rustfmt ()
-    (bind-key "C-c C-f" 'rustfmt-format-buffer rust-mode-map))
+    (bind :keymaps 'rust-mode-map
+      "C-c C-f" 'rustfmt-format-buffer))
 
   (add-hook 'rust-mode-hook 'blaenk/rustfmt))
 
 (use-package google-c-style
   :defer t)
-
-(use-package cmake-ide
-  :config
-  (cmake-ide-setup))
 
 (use-package cargo
   :defer t

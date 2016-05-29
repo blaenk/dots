@@ -3,8 +3,6 @@
 (use-package paxedit
   :defer t)
 
-(use-package on-parens)
-
 (use-package smartparens
   :diminish smartparens-mode
   :defer t
@@ -15,21 +13,29 @@
   (setq sp-highlight-pair-overlay nil)
   (setq sp-cancel-autoskip-on-backward-movement nil)
 
-  (require 'smartparens-config)
-  (sp-use-smartparens-bindings)
-
   (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
   (add-hook 'clojure-mode-hook 'smartparens-mode)
   (add-hook 'racket-mode-hook 'smartparens-mode)
   (add-hook 'scheme-mode-hook 'smartparens-mode)
 
-  (bind-key "M-S" 'sp-split-sexp smartparens-mode-map)
-  (bind-key "M-J" 'sp-join-sexp smartparens-mode-map)
-
   ;; TODO bind % to jump toggle matching pair
 
-  (with-eval-after-load 'on-parens
-    (with-eval-after-load 'evil
+  :config
+  (sp-use-smartparens-bindings)
+
+  (bind :keymaps 'smartparens-mode-map
+    "M-S" 'sp-split-sexp
+    "M-J" 'sp-join-sexp)
+
+  (use-package evil
+    :no-require t
+    :config
+    (use-package on-parens
+      :demand t
+      :config
+      (eval-when-compile
+        (require 'smartparens))
+
       ;; https://github.com/tpope/vim-sexp-mappings-for-regular-people
 
       (defun blaenk/evil-goto-char (pos)
@@ -44,15 +50,11 @@
         ;; get back on paren
         (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char :end)))
 
-      (bind-key "> )" 'blaenk/move-closing-paren-forward evil-normal-state-map)
-
       (defun blaenk/move-closing-paren-backward ()
         (interactive)
         (on-parens-forward-barf)
         ;; get back on paren
         (sp-restrict-to-object 'sp-prefix-pair-object 'sp-backward-down-sexp))
-
-      (bind-key "< )" 'blaenk/move-closing-paren-backward evil-normal-state-map)
 
       (defun blaenk/move-opening-paren-forward ()
         (interactive)
@@ -60,15 +62,11 @@
         ;; get back on paren
         (sp-restrict-to-object 'sp-prefix-pair-object 'sp-next-sexp))
 
-      (bind-key "> (" 'blaenk/move-opening-paren-forward evil-normal-state-map)
-
       (defun blaenk/move-opening-paren-backward ()
         (interactive)
         (on-parens-backward-slurp)
         ;; get back on paren
         (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char (+ :beg 1))))
-
-      (bind-key "< (" 'blaenk/move-opening-paren-backward evil-normal-state-map)
 
       ;; TODO
       ;; this should be turned off when smartparens is not on
@@ -78,14 +76,9 @@
       ;; (define-key evil-normal-state-map (kbd "g E") 'on-parens-backward-sexp-end)
       ;; (define-key evil-normal-state-map (kbd "B") 'on-parens-backward-sexp)
 
-      (bind-key "< u" 'sp-splice-sexp-killing-backward evil-normal-state-map)
-      (bind-key "> u" 'sp-splice-sexp-killing-forward evil-normal-state-map)
-
       (defun blaenk/delete-sexp-backward ()
         (interactive)
         (sp-kill-sexp '(-4)))
-
-      (bind-key "< d" 'blaenk/delete-sexp-backward evil-normal-state-map)
 
       (defun blaenk/delete-sexp-forward ()
         (interactive)
@@ -95,8 +88,6 @@
         ;; even on-parens-kill-sexp doesn't seem to work
         (forward-char)
         (sp-kill-sexp '(4)))
-
-      (bind-key "> d" 'blaenk/delete-sexp-forward evil-normal-state-map)
 
       (defun blaenk/sp-get-current-non-string-sexp (pos)
         "get the enclosing, non-string sexp"
@@ -147,10 +138,6 @@
         (blaenk/save-position
          (sp-transpose-sexp -1)))
 
-      (bind-key "< f" (sp-restrict-to-object-interactive 'sp-prefix-pair-object 'move-form-backward) evil-normal-state-map)
-
-      (bind-key "> f" (sp-restrict-to-object-interactive 'sp-prefix-pair-object 'move-form-forward) evil-normal-state-map)
-
       (defun move-symbol-backward (&optional arg)
         "move a symbol backward"
         (interactive "*p")
@@ -171,9 +158,6 @@
         (backward-char)
         (on-parens-backward-sexp arg))
 
-      (bind-key "< s" 'move-symbol-backward evil-normal-state-map)
-      (bind-key "> s" 'move-symbol-forward evil-normal-state-map)
-
       (defun insert-before-form ()
         "jump to the beginning of the sexp and go into insert mode"
         (interactive)
@@ -188,8 +172,29 @@
         (sp-end-of-sexp)
         (evil-insert 0))
 
-      (bind-key "< i" 'insert-before-form evil-normal-state-map)
-      (bind-key "> i" 'insert-after-form evil-normal-state-map)
+      (bind :states 'normal
+        "> )" 'blaenk/move-closing-paren-forward
+        "< )" 'blaenk/move-closing-paren-backward
+        "> (" 'blaenk/move-opening-paren-forward
+        "< (" 'blaenk/move-opening-paren-backward
+
+        "< u" 'sp-splice-sexp-killing-backward
+        "> u" 'sp-splice-sexp-killing-forward
+
+        "< d" 'blaenk/delete-sexp-backward
+        "> d" 'blaenk/delete-sexp-forward
+
+        "< f" (sp-restrict-to-object-interactive
+               'sp-prefix-pair-object 'move-form-backward)
+        "> f" (sp-restrict-to-object-interactive
+               'sp-prefix-pair-object 'move-form-forward)
+
+        "< s" 'move-symbol-backward
+        "> s" 'move-symbol-forward
+
+        "< i" 'insert-before-form
+        "> i" 'insert-after-form
+        )
       )))
 
 (provide 'conf/smartparens)

@@ -17,18 +17,17 @@
 
   :config
   ;; get back the use of kill word even if company is active
-  (unbind-key "C-w" company-active-map)
-  (bind-key "C-o" 'company-show-location company-active-map)
-  (bind-key "C-/" 'company-filter-candidates company-active-map)
+  (bind :keymaps 'company-active-map
+    "C-w" nil
+    "C-o" 'company-show-location
+    "C-/" 'company-filter-candidates)
 
   (use-package company-statistics
     :init
     (setq company-statistics-file
           (blaenk/cache-dir "company-statistics-cache.el"))
 
-    :config
-    (add-hook 'after-init-hook 'company-statistics-mode)
-    (company-statistics-mode))
+    (add-hook 'after-init-hook 'company-statistics-mode))
 
   (use-package company-quickhelp
     :init
@@ -36,7 +35,8 @@
 
     :config
     (company-quickhelp-mode 1)
-    (bind-key "M-h" 'company-quickhelp-manual-begin company-active-map))
+    (bind :keymaps 'company-active-map
+      "M-h" 'company-quickhelp-manual-begin))
 
   (use-package company-irony
     :config
@@ -61,6 +61,12 @@
     :config
     (add-to-list 'company-backends 'company-tern t))
 
+  (use-package robe
+    :defer t
+    :no-require t
+    :config
+    (add-to-list 'company-backends 'company-robe t))
+
   (use-package company-web
     :config
     (require 'company-web-html)
@@ -73,12 +79,6 @@
   (use-package company-auctex
     :config
     (company-auctex-init))
-
-  (use-package robe
-    :ensure nil
-    :config
-    (with-eval-after-load 'company
-      (add-to-list 'company-backends 'company-robe t)))
 
   (use-package company-go
     :config

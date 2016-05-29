@@ -9,6 +9,7 @@
 
 (use-package smerge-mode
   :ensure nil
+  :defer t
   :init
   ;; attempt to start smerge, automatically disabling it if not relevant
   (add-hook 'find-file-hook 'smerge-start-session))
@@ -22,6 +23,7 @@
 
 (use-package recentf
   :ensure nil
+  :defer t
   :defines recentf-save-file
 
   :init
@@ -29,7 +31,6 @@
   (setq recentf-max-saved-items 50)
 
   :config
-  (bind-key "C-x C-r" 'helm-recentf)
   (recentf-mode 1))
 
 (use-package savehist
@@ -213,6 +214,13 @@
   :defer t
 
   :init
+  (setq imenu-auto-rescan t))
+
+(use-package lisp-mode
+  :ensure nil
+  :no-require t
+  :defer t
+  :config
   (defun imenu-use-package ()
     (add-to-list 'imenu-generic-expression
                  '("Used Packages"
@@ -239,7 +247,7 @@
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
-  (bind-key "C-c d" 'ediff-current-file)
+  (bind "C-c d" 'ediff-current-file)
 
   ;; doing M-x ediff-show-diff-output from ediff-current-file doesn't work
   ;; https://emacs.stackexchange.com/questions/22090/
@@ -277,6 +285,7 @@
 
 (use-package elec-pair
   :ensure nil
+  :no-require t
 
   :config
   ;; NOTE
@@ -297,7 +306,7 @@
       (electric-pair-mode -1)))
 
   (add-hook 'minibuffer-setup-hook 'blaenk/minibuffer-elec-pair)
-  (electric-pair-mode))
+  (electric-pair-mode +1))
 
 ;; TODO
 ;; this also cons mode-line
@@ -315,11 +324,17 @@
   (add-hook 'objc-mode-hook 'eldoc-mode)
   (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode))
 
+(use-package sgml-mode
+  :ensure nil
+  :init
+  (setq sgml-basic-offset 2))
+
 (use-package css-mode
   :ensure nil
+  :defer t
 
   :init
-  (add-hook 'css-mode-hook 'turn-on-css-eldoc))
+  (setq css-indent-offset 2))
 
 (use-package bug-reference
   :ensure nil
@@ -348,6 +363,7 @@ PR [a-z-+]+/\
 (use-package org-table
   :ensure nil
   :no-require t
+  :defer t
 
   :config
   (defun blaenk/orgtbl-ret ()
@@ -355,15 +371,15 @@ PR [a-z-+]+/\
     (if (org-at-table-p)
         (org-table-hline-and-move)
       (let (orgtbl-mode)
+        ;; TODO
+        ;; encodes C-c
         (call-interactively (key-binding (kbd "C-c RET"))))))
 
-  (add-hook 'orgtbl-mode-hook
-            (defun blaenk/orgtbl-hook ()
-              (bind-key "C-c RET" 'blaenk/orgtbl-ret))))
+  ;; TODO prefix nil?
+  (bind :keymaps 'orgtbl-mode-map "RET" 'blaenk/orgtbl-ret))
 
 (use-package dired
   :ensure nil
-  :defer t
 
   :init
   (setq dired-auto-revert-buffer t)
@@ -374,12 +390,23 @@ PR [a-z-+]+/\
     (setq dired-listing-switches
           (concat dired-listing-switches " --group-directories-first -v"))))
 
+(use-package dired-x
+  :ensure nil
+
+  :init
+  (setq dired-omit-verbose nil)
+  (add-hook 'dired-mode-hook #'dired-omit-mode)
+
+  (when (eq system-type 'darwin)
+    (setq dired-guess-shell-gnutar "tar")))
+
 (use-package simple
   :ensure nil
-  :bind (("C-c q" . auto-fill-mode))
+  :defer t
 
   :init
   (setq next-error-recenter '(4))
+  (bind "C-c q" 'auto-fill-mode)
 
   (defun blaenk/prog-auto-fill ()
     (setq-local comment-auto-fill-only-comments t)
@@ -387,26 +414,16 @@ PR [a-z-+]+/\
 
   (add-hook 'prog-mode-hook 'blaenk/prog-auto-fill))
 
-(use-package dired-x
+(use-package ansi-color
   :ensure nil
-  :defer t
-  :bind
-  (("C-x C-j" . dired-jump))
 
-  :config
-  (setq dired-omit-verbose nil)
-  (add-hook 'dired-mode-hook #'dired-omit-mode)
+  :init
+  (ignore-errors
+    (defun colorize-compilation-buffer ()
+      (when (eq major-mode 'compilation-mode)
+        (ansi-color-apply-on-region compilation-filter-start (point-max))))
 
-  (when (eq system-type 'darwin)
-    (setq dired-guess-shell-gnutar "tar")))
-
-(ignore-errors
-  (require 'ansi-color)
-  (defun colorize-compilation-buffer ()
-    (when (eq major-mode 'compilation-mode)
-      (ansi-color-apply-on-region compilation-filter-start (point-max))))
-
-  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer))
+    (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)))
 
 (use-package compile
   :ensure nil
@@ -427,9 +444,12 @@ PR [a-z-+]+/\
 
 (use-package help-mode
   :ensure nil
+  :no-require t
+  :defer t
   :config
-  (bind-key "[" 'help-go-back help-mode-map)
-  (bind-key "]" 'help-go-forward help-mode-map))
+  (general-define-key :keymaps 'help-mode-map
+    "[" 'help-go-back
+    "]" 'help-go-forward))
 
 (use-package hideshow
   :ensure nil
@@ -440,10 +460,11 @@ PR [a-z-+]+/\
 (use-package flyspell
   :ensure nil
   :defer t
-  :config
+  :init
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
+  :config
   (defun flyspell-goto-previous-error (arg)
     "Go to arg previous spelling error."
     (interactive "p")
@@ -501,10 +522,5 @@ PR [a-z-+]+/\
     (interactive)
     (push-mark (point) t nil)
     (message "Pushed mark to ring")))
-
-(use-package css-mode
-  :ensure nil
-  :init
-  (setq css-indent-offset 2))
 
 (provide 'conf/built-in)

@@ -8,6 +8,7 @@
    '("VM" "PATH" "GTAGSCONF" "GTAGSLABEL" "SSH_AUTH_SOCK")))
 
 (use-package unicode-fonts
+  :disabled t
   :config
   (unicode-fonts-setup))
 
@@ -88,8 +89,9 @@
   (setq projectile-test-suffix-function 'blaenk/projectile-test-suffix-function)
 
   :config
-  (bind-key "C-c e" 'blaenk/edit-inits)
-  (bind-key "C-M-/" 'helm-projectile-ag)
+  (bind
+    "C-c e" 'blaenk/edit-inits
+    "C-M-/" 'helm-projectile-ag)
 
   (add-to-list 'projectile-other-file-alist '("cc" "h" "hpp" "hh"))
   (add-to-list 'projectile-other-file-alist '("h" "c" "cpp" "cc"))
@@ -141,10 +143,7 @@
   ("C-=" . er/expand-region)
 
   :init
-  ;; (evil-define-key 'visual global-map (kbd "v") 'er/expand-region)
-  (with-eval-after-load 'bind-map
-    (bind-key "v" 'er/expand-region blaenk/leader-map))
-  )
+  (bind* "v" 'er/expand-region))
 
 (use-package buffer-move
   :defer t)
@@ -153,6 +152,7 @@
   :defer t)
 
 (use-package hydra
+  :disabled t
   :defer t
   :config
   (with-eval-after-load 'evil
@@ -205,11 +205,6 @@
 (use-package olivetti
   :defer t)
 
-(use-package ace-link
-  :defer t
-  :config
-  (ace-link-setup-default))
-
 (use-package link-hint
   :defer t
   :bind
@@ -223,15 +218,6 @@
   :defer t
   :init
   (add-hook 'prog-mode-hook 'hl-todo-mode))
-
-(use-package pcache
-  :defer t
-  :config
-  ;; TODO
-  ;; pending https://github.com/sigma/pcache/issues/6
-  ;; should change this, might hide other things that may be stored in var/
-  ;; (delete-directory (concat user-emacs-directory "var") 'recursive)
-  (setq pcache-directory (blaenk/cache-dir "var/pcache")))
 
 (use-package gist
   :defer t
@@ -316,7 +302,9 @@
 
   :init
   ;; disable highlighting color names
-  (setq rainbow-x-colors nil))
+  (setq rainbow-x-colors nil)
+
+  (add-hook 'prog-mode-hook 'rainbow-mode))
 
 (use-package rainbow-blocks
   :defer t
@@ -347,8 +335,7 @@
   (setq relative-line-numbers-format #'abs-rel-numbers)
 
   :config
-  (with-eval-after-load 'bind-map
-    (bind-key "n" 'relative-line-numbers-mode blaenk/leader-map))
+  (bind* "n" 'relative-line-numbers-mode)
 
   (setq relative-line-numbers-motion-function 'forward-visible-line)
   (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
@@ -365,8 +352,7 @@
   (setq fci-rule-use-dashes t)
   (setq fci-dash-pattern 0.50)
 
-  (with-eval-after-load 'bind-map
-    (bind-key "c" 'fci-mode blaenk/leader-map))
+  (bind* "c" 'fci-mode)
 
   (defun blaenk/git-commit-fill-column ()
     (fci-mode 1))
@@ -442,26 +428,6 @@
   :init
   (add-hook 'sgml-mode-hook 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode))
-
-(use-package ggtags
-  :disabled t
-  :defer t
-  :init
-  (defun blaenk/ggtags-hook ()
-    (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
-      (ggtags-mode 1)))
-
-  (add-hook 'prog-mode-hook 'blaenk/ggtags-hook))
-
-(use-package rtags
-  :defer t
-  :init
-  (setq rtags-completions-enabled t)
-  (setq rtags-autostart-diagnostics t)
-
-  :config
-  ;; (rtags-diagnostics)
-  )
 
 (use-package esup
   :commands esup)

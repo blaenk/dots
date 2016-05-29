@@ -1,26 +1,5 @@
 (require 'package)
 
-(setq load-prefer-newer t)
-(setq backup-by-copying t)
-
-(setq enable-recursive-minibuffers t)
-
-;; TODO
-;; add this in with last part?
-(add-to-list 'load-path
-             (expand-file-name "inits/conf/common/" user-emacs-directory) t)
-
-(require 'init-common)
-
-(let* ((auto-save-dir (blaenk/cache-dir "autosaves/")))
-  (setq auto-save-list-file-prefix (expand-file-name "saves-" auto-save-dir))
-  (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t))))
-
-(setq backup-directory-alist `((".*" . ,(blaenk/cache-dir "backups/"))))
-
-(defun emacs-session-filename (session-id)
-  (blaenk/cache-dir (concat "sessions/" session-id)))
-
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 
 (package-initialize)
@@ -32,7 +11,9 @@
   (package-install 'benchmark-init))
 
 (require 'benchmark-init)
-(benchmark-init/activate)
+
+(setq load-prefer-newer t)
+(setq backup-by-copying t)
 
 (require 'auto-compile)
 (auto-compile-on-load-mode)
@@ -45,15 +26,30 @@
 
 (setq use-package-always-ensure t)
 
-(use-package s)
-(use-package f)
-(use-package dash)
+(require 's)
+(require 'f)
+(require 'dash)
+
+(add-to-list 'load-path (expand-file-name "inits/" user-emacs-directory) t)
+
+(require 'conf/common)
+
+(let* ((auto-save-dir (blaenk/cache-dir "autosaves/")))
+  (setq auto-save-list-file-prefix (expand-file-name "saves-" auto-save-dir))
+  (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t))))
+
+(setq backup-directory-alist `((".*" . ,(blaenk/cache-dir "backups/"))))
+
+(defun emacs-session-filename (session-id)
+  (blaenk/cache-dir (concat "sessions/" session-id)))
 
 (when (getenv "VM")
   (setq browse-url-browser-function 'kill-new))
 
 (setq version-control t)
 (setq delete-old-versions t)
+
+(setq enable-recursive-minibuffers t)
 
 (setq inhibit-x-resources t)
 (setq x-select-enable-clipboard t)
@@ -103,46 +99,40 @@
 
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
 
-(bind-key [remap eval-last-sexp] 'pp-eval-last-sexp)
-(bind-key [remap eval-expression] 'pp-eval-expression)
+(bind [remap eval-last-sexp] 'pp-eval-last-sexp)
+(bind [remap eval-expression] 'pp-eval-expression)
 
-(bind-key "TAB" (lambda () (interactive) (insert-tab)))
+(bind "TAB" (lambda () (interactive) (insert-tab)))
 
 ;; unicode mappings
 (require 'iso-transl)
-(bind-keys :map iso-transl-ctl-x-8-map
-           ("<right>" . "→")
-           ("<left>" . "←")
-           ("n" . "ñ"))
+(bind :keymaps 'iso-transl-ctl-x-8-map
+  "<right>" "→"
+  "<left>" "←"
+  "n" "ñ")
 
-;; TODO why this, then rebind to universal-argument-more?
-(bind-key "M-u" 'universal-argument)
-
-(bind-key "C-c u" 'paradox-list-packages)
+(bind "C-c u" 'paradox-list-packages)
 
 (defun blaenk/kill-this-buffer ()
   (interactive)
   (let ((buffer-modified-p nil))
     (kill-buffer (current-buffer))))
 
-(bind-key "C-c k" 'blaenk/kill-this-buffer)
-(bind-key "C-c s" 'save-buffer)
+(bind "C-c k" 'blaenk/kill-this-buffer)
 
 (defun blaenk/switch-to-previous-buffer ()
   (interactive)
   (switch-to-buffer (other-buffer)))
 
-(bind-key "C-c o" 'blaenk/switch-to-previous-buffer)
+(bind "C-c o" 'blaenk/switch-to-previous-buffer)
 
 (defun blaenk/split-with-previous-buffer ()
   (interactive)
   (select-window (split-window-below))
   (blaenk/switch-to-previous-buffer))
 
-(bind-key "C-c x" 'blaenk/split-with-previous-buffer)
-
-(bind-key "C-c b" 'bury-buffer)
-(bind-key "M-u" 'universal-argument-more universal-argument-map)
+(bind "C-c x" 'blaenk/split-with-previous-buffer)
+(bind "C-c b" 'bury-buffer)
 
 (defun blaenk/frame-options (frame)
   (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10.5"))
@@ -182,22 +172,18 @@
       (delete-window))
     (display-buffer-pop-up-frame buffer nil)))
 
-(bind-key "C-c f" 'blaenk/pop-to-frame)
+(bind "C-c f" 'blaenk/pop-to-frame)
 
 (defun blaenk/force-save ()
   (interactive)
   (set-buffer-modified-p t)
   (save-buffer))
 
-(bind-key "C-S-x C-S-s" 'blaenk/force-save)
+(bind "C-S-x C-S-s" 'blaenk/force-save)
 
 (byte-recompile-directory (blaenk/inits-dir "") 0)
 
-(defun blaenk/load-inits (names)
-  (dolist (name names)
-      (load (blaenk/inits-dir name))))
-
-(add-to-list 'load-path (blaenk/emacs-dir "inits/") t)
+(benchmark-init/activate)
 
 (require 'conf/theme)
 (require 'conf/built-in)
@@ -211,36 +197,7 @@
 (require 'conf/company)
 (require 'conf/smartparens)
 
-;; (blaenk/load-inits
-;;  '(
-;;    ;; "theme"
-;;    "built-in"
-;;    "utilities"
-;;    "languages"
-;;    "flycheck"
-;;    "mode-line"
-;;    "evil"
-;;    "helm"
-;;    "magit"
-;;    "company"
-;;    "smartparens"
-;;    ))
-
-;; TODO
-;; replace load with require
-
-;; (use-package f
-;;   :commands (f-files f-no-ext f-relative f-ext?)
-
-;;   :config
-;;   (mapc (lambda (file)
-;;           (let ((feature-name (f-no-ext (f-relative file main-dir))))
-;;             (require (intern feature-name))))
-;;         (f-files (expand-file-name "conf" main-dir)
-;;                  (lambda (file) (f-ext? file "el"))
-;;                  t)))
+(benchmark-init/deactivate)
 
 (setq custom-file (blaenk/cache-dir "custom.el"))
 (load custom-file 'noerror)
-
-(benchmark-init/deactivate)
