@@ -7,6 +7,8 @@
   :general
   ;; get back the use of kill word even if company is active
   (:keymaps 'company-active-map
+    "C-w" nil
+
     "C-o" 'company-show-location
     "C-/" 'company-filter-candidates)
 
@@ -22,9 +24,6 @@
 
   ;; (add-hook 'prog-mode-hook 'company-mode)
   (add-hook 'after-init-hook 'global-company-mode)
-
-  (bind :keymaps 'company-active-map
-    "C-w" nil)
 
   :config
   (use-package company-statistics

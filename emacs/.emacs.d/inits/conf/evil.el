@@ -18,6 +18,15 @@
     "C-l" 'move-end-of-line)
 
   (:states 'normal
+    ;; unmap these so they could be used as prefix keys
+    ;; this is useful for smartparens
+    "<" nil
+    ">" nil
+
+    ;; still able to shift things in normal mode
+    "< <" 'evil-shift-left-line
+    "> >" 'evil-shift-right-line
+
     "g p" 'exchange-point-and-mark
 
     "j" 'evil-next-visual-line
@@ -267,16 +276,6 @@ The initial state for a mode can be set with
     (interactive)
     (evil-ex-nohighlight)
     (force-mode-line-update))
-
-  (bind :states 'normal
-    ;; unmap these so they could be used as prefix keys
-    ;; this is useful for smartparens
-    "<" nil
-    ">" nil
-
-    ;; still able to shift things in normal mode
-    "< <" 'evil-shift-left-line
-    "> >" 'evil-shift-right-line)
 
   (bind*
     "o" 'blaenk/evil-open-in-between
