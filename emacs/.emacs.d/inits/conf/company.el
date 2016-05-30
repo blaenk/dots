@@ -1,7 +1,15 @@
 (require 'use-package)
+(require 'general)
 
 (use-package company
   :defer t
+
+  :general
+  ;; get back the use of kill word even if company is active
+  (:keymaps 'company-active-map
+    "C-o" 'company-show-location
+    "C-/" 'company-filter-candidates)
+
   :init
   (setq company-minimum-prefix-length 1)
   (setq company-selection-wrap-around t)
@@ -15,13 +23,10 @@
   ;; (add-hook 'prog-mode-hook 'company-mode)
   (add-hook 'after-init-hook 'global-company-mode)
 
-  :config
-  ;; get back the use of kill word even if company is active
   (bind :keymaps 'company-active-map
-    "C-w" nil
-    "C-o" 'company-show-location
-    "C-/" 'company-filter-candidates)
+    "C-w" nil)
 
+  :config
   (use-package company-statistics
     :init
     (setq company-statistics-file
@@ -33,10 +38,12 @@
     :init
     (setq company-quickhelp-delay nil)
 
+    :general
+    (:keymaps 'company-active-map
+      "M-h" 'company-quickhelp-manual-begin)
+
     :config
-    (company-quickhelp-mode 1)
-    (bind :keymaps 'company-active-map
-      "M-h" 'company-quickhelp-manual-begin))
+    (company-quickhelp-mode 1))
 
   (use-package company-irony
     :config

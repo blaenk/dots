@@ -1,4 +1,5 @@
 (require 'use-package)
+(require 'general)
 
 (use-package git-messenger
   :defer t)
@@ -17,10 +18,10 @@
   (magit-wip-after-save-local-mode
    magit-wip-before-change-mode)
 
-  :bind
-  (("C-c g s" . magit-status)
-   ("C-c g p" . magit-dispatch-popup)
-   ("C-c g f" . magit-file-popup))
+  :general
+  ("C-c g s" 'magit-status
+   "C-c g p" 'magit-dispatch-popup
+   "C-c g f" 'magit-file-popup)
 
   :init
   (setq magit-save-repository-buffers 'dontask)

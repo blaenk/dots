@@ -1,4 +1,5 @@
 (require 'use-package)
+(require 'general)
 
 (use-package paxedit
   :defer t)
@@ -7,8 +8,35 @@
   :diminish smartparens-mode
   :defer t
 
+  :general
+  (:keymaps 'smartparens-mode-map
+    "M-S" 'sp-split-sexp
+    "M-J" 'sp-join-sexp)
+
+  (:states 'normal
+    "> )" 'blaenk/move-closing-paren-forward
+    "< )" 'blaenk/move-closing-paren-backward
+    "> (" 'blaenk/move-opening-paren-forward
+    "< (" 'blaenk/move-opening-paren-backward
+
+    "< u" 'sp-splice-sexp-killing-backward
+    "> u" 'sp-splice-sexp-killing-forward
+
+    "< d" 'blaenk/delete-sexp-backward
+    "> d" 'blaenk/delete-sexp-forward
+
+    "< s" 'move-symbol-backward
+    "> s" 'move-symbol-forward
+
+    "< i" 'insert-before-form
+    "> i" 'insert-after-form
+
+    "< f" 'blaenk/move-form-backward
+    "> f" 'blaenk/move-form-forward)
+
   :init
   (setq sp-show-pair-from-inside t)
+  (setq sp-autoinsert-pair nil)
   (setq sp-show-pair-delay 0)
   (setq sp-highlight-pair-overlay nil)
   (setq sp-cancel-autoskip-on-backward-movement nil)
@@ -22,10 +50,6 @@
 
   :config
   (sp-use-smartparens-bindings)
-
-  (bind :keymaps 'smartparens-mode-map
-    "M-S" 'sp-split-sexp
-    "M-J" 'sp-join-sexp)
 
   (use-package evil
     :no-require t
@@ -172,29 +196,14 @@
         (sp-end-of-sexp)
         (evil-insert 0))
 
-      (bind :states 'normal
-        "> )" 'blaenk/move-closing-paren-forward
-        "< )" 'blaenk/move-closing-paren-backward
-        "> (" 'blaenk/move-opening-paren-forward
-        "< (" 'blaenk/move-opening-paren-backward
+      (defun blaenk/move-form-backward ()
+        (interactive)
+        (sp-restrict-to-object
+         'sp-prefix-pair-object 'move-form-backward))
 
-        "< u" 'sp-splice-sexp-killing-backward
-        "> u" 'sp-splice-sexp-killing-forward
-
-        "< d" 'blaenk/delete-sexp-backward
-        "> d" 'blaenk/delete-sexp-forward
-
-        "< f" (sp-restrict-to-object-interactive
-               'sp-prefix-pair-object 'move-form-backward)
-        "> f" (sp-restrict-to-object-interactive
-               'sp-prefix-pair-object 'move-form-forward)
-
-        "< s" 'move-symbol-backward
-        "> s" 'move-symbol-forward
-
-        "< i" 'insert-before-form
-        "> i" 'insert-after-form
-        )
-      )))
+      (defun blaenk/move-form-forward ()
+        (interactive)
+        (sp-restrict-to-object
+         'sp-prefix-pair-object 'move-form-forward)))))
 
 (provide 'conf/smartparens)

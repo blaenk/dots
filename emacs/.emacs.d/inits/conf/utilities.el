@@ -1,4 +1,5 @@
 (require 'use-package)
+(require 'general)
 
 (use-package exec-path-from-shell
   :if (and (daemonp)
@@ -73,6 +74,10 @@
 ;; can configure test dirs by configuring projectile-test-prefix etc
 ;; see default implementation
 (use-package projectile
+  :general
+  ("C-c e" 'blaenk/edit-inits
+   "C-M-/" 'helm-projectile-ag)
+
   :init
   (defun blaenk/edit-inits ()
     (interactive)
@@ -89,10 +94,6 @@
   (setq projectile-test-suffix-function 'blaenk/projectile-test-suffix-function)
 
   :config
-  (bind
-    "C-c e" 'blaenk/edit-inits
-    "C-M-/" 'helm-projectile-ag)
-
   (add-to-list 'projectile-other-file-alist '("cc" "h" "hpp" "hh"))
   (add-to-list 'projectile-other-file-alist '("h" "c" "cpp" "cc"))
 
@@ -131,16 +132,14 @@
 
 (use-package browse-at-remote
   :defer t
-  :bind
-  ("C-c g o" . browse-at-remote/kill))
+  :general ("C-c g o" 'browse-at-remote/kill))
 
 ;; TODO remove
 ;; (use-package diminish)
 
 (use-package expand-region
   :defer t
-  :bind
-  ("C-=" . er/expand-region)
+  :general ("C-=" 'er/expand-region)
 
   :init
   (bind* "v" 'er/expand-region))
@@ -207,9 +206,9 @@
 
 (use-package link-hint
   :defer t
-  :bind
-  ("C-c l o" . link-hint-open-link)
-  ("C-c l c" . link-hint-copy-link)
+  :general
+  ("C-c l o" 'link-hint-open-link
+   "C-c l c" 'link-hint-copy-link)
 
   :init
   (setq link-hint-avy-style 'post))
@@ -221,9 +220,9 @@
 
 (use-package gist
   :defer t
-  :bind
-  (("C-c g g s" . gist-region-or-buffer-private) ;; s for secret
-   ("C-c g g p" . gist-region-or-buffer)))       ;; p for public
+  :general
+  ("C-c g g s" 'gist-region-or-buffer-private ;; s for secret
+   "C-c g g p" 'gist-region-or-buffer))       ;; p for public
 
 (use-package highlight-escape-sequences
   :defer t
@@ -277,11 +276,11 @@
 (use-package swiper
   :defer t
 
-  :bind
-  (("C-s" . swiper)
-   ("M-/" . swiper)
-   ("M-?" . swiper-all)
-   ([f6] . ivy-resume))
+  :general
+  ("C-s" 'swiper
+   "M-/" 'swiper
+   "M-?" 'swiper-all
+   [f6] 'ivy-resume)
 
   :init
   (setq swiper-action-recenter t)
@@ -297,8 +296,7 @@
 (use-package rainbow-mode
   :defer t
   :diminish rainbow-mode
-  :bind
-  ("C-c r c" . rainbow-mode)
+  :general ("C-c r c" 'rainbow-mode)
 
   :init
   ;; disable highlighting color names
@@ -308,13 +306,11 @@
 
 (use-package rainbow-blocks
   :defer t
-  :bind
-  ("C-c r b" . rainbow-blocks-mode))
+  :general ("C-c r b" 'rainbow-blocks-mode))
 
 (use-package rainbow-delimiters
   :defer t
-  :bind
-  ("C-c r d" . rainbow-delimiters-mode)
+  :general ("C-c r d" 'rainbow-delimiters-mode)
 
   :init
   (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
@@ -322,8 +318,7 @@
 
 (use-package color-identifiers-mode
   :defer t
-  :bind
-  ("C-c r i" . color-identifiers-mode))
+  :general ("C-c r i" 'color-identifiers-mode))
 
 (use-package relative-line-numbers
   :init
@@ -367,8 +362,7 @@
 
 (use-package ace-window
   :defer t
-  :bind
-  ("C-x o" . ace-window)
+  :general ("C-x o" 'ace-window)
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
@@ -414,8 +408,7 @@
 
 (use-package emoji-cheat-sheet-plus
   :defer t
-  :bind
-  ("C-x 8 e" . emoji-cheat-sheet-plus-insert))
+  :general ("C-x 8 e" 'emoji-cheat-sheet-plus-insert))
 
 (use-package list-environment
   :defer t)
@@ -436,8 +429,7 @@
   :disabled t
   :demand t
 
-  :bind
-  ("C-c m" . mmm-parse-buffer)
+  :general ("C-c m" 'mmm-parse-buffer)
 
   :init
   (setq mmm-global-mode 'maybe)

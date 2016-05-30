@@ -1,4 +1,5 @@
 (require 'use-package)
+(require 'general)
 (require 'conf/common)
 
 (use-package anaconda-mode
@@ -170,21 +171,17 @@
 
 (use-package irony
   :defer t
+  :general
+  (:keymaps 'irony-mode-map
+    [remap completion-at-point] 'irony-completion-at-point-async
+    [remap complete-symbol] 'irony-completion-at-point-async)
+
   :init
   (setq irony-user-dir (blaenk/cache-dir "irony"))
 
   (add-hook 'c++-mode-hook 'irony-mode)
   (add-hook 'c-mode-hook 'irony-mode)
   (add-hook 'objc-mode-hook 'irony-mode)
-
-  ;; replace the `completion-at-point' and `complete-symbol' bindings in
-  ;; irony-mode's buffers by irony-mode's function
-  (defun blaenk/irony-mode-hook ()
-    (bind :keymaps 'irony-mode-map
-      [remap completion-at-point] 'irony-completion-at-point-async
-      [remap complete-symbol] 'irony-completion-at-point-async))
-
-  (add-hook 'irony-mode-hook 'blaenk/irony-mode-hook)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
 (use-package irony-eldoc
@@ -310,22 +307,15 @@
 
 (use-package clang-format
   :defer t
-  :init
-  (defun blaenk/clang-format ()
-    (bind :keymaps 'c-mode-base-map
-      "C-c C-f" 'clang-format-buffer))
-
-  (add-hook 'c++-mode-hook 'blaenk/clang-format)
-  (add-hook 'c-mode-hook 'blaenk/clang-format))
+  :general
+  (:keymaps 'c-mode-base-map
+            "C-c C-f" 'clang-format-buffer))
 
 (use-package rustfmt
   :defer t
-  :init
-  (defun blaenk/rustfmt ()
-    (bind :keymaps 'rust-mode-map
-      "C-c C-f" 'rustfmt-format-buffer))
-
-  (add-hook 'rust-mode-hook 'blaenk/rustfmt))
+  :general
+  (:keymaps 'rust-mode-map
+            "C-c C-f" 'rustfmt-format-buffer))
 
 (use-package google-c-style
   :defer t)

@@ -1,18 +1,28 @@
 (require 'use-package)
+(require 'general)
 
 (use-package helm
   :diminish helm-mode
 
-  :bind
-  (("M-x" . helm-M-x)
-   ("M-y" . helm-show-kill-ring)
-   ("M-i" . helm-semantic-or-imenu)
-   ("M-r" . helm-resume)
-   ("C-x b" . helm-buffers-list)
-   ("C-x C-f" . helm-find-files)
-   ("C-x C-r" . helm-recentf)
-   ("C-h a" . helm-apropos)
-   ("C-h i" . helm-info-emacs))
+  :general
+  ("M-x" 'helm-M-x
+   "M-y" 'helm-show-kill-ring
+   "M-i" 'helm-semantic-or-imenu
+   "M-r" 'helm-resume
+   "C-x b" 'helm-buffers-list
+   "C-x C-f" 'helm-find-files
+   "C-x C-r" 'helm-recentf
+   "C-h a" 'helm-apropos
+   "C-h i" 'helm-info-emacs)
+
+  (:keymaps 'helm-map
+    "<tab>" 'helm-execute-persistent-action
+    "C-i" 'helm-execute-persistent-action
+    "C-z" 'helm-select-action)
+
+  (:keymaps '(helm-find-files-map helm-buffer-map)
+    "M-h" 'blaenk/helm-horizontal-split
+    "M-v" 'blaenk/helm-vertical-split)
 
   :init
   (setq helm-adaptive-history-file
@@ -27,11 +37,6 @@
     (setq helm-command-prefix-key "C-c h"))
 
   :config
-  (bind :keymaps 'helm-map
-    "<tab>" 'helm-execute-persistent-action
-    "C-i" 'helm-execute-persistent-action
-    "C-z" 'helm-select-action)
-
   (helm-autoresize-mode t)
 
   ;; open in horizontal split
@@ -79,6 +84,8 @@
                  '("Display buffer in vertical split" .
                    blaenk/helm-action-vertical-split) t)
 
+    (eval-when-compile (require 'helm))
+
     (defun blaenk/helm-horizontal-split ()
       (interactive)
       (with-helm-alive-p
@@ -87,20 +94,15 @@
     (defun blaenk/helm-vertical-split ()
       (interactive)
       (with-helm-alive-p
-        (helm-exit-and-execute-action 'blaenk/helm-action-vertical-split)))
-
-    (bind :keymaps '(helm-find-files-map helm-buffer-map)
-      "M-h" 'blaenk/helm-horizontal-split
-      "M-v" 'blaenk/helm-vertical-split))
+        (helm-exit-and-execute-action 'blaenk/helm-action-vertical-split))))
 
   (helm-mode 1)
 
   (use-package helm-mt
-    :bind
-    (("C-c t" . helm-mt))
+    :general
+    ("C-c t" 'helm-mt)
 
-    :config
-    (bind :keymaps 'helm-mt/keymap
+    (:keymaps 'helm-mt/keymap
       "M-h" 'blaenk/helm-horizontal-split
       "M-v" 'blaenk/helm-vertical-split))
 
@@ -109,8 +111,7 @@
 
   (use-package helm-unicode
     :defer t
-    :config
-    (bind [remap insert-char] 'helm-unicode))
+    :general ([remap insert-char] 'helm-unicode))
 
   (use-package helm-ag
     :defer t)
@@ -118,6 +119,17 @@
   (use-package helm-gtags
     :diminish helm-gtags-mode
     :defer t
+
+    :general
+    (:keymaps 'helm-gtags-mode-map
+      "M-." 'helm-gtags-dwim
+      "C-M-." 'helm-gtags-select
+
+      "M-," 'helm-gtags-pop-stack
+      "C-M-," 'helm-gtags-show-stack
+
+      "C-S-h" 'helm-gtags-previous-history
+      "C-S-l" 'helm-gtags-next-history)
 
     :init
     (setq helm-gtags-ignore-case t)
@@ -131,16 +143,6 @@
     (add-hook 'c++-mode-hook 'helm-gtags-mode)
 
     :config
-    (bind :keymaps 'helm-gtags-mode-map
-      "M-." 'helm-gtags-dwim
-      "C-M-." 'helm-gtags-select
-
-      "M-," 'helm-gtags-pop-stack
-      "C-M-," 'helm-gtags-show-stack
-
-      "C-S-h" 'helm-gtags-previous-history
-      "C-S-l" 'helm-gtags-next-history)
-
     (with-eval-after-load 'evil
       (evil-make-overriding-map helm-gtags-mode-map)
       (add-hook 'helm-gtags-mode-hook #'evil-normalize-keymaps)))
@@ -156,35 +158,35 @@
 
   (use-package helm-projectile
     :diminish projectile-mode
-    :bind
-    (("C-<" . helm-projectile-switch-to-buffer)
-     ("C->" . helm-projectile))
+    :general
+    ("C-<" 'helm-projectile-switch-to-buffer
+     "C->" 'helm-projectile)
 
-    :config
-    (bind :keymaps 'helm-projectile-find-file-map
+    (:keymaps 'helm-projectile-find-file-map
       "M-h" 'blaenk/helm-horizontal-split
       "M-v" 'blaenk/helm-vertical-split)
 
+    :config
     (helm-projectile-on))
 
   (with-eval-after-load 'flycheck
     (use-package helm-flycheck
       :defer t
-      :init
-      (bind :keymaps 'flycheck-mode-map
+      :general
+      (:keymaps 'flycheck-mode-map
         "C-c ! h" 'helm-flycheck)))
 
   (use-package helm-flyspell
     :defer t)
 
   (use-package helm-describe-modes
-    :init
-    (bind [remap describe-mode] 'helm-describe-modes))
+    :general
+    ([remap describe-mode] 'helm-describe-modes))
 
   (use-package persp-projectile
     :disabled t
-    :config
-    (bind :keymaps 'projectile-command-map
+    :general
+    (:keymaps 'projectile-command-map
       "p" 'projectile-persp-switch-project))
 
   (use-package helm-make
@@ -192,10 +194,9 @@
 
   (use-package helm-company
     :defer t
-    :init
-    (with-eval-after-load 'company
-      (bind :keymaps 'company-active-map
-        "M-/" 'helm-company)))
+    :general
+    (:keymaps 'company-active-map
+      "M-/" 'helm-company))
 
   (use-package helm-css-scss
     :defer t
@@ -207,6 +208,10 @@
   (use-package ace-jump-helm-line
     :defer t
 
+    :general
+    (:keymaps 'helm-map
+      "C-'" 'ace-jump-helm-line)
+
     :init
     (setq ace-jump-helm-line-default-action 'select)
 
@@ -215,9 +220,6 @@
 
     ;; press 'p' before the avy anchor to move to it and execute
     ;; it's persistent action
-    (setq ace-jump-helm-line-persistent-key ?p)
-
-    (bind :keymaps 'helm-map
-      "C-'" 'ace-jump-helm-line)))
+    (setq ace-jump-helm-line-persistent-key ?p)))
 
 (provide 'conf/helm)

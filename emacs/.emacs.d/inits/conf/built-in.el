@@ -1,4 +1,5 @@
 (require 'use-package)
+(require 'general)
 
 (use-package saveplace
   :ensure nil
@@ -242,12 +243,12 @@
 (use-package ediff
   :ensure nil
   :defer t
+  :general ("C-c d" 'ediff-current-file)
+
   :init
   (setq ediff-custom-diff-options "-u")
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-  (bind "C-c d" 'ediff-current-file)
 
   ;; doing M-x ediff-show-diff-output from ediff-current-file doesn't work
   ;; https://emacs.stackexchange.com/questions/22090/
@@ -285,7 +286,6 @@
 
 (use-package elec-pair
   :ensure nil
-  :no-require t
 
   :config
   ;; NOTE
@@ -306,7 +306,7 @@
       (electric-pair-mode -1)))
 
   (add-hook 'minibuffer-setup-hook 'blaenk/minibuffer-elec-pair)
-  (electric-pair-mode +1))
+  (add-hook 'prog-mode-hook 'electric-pair-mode))
 
 ;; TODO
 ;; this also cons mode-line
@@ -364,6 +364,10 @@ PR [a-z-+]+/\
   :ensure nil
   :no-require t
   :defer t
+  :general
+  ;; TODO check
+  (:keymaps 'orgtbl-mode-map
+            "RET" 'blaenk/orgtbl-ret)
 
   :config
   (defun blaenk/orgtbl-ret ()
@@ -373,10 +377,7 @@ PR [a-z-+]+/\
       (let (orgtbl-mode)
         ;; TODO
         ;; encodes C-c
-        (call-interactively (key-binding (kbd "C-c RET"))))))
-
-  ;; TODO prefix nil?
-  (bind :keymaps 'orgtbl-mode-map "RET" 'blaenk/orgtbl-ret))
+        (call-interactively (key-binding (kbd "C-c RET")))))))
 
 (use-package dired
   :ensure nil
@@ -403,10 +404,10 @@ PR [a-z-+]+/\
 (use-package simple
   :ensure nil
   :defer t
+  :general ("C-c q" 'auto-fill-mode)
 
   :init
   (setq next-error-recenter '(4))
-  (bind "C-c q" 'auto-fill-mode)
 
   (defun blaenk/prog-auto-fill ()
     (setq-local comment-auto-fill-only-comments t)
@@ -446,8 +447,8 @@ PR [a-z-+]+/\
   :ensure nil
   :no-require t
   :defer t
-  :config
-  (general-define-key :keymaps 'help-mode-map
+  :general
+  (:keymaps 'help-mode-map
     "[" 'help-go-back
     "]" 'help-go-forward))
 

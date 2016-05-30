@@ -1,8 +1,57 @@
 (require 'use-package)
+(require 'general)
 
 (use-package evil
   :demand t
   :defines blaenk/evil-join
+
+  :general
+  (:states 'emacs
+    "C-w" 'evil-window-map)
+
+  (:states 'insert
+    "<S-return>" 'comment-indent-new-line
+
+    "C-y" 'blaenk/evil-insert-mode-paste
+
+    "C-u" 'blaenk/kill-line
+    "C-l" 'move-end-of-line)
+
+  (:states 'normal
+    "g p" 'exchange-point-and-mark
+
+    "j" 'evil-next-visual-line
+    "k" 'evil-previous-visual-line
+
+    "C-k" 'evil-scroll-up
+    "C-j" 'evil-scroll-down
+
+    "z =" 'helm-flyspell-correct
+
+    "[ s" 'flyspell-goto-previous-error
+    "] s" 'flyspell-goto-next-error
+
+    "[ S" 'check-previous-spelling-error
+    "] S" 'check-next-spelling-error)
+
+  (:states '(normal insert)
+    "C-;" 'blaenk/flyspell-last)
+
+  (:states '(normal visual)
+    "J" 'blaenk/evil-join
+    "<kp-subtract>" 'evil-numbers/dec-at-pt
+    "<kp-add>" 'evil-numbers/inc-at-pt)
+
+  (:states 'visual
+    ">" 'visual-shift-right
+    "<" 'visual-shift-left)
+
+  (:keymaps 'evil-window-map
+    "m k" 'buf-move-up
+    "m j" 'buf-move-down
+    "m h" 'buf-move-left
+    "m l" 'buf-move-right)
+
   :init
   (setq evil-want-C-w-in-emacs-state t)
   (setq evil-text-object-change-visual-type nil)
@@ -219,24 +268,6 @@ The initial state for a mode can be set with
     (evil-ex-nohighlight)
     (force-mode-line-update))
 
-  (with-eval-after-load 'buffer-move
-    (bind :keymaps 'evil-window-map
-      "m k" 'buf-move-up
-      "m j" 'buf-move-down
-      "m h" 'buf-move-left
-      "m l" 'buf-move-right))
-
-  (bind :states 'emacs
-    "C-w" 'evil-window-map)
-
-  (bind :states 'insert
-    "<S-return>" 'comment-indent-new-line
-
-    "C-y" 'blaenk/evil-insert-mode-paste
-
-    "C-u" 'blaenk/kill-line
-    "C-l" 'move-end-of-line)
-
   (bind :states 'normal
     ;; unmap these so they could be used as prefix keys
     ;; this is useful for smartparens
@@ -245,35 +276,7 @@ The initial state for a mode can be set with
 
     ;; still able to shift things in normal mode
     "< <" 'evil-shift-left-line
-    "> >" 'evil-shift-right-line
-
-    "g p" 'exchange-point-and-mark
-
-    "j" 'evil-next-visual-line
-    "k" 'evil-previous-visual-line
-
-    "C-k" 'evil-scroll-up
-    "C-j" 'evil-scroll-down
-
-    "z =" 'helm-flyspell-correct
-
-    "[ s" 'flyspell-goto-previous-error
-    "] s" 'flyspell-goto-next-error
-
-    "[ S" 'check-previous-spelling-error
-    "] S" 'check-next-spelling-error)
-
-  (bind :states '(normal insert)
-    "C-;" 'blaenk/flyspell-last)
-
-  (bind :states '(normal visual)
-    "J" 'blaenk/evil-join
-    "<kp-subtract>" 'evil-numbers/dec-at-pt
-    "<kp-add>" 'evil-numbers/inc-at-pt)
-
-  (bind :states 'visual
-    ">" 'visual-shift-right
-    "<" 'visual-shift-left)
+    "> >" 'evil-shift-right-line)
 
   (bind*
     "o" 'blaenk/evil-open-in-between
@@ -292,11 +295,11 @@ The initial state for a mode can be set with
 
   (use-package evil-textobj-anyblock
     :defer t
-    :init
-    (bind :keymaps 'evil-inner-text-objects-map
+    :general
+    (:keymaps 'evil-inner-text-objects-map
       "b" 'evil-textobj-anyblock-inner-block)
 
-    (bind :keymaps 'evil-outer-text-objects-map
+    (:keymaps 'evil-outer-text-objects-map
       "b" 'evil-textobj-anyblock-a-block))
 
   (use-package evil-anzu)
@@ -331,23 +334,28 @@ The initial state for a mode can be set with
 
   (use-package evil-args
     :defer t
-    :config
+    :general
     ;; bind evil-args text objects
-    (bind :keymaps 'evil-inner-text-objects-map
+    (:keymaps 'evil-inner-text-objects-map
       "a" 'evil-inner-arg)
 
-    (bind :keymaps 'evil-outer-text-objects-map
+    (:keymaps 'evil-outer-text-objects-map
       "a" 'evil-outer-arg)
 
     ;; bind evil-forward/backward-args
-    (bind :states '(normal motion)
+    (:states '(normal motion)
       "L" 'evil-forward-arg
       "H" 'evil-backward-arg)
 
     ;; bind evil-jump-out-args
-    (bind :states 'normal
+    (:states 'normal
       "K" 'evil-jump-out-args)
 
+    (:states 'normal
+      "> a" 'evil-arg-swap-forward
+      "< a" 'evil-arg-swap-backward)
+
+    :config
     (defun evil-arg-swap-forward ()
       (interactive)
       (apply 'evil-exchange (evil-inner-arg))
@@ -359,10 +367,6 @@ The initial state for a mode can be set with
       (apply 'evil-exchange (evil-inner-arg))
       (evil-forward-arg 1)
       (evil-backward-arg 2)
-      (apply 'evil-exchange (evil-inner-arg)))
-
-    (bind :states 'normal
-      "> a" 'evil-arg-swap-forward
-      "< a" 'evil-arg-swap-backward)))
+      (apply 'evil-exchange (evil-inner-arg)))))
 
 (provide 'conf/evil)
