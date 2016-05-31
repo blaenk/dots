@@ -522,7 +522,7 @@ PR [a-z-+]+/\
   :init
   (setq compilation-scroll-output 'first-error)
   (setq compilation-ask-about-save nil)
-  (setq compilation-set-skip-threshold 0)
+  (setq compilation-skip-threshold 0)
   (setq compilation-always-kill t))
 
 (use-package hl-line
