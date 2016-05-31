@@ -26,8 +26,8 @@
     "< d" 'blaenk/delete-sexp-backward
     "> d" 'blaenk/delete-sexp-forward
 
-    "< s" 'move-symbol-backward
-    "> s" 'move-symbol-forward
+    "< e" 'move-symbol-backward
+    "> e" 'move-symbol-forward
 
     "< i" 'insert-before-form
     "> i" 'insert-after-form
