@@ -1,5 +1,6 @@
 (require 'use-package)
 (require 'general)
+(require 'conf/common)
 
 (use-package saveplace
   :ensure nil
@@ -116,8 +117,10 @@
 
 (use-package sh-script
   :ensure nil
-  :defer t
   :mode ("\\.zsh\\(rc\\)?\\'" . sh-mode)
+
+  :functions sh-set-shell
+
   :init
   (setq sh-learn-basic-offset t)
   (setq sh-basic-offset 2)
@@ -148,21 +151,36 @@
 (use-package semantic
   :ensure nil
   :defer t
+
   :defines
   semanticdb-default-save-directory
+
   :init
   (setq semanticdb-default-save-directory (blaenk/cache-dir "semanticdb"))
 
   :config
-  (require 'semantic/db-mode)
-  (global-semanticdb-minor-mode 1)
-  (global-semantic-idle-scheduler-mode 1)
+  (use-package semantic/db-mode
+    :ensure nil
+
+    :functions
+    global-semanticdb-minor-mode
+    global-semantic-idle-scheduler-mode
+
+    :config
+    (global-semanticdb-minor-mode 1)
+    (global-semantic-idle-scheduler-mode 1))
+
   (semantic-mode 1))
 
 (use-package cc-mode
   :ensure nil
   :defer t
   :no-require t
+
+  :functions
+  projectile-project-p
+  projectile-project-root
+
   :init
   (setq c-tab-always-indent nil)
 
@@ -219,8 +237,11 @@
 
 (use-package lisp-mode
   :ensure nil
-  :no-require t
   :defer t
+
+  :functions blaenk/lisp-indent-function
+  :defines calculate-lisp-indent-last-sexp
+
   :config
   (defun imenu-use-package ()
     (add-to-list 'imenu-generic-expression
@@ -334,6 +355,10 @@ Lisp function does not specify a special indentation."
   :ensure nil
   :defer t
   :general ("C-c d" 'ediff-current-file)
+
+  :functions
+  blaenk/toggle-ediff-wide-display
+  ediff-toggle-wide-display
 
   :init
   (setq ediff-custom-diff-options "-u")
@@ -454,8 +479,13 @@ PR [a-z-+]+/\
   :ensure nil
   :no-require t
   :defer t
-  :general
+
+  :functions
+  org-at-table-p
+  org-table-hline-and-move
+
   ;; TODO check
+  :general
   (:keymaps 'orgtbl-mode-map
             "RET" 'blaenk/orgtbl-ret)
 
@@ -486,7 +516,7 @@ PR [a-z-+]+/\
 
   :init
   (setq dired-omit-verbose nil)
-  (add-hook 'dired-mode-hook #'dired-omit-mode)
+  (add-hook 'dired-mode-hook 'dired-omit-mode)
 
   (when (eq system-type 'darwin)
     (setq dired-guess-shell-gnutar "tar")))
@@ -507,6 +537,12 @@ PR [a-z-+]+/\
 
 (use-package ansi-color
   :ensure nil
+
+  :defines
+  compilation-filter-start
+
+  :functions
+  ansi-color-apply-on-region
 
   :init
   (ignore-errors
@@ -551,6 +587,13 @@ PR [a-z-+]+/\
 (use-package flyspell
   :ensure nil
   :defer t
+
+  :functions
+  push-mark-no-activate
+  flyspell-goto-previous-error
+  flyspell-overlay-p
+  flyspell-goto-next-error
+
   :init
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
