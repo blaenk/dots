@@ -6,7 +6,7 @@ _fzf_compgen_path() {
 fd() {
   local dir
   dir=$(find ${1:-*} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
+                  -o -type d -print 2> /dev/null | fzf-tmux +m) &&
   cd "$dir"
 }
 
@@ -16,7 +16,7 @@ bindkey -s '^[ ' 'fd\n'
 # fda - including hidden directories
 fda() {
   local dir
-  dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+  dir=$(find ${1:-.} -type d 2> /dev/null | fzf-tmux +m) && cd "$dir"
 }
 
 # fdr - cd to selected parent directory
@@ -43,7 +43,7 @@ bindkey -s '^@' 'fdr\n'
 cf() {
   local file
 
-  file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1)"
+  file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf-tmux --read0 -0 -1)"
 
   if [[ -n $file ]]
   then
@@ -60,7 +60,7 @@ cf() {
 cdf() {
    local file
    local dir
-   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+   file=$(fzf-tmux +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
 }
 
 # fs [FUZZY PATTERN] - Select selected tmux session
@@ -75,7 +75,7 @@ fs() {
   fi
   
   session=$(tmux list-sessions -F "#{session_name}" | \
-    fzf --query="$1" --select-1 --exit-0) &&
+    fzf-tmux --query="$1" --select-1 --exit-0) &&
     [ -z "$TMUX" ] && tmux attach-session -t "$session" ||
       tmux switch-client -t "$session"
 }
@@ -92,7 +92,7 @@ ftw() {
   current_window=$(tmux display-message -p '#{window_index}: #{window_name}')
 
   target=$(echo "$windows" | grep -v "$current_window" |
-              fzf --query="$1" --select-1 +m --reverse --exit-0) || return
+              fzf-tmux --query="$1" --select-1 +m --reverse --exit-0) || return
 
   target_window=$(echo $target | awk 'BEGIN{FS=":"} {print$1}')
 
@@ -112,7 +112,7 @@ ftwa() {
     windows=$(echo "$windows" | grep -v "$current_window")
   fi
 
-  target=$(echo "$windows" | fzf --query="$1" --select-1 +m --reverse --exit-0) || return
+  target=$(echo "$windows" | fzf-tmux --query="$1" --select-1 +m --reverse --exit-0) || return
 
   target_session=$(echo $target | awk 'BEGIN{FS=":"} {print$1}')
   target_window=$(echo $target | awk 'BEGIN{FS=":"} {print$2}')
