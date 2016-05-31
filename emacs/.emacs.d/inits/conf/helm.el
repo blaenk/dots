@@ -84,8 +84,6 @@
                  '("Display buffer in vertical split" .
                    blaenk/helm-action-vertical-split) t)
 
-    (eval-when-compile (require 'helm))
-
     (defun blaenk/helm-horizontal-split ()
       (interactive)
       (with-helm-alive-p
@@ -111,7 +109,15 @@
 
   (use-package helm-unicode
     :defer t
-    :general ([remap insert-char] 'helm-unicode))
+    ;; :general ([remap insert-char] 'helm-unicode)
+    :init (bind [remap insert-char] 'helm-unicode)
+    )
+
+  (use-package helm-describe-modes
+    ;; :general
+    ;; ([remap describe-mode] 'helm-describe-modes)
+    :init (bind [remap describe-mode] 'helm-describe-modes)
+    )
 
   (use-package helm-ag
     :defer t)
@@ -178,10 +184,6 @@
 
   (use-package helm-flyspell
     :defer t)
-
-  (use-package helm-describe-modes
-    :general
-    ([remap describe-mode] 'helm-describe-modes))
 
   (use-package persp-projectile
     :disabled t

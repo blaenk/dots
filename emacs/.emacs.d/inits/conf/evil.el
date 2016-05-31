@@ -61,6 +61,10 @@
     "m h" 'buf-move-left
     "m l" 'buf-move-right)
 
+  (bind*
+    "o" 'blaenk/evil-open-in-between
+    "l" 'blaenk/clear-search)
+
   :init
   (setq evil-want-C-w-in-emacs-state t)
   (setq evil-text-object-change-visual-type nil)
@@ -277,10 +281,6 @@ The initial state for a mode can be set with
     (evil-ex-nohighlight)
     (force-mode-line-update))
 
-  (bind*
-    "o" 'blaenk/evil-open-in-between
-    "l" 'blaenk/clear-search)
-
   (evil-mode 1)
 
   (use-package evil-indent-plus
@@ -324,7 +324,7 @@ The initial state for a mode can be set with
 
   (use-package evil-visual-mark-mode
     :defer t
-    :config
+    :general
     (bind* "m" 'evil-visual-mark-mode))
 
   (use-package evil-visualstar

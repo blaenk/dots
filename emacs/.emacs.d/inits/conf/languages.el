@@ -70,6 +70,11 @@
   (("\\.markdown\\'" . gfm-mode)
    ("\\.md\\'" . gfm-mode))
 
+  :general
+  (bind* :keymaps '(markdown-mode-map gfm-mode-map)
+    "k" 'beginning-of-defun
+    "j" 'end-of-defun)
+
   :init
   (setq markdown-enable-math t)
   (setq markdown-asymmetric-header t)
@@ -101,11 +106,7 @@
         "^\\([[:alpha:]][[:alpha:] _-]*?\\)\\([:=][ \t]*\\)\\(.*\\)$")
 
   (add-to-list 'markdown-gfm-additional-languages "cpp")
-  (add-to-list 'markdown-gfm-additional-languages "elisp")
-
-  (bind* :keymaps '(markdown-mode-map gfm-mode-map)
-    "k" 'beginning-of-defun
-    "j" 'end-of-defun))
+  (add-to-list 'markdown-gfm-additional-languages "elisp"))
 
 (use-package yaml-mode
   :defer t)

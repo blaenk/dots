@@ -133,9 +133,8 @@
 
 (use-package expand-region
   :defer t
-  :general ("C-=" 'er/expand-region)
-
-  :init
+  :general
+  ("C-=" 'er/expand-region)
   (bind* "v" 'er/expand-region))
 
 (use-package buffer-move
@@ -316,6 +315,9 @@
   :general ("C-c r i" 'color-identifiers-mode))
 
 (use-package relative-line-numbers
+  :general
+  (bind* "n" 'relative-line-numbers-mode)
+
   :init
   (defun abs-rel-numbers (offset)
     (if (= offset 0)
@@ -323,11 +325,8 @@
       (format "%3d " (abs offset))))
 
   (setq relative-line-numbers-format #'abs-rel-numbers)
-
-  :config
-  (bind* "n" 'relative-line-numbers-mode)
-
   (setq relative-line-numbers-motion-function 'forward-visible-line)
+
   (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
 
 (use-package wgrep
@@ -338,11 +337,13 @@
 
 (use-package fill-column-indicator
   :defer t
+
+  :general
+  (bind* "c" 'fci-mode)
+
   :init
   (setq fci-rule-use-dashes t)
   (setq fci-dash-pattern 0.50)
-
-  (bind* "c" 'fci-mode)
 
   (defun blaenk/git-commit-fill-column ()
     (fci-mode 1))
