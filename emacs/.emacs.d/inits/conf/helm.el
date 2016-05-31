@@ -108,16 +108,12 @@
     :defer t)
 
   (use-package helm-unicode
-    :defer t
-    ;; :general ([remap insert-char] 'helm-unicode)
-    :init (bind [remap insert-char] 'helm-unicode)
-    )
+    :general
+    ([remap insert-char] 'helm-unicode))
 
   (use-package helm-describe-modes
-    ;; :general
-    ;; ([remap describe-mode] 'helm-describe-modes)
-    :init (bind [remap describe-mode] 'helm-describe-modes)
-    )
+    :general
+    ([remap describe-mode] 'helm-describe-modes))
 
   (use-package helm-ag
     :defer t)
