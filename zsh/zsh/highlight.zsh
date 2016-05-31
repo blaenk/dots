@@ -1,6 +1,8 @@
 # highlighting
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern root)
 ZSH_HIGHLIGHT_STYLES[precommand]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=cyan,underline'
+ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]='fg=cyan,underline'
 
 # to underline
 # tput smul; then tput rmul;
