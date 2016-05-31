@@ -13,7 +13,8 @@
     "M-S" 'sp-split-sexp
     "M-J" 'sp-join-sexp)
 
-  (:states 'normal
+  (:keymaps 'smartparens-mode-map
+   :states 'normal
     "> )" 'blaenk/move-closing-paren-forward
     "< )" 'blaenk/move-closing-paren-backward
     "> (" 'blaenk/move-opening-paren-forward
