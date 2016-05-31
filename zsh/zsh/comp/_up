@@ -1,7 +1,0 @@
-#compdef up
-
-local PARENT=$(dirname $PWD)
-local COMPONENTS=( ${(s./.)PARENT} )
-local REVERSE_COMPONENTS=( ${(Oa)COMPONENTS} )
-
-compadd -V unsorted -2 -a REVERSE_COMPONENTS

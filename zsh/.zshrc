@@ -51,13 +51,14 @@ sources=(
   'prompt'
   'completions'
   'zle'
-  'highlight'
   'functions'
   'alias'
   'linux'
   'osx'
   'gtags'
   'gnome-keyring'
+  'fzf'
+  'highlight'
 )
 
 for src in $sources; do
