@@ -63,4 +63,3 @@ bindkey -M menuselect "^[[Z" reverse-menu-complete
 
 bindkey -M menuselect "^P" reverse-menu-complete
 bindkey -M menuselect "^N" menu-complete
-
