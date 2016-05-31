@@ -100,10 +100,7 @@
   (projectile-global-mode))
 
 (use-package perspective
-  :disabled t
-  :config
-  ;; (persp-mode)
-  )
+  :disabled t)
 
 (use-package anzu
   :diminish anzu-mode
@@ -133,9 +130,6 @@
 (use-package browse-at-remote
   :defer t
   :general ("C-c g o" 'browse-at-remote/kill))
-
-;; TODO remove
-;; (use-package diminish)
 
 (use-package expand-region
   :defer t
@@ -206,6 +200,7 @@
 
 (use-package link-hint
   :defer t
+
   :general
   ("C-c l o" 'link-hint-open-link
    "C-c l c" 'link-hint-copy-link)

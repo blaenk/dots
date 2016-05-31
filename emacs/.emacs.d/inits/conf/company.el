@@ -55,9 +55,6 @@
                      '(company-irony-c-headers company-irony company-rtags) t))))
 
   (use-package company-math
-    :init
-    ;; (setq company-math-allow-unicode-symbols-in-faces nil)
-
     :config
     (add-to-list 'company-math-allow-latex-symbols-in-faces 'markdown-math-face)
     (add-to-list 'company-backends 'company-math-symbols-unicode t)

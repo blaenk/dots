@@ -143,8 +143,7 @@
   :defer t
   :init
   (add-hook 'ruby-mode-hook 'robe-mode)
-  (add-hook 'enh-ruby-mode-hook 'robe-mode)
-  )
+  (add-hook 'enh-ruby-mode-hook 'robe-mode))
 
 (use-package scss-mode
   :defer t
@@ -173,8 +172,8 @@
   :defer t
   :general
   (:keymaps 'irony-mode-map
-    [remap completion-at-point] 'irony-completion-at-point-async
-    [remap complete-symbol] 'irony-completion-at-point-async)
+   [remap completion-at-point] 'irony-completion-at-point-async
+   [remap complete-symbol] 'irony-completion-at-point-async)
 
   :init
   (setq irony-user-dir (blaenk/cache-dir "irony"))
@@ -228,11 +227,11 @@
   :defer t
   :init
   (setq rtags-completions-enabled t)
-  (setq rtags-autostart-diagnostics t)
+  (setq rtags-autostart-diagnostics t))
 
+(use-package modern-cpp-font-lock
   :config
-  ;; (rtags-diagnostics)
-  )
+  (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
 
 (use-package cmake-mode
   :defer t)
@@ -309,13 +308,13 @@
   :defer t
   :general
   (:keymaps 'c-mode-base-map
-            "C-c C-f" 'clang-format-buffer))
+   "C-c C-f" 'clang-format-buffer))
 
 (use-package rustfmt
   :defer t
   :general
   (:keymaps 'rust-mode-map
-            "C-c C-f" 'rustfmt-format-buffer))
+   "C-c C-f" 'rustfmt-format-buffer))
 
 (use-package google-c-style
   :defer t)
