@@ -36,18 +36,14 @@
     "> f" 'my-move-form-forward)
 
   :init
-  (setq sp-show-pair-from-inside t)
-  (setq sp-autoinsert-pair nil)
-  (setq sp-show-pair-delay 0)
-  (setq sp-highlight-pair-overlay nil)
+  (setq sp-show-pair-from-inside nil)
   (setq sp-cancel-autoskip-on-backward-movement nil)
+  (setq sp-highlight-pair-overlay nil)
+  (setq sp-highlight-wrap-overlay nil)
+  (setq sp-autoinsert-pair nil)
+  (setq sp-autodelete-pair nil)
 
-  (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
-  (add-hook 'clojure-mode-hook 'smartparens-mode)
-  (add-hook 'racket-mode-hook 'smartparens-mode)
-  (add-hook 'scheme-mode-hook 'smartparens-mode)
-
-  ;; TODO bind % to jump toggle matching pair
+  (add-hook 'after-init-hook 'smartparens-global-mode)
 
   :config
   (sp-use-smartparens-bindings)
