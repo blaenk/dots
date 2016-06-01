@@ -63,6 +63,8 @@ to the current branch. Uses Magit."
   (add-hook 'git-commit-setup-hook 'fci-mode)
 
   (use-package magit-gh-pulls
+    :defer t
+
     :init
     (magit-define-popup-action 'magit-dispatch-popup
       ?# "Pull requests" 'magit-gh-pulls-popup ?!)
