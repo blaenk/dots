@@ -416,12 +416,28 @@ Lisp function does not specify a special indentation."
     (when ediff-wide-display-p
       (ediff-toggle-wide-display)))
 
+  ;; this is run for each buffer A, B, C after they are setup. note that the
+  ;; "current" buffer is itself one of those. this means for example that if
+  ;; whitespace-mode was enabled in the current buffer, simply launching ediff
+  ;; will turn it off
   (defun blaenk/ediff-prepare ()
     (setq blaenk/ediff-last-windows (current-window-configuration))
-    (when (bound-and-true-p hs-minor-mode) (hs-minor-mode -1))
-    (when (bound-and-true-p fci-mode) (fci-mode -1))
-    (when (bound-and-true-p visual-line-mode) (visual-line-mode -1))
-    (when (bound-and-true-p whitespace-mode) (whitespace-mode -1)))
+
+    (when (bound-and-true-p hs-minor-mode)
+      (setq-local blaenk/ediff-was-on-hs-minor-mode t)
+      (hs-minor-mode -1))
+
+    (when (bound-and-true-p fci-mode)
+      (setq-local blaenk/ediff-was-on-fci-mode t)
+      (fci-mode -1))
+
+    (when (bound-and-true-p visual-line-mode)
+      (setq-local blaenk/ediff-was-on-visual-line-mode t)
+      (global-visual-line-mode -1))
+
+    (when (bound-and-true-p whitespace-mode)
+      (setq-local blaenk/ediff-was-on-whitespace-mode t)
+      (global-whitespace-mode -1)))
 
   (defun blaenk/ediff-start ()
     (interactive)
@@ -429,6 +445,23 @@ Lisp function does not specify a special indentation."
 
   (defun blaenk/ediff-quit ()
     (interactive)
+
+    (when (bound-and-true-p blaenk/ediff-was-on-hs-minor-mode)
+      (kill-local-variable blaenk/ediff-was-on-hs-minor-mode)
+      (hs-minor-mode +1))
+
+    (when (bound-and-true-p blaenk/ediff-was-on-fci-mode)
+      (kill-local-variable blaenk/ediff-was-on-fci-mode)
+      (fci-mode +1))
+
+    (when (bound-and-true-p blaenk/ediff-was-on-visual-line-mode)
+      (kill-local-variable blaenk/ediff-was-on-visual-line-mode)
+      (global-visual-line-mode +1))
+
+    (when (bound-and-true-p blaenk/ediff-was-on-whitespace-mode)
+      (kill-local-variable blaenk/ediff-was-on-whitespace-mode)
+      (global-whitespace-mode +1))
+
     (set-window-configuration blaenk/ediff-last-windows)
     (blaenk/toggle-ediff-wide-display)
     (blaenk/unfullscreen-if-wasnt))
