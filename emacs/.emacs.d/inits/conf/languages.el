@@ -10,12 +10,6 @@
   (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
 
-(use-package tern
-  :defer t
-
-  :init
-  (add-hook 'js2-mode-hook 'tern-mode))
-
 (use-package lua-mode
   :defer t)
 
@@ -147,7 +141,7 @@
 
 (use-package scss-mode
   :defer t
-  :mode ("\\.sass\\'")
+  :mode "\\.sass\\'"
 
   :init
   (defun blaenk/scss-hook ()
@@ -215,7 +209,14 @@
                   "describe" "it" "assert"
                   "sinon"))
 
-  (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
+  :config
+  (add-hook 'js2-mode-hook 'js2-imenu-extras-mode)
+
+  (use-package tern
+    :defer t
+
+    :init
+    (add-hook 'js2-mode-hook 'tern-mode)))
 
 (use-package ggtags
   :disabled t
