@@ -1,5 +1,5 @@
 .DS_Store
-flycheck_utilities.el
+flycheck_*.el
 
 zsh/zsh/antigen/
 zsh/zsh/cache/
