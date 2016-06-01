@@ -154,18 +154,6 @@
 
 (add-hook 'after-make-frame-functions 'blaenk/frame-options)
 
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(blink-cursor-mode 0)
-
-(savehist-mode)
-(visual-line-mode)
-(column-number-mode)
-(winner-mode)
-(show-paren-mode)
-(which-function-mode)
-
 (defun blaenk/pop-to-frame ()
   (interactive)
   (let ((buffer (current-buffer)))

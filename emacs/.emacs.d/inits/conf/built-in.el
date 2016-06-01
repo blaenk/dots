@@ -2,16 +2,62 @@
 (require 'general)
 (require 'conf/common)
 
+(use-package menu-bar
+  :ensure nil
+
+  :config
+  (menu-bar-mode -1))
+
+(use-package tool-bar
+  :ensure nil
+
+  :config
+  (tool-bar-mode -1))
+
+(use-package scroll-bar
+  :ensure nil
+
+  :config
+  (scroll-bar-mode -1))
+
+(use-package frame
+  :ensure nil
+
+  :config
+  (blink-cursor-mode 0))
+
+(use-package winner
+  :ensure nil
+
+  :config
+  (winner-mode))
+
+(use-package paren
+  :ensure nil
+  :defer t
+
+  :init
+  (add-hook 'after-init-hook 'show-paren-mode))
+
+(use-package which-func
+  :ensure nil
+  :defer t
+
+  :init
+  (add-hook 'after-init-hook 'which-function-mode))
+
 (use-package saveplace
   :ensure nil
   :defer t
   :defines save-place-file
+
   :init
   (setq save-place-file (blaenk/cache-dir "saved-places")))
 
 (use-package smerge-mode
   :ensure nil
   :defer t
+
   :init
   ;; attempt to start smerge, automatically disabling it if not relevant
   (add-hook 'find-file-hook 'smerge-start-session))
@@ -20,12 +66,12 @@
   :ensure nil
   :defer t
   :defines bookmark-default-file
+
   :init
   (setq bookmark-default-file (blaenk/cache-dir "bookmarks")))
 
 (use-package recentf
   :ensure nil
-  :defer t
   :defines recentf-save-file
 
   :init
@@ -37,15 +83,19 @@
 
 (use-package savehist
   :ensure nil
-  :defer t
+
   :init
   (setq savehist-save-minibuffer-history 1)
-  (setq savehist-file (blaenk/cache-dir "history")))
+  (setq savehist-file (blaenk/cache-dir "history"))
+
+  :config
+  (savehist-mode))
 
 (use-package ido
   :ensure nil
   :defer t
   :defines ido-save-directory-list-file
+
   :init
   (setq ido-save-directory-list-file (blaenk/cache-dir "ido.last")))
 
@@ -53,6 +103,7 @@
   :ensure nil
   :defer t
   :defines eshell-directory
+
   :init
   (setq eshell-directory (blaenk/cache-dir "eshell")))
 
@@ -60,6 +111,7 @@
   :ensure nil
   :defer t
   :defines apropos-do-all
+
   :init
   (setq apropos-do-all t))
 
@@ -67,7 +119,11 @@
 (use-package gdb-mi
   :ensure nil
   :defer t
-  :defines (gdb-many-windows gdb-show-main)
+
+  :defines
+  gdb-many-windows
+  gdb-show-main
+
   :init
   (setq gdb-many-windows t)
   (setq gdb-show-main t))
@@ -76,6 +132,7 @@
   :ensure nil
   :defer t
   :defines show-paren-delay
+
   :init
   (setq show-paren-delay 0))
 
@@ -83,12 +140,12 @@
   :ensure nil
   :defer t
   :defines explicit-shell-file-name
+
   :init
   (setq explicit-shell-file-name "/usr/bin/zsh"))
 
 (use-package whitespace
   :ensure nil
-  :defer t
   :diminish whitespace-mode
 
   :init
@@ -104,54 +161,42 @@
         '((space-mark 32 [183] [46])
           (space-mark 160 [164] [95])
           (newline-mark 10 [36 10])
-          (tab-mark 9 [9656 9] [183 9] [187 9] [92 9])
-          ))
+          (tab-mark 9 [9656 9] [183 9] [187 9] [92 9])))
 
-  (add-hook 'prog-mode-hook 'whitespace-mode))
+  :config
+  (global-whitespace-mode 1))
 
 (use-package js
   :ensure nil
   :defer t
+
   :init
   (setq js-indent-level 2))
 
 (use-package sh-script
   :ensure nil
   :mode ("\\.zsh\\(rc\\)?\\'" . sh-mode)
-
   :functions sh-set-shell
 
   :init
   (setq sh-learn-basic-offset t)
   (setq sh-basic-offset 2)
-  (setq sh-indentation 2)
-
-  :config
-  (defun blaenk/sh-mode ()
-    (if (string-match "\\.zsh\\(rc\\)?$" (or (buffer-file-name) ""))
-        (sh-set-shell "zsh")))
-
-  (add-hook 'sh-mode-hook 'blaenk/sh-mode))
+  (setq sh-indentation 2))
 
 (use-package python
   :ensure nil
   :defer t
 
-  :config
+  :init
   ;; TODO other PEP8 stuff
   (defun blaenk/python-hook ()
     (setq fill-column 79))
 
-  (add-hook 'python-mode-hook 'blaenk/python-hook)
-
-  (let ((ipython (executable-find "ipython")))
-    (when ipython
-      (setq python-shell-interpreter ipython))))
+  (add-hook 'python-mode-hook 'blaenk/python-hook))
 
 (use-package semantic
   :ensure nil
-  :defer t
-
+  :disabled t
   :defines
   semanticdb-default-save-directory
 
@@ -161,7 +206,6 @@
   :config
   (use-package semantic/db-mode
     :ensure nil
-
     :functions
     global-semanticdb-minor-mode
     global-semantic-idle-scheduler-mode
@@ -175,8 +219,6 @@
 (use-package cc-mode
   :ensure nil
   :defer t
-  :no-require t
-
   :functions
   projectile-project-p
   projectile-project-root
@@ -184,7 +226,18 @@
   :init
   (setq c-tab-always-indent nil)
 
+  (use-package cc-menus
+    :ensure nil
+    :defer t
+
+    :config
+    ;; add googletest TESTs to imenu
+    (add-to-list 'cc-imenu-c++-generic-expression '("Test" "^TEST\\(_F\\)?(\\([^)]+\\))" 2) t))
+
   :config
+  ;; use C++ mode in header files
+  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
   (defun blaenk/insert-include-guard ()
     (interactive)
     (let* ((project-root (when (projectile-project-p)
@@ -206,25 +259,12 @@
         (insert "#ifndef " ident "\n")
         (insert "#define " ident "\n\n")
         (goto-char (point-max))
-        (insert "\n#endif  // " ident))))
-
-  ;; use C++ mode in header files
-  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-
-  ;; add googletest TESTs to imenu
-  (push '(nil "^TEST\\(_F\\)?(\\([^)]+\\))" 2) imenu-generic-expression))
-
-(use-package tramp
-  :ensure nil
-  :defer t
-  :no-require t
-
-  :config
-  (setenv "SHELL" "/bin/bash"))
+        (insert "\n#endif  // " ident)))))
 
 (use-package saveplace
   :ensure nil
   :defer t
+
   :init
   (setq-default save-place t))
 
@@ -238,11 +278,10 @@
 (use-package lisp-mode
   :ensure nil
   :defer t
-
   :functions blaenk/lisp-indent-function
   :defines calculate-lisp-indent-last-sexp
 
-  :config
+  :init
   (defun imenu-use-package ()
     (add-to-list 'imenu-generic-expression
                  '("Used Packages"
@@ -343,6 +382,7 @@ Lisp function does not specify a special indentation."
 (use-package diff
   :ensure nil
   :defer t
+
   :init
   (setq diff-switches "-u")
 
@@ -355,7 +395,6 @@ Lisp function does not specify a special indentation."
   :ensure nil
   :defer t
   :general ("C-c d" 'ediff-current-file)
-
   :functions
   blaenk/toggle-ediff-wide-display
   ediff-toggle-wide-display
@@ -365,10 +404,10 @@ Lisp function does not specify a special indentation."
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
+  ;; NOTE
   ;; doing M-x ediff-show-diff-output from ediff-current-file doesn't work
   ;; https://emacs.stackexchange.com/questions/22090/
 
-  :config
   (defvar blaenk/ediff-last-windows nil)
 
   (defun blaenk/toggle-ediff-wide-display ()
@@ -401,8 +440,9 @@ Lisp function does not specify a special indentation."
 
 (use-package elec-pair
   :ensure nil
+  :defer t
 
-  :config
+  :init
   ;; NOTE
   ;; This needs to be hooked onto the minibuffer-setup-hook
   ;; instead of using the eval-expression-minibuffer-setup-hook
@@ -430,9 +470,8 @@ Lisp function does not specify a special indentation."
 (use-package eldoc
   :ensure nil
   :defer t
-  :no-require t
 
-  :config
+  :init
   (add-hook 'emacs-lisp-mode 'eldoc-mode)
   (add-hook 'c++-mode-hook 'eldoc-mode)
   (add-hook 'c-mode-hook 'eldoc-mode)
@@ -441,6 +480,8 @@ Lisp function does not specify a special indentation."
 
 (use-package sgml-mode
   :ensure nil
+  :defer t
+
   :init
   (setq sgml-basic-offset 2))
 
@@ -477,9 +518,7 @@ PR [a-z-+]+/\
 
 (use-package org-table
   :ensure nil
-  :no-require t
   :defer t
-
   :functions
   org-at-table-p
   org-table-hline-and-move
@@ -487,7 +526,7 @@ PR [a-z-+]+/\
   ;; TODO check
   :general
   (:keymaps 'orgtbl-mode-map
-            "RET" 'blaenk/orgtbl-ret)
+   "C-c RET" 'blaenk/orgtbl-ret)
 
   :config
   (defun blaenk/orgtbl-ret ()
@@ -501,6 +540,7 @@ PR [a-z-+]+/\
 
 (use-package dired
   :ensure nil
+  :defer t
 
   :init
   (setq dired-auto-revert-buffer t)
@@ -513,6 +553,7 @@ PR [a-z-+]+/\
 
 (use-package dired-x
   :ensure nil
+  :defer t
 
   :init
   (setq dired-omit-verbose nil)
@@ -523,7 +564,7 @@ PR [a-z-+]+/\
 
 (use-package simple
   :ensure nil
-  :defer t
+
   :general ("C-c q" 'auto-fill-mode)
 
   :init
@@ -533,10 +574,15 @@ PR [a-z-+]+/\
     (setq-local comment-auto-fill-only-comments t)
     (auto-fill-mode 1))
 
-  (add-hook 'prog-mode-hook 'blaenk/prog-auto-fill))
+  (add-hook 'prog-mode-hook 'blaenk/prog-auto-fill)
+
+  :config
+  (global-visual-line-mode)
+  (column-number-mode))
 
 (use-package ansi-color
   :ensure nil
+  :defer t
 
   :defines
   compilation-filter-start
@@ -555,6 +601,7 @@ PR [a-z-+]+/\
 (use-package compile
   :ensure nil
   :defer t
+
   :init
   (setq compilation-scroll-output 'first-error)
   (setq compilation-ask-about-save nil)
@@ -564,15 +611,15 @@ PR [a-z-+]+/\
 (use-package hl-line
   :ensure nil
   :defer t
+
   :init
   (setq hl-line-sticky-flag t)
-  :config
   (add-hook 'prog-mode-hook 'hl-line-mode))
 
 (use-package help-mode
   :ensure nil
-  :no-require t
   :defer t
+
   :general
   (:keymaps 'help-mode-map
     "[" 'help-go-back
@@ -581,7 +628,8 @@ PR [a-z-+]+/\
 (use-package hideshow
   :ensure nil
   :defer t
-  :config
+
+  :init
   (add-hook 'prog-mode-hook 'hs-minor-mode))
 
 (use-package flyspell
