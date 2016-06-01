@@ -27,6 +27,8 @@
 
   :config
   (use-package company-statistics
+    :defer t
+
     :init
     (setq company-statistics-file
           (blaenk/cache-dir "company-statistics-cache.el"))
@@ -34,12 +36,12 @@
     (add-hook 'after-init-hook 'company-statistics-mode))
 
   (use-package company-quickhelp
-    :init
-    (setq company-quickhelp-delay nil)
-
     :general
     (:keymaps 'company-active-map
       "M-h" 'company-quickhelp-manual-begin)
+
+    :init
+    (setq company-quickhelp-delay nil)
 
     :config
     (company-quickhelp-mode 1))
@@ -66,7 +68,6 @@
 
   (use-package robe
     :defer t
-    :no-require t
     :config
     (add-to-list 'company-backends 'company-robe t))
 
@@ -84,12 +85,13 @@
     (company-auctex-init))
 
   (use-package company-go
-    :config
+    :defer t
+
+    :init
     (defun blaenk/company-go ()
       (set (make-local-variable 'company-backends)
            ;; add it to the beginning
-           (add-to-list 'company-backends 'company-go))
-      (company-mode))
+           (add-to-list 'company-backends 'company-go)))
 
     (add-hook 'go-mode-hook 'blaenk/company-go))
 
