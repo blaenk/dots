@@ -22,7 +22,6 @@
   ;; (setq company-dabbrev-downcase nil)
   ;; (setq company-dabbrev-ignore-case t)
 
-  ;; (add-hook 'prog-mode-hook 'company-mode)
   (add-hook 'after-init-hook 'global-company-mode)
 
   :config
@@ -53,8 +52,13 @@
       (use-package company-rtags
         :ensure nil
         :config
-        (add-to-list 'company-backends
-                     '(company-irony-c-headers company-irony company-rtags) t))))
+        (defun my-company-irony ()
+          (set (make-local-variable 'company-backends)
+               ;; add it to the beginning
+               (add-to-list 'company-backends
+                 '(company-irony-c-headers company-irony company-rtags))))
+
+        (add-hook 'irony-mode-hook 'my-company-irony))))
 
   (use-package company-math
     :config
@@ -64,25 +68,49 @@
 
   (use-package company-tern
     :config
-    (add-to-list 'company-backends 'company-tern t))
+    (defun my-company-tern ()
+      (set (make-local-variable 'company-backends)
+           ;; add it to the beginning
+           (add-to-list 'company-backends 'company-tern)))
+
+    (add-hook 'tern-mode-hook 'my-company-tern))
 
   (use-package robe
     :defer t
     :config
-    (add-to-list 'company-backends 'company-robe t))
+    (defun my-company-robe ()
+      (set (make-local-variable 'company-backends)
+           ;; add it to the beginning
+           (add-to-list 'company-backends 'company-robe)))
+
+    (add-hook 'robe-mode-hook 'my-company-robe))
 
   (use-package company-web
     :config
     (require 'company-web-html)
-    (add-to-list 'company-backends 'company-web-html))
+    (defun my-company-web-html ()
+      (set (make-local-variable 'company-backends)
+           ;; add it to the beginning
+           (add-to-list 'company-backends 'company-web-html)))
+
+    (add-hook 'web-mode-hook 'my-company-web-html))
 
   (use-package company-lua
     :config
-    (add-to-list 'company-backends 'company-lua t))
+    (defun my-company-lua ()
+      (set (make-local-variable 'company-backends)
+           ;; add it to the beginning
+           (add-to-list 'company-backends 'company-lua)))
+
+    (add-hook 'lua-mode-hook 'my-company-lua))
 
   (use-package company-auctex
     :config
-    (company-auctex-init))
+    (defun my-company-auctex ()
+      (make-local-variable 'company-backends)
+      (company-auctex-init))
+
+    (add-hook 'LaTeX-mode-hook 'my-company-auctex))
 
   (use-package company-go
     :defer t
@@ -101,11 +129,21 @@
 
   (use-package company-anaconda
     :config
-    (add-to-list 'company-backends 'company-anaconda t))
+    (defun my-company-anaconda ()
+      (set (make-local-variable 'company-backends)
+           ;; add it to the beginning
+           (add-to-list 'company-backends 'company-anaconda)))
+
+    (add-hook 'anaconda-mode-hook 'my-company-anaconda))
 
   (use-package company-cabal
     :config
-    (add-to-list 'company-backends 'company-cabal t))
+    (defun my-company-cabal ()
+      (set (make-local-variable 'company-backends)
+           ;; add it to the beginning
+           (add-to-list 'company-backends 'company-cabal)))
+
+    (add-hook 'haskell-cabal-mode-hook 'my-company-cabal))
 
   (use-package company-emoji
     :config

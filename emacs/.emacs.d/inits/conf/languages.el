@@ -209,14 +209,13 @@
                   "describe" "it" "assert"
                   "sinon"))
 
-  :config
-  (add-hook 'js2-mode-hook 'js2-imenu-extras-mode)
+  (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
 
-  (use-package tern
-    :defer t
+(use-package tern
+  :defer t
 
-    :init
-    (add-hook 'js2-mode-hook 'tern-mode)))
+  :init
+  (add-hook 'js2-mode-hook 'tern-mode))
 
 (use-package ggtags
   :disabled t
