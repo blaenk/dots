@@ -29,7 +29,7 @@
   (setq magit-log-auto-more t)
 
   :config
-  (defun blaenk/pull-request-url ()
+  (defun my-pull-request-url ()
     "Build the URL or the pull requestion on GitHub corresponding
 to the current branch. Uses Magit."
     (interactive)
@@ -46,14 +46,14 @@ to the current branch. Uses Magit."
              (magit-get "remote" (magit-get-remote) "url"))
             (magit-get-current-branch)))
 
-  (defun blaenk/open-pr ()
+  (defun my-open-pr ()
     (interactive)
-    (browse-url (blaenk/pull-request-url)))
+    (browse-url (my-pull-request-url)))
 
   (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
 
   (with-eval-after-load 'magit-ediff
-    (add-hook 'magit-ediff-quit-hook 'blaenk/ediff-quit))
+    (add-hook 'magit-ediff-quit-hook 'my-ediff-quit))
 
   (magit-wip-after-save-mode)
   (magit-wip-after-apply-mode)

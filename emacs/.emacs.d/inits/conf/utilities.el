@@ -34,7 +34,7 @@
   :defer t
 
   :config
-  (defun blaenk/set-char-widths (alist)
+  (defun my-set-char-widths (alist)
     (while (char-table-parent char-width-table)
       (setq char-width-table (char-table-parent char-width-table)))
     (dolist (pair alist)
@@ -47,7 +47,7 @@
         (set-char-table-parent table char-width-table)
         (setq char-width-table table))))
 
-  (blaenk/set-char-widths
+  (my-set-char-widths
    `((2 . (,(string-to-char (fontawesome "cloud"))
            ,(string-to-char (fontawesome "refresh")))))))
 
@@ -67,12 +67,12 @@
   :defer t
 
   :init
-  (defun blaenk/ag-root-function (file-or-dir-name)
+  (defun my-ag-root-function (file-or-dir-name)
     (let ((default-directory file-or-dir-name))
       (projectile-project-root)))
 
   (setq ag-highlight-search t)
-  (setq ag-project-root-function 'blaenk/ag-root-function))
+  (setq ag-project-root-function 'my-ag-root-function))
 
 ;; TODO
 ;; can configure test dirs by configuring projectile-test-prefix etc
@@ -81,23 +81,23 @@
   :defer t
 
   :general
-  ("C-c e" 'blaenk/edit-inits
+  ("C-c e" 'my-edit-inits
    "C-M-/" 'helm-projectile-ag)
 
   :init
-  (defun blaenk/edit-inits ()
+  (defun my-edit-inits ()
     (interactive)
     (projectile-switch-project-by-name "~/.dots"))
 
   (setq projectile-completion-system 'helm)
-  (setq projectile-cache-file (blaenk/cache-dir "projectile.cache"))
-  (setq projectile-known-projects-file (blaenk/cache-dir "projectile-bookmarks.eld"))
+  (setq projectile-cache-file (my-cache-dir "projectile.cache"))
+  (setq projectile-known-projects-file (my-cache-dir "projectile-bookmarks.eld"))
 
   ;; consider files ending in _test to be tests
-  (defun blaenk/projectile-test-suffix-function (project-type)
+  (defun my-projectile-test-suffix-function (project-type)
     (or (projectile-test-suffix project-type) "_test"))
 
-  (setq projectile-test-suffix-function 'blaenk/projectile-test-suffix-function)
+  (setq projectile-test-suffix-function 'my-projectile-test-suffix-function)
 
   (add-hook 'after-init-hook 'projectile-global-mode)
 
@@ -112,7 +112,7 @@
   :diminish anzu-mode
 
   :init
-  (defun blaenk/anzu-update (here total)
+  (defun my-anzu-update (here total)
     (when anzu--state
       (let ((status
              (cond
@@ -124,14 +124,14 @@
               ((eq anzu--state 'replace) (format " %d of %d " here total)))))
         (propertize status 'face 'anzu-mode-line))))
 
-  (defun blaenk/anzu-hook ()
+  (defun my-anzu-hook ()
     (make-local-variable 'anzu--state))
 
-  (setq anzu-mode-line-update-function 'blaenk/anzu-update)
+  (setq anzu-mode-line-update-function 'my-anzu-update)
   (setq anzu-cons-mode-line-p nil)
 
   :config
-  (add-hook 'anzu-mode-hook 'blaenk/anzu-hook)
+  (add-hook 'anzu-mode-hook 'my-anzu-hook)
   (global-anzu-mode +1))
 
 (use-package browse-at-remote
@@ -204,7 +204,7 @@
   ;; https://github.com/syl20bnr/spacemacs/commit/885d092e72aeaa470253c19831ba42e2eecf3514
   ;; http://comments.gmane.org/gmane.emacs.vim-emulation/2079
   ;; (setq undo-tree-history-directory-alist
-  ;;       `((".*" . ,(blaenk/cache-dir "undos/"))))
+  ;;       `((".*" . ,(my-cache-dir "undos/"))))
   ;; (setq undo-tree-auto-save-history t)
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t)
@@ -297,11 +297,11 @@
   (setq fci-rule-use-dashes t)
   (setq fci-dash-pattern 0.50)
 
-  (defun blaenk/git-commit-fill-column ()
+  (defun my-git-commit-fill-column ()
     (fci-mode 1))
 
   (with-eval-after-load 'magit
-    (add-hook 'git-commit-setup-hook 'blaenk/git-commit-fill-column)))
+    (add-hook 'git-commit-setup-hook 'my-git-commit-fill-column)))
 
 (use-package bug-reference-github
   :defer t
@@ -348,12 +348,12 @@
   :init
   (setq emojify-program-contexts 'comments)
   (setq emojify-point-entered-behaviour 'uncover)
-  (setq emojify-emojis-dir (blaenk/cache-dir "emojis"))
+  (setq emojify-emojis-dir (my-cache-dir "emojis"))
 
   (add-hook 'after-init-hook 'global-emojify-mode)
 
   :config
-  (blaenk/setq-append
+  (my-setq-append
    emojify-inhibit-major-modes
    flycheck-error-list-mode
    magit-status-mode

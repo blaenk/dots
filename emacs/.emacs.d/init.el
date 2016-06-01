@@ -35,14 +35,14 @@
 
 (require 'conf/common)
 
-(let* ((auto-save-dir (blaenk/cache-dir "autosaves/")))
+(let* ((auto-save-dir (my-cache-dir "autosaves/")))
   (setq auto-save-list-file-prefix (expand-file-name "saves-" auto-save-dir))
   (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t))))
 
-(setq backup-directory-alist `((".*" . ,(blaenk/cache-dir "backups/"))))
+(setq backup-directory-alist `((".*" . ,(my-cache-dir "backups/"))))
 
 (defun emacs-session-filename (session-id)
-  (blaenk/cache-dir (concat "sessions/" session-id)))
+  (my-cache-dir (concat "sessions/" session-id)))
 
 (when (getenv "VM")
   (setq browse-url-browser-function 'kill-new))
@@ -114,28 +114,28 @@
 
 (bind "C-c u" 'paradox-list-packages)
 
-(defun blaenk/kill-this-buffer ()
+(defun my-kill-this-buffer ()
   (interactive)
   (let ((buffer-modified-p nil))
     (kill-buffer (current-buffer))))
 
-(bind "C-c k" 'blaenk/kill-this-buffer)
+(bind "C-c k" 'my-kill-this-buffer)
 
-(defun blaenk/switch-to-previous-buffer ()
+(defun my-switch-to-previous-buffer ()
   (interactive)
   (switch-to-buffer (other-buffer)))
 
-(bind "C-c o" 'blaenk/switch-to-previous-buffer)
+(bind "C-c o" 'my-switch-to-previous-buffer)
 
-(defun blaenk/split-with-previous-buffer ()
+(defun my-split-with-previous-buffer ()
   (interactive)
   (select-window (split-window-below))
-  (blaenk/switch-to-previous-buffer))
+  (my-switch-to-previous-buffer))
 
-(bind "C-c x" 'blaenk/split-with-previous-buffer)
+(bind "C-c x" 'my-split-with-previous-buffer)
 (bind "C-c b" 'bury-buffer)
 
-(defun blaenk/frame-options (frame)
+(defun my-frame-options (frame)
   (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10.5"))
   (add-to-list 'default-frame-alist '(width . 86))
   (add-to-list 'default-frame-alist '(height . 36))
@@ -150,27 +150,27 @@
     (set-fontset-font t 'symbol
                       (font-spec :family "Apple Symbols") nil 'prepend))))
 
-(blaenk/frame-options nil)
+(my-frame-options nil)
 
-(add-hook 'after-make-frame-functions 'blaenk/frame-options)
+(add-hook 'after-make-frame-functions 'my-frame-options)
 
-(defun blaenk/pop-to-frame ()
+(defun my-pop-to-frame ()
   (interactive)
   (let ((buffer (current-buffer)))
     (unless (one-window-p)
       (delete-window))
     (display-buffer-pop-up-frame buffer nil)))
 
-(bind "C-c f" 'blaenk/pop-to-frame)
+(bind "C-c f" 'my-pop-to-frame)
 
-(defun blaenk/force-save ()
+(defun my-force-save ()
   (interactive)
   (set-buffer-modified-p t)
   (save-buffer))
 
-(bind "C-S-x C-S-s" 'blaenk/force-save)
+(bind "C-S-x C-S-s" 'my-force-save)
 
-(byte-recompile-directory (blaenk/inits-dir "") 0)
+(byte-recompile-directory (my-inits-dir "") 0)
 
 (benchmark-init/activate)
 
@@ -188,5 +188,5 @@
 
 (benchmark-init/deactivate)
 
-(setq custom-file (blaenk/cache-dir "custom.el"))
+(setq custom-file (my-cache-dir "custom.el"))
 (load custom-file 'noerror)

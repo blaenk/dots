@@ -52,7 +52,7 @@
   :defines save-place-file
 
   :init
-  (setq save-place-file (blaenk/cache-dir "saved-places")))
+  (setq save-place-file (my-cache-dir "saved-places")))
 
 (use-package smerge-mode
   :ensure nil
@@ -68,14 +68,14 @@
   :defines bookmark-default-file
 
   :init
-  (setq bookmark-default-file (blaenk/cache-dir "bookmarks")))
+  (setq bookmark-default-file (my-cache-dir "bookmarks")))
 
 (use-package recentf
   :ensure nil
   :defines recentf-save-file
 
   :init
-  (setq recentf-save-file (blaenk/cache-dir "recentf"))
+  (setq recentf-save-file (my-cache-dir "recentf"))
   (setq recentf-max-saved-items 50)
 
   :config
@@ -86,7 +86,7 @@
 
   :init
   (setq savehist-save-minibuffer-history 1)
-  (setq savehist-file (blaenk/cache-dir "history"))
+  (setq savehist-file (my-cache-dir "history"))
 
   :config
   (savehist-mode))
@@ -97,7 +97,7 @@
   :defines ido-save-directory-list-file
 
   :init
-  (setq ido-save-directory-list-file (blaenk/cache-dir "ido.last")))
+  (setq ido-save-directory-list-file (my-cache-dir "ido.last")))
 
 (use-package eshell
   :ensure nil
@@ -105,7 +105,7 @@
   :defines eshell-directory
 
   :init
-  (setq eshell-directory (blaenk/cache-dir "eshell")))
+  (setq eshell-directory (my-cache-dir "eshell")))
 
 (use-package apropos
   :ensure nil
@@ -189,10 +189,10 @@
 
   :init
   ;; TODO other PEP8 stuff
-  (defun blaenk/python-hook ()
+  (defun my-python-hook ()
     (setq fill-column 79))
 
-  (add-hook 'python-mode-hook 'blaenk/python-hook))
+  (add-hook 'python-mode-hook 'my-python-hook))
 
 (use-package semantic
   :ensure nil
@@ -201,7 +201,7 @@
   semanticdb-default-save-directory
 
   :init
-  (setq semanticdb-default-save-directory (blaenk/cache-dir "semanticdb"))
+  (setq semanticdb-default-save-directory (my-cache-dir "semanticdb"))
 
   :config
   (use-package semantic/db-mode
@@ -238,7 +238,7 @@
   ;; use C++ mode in header files
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
-  (defun blaenk/insert-include-guard ()
+  (defun my-insert-include-guard ()
     (interactive)
     (let* ((project-root (when (projectile-project-p)
                            (projectile-project-root)))
@@ -278,7 +278,7 @@
 (use-package lisp-mode
   :ensure nil
   :defer t
-  :functions blaenk/lisp-indent-function
+  :functions my-lisp-indent-function
   :defines calculate-lisp-indent-last-sexp
 
   :init
@@ -299,7 +299,7 @@
   ;; after
   ;;   (:foo bar
   ;;    :baz qux)
-  (defun blaenk/lisp-indent-function (indent-point state)
+  (defun my-lisp-indent-function (indent-point state)
     "This function is the normal value of the variable `lisp-indent-function'.
 The function `calculate-lisp-indent' calls this to determine
 if the arguments of a Lisp function call should be indented specially.
@@ -377,7 +377,7 @@ Lisp function does not specify a special indentation."
 
   (add-hook 'emacs-lisp-mode-hook
    (lambda ()
-     (setq-local lisp-indent-function #'blaenk/lisp-indent-function))))
+     (setq-local lisp-indent-function #'my-lisp-indent-function))))
 
 (use-package diff
   :ensure nil
@@ -386,7 +386,7 @@ Lisp function does not specify a special indentation."
   :init
   (setq diff-switches "-u")
 
-  (defun blaenk/diff ()
+  (defun my-diff ()
     "Generate unified diff of current buffer with backing file."
     (interactive)
     (diff-buffer-with-file (current-buffer))))
@@ -396,7 +396,7 @@ Lisp function does not specify a special indentation."
   :defer t
   :general ("C-c d" 'ediff-current-file)
   :functions
-  blaenk/toggle-ediff-wide-display
+  my-toggle-ediff-wide-display
   ediff-toggle-wide-display
 
   :init
@@ -408,9 +408,9 @@ Lisp function does not specify a special indentation."
   ;; doing M-x ediff-show-diff-output from ediff-current-file doesn't work
   ;; https://emacs.stackexchange.com/questions/22090/
 
-  (defvar blaenk/ediff-last-windows nil)
+  (defvar my-ediff-last-windows nil)
 
-  (defun blaenk/toggle-ediff-wide-display ()
+  (defun my-toggle-ediff-wide-display ()
     (require 'ediff-util)
     "Turn off wide-display mode (if was enabled) before quitting ediff."
     (when ediff-wide-display-p
@@ -420,56 +420,56 @@ Lisp function does not specify a special indentation."
   ;; "current" buffer is itself one of those. this means for example that if
   ;; whitespace-mode was enabled in the current buffer, simply launching ediff
   ;; will turn it off
-  (defun blaenk/ediff-prepare ()
-    (setq blaenk/ediff-last-windows (current-window-configuration))
+  (defun my-ediff-prepare ()
+    (setq my-ediff-last-windows (current-window-configuration))
 
     (when (bound-and-true-p hs-minor-mode)
-      (setq-local blaenk/ediff-was-on-hs-minor-mode t)
+      (setq-local my-ediff-was-on-hs-minor-mode t)
       (hs-minor-mode -1))
 
     (when (bound-and-true-p fci-mode)
-      (setq-local blaenk/ediff-was-on-fci-mode t)
+      (setq-local my-ediff-was-on-fci-mode t)
       (fci-mode -1))
 
     (when (bound-and-true-p visual-line-mode)
-      (setq-local blaenk/ediff-was-on-visual-line-mode t)
+      (setq-local my-ediff-was-on-visual-line-mode t)
       (global-visual-line-mode -1))
 
     (when (bound-and-true-p whitespace-mode)
-      (setq-local blaenk/ediff-was-on-whitespace-mode t)
+      (setq-local my-ediff-was-on-whitespace-mode t)
       (global-whitespace-mode -1)))
 
-  (defun blaenk/ediff-start ()
+  (defun my-ediff-start ()
     (interactive)
-    (blaenk/fullscreen-if-wasnt))
+    (my-fullscreen-if-wasnt))
 
-  (defun blaenk/ediff-quit ()
+  (defun my-ediff-quit ()
     (interactive)
 
-    (when (bound-and-true-p blaenk/ediff-was-on-hs-minor-mode)
-      (kill-local-variable blaenk/ediff-was-on-hs-minor-mode)
+    (when (bound-and-true-p my-ediff-was-on-hs-minor-mode)
+      (kill-local-variable my-ediff-was-on-hs-minor-mode)
       (hs-minor-mode +1))
 
-    (when (bound-and-true-p blaenk/ediff-was-on-fci-mode)
-      (kill-local-variable blaenk/ediff-was-on-fci-mode)
+    (when (bound-and-true-p my-ediff-was-on-fci-mode)
+      (kill-local-variable my-ediff-was-on-fci-mode)
       (fci-mode +1))
 
-    (when (bound-and-true-p blaenk/ediff-was-on-visual-line-mode)
-      (kill-local-variable blaenk/ediff-was-on-visual-line-mode)
+    (when (bound-and-true-p my-ediff-was-on-visual-line-mode)
+      (kill-local-variable my-ediff-was-on-visual-line-mode)
       (global-visual-line-mode +1))
 
-    (when (bound-and-true-p blaenk/ediff-was-on-whitespace-mode)
-      (kill-local-variable blaenk/ediff-was-on-whitespace-mode)
+    (when (bound-and-true-p my-ediff-was-on-whitespace-mode)
+      (kill-local-variable my-ediff-was-on-whitespace-mode)
       (global-whitespace-mode +1))
 
-    (set-window-configuration blaenk/ediff-last-windows)
-    (blaenk/toggle-ediff-wide-display)
-    (blaenk/unfullscreen-if-wasnt))
+    (set-window-configuration my-ediff-last-windows)
+    (my-toggle-ediff-wide-display)
+    (my-unfullscreen-if-wasnt))
 
-  (add-hook 'ediff-prepare-buffer-hook 'blaenk/ediff-prepare)
-  (add-hook 'ediff-startup-hook 'blaenk/ediff-start)
-  (add-hook 'ediff-suspend-hook 'blaenk/ediff-quit 'append)
-  (add-hook 'ediff-quit-hook 'blaenk/ediff-quit 'append))
+  (add-hook 'ediff-prepare-buffer-hook 'my-ediff-prepare)
+  (add-hook 'ediff-startup-hook 'my-ediff-start)
+  (add-hook 'ediff-suspend-hook 'my-ediff-quit 'append)
+  (add-hook 'ediff-quit-hook 'my-ediff-quit 'append))
 
 (use-package elec-pair
   :ensure nil
@@ -488,12 +488,12 @@ Lisp function does not specify a special indentation."
   ;;
   ;; This gets around that by simply checking which command was run.
   ;; It would need to be updated if using regular eval-expression
-  (defun blaenk/minibuffer-elec-pair ()
+  (defun my-minibuffer-elec-pair ()
     (if (eq this-command 'pp-eval-expression)
         (electric-pair-mode +1)
       (electric-pair-mode -1)))
 
-  (add-hook 'minibuffer-setup-hook 'blaenk/minibuffer-elec-pair)
+  (add-hook 'minibuffer-setup-hook 'my-minibuffer-elec-pair)
   (add-hook 'prog-mode-hook 'electric-pair-mode))
 
 ;; TODO
@@ -559,10 +559,10 @@ PR [a-z-+]+/\
   ;; TODO check
   :general
   (:keymaps 'orgtbl-mode-map
-   "C-c RET" 'blaenk/orgtbl-ret)
+   "C-c RET" 'my-orgtbl-ret)
 
   :config
-  (defun blaenk/orgtbl-ret ()
+  (defun my-orgtbl-ret ()
     (interactive)
     (if (org-at-table-p)
         (org-table-hline-and-move)
@@ -603,11 +603,11 @@ PR [a-z-+]+/\
   :init
   (setq next-error-recenter '(4))
 
-  (defun blaenk/prog-auto-fill ()
+  (defun my-prog-auto-fill ()
     (setq-local comment-auto-fill-only-comments t)
     (auto-fill-mode 1))
 
-  (add-hook 'prog-mode-hook 'blaenk/prog-auto-fill)
+  (add-hook 'prog-mode-hook 'my-prog-auto-fill)
 
   :config
   (global-visual-line-mode)

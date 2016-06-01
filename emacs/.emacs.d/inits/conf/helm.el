@@ -21,12 +21,12 @@
     "C-z" 'helm-select-action)
 
   (:keymaps '(helm-find-files-map helm-buffer-map)
-    "M-h" 'blaenk/helm-horizontal-split
-    "M-v" 'blaenk/helm-vertical-split)
+    "M-h" 'my-helm-horizontal-split
+    "M-v" 'my-helm-vertical-split)
 
   :init
   (setq helm-adaptive-history-file
-        (blaenk/cache-dir "helm-adaptive-history"))
+        (my-cache-dir "helm-adaptive-history"))
   (setq helm-split-window-in-side-p t)
   (setq helm-display-header-line nil)
   (setq helm-imenu-execute-action-at-once-if-one nil)
@@ -45,7 +45,7 @@
     :ensure nil
 
     :config
-    (defun blaenk/helm-action-horizontal-split (candidate)
+    (defun my-helm-action-horizontal-split (candidate)
       "Display buffer in horizontal split"
       ;; Select the bottom right window
       (require 'winner)
@@ -57,7 +57,7 @@
           (find-file buf)))
       (balance-windows))
 
-    (defun blaenk/helm-action-vertical-split (candidate)
+    (defun my-helm-action-vertical-split (candidate)
       "Display buffer in vertical split"
       ;; Select the bottom right window
       (require 'winner)
@@ -71,29 +71,29 @@
 
     (add-to-list 'helm-find-files-actions
                  '("Display buffer in horizontal split" .
-                   blaenk/helm-action-horizontal-split) t)
+                   my-helm-action-horizontal-split) t)
 
     (add-to-list 'helm-type-buffer-actions
                  '("Display buffer in horizontal split" .
-                   blaenk/helm-action-horizontal-split) t)
+                   my-helm-action-horizontal-split) t)
 
     (add-to-list 'helm-find-files-actions
                  '("Display buffer in vertical split" .
-                   blaenk/helm-action-vertical-split) t)
+                   my-helm-action-vertical-split) t)
 
     (add-to-list 'helm-type-buffer-actions
                  '("Display buffer in vertical split" .
-                   blaenk/helm-action-vertical-split) t)
+                   my-helm-action-vertical-split) t)
 
-    (defun blaenk/helm-horizontal-split ()
+    (defun my-helm-horizontal-split ()
       (interactive)
       (with-helm-alive-p
-        (helm-exit-and-execute-action 'blaenk/helm-action-horizontal-split)))
+        (helm-exit-and-execute-action 'my-helm-action-horizontal-split)))
 
-    (defun blaenk/helm-vertical-split ()
+    (defun my-helm-vertical-split ()
       (interactive)
       (with-helm-alive-p
-        (helm-exit-and-execute-action 'blaenk/helm-action-vertical-split))))
+        (helm-exit-and-execute-action 'my-helm-action-vertical-split))))
 
   (helm-mode 1)
 
@@ -102,8 +102,8 @@
     ("C-c t" 'helm-mt)
 
     (:keymaps 'helm-mt/keymap
-      "M-h" 'blaenk/helm-horizontal-split
-      "M-v" 'blaenk/helm-vertical-split))
+      "M-h" 'my-helm-horizontal-split
+      "M-v" 'my-helm-vertical-split))
 
   (use-package helm-open-github
     :defer t)
@@ -161,8 +161,8 @@
      "C->" 'helm-projectile)
 
     (:keymaps 'helm-projectile-find-file-map
-      "M-h" 'blaenk/helm-horizontal-split
-      "M-v" 'blaenk/helm-vertical-split)
+      "M-h" 'my-helm-horizontal-split
+      "M-v" 'my-helm-vertical-split)
 
     :config
     (helm-projectile-on))

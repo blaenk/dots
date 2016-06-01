@@ -8,14 +8,14 @@
   (eval-when-compile
     (require 'solarized))
 
-  (defvar blaenk/theme-loaded nil)
+  (defvar my-theme-loaded nil)
 
-  (defun blaenk/load-theme ()
-    (if blaenk/theme-loaded
+  (defun my-load-theme ()
+    (if my-theme-loaded
         (enable-theme 'solarized-light)
       (progn
         (load-theme 'solarized-light t)
-        (setq blaenk/theme-loaded t)))
+        (setq my-theme-loaded t)))
 
     (solarized-with-color-variables 'light
       (defface mode-line-column-face
@@ -249,6 +249,6 @@
          ((,class (:inherit magit-diff-added-highlight))))))
     )
 
-  (blaenk/after-frame (blaenk/load-theme)))
+  (my-after-frame (my-load-theme)))
 
 (provide 'conf/theme)

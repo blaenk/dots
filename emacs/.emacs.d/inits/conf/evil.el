@@ -4,7 +4,7 @@
 
 (use-package evil
   :demand t
-  :defines blaenk/evil-join
+  :defines my-evil-join
 
   :general
   (:states 'emacs
@@ -13,9 +13,9 @@
   (:states 'insert
     "<S-return>" 'comment-indent-new-line
 
-    "C-y" 'blaenk/evil-insert-mode-paste
+    "C-y" 'my-evil-insert-mode-paste
 
-    "C-u" 'blaenk/kill-line
+    "C-u" 'my-kill-line
     "C-l" 'move-end-of-line)
 
   (:states 'normal
@@ -45,7 +45,7 @@
     "] S" 'check-next-spelling-error)
 
   (:states '(normal insert)
-    "C-;" 'blaenk/flyspell-last)
+    "C-;" 'my-flyspell-last)
 
   (:states 'visual
     ">" 'visual-shift-right
@@ -58,8 +58,8 @@
     "m l" 'buf-move-right)
 
   (bind*
-    "o" 'blaenk/evil-open-in-between
-    "l" 'blaenk/clear-search)
+    "o" 'my-evil-open-in-between
+    "l" 'my-clear-search)
 
   :init
   (setq evil-want-C-w-in-emacs-state t)
@@ -94,7 +94,7 @@
           term-mode
           undo-tree-visualizer-mode))
 
-  (defun blaenk/evil--real-function (fun)
+  (defun my-evil--real-function (fun)
     "Figure out the actual symbol behind a function.
 Returns a different symbol if FUN is an alias, otherwise FUN."
     (let ((symbol-function (symbol-function fun)))
@@ -102,17 +102,17 @@ Returns a different symbol if FUN is an alias, otherwise FUN."
           symbol-function
         fun)))
 
-  (defun blaenk/evil--derived-mode-p (mode modes)
-    (let ((parent (blaenk/evil--real-function mode)))
+  (defun my-evil--derived-mode-p (mode modes)
+    (let ((parent (my-evil--real-function mode)))
       (while (and parent (not (memq parent modes)))
-        (setq parent (blaenk/evil--real-function (get parent 'derived-mode-parent))))
+        (setq parent (my-evil--real-function (get parent 'derived-mode-parent))))
       parent))
 
   (with-eval-after-load 'company
-    (defun blaenk/evil-company (arg) (company-complete))
+    (defun my-evil-company (arg) (company-complete))
 
-    (setq evil-complete-next-func 'blaenk/evil-company)
-    (setq evil-complete-previous-func 'blaenk/evil-company))
+    (setq evil-complete-next-func 'my-evil-company)
+    (setq evil-complete-previous-func 'my-evil-company))
 
   (with-eval-after-load 'evil-core
     (defun evil-initial-state (mode &optional default)
@@ -126,7 +126,7 @@ The initial state for a mode can be set with
             (setq state (car entry)
                   modes (symbol-value (cdr entry)))
             (when (or (memq mode modes)
-                      (blaenk/evil--derived-mode-p mode modes))
+                      (my-evil--derived-mode-p mode modes))
               (throw 'done state)))))))
 
   :config
@@ -141,7 +141,7 @@ The initial state for a mode can be set with
   ;;     (insert "\n#endif // " ident)))))
   ;;
   ;; if joined lines are comments, remove delimiters
-  (evil-define-operator blaenk/evil-join (beg end)
+  (evil-define-operator my-evil-join (beg end)
     "Join the selected lines."
     :motion evil-line
     (let* ((count (count-lines beg end))
@@ -177,13 +177,13 @@ The initial state for a mode can be set with
       (setq evil-operator-state-cursor `((hbar . 6)))
       (setq evil-emacs-state-cursor `(,red-l box))))
 
-  (defun blaenk/evil-maybe-remove-spaces ()
+  (defun my-evil-maybe-remove-spaces ()
     (unless (memq this-command '(evil-open-above evil-open-below))
-      (remove-hook 'post-command-hook 'blaenk/evil-maybe-remove-spaces)
+      (remove-hook 'post-command-hook 'my-evil-maybe-remove-spaces)
       (when (not (evil-insert-state-p))
         (delete-char 1))))
 
-  (defun blaenk/evil-open-line ()
+  (defun my-evil-open-line ()
     (interactive)
     (end-of-visual-line)
     (if (elt (syntax-ppss) 4)
@@ -191,7 +191,7 @@ The initial state for a mode can be set with
           (comment-indent-new-line)
           (evil-insert-state 1)
 
-          (add-hook 'post-command-hook #'blaenk/evil-maybe-remove-spaces)
+          (add-hook 'post-command-hook #'my-evil-maybe-remove-spaces)
 
           (when evil-auto-indent
             (indent-according-to-mode))
@@ -204,7 +204,7 @@ The initial state for a mode can be set with
   ;; until the beginning of the comment. if already at the beginning of the
   ;; comment, delete up to the indentation point. if already at the indentation
   ;; point, delete to the beginning of the line
-  (defun blaenk/kill-line ()
+  (defun my-kill-line ()
     (interactive)
     (let* ((starts
             (-non-nil
@@ -240,12 +240,12 @@ The initial state for a mode can be set with
               (back-to-indentation)
               (kill-region beg (point))))))))
 
-  (defun blaenk/flyspell-last ()
+  (defun my-flyspell-last ()
     (interactive)
     (save-excursion
       (check-previous-spelling-error)))
 
-  (defun blaenk/evil-insert-mode-paste ()
+  (defun my-evil-insert-mode-paste ()
     (interactive)
     (evil-paste-before 1)
     (forward-char))
@@ -271,14 +271,14 @@ The initial state for a mode can be set with
     (evil-normal-state)
     (evil-visual-restore))
 
-  (defun blaenk/evil-open-in-between ()
+  (defun my-evil-open-in-between ()
     (interactive)
     (end-of-line)
     (newline)
     (evil-open-above 1)
     (setq this-command 'evil-open-below))
 
-  (defun blaenk/clear-search ()
+  (defun my-clear-search ()
     (interactive)
     (evil-ex-nohighlight)
     (force-mode-line-update))

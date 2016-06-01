@@ -21,42 +21,42 @@
 
   (put 'bind* 'lisp-indent-function 'defun))
 
-(defun blaenk/emacs-dir (path)
+(defun my-emacs-dir (path)
   (expand-file-name path user-emacs-directory))
 
-(defun blaenk/cache-dir (path)
-  (blaenk/emacs-dir (concat "cache/" path)))
+(defun my-cache-dir (path)
+  (my-emacs-dir (concat "cache/" path)))
 
-(defun blaenk/inits-dir (path)
-  (blaenk/emacs-dir (concat "inits/" path)))
+(defun my-inits-dir (path)
+  (my-emacs-dir (concat "inits/" path)))
 
-(defun blaenk/is-fullscreen ()
+(defun my-is-fullscreen ()
   (memq (frame-parameter nil 'fullscreen) '(fullscreen fullboth)))
 
-(defun blaenk/go-fullscreen ()
+(defun my-go-fullscreen ()
   (interactive)
   (set-frame-parameter nil 'fullscreen 'fullboth))
 
-(defun blaenk/un-fullscreen ()
+(defun my-un-fullscreen ()
   (set-frame-parameter nil 'fullscreen nil))
 
-(defvar blaenk/was-fullscreen)
+(defvar my-was-fullscreen)
 
-(defun blaenk/fullscreen-if-wasnt ()
-  (if (blaenk/is-fullscreen)
-      (setq blaenk/was-fullscreen t)
+(defun my-fullscreen-if-wasnt ()
+  (if (my-is-fullscreen)
+      (setq my-was-fullscreen t)
     (progn
-      (setq blaenk/was-fullscreen nil)
-      (blaenk/go-fullscreen))))
+      (setq my-was-fullscreen nil)
+      (my-go-fullscreen))))
 
-(defun blaenk/unfullscreen-if-wasnt ()
-  (when (not blaenk/was-fullscreen)
-    (blaenk/un-fullscreen)))
+(defun my-unfullscreen-if-wasnt ()
+  (when (not my-was-fullscreen)
+    (my-un-fullscreen)))
 
-(defmacro blaenk/setq-append (var &rest elems)
+(defmacro my-setq-append (var &rest elems)
   `(setq ,var (append ,var '(,@elems))))
 
-(defmacro blaenk/after-frame (body)
+(defmacro my-after-frame (body)
   `(if (daemonp)
        (add-hook 'after-make-frame-functions
                  (lambda (frame)
@@ -66,7 +66,7 @@
      ;; (window-frame (get-buffer-window))
      ,body))
 
-(defun blaenk/get-faces (pos)
+(defun my-get-faces (pos)
   "Get the font faces at POS."
   (remq nil
         (list
@@ -74,22 +74,22 @@
          (get-char-property pos 'face)
          (plist-get (text-properties-at pos) 'face))))
 
-(defun blaenk/what-face (pos)
+(defun my-what-face (pos)
   (interactive "d")
-  (let ((face (blaenk/get-faces pos)))
+  (let ((face (my-get-faces pos)))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
-; (defun blaenk/eval-after-load-all (features body)
+; (defun my-eval-after-load-all (features body)
 ;   (if (null features)
 ;       body
 ;     (let ((feat (car features))
-;           (nested (blaenk/eval-after-load-all (cdr features) body)))
+;           (nested (my-eval-after-load-all (cdr features) body)))
 ;       `(eval-after-load (quote ,feat) (quote ,nested)))))
 
-; (defmacro blaenk/eval-after-load-all-macro (features body)
+; (defmacro my-eval-after-load-all-macro (features body)
 ;   (if (null features)
 ;       body
 ;     `(eval-after-load (quote ,(car features))
-;        (quote (blaenk/eval-after-load-all-macro ,(cdr features) ,body)))))
+;        (quote (my-eval-after-load-all-macro ,(cdr features) ,body)))))
 
 (provide 'conf/common)

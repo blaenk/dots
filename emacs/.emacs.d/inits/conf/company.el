@@ -31,7 +31,7 @@
 
     :init
     (setq company-statistics-file
-          (blaenk/cache-dir "company-statistics-cache.el"))
+          (my-cache-dir "company-statistics-cache.el"))
 
     (add-hook 'after-init-hook 'company-statistics-mode))
 
@@ -88,12 +88,12 @@
     :defer t
 
     :init
-    (defun blaenk/company-go ()
+    (defun my-company-go ()
       (set (make-local-variable 'company-backends)
            ;; add it to the beginning
            (add-to-list 'company-backends 'company-go)))
 
-    (add-hook 'go-mode-hook 'blaenk/company-go))
+    (add-hook 'go-mode-hook 'my-company-go))
 
   (use-package company-restclient
     :config

@@ -15,16 +15,16 @@
 
   (:keymaps 'smartparens-mode-map
    :states 'normal
-    "> )" 'blaenk/move-closing-paren-forward
-    "< )" 'blaenk/move-closing-paren-backward
-    "> (" 'blaenk/move-opening-paren-forward
-    "< (" 'blaenk/move-opening-paren-backward
+    "> )" 'my-move-closing-paren-forward
+    "< )" 'my-move-closing-paren-backward
+    "> (" 'my-move-opening-paren-forward
+    "< (" 'my-move-opening-paren-backward
 
     "< u" 'sp-splice-sexp-killing-backward
     "> u" 'sp-splice-sexp-killing-forward
 
-    "< d" 'blaenk/delete-sexp-backward
-    "> d" 'blaenk/delete-sexp-forward
+    "< d" 'my-delete-sexp-backward
+    "> d" 'my-delete-sexp-forward
 
     "< e" 'move-symbol-backward
     "> e" 'move-symbol-forward
@@ -32,8 +32,8 @@
     "< i" 'insert-before-form
     "> i" 'insert-after-form
 
-    "< f" 'blaenk/move-form-backward
-    "> f" 'blaenk/move-form-forward)
+    "< f" 'my-move-form-backward
+    "> f" 'my-move-form-forward)
 
   :init
   (setq sp-show-pair-from-inside t)
@@ -63,35 +63,35 @@
 
       ;; https://github.com/tpope/vim-sexp-mappings-for-regular-people
 
-      (defun blaenk/evil-goto-char (pos)
+      (defun my-evil-goto-char (pos)
         (when (evil-normal-state-p) (decf pos))
         (goto-char pos))
 
       ;; TODO evil-commentary delegating sp-comment wrapper?
 
-      (defun blaenk/move-closing-paren-forward ()
+      (defun my-move-closing-paren-forward ()
         (interactive)
         (on-parens-forward-slurp)
         ;; get back on paren
-        (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char :end)))
+        (sp-get (sp-get-enclosing-sexp) (my-evil-goto-char :end)))
 
-      (defun blaenk/move-closing-paren-backward ()
+      (defun my-move-closing-paren-backward ()
         (interactive)
         (on-parens-forward-barf)
         ;; get back on paren
         (sp-restrict-to-object 'sp-prefix-pair-object 'sp-backward-down-sexp))
 
-      (defun blaenk/move-opening-paren-forward ()
+      (defun my-move-opening-paren-forward ()
         (interactive)
         (on-parens-backward-barf)
         ;; get back on paren
         (sp-restrict-to-object 'sp-prefix-pair-object 'sp-next-sexp))
 
-      (defun blaenk/move-opening-paren-backward ()
+      (defun my-move-opening-paren-backward ()
         (interactive)
         (on-parens-backward-slurp)
         ;; get back on paren
-        (sp-get (sp-get-enclosing-sexp) (blaenk/evil-goto-char (+ :beg 1))))
+        (sp-get (sp-get-enclosing-sexp) (my-evil-goto-char (+ :beg 1))))
 
       ;; TODO
       ;; this should be turned off when smartparens is not on
@@ -101,11 +101,11 @@
       ;; (define-key evil-normal-state-map (kbd "g E") 'on-parens-backward-sexp-end)
       ;; (define-key evil-normal-state-map (kbd "B") 'on-parens-backward-sexp)
 
-      (defun blaenk/delete-sexp-backward ()
+      (defun my-delete-sexp-backward ()
         (interactive)
         (sp-kill-sexp '(-4)))
 
-      (defun blaenk/delete-sexp-forward ()
+      (defun my-delete-sexp-forward ()
         (interactive)
         ;; FIXME
         ;; doesn't work when point is on/before closing brace
@@ -114,7 +114,7 @@
         (forward-char)
         (sp-kill-sexp '(4)))
 
-      (defun blaenk/sp-get-current-non-string-sexp (pos)
+      (defun my-sp-get-current-non-string-sexp (pos)
         "get the enclosing, non-string sexp"
         (let ((current-sexp (sp-get-sexp)))
           (if (or (eq pos (sp-get current-sexp :beg))
@@ -125,23 +125,23 @@
                    (end (sp-get enclosing-sexp :end)))
               (when enclosing-sexp
                 (if (string-equal op "\"")
-                    (blaenk/sp-get-current-non-string-sexp (goto-char end))
+                    (my-sp-get-current-non-string-sexp (goto-char end))
                   enclosing-sexp))))))
 
-      (defun blaenk/sp-end-of-current-sexp (pos)
+      (defun my-sp-end-of-current-sexp (pos)
         "jump to the end of the current, non-string sexp"
         (interactive "d")
 
-        (let ((end (sp-get (blaenk/sp-get-current-non-string-sexp pos) :end)))
+        (let ((end (sp-get (my-sp-get-current-non-string-sexp pos) :end)))
           (when end
-            (blaenk/evil-goto-char end))))
+            (my-evil-goto-char end))))
 
-      (defmacro blaenk/save-position (&rest body)
+      (defmacro my-save-position (&rest body)
         "restore column and form-relative line number"
         `(let* ((column (current-column))
                 (pos (point))
                 (begin-line (line-number-at-pos pos)))
-           (blaenk/sp-end-of-current-sexp pos)
+           (my-sp-end-of-current-sexp pos)
            (when (evil-normal-state-p) (forward-char))
 
            (let* ((end-line (line-number-at-pos (point))))
@@ -153,14 +153,14 @@
         "move a form forward"
         (interactive "d *p")
 
-        (blaenk/save-position
+        (my-save-position
           (sp-transpose-sexp)))
 
       (defun move-form-backward (pos &optional arg)
         "move a form backward"
         (interactive "d *p")
 
-        (blaenk/save-position
+        (my-save-position
          (sp-transpose-sexp -1)))
 
       (defun move-symbol-backward (&optional arg)
@@ -197,12 +197,12 @@
         (sp-end-of-sexp)
         (evil-insert 0))
 
-      (defun blaenk/move-form-backward ()
+      (defun my-move-form-backward ()
         (interactive)
         (sp-restrict-to-object
          'sp-prefix-pair-object 'move-form-backward))
 
-      (defun blaenk/move-form-forward ()
+      (defun my-move-form-forward ()
         (interactive)
         (sp-restrict-to-object
          'sp-prefix-pair-object 'move-form-forward)))))

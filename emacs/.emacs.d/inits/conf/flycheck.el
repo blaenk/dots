@@ -23,13 +23,13 @@
     (use-package flycheck-rtags
       :ensure nil
       :config
-      (defun blaenk/flycheck-rtags-setup  ()
+      (defun my-flycheck-rtags-setup  ()
         ;; (flycheck-select-checker 'rtags)
         ;; (setq-local flycheck-highlighting-mode nil)
         ;; (setq-local flycheck-check-syntax-automatically nil)
         )
 
-      (add-hook 'c-mode-common-hook 'blaenk/flycheck-rtags-setup)))
+      (add-hook 'c-mode-common-hook 'my-flycheck-rtags-setup)))
 
   (use-package flycheck-google-cpplint
     :disabled t

@@ -6,7 +6,7 @@
   :defer t
 
   :init
-  (setq anaconda-mode-installation-directory (blaenk/cache-dir "anaconda-mode"))
+  (setq anaconda-mode-installation-directory (my-cache-dir "anaconda-mode"))
   (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
 
@@ -73,7 +73,7 @@
   (setq markdown-italic-underscore t)
   (setq markdown-use-pandoc-style-yaml-metadata t)
 
-  (defun blaenk/gfm-hook ()
+  (defun my-gfm-hook ()
     (interactive)
 
     ;; TODO
@@ -90,7 +90,7 @@
       (push '(?p . ("<span class=\"path\">" . "</span>"))
             evil-surround-pairs-alist)))
 
-  (add-hook 'gfm-mode-hook 'blaenk/gfm-hook)
+  (add-hook 'gfm-mode-hook 'my-gfm-hook)
   (add-hook 'gfm-mode-hook 'outline-minor-mode)
   (add-hook 'gfm-mode-hook 'flyspell-mode)
 
@@ -144,11 +144,11 @@
   :mode "\\.sass\\'"
 
   :init
-  (defun blaenk/scss-hook ()
+  (defun my-scss-hook ()
     (setq-local comment-end "")
     (setq-local comment-start "//"))
 
-  (add-hook 'scss-mode-hook 'blaenk/scss-hook))
+  (add-hook 'scss-mode-hook 'my-scss-hook))
 
 (use-package css-eldoc
   :defer t
@@ -173,7 +173,7 @@
    [remap complete-symbol] 'irony-completion-at-point-async)
 
   :init
-  (setq irony-user-dir (blaenk/cache-dir "irony"))
+  (setq irony-user-dir (my-cache-dir "irony"))
 
   (add-hook 'c++-mode-hook 'irony-mode)
   (add-hook 'c-mode-hook 'irony-mode)
@@ -223,11 +223,11 @@
   :defer t
 
   :init
-  (defun blaenk/ggtags-hook ()
+  (defun my-ggtags-hook ()
     (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
       (ggtags-mode 1)))
 
-  (add-hook 'prog-mode-hook 'blaenk/ggtags-hook))
+  (add-hook 'prog-mode-hook 'my-ggtags-hook))
 
 (use-package rtags
   :defer t
@@ -270,11 +270,11 @@
   :defer t
 
   :init
-  (defun blaenk/rust-hook ()
+  (defun my-rust-hook ()
     (set (make-local-variable 'compile-command) "cargo build")
     (helm-gtags-mode))
 
-  (add-hook 'rust-mode-hook 'blaenk/rust-hook))
+  (add-hook 'rust-mode-hook 'my-rust-hook))
 
 (use-package toml-mode
   :defer t)
