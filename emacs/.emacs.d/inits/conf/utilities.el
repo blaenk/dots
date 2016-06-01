@@ -2,14 +2,15 @@
 (require 'general)
 
 (use-package exec-path-from-shell
-  :if (and (daemonp)
-           (not (equal system-type 'windows-nt)))
+  :if (and (daemonp) (not (equal system-type 'windows-nt)))
+
   :config
   (exec-path-from-shell-copy-envs
    '("VM" "PATH" "GTAGSCONF" "GTAGSLABEL" "SSH_AUTH_SOCK")))
 
 (use-package unicode-fonts
   :disabled t
+
   :config
   (unicode-fonts-setup))
 
@@ -31,6 +32,7 @@
 ;; to fall back on unicode icons
 (use-package fontawesome
   :defer t
+
   :config
   (defun blaenk/set-char-widths (alist)
     (while (char-table-parent char-width-table)
@@ -51,6 +53,7 @@
 
 (use-package dtrt-indent
   :defer t
+
   :init
   (setq dtrt-indent-verbosity 0)
 
@@ -62,6 +65,7 @@
 (use-package ag
   :if (executable-find "ag")
   :defer t
+
   :init
   (defun blaenk/ag-root-function (file-or-dir-name)
     (let ((default-directory file-or-dir-name))
@@ -74,6 +78,8 @@
 ;; can configure test dirs by configuring projectile-test-prefix etc
 ;; see default implementation
 (use-package projectile
+  :defer t
+
   :general
   ("C-c e" 'blaenk/edit-inits
    "C-M-/" 'helm-projectile-ag)
@@ -93,17 +99,18 @@
 
   (setq projectile-test-suffix-function 'blaenk/projectile-test-suffix-function)
 
+  (add-hook 'after-init-hook 'projectile-global-mode)
+
   :config
   (add-to-list 'projectile-other-file-alist '("cc" "h" "hpp" "hh"))
-  (add-to-list 'projectile-other-file-alist '("h" "c" "cpp" "cc"))
-
-  (projectile-global-mode))
+  (add-to-list 'projectile-other-file-alist '("h" "c" "cpp" "cc")))
 
 (use-package perspective
   :disabled t)
 
 (use-package anzu
   :diminish anzu-mode
+
   :init
   (defun blaenk/anzu-update (here total)
     (when anzu--state
@@ -129,10 +136,12 @@
 
 (use-package browse-at-remote
   :defer t
+
   :general ("C-c g o" 'browse-at-remote/kill))
 
 (use-package expand-region
   :defer t
+
   :general
   ("C-=" 'er/expand-region)
   (bind* "v" 'er/expand-region))
@@ -198,8 +207,6 @@
   :defer t)
 
 (use-package link-hint
-  :defer t
-
   :general
   ("C-c l o" 'link-hint-open-link
    "C-c l c" 'link-hint-copy-link)
@@ -209,22 +216,24 @@
 
 (use-package hl-todo
   :defer t
+
   :init
   (add-hook 'prog-mode-hook 'hl-todo-mode))
 
 (use-package gist
-  :defer t
   :general
   ("C-c g g s" 'gist-region-or-buffer-private ;; s for secret
    "C-c g g p" 'gist-region-or-buffer))       ;; p for public
 
 (use-package highlight-escape-sequences
   :defer t
+
   :init
   (add-hook 'prog-mode-hook 'hes-mode))
 
 (use-package highlight-quoted
   :defer t
+
   :init
   (setq highlight-quoted-highlight-symbols nil)
   (add-hook 'emacs-lisp-mode-hook 'highlight-quoted-mode))
@@ -252,14 +261,15 @@
   (setq undo-tree-visualizer-diff t)
 
   :config
-  (global-undo-tree-mode)
-
   (defadvice undo-tree-make-history-save-file-name
       (after undo-tree activate)
-    (setq ad-return-value (concat ad-return-value ".gz"))))
+    (setq ad-return-value (concat ad-return-value ".gz")))
+
+  (global-undo-tree-mode))
 
 (use-package multi-term
   :defer t
+
   :init
   (setq multi-term-buffer-name "term")
   (setq multi-term-program "/usr/bin/zsh"))
@@ -268,8 +278,6 @@
   :defer t)
 
 (use-package swiper
-  :defer t
-
   :general
   ("C-s" 'swiper
    "M-/" 'swiper
@@ -288,8 +296,8 @@
   :defer t)
 
 (use-package rainbow-mode
-  :defer t
   :diminish rainbow-mode
+
   :general ("C-c r c" 'rainbow-mode)
 
   :init
@@ -299,11 +307,9 @@
   (add-hook 'prog-mode-hook 'rainbow-mode))
 
 (use-package rainbow-blocks
-  :defer t
   :general ("C-c r b" 'rainbow-blocks-mode))
 
 (use-package rainbow-delimiters
-  :defer t
   :general ("C-c r d" 'rainbow-delimiters-mode)
 
   :init
@@ -311,7 +317,6 @@
   (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
 
 (use-package color-identifiers-mode
-  :defer t
   :general ("C-c r i" 'color-identifiers-mode))
 
 (use-package relative-line-numbers
@@ -336,8 +341,6 @@
   :defer t)
 
 (use-package fill-column-indicator
-  :defer t
-
   :general
   (bind* "c" 'fci-mode)
 
@@ -353,12 +356,15 @@
 
 (use-package bug-reference-github
   :defer t
+
   :init
   (add-hook 'find-file-hook 'bug-reference-github-set-url-format))
 
 (use-package ace-window
   :defer t
+
   :general ("C-x o" 'ace-window)
+
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
@@ -380,6 +386,7 @@
 
 (use-package highlight-numbers
   :defer t
+
   :init
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
@@ -388,6 +395,7 @@
 
 (use-package emojify
   :defer t
+
   :init
   (setq emojify-program-contexts 'comments)
   (setq emojify-point-entered-behaviour 'uncover)
@@ -403,8 +411,8 @@
    magit-revision-mode))
 
 (use-package emoji-cheat-sheet-plus
-  :defer t
-  :general ("C-x 8 e" 'emoji-cheat-sheet-plus-insert))
+  :general
+  ("C-x 8 e" 'emoji-cheat-sheet-plus-insert))
 
 (use-package list-environment
   :defer t)
@@ -414,12 +422,13 @@
 
 (use-package emmet-mode
   :defer t
+
   :init
   (add-hook 'sgml-mode-hook 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode))
 
 (use-package esup
-  :commands esup)
+  :defer t)
 
 (use-package mmm-mode
   :disabled t
