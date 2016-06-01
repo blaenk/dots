@@ -4,6 +4,7 @@
 
 (use-package anaconda-mode
   :defer t
+
   :init
   (setq anaconda-mode-installation-directory (blaenk/cache-dir "anaconda-mode"))
   (add-hook 'python-mode-hook 'anaconda-mode)
@@ -11,21 +12,19 @@
 
 (use-package tern
   :defer t
+
   :init
   (add-hook 'js2-mode-hook 'tern-mode))
 
 (use-package lua-mode
-  :mode "\\.lua$"
-  :interpreter "lua")
+  :defer t)
 
 (use-package dockerfile-mode
-  :mode ("Dockerfile\\'" . dockerfile-mode))
+  :defer t)
 
-;; TODO
-;; configure thoroughly when used
-;; https://github.com/clojure-emacs/cider
 (use-package cider
   :defer t
+
   :init
   (add-hook 'cider-mode-hook 'eldoc-mode))
 
@@ -37,6 +36,7 @@
 
 (use-package haskell-mode
   :defer t
+
   :init
   (add-hook 'haskell-mode-hook 'haskell-indentation-mode))
 
@@ -45,6 +45,7 @@
 
 (use-package json-mode
   :defer t
+
   :init
   (setq json-reformat:indent-width 2))
 
@@ -66,10 +67,6 @@
 (use-package markdown-mode
   :defer t
 
-  :mode
-  (("\\.markdown\\'" . gfm-mode)
-   ("\\.md\\'" . gfm-mode))
-
   :general
   (bind* :keymaps '(markdown-mode-map gfm-mode-map)
     "k" 'beginning-of-defun
@@ -85,6 +82,8 @@
   (defun blaenk/gfm-hook ()
     (interactive)
 
+    ;; TODO
+    ;; this should only be toggled on a bind
     (orgtbl-mode 1)
 
     (setq-local word-wrap t)
@@ -110,6 +109,7 @@
 
 (use-package inf-ruby
   :defer t
+
   :init
   (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
   (add-hook 'enh-ruby-mode-hook 'inf-ruby-minor-mode)
@@ -131,6 +131,7 @@
 
 (use-package go-eldoc
   :defer t
+
   :init
   (add-hook 'go-mode-hook 'go-eldoc-setup))
 
@@ -139,13 +140,15 @@
 
 (use-package robe
   :defer t
+
   :init
   (add-hook 'ruby-mode-hook 'robe-mode)
   (add-hook 'enh-ruby-mode-hook 'robe-mode))
 
 (use-package scss-mode
   :defer t
-  :mode ("\\.scss\\'" "\\.sass\\'")
+  :mode ("\\.sass\\'")
+
   :init
   (defun blaenk/scss-hook ()
     (setq-local comment-end "")
@@ -155,6 +158,7 @@
 
 (use-package css-eldoc
   :defer t
+
   :init
   (add-hook 'css-mode-hook 'turn-on-css-eldoc)
   (add-hook 'less-css-mode-hook 'turn-on-css-eldoc)
@@ -164,10 +168,11 @@
   :defer t)
 
 (use-package alchemist
-  :disabled t)
+  :defer t)
 
 (use-package irony
   :defer t
+
   :general
   (:keymaps 'irony-mode-map
    [remap completion-at-point] 'irony-completion-at-point-async
@@ -183,12 +188,12 @@
 
 (use-package irony-eldoc
   :defer t
+
   :init
   (add-hook 'irony-mode-hook 'irony-eldoc))
 
 (use-package swift-mode
   :if (eq system-type 'darwin)
-  :defer t
 
   :config
   (with-eval-after-load 'flycheck
@@ -198,8 +203,9 @@
   :defer t)
 
 (use-package js2-mode
-  :mode "\\.js\\'"
-  :defer t
+  :mode
+  (("\\.js\\'" . js2-mode)
+   ("\\.jsx\\'" . js2-jsx-mode))
   :interpreter "node"
 
   :init
@@ -214,6 +220,7 @@
 (use-package ggtags
   :disabled t
   :defer t
+
   :init
   (defun blaenk/ggtags-hook ()
     (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
@@ -223,12 +230,15 @@
 
 (use-package rtags
   :defer t
+
   :init
   (setq rtags-completions-enabled t)
   (setq rtags-autostart-diagnostics t))
 
 (use-package modern-cpp-font-lock
-  :config
+  :defer t
+
+  :init
   (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
 
 (use-package cmake-mode
@@ -236,26 +246,28 @@
 
 (use-package cmake-font-lock
   :defer t
+
   :init
-  (autoload 'cmake-font-lock-activate "cmake-font-lock" nil t)
   (add-hook 'cmake-mode-hook 'cmake-font-lock-activate))
 
 (use-package cmake-ide
   :defer t
-  :config
+
+  :init
   (add-hook 'after-init-hook 'cmake-ide-setup))
 
 (use-package racer
   :defer t
+
   :init
   (setq racer-rust-src-path "~/code/rust/rust/src")
-  ;; (setq racer-cmd "~/code/rust/racer/target/release/racer")
 
   (add-hook 'rust-mode-hook 'racer-mode)
   (add-hook 'racer-mode-hook 'eldoc-mode))
 
 (use-package rust-mode
   :defer t
+
   :init
   (defun blaenk/rust-hook ()
     (set (make-local-variable 'compile-command) "cargo build")
@@ -268,13 +280,14 @@
 
 (use-package web-mode
   :mode "\\.html?\\'"
-  :defer t
+
   :init
   (setq web-mode-enable-current-element-highlight t))
 
 (use-package tex-site
   :ensure auctex
   :defer t
+
   :init
   (setq TeX-PDF-mode t)
   (setq TeX-auto-save t)
@@ -291,8 +304,6 @@
           ("PDF Viewer" "open %o")
           ("HTML Viewer" "open %o")))
 
-  :config
-  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 
@@ -303,13 +314,11 @@
   :defer t)
 
 (use-package clang-format
-  :defer t
   :general
   (:keymaps 'c-mode-base-map
    "C-c C-f" 'clang-format-buffer))
 
 (use-package rustfmt
-  :defer t
   :general
   (:keymaps 'rust-mode-map
    "C-c C-f" 'rustfmt-format-buffer))
@@ -319,6 +328,7 @@
 
 (use-package cargo
   :defer t
+
   :init
   (add-hook 'rust-mode-hook 'cargo-minor-mode))
 
