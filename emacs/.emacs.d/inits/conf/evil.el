@@ -47,9 +47,8 @@
     "C-;" 'blaenk/flyspell-last)
 
   (:states '(normal visual)
-    "J" 'blaenk/evil-join
-    "<kp-subtract>" 'evil-numbers/dec-at-pt
-    "<kp-add>" 'evil-numbers/inc-at-pt)
+   "<kp-subtract>" 'evil-numbers/dec-at-pt
+   "<kp-add>" 'evil-numbers/inc-at-pt)
 
   (:states 'visual
     ">" 'visual-shift-right
@@ -138,6 +137,12 @@ The initial state for a mode can be set with
     (require 'evil-macros)
     (require 'evil-types))
 
+  ;; FIXME
+  ;; when done on line:
+  ;;     (insert "\n#endif  // " ident)))))
+  ;; it modifies the string and becomes:
+  ;;     (insert "\n#endif // " ident)))))
+  ;;
   ;; if joined lines are comments, remove delimiters
   (evil-define-operator blaenk/evil-join (beg end)
     "Join the selected lines."
