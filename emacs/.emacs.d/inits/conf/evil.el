@@ -46,10 +46,6 @@
   (:states '(normal insert)
     "C-;" 'blaenk/flyspell-last)
 
-  (:states '(normal visual)
-   "<kp-subtract>" 'evil-numbers/dec-at-pt
-   "<kp-add>" 'evil-numbers/inc-at-pt)
-
   (:states 'visual
     ">" 'visual-shift-right
     "<" 'visual-shift-left)
@@ -293,12 +289,10 @@ The initial state for a mode can be set with
     (evil-indent-plus-default-bindings))
 
   (use-package evil-quickscope
-    :demand t
     :config
     (global-evil-quickscope-mode 1))
 
   (use-package evil-textobj-anyblock
-    :defer t
     :general
     (:keymaps 'evil-inner-text-objects-map
       "b" 'evil-textobj-anyblock-inner-block)
@@ -318,17 +312,20 @@ The initial state for a mode can be set with
     (evil-exchange-install))
 
   (use-package evil-numbers
-    :defer t)
+    :general
+    (:states '(normal visual)
+     "<kp-subtract>" 'evil-numbers/dec-at-pt
+     "<kp-add>" 'evil-numbers/inc-at-pt))
 
   (use-package evil-surround
     :config
     (setq-default
      evil-surround-pairs-alist
      (cons '(? . ("" . "")) evil-surround-pairs-alist))
+
     (global-evil-surround-mode 1))
 
   (use-package evil-visual-mark-mode
-    :defer t
     :general
     (bind* "m" 'evil-visual-mark-mode))
 
@@ -337,7 +334,6 @@ The initial state for a mode can be set with
     (global-evil-visualstar-mode))
 
   (use-package evil-args
-    :defer t
     :general
     ;; bind evil-args text objects
     (:keymaps 'evil-inner-text-objects-map
