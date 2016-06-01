@@ -473,7 +473,6 @@ Lisp function does not specify a special indentation."
 
 (use-package elec-pair
   :ensure nil
-  :defer t
 
   :init
   ;; NOTE
@@ -494,7 +493,9 @@ Lisp function does not specify a special indentation."
       (electric-pair-mode -1)))
 
   (add-hook 'minibuffer-setup-hook 'my-minibuffer-elec-pair)
-  (add-hook 'prog-mode-hook 'electric-pair-mode))
+
+  :config
+  (electric-pair-mode 1))
 
 ;; TODO
 ;; this also cons mode-line
