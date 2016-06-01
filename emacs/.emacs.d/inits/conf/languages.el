@@ -99,13 +99,9 @@
 
   (add-hook 'gfm-mode-hook 'blaenk/gfm-hook)
   (add-hook 'gfm-mode-hook 'outline-minor-mode)
-  (add-hook 'gfm-mode-hook 'whitespace-mode)
   (add-hook 'gfm-mode-hook 'flyspell-mode)
 
   :config
-  (setq markdown-regex-multimarkdown-metadata
-        "^\\([[:alpha:]][[:alpha:] _-]*?\\)\\([:=][ \t]*\\)\\(.*\\)$")
-
   (add-to-list 'markdown-gfm-additional-languages "cpp")
   (add-to-list 'markdown-gfm-additional-languages "elisp"))
 
