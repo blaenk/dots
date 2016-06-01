@@ -5,15 +5,14 @@
   :defer t)
 
 (use-package smartparens
-  :defer t
   :diminish smartparens-mode
 
   :general
-  (:keymaps 'smartparens-mode-map
+  (:keymaps 'emacs-lisp-mode-map
     "M-S" 'sp-split-sexp
     "M-J" 'sp-join-sexp)
 
-  (:keymaps 'smartparens-mode-map
+  (:keymaps 'emacs-lisp-mode-map
    :states 'normal
     "> )" 'my-move-closing-paren-forward
     "< )" 'my-move-closing-paren-backward
@@ -26,11 +25,11 @@
     "< d" 'my-delete-sexp-backward
     "> d" 'my-delete-sexp-forward
 
-    "< e" 'move-symbol-backward
-    "> e" 'move-symbol-forward
+    "< e" 'my-move-symbol-backward
+    "> e" 'my-move-symbol-forward
 
-    "< i" 'insert-before-form
-    "> i" 'insert-after-form
+    "< i" 'my-insert-before-form
+    "> i" 'my-insert-after-form
 
     "< f" 'my-move-form-backward
     "> f" 'my-move-form-forward)
@@ -38,16 +37,14 @@
   :init
   (setq sp-show-pair-from-inside nil)
   (setq sp-cancel-autoskip-on-backward-movement nil)
+
   (setq sp-highlight-pair-overlay nil)
   (setq sp-highlight-wrap-overlay nil)
+
   (setq sp-autoinsert-pair nil)
   (setq sp-autodelete-pair nil)
 
-  (add-hook 'after-init-hook 'smartparens-global-mode)
-
   :config
-  (sp-use-smartparens-bindings)
-
   (use-package evil
     :no-require t
     :config
@@ -159,7 +156,7 @@
         (my-save-position
          (sp-transpose-sexp -1)))
 
-      (defun move-symbol-backward (&optional arg)
+      (defun my-move-symbol-backward (&optional arg)
         "move a symbol backward"
         (interactive "*p")
 
@@ -171,7 +168,7 @@
         (backward-char)
         (on-parens-backward-sexp 2))
 
-      (defun move-symbol-forward (&optional arg)
+      (defun my-move-symbol-forward (&optional arg)
         "move a symbol forward"
         (interactive "*p")
         (on-parens-forward-sexp arg)
@@ -179,14 +176,13 @@
         (backward-char)
         (on-parens-backward-sexp arg))
 
-      (defun insert-before-form ()
+      (defun my-insert-before-form ()
         "jump to the beginning of the sexp and go into insert mode"
         (interactive)
         (sp-beginning-of-sexp)
-        (evil-backward-char)
         (evil-insert 0))
 
-      (defun insert-after-form ()
+      (defun my-insert-after-form ()
         "jump to the end of the sexp and go into insert mode"
         (interactive)
         (sp-end-of-sexp)
