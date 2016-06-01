@@ -499,7 +499,7 @@ Lisp function does not specify a special indentation."
   :defer t
 
   :init
-  (add-hook 'emacs-lisp-mode 'eldoc-mode)
+  (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
   (add-hook 'c++-mode-hook 'eldoc-mode)
   (add-hook 'c-mode-hook 'eldoc-mode)
   (add-hook 'objc-mode-hook 'eldoc-mode)
