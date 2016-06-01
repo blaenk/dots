@@ -5,8 +5,8 @@
   :defer t)
 
 (use-package smartparens
-  :diminish smartparens-mode
   :defer t
+  :diminish smartparens-mode
 
   :general
   (:keymaps 'smartparens-mode-map
