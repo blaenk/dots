@@ -475,24 +475,17 @@ Lisp function does not specify a special indentation."
   :ensure nil
 
   :init
-  ;; NOTE
-  ;; This needs to be hooked onto the minibuffer-setup-hook
-  ;; instead of using the eval-expression-minibuffer-setup-hook
-  ;; because the eval-expression command adds the latter to the
-  ;; _beginning_ of the minibuffer-setup-hook. Since I don't want
-  ;; electric-pair-mode in regular minibuffers such as ag, I'd
-  ;; turn it off in a minibuffer-setup-hook, which would have the
-  ;; effect of unconditionally disabling it after the
-  ;; eval-expression-minibuffer-setup-hook enabled it.
-  ;;
-  ;; This gets around that by simply checking which command was run.
-  ;; It would need to be updated if using regular eval-expression
-  (defun my-minibuffer-elec-pair ()
-    (if (eq this-command 'pp-eval-expression)
-        (electric-pair-mode +1)
-      (electric-pair-mode -1)))
+  ;; disable electric-pair-mode in the minibuffer unless we're in
+  ;; eval-expression
+  (defun my-electric-pair-inhibit-in-minibuffer (char)
+    'inhibit)
 
-  (add-hook 'minibuffer-setup-hook 'my-minibuffer-elec-pair)
+  (defun my-minibuffer-setup-hook ()
+    (when (not (eq this-command 'pp-eval-expression))
+      (setq-local electric-pair-inhibit-predicate
+                  #'my-electric-pair-inhibit-in-minibuffer)))
+
+  (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
 
   :config
   (electric-pair-mode 1))
