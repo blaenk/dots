@@ -91,6 +91,7 @@
     (setq-local outline-regexp "^\\(?:\\(#+\\)[ \t]+\\(.*?\\)[ \t]*\\(#*\\)\\)$")
 
     (with-eval-after-load 'evil-surround
+      (eval-when-compile (require 'evil-surround))
       (push '(?s . ("**" . "**")) evil-surround-pairs-alist)
       (push '(?i . ("_" . "_")) evil-surround-pairs-alist)
       (push '(?p . ("<span class=\"path\">" . "</span>"))
