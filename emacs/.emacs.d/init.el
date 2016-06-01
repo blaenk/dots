@@ -182,7 +182,7 @@
 (require 'conf/mode-line)
 (require 'conf/evil)
 (require 'conf/helm)
-(require 'conf/magit)
+(require 'conf/git)
 (require 'conf/company)
 (require 'conf/smartparens)
 

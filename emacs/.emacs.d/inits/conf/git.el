@@ -71,4 +71,4 @@ to the current branch. Uses Magit."
 
     (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)))
 
-(provide 'conf/magit)
+(provide 'conf/git)
