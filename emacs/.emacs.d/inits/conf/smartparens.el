@@ -187,7 +187,6 @@
         "jump to the beginning of the sexp and go into insert mode"
         (interactive)
         (sp-beginning-of-sexp)
-        (insert " ")
         (evil-backward-char)
         (evil-insert 0))
 
