@@ -152,57 +152,6 @@
 (use-package frame-cmds
   :defer t)
 
-(use-package hydra
-  :disabled t
-  :defer t
-  :config
-  (with-eval-after-load 'evil
-    (require 'evil-vars)
-    (require 'evil-commands)
-
-    (defhydra hydra-move-to-window (evil-window-map "g")
-      "move to window"
-      ("q" nil)
-
-      ("j" evil-window-down)
-      ("k" evil-window-up)
-      ("h" evil-window-left)
-      ("l" evil-window-right))
-
-    (with-eval-after-load 'buffer-move
-      (defhydra hydra-move-buffer (evil-window-map "m")
-        "move buffer"
-        ("q" nil)
-
-        ("j" buf-move-down)
-        ("k" buf-move-up)
-        ("h" buf-move-left)
-        ("l" buf-move-right)))
-
-    (with-eval-after-load 'frame-cmds
-      (defhydra hydra-resize-frame (evil-window-map "f")
-        "resize frame"
-        ("q" nil)
-
-        ("j" enlarge-frame)
-        ("k" shrink-frame)
-        ("h" shrink-frame-horizontally)
-        ("l" enlarge-frame-horizontally)))
-
-    (defhydra hydra-resize-window (evil-window-map "r")
-      "resize window"
-      ("q" nil)
-
-      ("=" balance-windows)
-      ("m" evil-window-set-height)
-
-      ("f" hydra-resize-frame/body "resize frame" :exit t)
-
-      ("j" shrink-window)
-      ("k" enlarge-window)
-      ("h" shrink-window-horizontally)
-      ("l" enlarge-window-horizontally))))
-
 (use-package olivetti
   :defer t)
 
