@@ -1,5 +1,6 @@
 (require 'use-package)
 (require 'general)
+(require 'conf/common)
 
 (use-package evil
   :demand t
