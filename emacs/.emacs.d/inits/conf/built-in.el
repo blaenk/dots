@@ -196,25 +196,29 @@
 
 (use-package semantic
   :ensure nil
-  :disabled t
   :defines
   semanticdb-default-save-directory
 
-  :init
-  (setq semanticdb-default-save-directory (my-cache-dir "semanticdb"))
-
   :config
+  (semantic-mode 1)
+
   (use-package semantic/db-mode
     :ensure nil
     :functions
     global-semanticdb-minor-mode
     global-semantic-idle-scheduler-mode
 
-    :config
-    (global-semanticdb-minor-mode 1)
-    (global-semantic-idle-scheduler-mode 1))
+    :init
+    (setq semanticdb-default-save-directory (my-cache-dir "semanticdb"))
 
-  (semantic-mode 1))
+    :config
+    (global-semanticdb-minor-mode 1))
+
+  (use-package semantic/idle
+    :ensure nil
+
+    :config
+    (global-semantic-idle-scheduler-mode 1)))
 
 (use-package cc-mode
   :ensure nil
