@@ -73,7 +73,7 @@ fs() {
     echo "no tmux session available"
     return
   fi
-  
+
   session=$(tmux list-sessions -F "#{session_name}" | \
     fzf-tmux --query="$1" --select-1 --exit-0) &&
     [ -z "$TMUX" ] && tmux attach-session -t "$session" ||
@@ -104,6 +104,11 @@ bindkey -s '^[,' 'ftw\n'
 
 # ftwa - switch window all
 ftwa() {
+  if ! tmux info &> /dev/null; then
+    echo "no tmux session available"
+    return
+  fi
+
   local windows current_window target target_window
   windows=$(tmux list-windows -a -F '#{session_name}:#{window_index}: #{window_name}')
 
