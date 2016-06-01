@@ -33,6 +33,7 @@
 
   (use-package helm-config
     :ensure nil
+
     :init
     (setq helm-command-prefix-key "C-c h"))
 
@@ -120,7 +121,6 @@
 
   (use-package helm-gtags
     :diminish helm-gtags-mode
-    :defer t
 
     :general
     (:keymaps 'helm-gtags-mode-map
@@ -153,13 +153,9 @@
     :config
     (helm-descbinds-mode))
 
-  (use-package helm-swoop
-    :defer t
-    :init
-    (setq helm-swoop-speed-or-color t))
-
   (use-package helm-projectile
     :diminish projectile-mode
+
     :general
     ("C-<" 'helm-projectile-switch-to-buffer
      "C->" 'helm-projectile)
@@ -171,18 +167,17 @@
     :config
     (helm-projectile-on))
 
-  (with-eval-after-load 'flycheck
-    (use-package helm-flycheck
-      :defer t
-      :general
-      (:keymaps 'flycheck-mode-map
-        "C-c ! h" 'helm-flycheck)))
+  (use-package helm-flycheck
+    :general
+    (:keymaps 'flycheck-mode-map
+     "C-c ! h" 'helm-flycheck))
 
   (use-package helm-flyspell
     :defer t)
 
   (use-package persp-projectile
     :disabled t
+
     :general
     (:keymaps 'projectile-command-map
       "p" 'projectile-persp-switch-project))
@@ -191,21 +186,19 @@
     :defer t)
 
   (use-package helm-company
-    :defer t
     :general
     (:keymaps 'company-active-map
       "M-/" 'helm-company))
 
   (use-package helm-css-scss
     :defer t
+
     :init
     ;; TODO
     ;; do local key bind
     (setq helm-css-scss-split-direction 'split-window-horizontally))
 
   (use-package ace-jump-helm-line
-    :defer t
-
     :general
     (:keymaps 'helm-map
       "C-'" 'ace-jump-helm-line)
