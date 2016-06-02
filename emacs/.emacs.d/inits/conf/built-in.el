@@ -52,6 +52,7 @@
   :defines save-place-file
 
   :init
+  (setq-default save-place t)
   (setq save-place-file (my-cache-dir "saved-places")))
 
 (use-package smerge-mode
@@ -119,7 +120,6 @@
 (use-package gdb-mi
   :ensure nil
   :defer t
-
   :defines
   gdb-many-windows
   gdb-show-main
@@ -236,7 +236,8 @@
 
     :config
     ;; add googletest TESTs to imenu
-    (add-to-list 'cc-imenu-c++-generic-expression '("Test" "^TEST\\(_F\\)?(\\([^)]+\\))" 2) t))
+    (add-to-list 'cc-imenu-c++-generic-expression
+                 '("Test" "^TEST\\(_F\\)?(\\([^)]+\\))" 2) t))
 
   :config
   ;; use C++ mode in header files
@@ -264,13 +265,6 @@
         (insert "#define " ident "\n\n")
         (goto-char (point-max))
         (insert "\n#endif  // " ident)))))
-
-(use-package saveplace
-  :ensure nil
-  :defer t
-
-  :init
-  (setq-default save-place t))
 
 (use-package imenu
   :ensure nil
@@ -380,8 +374,8 @@ Lisp function does not specify a special indentation."
                  (funcall method indent-point state))))))))
 
   (add-hook 'emacs-lisp-mode-hook
-   (lambda ()
-     (setq-local lisp-indent-function #'my-lisp-indent-function))))
+            (defun my-use-my-lisp-indent-function ()
+              (setq-local lisp-indent-function #'my-lisp-indent-function))))
 
 (use-package diff
   :ensure nil
@@ -537,7 +531,7 @@ PR [a-z-+]+/\
 \\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
 
   (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
-  (add-hook 'prog-mode-hook #'bug-reference-prog-mode))
+  (add-hook 'text-mode-hook #'bug-reference-mode))
 
 (use-package goto-addr
   :ensure nil
@@ -614,10 +608,8 @@ PR [a-z-+]+/\
 (use-package ansi-color
   :ensure nil
   :defer t
-
   :defines
   compilation-filter-start
-
   :functions
   ansi-color-apply-on-region
 
@@ -666,7 +658,6 @@ PR [a-z-+]+/\
 (use-package flyspell
   :ensure nil
   :defer t
-
   :functions
   push-mark-no-activate
   flyspell-goto-previous-error

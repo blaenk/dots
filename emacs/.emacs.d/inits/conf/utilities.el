@@ -295,8 +295,7 @@
   (defun my-git-commit-fill-column ()
     (fci-mode 1))
 
-  (with-eval-after-load 'magit
-    (add-hook 'git-commit-setup-hook 'my-git-commit-fill-column)))
+  (add-hook 'git-commit-setup-hook 'my-git-commit-fill-column))
 
 (use-package bug-reference-github
   :defer t
