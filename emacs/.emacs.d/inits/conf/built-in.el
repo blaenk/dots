@@ -431,7 +431,7 @@ Lisp function does not specify a special indentation."
 
     (when (bound-and-true-p visual-line-mode)
       (setq-local my-ediff-was-on-visual-line-mode t)
-      (global-visual-line-mode -1))
+      (visual-line-mode -1))
 
     (when (bound-and-true-p whitespace-mode)
       (setq-local my-ediff-was-on-whitespace-mode t)
@@ -454,7 +454,7 @@ Lisp function does not specify a special indentation."
 
     (when (bound-and-true-p my-ediff-was-on-visual-line-mode)
       (kill-local-variable my-ediff-was-on-visual-line-mode)
-      (global-visual-line-mode +1))
+      (visual-line-mode +1))
 
     (when (bound-and-true-p my-ediff-was-on-whitespace-mode)
       (kill-local-variable my-ediff-was-on-whitespace-mode)
@@ -599,9 +599,9 @@ PR [a-z-+]+/\
     (auto-fill-mode 1))
 
   (add-hook 'prog-mode-hook 'my-prog-auto-fill)
+  (add-hook 'prog-mode-hook 'visual-line-mode)
 
   :config
-  (global-visual-line-mode)
   (column-number-mode))
 
 (use-package ansi-color
