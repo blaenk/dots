@@ -19,18 +19,6 @@
       :init
       (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)))
 
-  (with-eval-after-load 'rtags
-    (use-package flycheck-rtags
-      :ensure nil
-      :config
-      (defun my-flycheck-rtags-setup  ()
-        ;; (flycheck-select-checker 'rtags)
-        ;; (setq-local flycheck-highlighting-mode nil)
-        ;; (setq-local flycheck-check-syntax-automatically nil)
-        )
-
-      (add-hook 'c-mode-common-hook 'my-flycheck-rtags-setup)))
-
   (use-package flycheck-google-cpplint
     :disabled t
     :init

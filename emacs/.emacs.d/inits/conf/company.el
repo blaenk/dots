@@ -49,16 +49,12 @@
     :config
     (use-package company-irony-c-headers
       :config
-      (use-package company-rtags
-        :ensure nil
-        :config
-        (defun my-company-irony ()
-          (set (make-local-variable 'company-backends)
-               ;; add it to the beginning
-               (add-to-list 'company-backends
-                 '(company-irony-c-headers company-irony company-rtags))))
+      (defun my-company-irony ()
+        (set (make-local-variable 'company-backends)
+             (add-to-list 'company-backends
+                          '(company-irony-c-headers company-irony))))
 
-        (add-hook 'irony-mode-hook 'my-company-irony))))
+      (add-hook 'irony-mode-hook 'my-company-irony)))
 
   (use-package company-math
     :config
@@ -70,7 +66,6 @@
     :config
     (defun my-company-tern ()
       (set (make-local-variable 'company-backends)
-           ;; add it to the beginning
            (add-to-list 'company-backends 'company-tern)))
 
     (add-hook 'tern-mode-hook 'my-company-tern))
@@ -80,7 +75,6 @@
     :config
     (defun my-company-robe ()
       (set (make-local-variable 'company-backends)
-           ;; add it to the beginning
            (add-to-list 'company-backends 'company-robe)))
 
     (add-hook 'robe-mode-hook 'my-company-robe))
@@ -90,7 +84,6 @@
     (require 'company-web-html)
     (defun my-company-web-html ()
       (set (make-local-variable 'company-backends)
-           ;; add it to the beginning
            (add-to-list 'company-backends 'company-web-html)))
 
     (add-hook 'web-mode-hook 'my-company-web-html))
@@ -99,7 +92,6 @@
     :config
     (defun my-company-lua ()
       (set (make-local-variable 'company-backends)
-           ;; add it to the beginning
            (add-to-list 'company-backends 'company-lua)))
 
     (add-hook 'lua-mode-hook 'my-company-lua))
@@ -118,7 +110,6 @@
     :init
     (defun my-company-go ()
       (set (make-local-variable 'company-backends)
-           ;; add it to the beginning
            (add-to-list 'company-backends 'company-go)))
 
     (add-hook 'go-mode-hook 'my-company-go))
@@ -131,7 +122,6 @@
     :config
     (defun my-company-anaconda ()
       (set (make-local-variable 'company-backends)
-           ;; add it to the beginning
            (add-to-list 'company-backends 'company-anaconda)))
 
     (add-hook 'anaconda-mode-hook 'my-company-anaconda))
@@ -140,7 +130,6 @@
     :config
     (defun my-company-cabal ()
       (set (make-local-variable 'company-backends)
-           ;; add it to the beginning
            (add-to-list 'company-backends 'company-cabal)))
 
     (add-hook 'haskell-cabal-mode-hook 'my-company-cabal))
