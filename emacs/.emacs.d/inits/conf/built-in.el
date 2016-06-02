@@ -578,9 +578,8 @@ PR [a-z-+]+/\
 
 (use-package dired-x
   :ensure nil
-  :defer t
 
-  :init
+  :config
   (setq dired-omit-verbose nil)
   (add-hook 'dired-mode-hook 'dired-omit-mode)
 
