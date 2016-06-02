@@ -318,8 +318,7 @@
         '((help-mode :select t)
           (compilation-mode :noselect t)
           ("*Diff*" :select t :frame t)
-          ("*Package Commit List*" :select t)
-          ))
+          ("*Package Commit List*" :select t)))
 
   :config
   (shackle-mode))
