@@ -1,6 +1,11 @@
 (require 'use-package)
 (require 'general)
 
+(use-package browse-at-remote
+  :defer t
+
+  :general ("C-c g o" 'browse-at-remote/kill))
+
 (use-package git-messenger
   :defer t)
 

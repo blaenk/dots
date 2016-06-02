@@ -134,11 +134,6 @@
   (add-hook 'anzu-mode-hook 'my-anzu-hook)
   (global-anzu-mode +1))
 
-(use-package browse-at-remote
-  :defer t
-
-  :general ("C-c g o" 'browse-at-remote/kill))
-
 (use-package expand-region
   :defer t
 
