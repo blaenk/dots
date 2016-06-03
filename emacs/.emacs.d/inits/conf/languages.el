@@ -324,7 +324,9 @@
    "C-c C-f" 'rustfmt-format-buffer))
 
 (use-package google-c-style
-  :defer t)
+  :defer t
+  :init
+  (add-hook 'c-mode-common-hook 'google-set-c-style))
 
 (use-package cargo
   :defer t
