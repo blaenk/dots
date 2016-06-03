@@ -10,7 +10,7 @@
   (package-install 'auto-compile)
   (package-install 'benchmark-init))
 
-(require 'benchmark-init)
+;; (require 'benchmark-init)
 
 (setq load-prefer-newer t)
 (setq backup-by-copying t)
@@ -172,7 +172,7 @@
 
 (byte-recompile-directory (my-inits-dir "") 0)
 
-(benchmark-init/activate)
+;; (benchmark-init/activate)
 
 (require 'conf/theme)
 (require 'conf/built-in)
@@ -186,7 +186,7 @@
 (require 'conf/company)
 (require 'conf/smartparens)
 
-(benchmark-init/deactivate)
+;; (benchmark-init/deactivate)
 
 (setq custom-file (my-cache-dir "custom.el"))
 (load custom-file 'noerror)
