@@ -94,6 +94,13 @@
           term-mode
           undo-tree-visualizer-mode))
 
+  (with-eval-after-load 'company
+    (defun my-evil-company (arg)
+      (company-complete))
+
+    (setq evil-complete-next-func #'my-evil-company)
+    (setq evil-complete-previous-func #'my-evil-company))
+
   (defun my-evil--real-function (fun)
     "Figure out the actual symbol behind a function.
 Returns a different symbol if FUN is an alias, otherwise FUN."
@@ -107,12 +114,6 @@ Returns a different symbol if FUN is an alias, otherwise FUN."
       (while (and parent (not (memq parent modes)))
         (setq parent (my-evil--real-function (get parent 'derived-mode-parent))))
       parent))
-
-  (with-eval-after-load 'company
-    (defun my-evil-company (arg) (company-complete))
-
-    (setq evil-complete-next-func 'my-evil-company)
-    (setq evil-complete-previous-func 'my-evil-company))
 
   (with-eval-after-load 'evil-core
     (defun evil-initial-state (mode &optional default)
