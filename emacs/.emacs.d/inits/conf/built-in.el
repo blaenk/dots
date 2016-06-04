@@ -4,6 +4,10 @@
 
 (use-package menu-bar
   :ensure nil
+  :demand t
+
+  :general
+  ("<f10>" 'toggle-menu-bar-mode-from-frame)
 
   :config
   (menu-bar-mode -1))
