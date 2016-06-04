@@ -18,7 +18,8 @@
   :ensure nil
 
   :config
-  (scroll-bar-mode -1))
+  (scroll-bar-mode)
+  (set-scroll-bar-mode 'left))
 
 (use-package frame
   :ensure nil
