@@ -7,8 +7,8 @@
 
   :init
   (setq anaconda-mode-installation-directory (my-cache-dir "anaconda-mode"))
-  (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
+  (add-hook 'python-mode-hook #'anaconda-mode)
+  (add-hook 'python-mode-hook #'anaconda-eldoc-mode))
 
 (use-package lua-mode
   :defer t)
@@ -20,7 +20,7 @@
   :defer t
 
   :init
-  (add-hook 'cider-mode-hook 'eldoc-mode))
+  (add-hook 'cider-mode-hook #'eldoc-mode))
 
 ;; TODO
 ;; requires extra setup
@@ -32,7 +32,7 @@
   :defer t
 
   :init
-  (add-hook 'haskell-mode-hook 'haskell-indentation-mode))
+  (add-hook 'haskell-mode-hook #'haskell-indentation-mode))
 
 (use-package clojure-mode
   :defer t)
@@ -90,9 +90,9 @@
       (push '(?p . ("<span class=\"path\">" . "</span>"))
             evil-surround-pairs-alist)))
 
-  (add-hook 'gfm-mode-hook 'my-gfm-hook)
-  (add-hook 'gfm-mode-hook 'outline-minor-mode)
-  (add-hook 'gfm-mode-hook 'flyspell-mode)
+  (add-hook 'gfm-mode-hook #'my-gfm-hook)
+  (add-hook 'gfm-mode-hook #'outline-minor-mode)
+  (add-hook 'gfm-mode-hook #'flyspell-mode)
 
   :config
   (add-to-list 'markdown-gfm-additional-languages "cpp")
@@ -105,8 +105,8 @@
   :defer t
 
   :init
-  (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
-  (add-hook 'enh-ruby-mode-hook 'inf-ruby-minor-mode)
+  (add-hook 'ruby-mode-hook #'inf-ruby-minor-mode)
+  (add-hook 'enh-ruby-mode-hook #'inf-ruby-minor-mode)
 
   :config
   (inf-ruby-switch-setup))
@@ -127,7 +127,7 @@
   :defer t
 
   :init
-  (add-hook 'go-mode-hook 'go-eldoc-setup))
+  (add-hook 'go-mode-hook #'go-eldoc-setup))
 
 (use-package less-css-mode
   :defer t)
@@ -136,8 +136,8 @@
   :defer t
 
   :init
-  (add-hook 'ruby-mode-hook 'robe-mode)
-  (add-hook 'enh-ruby-mode-hook 'robe-mode))
+  (add-hook 'ruby-mode-hook #'robe-mode)
+  (add-hook 'enh-ruby-mode-hook #'robe-mode))
 
 (use-package scss-mode
   :defer t
@@ -148,15 +148,15 @@
     (setq-local comment-end "")
     (setq-local comment-start "//"))
 
-  (add-hook 'scss-mode-hook 'my-scss-hook))
+  (add-hook 'scss-mode-hook #'my-scss-hook))
 
 (use-package css-eldoc
   :defer t
 
   :init
-  (add-hook 'css-mode-hook 'turn-on-css-eldoc)
-  (add-hook 'less-css-mode-hook 'turn-on-css-eldoc)
-  (add-hook 'scss-mode-hook 'turn-on-css-eldoc))
+  (add-hook 'css-mode-hook #'turn-on-css-eldoc)
+  (add-hook 'less-css-mode-hook #'turn-on-css-eldoc)
+  (add-hook 'scss-mode-hook #'turn-on-css-eldoc))
 
 (use-package elixir-mode
   :defer t)
@@ -175,16 +175,16 @@
   :init
   (setq irony-user-dir (my-cache-dir "irony"))
 
-  (add-hook 'c++-mode-hook 'irony-mode)
-  (add-hook 'c-mode-hook 'irony-mode)
-  (add-hook 'objc-mode-hook 'irony-mode)
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+  (add-hook 'c++-mode-hook #'irony-mode)
+  (add-hook 'c-mode-hook #'irony-mode)
+  (add-hook 'objc-mode-hook #'irony-mode)
+  (add-hook 'irony-mode-hook #'irony-cdb-autosetup-compile-options))
 
 (use-package irony-eldoc
   :defer t
 
   :init
-  (add-hook 'irony-mode-hook 'irony-eldoc))
+  (add-hook 'irony-mode-hook #'irony-eldoc))
 
 (use-package swift-mode
   :if (eq system-type 'darwin)
@@ -209,13 +209,13 @@
                   "describe" "it" "assert"
                   "sinon"))
 
-  (add-hook 'js2-mode-hook 'js2-imenu-extras-mode))
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
 
 (use-package tern
   :defer t
 
   :init
-  (add-hook 'js2-mode-hook 'tern-mode))
+  (add-hook 'js2-mode-hook #'tern-mode))
 
 (use-package ggtags
   :disabled t
@@ -226,7 +226,7 @@
     (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
       (ggtags-mode 1)))
 
-  (add-hook 'prog-mode-hook 'my-ggtags-hook))
+  (add-hook 'prog-mode-hook #'my-ggtags-hook))
 
 (use-package rtags
   :defer t
@@ -248,13 +248,13 @@
   :defer t
 
   :init
-  (add-hook 'cmake-mode-hook 'cmake-font-lock-activate))
+  (add-hook 'cmake-mode-hook #'cmake-font-lock-activate))
 
 (use-package cmake-ide
   :defer t
 
   :init
-  (add-hook 'after-init-hook 'cmake-ide-setup))
+  (add-hook 'after-init-hook #'cmake-ide-setup))
 
 (use-package racer
   :defer t
@@ -262,8 +262,8 @@
   :init
   (setq racer-rust-src-path "~/code/rust/rust/src")
 
-  (add-hook 'rust-mode-hook 'racer-mode)
-  (add-hook 'racer-mode-hook 'eldoc-mode))
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode))
 
 (use-package rust-mode
   :defer t
@@ -273,7 +273,7 @@
     (set (make-local-variable 'compile-command) "cargo build")
     (helm-gtags-mode))
 
-  (add-hook 'rust-mode-hook 'my-rust-hook))
+  (add-hook 'rust-mode-hook #'my-rust-hook))
 
 (use-package toml-mode
   :defer t)
@@ -304,8 +304,8 @@
           ("PDF Viewer" "open %o")
           ("HTML Viewer" "open %o")))
 
-  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+  (add-hook 'LaTeX-mode-hook #'flyspell-mode)
+  (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)
 
   (use-package latex-preview-pane
     :defer t))
@@ -326,12 +326,12 @@
 (use-package google-c-style
   :defer t
   :init
-  (add-hook 'c-mode-common-hook 'google-set-c-style))
+  (add-hook 'c-mode-common-hook #'google-set-c-style))
 
 (use-package cargo
   :defer t
 
   :init
-  (add-hook 'rust-mode-hook 'cargo-minor-mode))
+  (add-hook 'rust-mode-hook #'cargo-minor-mode))
 
 (provide 'conf/languages)

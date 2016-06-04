@@ -6,7 +6,7 @@
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
 
-  (add-hook 'after-init-hook 'global-flycheck-mode)
+  (add-hook 'after-init-hook #'global-flycheck-mode)
 
   :config
   (with-eval-after-load 'irony
@@ -17,7 +17,7 @@
   (with-eval-after-load 'rust
     (use-package flycheck-rust
       :init
-      (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)))
+      (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
 
   (use-package flycheck-google-cpplint
     :disabled t

@@ -55,17 +55,17 @@ to the current branch. Uses Magit."
     (interactive)
     (browse-url (my-pull-request-url)))
 
-  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+  (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
 
   (with-eval-after-load 'magit-ediff
-    (add-hook 'magit-ediff-quit-hook 'my-ediff-quit))
+    (add-hook 'magit-ediff-quit-hook #'my-ediff-quit))
 
   (magit-wip-after-save-mode)
   (magit-wip-after-apply-mode)
   (magit-wip-before-change-mode)
 
-  (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
-  (add-hook 'git-commit-setup-hook 'fci-mode)
+  (add-hook 'git-commit-setup-hook #'git-commit-turn-on-flyspell)
+  (add-hook 'git-commit-setup-hook #'fci-mode)
 
   (use-package magit-gh-pulls
     :defer t
@@ -74,6 +74,6 @@ to the current branch. Uses Magit."
     (magit-define-popup-action 'magit-dispatch-popup
       ?# "Pull requests" 'magit-gh-pulls-popup ?!)
 
-    (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)))
+    (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls)))
 
 (provide 'conf/git)

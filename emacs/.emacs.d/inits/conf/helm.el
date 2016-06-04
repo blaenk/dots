@@ -141,8 +141,8 @@
     (setq helm-gtags-prefix-key "\C-t")
     (setq helm-gtags-suggested-key-mapping t)
 
-    (add-hook 'c-mode-hook 'helm-gtags-mode)
-    (add-hook 'c++-mode-hook 'helm-gtags-mode)
+    (add-hook 'c-mode-hook #'helm-gtags-mode)
+    (add-hook 'c++-mode-hook #'helm-gtags-mode)
 
     :config
     (with-eval-after-load 'evil

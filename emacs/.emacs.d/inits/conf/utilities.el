@@ -57,7 +57,7 @@
   :init
   (setq dtrt-indent-verbosity 0)
 
-  (add-hook 'prog-mode-hook 'dtrt-indent-mode))
+  (add-hook 'prog-mode-hook #'dtrt-indent-mode))
 
 (use-package paradox
   :defer t)
@@ -72,7 +72,7 @@
       (projectile-project-root)))
 
   (setq ag-highlight-search t)
-  (setq ag-project-root-function 'my-ag-root-function))
+  (setq ag-project-root-function #'my-ag-root-function))
 
 ;; TODO
 ;; can configure test dirs by configuring projectile-test-prefix etc
@@ -97,9 +97,9 @@
   (defun my-projectile-test-suffix-function (project-type)
     (or (projectile-test-suffix project-type) "_test"))
 
-  (setq projectile-test-suffix-function 'my-projectile-test-suffix-function)
+  (setq projectile-test-suffix-function #'my-projectile-test-suffix-function)
 
-  (add-hook 'after-init-hook 'projectile-global-mode)
+  (add-hook 'after-init-hook #'projectile-global-mode)
 
   :config
   (add-to-list 'projectile-other-file-alist '("cc" "h" "hpp" "hh"))
@@ -127,11 +127,11 @@
   (defun my-anzu-hook ()
     (make-local-variable 'anzu--state))
 
-  (setq anzu-mode-line-update-function 'my-anzu-update)
+  (setq anzu-mode-line-update-function #'my-anzu-update)
   (setq anzu-cons-mode-line-p nil)
 
   :config
-  (add-hook 'anzu-mode-hook 'my-anzu-hook)
+  (add-hook 'anzu-mode-hook #'my-anzu-hook)
   (global-anzu-mode +1))
 
 (use-package expand-region
@@ -162,7 +162,7 @@
   :defer t
 
   :init
-  (add-hook 'prog-mode-hook 'hl-todo-mode))
+  (add-hook 'prog-mode-hook #'hl-todo-mode))
 
 (use-package gist
   :general
@@ -173,14 +173,14 @@
   :defer t
 
   :init
-  (add-hook 'prog-mode-hook 'hes-mode))
+  (add-hook 'prog-mode-hook #'hes-mode))
 
 (use-package highlight-quoted
   :defer t
 
   :init
   (setq highlight-quoted-highlight-symbols nil)
-  (add-hook 'emacs-lisp-mode-hook 'highlight-quoted-mode))
+  (add-hook 'emacs-lisp-mode-hook #'highlight-quoted-mode))
 
 (use-package undo-tree
   :diminish undo-tree-mode
@@ -248,7 +248,7 @@
   ;; disable highlighting color names
   (setq rainbow-x-colors nil)
 
-  (add-hook 'prog-mode-hook 'rainbow-mode))
+  (add-hook 'prog-mode-hook #'rainbow-mode))
 
 (use-package rainbow-blocks
   :general ("C-c r b" 'rainbow-blocks-mode))
@@ -257,8 +257,8 @@
   :general ("C-c r d" 'rainbow-delimiters-mode)
 
   :init
-  (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
-  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
+  (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
 
 (use-package color-identifiers-mode
   :general ("C-c r i" 'color-identifiers-mode))
@@ -274,9 +274,9 @@
       (format "%3d " (abs offset))))
 
   (setq relative-line-numbers-format #'abs-rel-numbers)
-  (setq relative-line-numbers-motion-function 'forward-visible-line)
+  (setq relative-line-numbers-motion-function #'forward-visible-line)
 
-  (add-hook 'prog-mode-hook 'relative-line-numbers-mode))
+  (add-hook 'prog-mode-hook #'relative-line-numbers-mode))
 
 (use-package wgrep
   :defer t)
@@ -295,13 +295,13 @@
   (defun my-git-commit-fill-column ()
     (fci-mode 1))
 
-  (add-hook 'git-commit-setup-hook 'my-git-commit-fill-column))
+  (add-hook 'git-commit-setup-hook #'my-git-commit-fill-column))
 
 (use-package bug-reference-github
   :defer t
 
   :init
-  (add-hook 'find-file-hook 'bug-reference-github-set-url-format))
+  (add-hook 'find-file-hook #'bug-reference-github-set-url-format))
 
 (use-package ace-window
   :defer t
@@ -330,7 +330,7 @@
   :defer t
 
   :init
-  (add-hook 'prog-mode-hook 'highlight-numbers-mode))
+  (add-hook 'prog-mode-hook #'highlight-numbers-mode))
 
 (use-package restclient
   :defer t)
@@ -343,7 +343,7 @@
   (setq emojify-point-entered-behaviour 'uncover)
   (setq emojify-emojis-dir (my-cache-dir "emojis"))
 
-  (add-hook 'after-init-hook 'global-emojify-mode)
+  (add-hook 'after-init-hook #'global-emojify-mode)
 
   :config
   (my-setq-append
@@ -366,8 +366,8 @@
   :defer t
 
   :init
-  (add-hook 'sgml-mode-hook 'emmet-mode)
-  (add-hook 'css-mode-hook  'emmet-mode))
+  (add-hook 'sgml-mode-hook #'emmet-mode)
+  (add-hook 'css-mode-hook  #'emmet-mode))
 
 (use-package esup
   :defer t)

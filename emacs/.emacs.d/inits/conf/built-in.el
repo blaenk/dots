@@ -37,14 +37,14 @@
   :defer t
 
   :init
-  (add-hook 'after-init-hook 'show-paren-mode))
+  (add-hook 'after-init-hook #'show-paren-mode))
 
 (use-package which-func
   :ensure nil
   :defer t
 
   :init
-  (add-hook 'after-init-hook 'which-function-mode))
+  (add-hook 'after-init-hook #'which-function-mode))
 
 (use-package saveplace
   :ensure nil
@@ -61,7 +61,7 @@
 
   :init
   ;; attempt to start smerge, automatically disabling it if not relevant
-  (add-hook 'find-file-hook 'smerge-start-session))
+  (add-hook 'find-file-hook #'smerge-start-session))
 
 (use-package bookmark
   :ensure nil
@@ -192,7 +192,7 @@
   (defun my-python-hook ()
     (setq fill-column 79))
 
-  (add-hook 'python-mode-hook 'my-python-hook))
+  (add-hook 'python-mode-hook #'my-python-hook))
 
 (use-package semantic
   :ensure nil
@@ -285,7 +285,7 @@
                  '("Used Packages"
                    "\\(^\\s-*(use-package +\\)\\(\\_<.+\\_>\\)" 2)))
 
-  (add-hook 'emacs-lisp-mode-hook 'imenu-use-package)
+  (add-hook 'emacs-lisp-mode-hook #'imenu-use-package)
 
   ;; taken from Fuco1
   ;; https://github.com/Fuco1/.emacs.d/blob/master/site-lisp/my-redef.el#L18
@@ -399,8 +399,8 @@ Lisp function does not specify a special indentation."
 
   :init
   (setq ediff-custom-diff-options "-u")
-  (setq ediff-split-window-function 'split-window-horizontally)
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  (setq ediff-split-window-function #'split-window-horizontally)
+  (setq ediff-window-setup-function #'ediff-setup-windows-plain)
 
   ;; NOTE
   ;; doing M-x ediff-show-diff-output from ediff-current-file doesn't work
@@ -464,10 +464,10 @@ Lisp function does not specify a special indentation."
     (my-toggle-ediff-wide-display)
     (my-unfullscreen-if-wasnt))
 
-  (add-hook 'ediff-prepare-buffer-hook 'my-ediff-prepare)
-  (add-hook 'ediff-startup-hook 'my-ediff-start)
-  (add-hook 'ediff-suspend-hook 'my-ediff-quit 'append)
-  (add-hook 'ediff-quit-hook 'my-ediff-quit 'append))
+  (add-hook 'ediff-prepare-buffer-hook #'my-ediff-prepare)
+  (add-hook 'ediff-startup-hook #'my-ediff-start)
+  (add-hook 'ediff-suspend-hook #'my-ediff-quit 'append)
+  (add-hook 'ediff-quit-hook #'my-ediff-quit 'append))
 
 (use-package elec-pair
   :ensure nil
@@ -497,11 +497,11 @@ Lisp function does not specify a special indentation."
   :defer t
 
   :init
-  (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
-  (add-hook 'c++-mode-hook 'eldoc-mode)
-  (add-hook 'c-mode-hook 'eldoc-mode)
-  (add-hook 'objc-mode-hook 'eldoc-mode)
-  (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode))
+  (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
+  (add-hook 'c++-mode-hook #'eldoc-mode)
+  (add-hook 'c-mode-hook #'eldoc-mode)
+  (add-hook 'objc-mode-hook #'eldoc-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode))
 
 (use-package sgml-mode
   :ensure nil
@@ -581,7 +581,7 @@ PR [a-z-+]+/\
 
   :config
   (setq dired-omit-verbose nil)
-  (add-hook 'dired-mode-hook 'dired-omit-mode)
+  (add-hook 'dired-mode-hook #'dired-omit-mode)
 
   (when (eq system-type 'darwin)
     (setq dired-guess-shell-gnutar "tar")))
@@ -598,8 +598,8 @@ PR [a-z-+]+/\
     (setq-local comment-auto-fill-only-comments t)
     (auto-fill-mode 1))
 
-  (add-hook 'prog-mode-hook 'my-prog-auto-fill)
-  (add-hook 'prog-mode-hook 'visual-line-mode)
+  (add-hook 'prog-mode-hook #'my-prog-auto-fill)
+  (add-hook 'prog-mode-hook #'visual-line-mode)
 
   :config
   (column-number-mode))
@@ -618,7 +618,7 @@ PR [a-z-+]+/\
       (when (eq major-mode 'compilation-mode)
         (ansi-color-apply-on-region compilation-filter-start (point-max))))
 
-    (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)))
+    (add-hook 'compilation-filter-hook #'colorize-compilation-buffer)))
 
 (use-package compile
   :ensure nil
@@ -636,7 +636,7 @@ PR [a-z-+]+/\
 
   :init
   (setq hl-line-sticky-flag t)
-  (add-hook 'prog-mode-hook 'hl-line-mode))
+  (add-hook 'prog-mode-hook #'hl-line-mode))
 
 (use-package help-mode
   :ensure nil
@@ -652,7 +652,7 @@ PR [a-z-+]+/\
   :defer t
 
   :init
-  (add-hook 'prog-mode-hook 'hs-minor-mode))
+  (add-hook 'prog-mode-hook #'hs-minor-mode))
 
 (use-package flyspell
   :ensure nil
@@ -664,8 +664,8 @@ PR [a-z-+]+/\
   flyspell-goto-next-error
 
   :init
-  (add-hook 'text-mode-hook 'flyspell-mode)
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  (add-hook 'text-mode-hook #'flyspell-mode)
+  (add-hook 'prog-mode-hook #'flyspell-prog-mode)
 
   :config
   (defun flyspell-goto-previous-error (arg)
@@ -710,14 +710,14 @@ PR [a-z-+]+/\
     (interactive)
     (push-mark-no-activate)
     (flyspell-goto-previous-error 1)
-    (call-interactively 'helm-flyspell-correct))
+    (call-interactively #'helm-flyspell-correct))
 
   (defun check-next-spelling-error ()
     "Jump to next spelling error and correct it"
     (interactive)
     (push-mark-no-activate)
     (flyspell-goto-next-error)
-    (call-interactively 'helm-flyspell-correct))
+    (call-interactively #'helm-flyspell-correct))
 
   (defun push-mark-no-activate ()
     "Pushes `point' to `mark-ring' and does not activate the region

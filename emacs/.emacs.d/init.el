@@ -45,7 +45,7 @@
   (my-cache-dir (concat "sessions/" session-id)))
 
 (when (getenv "VM")
-  (setq browse-url-browser-function 'kill-new))
+  (setq browse-url-browser-function #'kill-new))
 
 (setq version-control t)
 (setq delete-old-versions t)
@@ -76,7 +76,7 @@
 (setq-default fill-column 80)
 
 (setq visible-bell t)
-(setq ring-bell-function 'ignore)
+(setq ring-bell-function #'ignore)
 
 (setq delete-by-moving-to-trash t)
 
@@ -88,7 +88,7 @@
 (setq-default tab-width 2)
 (defvaralias 'c-basic-offset 'tab-width)
 
-(fset 'yes-or-no-p 'y-or-n-p)
+(fset #'yes-or-no-p #'y-or-n-p)
 
 (setq load-prefer-newer t)
 
@@ -152,7 +152,7 @@
 
 (my-frame-options nil)
 
-(add-hook 'after-make-frame-functions 'my-frame-options)
+(add-hook 'after-make-frame-functions #'my-frame-options)
 
 (defun my-pop-to-frame ()
   (interactive)
