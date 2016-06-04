@@ -20,10 +20,14 @@
 
 (use-package scroll-bar
   :ensure nil
+  :demand t
+
+  :general
+  ("<f9>" 'toggle-scroll-bar)
 
   :config
-  (scroll-bar-mode)
-  (set-scroll-bar-mode 'left))
+  (scroll-bar-mode -1)
+  (setq scroll-bar-mode 'left))
 
 (use-package frame
   :ensure nil
