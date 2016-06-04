@@ -27,9 +27,9 @@
 
 (setq use-package-always-ensure t)
 
-(require 's)
-(require 'f)
 (require 'dash)
+(require 'f)
+(require 's)
 
 (add-to-list 'load-path (expand-file-name "inits/" user-emacs-directory) t)
 
@@ -65,7 +65,7 @@
 (setq mouse-yank-at-point t)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 (setq mouse-wheel-progressive-speed t)
-(setq mouse-wheel-follow-mouse 't)
+(setq mouse-wheel-follow-mouse t)
 
 (setq help-window-select t)
 
@@ -100,8 +100,9 @@
 
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
 
-(bind [remap eval-last-sexp] 'pp-eval-last-sexp)
-(bind [remap eval-expression] 'pp-eval-expression)
+(bind
+  [remap eval-last-sexp] 'pp-eval-last-sexp
+  [remap eval-expression] 'pp-eval-expression)
 
 (bind "TAB" (lambda () (interactive) (insert-tab)))
 
