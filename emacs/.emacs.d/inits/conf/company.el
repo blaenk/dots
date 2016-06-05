@@ -2,8 +2,6 @@
 (require 'general)
 
 (use-package company
-  :defer t
-
   :general
   ;; get back the use of kill word even if company is active
   (:keymaps 'company-active-map
@@ -22,17 +20,16 @@
   ;; (setq company-dabbrev-downcase nil)
   ;; (setq company-dabbrev-ignore-case t)
 
-  (add-hook 'after-init-hook 'global-company-mode)
-
   :config
-  (use-package company-statistics
-    :defer t
+  (global-company-mode)
 
+  (use-package company-statistics
     :init
     (setq company-statistics-file
           (my-cache-dir "company-statistics-cache.el"))
 
-    (add-hook 'after-init-hook 'company-statistics-mode))
+    :config
+    (company-statistics-mode))
 
   (use-package company-quickhelp
     :general

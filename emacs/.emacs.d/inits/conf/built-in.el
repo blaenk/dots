@@ -64,14 +64,13 @@
 
 (use-package paren
   :ensure nil
-  :defer t
 
-  :init
-  (add-hook 'after-init-hook 'show-paren-mode))
+  :config
+  (show-paren-mode))
 
 (use-package which-func
   :ensure nil
-  :defer t
+  :demand t
 
   :general
   (bind* "f" 'my-which-func-print)
@@ -82,7 +81,8 @@
     (which-func-update)
     (message "→ %s" (gethash (selected-window) which-func-table)))
 
-  (add-hook 'after-init-hook 'which-function-mode))
+  :config
+  (which-function-mode))
 
 (use-package saveplace
   :ensure nil

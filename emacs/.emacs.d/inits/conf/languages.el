@@ -250,10 +250,8 @@
   (add-hook 'cmake-mode-hook #'cmake-font-lock-activate))
 
 (use-package cmake-ide
-  :defer t
-
-  :init
-  (add-hook 'after-init-hook 'cmake-ide-setup))
+  :config
+  (cmake-ide-setup))
 
 (use-package racer
   :defer t

@@ -1,14 +1,13 @@
 (require 'use-package)
 
 (use-package flycheck
-  :defer t
   :init
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
 
-  (add-hook 'after-init-hook 'global-flycheck-mode)
-
   :config
+  (global-flycheck-mode)
+
   (with-eval-after-load 'irony
     (use-package flycheck-irony
       :init

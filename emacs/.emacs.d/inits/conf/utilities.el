@@ -78,7 +78,7 @@
 ;; can configure test dirs by configuring projectile-test-prefix etc
 ;; see default implementation
 (use-package projectile
-  :defer t
+  :demand t
 
   :general
   ("C-c e" 'my-edit-inits
@@ -99,9 +99,9 @@
 
   (setq projectile-test-suffix-function #'my-projectile-test-suffix-function)
 
-  (add-hook 'after-init-hook 'projectile-global-mode)
-
   :config
+  (projectile-global-mode)
+
   (add-to-list 'projectile-other-file-alist '("cc" "h" "hpp" "hh"))
   (add-to-list 'projectile-other-file-alist '("h" "c" "cpp" "cc")))
 
@@ -336,16 +336,14 @@
   :defer t)
 
 (use-package emojify
-  :defer t
-
   :init
   (setq emojify-program-contexts 'comments)
   (setq emojify-point-entered-behaviour 'uncover)
   (setq emojify-emojis-dir (my-cache-dir "emojis"))
 
-  (add-hook 'after-init-hook 'global-emojify-mode)
-
   :config
+  (global-emojify-mode)
+
   (setq emojify-inhibit-major-modes
         (append emojify-inhibit-major-modes
                 '(flycheck-error-list-mode
