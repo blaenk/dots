@@ -143,6 +143,11 @@
              (format " %s " rev)))))
      ""))
 
+  (defun my-vc-mode ()
+    (let ((noback (replace-regexp-in-string
+                   (format "^ %s[-:@!?]" (vc-backend buffer-file-name)) "" vc-mode)))
+      (format " %s " noback)))
+
   (defun my-is-modified ()
     (and
      (not buffer-read-only)
@@ -222,8 +227,8 @@
                     (concat " " (fontawesome "lock") " ")))
            face mode-line-read-only-face)
           (:eval (my-flycheck-mode-line))
-          (:propertize (:eval (my-vc-branch))
-                       face mode-line-branch-face)
+          (vc-mode
+           (:propertize (:eval (my-vc-mode)) face mode-line-branch-face))
           ))
 
   (setq-default
