@@ -202,7 +202,7 @@
             (:eval (anzu--update-mode-line))
             face
             mode-line-anzu-face))
-          (:eval (my-emacs-indicator))
+          (:eval (my-evil-indicator))
           (:propertize
            (:eval (my-remote-mode-line))
            face mode-line-remote-face)
