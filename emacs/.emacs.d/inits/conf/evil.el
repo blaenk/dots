@@ -18,38 +18,33 @@
     "C-u" 'my-kill-line
     "C-l" 'move-end-of-line)
 
-  (:states 'normal
-    ;; unmap these so they could be used as prefix keys
-    ;; this is useful for smartparens
-    "<" nil
-    ">" nil
-
-    ;; still able to shift things in normal mode
-    "< <" 'evil-shift-left-line
-    "> >" 'evil-shift-right-line
-
-    "g p" 'exchange-point-and-mark
-
-    "j" 'evil-next-visual-line
-    "k" 'evil-previous-visual-line
-
-    "C-k" 'evil-scroll-up
-    "C-j" 'evil-scroll-down
-
-    "z =" 'helm-flyspell-correct
-
-    "[ s" 'flyspell-goto-previous-error
-    "] s" 'flyspell-goto-next-error
-
-    "[ S" 'check-previous-spelling-error
-    "] S" 'check-next-spelling-error)
-
-  (:states '(normal insert)
-    "C-;" 'my-flyspell-last)
-
   (:states 'visual
     ">" 'visual-shift-right
     "<" 'visual-shift-left)
+
+  (:states 'normal
+   ;; still able to shift things in normal mode
+   "< <" 'evil-shift-left-line
+   "> >" 'evil-shift-right-line
+
+   "g p" 'exchange-point-and-mark
+
+   "j" 'evil-next-visual-line
+   "k" 'evil-previous-visual-line
+
+   "C-k" 'evil-scroll-up
+   "C-j" 'evil-scroll-down
+
+   "z =" 'helm-flyspell-correct
+
+   "[ s" 'flyspell-goto-previous-error
+   "] s" 'flyspell-goto-next-error
+
+   "[ S" 'check-previous-spelling-error
+   "] S" 'check-next-spelling-error)
+
+  (:states '(normal insert)
+    "C-;" 'my-flyspell-last)
 
   (:keymaps 'evil-window-map
     "m k" 'buf-move-up
@@ -131,6 +126,9 @@ The initial state for a mode can be set with
               (throw 'done state)))))))
 
   :config
+  (bind :states 'normal ">" nil)
+  (bind :states 'normal "<" nil)
+
   (eval-when-compile
     (require 'evil-macros)
     (require 'evil-types))
@@ -337,6 +335,13 @@ The initial state for a mode can be set with
 
   (use-package evil-args
     :general
+    ;; bind evil-jump-out-args
+    (:states 'normal
+      "K" 'evil-jump-out-args
+
+      "> a" 'evil-arg-swap-forward
+      "< a" 'evil-arg-swap-backward)
+
     ;; bind evil-args text objects
     (:keymaps 'evil-inner-text-objects-map
       "a" 'evil-inner-arg)
@@ -348,14 +353,6 @@ The initial state for a mode can be set with
     (:states '(normal motion)
       "L" 'evil-forward-arg
       "H" 'evil-backward-arg)
-
-    ;; bind evil-jump-out-args
-    (:states 'normal
-      "K" 'evil-jump-out-args)
-
-    (:states 'normal
-      "> a" 'evil-arg-swap-forward
-      "< a" 'evil-arg-swap-backward)
 
     :config
     (defun evil-arg-swap-forward ()
