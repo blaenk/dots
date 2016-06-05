@@ -208,7 +208,7 @@
           ;; TODO
           ;; truncate this to fit
           (:eval (my-file-name nil))
-          (which-func-mode (:eval (my-which-func)))
+          ;; (which-func-mode (:eval (my-which-func)))
           ))
 
   (setq mode-line-right

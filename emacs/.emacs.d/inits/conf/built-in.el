@@ -52,7 +52,15 @@
   :ensure nil
   :defer t
 
+  :general
+  (bind* "f" 'my-which-func-print)
+
   :init
+  (defun my-which-func-print ()
+    (interactive)
+    (which-func-update)
+    (message "→ %s" (gethash (selected-window) which-func-table)))
+
   (add-hook 'after-init-hook #'which-function-mode))
 
 (use-package saveplace
