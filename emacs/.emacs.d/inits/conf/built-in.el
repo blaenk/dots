@@ -23,7 +23,16 @@
   :demand t
 
   :general
-  ("<f9>" 'toggle-scroll-bar)
+  ("<f9>" 'my-scroll-bar-toggle)
+
+  :init
+  (defun my-scroll-bar-toggle ()
+    (interactive)
+    (let (window (selected-window))
+      (if (eq (window-scroll-bar-width window) 0)
+          (set-window-scroll-bars window nil 'left nil nil)
+        (set-window-scroll-bars window 0 'left nil nil))
+      (redraw-frame)))
 
   :config
   (scroll-bar-mode -1)
