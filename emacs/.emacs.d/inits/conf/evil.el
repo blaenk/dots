@@ -7,10 +7,10 @@
   :defines my-evil-join
 
   :general
-  (:states 'emacs
+  (:keymaps 'emacs
     "C-w" 'evil-window-map)
 
-  (:states 'insert
+  (:keymaps 'insert
     "<S-return>" 'comment-indent-new-line
 
     "C-y" 'my-evil-insert-mode-paste
@@ -18,11 +18,14 @@
     "C-u" 'my-kill-line
     "C-l" 'move-end-of-line)
 
-  (:states 'visual
+  (:keymaps 'visual
     ">" 'visual-shift-right
     "<" 'visual-shift-left)
 
-  (:states 'normal
+  (:keymaps 'normal
+   "<" nil
+   ">" nil
+
    ;; still able to shift things in normal mode
    "< <" 'evil-shift-left-line
    "> >" 'evil-shift-right-line
@@ -43,7 +46,7 @@
    "[ S" 'check-previous-spelling-error
    "] S" 'check-next-spelling-error)
 
-  (:states '(normal insert)
+  (:keymaps '(normal insert)
     "C-;" 'my-flyspell-last)
 
   (:keymaps 'evil-window-map
@@ -126,8 +129,8 @@ The initial state for a mode can be set with
               (throw 'done state)))))))
 
   :config
-  (bind :states 'normal ">" nil)
-  (bind :states 'normal "<" nil)
+  (bind :keymaps 'normal ">" nil)
+  (bind :keymaps 'normal "<" nil)
 
   (eval-when-compile
     (require 'evil-macros)
@@ -313,7 +316,7 @@ The initial state for a mode can be set with
 
   (use-package evil-numbers
     :general
-    (:states '(normal visual)
+    (:keymaps '(normal visual)
      "<kp-subtract>" 'evil-numbers/dec-at-pt
      "<kp-add>" 'evil-numbers/inc-at-pt))
 
@@ -336,7 +339,7 @@ The initial state for a mode can be set with
   (use-package evil-args
     :general
     ;; bind evil-jump-out-args
-    (:states 'normal
+    (:keymaps 'normal
       "K" 'evil-jump-out-args
 
       "> a" 'evil-arg-swap-forward
@@ -350,7 +353,7 @@ The initial state for a mode can be set with
       "a" 'evil-outer-arg)
 
     ;; bind evil-forward/backward-args
-    (:states '(normal motion)
+    (:keymaps '(normal motion)
       "L" 'evil-forward-arg
       "H" 'evil-backward-arg)
 
