@@ -191,11 +191,3 @@
 
 (setq custom-file (my-cache-dir "custom.el"))
 (load custom-file 'noerror)
-
-(defun my-comment-indent-new-line-advice ()
-  (when (not (looking-back (concat (regexp-quote comment-start) " +")
-                           (line-beginning-position)))
-    (insert " ")))
-
-(add-function :after (symbol-function 'comment-indent-new-line)
-  #'my-comment-indent-new-line-advice)
