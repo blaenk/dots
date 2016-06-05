@@ -23,9 +23,6 @@
     "<" 'visual-shift-left)
 
   (:keymaps 'normal
-   "<" nil
-   ">" nil
-
    ;; still able to shift things in normal mode
    "< <" 'evil-shift-left-line
    "> >" 'evil-shift-right-line
@@ -129,8 +126,9 @@ The initial state for a mode can be set with
               (throw 'done state)))))))
 
   :config
-  (bind :keymaps 'normal ">" nil)
-  (bind :keymaps 'normal "<" nil)
+  (bind :keymaps 'normal
+    "<" nil
+    ">" nil)
 
   (eval-when-compile
     (require 'evil-macros)
@@ -337,6 +335,8 @@ The initial state for a mode can be set with
     (global-evil-visualstar-mode))
 
   (use-package evil-args
+    :demand t
+
     :general
     ;; bind evil-jump-out-args
     (:keymaps 'normal
