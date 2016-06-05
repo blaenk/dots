@@ -6,19 +6,12 @@
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
-  (package-install 'use-package)
-  (package-install 'auto-compile)
-  (package-install 'benchmark-init))
+  (package-install 'use-package))
 
-;; (require 'benchmark-init)
+;; (use-package benchmark-init)
 
 (setq load-prefer-newer t)
 (setq backup-by-copying t)
-
-(require 'auto-compile)
-(setq auto-compile-display-buffer nil)
-(auto-compile-on-load-mode)
-(auto-compile-on-save-mode)
 
 (eval-when-compile
   (require 'use-package))
@@ -27,11 +20,20 @@
 
 (setq use-package-always-ensure t)
 
-(require 'dash)
-(require 'f)
-(require 's)
+(use-package auto-compile)
+(setq auto-compile-display-buffer nil)
+(auto-compile-on-load-mode)
+(auto-compile-on-save-mode)
+
+(use-package dash)
+(use-package f)
+(use-package s)
+
+(use-package general)
 
 (add-to-list 'load-path (expand-file-name "inits/" user-emacs-directory) t)
+
+(byte-recompile-directory (expand-file-name "inits/" user-emacs-directory) 0)
 
 (require 'conf/common)
 
@@ -171,17 +173,15 @@
 
 (bind "C-S-x C-S-s" 'my-force-save)
 
-(byte-recompile-directory (my-inits-dir "") 0)
-
 ;; (benchmark-init/activate)
 
 (require 'conf/theme)
+(require 'conf/evil)
 (require 'conf/built-in)
 (require 'conf/utilities)
 (require 'conf/languages)
 (require 'conf/flycheck)
 (require 'conf/mode-line)
-(require 'conf/evil)
 (require 'conf/helm)
 (require 'conf/git)
 (require 'conf/company)

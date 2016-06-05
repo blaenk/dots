@@ -22,7 +22,7 @@
   ;; (setq company-dabbrev-downcase nil)
   ;; (setq company-dabbrev-ignore-case t)
 
-  (add-hook 'after-init-hook #'global-company-mode)
+  (add-hook 'after-init-hook 'global-company-mode)
 
   :config
   (use-package company-statistics
@@ -32,7 +32,7 @@
     (setq company-statistics-file
           (my-cache-dir "company-statistics-cache.el"))
 
-    (add-hook 'after-init-hook #'company-statistics-mode))
+    (add-hook 'after-init-hook 'company-statistics-mode))
 
   (use-package company-quickhelp
     :general

@@ -46,7 +46,7 @@
   :defer t
 
   :init
-  (add-hook 'after-init-hook #'show-paren-mode))
+  (add-hook 'after-init-hook 'show-paren-mode))
 
 (use-package which-func
   :ensure nil
@@ -61,7 +61,7 @@
     (which-func-update)
     (message "→ %s" (gethash (selected-window) which-func-table)))
 
-  (add-hook 'after-init-hook #'which-function-mode))
+  (add-hook 'after-init-hook 'which-function-mode))
 
 (use-package saveplace
   :ensure nil

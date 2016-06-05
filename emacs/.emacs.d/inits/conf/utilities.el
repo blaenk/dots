@@ -99,7 +99,7 @@
 
   (setq projectile-test-suffix-function #'my-projectile-test-suffix-function)
 
-  (add-hook 'after-init-hook #'projectile-global-mode)
+  (add-hook 'after-init-hook 'projectile-global-mode)
 
   :config
   (add-to-list 'projectile-other-file-alist '("cc" "h" "hpp" "hh"))
@@ -343,14 +343,14 @@
   (setq emojify-point-entered-behaviour 'uncover)
   (setq emojify-emojis-dir (my-cache-dir "emojis"))
 
-  (add-hook 'after-init-hook #'global-emojify-mode)
+  (add-hook 'after-init-hook 'global-emojify-mode)
 
   :config
-  (my-setq-append
-   emojify-inhibit-major-modes
-   flycheck-error-list-mode
-   magit-status-mode
-   magit-revision-mode))
+  (setq emojify-inhibit-major-modes
+        (append emojify-inhibit-major-modes
+                '(flycheck-error-list-mode
+                  magit-status-mode
+                  magit-revision-mode))))
 
 (use-package emoji-cheat-sheet-plus
   :general

@@ -1,25 +1,24 @@
 (require 'use-package)
+(require 'general)
 
-(use-package general
-  :config
-  (put 'general-define-key 'lisp-indent-function 'defun)
-  (put 'general-create-definer 'lisp-indent-function 'defun)
+(put 'general-define-key 'lisp-indent-function 'defun)
+(put 'general-create-definer 'lisp-indent-function 'defun)
 
-  (general-create-definer bind)
-  (put 'bind 'lisp-indent-function 'defun)
+(defalias 'bind #'general-define-key)
+(put 'bind 'lisp-indent-function 'defun)
 
-  (general-create-definer bind-local :keymaps 'local)
-  (put 'bind-local 'lisp-indent-function 'defun)
+(general-create-definer bind-local :keymaps 'local)
+(put 'bind-local 'lisp-indent-function 'defun)
 
-  ;; NOTE
-  ;; on gnome, have to unbind M-SPC, known as Alt+Space in
-  ;; settings → windows → activate the window menu
-  (general-create-definer bind*
-    :states '(emacs normal visual motion insert)
-    :non-normal-prefix "M-SPC"
-    :prefix "SPC")
+;; NOTE
+;; on gnome, have to unbind M-SPC, known as Alt+Space in
+;; settings → windows → activate the window menu
+(general-create-definer bind*
+                        :states '(emacs normal visual motion insert)
+                        :non-normal-prefix "M-SPC"
+                        :prefix "SPC")
 
-  (put 'bind* 'lisp-indent-function 'defun))
+(put 'bind* 'lisp-indent-function 'defun)
 
 (defun my-emacs-dir (path)
   (expand-file-name path user-emacs-directory))

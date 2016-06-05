@@ -84,7 +84,6 @@
     (setq-local outline-regexp "^\\(?:\\(#+\\)[ \t]+\\(.*?\\)[ \t]*\\(#*\\)\\)$")
 
     (with-eval-after-load 'evil-surround
-      (eval-when-compile (require 'evil-surround))
       (push '(?s . ("**" . "**")) evil-surround-pairs-alist)
       (push '(?i . ("_" . "_")) evil-surround-pairs-alist)
       (push '(?p . ("<span class=\"path\">" . "</span>"))
@@ -117,7 +116,7 @@
 (use-package erlang
   :defer t)
 
-(use-package scala-mode2
+(use-package scala-mode
   :defer t)
 
 (use-package go-mode
@@ -254,7 +253,7 @@
   :defer t
 
   :init
-  (add-hook 'after-init-hook #'cmake-ide-setup))
+  (add-hook 'after-init-hook 'cmake-ide-setup))
 
 (use-package racer
   :defer t
