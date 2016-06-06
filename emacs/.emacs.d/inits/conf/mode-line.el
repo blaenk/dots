@@ -1,7 +1,7 @@
 (require 'use-package)
+(require 'dash)
 (require 'f)
 (require 's)
-(require 'dash)
 
 (defun my-toggle-header-line ()
   (interactive)
@@ -43,12 +43,30 @@
 ;;   (eq my-selected-window (selected-window)))
 
 (defun my-setup-mode-line ()
-  (defun my-is-evil-on ()
-    (if (evil-emacs-state-p)
-        nil
-      (or
-       (bound-and-true-p evil-mode)
-       (bound-and-true-p evil-local-mode))))
+  (with-eval-after-load 'evil
+    (defun my-is-evil-on ()
+      (if (evil-emacs-state-p)
+          nil
+        (or
+         (bound-and-true-p evil-mode)
+         (bound-and-true-p evil-local-mode))))
+
+    (defun my-evil-indicator ()
+      (let* ((is-evil (my-is-evil-on))
+             (indicator (if is-evil "V" "E")))
+        (propertize
+         (format " %s " indicator)
+         'face
+         (if is-evil
+             'mode-line-evil-mode-indicator-face
+           'mode-line-emacs-mode-indicator-face))))
+
+    (defun my-emacs-indicator ()
+      (when (not (my-is-evil-on))
+        (propertize
+         " E "
+         'face
+         'mode-line-emacs-mode-indicator-face))))
 
   ;; TODO
   ;; also take 'center' param
@@ -77,75 +95,47 @@
     (when (my-is-remote-buffer)
       (concat " " (fontawesome "cloud") " ")))
 
-  (defun my-evil-indicator ()
-    (let* ((is-evil (my-is-evil-on))
-           (indicator (if is-evil "V" "E")))
-      (propertize
-       (format " %s " indicator)
-       'face
-       (if is-evil
-           'mode-line-evil-mode-indicator-face
-         'mode-line-emacs-mode-indicator-face))))
-
-  (defun my-emacs-indicator ()
-    (when (not (my-is-evil-on))
-      (propertize
-       " E "
-       'face
-       'mode-line-emacs-mode-indicator-face)))
-
-  (defun my-format-flycheck-errors ()
-    (if (flycheck-has-current-errors-p)
-        (let* ((error-counts (flycheck-count-errors flycheck-current-errors))
-               (errors (or (cdr (assq 'error error-counts)) 0))
-               (warnings (or (cdr (assq 'warning error-counts)) 0))
-               (infos (or (cdr (assq 'info error-counts)) 0))
-               (info-str (if (= infos 0)
-                             ""
-                           (propertize (format " %s " infos)
-                                       'face 'mode-line-flycheck-infos-face)))
-               (error-str (if (= errors 0)
-                              ""
-                            (propertize (format " %s " errors)
-                                        'face 'mode-line-flycheck-errors-face)))
-               (warning-str (if (= warnings 0)
+  (with-eval-after-load 'flycheck
+    (defun my-format-flycheck-errors ()
+      (if (flycheck-has-current-errors-p)
+          (let* ((error-counts (flycheck-count-errors flycheck-current-errors))
+                 (errors (or (cdr (assq 'error error-counts)) 0))
+                 (warnings (or (cdr (assq 'warning error-counts)) 0))
+                 (infos (or (cdr (assq 'info error-counts)) 0))
+                 (info-str (if (= infos 0)
+                               ""
+                             (propertize (format " %s " infos)
+                                         'face 'mode-line-flycheck-infos-face)))
+                 (error-str (if (= errors 0)
                                 ""
-                              (propertize (format " %s " warnings)
-                                          'face 'mode-line-flycheck-warnings-face))))
-          (format "%s%s%s" info-str warning-str error-str))
-      ;; FIXME
-      ;; if there's no branch then this can't omit the space
-      (propertize " ✔ " 'face 'mode-line-flycheck-no-errors-face)))
+                              (propertize (format " %s " errors)
+                                          'face 'mode-line-flycheck-errors-face)))
+                 (warning-str (if (= warnings 0)
+                                  ""
+                                (propertize (format " %s " warnings)
+                                            'face 'mode-line-flycheck-warnings-face))))
+            (format "%s%s%s" info-str warning-str error-str))
+        ;; FIXME
+        ;; if there's no branch then this can't omit the space
+        (propertize " ✔ " 'face 'mode-line-flycheck-no-errors-face)))
 
-  (defun my-flycheck-mode-line ()
-    (pcase flycheck-last-status-change
-      (`not-checked nil)
-      (`no-checker nil)
-      (`suspicious (propertize "suspicious" 'face 'error))
-      (`errored (propertize "errored" 'face 'error))
-      (`interrupted (propertize "interrupted" 'face 'error))
-      (`running (propertize
-                 " R "
-                 'face 'mode-line-flycheck-checking-face))
-      (`finished (my-format-flycheck-errors))))
-
-  ;; TODO
-  ;; this goes stale easily, have to revert-buffer to fix
-  (defun my-vc-branch ()
-    (or
-     (when (and vc-mode (buffer-file-name))
-       (let ((backend (vc-backend (buffer-file-name))))
-         (when backend
-           (let* ((rev (vc-working-revision (buffer-file-name) backend))
-                  (rev (if (string-match "[0-9a-f]\\{7,40\\}" rev)
-                           (substring rev 0 7)
-                         rev)))
-             (format " %s " rev)))))
-     ""))
+    (defun my-flycheck-mode-line ()
+      (pcase flycheck-last-status-change
+        (`not-checked nil)
+        (`no-checker nil)
+        (`suspicious (propertize "suspicious" 'face 'error))
+        (`errored (propertize "errored" 'face 'error))
+        (`interrupted (propertize "interrupted" 'face 'error))
+        (`running (propertize
+                   " R "
+                   'face 'mode-line-flycheck-checking-face))
+        (`finished (my-format-flycheck-errors)))))
 
   (defun my-vc-mode ()
     (let ((noback (replace-regexp-in-string
-                   (format "^ %s[-:@!?]" (vc-backend buffer-file-name)) "" vc-mode)))
+                   (format "^ %s[-:@!?]" (vc-backend buffer-file-name))
+                   ""
+                   vc-mode)))
       (format " %s " noback)))
 
   (defun my-is-modified ()
@@ -164,35 +154,37 @@
 
   ;; TODO
   ;; would be nice to not show the directory if it didn't fit
-  (defun my-file-name (for-title)
-    (let* ((name (buffer-file-name)))
-      (if name
-          (let* ((project-root (when (projectile-project-p)
-                                 (projectile-project-root)))
-                 (name (if project-root
-                           (replace-regexp-in-string
-                            (regexp-quote project-root) ""
-                            name)
-                         (f-short name)))
-                 (directory (or (f-slash (f-dirname name)) ""))
-                 (file-name (f-filename name)))
-            (format "%s%s %s%s "
-                    (if project-root
-                        (propertize
-                         (format " %s " (projectile-project-name))
-                         'face 'mode-line-branch-face)
-                      "")
-                    (if for-title "—" "")
-                    (propertize directory 'face 'mode-line-stem-face)
-                    (propertize file-name 'face 'mode-line-buffer-id)))
-        (propertize " %b " 'face 'mode-line-buffer-id))))
+  (with-eval-after-load 'projectile
+    (defun my-file-name (for-title)
+      (let* ((name (buffer-file-name)))
+        (if name
+            (let* ((project-root (when (projectile-project-p)
+                                   (projectile-project-root)))
+                   (name (if project-root
+                             (replace-regexp-in-string
+                              (regexp-quote project-root) ""
+                              name)
+                           (f-short name)))
+                   (directory (or (f-slash (f-dirname name)) ""))
+                   (file-name (f-filename name)))
+              (format "%s%s %s%s "
+                      (if project-root
+                          (propertize
+                           (format " %s " (projectile-project-name))
+                           'face 'mode-line-branch-face)
+                        "")
+                      (if for-title "—" "")
+                      (propertize directory 'face 'mode-line-stem-face)
+                      (propertize file-name 'face 'mode-line-buffer-id)))
+          (propertize " %b " 'face 'mode-line-buffer-id)))))
 
-  (defun my-which-func ()
-    (let ((loc (gethash (selected-window) which-func-table))
-          (arrow (propertize "→" 'face 'mode-line-which-func-arrow-face)))
-      (if loc
-          (format "%s %s " arrow loc)
-        "")))
+  (with-eval-after-load 'which-func
+    (defun my-which-func ()
+      (let ((loc (gethash (selected-window) which-func-table))
+            (arrow (propertize "→" 'face 'mode-line-which-func-arrow-face)))
+        (if loc
+            (format "%s %s " arrow loc)
+          ""))))
 
   (setq mode-line-left
         `(
