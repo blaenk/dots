@@ -40,11 +40,16 @@
   :init
   (defun my-scroll-bar-toggle ()
     (interactive)
-    (let (window (selected-window))
+
+    (let ((window (selected-window))
+          (args (if (< emacs-major-version 25)
+                    (list 'left nil)
+                  (list 'left nil nil))))
       (if (eq (window-scroll-bar-width window) 0)
-          (set-window-scroll-bars window nil 'left nil nil)
-        (set-window-scroll-bars window 0 'left nil nil))
-      (redraw-frame)))
+          (apply #'set-window-scroll-bars window nil args)
+        (apply #'set-window-scroll-bars window 0 args)))
+
+    (redraw-frame))
 
   :config
   (scroll-bar-mode -1)
