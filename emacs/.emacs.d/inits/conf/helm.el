@@ -1,6 +1,12 @@
 (require 'use-package)
 (require 'general)
 
+(use-package helm-config
+  :ensure nil
+
+  :init
+  (setq helm-command-prefix-key "C-c h"))
+
 (use-package helm
   :diminish helm-mode
 
@@ -16,201 +22,207 @@
    "C-h i" 'helm-info-emacs)
 
   (:keymaps 'helm-map
-    "<tab>" 'helm-execute-persistent-action
-    "C-i" 'helm-execute-persistent-action
-    "C-z" 'helm-select-action)
+   "<tab>" 'helm-execute-persistent-action
+   "C-i" 'helm-execute-persistent-action
+   "C-z" 'helm-select-action)
 
-  (:keymaps '(helm-find-files-map helm-buffer-map)
-    "M-h" 'my-helm-horizontal-split
-    "M-v" 'my-helm-vertical-split)
+  :init
+  (setq helm-split-window-in-side-p t)
+  (setq helm-display-header-line nil)
+
+  :config
+  (helm-mode 1)
+
+  (helm-autoresize-mode t))
+
+(use-package helm-imenu
+  :ensure nil
+
+  :init
+  (setq helm-imenu-execute-action-at-once-if-one nil))
+
+(use-package helm-adaptive
+  :ensure nil
 
   :init
   (setq helm-adaptive-history-file
-        (my-cache-dir "helm-adaptive-history"))
-  (setq helm-split-window-in-side-p t)
-  (setq helm-display-header-line nil)
-  (setq helm-imenu-execute-action-at-once-if-one nil)
+        (my-cache-dir "helm-adaptive-history")))
 
-  (use-package helm-config
-    :ensure nil
+(use-package helm-files
+  :ensure nil
 
-    :init
-    (setq helm-command-prefix-key "C-c h"))
+  :general
+  (:keymaps '(helm-find-files-map helm-buffer-map)
+   "M-h" 'my-helm-horizontal-split
+   "M-v" 'my-helm-vertical-split)
 
   :config
-  (helm-autoresize-mode t)
+  (defun my-helm-action-horizontal-split (candidate)
+    "Display buffer in horizontal split"
+    ;; Select the bottom right window
+    (require 'winner)
+    ;; Display buffers in new windows
+    (dolist (buf (helm-marked-candidates))
+      (select-window (split-window-below))
+      (if (get-buffer buf)
+          (switch-to-buffer buf)
+        (find-file buf)))
+    (balance-windows))
 
-  ;; open in horizontal split
-  (use-package helm-files
-    :ensure nil
+  (defun my-helm-action-vertical-split (candidate)
+    "Display buffer in vertical split"
+    ;; Select the bottom right window
+    (require 'winner)
+    ;; Display buffers in new windows
+    (dolist (buf (helm-marked-candidates))
+      (select-window (split-window-right))
+      (if (get-buffer buf)
+          (switch-to-buffer buf)
+        (find-file buf)))
+    (balance-windows))
 
-    :config
-    (defun my-helm-action-horizontal-split (candidate)
-      "Display buffer in horizontal split"
-      ;; Select the bottom right window
-      (require 'winner)
-      ;; Display buffers in new windows
-      (dolist (buf (helm-marked-candidates))
-        (select-window (split-window-below))
-        (if (get-buffer buf)
-            (switch-to-buffer buf)
-          (find-file buf)))
-      (balance-windows))
+  (add-to-list 'helm-find-files-actions
+               '("Display buffer in horizontal split" .
+                 my-helm-action-horizontal-split) t)
 
-    (defun my-helm-action-vertical-split (candidate)
-      "Display buffer in vertical split"
-      ;; Select the bottom right window
-      (require 'winner)
-      ;; Display buffers in new windows
-      (dolist (buf (helm-marked-candidates))
-        (select-window (split-window-right))
-        (if (get-buffer buf)
-            (switch-to-buffer buf)
-          (find-file buf)))
-      (balance-windows))
+  (add-to-list 'helm-type-buffer-actions
+               '("Display buffer in horizontal split" .
+                 my-helm-action-horizontal-split) t)
 
-    (add-to-list 'helm-find-files-actions
-                 '("Display buffer in horizontal split" .
-                   my-helm-action-horizontal-split) t)
+  (add-to-list 'helm-find-files-actions
+               '("Display buffer in vertical split" .
+                 my-helm-action-vertical-split) t)
 
-    (add-to-list 'helm-type-buffer-actions
-                 '("Display buffer in horizontal split" .
-                   my-helm-action-horizontal-split) t)
+  (add-to-list 'helm-type-buffer-actions
+               '("Display buffer in vertical split" .
+                 my-helm-action-vertical-split) t)
 
-    (add-to-list 'helm-find-files-actions
-                 '("Display buffer in vertical split" .
-                   my-helm-action-vertical-split) t)
+  (defun my-helm-horizontal-split ()
+    (interactive)
+    (with-helm-alive-p
+      (helm-exit-and-execute-action 'my-helm-action-horizontal-split)))
 
-    (add-to-list 'helm-type-buffer-actions
-                 '("Display buffer in vertical split" .
-                   my-helm-action-vertical-split) t)
+  (defun my-helm-vertical-split ()
+    (interactive)
+    (with-helm-alive-p
+      (helm-exit-and-execute-action 'my-helm-action-vertical-split))))
 
-    (defun my-helm-horizontal-split ()
-      (interactive)
-      (with-helm-alive-p
-        (helm-exit-and-execute-action 'my-helm-action-horizontal-split)))
+(use-package helm-mt
+  :general
+  ("C-c t" 'helm-mt)
 
-    (defun my-helm-vertical-split ()
-      (interactive)
-      (with-helm-alive-p
-        (helm-exit-and-execute-action 'my-helm-action-vertical-split))))
+  (:keymaps 'helm-mt/keymap
+   "M-h" 'my-helm-horizontal-split
+   "M-v" 'my-helm-vertical-split))
 
-  (helm-mode 1)
+(use-package helm-open-github
+  :defer t)
 
-  (use-package helm-mt
-    :general
-    ("C-c t" 'helm-mt)
+(use-package helm-unicode
+  :general
+  ([remap insert-char] 'helm-unicode))
 
-    (:keymaps 'helm-mt/keymap
-      "M-h" 'my-helm-horizontal-split
-      "M-v" 'my-helm-vertical-split))
+(use-package helm-describe-modes
+  :general
+  ([remap describe-mode] 'helm-describe-modes))
 
-  (use-package helm-open-github
-    :defer t)
+(use-package helm-ag
+  :defer t)
 
-  (use-package helm-unicode
-    :general
-    ([remap insert-char] 'helm-unicode))
+(use-package helm-gtags
+  :diminish helm-gtags-mode
 
-  (use-package helm-describe-modes
-    :general
-    ([remap describe-mode] 'helm-describe-modes))
+  :general
+  (:keymaps 'helm-gtags-mode-map
+   "M-." 'helm-gtags-dwim
+   "C-M-." 'helm-gtags-select
 
-  (use-package helm-ag
-    :defer t)
+   "M-," 'helm-gtags-pop-stack
+   "C-M-," 'helm-gtags-show-stack
 
-  (use-package helm-gtags
-    :diminish helm-gtags-mode
+   "C-S-h" 'helm-gtags-previous-history
+   "C-S-l" 'helm-gtags-next-history)
 
-    :general
-    (:keymaps 'helm-gtags-mode-map
-      "M-." 'helm-gtags-dwim
-      "C-M-." 'helm-gtags-select
+  :init
+  (setq helm-gtags-ignore-case t)
+  (setq helm-gtags-auto-update t)
+  (setq helm-gtags-use-input-at-cursor t)
+  (setq helm-gtags-direct-helm-completing t)
+  (setq helm-gtags-prefix-key "\C-t")
+  (setq helm-gtags-suggested-key-mapping t)
 
-      "M-," 'helm-gtags-pop-stack
-      "C-M-," 'helm-gtags-show-stack
+  (add-hook 'c-mode-hook #'helm-gtags-mode)
+  (add-hook 'c++-mode-hook #'helm-gtags-mode)
 
-      "C-S-h" 'helm-gtags-previous-history
-      "C-S-l" 'helm-gtags-next-history)
+  :config
+  (with-eval-after-load 'evil
+    (evil-make-overriding-map helm-gtags-mode-map)
+    (add-hook 'helm-gtags-mode-hook #'evil-normalize-keymaps)))
 
-    :init
-    (setq helm-gtags-ignore-case t)
-    (setq helm-gtags-auto-update t)
-    (setq helm-gtags-use-input-at-cursor t)
-    (setq helm-gtags-direct-helm-completing t)
-    (setq helm-gtags-prefix-key "\C-t")
-    (setq helm-gtags-suggested-key-mapping t)
+(use-package helm-descbinds
+  :config
+  (helm-descbinds-mode))
 
-    (add-hook 'c-mode-hook #'helm-gtags-mode)
-    (add-hook 'c++-mode-hook #'helm-gtags-mode)
+(use-package helm-projectile
+  :diminish projectile-mode
 
-    :config
-    (with-eval-after-load 'evil
-      (evil-make-overriding-map helm-gtags-mode-map)
-      (add-hook 'helm-gtags-mode-hook #'evil-normalize-keymaps)))
+  :general
+  ("C-<" 'helm-projectile-switch-to-buffer
+   "C->" 'helm-projectile)
 
-  (use-package helm-descbinds
-    :config
-    (helm-descbinds-mode))
+  (:keymaps 'helm-projectile-find-file-map
+   "M-h" 'my-helm-horizontal-split
+   "M-v" 'my-helm-vertical-split)
 
-  (use-package helm-projectile
-    :diminish projectile-mode
+  :config
+  (helm-projectile-on))
 
-    :general
-    ("C-<" 'helm-projectile-switch-to-buffer
-     "C->" 'helm-projectile)
+(use-package helm-flycheck
+  :general
+  (:keymaps 'flycheck-mode-map
+   "C-c ! h" 'helm-flycheck))
 
-    (:keymaps 'helm-projectile-find-file-map
-      "M-h" 'my-helm-horizontal-split
-      "M-v" 'my-helm-vertical-split)
+(use-package helm-flyspell
+  :defer t)
 
-    :config
-    (helm-projectile-on))
+(use-package persp-projectile
+  :disabled t
 
-  (use-package helm-flycheck
-    :general
-    (:keymaps 'flycheck-mode-map
-     "C-c ! h" 'helm-flycheck))
+  :general
+  (:keymaps 'projectile-command-map
+   "p" 'projectile-persp-switch-project))
 
-  (use-package helm-flyspell
-    :defer t)
+(use-package helm-make
+  :defer t)
 
-  (use-package persp-projectile
-    :disabled t
+(use-package helm-company
+  :general
+  (:keymaps 'company-active-map
+   "M-/" 'helm-company))
 
-    :general
-    (:keymaps 'projectile-command-map
-      "p" 'projectile-persp-switch-project))
+(use-package helm-css-scss
+  :defer t
 
-  (use-package helm-make
-    :defer t)
+  :init
+  ;; TODO
+  ;; do local key bind
+  (setq helm-css-scss-split-direction 'split-window-horizontally))
 
-  (use-package helm-company
-    :general
-    (:keymaps 'company-active-map
-      "M-/" 'helm-company))
+(use-package ace-jump-helm-line
+  :general
+  (:keymaps 'helm-map
+   "C-'" 'ace-jump-helm-line)
 
-  (use-package helm-css-scss
-    :defer t
+  :init
+  (setq ace-jump-helm-line-default-action 'select)
 
-    :init
-    ;; TODO
-    ;; do local key bind
-    (setq helm-css-scss-split-direction 'split-window-horizontally))
+  (setq ace-jump-helm-line-style 'post)
 
-  (use-package ace-jump-helm-line
-    :general
-    (:keymaps 'helm-map
-      "C-'" 'ace-jump-helm-line)
+  ;; press 'o' before the avy anchor to only move to it
+  (setq ace-jump-helm-line-move-only-key ?o)
 
-    :init
-    (setq ace-jump-helm-line-default-action 'select)
-
-    ;; press 'o' before the avy anchor to only move to it
-    (setq ace-jump-helm-line-move-only-key ?o)
-
-    ;; press 'p' before the avy anchor to move to it and execute
-    ;; it's persistent action
-    (setq ace-jump-helm-line-persistent-key ?p)))
+  ;; press 'p' before the avy anchor to move to it and execute
+  ;; it's persistent action
+  (setq ace-jump-helm-line-persistent-key ?p))
 
 (provide 'conf/helm)
