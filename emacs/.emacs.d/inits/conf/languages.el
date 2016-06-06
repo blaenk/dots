@@ -13,6 +13,9 @@
 (use-package lua-mode
   :defer t)
 
+(use-package lispy
+  :defer t)
+
 (use-package dockerfile-mode
   :defer t)
 
