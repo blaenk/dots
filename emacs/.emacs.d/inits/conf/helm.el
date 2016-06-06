@@ -113,7 +113,10 @@
 
   (:keymaps 'helm-mt/keymap
    "M-h" 'my-helm-horizontal-split
-   "M-v" 'my-helm-vertical-split))
+   "M-v" 'my-helm-vertical-split)
+
+  :config
+  (helm-mt/wrap-shells t))
 
 (use-package helm-open-github
   :defer t)
