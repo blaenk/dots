@@ -8,21 +8,24 @@
 
   :general
   (:keymaps 'emacs
-    "C-w" 'evil-window-map)
+   "C-w" 'evil-window-map)
 
   (:keymaps 'insert
-    "<S-return>" 'comment-indent-new-line
+   "<S-return>" 'comment-indent-new-line
 
-    "C-y" 'my-evil-insert-mode-paste
+   "C-y" 'my-evil-insert-mode-paste
 
-    "C-u" 'my-kill-line
-    "C-l" 'move-end-of-line)
+   "C-u" 'my-kill-line
+   "C-l" 'move-end-of-line)
 
   (:keymaps 'visual
-    ">" 'visual-shift-right
-    "<" 'visual-shift-left)
+   ">" 'visual-shift-right
+   "<" 'visual-shift-left)
 
   (:keymaps 'normal
+   "<" nil
+   ">" nil
+
    ;; still able to shift things in normal mode
    "< <" 'evil-shift-left-line
    "> >" 'evil-shift-right-line
@@ -44,13 +47,13 @@
    "] S" 'check-next-spelling-error)
 
   (:keymaps '(normal insert)
-    "C-;" 'my-flyspell-last)
+   "C-;" 'my-flyspell-last)
 
   (:keymaps 'evil-window-map
-    "m k" 'buf-move-up
-    "m j" 'buf-move-down
-    "m h" 'buf-move-left
-    "m l" 'buf-move-right)
+   "m k" 'buf-move-up
+   "m j" 'buf-move-down
+   "m h" 'buf-move-left
+   "m l" 'buf-move-right)
 
   (bind*
     "o" 'my-evil-open-in-between
@@ -126,10 +129,6 @@ The initial state for a mode can be set with
               (throw 'done state)))))))
 
   :config
-  (bind :keymaps 'normal
-    "<" nil
-    ">" nil)
-
   (eval-when-compile
     (require 'evil-macros)
     (require 'evil-types))
@@ -283,92 +282,88 @@ The initial state for a mode can be set with
     (evil-ex-nohighlight)
     (force-mode-line-update))
 
-  (evil-mode 1)
+  (evil-mode 1))
 
-  (use-package evil-indent-plus
-    :config
-    (evil-indent-plus-default-bindings))
+(use-package evil-indent-plus
+  :config
+  (evil-indent-plus-default-bindings))
 
-  (use-package evil-quickscope
-    :config
-    (global-evil-quickscope-mode 1))
+(use-package evil-quickscope
+  :config
+  (global-evil-quickscope-mode 1))
 
-  (use-package evil-textobj-anyblock
-    :general
-    (:keymaps 'evil-inner-text-objects-map
-      "b" 'evil-textobj-anyblock-inner-block)
+(use-package evil-textobj-anyblock
+  :general
+  (:keymaps 'inner
+   "b" 'evil-textobj-anyblock-inner-block)
 
-    (:keymaps 'evil-outer-text-objects-map
-      "b" 'evil-textobj-anyblock-a-block))
+  (:keymaps 'outer
+   "b" 'evil-textobj-anyblock-a-block))
 
-  (use-package evil-anzu)
+(use-package evil-anzu)
 
-  (use-package evil-commentary
-    :diminish evil-commentary-mode
-    :config
-    (evil-commentary-mode))
+(use-package evil-commentary
+  :diminish evil-commentary-mode
 
-  (use-package evil-exchange
-    :config
-    (evil-exchange-install))
+  :config
+  (evil-commentary-mode))
 
-  (use-package evil-numbers
-    :general
-    (:keymaps '(normal visual)
-     "<kp-subtract>" 'evil-numbers/dec-at-pt
-     "<kp-add>" 'evil-numbers/inc-at-pt))
+(use-package evil-exchange
+  :config
+  (evil-exchange-install))
 
-  (use-package evil-surround
-    :config
-    (setq-default
-     evil-surround-pairs-alist
-     (cons '(? . ("" . "")) evil-surround-pairs-alist))
+(use-package evil-numbers
+  :general
+  (:keymaps '(normal visual)
+   "<kp-subtract>" 'evil-numbers/dec-at-pt
+   "<kp-add>" 'evil-numbers/inc-at-pt))
 
-    (global-evil-surround-mode 1))
+(use-package evil-surround
+  :config
+  (setq-default
+   evil-surround-pairs-alist
+   (cons '(? . ("" . "")) evil-surround-pairs-alist))
 
-  (use-package evil-visual-mark-mode
-    :general
-    (bind* "m" 'evil-visual-mark-mode))
+  (global-evil-surround-mode 1))
 
-  (use-package evil-visualstar
-    :config
-    (global-evil-visualstar-mode))
+(use-package evil-visual-mark-mode
+  :general
+  (bind* "m" 'evil-visual-mark-mode))
 
-  (use-package evil-args
-    :demand t
+(use-package evil-visualstar
+  :config
+  (global-evil-visualstar-mode))
 
-    :general
-    ;; bind evil-jump-out-args
-    (:keymaps 'normal
-      "K" 'evil-jump-out-args
+(use-package evil-args
+  :general
+  (:keymaps 'normal
+   "K" 'evil-jump-out-args
 
-      "> a" 'evil-arg-swap-forward
-      "< a" 'evil-arg-swap-backward)
+   "> a" 'evil-arg-swap-forward
+   "< a" 'evil-arg-swap-backward)
 
-    ;; bind evil-args text objects
-    (:keymaps 'evil-inner-text-objects-map
-      "a" 'evil-inner-arg)
+  (:keymaps 'inner
+   "a" 'evil-inner-arg)
 
-    (:keymaps 'evil-outer-text-objects-map
-      "a" 'evil-outer-arg)
+  (:keymaps 'outer
+   "a" 'evil-outer-arg)
 
-    ;; bind evil-forward/backward-args
-    (:keymaps '(normal motion)
-      "L" 'evil-forward-arg
-      "H" 'evil-backward-arg)
+  (:keymaps '(normal motion)
+   "L" 'evil-forward-arg
+   "H" 'evil-backward-arg)
 
-    :config
-    (defun evil-arg-swap-forward ()
-      (interactive)
-      (apply 'evil-exchange (evil-inner-arg))
-      (call-interactively 'evil-forward-arg)
-      (apply 'evil-exchange (evil-inner-arg)))
+  :config
+  (defun evil-arg-swap-forward ()
+    (interactive)
+    (apply 'evil-exchange (evil-inner-arg))
+    (call-interactively 'evil-forward-arg)
+    (apply 'evil-exchange (evil-inner-arg)))
 
-    (defun evil-arg-swap-backward ()
-      (interactive)
-      (apply 'evil-exchange (evil-inner-arg))
-      (evil-forward-arg 1)
-      (evil-backward-arg 2)
-      (apply 'evil-exchange (evil-inner-arg)))))
+  (defun evil-arg-swap-backward ()
+    (interactive)
+    (apply 'evil-exchange (evil-inner-arg))
+    (evil-forward-arg 1)
+    (evil-backward-arg 2)
+    (apply 'evil-exchange (evil-inner-arg))))
 
 (provide 'conf/evil)
