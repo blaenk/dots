@@ -175,15 +175,17 @@
 
 ;; (benchmark-init/activate)
 
-(require 'conf/evil)
-(require 'conf/theme)
 (require 'conf/built-in)
+(require 'conf/mode-line)
+(require 'conf/theme)
+(require 'conf/evil)
+
+(require 'conf/helm)
 (require 'conf/utilities)
 (require 'conf/languages)
-(require 'conf/flycheck)
-(require 'conf/mode-line)
-(require 'conf/helm)
 (require 'conf/git)
+
+(require 'conf/flycheck)
 (require 'conf/company)
 (require 'conf/smartparens)
 
