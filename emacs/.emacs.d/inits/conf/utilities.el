@@ -106,6 +106,9 @@
   (add-to-list 'projectile-other-file-alist '("cc" "h" "hpp" "hh"))
   (add-to-list 'projectile-other-file-alist '("h" "c" "cpp" "cc")))
 
+(use-package term-projectile
+  :disabled t)
+
 (use-package perspective
   :disabled t)
 
