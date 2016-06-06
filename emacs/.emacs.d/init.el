@@ -175,8 +175,8 @@
 
 ;; (benchmark-init/activate)
 
-(require 'conf/theme)
 (require 'conf/evil)
+(require 'conf/theme)
 (require 'conf/built-in)
 (require 'conf/utilities)
 (require 'conf/languages)
