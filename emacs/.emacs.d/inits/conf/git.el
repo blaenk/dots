@@ -32,6 +32,8 @@
   (setq magit-save-repository-buffers 'dontask)
   (setq magit-refs-show-commit-count 'all)
   (setq magit-log-auto-more t)
+  (setq magit-display-buffer-function
+        #'magit-display-buffer-fullframe-status-v1)
 
   :config
   (defun my-pull-request-url ()
@@ -55,8 +57,6 @@ to the current branch. Uses Magit."
     (interactive)
     (browse-url (my-pull-request-url)))
 
-  (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
-
   (with-eval-after-load 'magit-ediff
     (add-hook 'magit-ediff-quit-hook #'my-ediff-quit))
 
@@ -65,15 +65,15 @@ to the current branch. Uses Magit."
   (magit-wip-before-change-mode)
 
   (add-hook 'git-commit-setup-hook #'git-commit-turn-on-flyspell)
-  (add-hook 'git-commit-setup-hook #'fci-mode)
+  (add-hook 'git-commit-setup-hook #'fci-mode))
 
-  (use-package magit-gh-pulls
-    :defer t
+(use-package magit-gh-pulls
+  :after magit
 
-    :init
-    (magit-define-popup-action 'magit-dispatch-popup
-      ?# "Pull requests" 'magit-gh-pulls-popup ?!)
+  :config
+  (magit-define-popup-action 'magit-dispatch-popup
+    ?# "Pull requests" 'magit-gh-pulls-popup ?!)
 
-    (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls)))
+  (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
 
 (provide 'conf/git)
