@@ -89,6 +89,7 @@
     (interactive)
     (projectile-switch-project-by-name "~/.dots"))
 
+  (setq projectile-sort-order 'recently-active)
   (setq projectile-completion-system 'helm)
   (setq projectile-cache-file (my-cache-dir "projectile.cache"))
   (setq projectile-known-projects-file (my-cache-dir "projectile-bookmarks.eld"))
