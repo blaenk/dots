@@ -6,7 +6,7 @@
   :ensure nil
 
   :config
-  (defun my-comment-indent-new-line-advice ()
+  (defun my-comment-indent-new-line-advice (&optional soft)
     (when (not (looking-back (concat (regexp-quote comment-start) " +")
                              (line-beginning-position)))
       (insert " ")))
