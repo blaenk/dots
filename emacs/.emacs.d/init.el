@@ -8,7 +8,7 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-;; (use-package benchmark-init)
+(use-package benchmark-init)
 
 (setq load-prefer-newer t)
 (setq backup-by-copying t)
