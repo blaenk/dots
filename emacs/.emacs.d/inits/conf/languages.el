@@ -232,7 +232,8 @@
 
   :init
   (setq rtags-completions-enabled t)
-  (setq rtags-autostart-diagnostics t))
+  (setq rtags-autostart-diagnostics t)
+  (setq rtags-use-helm t))
 
 (use-package modern-cpp-font-lock
   :defer t
