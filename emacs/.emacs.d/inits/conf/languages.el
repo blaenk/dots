@@ -34,6 +34,12 @@
   :init
   (add-hook 'haskell-mode-hook #'haskell-indentation-mode))
 
+(use-package intero
+  :defer t
+
+  :init
+  (add-hook 'haskell-mode-hook #'intero-mode))
+
 (use-package clojure-mode
   :defer t)
 
