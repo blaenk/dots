@@ -2,13 +2,14 @@
 (require 'general)
 
 (use-package company
-  :general
-  ;; get back the use of kill word even if company is active
-  (:keymaps 'company-active-map
-    "C-w" nil
+  :demand t
 
-    "C-o" 'company-show-location
-    "C-/" 'company-filter-candidates)
+  :general
+  (:keymaps 'company-active-map
+   "C-w" nil
+
+   "C-o" 'company-show-location
+   "C-/" 'company-filter-candidates)
 
   :init
   (setq company-minimum-prefix-length 1)
@@ -21,118 +22,117 @@
   ;; (setq company-dabbrev-ignore-case t)
 
   :config
-  (global-company-mode)
+  (global-company-mode))
 
-  (use-package company-statistics
-    :init
-    (setq company-statistics-file
-          (my-cache-dir "company-statistics-cache.el"))
+(use-package company-statistics
+  :init
+  (setq company-statistics-file
+        (my-cache-dir "company-statistics-cache.el"))
 
-    :config
-    (company-statistics-mode))
+  :config
+  (company-statistics-mode))
 
-  (use-package company-quickhelp
-    :general
-    (:keymaps 'company-active-map
-      "M-h" 'company-quickhelp-manual-begin)
+(use-package company-quickhelp
+  :general
+  (:keymaps 'company-active-map
+   "M-h" 'company-quickhelp-manual-begin)
 
-    :init
-    (setq company-quickhelp-delay nil)
+  :init
+  (setq company-quickhelp-delay nil)
 
-    :config
-    (company-quickhelp-mode 1))
+  :config
+  (company-quickhelp-mode 1))
 
-  (use-package company-irony
-    :config
-    (use-package company-irony-c-headers
-      :config
-      (defun my-company-irony ()
-        (set (make-local-variable 'company-backends)
-             (add-to-list 'company-backends
-                          '(company-irony-c-headers company-irony))))
+(use-package company-irony)
 
-      (add-hook 'irony-mode-hook #'my-company-irony)))
+(use-package company-irony-c-headers
+  :config
+  (defun my-company-irony ()
+    (set (make-local-variable 'company-backends)
+         (add-to-list 'company-backends
+                      '(company-irony-c-headers company-irony))))
 
-  (use-package company-math
-    :config
-    (add-to-list 'company-math-allow-latex-symbols-in-faces 'markdown-math-face)
-    (add-to-list 'company-backends 'company-math-symbols-unicode t)
-    (add-to-list 'company-backends 'company-math-symbols-latex t))
+  (add-hook 'irony-mode-hook #'my-company-irony))
 
-  (use-package company-tern
-    :config
-    (defun my-company-tern ()
-      (set (make-local-variable 'company-backends)
-           (add-to-list 'company-backends 'company-tern)))
+(use-package company-math
+  :config
+  (add-to-list 'company-math-allow-latex-symbols-in-faces 'markdown-math-face)
+  (add-to-list 'company-backends 'company-math-symbols-unicode t)
+  (add-to-list 'company-backends 'company-math-symbols-latex t))
 
-    (add-hook 'tern-mode-hook #'my-company-tern))
+(use-package company-tern
+  :config
+  (defun my-company-tern ()
+    (set (make-local-variable 'company-backends)
+         (add-to-list 'company-backends 'company-tern)))
 
-  (use-package robe
-    :defer t
-    :config
-    (defun my-company-robe ()
-      (set (make-local-variable 'company-backends)
-           (add-to-list 'company-backends 'company-robe)))
+  (add-hook 'tern-mode-hook #'my-company-tern))
 
-    (add-hook 'robe-mode-hook #'my-company-robe))
+(use-package robe
+  :defer t
 
-  (use-package company-web
-    :config
-    (require 'company-web-html)
-    (defun my-company-web-html ()
-      (set (make-local-variable 'company-backends)
-           (add-to-list 'company-backends 'company-web-html)))
+  :config
+  (defun my-company-robe ()
+    (set (make-local-variable 'company-backends)
+         (add-to-list 'company-backends 'company-robe)))
 
-    (add-hook 'web-mode-hook #'my-company-web-html))
+  (add-hook 'robe-mode-hook #'my-company-robe))
 
-  (use-package company-lua
-    :config
-    (defun my-company-lua ()
-      (set (make-local-variable 'company-backends)
-           (add-to-list 'company-backends 'company-lua)))
+(use-package company-web
+  :config
+  (require 'company-web-html)
+  (defun my-company-web-html ()
+    (set (make-local-variable 'company-backends)
+         (add-to-list 'company-backends 'company-web-html)))
 
-    (add-hook 'lua-mode-hook #'my-company-lua))
+  (add-hook 'web-mode-hook #'my-company-web-html))
 
-  (use-package company-auctex
-    :config
-    (defun my-company-auctex ()
-      (make-local-variable 'company-backends)
-      (company-auctex-init))
+(use-package company-lua
+  :config
+  (defun my-company-lua ()
+    (set (make-local-variable 'company-backends)
+         (add-to-list 'company-backends 'company-lua)))
 
-    (add-hook 'LaTeX-mode-hook #'my-company-auctex))
+  (add-hook 'lua-mode-hook #'my-company-lua))
 
-  (use-package company-go
-    :defer t
+(use-package company-auctex
+  :config
+  (defun my-company-auctex ()
+    (make-local-variable 'company-backends)
+    (company-auctex-init))
 
-    :init
-    (defun my-company-go ()
-      (set (make-local-variable 'company-backends)
-           (add-to-list 'company-backends 'company-go)))
+  (add-hook 'LaTeX-mode-hook #'my-company-auctex))
 
-    (add-hook 'go-mode-hook #'my-company-go))
+(use-package company-go
+  :init
+  (defun my-company-go ()
+    (set (make-local-variable 'company-backends)
+         (add-to-list 'company-backends 'company-go)))
 
-  (use-package company-restclient
-    :config
-    (add-to-list 'company-backends 'company-restclient t))
+  (add-hook 'go-mode-hook #'my-company-go))
 
-  (use-package company-anaconda
-    :config
-    (defun my-company-anaconda ()
-      (set (make-local-variable 'company-backends)
-           (add-to-list 'company-backends 'company-anaconda)))
+(use-package company-restclient
+  :config
+  (add-to-list 'company-backends 'company-restclient t))
 
-    (add-hook 'anaconda-mode-hook #'my-company-anaconda))
+(use-package company-anaconda
+  :config
+  (defun my-company-anaconda ()
+    (set (make-local-variable 'company-backends)
+         (add-to-list 'company-backends 'company-anaconda)))
 
-  (use-package company-cabal
-    :config
-    (defun my-company-cabal ()
-      (set (make-local-variable 'company-backends)
-           (add-to-list 'company-backends 'company-cabal)))
+  (add-hook 'anaconda-mode-hook #'my-company-anaconda))
 
-    (add-hook 'haskell-cabal-mode-hook #'my-company-cabal))
+(use-package company-cabal
+  :config
+  (defun my-company-cabal ()
+    (set (make-local-variable 'company-backends)
+         (add-to-list 'company-backends 'company-cabal)))
 
-  (use-package company-emoji
-    :config
-    (add-to-list 'company-backends 'company-emoji t)))
+  (add-hook 'haskell-cabal-mode-hook #'my-company-cabal))
+
+(use-package company-emoji
+  :config
+  (add-to-list 'company-backends 'company-emoji t))
 
 (provide 'conf/company)
