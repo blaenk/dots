@@ -337,9 +337,10 @@
 
 (use-package emojify
   :init
-  (setq emojify-program-contexts 'comments)
-  (setq emojify-point-entered-behaviour 'uncover)
-  (setq emojify-emojis-dir (my-cache-dir "emojis"))
+  (setq
+   emojify-program-contexts 'comments
+   emojify-point-entered-behaviour 'uncover
+   emojify-emojis-dir (my-cache-dir "emojis"))
 
   :config
   (global-emojify-mode)
