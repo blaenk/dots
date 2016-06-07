@@ -70,11 +70,6 @@
 (use-package markdown-mode
   :defer t
 
-  :general
-  (bind* :keymaps '(markdown-mode-map gfm-mode-map)
-    "k" 'beginning-of-defun
-    "j" 'end-of-defun)
-
   :init
   (setq markdown-enable-math t)
   (setq markdown-asymmetric-header t)
