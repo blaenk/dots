@@ -51,7 +51,10 @@
 (auto-compile-on-load-mode)
 (auto-compile-on-save-mode)
 
-(use-package dash)
+(use-package dash
+  :config
+  (dash-enable-font-lock))
+
 (use-package f)
 (use-package s)
 
