@@ -131,10 +131,6 @@
 (fset #'yes-or-no-p #'y-or-n-p)
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
 
-(defun my-insert-tab ()
-  (interactive)
-  (insert-tab))
-
 (defun my-kill-this-buffer ()
   (interactive)
   (let ((buffer-modified-p nil))
@@ -167,12 +163,6 @@
 
   "C-z" nil
 
-  ;; "TAB" 'my-insert-tab
-
-  "C-c b" 'bury-buffer
-  "C-c k" 'my-kill-this-buffer
-  "C-c o" 'my-switch-to-previous-buffer
-  "C-c x" 'my-split-with-previous-buffer
   "C-S-x C-S-s" 'my-force-save)
 
 ;; C-c prefix:
