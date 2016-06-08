@@ -31,18 +31,23 @@
 
 (use-package benchmark-init)
 
-(setq load-prefer-newer t)
-(setq backup-by-copying t)
+(setq load-prefer-newer t
+      backup-by-copying t
+
+      use-package-always-ensure t)
 
 (eval-when-compile
   (require 'use-package))
 (require 'diminish)
 (require 'bind-key)
 
-(setq use-package-always-ensure t)
+(use-package auto-compile
+  :defines
+  auto-compile-display-buffer
 
-(use-package auto-compile)
-(setq auto-compile-display-buffer nil)
+  :init
+  (setq auto-compile-display-buffer nil))
+
 (auto-compile-on-load-mode)
 (auto-compile-on-save-mode)
 
@@ -59,10 +64,8 @@
 (require 'conf/common)
 
 (let* ((auto-save-dir (my-cache-dir "autosaves/")))
-  (setq auto-save-list-file-prefix (expand-file-name "saves-" auto-save-dir))
-  (setq auto-save-file-name-transforms `((".*" ,auto-save-dir t))))
-
-(setq backup-directory-alist `((".*" . ,(my-cache-dir "backups/"))))
+  (setq auto-save-list-file-prefix (expand-file-name "saves-" auto-save-dir)
+        auto-save-file-name-transforms `((".*" ,auto-save-dir t))))
 
 (defun emacs-session-filename (session-id)
   (my-cache-dir (concat "sessions/" session-id)))
@@ -70,57 +73,59 @@
 (when (getenv "VM")
   (setq browse-url-browser-function #'kill-new))
 
-(setq version-control t)
-(setq delete-old-versions t)
+(setq delete-old-versions t
+      version-control t
 
-(setq enable-recursive-minibuffers t)
+      backup-directory-alist `((".*" . ,(my-cache-dir "backups/")))
 
-(setq inhibit-x-resources t)
-(setq x-select-enable-clipboard t)
-(setq x-select-enable-primary t)
-(setq x-underline-at-descent-line t)
-(setq save-interprogram-paste-before-kill t)
+      enable-recursive-minibuffers t
 
-(setq inhibit-splash-screen t)
-(setq inhibit-startup-echo-area-message t)
-(setq inhibit-startup-message t)
+      inhibit-x-resources t
+      x-underline-at-descent-line t
 
-(setq mouse-yank-at-point t)
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-(setq mouse-wheel-progressive-speed t)
-(setq mouse-wheel-follow-mouse t)
+      save-interprogram-paste-before-kill t
+      select-enable-clipboard t
+      select-enable-primary t
 
-(setq help-window-select t)
+      inhibit-splash-screen t
+      inhibit-startup-echo-area-message t
+      inhibit-startup-message t
 
-(setq scroll-step 1)
-(setq scroll-conservatively 10000)
-(setq scroll-preserve-screen-position t)
+      mouse-wheel-follow-mouse t
+      mouse-wheel-progressive-speed t
+      mouse-wheel-scroll-amount '(1 ((shift) . 1))
+      mouse-yank-at-point t
 
-(setq-default fill-column 80)
+      help-window-select t
 
-(setq visible-bell t)
-(setq ring-bell-function #'ignore)
+      confirm-kill-emacs #'y-or-n-p
+      custom-file (my-cache-dir "custom.el")
 
-(setq delete-by-moving-to-trash t)
+      scroll-conservatively 10000
+      scroll-preserve-screen-position t
+      scroll-step 1
 
-(setq history-delete-duplicates t)
+      visible-bell t
+      ring-bell-function #'ignore
 
-(setq tab-always-indent nil)
-(setq-default indent-tabs-mode nil)
+      delete-by-moving-to-trash t
 
-(setq-default tab-width 2)
-(defvaralias 'c-basic-offset 'tab-width)
+      history-delete-duplicates t
+
+      tab-always-indent nil
+
+      load-prefer-newer t
+      sentence-end-double-space nil
+      uniquify-buffer-name-style 'forward
+      visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+
+(setq-default fill-column 80
+              indent-tabs-mode nil
+              tab-width 2
+              cursor-type 'box
+              echo-keystrokes 0.1)
 
 (fset #'yes-or-no-p #'y-or-n-p)
-
-(setq load-prefer-newer t)
-
-(setq sentence-end-double-space nil)
-(setq-default cursor-type 'box)
-(setq-default echo-keystrokes 0.1)
-(setq uniquify-buffer-name-style 'forward)
-(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
-
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
 
 (bind
@@ -212,5 +217,4 @@
 
 ;; (benchmark-init/deactivate)
 
-(setq custom-file (my-cache-dir "custom.el"))
 (load custom-file 'noerror)

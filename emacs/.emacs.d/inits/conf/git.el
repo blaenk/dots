@@ -29,10 +29,10 @@
    "C-c g f" 'magit-file-popup)
 
   :init
-  (setq magit-save-repository-buffers 'dontask)
-  (setq magit-refs-show-commit-count 'all)
-  (setq magit-log-auto-more t)
-  (setq magit-display-buffer-function
+  (setq magit-save-repository-buffers 'dontask
+        magit-refs-show-commit-count 'all
+        magit-log-auto-more t
+        magit-display-buffer-function
         #'magit-display-buffer-fullframe-status-v1)
 
   :config

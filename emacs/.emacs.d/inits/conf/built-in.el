@@ -119,8 +119,8 @@
   :defines recentf-save-file
 
   :init
-  (setq recentf-save-file (my-cache-dir "recentf"))
-  (setq recentf-max-saved-items 50)
+  (setq recentf-save-file (my-cache-dir "recentf")
+        recentf-max-saved-items 50)
 
   :config
   (recentf-mode 1))
@@ -129,8 +129,8 @@
   :ensure nil
 
   :init
-  (setq savehist-save-minibuffer-history 1)
-  (setq savehist-file (my-cache-dir "history"))
+  (setq savehist-save-minibuffer-history 1
+        savehist-file (my-cache-dir "history"))
 
   :config
   (savehist-mode))
@@ -168,8 +168,8 @@
   gdb-show-main
 
   :init
-  (setq gdb-many-windows t)
-  (setq gdb-show-main t))
+  (setq gdb-many-windows t
+        gdb-show-main t))
 
 (use-package paren
   :ensure nil
@@ -192,15 +192,15 @@
   :diminish whitespace-mode
 
   :init
-  (setq whitespace-line-column nil)
+  (setq whitespace-line-column nil
 
-  ;; NOTE
-  ;; lines-tail to see which lines go beyond max col
-  (setq whitespace-style
+        ;; NOTE
+        ;; lines-tail to see which lines go beyond max col
+        whitespace-style
         '(face indentation trailing empty space-after-tab
-          space-before-tab tab-mark))
+               space-before-tab tab-mark)
 
-  (setq whitespace-display-mappings
+        whitespace-display-mappings
         '((space-mark 32 [183] [46])
           (space-mark 160 [164] [95])
           (newline-mark 10 [36 10])
@@ -222,9 +222,9 @@
   :functions sh-set-shell
 
   :init
-  (setq sh-learn-basic-offset t)
-  (setq sh-basic-offset 2)
-  (setq sh-indentation 2))
+  (setq sh-learn-basic-offset t
+        sh-basic-offset 2
+        sh-indentation 2))
 
 (use-package python
   :ensure nil
@@ -272,6 +272,7 @@
 
   :init
   (setq c-tab-always-indent nil)
+  (defvaralias 'c-basic-offset 'tab-width)
 
   (use-package cc-menus
     :ensure nil
@@ -441,9 +442,9 @@ Lisp function does not specify a special indentation."
   ediff-toggle-wide-display
 
   :init
-  (setq ediff-custom-diff-options "-u")
-  (setq ediff-split-window-function #'split-window-horizontally)
-  (setq ediff-window-setup-function #'ediff-setup-windows-plain)
+  (setq ediff-custom-diff-options "-u"
+        ediff-split-window-function #'split-window-horizontally
+        ediff-window-setup-function #'ediff-setup-windows-plain)
 
   ;; NOTE
   ;; doing M-x ediff-show-diff-output from ediff-current-file doesn't work
@@ -611,8 +612,8 @@ PR [a-z-+]+/\
   :defer t
 
   :init
-  (setq dired-auto-revert-buffer t)
-  (setq dired-listing-switches "-alhF")
+  (setq dired-auto-revert-buffer t
+        dired-listing-switches "-alhF")
 
   (when (or (memq system-type '(gnu gnu/linux))
             (string= (file-name-nondirectory insert-directory-program) "gls"))
@@ -668,10 +669,10 @@ PR [a-z-+]+/\
   :defer t
 
   :init
-  (setq compilation-scroll-output 'first-error)
-  (setq compilation-ask-about-save nil)
-  (setq compilation-skip-threshold 0)
-  (setq compilation-always-kill t))
+  (setq compilation-scroll-output 'first-error
+        compilation-ask-about-save nil
+        compilation-skip-threshold 0
+        compilation-always-kill t))
 
 (use-package hl-line
   :ensure nil

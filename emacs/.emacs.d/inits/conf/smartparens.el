@@ -35,14 +35,14 @@
     "> f" 'my-move-form-forward)
 
   :init
-  (setq sp-show-pair-from-inside nil)
-  (setq sp-cancel-autoskip-on-backward-movement nil)
+  (setq sp-show-pair-from-inside nil
+        sp-cancel-autoskip-on-backward-movement nil
 
-  (setq sp-highlight-pair-overlay nil)
-  (setq sp-highlight-wrap-overlay nil)
+        sp-highlight-pair-overlay nil
+        sp-highlight-wrap-overlay nil
 
-  (setq sp-autoinsert-pair nil)
-  (setq sp-autodelete-pair nil)
+        sp-autoinsert-pair nil
+        sp-autodelete-pair nil)
 
   :config
   (use-package evil

@@ -60,24 +60,20 @@
     "l" 'my-clear-search)
 
   :init
-  (setq evil-want-C-w-in-emacs-state t)
-  (setq evil-text-object-change-visual-type nil)
+  ;; don't auto-copy visual selections
+  (fset 'evil-visual-update-x-selection 'ignore)
 
-  ;; TODO check if these should all be in this
-  (setq evil-search-module 'evil-search)
-  (setq-default evil-symbol-word-search t)
+  (setq evil-want-C-w-in-emacs-state t
+        evil-text-object-change-visual-type nil
 
-  ;; (setq evil-cross-lines t)
+        evil-search-module 'evil-search
 
-  ;; TODO show trailing whitespace in combination with this?
-  ;; (setq evil-move-cursor-back nil)
+        ;; TODO show trailing whitespace in combination with this?
+        ;; evil-move-cursor-back nil
 
-  ;; TODO necessary?
-  (setq-default evil-shift-width 2)
-  (setq-default evil-shift-round nil)
-  (setq evil-want-C-w-delete t)
-  (setq evil-default-state 'emacs)
-  (setq evil-normal-state-modes
+        evil-want-C-w-delete t
+        evil-default-state 'emacs
+        evil-normal-state-modes
         '(text-mode
           prog-mode
           fundamental-mode
@@ -85,19 +81,22 @@
           conf-mode
           TeX-mode
           LaTeX-mode
-          yaml-mode
-          ))
-  (setq evil-emacs-state-modes
+          yaml-mode)
+        evil-emacs-state-modes
         '(help-mode
           term-mode
           undo-tree-visualizer-mode))
+
+  (setq-default evil-symbol-word-search t
+                evil-shift-width 2
+                evil-shift-round nil)
 
   (with-eval-after-load 'company
     (defun my-evil-company (arg)
       (company-complete))
 
-    (setq evil-complete-next-func #'my-evil-company)
-    (setq evil-complete-previous-func #'my-evil-company))
+    (setq evil-complete-next-func #'my-evil-company
+          evil-complete-previous-func #'my-evil-company))
 
   (defun my-evil--real-function (fun)
     "Figure out the actual symbol behind a function.
@@ -169,12 +168,12 @@ The initial state for a mode can be set with
       (require 'solarized))
 
     (solarized-with-color-variables 'light
-      (setq evil-normal-state-cursor `(,blue-l box))
-      (setq evil-insert-state-cursor `(,green-l box))
-      (setq evil-visual-state-cursor `(,magenta-l box))
-      (setq evil-replace-state-cursor `(,red-l (hbar . 4)))
-      (setq evil-operator-state-cursor `((hbar . 6)))
-      (setq evil-emacs-state-cursor `(,red-l box))))
+      (setq evil-normal-state-cursor `(,blue-l box)
+            evil-insert-state-cursor `(,green-l box)
+            evil-visual-state-cursor `(,magenta-l box)
+            evil-replace-state-cursor `(,red-l (hbar . 4))
+            evil-operator-state-cursor `((hbar . 6))
+            evil-emacs-state-cursor `(,red-l box))))
 
   (defun my-evil-maybe-remove-spaces ()
     (unless (memq this-command '(evil-open-above evil-open-below))

@@ -18,8 +18,9 @@
   :diminish which-key-mode
 
   :init
-  (setq which-key-idle-delay 1.0)
-  (setq which-key-use-C-h-commands nil)
+  (setq which-key-idle-delay 1.0
+        which-key-use-C-h-commands nil
+        which-key-side-window-max-height 1.0)
 
   :config
   (which-key-mode))
@@ -71,8 +72,8 @@
     (let ((default-directory file-or-dir-name))
       (projectile-project-root)))
 
-  (setq ag-highlight-search t)
-  (setq ag-project-root-function #'my-ag-root-function))
+  (setq ag-highlight-search t
+        ag-project-root-function #'my-ag-root-function))
 
 ;; TODO
 ;; can configure test dirs by configuring projectile-test-prefix etc
@@ -89,16 +90,15 @@
     (interactive)
     (projectile-switch-project-by-name "~/.dots"))
 
-  (setq projectile-sort-order 'recently-active)
-  (setq projectile-completion-system 'helm)
-  (setq projectile-cache-file (my-cache-dir "projectile.cache"))
-  (setq projectile-known-projects-file (my-cache-dir "projectile-bookmarks.eld"))
-
   ;; consider files ending in _test to be tests
   (defun my-projectile-test-suffix-function (project-type)
     (or (projectile-test-suffix project-type) "_test"))
 
-  (setq projectile-test-suffix-function #'my-projectile-test-suffix-function)
+  (setq projectile-sort-order 'recently-active
+        projectile-completion-system 'helm
+        projectile-cache-file (my-cache-dir "projectile.cache")
+        projectile-known-projects-file (my-cache-dir "projectile-bookmarks.eld")
+        projectile-test-suffix-function #'my-projectile-test-suffix-function)
 
   :config
   (projectile-global-mode)
@@ -131,8 +131,8 @@
   (defun my-anzu-hook ()
     (make-local-variable 'anzu--state))
 
-  (setq anzu-mode-line-update-function #'my-anzu-update)
-  (setq anzu-cons-mode-line-p nil)
+  (setq anzu-mode-line-update-function #'my-anzu-update
+        anzu-cons-mode-line-p nil)
 
   :config
   (add-hook 'anzu-mode-hook #'my-anzu-hook)
@@ -205,8 +205,8 @@
   ;; (setq undo-tree-history-directory-alist
   ;;       `((".*" . ,(my-cache-dir "undos/"))))
   ;; (setq undo-tree-auto-save-history t)
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff nil)
+  (setq undo-tree-visualizer-timestamps t
+        undo-tree-visualizer-diff nil)
 
   :config
   (defadvice undo-tree-make-history-save-file-name
@@ -219,8 +219,8 @@
   :defer t
 
   :init
-  (setq multi-term-buffer-name "term")
-  (setq multi-term-program "/usr/bin/zsh"))
+  (setq multi-term-buffer-name "term"
+        multi-term-program "/usr/bin/zsh"))
 
 (use-package visual-regexp
   :defer t)
@@ -233,8 +233,8 @@
    [f6] 'ivy-resume)
 
   :init
-  (setq swiper-action-recenter t)
-  (setq ivy-use-virtual-buffers t))
+  (setq swiper-action-recenter t
+        ivy-use-virtual-buffers t))
 
 (use-package counsel
   :defer t)
@@ -277,8 +277,8 @@
         (format "%3d " (line-number-at-pos))
       (format "%3d " (abs offset))))
 
-  (setq relative-line-numbers-format #'abs-rel-numbers)
-  (setq relative-line-numbers-motion-function #'forward-visible-line)
+  (setq relative-line-numbers-format #'abs-rel-numbers
+        relative-line-numbers-motion-function #'forward-visible-line)
 
   (add-hook 'prog-mode-hook #'relative-line-numbers-mode))
 
@@ -293,8 +293,8 @@
   (bind* "c" 'fci-mode)
 
   :init
-  (setq fci-rule-use-dashes t)
-  (setq fci-dash-pattern 0.50)
+  (setq fci-rule-use-dashes t
+        fci-dash-pattern 0.50)
 
   (defun my-git-commit-fill-column ()
     (fci-mode 1))
@@ -341,10 +341,9 @@
 
 (use-package emojify
   :init
-  (setq
-   emojify-program-contexts 'comments
-   emojify-point-entered-behaviour 'uncover
-   emojify-emojis-dir (my-cache-dir "emojis"))
+  (setq emojify-program-contexts 'comments
+        emojify-point-entered-behaviour 'uncover
+        emojify-emojis-dir (my-cache-dir "emojis"))
 
   :config
   (global-emojify-mode)

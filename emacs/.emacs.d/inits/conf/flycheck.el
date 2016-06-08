@@ -2,8 +2,8 @@
 
 (use-package flycheck
   :init
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-  (setq-default flycheck-emacs-lisp-load-path 'inherit)
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)
+                flycheck-emacs-lisp-load-path 'inherit)
 
   :config
   (global-flycheck-mode))
@@ -22,8 +22,8 @@
   :disabled t
 
   :init
-  (setq flycheck-c/c++-googlelint-executable "cpplint")
-  (setq flycheck-googlelint-filter "-legal")
+  (setq flycheck-c/c++-googlelint-executable "cpplint"
+        flycheck-googlelint-filter "-legal")
 
   :config
   (flycheck-add-next-checker

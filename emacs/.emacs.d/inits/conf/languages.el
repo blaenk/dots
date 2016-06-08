@@ -7,6 +7,7 @@
 
   :init
   (setq anaconda-mode-installation-directory (my-cache-dir "anaconda-mode"))
+
   (add-hook 'python-mode-hook #'anaconda-mode)
   (add-hook 'python-mode-hook #'anaconda-eldoc-mode))
 
@@ -71,11 +72,11 @@
   :defer t
 
   :init
-  (setq markdown-enable-math t)
-  (setq markdown-asymmetric-header t)
-  (setq markdown-gfm-use-electric-backquote nil)
-  (setq markdown-italic-underscore t)
-  (setq markdown-use-pandoc-style-yaml-metadata t)
+  (setq markdown-enable-math t
+        markdown-asymmetric-header t
+        markdown-gfm-use-electric-backquote nil
+        markdown-italic-underscore t
+        markdown-use-pandoc-style-yaml-metadata t)
 
   (defun my-gfm-hook ()
     (interactive)
@@ -206,11 +207,10 @@
   :interpreter "node"
 
   :init
-  (setq-default js2-basic-offset 2)
-  (setq-default js2-global-externs
-                '("require" "global" "module"
-                  "describe" "it" "assert"
-                  "sinon"))
+  (setq-default js2-basic-offset 2
+                js2-global-externs '("require" "global" "module"
+                                     "describe" "it" "assert"
+                                     "sinon"))
 
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
 
@@ -235,9 +235,9 @@
   :defer t
 
   :init
-  (setq rtags-completions-enabled t)
-  (setq rtags-autostart-diagnostics t)
-  (setq rtags-use-helm t))
+  (setq rtags-completions-enabled t
+        rtags-autostart-diagnostics t
+        rtags-use-helm t))
 
 (use-package modern-cpp-font-lock
   :defer t
@@ -291,20 +291,19 @@
   :defer t
 
   :init
-  (setq TeX-PDF-mode t)
-  (setq TeX-auto-save t)
-  (setq TeX-parse-self t)
   (setq-default TeX-master nil)
 
-  (setq TeX-view-program-selection
-        '((output-dvi "DVI Viewer")
-          (output-pdf "PDF Viewer")
-          (output-html "HTML Viewer")))
+  (setq TeX-PDF-mode t
+        TeX-auto-save t
+        TeX-parse-self t
 
-  (setq TeX-view-program-list
-        '(("DVI Viewer" "open %o")
-          ("PDF Viewer" "open %o")
-          ("HTML Viewer" "open %o")))
+        TeX-view-program-selection '((output-dvi "DVI Viewer")
+                                     (output-pdf "PDF Viewer")
+                                     (output-html "HTML Viewer"))
+
+        TeX-view-program-list '(("DVI Viewer" "open %o")
+                                ("PDF Viewer" "open %o")
+                                ("HTML Viewer" "open %o")))
 
   (add-hook 'LaTeX-mode-hook #'flyspell-mode)
   (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)

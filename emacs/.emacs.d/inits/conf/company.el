@@ -12,14 +12,16 @@
    "C-/" 'company-filter-candidates)
 
   :init
-  (setq company-minimum-prefix-length 1)
-  (setq company-selection-wrap-around t)
-  (setq company-tooltip-limit 20)
-  (setq company-tooltip-align-annotations t)
-  (setq company-require-match 'never)
-  ;; (setq company-global-modes '(not git-commit-mode))
-  ;; (setq company-dabbrev-downcase nil)
-  ;; (setq company-dabbrev-ignore-case t)
+  (setq company-minimum-prefix-length 1
+        company-selection-wrap-around t
+        company-tooltip-limit 20
+        company-tooltip-align-annotations t
+        company-require-match 'never
+
+        ;; company-global-modes '(not git-commit-mode)
+        ;; company-dabbrev-downcase nil
+        ;; company-dabbrev-ignore-case t
+        )
 
   :config
   (global-company-mode))

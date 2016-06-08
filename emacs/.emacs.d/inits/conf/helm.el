@@ -27,8 +27,8 @@
    "C-z" 'helm-select-action)
 
   :init
-  (setq helm-split-window-in-side-p t)
-  (setq helm-display-header-line nil)
+  (setq helm-split-window-in-side-p t
+        helm-display-header-line nil)
 
   :config
   (helm-mode 1)
@@ -147,12 +147,12 @@
    "C-S-l" 'helm-gtags-next-history)
 
   :init
-  (setq helm-gtags-ignore-case t)
-  (setq helm-gtags-auto-update t)
-  (setq helm-gtags-use-input-at-cursor t)
-  (setq helm-gtags-direct-helm-completing t)
-  (setq helm-gtags-prefix-key "\C-t")
-  (setq helm-gtags-suggested-key-mapping t)
+  (setq helm-gtags-ignore-case t
+        helm-gtags-auto-update t
+        helm-gtags-use-input-at-cursor t
+        helm-gtags-direct-helm-completing t
+        helm-gtags-prefix-key "\C-t"
+        helm-gtags-suggested-key-mapping t)
 
   (add-hook 'c-mode-hook #'helm-gtags-mode)
   (add-hook 'c++-mode-hook #'helm-gtags-mode)
@@ -217,15 +217,14 @@
    "C-'" 'ace-jump-helm-line)
 
   :init
-  (setq ace-jump-helm-line-default-action 'select)
+  (setq ace-jump-helm-line-default-action 'select
+        ace-jump-helm-line-style 'post
 
-  (setq ace-jump-helm-line-style 'post)
+        ;; press 'o' before the avy anchor to only move to it
+        ace-jump-helm-line-move-only-key ?o
 
-  ;; press 'o' before the avy anchor to only move to it
-  (setq ace-jump-helm-line-move-only-key ?o)
-
-  ;; press 'p' before the avy anchor to move to it and execute
-  ;; it's persistent action
-  (setq ace-jump-helm-line-persistent-key ?p))
+        ;; press 'p' before the avy anchor to move to it and execute
+        ;; it's persistent action
+        ace-jump-helm-line-persistent-key ?p))
 
 (provide 'conf/helm)
