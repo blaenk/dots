@@ -1,5 +1,26 @@
 (require 'package)
 
+;; frame
+(defun my-frame-options (frame)
+  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10.5"))
+  (add-to-list 'default-frame-alist '(width . 86))
+  (add-to-list 'default-frame-alist '(height . 36))
+
+  (cond
+   ((eq system-type 'gnu/linux)
+    (set-fontset-font "fontset-default" nil
+                      (font-spec :name "Symbola") nil 'prepend))
+   ((eq system-type 'darwin)
+    (set-fontset-font t 'symbol
+                      (font-spec :family "Apple Color Emoji") nil 'prepend)
+    (set-fontset-font t 'symbol
+                      (font-spec :family "Apple Symbols") nil 'prepend))))
+
+(my-frame-options nil)
+
+(add-hook 'after-make-frame-functions #'my-frame-options)
+
+;; packages
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 
 (package-initialize)
