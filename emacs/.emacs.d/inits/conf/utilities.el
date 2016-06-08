@@ -19,6 +19,7 @@
 
   :init
   (setq which-key-idle-delay 1.0
+        which-key-idle-secondary-delay 0
         which-key-use-C-h-commands nil
         which-key-side-window-max-height 1.0)
 
