@@ -23,6 +23,35 @@
         which-key-side-window-max-height 1.0)
 
   :config
+  (which-key-add-key-based-replacements
+    "SPC b" "buffer"
+    "SPC b m" "move"
+
+    "SPC c" "flycheck"
+    "SPC e" "emacs"
+    "SPC f" "frame"
+
+    "SPC g" "git"
+    "SPC g g" "gist"
+
+    "SPC k" "kill"
+    "SPC k f" "frame"
+    "SPC k w" "window"
+
+    "SPC h" "helm"
+
+    "SPC o" "open"
+    "SPC o a" "all"
+
+    "SPC p" "projectile"
+
+    "SPC t" "toggle"
+    "SPC t r" "rainbow"
+
+    "SPC w" "window"
+    "SPC w s" "split"
+    )
+
   (which-key-mode))
 
 (use-package help-fns+
@@ -61,7 +90,9 @@
   (add-hook 'prog-mode-hook #'dtrt-indent-mode))
 
 (use-package paradox
-  :defer t)
+  :general
+  (bind*
+    "e u" 'paradox-list-packages))
 
 (use-package ag
   :if (executable-find "ag")
@@ -82,8 +113,11 @@
   :demand t
 
   :general
-  ("C-c e" 'my-edit-inits
-   "C-M-/" 'helm-projectile-ag)
+  ("C-M-/" 'helm-projectile-ag)
+
+  (bind*
+    "p" projectile-command-map
+    "e e" 'my-edit-inits)
 
   :init
   (defun my-edit-inits ()
@@ -121,7 +155,7 @@
       (let ((status
              (cond
               ((eq anzu--state 'search)
-               (format " %s of %d%s "
+               (format " %s/%d%s "
                        (anzu--format-here-position here total)
                        total (if anzu--overflow-p "+" "")))
               ((eq anzu--state 'replace-query) (format " %d replace " total))
@@ -142,11 +176,15 @@
   :defer t
 
   :general
-  ("C-=" 'er/expand-region)
-  (bind* "v" 'er/expand-region))
+  ("C-=" 'er/expand-region))
 
 (use-package buffer-move
-  :defer t)
+  :general
+  (bind*
+    "b m k" 'buf-move-up
+    "b m j" 'buf-move-down
+    "b m h" 'buf-move-left
+    "b m l" 'buf-move-right))
 
 (use-package frame-cmds
   :defer t)
@@ -156,8 +194,8 @@
 
 (use-package link-hint
   :general
-  ("C-c l o" 'link-hint-open-link
-   "C-c l c" 'link-hint-copy-link)
+  (bind*
+    "o l" 'link-hint-open-link)
 
   :init
   (setq link-hint-avy-style 'post))
@@ -170,8 +208,9 @@
 
 (use-package gist
   :general
-  ("C-c g g s" 'gist-region-or-buffer-private ;; s for secret
-   "C-c g g p" 'gist-region-or-buffer))       ;; p for public
+  (bind*
+    "g g s" 'gist-region-or-buffer-private
+    "g g p" 'gist-region-or-buffer))
 
 (use-package highlight-escape-sequences
   :defer t
@@ -246,7 +285,8 @@
 (use-package rainbow-mode
   :diminish rainbow-mode
 
-  :general ("C-c r c" 'rainbow-mode)
+  :general
+  (bind* "t r c" 'rainbow-mode)
 
   :init
   ;; disable highlighting color names
@@ -255,21 +295,24 @@
   (add-hook 'prog-mode-hook #'rainbow-mode))
 
 (use-package rainbow-blocks
-  :general ("C-c r b" 'rainbow-blocks-mode))
+  :general
+  (bind* "t r b" 'rainbow-blocks-mode))
 
 (use-package rainbow-delimiters
-  :general ("C-c r d" 'rainbow-delimiters-mode)
+  :general
+  (bind* "t r d" 'rainbow-delimiters-mode)
 
   :init
   (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
 
 (use-package color-identifiers-mode
-  :general ("C-c r i" 'color-identifiers-mode))
+  :general
+  (bind* "t r i" 'color-identifiers-mode))
 
 (use-package relative-line-numbers
   :general
-  (bind* "n" 'relative-line-numbers-mode)
+  (bind* "t n" 'relative-line-numbers-mode)
 
   :init
   (defun abs-rel-numbers (offset)
@@ -290,7 +333,7 @@
 
 (use-package fill-column-indicator
   :general
-  (bind* "c" 'fci-mode)
+  (bind* "t c" 'fci-mode)
 
   :init
   (setq fci-rule-use-dashes t
@@ -310,7 +353,8 @@
 (use-package ace-window
   :defer t
 
-  :general ("C-x o" 'ace-window)
+  :general
+  (bind* "w o" 'ace-window)
 
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))

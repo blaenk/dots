@@ -2,22 +2,27 @@
 (require 'general)
 
 (use-package helm-config
-  :ensure nil
-
-  :init
-  (setq helm-command-prefix-key "C-c h"))
+  :ensure nil)
 
 (use-package helm
   :diminish helm-mode
 
   :general
+  (bind*
+    "h" helm-command-map
+    "o a f" 'helm-find-files
+    "o a b" 'helm-buffers-list
+    "o r" 'helm-recentf)
+
   ("M-x" 'helm-M-x
    "M-y" 'helm-show-kill-ring
    "M-i" 'helm-semantic-or-imenu
    "M-r" 'helm-resume
+
    "C-x b" 'helm-buffers-list
    "C-x C-f" 'helm-find-files
    "C-x C-r" 'helm-recentf
+
    "C-h a" 'helm-apropos
    "C-h i" 'helm-info-emacs)
 
@@ -109,7 +114,8 @@
 
 (use-package helm-mt
   :general
-  ("C-c t" 'helm-mt)
+  (bind*
+    "o t" 'helm-mt)
 
   (:keymaps 'helm-mt/keymap
    "M-h" 'my-helm-horizontal-split
@@ -170,14 +176,32 @@
   :diminish projectile-mode
 
   :general
-  ("C-<" 'helm-projectile-switch-to-buffer
-   "C->" 'helm-projectile)
+  (bind*
+    "o b" 'my-open-buffer
+    "o f" 'my-open-file)
 
+  ("C-<" 'my-open-buffer
+   "C->" 'my-open-file)
+
+  ;; TODO
+  ;; instead make it work with anything
   (:keymaps 'helm-projectile-find-file-map
    "M-h" 'my-helm-horizontal-split
    "M-v" 'my-helm-vertical-split)
 
   :config
+  (defun my-open-file ()
+    (interactive)
+    (if (projectile-project-p)
+        (helm-projectile)
+      (helm-find-files)))
+
+  (defun my-open-buffer ()
+    (interactive)
+    (if (projectile-project-p)
+        (helm-projectile-switch-to-buffer)
+      (helm-buffers-list)))
+
   (helm-projectile-on))
 
 (use-package helm-flycheck

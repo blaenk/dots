@@ -1,6 +1,14 @@
 (require 'use-package)
+(require 'general)
 
 (use-package flycheck
+  :demand t
+
+  :general
+  (bind*
+    "c l" 'flycheck-list-errors
+    "c c" 'helm-flycheck)
+
   :init
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)
                 flycheck-emacs-lisp-load-path 'inherit)

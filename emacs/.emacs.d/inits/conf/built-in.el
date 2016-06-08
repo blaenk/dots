@@ -2,6 +2,24 @@
 (require 'general)
 (require 'conf/common)
 
+(use-package iso-transl
+  :ensure nil
+
+  :general
+  (:keymaps 'iso-transl-ctl-x-8-map
+   "<right>" "→"
+   "<left>" "←"
+   "n" "ñ"))
+
+(use-package winner
+  :ensure nil
+  :demand t
+
+  :general
+  (bind*
+    "w u" 'winner-undo
+    "w r" 'winner-redo))
+
 (use-package newcomment
   :ensure nil
 
@@ -78,7 +96,8 @@
   :demand t
 
   :general
-  (bind* "f" 'my-which-func-print)
+  (bind*
+    "p f" 'my-which-func-print)
 
   :init
   (defun my-which-func-print ()
@@ -436,10 +455,12 @@ Lisp function does not specify a special indentation."
 (use-package ediff
   :ensure nil
   :defer t
-  :general ("C-c d" 'ediff-current-file)
   :functions
   my-toggle-ediff-wide-display
   ediff-toggle-wide-display
+
+  :general
+  (bind* "b d" 'ediff-current-file)
 
   :init
   (setq ediff-custom-diff-options "-u"
@@ -623,17 +644,20 @@ PR [a-z-+]+/\
 (use-package dired-x
   :ensure nil
 
-  :config
+  :init
   (setq dired-omit-verbose nil)
-  (add-hook 'dired-mode-hook #'dired-omit-mode)
 
-  (when (eq system-type 'darwin)
-    (setq dired-guess-shell-gnutar "tar")))
+  (add-hook 'dired-mode-hook #'dired-omit-mode))
 
 (use-package simple
   :ensure nil
 
-  :general ("C-c q" 'auto-fill-mode)
+  :general
+  (bind*
+    "c j" 'next-error
+    "c k" 'previous-error
+
+    "t a" 'auto-fill-mode)
 
   :init
   (setq next-error-recenter '(4))

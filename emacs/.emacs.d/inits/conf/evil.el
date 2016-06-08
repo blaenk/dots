@@ -10,9 +10,15 @@
   (:keymaps 'emacs
    "C-w" 'evil-window-map)
 
-  (:keymaps 'insert
-   "<S-return>" 'comment-indent-new-line
+  (bind*
+    "k w w" 'evil-window-delete
 
+    "w k" 'evil-window-up
+    "w j" 'evil-window-down
+    "w h" 'evil-window-left
+    "w l" 'evil-window-right)
+
+  (:keymaps 'insert
    "C-y" 'my-evil-insert-mode-paste
 
    "C-u" 'my-kill-line
@@ -35,6 +41,9 @@
    "j" 'evil-next-visual-line
    "k" 'evil-previous-visual-line
 
+   "M-l" 'my-clear-search
+   "M-o" 'my-evil-open-in-between
+
    "C-k" 'evil-scroll-up
    "C-j" 'evil-scroll-down
 
@@ -50,14 +59,13 @@
    "C-;" 'my-flyspell-last)
 
   (:keymaps 'evil-window-map
+   "<left>" 'winner-undo
+   "<right>" 'winner-redo
+
    "m k" 'buf-move-up
    "m j" 'buf-move-down
    "m h" 'buf-move-left
    "m l" 'buf-move-right)
-
-  (bind*
-    "o" 'my-evil-open-in-between
-    "l" 'my-clear-search)
 
   :init
   ;; don't auto-copy visual selections
@@ -327,7 +335,8 @@ The initial state for a mode can be set with
 
 (use-package evil-visual-mark-mode
   :general
-  (bind* "m" 'evil-visual-mark-mode))
+  (bind*
+    "t m" 'evil-visual-mark-mode))
 
 (use-package evil-visualstar
   :config

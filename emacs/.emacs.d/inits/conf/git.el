@@ -4,7 +4,8 @@
 (use-package browse-at-remote
   :defer t
 
-  :general ("C-c g o" 'browse-at-remote/kill))
+  :general
+  (bind* "o g" 'browse-at-remote/kill))
 
 (use-package git-messenger
   :defer t)
@@ -24,9 +25,10 @@
    magit-wip-before-change-mode)
 
   :general
-  ("C-c g s" 'magit-status
-   "C-c g p" 'magit-dispatch-popup
-   "C-c g f" 'magit-file-popup)
+  (bind*
+    "g s" 'magit-status
+    "g p" 'magit-dispatch-popup
+    "g f" 'magit-file-popup)
 
   :init
   (setq magit-save-repository-buffers 'dontask

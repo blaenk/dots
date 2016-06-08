@@ -128,76 +128,77 @@
 (fset #'yes-or-no-p #'y-or-n-p)
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
 
-(bind
-  [remap eval-last-sexp] 'pp-eval-last-sexp
-  [remap eval-expression] 'pp-eval-expression)
-
-(bind "TAB" (lambda () (interactive) (insert-tab)))
-
-;; unicode mappings
-(require 'iso-transl)
-(bind :keymaps 'iso-transl-ctl-x-8-map
-  "<right>" "→"
-  "<left>" "←"
-  "n" "ñ")
-
-(bind "C-c u" 'paradox-list-packages)
+(defun my-insert-tab ()
+  (interactive)
+  (insert-tab))
 
 (defun my-kill-this-buffer ()
   (interactive)
   (let ((buffer-modified-p nil))
     (kill-buffer (current-buffer))))
 
-(bind "C-c k" 'my-kill-this-buffer)
-
 (defun my-switch-to-previous-buffer ()
   (interactive)
   (switch-to-buffer (other-buffer)))
-
-(bind "C-c o" 'my-switch-to-previous-buffer)
 
 (defun my-split-with-previous-buffer ()
   (interactive)
   (select-window (split-window-below))
   (my-switch-to-previous-buffer))
 
-(bind "C-c x" 'my-split-with-previous-buffer)
-(bind "C-c b" 'bury-buffer)
-
-(defun my-frame-options (frame)
-  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10.5"))
-  (add-to-list 'default-frame-alist '(width . 86))
-  (add-to-list 'default-frame-alist '(height . 36))
-
-  (cond
-   ((eq system-type 'gnu/linux)
-    (set-fontset-font "fontset-default" nil
-                      (font-spec :name "Symbola") nil 'prepend))
-   ((eq system-type 'darwin)
-    (set-fontset-font t 'symbol
-                      (font-spec :family "Apple Color Emoji") nil 'prepend)
-    (set-fontset-font t 'symbol
-                      (font-spec :family "Apple Symbols") nil 'prepend))))
-
-(my-frame-options nil)
-
-(add-hook 'after-make-frame-functions #'my-frame-options)
-
 (defun my-pop-to-frame ()
   (interactive)
-  (let ((buffer (current-buffer)))
-    (unless (one-window-p)
-      (delete-window))
-    (display-buffer-pop-up-frame buffer nil)))
-
-(bind "C-c f" 'my-pop-to-frame)
+  (unless (one-window-p)
+    (let ((buffer (current-buffer)))
+      (delete-window)
+      (select-window (display-buffer-pop-up-frame buffer nil)))))
 
 (defun my-force-save ()
   (interactive)
   (set-buffer-modified-p t)
   (save-buffer))
 
-(bind "C-S-x C-S-s" 'my-force-save)
+(bind
+  [remap eval-last-sexp] 'pp-eval-last-sexp
+  [remap eval-expression] 'pp-eval-expression
+
+  "C-z" nil
+
+  ;; "TAB" 'my-insert-tab
+
+  "C-c b" 'bury-buffer
+  "C-c k" 'my-kill-this-buffer
+  "C-c o" 'my-switch-to-previous-buffer
+  "C-c x" 'my-split-with-previous-buffer
+  "C-S-x C-S-s" 'my-force-save)
+
+;; C-c prefix:
+;;
+;; @ hs
+;; $ flyspell
+;; , semantic
+
+(bind*
+  ;; kill things
+  "k e" 'save-buffers-kill-terminal
+  "k b" 'my-kill-this-buffer
+  "k f f" 'delete-frame
+  "k f o" 'delete-other-frames
+  "k w o" 'delete-other-windows
+
+  ;; windows
+  "w f" 'my-pop-to-frame
+  "w s v" 'evil-window-vsplit
+  "w s h" 'evil-window-split
+
+  ;; frames
+  "f o" 'other-frame
+  "f f" 'toggle-frame-fullscreen
+
+  ;; buffers
+  "b b" 'bury-buffer
+  "b o" 'my-switch-to-previous-buffer
+  "b s" 'my-force-save)
 
 ;; (benchmark-init/activate)
 
