@@ -171,7 +171,7 @@
 ;; $ flyspell
 ;; , semantic
 
-(bind*
+(my-map
   ;; kill things
   "k e" 'save-buffers-kill-terminal
   "k b" 'my-kill-this-buffer

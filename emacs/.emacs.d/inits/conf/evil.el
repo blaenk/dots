@@ -10,7 +10,7 @@
   (:keymaps 'emacs
    "C-w" 'evil-window-map)
 
-  (bind*
+  (my-map
     "k w" 'evil-window-delete
 
     "w k" 'evil-window-up
@@ -335,7 +335,7 @@ The initial state for a mode can be set with
 
 (use-package evil-visual-mark-mode
   :general
-  (bind*
+  (my-map
     "t m" 'evil-visual-mark-mode))
 
 (use-package evil-visualstar

@@ -16,7 +16,7 @@
   :demand t
 
   :general
-  (bind*
+  (my-map
     "w u" 'winner-undo
     "w r" 'winner-redo))
 
@@ -96,7 +96,7 @@
   :demand t
 
   :general
-  (bind*
+  (my-map
     "p f" 'my-which-func-print)
 
   :init
@@ -460,7 +460,7 @@ Lisp function does not specify a special indentation."
   ediff-toggle-wide-display
 
   :general
-  (bind* "b d" 'ediff-current-file)
+  (my-map "b d" 'ediff-current-file)
 
   :init
   (setq ediff-custom-diff-options "-u"
@@ -653,7 +653,7 @@ PR [a-z-+]+/\
   :ensure nil
 
   :general
-  (bind*
+  (my-map
     "c j" 'next-error
     "c k" 'previous-error
 

@@ -92,7 +92,7 @@
 
 (use-package paradox
   :general
-  (bind*
+  (my-map
     "e u" 'paradox-list-packages))
 
 (use-package ag
@@ -116,7 +116,7 @@
   :general
   ("C-M-/" 'helm-projectile-ag)
 
-  (bind*
+  (my-map
     "p" projectile-command-map
     "e e" 'my-edit-inits)
 
@@ -181,7 +181,7 @@
 
 (use-package buffer-move
   :general
-  (bind*
+  (my-map
     "b m k" 'buf-move-up
     "b m j" 'buf-move-down
     "b m h" 'buf-move-left
@@ -195,7 +195,7 @@
 
 (use-package link-hint
   :general
-  (bind*
+  (my-map
     "o l" 'link-hint-open-link)
 
   :init
@@ -209,7 +209,7 @@
 
 (use-package gist
   :general
-  (bind*
+  (my-map
     "g g s" 'gist-region-or-buffer-private
     "g g p" 'gist-region-or-buffer))
 
@@ -287,7 +287,7 @@
   :diminish rainbow-mode
 
   :general
-  (bind* "t r c" 'rainbow-mode)
+  (my-map "t r c" 'rainbow-mode)
 
   :init
   ;; disable highlighting color names
@@ -297,11 +297,11 @@
 
 (use-package rainbow-blocks
   :general
-  (bind* "t r b" 'rainbow-blocks-mode))
+  (my-map "t r b" 'rainbow-blocks-mode))
 
 (use-package rainbow-delimiters
   :general
-  (bind* "t r d" 'rainbow-delimiters-mode)
+  (my-map "t r d" 'rainbow-delimiters-mode)
 
   :init
   (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
@@ -309,11 +309,11 @@
 
 (use-package color-identifiers-mode
   :general
-  (bind* "t r i" 'color-identifiers-mode))
+  (my-map "t r i" 'color-identifiers-mode))
 
 (use-package relative-line-numbers
   :general
-  (bind* "t n" 'relative-line-numbers-mode)
+  (my-map "t n" 'relative-line-numbers-mode)
 
   :init
   (defun abs-rel-numbers (offset)
@@ -334,7 +334,7 @@
 
 (use-package fill-column-indicator
   :general
-  (bind* "t c" 'fci-mode)
+  (my-map "t c" 'fci-mode)
 
   :init
   (setq fci-rule-use-dashes t
@@ -355,7 +355,7 @@
   :defer t
 
   :general
-  (bind* "w o" 'ace-window)
+  (my-map "w o" 'ace-window)
 
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))

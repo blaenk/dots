@@ -8,7 +8,7 @@
   :diminish helm-mode
 
   :general
-  (bind*
+  (my-map
     "h" helm-command-map
     "o a f" 'helm-find-files
     "o a b" 'helm-buffers-list
@@ -114,7 +114,7 @@
 
 (use-package helm-mt
   :general
-  (bind*
+  (my-map
     "o t" 'helm-mt)
 
   (:keymaps 'helm-mt/keymap
@@ -176,7 +176,7 @@
   :diminish projectile-mode
 
   :general
-  (bind*
+  (my-map
     "o b" 'my-open-buffer
     "o f" 'my-open-file)
 

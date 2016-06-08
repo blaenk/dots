@@ -5,7 +5,7 @@
   :demand t
 
   :general
-  (bind*
+  (my-map
     "c l" 'flycheck-list-errors
     "c c" 'helm-flycheck)
 

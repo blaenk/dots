@@ -5,7 +5,7 @@
   :defer t
 
   :general
-  (bind* "o g" 'browse-at-remote/kill))
+  (my-map "o g" 'browse-at-remote/kill))
 
 (use-package git-messenger
   :defer t)
@@ -25,7 +25,7 @@
    magit-wip-before-change-mode)
 
   :general
-  (bind*
+  (my-map
     "g s" 'magit-status
     "g p" 'magit-dispatch-popup
     "g f" 'magit-file-popup)

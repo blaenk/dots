@@ -13,13 +13,13 @@
 ;; NOTE
 ;; on gnome, have to unbind M-SPC, known as Alt+Space in
 ;; settings → windows → activate the window menu
-(general-create-definer bind*
+(general-create-definer my-map
   :states '(emacs normal visual motion insert)
   :global-prefix "C-c"
   :non-normal-prefix "M-SPC"
   :prefix "SPC")
 
-(put 'bind* 'lisp-indent-function 'defun)
+(put 'my-map 'lisp-indent-function 'defun)
 
 (defun my-emacs-dir (path)
   (expand-file-name path user-emacs-directory))
