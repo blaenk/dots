@@ -14,9 +14,10 @@
 ;; on gnome, have to unbind M-SPC, known as Alt+Space in
 ;; settings → windows → activate the window menu
 (general-create-definer bind*
-                        :states '(emacs normal visual motion insert)
-                        :non-normal-prefix "M-SPC"
-                        :prefix "SPC")
+  :states '(emacs normal visual motion insert)
+  :global-prefix "C-c"
+  :non-normal-prefix "M-SPC"
+  :prefix "SPC")
 
 (put 'bind* 'lisp-indent-function 'defun)
 
