@@ -182,9 +182,9 @@
   ;; kill things
   "k e" 'save-buffers-kill-terminal
   "k b" 'my-kill-this-buffer
-  "k f f" 'delete-frame
-  "k f o" 'delete-other-frames
-  "k w o" 'delete-other-windows
+  "k f" 'delete-frame
+  "k o f" 'delete-other-frames
+  "k o w" 'delete-other-windows
 
   ;; windows
   "w f" 'my-pop-to-frame

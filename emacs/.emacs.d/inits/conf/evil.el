@@ -11,7 +11,7 @@
    "C-w" 'evil-window-map)
 
   (bind*
-    "k w w" 'evil-window-delete
+    "k w" 'evil-window-delete
 
     "w k" 'evil-window-up
     "w j" 'evil-window-down
