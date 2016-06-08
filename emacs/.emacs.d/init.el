@@ -193,6 +193,7 @@
   "w f" 'my-pop-to-frame
   "w s v" 'evil-window-vsplit
   "w s h" 'evil-window-split
+  "w s p" 'my-split-with-previous-buffer
 
   ;; frames
   "f o" 'other-frame
