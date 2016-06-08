@@ -208,8 +208,8 @@
 
   :init
   (setq-default js2-basic-offset 2
-                js2-global-externs '("require" "global" "module"
-                                     "describe" "it" "assert"
+                js2-include-node-externs t
+                js2-global-externs '("describe" "it" "assert"
                                      "sinon"))
 
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
