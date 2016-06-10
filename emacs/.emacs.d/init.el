@@ -29,12 +29,12 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(use-package benchmark-init)
-
 (setq load-prefer-newer t
       backup-by-copying t
 
       use-package-always-ensure t)
+
+(use-package benchmark-init)
 
 (eval-when-compile
   (require 'use-package))
