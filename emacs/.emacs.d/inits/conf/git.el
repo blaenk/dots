@@ -5,15 +5,15 @@
   :defer t
 
   :general
-  (my-map "o g" 'browse-at-remote/kill))
+  (my-map "o g" 'browse-at-remote/kill)
+
+  :init
+  (setq browse-at-remote/prefer-symbolic nil))
 
 (use-package git-messenger
   :defer t)
 
 (use-package git-timemachine
-  :defer t)
-
-(use-package git-link
   :defer t)
 
 (use-package github-clone
