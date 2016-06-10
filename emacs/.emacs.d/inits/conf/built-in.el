@@ -2,6 +2,23 @@
 (require 'general)
 (require 'conf/common)
 
+(use-package autorevert
+  :ensure nil
+
+  :init
+  (setq auto-revert-check-vc-info t)
+
+  :config
+  ;; emacs 25 disables notify for global-auto-revert
+  ;; because there can be a problem on OSX where it may use too many resources
+  ;; or something
+  (defun my-enable-notify ()
+    (when (not (eq system-type 'darwin))
+      (setq auto-revert-use-notify t)))
+
+  (add-hook 'global-auto-revert-mode 'my-enable-notify)
+  (global-auto-revert-mode))
+
 (use-package iso-transl
   :ensure nil
 
