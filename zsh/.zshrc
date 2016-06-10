@@ -46,7 +46,7 @@ sources=(
   'path'
   'rbenv'
   'chruby'
-  'npm'
+  'node'
   'vcsinfo'
   'prompt'
   'completions'
