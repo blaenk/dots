@@ -35,7 +35,7 @@ if command_exists ag; then
 fi
 
 if command_exists emacs; then
-  alias e="emacsclient -nc"
+  alias ec="emacsclient -nc"
 fi
 
 if command_exists tmux; then
