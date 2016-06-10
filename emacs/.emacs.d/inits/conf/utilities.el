@@ -1,6 +1,11 @@
 (require 'use-package)
 (require 'general)
 
+(use-package discover-my-major
+  :general
+  ([remap describe-mode] 'discover-my-major
+   "C-h M-m" 'discover-my-mode))
+
 (use-package exec-path-from-shell
   :if (and (daemonp) (not (equal system-type 'windows-nt)))
 

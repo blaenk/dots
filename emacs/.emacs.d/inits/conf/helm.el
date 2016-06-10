@@ -132,8 +132,7 @@
   ([remap insert-char] 'helm-unicode))
 
 (use-package helm-describe-modes
-  :general
-  ([remap describe-mode] 'helm-describe-modes))
+  :defer t)
 
 (use-package helm-ag
   :defer t)
