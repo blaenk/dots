@@ -79,17 +79,4 @@
   (let ((face (my-get-faces pos)))
     (if face (message "Face: %s" face) (message "No face at %d" pos))))
 
-; (defun my-eval-after-load-all (features body)
-;   (if (null features)
-;       body
-;     (let ((feat (car features))
-;           (nested (my-eval-after-load-all (cdr features) body)))
-;       `(eval-after-load (quote ,feat) (quote ,nested)))))
-
-; (defmacro my-eval-after-load-all-macro (features body)
-;   (if (null features)
-;       body
-;     `(eval-after-load (quote ,(car features))
-;        (quote (my-eval-after-load-all-macro ,(cdr features) ,body)))))
-
 (provide 'conf/common)
