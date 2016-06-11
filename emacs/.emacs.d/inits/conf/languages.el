@@ -222,7 +222,13 @@
                                      "specify"
                                      ))
 
-  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+
+  :config
+  (defun my-js2-hook ()
+    (setq-local comment-line-break-function #'comment-indent-new-line))
+
+  (add-hook 'js2-mode-hook #'my-js2-hook))
 
 (use-package tern
   :defer t
