@@ -8,11 +8,11 @@
   :diminish smartparens-mode
 
   :general
-  (:keymaps 'emacs-lisp-mode-map
+  (:keymaps 'smartparens-mode-map
     "M-S" 'sp-split-sexp
     "M-J" 'sp-join-sexp)
 
-  (:keymaps 'emacs-lisp-mode-map
+  (:keymaps 'smartparens-mode-map
    :states 'normal
     "> )" 'my-move-closing-paren-forward
     "< )" 'my-move-closing-paren-backward
@@ -36,18 +36,29 @@
 
   :init
   (setq sp-show-pair-from-inside nil
-        sp-cancel-autoskip-on-backward-movement nil
 
         sp-highlight-pair-overlay nil
         sp-highlight-wrap-overlay nil
+        sp-highlight-wrap-tag-overlay nil
 
         sp-autoinsert-pair nil
-        sp-autodelete-pair nil)
+        sp-autodelete-pair nil
+        sp-autodelete-closing-pair nil
+        sp-autodelete-opening-pair nil
+        sp-autoskip-closing-pair nil
+        sp-autoskip-opening-pair nil
+        sp-cancel-autoskip-on-backward-movement nil
+        sp-autodelete-wrap nil
+        sp-autowrap-region nil
+        sp-autoinsert-quote-if-followed-by-closing-pair nil
+        )
+
+  (add-hook 'prog-mode-hook 'smartparens-mode)
 
   :config
-  (use-package evil
-    :no-require t
-    :config
+  (sp-use-paredit-bindings)
+
+  (with-eval-after-load 'evil
     (use-package on-parens
       :demand t
       :config
