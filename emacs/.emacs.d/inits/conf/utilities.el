@@ -254,9 +254,10 @@
         undo-tree-visualizer-diff nil)
 
   :config
-  (defadvice undo-tree-make-history-save-file-name
-      (after undo-tree activate)
-    (setq ad-return-value (concat ad-return-value ".gz")))
+  (define-advice undo-tree-make-history-save-file-name
+      (:after (file) compress-undo-history)
+    "Compress the persisted undo-tree history."
+    (setq file (concat file ".gz")))
 
   (global-undo-tree-mode))
 

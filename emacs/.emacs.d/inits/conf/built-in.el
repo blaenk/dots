@@ -44,13 +44,13 @@
   :ensure nil
 
   :config
-  (defun my-comment-indent-new-line-advice (&optional soft)
+  (define-advice comment-indent-new-line
+      (:after (&optional soft) at-least-one-space)
+    "Ensure that at least one space is added after the comment-start."
     (when (not (looking-back (concat (regexp-quote comment-start) " +")
                              (line-beginning-position)))
-      (insert " ")))
+      (insert " "))))
 
-  (add-function :after (symbol-function 'comment-indent-new-line)
-    #'my-comment-indent-new-line-advice))
 
 (use-package menu-bar
   :ensure nil
