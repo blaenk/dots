@@ -193,7 +193,7 @@
     (interactive)
     (if (projectile-project-p)
         (helm-projectile)
-      (helm-find-files)))
+      (call-interactively #'helm-find-files)))
 
   (defun my-open-buffer ()
     (interactive)
