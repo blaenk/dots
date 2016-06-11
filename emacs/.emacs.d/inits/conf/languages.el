@@ -247,7 +247,11 @@
   :init
   (setq rtags-completions-enabled t
         rtags-autostart-diagnostics t
-        rtags-use-helm t))
+        rtags-use-helm t)
+
+  :config
+  (with-eval-after-load 'evil
+    (add-hook 'rtags-jump-hook 'evil-jumper--push)))
 
 (use-package modern-cpp-font-lock
   :defer t
