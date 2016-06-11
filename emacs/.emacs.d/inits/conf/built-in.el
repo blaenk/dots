@@ -108,8 +108,8 @@
   :ensure nil
 
   :init
-  (setq show-paren-when-point-inside-paren t
-        show-paren-when-point-in-periphery t)
+  (setq show-paren-delay 0
+        show-paren-when-point-inside-paren t)
 
   :config
   (show-paren-mode))
@@ -212,14 +212,6 @@
   :init
   (setq gdb-many-windows t
         gdb-show-main t))
-
-(use-package paren
-  :ensure nil
-  :defer t
-  :defines show-paren-delay
-
-  :init
-  (setq show-paren-delay 0))
 
 (use-package shell
   :ensure nil
