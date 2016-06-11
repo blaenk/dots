@@ -107,6 +107,10 @@
 (use-package paren
   :ensure nil
 
+  :init
+  (setq show-paren-when-point-inside-paren t
+        show-paren-when-point-in-periphery t)
+
   :config
   (show-paren-mode))
 
