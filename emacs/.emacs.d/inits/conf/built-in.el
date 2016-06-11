@@ -51,6 +51,11 @@
                              (line-beginning-position)))
       (insert " "))))
 
+(use-package mule-util
+  :ensure nil
+
+  :init
+  (setq truncate-string-ellipsis "…"))
 
 (use-package menu-bar
   :ensure nil
