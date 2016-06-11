@@ -260,13 +260,19 @@
 
 (use-package sh-script
   :ensure nil
-  :mode ("\\.zsh\\(rc\\)?\\'" . sh-mode)
   :functions sh-set-shell
+  :mode ("\\.zsh\\(rc\\)?\\'" . sh-mode)
 
   :init
   (setq sh-learn-basic-offset t
         sh-basic-offset 2
-        sh-indentation 2))
+        sh-indentation 2)
+
+  (defun my-zsh-hook ()
+    (when (string-match "\\.zsh\\(rc\\)?\\'" buffer-file-name)
+      (sh-set-shell "zsh")))
+
+  (add-hook 'sh-mode-hook 'my-zsh-hook))
 
 (use-package python
   :ensure nil
