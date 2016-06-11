@@ -392,8 +392,14 @@
   :defer t)
 
 (use-package emojify
+  :demand t
+
+  :general
+  (my-map
+    "t e" 'emojify-mode)
+
   :init
-  (setq emojify-program-contexts 'comments
+  (setq emojify-program-contexts '(comments)
         emojify-point-entered-behaviour 'uncover
         emojify-emojis-dir (my-cache-dir "emojis"))
 
