@@ -47,9 +47,11 @@
   (define-advice comment-indent-new-line
       (:after (&optional soft) at-least-one-space)
     "Ensure that at least one space is added after the comment-start."
-    (when (not (looking-back (concat (regexp-quote comment-start) " +")
-                             (line-beginning-position)))
-      (insert " "))))
+    (let ((start (regexp-quote comment-start)))
+      (when (and (nth 4 (syntax-ppss))
+                 (looking-back start (+ (point) (length start)))
+                 (not (looking-back " "  (+ (point) 1))))
+        (insert " ")))))
 
 (use-package mule-util
   :ensure nil
