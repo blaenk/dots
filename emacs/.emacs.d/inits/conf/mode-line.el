@@ -42,195 +42,163 @@
 ;;   "Return whether the current window is active."
 ;;   (eq my-selected-window (selected-window)))
 
-(defun my-setup-mode-line ()
-  (with-eval-after-load 'evil
-    (defun my-is-evil-on ()
-      (if (evil-emacs-state-p)
-          nil
-        (or
-         (bound-and-true-p evil-mode)
-         (bound-and-true-p evil-local-mode))))
+(with-eval-after-load 'evil
+  (defun my--is-evil-on ()
+    (and (or
+          (bound-and-true-p evil-mode)
+          (bound-and-true-p evil-local-mode))
+         (not (evil-emacs-state-p))))
 
-    (defun my-evil-indicator ()
-      (let* ((is-evil (my-is-evil-on))
-             (indicator (if is-evil "V" "E")))
-        (propertize
-         (format " %s " indicator)
-         'face
-         (if is-evil
-             'mode-line-evil-mode-indicator-face
-           'mode-line-emacs-mode-indicator-face))))
+  (defun my--evil-indicator ()
+    (let* ((is-evil (my--is-evil-on))
+           (indicator (if is-evil "V" "E")))
+      (propertize
+       (s-wrap indicator " ")
+       'face
+       (if is-evil
+           'mode-line-evil-mode-indicator-face
+         'mode-line-emacs-mode-indicator-face)))))
 
-    (defun my-emacs-indicator ()
-      (when (not (my-is-evil-on))
-        (propertize
-         " E "
-         'face
-         'mode-line-emacs-mode-indicator-face))))
-
-  ;; TODO
-  ;; also take 'center' param
-  ;; it won't be aligned center or anything, it will simply follow
-  ;; 'left' but it'll be truncated to fit
-  ;; should happen in stages, e.g. the file-name should show
-  ;; basename for better fit, then not show which-func
-  (defun my-render-mode-line (left center right)
-    (let* ((available-width (-
-                             (window-total-width)
+(defun my--render-mode-line (left center right)
+  (let* ((available-width (- (window-total-width)
                              (+ (string-width left) (string-width right))))
-           (center-fmt
-            (if (> (string-width center) available-width)
-                (s-truncate available-width center)
-              (concat center
-                (propertize " " 'display
-                  `((space :width ,(- available-width (string-width center))))))
-              )))
-      (concat left center-fmt right)))
+         (center-fmt
+          (if (> (string-width center) available-width)
+              (s-truncate (- available-width 1) center)
+            (concat
+             center
+             (propertize
+              " " 'display
+              `((space :width ,(- available-width (string-width center)))))))))
+    (concat left center-fmt right)))
 
-  (defun my-is-remote-buffer ()
-    (and (stringp default-directory)
-         (file-remote-p default-directory)))
+(defun my--remote-mode-line ()
+  (when (and (stringp default-directory)
+             (file-remote-p default-directory))
+    (s-wrap (fontawesome "cloud") " ")))
 
-  (defun my-remote-mode-line ()
-    (when (my-is-remote-buffer)
-      (concat " " (fontawesome "cloud") " ")))
+(with-eval-after-load 'flycheck
+  (defun my--format-flycheck (count face)
+    (when count
+      (propertize (s-wrap (number-to-string count) " ") 'face face)))
 
-  (with-eval-after-load 'flycheck
-    (defun my-format-flycheck-errors ()
-      (if (flycheck-has-current-errors-p)
-          (let* ((error-counts (flycheck-count-errors flycheck-current-errors))
-                 (errors (or (cdr (assq 'error error-counts)) 0))
-                 (warnings (or (cdr (assq 'warning error-counts)) 0))
-                 (infos (or (cdr (assq 'info error-counts)) 0))
-                 (info-str (if (= infos 0)
-                               ""
-                             (propertize (format " %s " infos)
-                                         'face 'mode-line-flycheck-infos-face)))
-                 (error-str (if (= errors 0)
-                                ""
-                              (propertize (format " %s " errors)
-                                          'face 'mode-line-flycheck-errors-face)))
-                 (warning-str (if (= warnings 0)
-                                  ""
-                                (propertize (format " %s " warnings)
-                                            'face 'mode-line-flycheck-warnings-face))))
-            (format "%s%s%s" info-str warning-str error-str))
-        ;; FIXME
-        ;; if there's no branch then this can't omit the space
-        (propertize " ✔ " 'face 'mode-line-flycheck-no-errors-face)))
+  (defun my--format-flycheck-errors ()
+    (if (flycheck-has-current-errors-p)
+        (let-alist (flycheck-count-errors flycheck-current-errors)
+          (let* ((error-counts (flycheck-count-errors flycheck-current-errors)))
+            (concat
+             (my--format-flycheck .info 'mode-line-flycheck-infos-face)
+             (my--format-flycheck .warning 'mode-line-flycheck-warnings-face)
+             (my--format-flycheck .error 'mode-line-flycheck-errors-face))))
+      (propertize " ✔ " 'face 'mode-line-flycheck-no-errors-face)))
 
-    (defun my-flycheck-mode-line ()
-      (pcase flycheck-last-status-change
-        (`not-checked nil)
-        (`no-checker nil)
-        (`suspicious (propertize "suspicious" 'face 'error))
-        (`errored (propertize "errored" 'face 'error))
-        (`interrupted (propertize "interrupted" 'face 'error))
-        (`running (propertize
-                   " R "
-                   'face 'mode-line-flycheck-checking-face))
-        (`finished (my-format-flycheck-errors)))))
+  (defun my--flycheck-mode-line ()
+    (pcase flycheck-last-status-change
+      (`not-checked nil)
+      (`no-checker nil)
+      (`suspicious (propertize " suspicious " 'face 'mode-line-flycheck-warnings-face))
+      (`errored (propertize " errored " 'face 'mode-line-flycheck-errors-face))
+      (`interrupted (propertize " interrupted " 'face 'mode-line-flycheck-errors-face))
+      (`running (propertize
+                 " R "
+                 'face 'mode-line-flycheck-checking-face))
+      (`finished (my--format-flycheck-errors)))))
 
-  (defun my-vc-mode ()
-    (let ((noback (replace-regexp-in-string
-                   (format "^ %s[-:@!?]" (vc-backend buffer-file-name))
-                   ""
-                   vc-mode)))
-      (format " %s " noback)))
+(defun my--vc-mode ()
+  (let ((noback (replace-regexp-in-string
+                 (format "^ %s[-:@!?]" (vc-backend buffer-file-name))
+                 ""
+                 vc-mode)))
+    (s-wrap noback " ")))
 
-  (defun my-is-modified ()
-    (and
-     (not buffer-read-only)
-     (buffer-file-name)
-     (buffer-modified-p (window-buffer nil))))
+(defun my--is-modified ()
+  (and (not buffer-read-only) (buffer-modified-p)))
 
-  (setq-default
-   header-line-format-save
-   `(
-     (:propertize
-      (:eval (format " %s " (format-mode-line mode-name)))
-      face mode-line-mode-name-face)
-     ))
+(setq-default
+ header-line-format-save
+ `(
+   (:propertize
+    (:eval (s-wrap (format-mode-line mode-name) " "))
+    face mode-line-mode-name-face)
+   (which-function-mode
+    (:eval (concat " → " (gethash (selected-window) which-func-table))))
+   ))
 
-  ;; TODO
-  ;; would be nice to not show the directory if it didn't fit
-  (with-eval-after-load 'projectile
-    (defun my-file-name (for-title)
-      (let* ((name (buffer-file-name)))
-        (if name
-            (let* ((project-root (when (projectile-project-p)
-                                   (projectile-project-root)))
-                   (name (if project-root
-                             (replace-regexp-in-string
-                              (regexp-quote project-root) ""
-                              name)
-                           (f-short name)))
-                   (directory (or (f-slash (f-dirname name)) ""))
-                   (file-name (f-filename name)))
-              (format "%s%s %s%s "
-                      (if project-root
-                          (propertize
-                           (format " %s " (projectile-project-name))
-                           'face 'mode-line-branch-face)
-                        "")
-                      (if for-title "—" "")
-                      (propertize directory 'face 'mode-line-stem-face)
-                      (propertize file-name 'face 'mode-line-buffer-id)))
-          (propertize " %b " 'face 'mode-line-buffer-id)))))
+;; TODO
+;; make functions private
+(with-eval-after-load 'projectile
+  (defun my--title-format ()
+    (if (projectile-project-p)
+        (concat
+         (projectile-project-name)
+         " — "
+         (if buffer-file-name
+             (f-relative buffer-file-name (projectile-project-root))
+           (buffer-name)))
+      (my--regular-identification)))
 
-  (with-eval-after-load 'which-func
-    (defun my-which-func ()
-      (let ((loc (gethash (selected-window) which-func-table))
-            (arrow (propertize "→" 'face 'mode-line-which-func-arrow-face)))
-        (if loc
-            (format "%s %s " arrow loc)
-          ""))))
+  (defun my--regular-identification ()
+    (if buffer-file-name
+        (my--file-identification buffer-file-name)
+      (propertize "%b" 'face 'mode-line-buffer-id)))
 
-  (setq mode-line-left
-        `(
-          (:propertize "%3c " face mode-line-column-face)
-          (anzu-mode
-           (:propertize
-            (:eval (anzu--update-mode-line))
-            face
-            mode-line-anzu-face))
-          (:eval (my-evil-indicator))
-          (:propertize
-           (:eval (my-remote-mode-line))
-           face mode-line-remote-face)
-          ))
+  (defun my--file-identification (path)
+    (let* ((dirname (f-short (f-dirname path)))
+           (filename (f-filename path)))
+      (concat
+       (propertize (f-slash dirname) 'face 'mode-line-stem-face)
+       (propertize filename 'face 'mode-line-buffer-id))))
 
-  (setq mode-line-center
-        `(
-          ;; TODO
-          ;; truncate this to fit
-          (:eval (my-file-name nil))
-          ;; (which-func-mode (:eval (my-which-func)))
-          ))
+  (defun my--buffer-identification ()
+    (concat
+     (when (projectile-project-p)
+       (propertize
+        (s-wrap (projectile-project-name) " ")
+        'face 'mode-line-branch-face))
+     " "
+     (if (and buffer-file-name (projectile-project-p))
+         (let* ((root (projectile-project-root))
+                (root-relative (f-relative buffer-file-name root)))
+           (my--file-identification root-relative))
+       (my--regular-identification)))))
 
-  (setq mode-line-right
-        `(
-          (:propertize
-           (:eval
-            (when (my-is-modified) " + "))
-           face mode-line-modified-face)
-          (:propertize
-           (:eval (when buffer-read-only
-                    (concat " " (fontawesome "lock") " ")))
-           face mode-line-read-only-face)
-          (:eval (my-flycheck-mode-line))
-          (vc-mode
-           (:propertize (:eval (my-vc-mode)) face mode-line-branch-face))
-          ))
+(setq mode-line-left
+      `(
+        (:propertize "%3c " face mode-line-column-face)
+        (anzu-mode
+         (:propertize
+          (:eval (anzu--update-mode-line))
+          face mode-line-anzu-face))
+        (:eval (my--evil-indicator))
+        (:propertize
+         (:eval (my--remote-mode-line))
+         face mode-line-remote-face)
+        ))
 
-  (setq-default
-   mode-line-format
-   `(:eval (my-render-mode-line
-            (format-mode-line mode-line-left)
-            (format-mode-line mode-line-center)
-            (format-mode-line mode-line-right)))))
+(setq mode-line-center
+      `(
+        (:eval (my--buffer-identification))
+        ))
 
-(my-setup-mode-line)
-(setq frame-title-format '(:eval (my-file-name t)))
+(setq mode-line-right
+      `(
+        (:propertize
+         (:eval (when (my--is-modified) " + ")) face mode-line-modified-face)
+        (:propertize
+         (:eval (when buffer-read-only (s-wrap (fontawesome "lock") " ")))
+         face mode-line-read-only-face)
+        (:eval (my--flycheck-mode-line))
+        (vc-mode
+         (:propertize (:eval (my--vc-mode)) face mode-line-branch-face))
+        ))
+
+(setq-default
+ mode-line-format
+ `(:eval (my--render-mode-line
+          (format-mode-line mode-line-left)
+          (format-mode-line mode-line-center)
+          (format-mode-line mode-line-right))))
+
+(setq frame-title-format '(:eval (my--title-format)))
 
 (provide 'conf/mode-line)
