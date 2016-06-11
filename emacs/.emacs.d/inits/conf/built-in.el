@@ -474,8 +474,6 @@ Lisp function does not specify a special indentation."
   :defer t
 
   :init
-  (setq diff-switches "-u")
-
   (defun my-diff ()
     "Generate unified diff of current buffer with backing file."
     (interactive)
