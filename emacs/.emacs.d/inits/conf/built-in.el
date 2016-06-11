@@ -35,7 +35,10 @@
   :general
   (my-map
     "w u" 'winner-undo
-    "w r" 'winner-redo))
+    "w r" 'winner-redo)
+
+  :config
+  (winner-mode))
 
 (use-package newcomment
   :ensure nil
@@ -95,12 +98,6 @@
 
   :config
   (blink-cursor-mode 0))
-
-(use-package winner
-  :ensure nil
-
-  :config
-  (winner-mode))
 
 (use-package paren
   :ensure nil
