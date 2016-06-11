@@ -580,21 +580,6 @@ Lisp function does not specify a special indentation."
   :config
   (electric-pair-mode 1))
 
-;; TODO
-;; this also cons mode-line
-;; need a more robust way of reformatting mode-line
-;; perhaps advice on force-mode-line-update?
-(use-package eldoc
-  :ensure nil
-  :defer t
-
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
-  (add-hook 'c++-mode-hook #'eldoc-mode)
-  (add-hook 'c-mode-hook #'eldoc-mode)
-  (add-hook 'objc-mode-hook #'eldoc-mode)
-  (add-hook 'eval-expression-minibuffer-setup-hook #'eldoc-mode))
-
 (use-package sgml-mode
   :ensure nil
   :defer t
