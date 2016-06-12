@@ -173,6 +173,7 @@
 
 (use-package helm-projectile
   :diminish projectile-mode
+  :demand t
 
   :general
   (my-map
@@ -184,7 +185,7 @@
 
   ;; TODO
   ;; instead make it work with anything
-  (:keymaps 'helm-projectile-find-file-map
+  (:keymaps '(helm-projectile-find-file-map helm-projectile-projects-map)
    "M-h" 'my-helm-horizontal-split
    "M-v" 'my-helm-vertical-split)
 
