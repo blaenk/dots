@@ -329,7 +329,9 @@
   :defer t
 
   :general
-  (my-map "w o" 'ace-window)
+  (my-map
+    "w o" 'ace-window
+    "o w" 'ace-window)
 
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
