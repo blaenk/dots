@@ -213,8 +213,6 @@
    "C-c ! h" 'helm-flycheck))
 
 (use-package helm-flyspell
-  :defer t
-
   :general
   (:keymaps 'normal
    "C-;" 'my-flyspell-last
