@@ -114,7 +114,9 @@
   (add-hook 'go-mode-hook #'my-company-go))
 
 (use-package company-restclient
-  :config
+  :defer t
+
+  :init
   (defun my-company-restclient ()
     (set (make-local-variable 'company-backends)
          (add-to-list 'company-backends 'company-restclient)))
