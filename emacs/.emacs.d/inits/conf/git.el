@@ -51,26 +51,17 @@
 
   (add-hook 'magit-refresh-buffer-hook 'my-magit-hunk-recenter-top)
 
-  (defun my-pull-request-url ()
-    "Build the URL or the pull requestion on GitHub corresponding
-to the current branch. Uses Magit."
-    (interactive)
-    (format "%s/compare/%s"
-            (replace-regexp-in-string
-             (rx (and
-                  string-start
-                  (1+ any)
-                  "github.com:"
-                  (group (1+ any))
-                  ".git"
-                  string-end))
-             "https://github.com/\\1"
-             (magit-get "remote" (magit-get-remote) "url"))
-            (magit-get-current-branch)))
-
   (defun my-open-pr ()
+    "Visit the current branch's PR on Github."
     (interactive)
-    (browse-url (my-pull-request-url)))
+    (browse-url
+     (format "https://github.com/%s/pull/new/%s"
+             (replace-regexp-in-string
+              "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
+              (magit-get "remote"
+                         (magit-get-push-remote)
+                         "url"))
+             (magit-get-current-branch))))
 
   (with-eval-after-load 'magit-ediff
     (add-hook 'magit-ediff-quit-hook #'my-ediff-quit))
