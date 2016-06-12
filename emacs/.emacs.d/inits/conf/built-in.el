@@ -43,9 +43,6 @@
 (use-package newcomment
   :ensure nil
 
-  :init
-  (setq-default comment-auto-fill-only-comments t)
-
   :config
   (define-advice comment-indent-new-line
       (:after (&optional soft) at-least-one-space)
@@ -673,12 +670,9 @@ PR [a-z-+]+/\
 
   (add-hook 'prog-mode-hook #'visual-line-mode)
 
-  (defun my-fill-nobreak-predicate ()
-    (not (nth 4 (syntax-ppss))))
-
   (defun my-prog-auto-fill ()
-    (setq-local fill-nobreak-predicate #'my-fill-nobreak-predicate)
-    (auto-fill-mode 1))
+    (setq-local comment-auto-fill-only-comments t)
+    (auto-fill-mode))
 
   (add-hook 'prog-mode-hook #'my-prog-auto-fill)
 
