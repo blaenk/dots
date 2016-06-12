@@ -96,14 +96,9 @@
   ("C-M-/" 'helm-projectile-ag)
 
   (my-map
-    "p" '(:keymap projectile-command-map :which-key "projectile")
-    "e e" 'my-edit-inits)
+    "p" '(:keymap projectile-command-map :which-key "projectile"))
 
   :init
-  (defun my-edit-inits ()
-    (interactive)
-    (projectile-switch-project-by-name "~/.dots"))
-
   ;; consider files ending in _test to be tests
   (defun my-projectile-test-suffix-function (project-type)
     (or (projectile-test-suffix project-type) "_test"))

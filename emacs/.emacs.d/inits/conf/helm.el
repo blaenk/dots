@@ -173,23 +173,26 @@
 
 (use-package helm-projectile
   :diminish projectile-mode
-  :demand t
 
   :general
-  (my-map
-    "o b" 'my-open-buffer
-    "o f" 'my-open-file)
-
   ("C-<" 'my-open-buffer
    "C->" 'my-open-file)
 
-  ;; TODO
-  ;; instead make it work with anything
   (:keymaps '(helm-projectile-find-file-map helm-projectile-projects-map)
    "M-h" 'my-helm-horizontal-split
    "M-v" 'my-helm-vertical-split)
 
+  (my-map
+    "o b" 'my-open-buffer
+    "o f" 'my-open-file
+    "e e" 'my-edit-inits)
+
   :config
+  (defun my-edit-inits ()
+    (interactive)
+    (let ((default-directory "~/.dots"))
+      (helm-projectile-find-file)))
+
   (defun my-open-file ()
     (interactive)
     (if (projectile-project-p)
