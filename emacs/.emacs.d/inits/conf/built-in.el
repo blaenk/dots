@@ -732,6 +732,7 @@ PR [a-z-+]+/\
 (use-package flyspell
   :ensure nil
   :defer t
+
   :functions
   push-mark-no-activate
   flyspell-goto-previous-error
@@ -778,27 +779,6 @@ PR [a-z-+]+/\
         (if (= pos min)
             (progn
               (message "No more miss-spelled word!")
-              (setq arg 0))))))
-
-  (defun check-previous-spelling-error ()
-    "Jump to previous spelling error and correct it"
-    (interactive)
-    (push-mark-no-activate)
-    (flyspell-goto-previous-error 1)
-    (call-interactively #'helm-flyspell-correct))
-
-  (defun check-next-spelling-error ()
-    "Jump to next spelling error and correct it"
-    (interactive)
-    (push-mark-no-activate)
-    (flyspell-goto-next-error)
-    (call-interactively #'helm-flyspell-correct))
-
-  (defun push-mark-no-activate ()
-    "Pushes `point' to `mark-ring' and does not activate the region
- Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
-    (interactive)
-    (push-mark (point) t nil)
-    (message "Pushed mark to ring")))
+              (setq arg 0)))))))
 
 (provide 'conf/built-in)

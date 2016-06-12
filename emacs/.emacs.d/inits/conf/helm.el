@@ -209,7 +209,50 @@
    "C-c ! h" 'helm-flycheck))
 
 (use-package helm-flyspell
-  :defer t)
+  :defer t
+
+  :general
+  (:keymaps 'normal
+   "C-;" 'my-flyspell-last
+
+   "[ s" 'flyspell-goto-previous-error
+   "] s" 'flyspell-goto-next-error
+
+   "[ S" 'check-previous-spelling-error
+   "] S" 'check-next-spelling-error
+
+   "z =" 'helm-flyspell-correct)
+
+  :init
+  (require 'cl)
+
+  :config
+  (defun my-flyspell-last ()
+    (interactive)
+    (save-excursion
+      (check-previous-spelling-error)))
+
+  (defun push-mark-no-activate ()
+    "Pushes `point' to `mark-ring' and does not activate the region
+ Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
+    (interactive)
+    (push-mark (point) t nil)
+    (message "Pushed mark to ring"))
+
+  (defun check-previous-spelling-error ()
+    "Jump to previous spelling error and correct it"
+    (interactive)
+    (push-mark-no-activate)
+    (flyspell-goto-previous-error 1)
+    (call-interactively #'helm-flyspell-correct))
+
+  (defun check-next-spelling-error ()
+    "Jump to next spelling error and correct it"
+    (interactive)
+    (push-mark-no-activate)
+    (flyspell-goto-next-error)
+    (call-interactively #'helm-flyspell-correct))
+  )
 
 (use-package persp-projectile
   :disabled t

@@ -45,18 +45,6 @@
    "M-o" 'my-evil-open-in-between
 
    "C-k" 'evil-scroll-up
-   "C-j" 'evil-scroll-down
-
-   "z =" 'helm-flyspell-correct
-
-   "[ s" 'flyspell-goto-previous-error
-   "] s" 'flyspell-goto-next-error
-
-   "[ S" 'check-previous-spelling-error
-   "] S" 'check-next-spelling-error)
-
-  (:keymaps '(normal insert)
-   "C-;" 'my-flyspell-last)
 
   (:keymaps 'evil-window-map
    "<left>" 'winner-undo
@@ -245,11 +233,6 @@ The initial state for a mode can be set with
             (when (not (equal beg (line-beginning-position)))
               (back-to-indentation)
               (kill-region beg (point))))))))
-
-  (defun my-flyspell-last ()
-    (interactive)
-    (save-excursion
-      (check-previous-spelling-error)))
 
   (defun my-evil-insert-mode-paste ()
     (interactive)
