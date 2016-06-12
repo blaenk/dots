@@ -204,6 +204,8 @@
 
 ;; (benchmark-init/activate)
 
+(setq byte-compile-warnings '(not free-vars))
+
 (require 'conf/built-in)
 (require 'conf/mode-line)
 (require 'conf/theme)
@@ -217,6 +219,8 @@
 (require 'conf/flycheck)
 (require 'conf/company)
 (require 'conf/smartparens)
+
+(setq byte-compile-warnings t)
 
 ;; (benchmark-init/deactivate)
 
