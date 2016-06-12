@@ -364,6 +364,9 @@
 (use-package restclient
   :defer t)
 
+(use-package know-your-http-well
+  :defer t)
+
 (use-package emojify
   :demand t
 
