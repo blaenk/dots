@@ -45,10 +45,13 @@
   :config
   (company-quickhelp-mode 1))
 
-(use-package company-irony)
+(use-package company-irony
+  :defer t)
 
 (use-package company-irony-c-headers
-  :config
+  :defer t
+
+  :init
   (defun my-company-irony ()
     (set (make-local-variable 'company-backends)
          (add-to-list 'company-backends
@@ -57,13 +60,19 @@
   (add-hook 'irony-mode-hook #'my-company-irony))
 
 (use-package company-math
-  :config
-  (add-to-list 'company-math-allow-latex-symbols-in-faces 'markdown-math-face)
+  :defer t
+
+  :init
   (add-to-list 'company-backends 'company-math-symbols-unicode t)
-  (add-to-list 'company-backends 'company-math-symbols-latex t))
+  (add-to-list 'company-backends 'company-math-symbols-latex t)
+
+  :config
+  (add-to-list 'company-math-allow-latex-symbols-in-faces 'markdown-math-face))
 
 (use-package company-tern
-  :config
+  :defer t
+
+  :init
   (defun my-company-tern ()
     (set (make-local-variable 'company-backends)
          (add-to-list 'company-backends 'company-tern)))
@@ -73,7 +82,7 @@
 (use-package robe
   :defer t
 
-  :config
+  :init
   (defun my-company-robe ()
     (set (make-local-variable 'company-backends)
          (add-to-list 'company-backends 'company-robe)))
@@ -90,7 +99,9 @@
   (add-hook 'web-mode-hook #'my-company-web-html))
 
 (use-package company-lua
-  :config
+  :defer t
+
+  :init
   (defun my-company-lua ()
     (set (make-local-variable 'company-backends)
          (add-to-list 'company-backends 'company-lua)))
@@ -98,7 +109,9 @@
   (add-hook 'lua-mode-hook #'my-company-lua))
 
 (use-package company-auctex
-  :config
+  :defer t
+
+  :init
   (defun my-company-auctex ()
     (make-local-variable 'company-backends)
     (company-auctex-init))
@@ -106,6 +119,8 @@
   (add-hook 'LaTeX-mode-hook #'my-company-auctex))
 
 (use-package company-go
+  :defer t
+
   :init
   (defun my-company-go ()
     (set (make-local-variable 'company-backends)
@@ -124,7 +139,9 @@
   (add-hook 'restclient-mode-hook #'my-company-restclient))
 
 (use-package company-anaconda
-  :config
+  :defer t
+
+  :init
   (defun my-company-anaconda ()
     (set (make-local-variable 'company-backends)
          (add-to-list 'company-backends 'company-anaconda)))
@@ -132,7 +149,9 @@
   (add-hook 'anaconda-mode-hook #'my-company-anaconda))
 
 (use-package company-cabal
-  :config
+  :defer t
+
+  :init
   (defun my-company-cabal ()
     (set (make-local-variable 'company-backends)
          (add-to-list 'company-backends 'company-cabal)))
@@ -140,7 +159,9 @@
   (add-hook 'haskell-cabal-mode-hook #'my-company-cabal))
 
 (use-package company-emoji
-  :config
+  :defer t
+
+  :init
   (add-to-list 'company-backends 'company-emoji t))
 
 (provide 'conf/company)
