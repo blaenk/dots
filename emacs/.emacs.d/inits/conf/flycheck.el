@@ -6,6 +6,7 @@
 
   :general
   (my-map
+    "c" '(:ignore t :which-key "check")
     "c l" 'flycheck-list-errors
     "c c" 'helm-flycheck)
 

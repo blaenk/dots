@@ -174,6 +174,11 @@
 ;; , semantic
 
 (my-map
+  "e" '(:ignore t :which-key "emacs")
+  "o" '(:ignore t :which-key "open")
+  "o a" '(:ignore t :which-key "all")
+  "t" '(:ignore t :which-key "toggle")
+
   ;; kill things
   "k" '(:ignore t :which-key "kill")
   "k e" 'save-buffers-kill-terminal

@@ -28,36 +28,10 @@
         which-key-use-C-h-commands nil
         which-key-side-window-max-height 1.0)
 
+  (setq which-key-delayed-prefixes '([3]))
+  (setq which-key-delayed-prefixes-delay 0.1)
+
   :config
-  (which-key-add-key-based-replacements
-    "SPC b" "buffer"
-    "SPC b m" "move"
-
-    "SPC c" "flycheck"
-    "SPC e" "emacs"
-    "SPC f" "frame"
-
-    "SPC g" "git"
-    "SPC g g" "gist"
-
-    "SPC k" "kill"
-    "SPC k f" "frame"
-    "SPC k w" "window"
-
-    "SPC h" "helm"
-
-    "SPC o" "open"
-    "SPC o a" "all"
-
-    "SPC p" "projectile"
-
-    "SPC t" "toggle"
-    "SPC t r" "rainbow"
-
-    "SPC w" "window"
-    "SPC w s" "split"
-    )
-
   (which-key-mode))
 
 (use-package help-fns+
@@ -122,7 +96,7 @@
   ("C-M-/" 'helm-projectile-ag)
 
   (my-map
-    "p" projectile-command-map
+    "p" '(:keymap projectile-command-map :which-key "projectile")
     "e e" 'my-edit-inits)
 
   :init
@@ -186,11 +160,12 @@
 
 (use-package buffer-move
   :general
-  (my-map
-    "b m k" 'buf-move-up
-    "b m j" 'buf-move-down
-    "b m h" 'buf-move-left
-    "b m l" 'buf-move-right))
+  (my-map :infix "b m"
+    "" '(:ignore t :which-key "move")
+    "k" 'buf-move-up
+    "j" 'buf-move-down
+    "h" 'buf-move-left
+    "l" 'buf-move-right))
 
 (use-package frame-cmds
   :defer t)
@@ -214,9 +189,10 @@
 
 (use-package gist
   :general
-  (my-map
-    "g g s" 'gist-region-or-buffer-private
-    "g g p" 'gist-region-or-buffer))
+  (my-map :infix "g g"
+    "" '(:ignore t :which-key "gist")
+    "s" 'gist-region-or-buffer-private
+    "p" 'gist-region-or-buffer))
 
 (use-package highlight-escape-sequences
   :defer t
@@ -293,7 +269,9 @@
   :diminish rainbow-mode
 
   :general
-  (my-map "t r c" 'rainbow-mode)
+  (my-map
+    "t r" '(:ignore t :which-key "rainbow")
+    "t r c" 'rainbow-mode)
 
   :init
   ;; disable highlighting color names

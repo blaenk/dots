@@ -9,7 +9,7 @@
 
   :general
   (my-map
-    "h" helm-command-map
+    "h" '(:keymap helm-command-map :which-key "helm")
     "o a f" 'helm-find-files
     "o a b" 'helm-buffers-list
     "o r" 'helm-recentf)

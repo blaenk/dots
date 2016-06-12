@@ -26,6 +26,7 @@
 
   :general
   (my-map
+    "g" '(:ignore t :which-key "git")
     "g s" 'magit-status
     "g p" 'magit-dispatch-popup
     "g f" 'magit-file-popup)
