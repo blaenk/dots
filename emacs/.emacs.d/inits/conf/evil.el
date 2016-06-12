@@ -45,6 +45,7 @@
    "M-o" 'my-evil-open-in-between
 
    "C-k" 'evil-scroll-up
+   "C-j" 'evil-scroll-down)
 
   (:keymaps 'evil-window-map
    "<left>" 'winner-undo
