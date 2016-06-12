@@ -34,12 +34,13 @@
 
       use-package-always-ensure t)
 
-(use-package benchmark-init)
-
 (eval-when-compile
   (require 'use-package))
+
 (require 'diminish)
 (require 'bind-key)
+
+(use-package benchmark-init)
 
 (use-package auto-compile
   :defines
