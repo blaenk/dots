@@ -174,26 +174,33 @@
 
 (my-map
   ;; kill things
+  "k" '(:ignore t :which-key "kill")
   "k e" 'save-buffers-kill-terminal
   "k b" 'my-kill-this-buffer
   "k f" 'delete-frame
+  "k o" '(:ignore t :which-key "other")
   "k o f" 'delete-other-frames
   "k o w" 'delete-other-windows
 
-  ;; windows
-  "w f" 'my-pop-to-frame
-  "w s v" 'evil-window-vsplit
-  "w s h" 'evil-window-split
-  "w s p" 'my-split-with-previous-buffer
-
   ;; frames
+  "f" '(:ignore t :which-key "frame")
   "f o" 'other-frame
   "f f" 'toggle-frame-fullscreen
 
   ;; buffers
+  "b" '(:ignore t :which-key "buffer")
   "b b" 'bury-buffer
   "b o" 'my-switch-to-previous-buffer
-  "b s" 'my-force-save)
+  "b s" 'my-force-save
+
+  ;; windows
+  "w" '(:ignore t :which-key "window")
+  "w f" 'my-pop-to-frame
+
+  "w s" '(:ignore t :which-key "split")
+  "w s v" 'evil-window-vsplit
+  "w s h" 'evil-window-split
+  "w s p" 'my-split-with-previous-buffer)
 
 ;; (benchmark-init/activate)
 
