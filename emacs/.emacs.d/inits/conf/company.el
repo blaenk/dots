@@ -115,7 +115,11 @@
 
 (use-package company-restclient
   :config
-  (add-to-list 'company-backends 'company-restclient t))
+  (defun my-company-restclient ()
+    (set (make-local-variable 'company-backends)
+         (add-to-list 'company-backends 'company-restclient)))
+
+  (add-hook 'restclient-mode-hook #'my-company-restclient))
 
 (use-package company-anaconda
   :config
