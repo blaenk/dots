@@ -344,12 +344,7 @@
 
   :init
   (setq fci-rule-use-dashes t
-        fci-dash-pattern 0.50)
-
-  (defun my-git-commit-fill-column ()
-    (fci-mode 1))
-
-  (add-hook 'git-commit-setup-hook #'my-git-commit-fill-column))
+        fci-dash-pattern 0.50))
 
 (use-package bug-reference-github
   :defer t
