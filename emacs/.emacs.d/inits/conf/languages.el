@@ -71,7 +71,20 @@
 (use-package markdown-mode
   :defer t
 
+  :mode
+  (("\\.md\\'" . gfm-mode)
+   ("\\.markdown\\'" . gfm-mode))
+
+  :general
+  (:keymaps '(markdown-mode-map gfm-mode-map)
+   :states 'normal
+   "j" 'evil-next-visual-line
+   "k" 'evil-previous-visual-line)
+
   :init
+  (my-map
+    "t t" 'orgtbl-mode)
+
   (setq markdown-enable-math t
         markdown-asymmetric-header t
         markdown-gfm-use-electric-backquote nil
@@ -80,10 +93,6 @@
 
   (defun my-gfm-hook ()
     (interactive)
-
-    ;; TODO
-    ;; this should only be toggled on a bind
-    (orgtbl-mode 1)
 
     (setq-local word-wrap t)
     (setq-local outline-regexp "^\\(?:\\(#+\\)[ \t]+\\(.*?\\)[ \t]*\\(#*\\)\\)$")
@@ -97,6 +106,7 @@
   (add-hook 'gfm-mode-hook #'my-gfm-hook)
   (add-hook 'gfm-mode-hook #'outline-minor-mode)
   (add-hook 'gfm-mode-hook #'flyspell-mode)
+  (add-hook 'gfm-mode-hook #'visual-line-mode)
 
   :config
   (add-to-list 'markdown-gfm-additional-languages "cpp")

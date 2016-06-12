@@ -615,6 +615,8 @@ PR [a-z-+]+/\
 (use-package org-table
   :ensure nil
   :defer t
+
+  :commands orgtbl-mode
   :functions
   org-at-table-p
   org-table-hline-and-move
