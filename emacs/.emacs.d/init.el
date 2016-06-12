@@ -46,10 +46,11 @@
   auto-compile-display-buffer
 
   :init
-  (setq auto-compile-display-buffer nil))
+  (setq auto-compile-display-buffer nil)
 
-(auto-compile-on-load-mode)
-(auto-compile-on-save-mode)
+  :config
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
 
 (use-package dash
   :config
