@@ -107,6 +107,7 @@
   (add-hook 'gfm-mode-hook #'outline-minor-mode)
   (add-hook 'gfm-mode-hook #'flyspell-mode)
   (add-hook 'gfm-mode-hook #'visual-line-mode)
+  (add-hook 'gfm-mode-hook #'whitespace-mode)
 
   :config
   (add-to-list 'markdown-gfm-additional-languages "cpp")
