@@ -366,13 +366,6 @@
   :defines calculate-lisp-indent-last-sexp
 
   :init
-  (defun imenu-use-package ()
-    (add-to-list 'imenu-generic-expression
-                 '("Used Packages"
-                   "\\(^\\s-*(use-package +\\)\\(\\_<.+\\_>\\)" 2)))
-
-  (add-hook 'emacs-lisp-mode-hook #'imenu-use-package)
-
   ;; taken from Fuco1
   ;; https://github.com/Fuco1/.emacs.d/blob/master/site-lisp/my-redef.el#L18
   ;;

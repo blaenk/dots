@@ -32,7 +32,8 @@
 (setq load-prefer-newer t
       backup-by-copying t
 
-      use-package-always-ensure t)
+      use-package-always-ensure t
+      use-package-enable-imenu-support t)
 
 (eval-when-compile
   (require 'use-package))
