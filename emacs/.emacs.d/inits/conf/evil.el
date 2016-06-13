@@ -172,29 +172,6 @@ The initial state for a mode can be set with
             evil-operator-state-cursor `((hbar . 6))
             evil-emacs-state-cursor `(,red-l box))))
 
-  (defun my-evil-maybe-remove-spaces ()
-    (unless (memq this-command '(evil-open-above evil-open-below))
-      (remove-hook 'post-command-hook 'my-evil-maybe-remove-spaces)
-      (when (not (evil-insert-state-p))
-        (delete-char 1))))
-
-  (defun my-evil-open-line ()
-    (interactive)
-    (end-of-visual-line)
-    (if (elt (syntax-ppss) 4)
-        (progn
-          (comment-indent-new-line)
-          (evil-insert-state 1)
-
-          (add-hook 'post-command-hook #'my-evil-maybe-remove-spaces)
-
-          (when evil-auto-indent
-            (indent-according-to-mode))
-          (setq this-command 'evil-open-below))
-      (progn
-        (evil-open-below 1)
-        (setq this-command 'evil-open-below))))
-
   ;; if the point is in a comment that has non-whitespace content, delete up
   ;; until the beginning of the comment. if already at the beginning of the
   ;; comment, delete up to the indentation point. if already at the indentation
