@@ -226,10 +226,6 @@
 
    "z =" 'helm-flyspell-correct)
 
-  ;; https://github.com/pronobis/helm-flyspell/issues/6
-  :init
-  (require 'cl)
-
   :config
   (defun my-flyspell-last ()
     (interactive)
