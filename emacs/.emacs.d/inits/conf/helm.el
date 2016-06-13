@@ -214,9 +214,10 @@
 
 (use-package helm-flyspell
   :general
-  (:keymaps 'normal
-   "C-;" 'my-flyspell-last
+  (:keymaps '(normal insert)
+   "C-;" 'my-flyspell-last)
 
+  (:keymaps 'normal
    "[ s" 'flyspell-goto-previous-error
    "] s" 'flyspell-goto-next-error
 
