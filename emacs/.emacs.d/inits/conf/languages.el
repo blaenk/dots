@@ -289,15 +289,6 @@
   :config
   (cmake-ide-setup))
 
-(use-package racer
-  :defer t
-
-  :init
-  (setq racer-rust-src-path "~/code/rust/rust/src")
-
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode))
-
 (use-package rust-mode
   :defer t
 
@@ -307,6 +298,15 @@
     (helm-gtags-mode))
 
   (add-hook 'rust-mode-hook #'my-rust-hook))
+
+(use-package racer
+  :defer t
+
+  :init
+  (setq racer-rust-src-path "~/code/rust/rust/src")
+
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode))
 
 (use-package toml-mode
   :defer t)
