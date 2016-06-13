@@ -268,7 +268,7 @@
 
   :config
   (with-eval-after-load 'evil
-    (add-hook 'rtags-jump-hook 'evil-jumper--push)))
+    (add-hook 'rtags-jump-hook 'evil--jumps-push)))
 
 (use-package modern-cpp-font-lock
   :defer t
