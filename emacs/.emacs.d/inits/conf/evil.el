@@ -240,10 +240,11 @@ The initial state for a mode can be set with
 
   (defun my-evil-open-in-between ()
     (interactive)
-    (end-of-line)
-    (newline)
-    (evil-open-above 1)
-    (setq this-command 'evil-open-below))
+
+    (evil-with-single-undo
+      (evil-open-below 1)
+      (evil-maybe-remove-spaces t)
+      (evil-open-above 1)))
 
   (defun my-clear-search ()
     (interactive)
