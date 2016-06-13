@@ -182,13 +182,6 @@
   :init
   (add-hook 'prog-mode-hook #'hl-todo-mode))
 
-(use-package gist
-  :general
-  (my-map :infix "g g"
-    "" '(:ignore t :which-key "gist")
-    "s" 'gist-region-or-buffer-private
-    "p" 'gist-region-or-buffer))
-
 (use-package highlight-escape-sequences
   :defer t
 
@@ -318,12 +311,6 @@
   :init
   (setq fci-rule-use-dashes t
         fci-dash-pattern 0.50))
-
-(use-package bug-reference-github
-  :defer t
-
-  :init
-  (add-hook 'find-file-hook #'bug-reference-github-set-url-format))
 
 (use-package ace-window
   :defer t

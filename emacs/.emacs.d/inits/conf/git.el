@@ -1,6 +1,32 @@
 (require 'use-package)
 (require 'general)
 
+(use-package gist
+  :general
+  (my-map :infix "g g"
+    "" '(:ignore t :which-key "gist")
+    "s" 'gist-region-or-buffer-private
+    "p" 'gist-region-or-buffer
+    "l" 'gist-list)
+
+  :init
+  (setq gist-ask-for-description t
+        gist-list-format
+        '((created "Created" 15 nil "%D %R")
+          (visibility "Visibility" 8 nil
+                      (lambda (public)
+                        (or (and public "public")
+                            "private")))
+          (files "Files" 0 nil
+                 (lambda (names)
+                   (mapconcat 'identity names ", "))))))
+
+(use-package bug-reference-github
+  :defer t
+
+  :init
+  (add-hook 'find-file-hook #'bug-reference-github-set-url-format))
+
 (use-package browse-at-remote
   :defer t
 
