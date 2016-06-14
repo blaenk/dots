@@ -2,8 +2,6 @@
 (require 'general)
 
 (use-package flycheck
-  :demand t
-
   :general
   (my-map
     "c" '(:ignore t :which-key "check")
@@ -14,21 +12,22 @@
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)
                 flycheck-emacs-lisp-load-path 'inherit)
 
-  :config
-  (global-flycheck-mode))
+  (add-hook 'after-init-hook 'global-flycheck-mode))
 
-(with-eval-after-load 'irony
-  (use-package flycheck-irony
-    :init
-    (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
+(use-package flycheck-irony
+  :after irony
 
-(with-eval-after-load 'rust
-  (use-package flycheck-rust
-    :init
-    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
+  :init
+  (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+(use-package flycheck-rust
+  :after rust
+
+  :init
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 (use-package flycheck-google-cpplint
-  :disabled t
+  :after irony
 
   :init
   (setq flycheck-c/c++-googlelint-executable "cpplint"
