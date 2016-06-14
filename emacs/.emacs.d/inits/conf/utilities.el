@@ -1,5 +1,6 @@
 (require 'use-package)
 (require 'general)
+(require 'conf/common)
 
 (use-package discover-my-major
   :general
@@ -86,17 +87,15 @@
   (setq ag-highlight-search t
         ag-project-root-function #'my-ag-root-function))
 
-;; TODO
-;; can configure test dirs by configuring projectile-test-prefix etc
-;; see default implementation
 (use-package projectile
-  :demand t
-
   :general
   ("C-M-/" 'helm-projectile-ag)
 
-  (my-map
-    "p" '(:keymap projectile-command-map :which-key "projectile"))
+  ;; FIXME
+  ;; https://github.com/noctuid/general.el/issues/26
+  ;; (my-map
+  ;;   "p" '(:keymap projectile-command-map
+  ;;         :which-key "projectile"))
 
   :init
   ;; consider files ending in _test to be tests
@@ -148,8 +147,6 @@
   (global-anzu-mode +1))
 
 (use-package expand-region
-  :defer t
-
   :general
   ("C-=" 'er/expand-region))
 
@@ -211,9 +208,9 @@
   ;; https://github.com/syl20bnr/spacemacs/issues/774
   ;; https://github.com/syl20bnr/spacemacs/commit/885d092e72aeaa470253c19831ba42e2eecf3514
   ;; http://comments.gmane.org/gmane.emacs.vim-emulation/2079
-  ;; (setq undo-tree-history-directory-alist
-  ;;       `((".*" . ,(my-cache-dir "undos/"))))
-  ;; (setq undo-tree-auto-save-history t)
+  (setq undo-tree-history-directory-alist
+        `((".*" . ,(my-cache-dir "undos/"))))
+  (setq undo-tree-auto-save-history t)
   (setq undo-tree-visualizer-timestamps t
         undo-tree-visualizer-diff nil)
 
@@ -233,7 +230,10 @@
         multi-term-program "/usr/bin/zsh"))
 
 (use-package visual-regexp
-  :defer t)
+  :defer t
+
+  :init
+  (setq vr/default-replace-preview t))
 
 (use-package swiper
   :general
@@ -352,8 +352,6 @@
   :defer t)
 
 (use-package emojify
-  :demand t
-
   :general
   (my-map
     "t e" 'emojify-mode)
@@ -364,8 +362,6 @@
         emojify-emojis-dir (my-cache-dir "emojis"))
 
   :config
-  (global-emojify-mode)
-
   (setq emojify-inhibit-major-modes
         (append emojify-inhibit-major-modes
                 '(flycheck-error-list-mode
