@@ -124,6 +124,8 @@ The initial state for a mode can be set with
                       (my-evil--derived-mode-p mode modes))
               (throw 'done state)))))))
 
+  (add-hook 'after-init-hook 'evil-mode)
+
   :config
   (eval-when-compile
     (require 'evil-macros)
@@ -249,15 +251,15 @@ The initial state for a mode can be set with
   (defun my-clear-search ()
     (interactive)
     (evil-ex-nohighlight)
-    (force-mode-line-update))
-
-  (evil-mode 1))
+    (force-mode-line-update)))
 
 (use-package evil-indent-plus
+  :after evil
   :config
   (evil-indent-plus-default-bindings))
 
 (use-package evil-quickscope
+  :after evil
   :config
   (global-evil-quickscope-mode 1))
 
@@ -269,15 +271,18 @@ The initial state for a mode can be set with
   (:keymaps 'outer
    "b" 'evil-textobj-anyblock-a-block))
 
-(use-package evil-anzu)
+(use-package evil-anzu
+  :after evil)
 
 (use-package evil-commentary
   :diminish evil-commentary-mode
+  :after evil
 
   :config
   (evil-commentary-mode))
 
 (use-package evil-exchange
+  :after evil
   :config
   (evil-exchange-install))
 
@@ -288,6 +293,7 @@ The initial state for a mode can be set with
    "<kp-add>" 'evil-numbers/inc-at-pt))
 
 (use-package evil-surround
+  :after evil
   :config
   (setq-default
    evil-surround-pairs-alist
@@ -301,6 +307,7 @@ The initial state for a mode can be set with
     "t m" 'evil-visual-mark-mode))
 
 (use-package evil-visualstar
+  :after evil
   :config
   (global-evil-visualstar-mode))
 
