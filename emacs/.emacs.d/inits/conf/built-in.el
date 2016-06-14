@@ -4,11 +4,11 @@
 
 (use-package autorevert
   :ensure nil
+  :defer t
 
   :init
   (setq auto-revert-check-vc-info t)
 
-  :config
   ;; emacs 25 disables notify for global-auto-revert
   ;; because there can be a problem on OSX where it may use too many resources
   ;; or something
@@ -17,7 +17,7 @@
       (setq auto-revert-use-notify t)))
 
   (add-hook 'global-auto-revert-mode 'my-enable-notify)
-  (global-auto-revert-mode))
+  (global-auto-revert-mode 1))
 
 (use-package iso-transl
   :ensure nil
@@ -30,20 +30,20 @@
 
 (use-package winner
   :ensure nil
-  :demand t
 
   :general
   (my-map
     "w u" 'winner-undo
     "w r" 'winner-redo)
 
-  :config
-  (winner-mode))
+  :init
+  (winner-mode 1))
 
 (use-package newcomment
   :ensure nil
+  :defer t
 
-  :config
+  :init
   (define-advice comment-indent-new-line
       (:after (&optional soft) at-least-one-space)
     "Ensure that at least one space is added after the comment-start."
@@ -55,29 +55,30 @@
 
 (use-package mule-util
   :ensure nil
+  :defer nil
 
   :init
   (setq truncate-string-ellipsis "…"))
 
 (use-package menu-bar
   :ensure nil
-  :demand t
+  :defer t
 
   :general
   ("<f10>" 'toggle-menu-bar-mode-from-frame)
 
-  :config
+  :init
   (menu-bar-mode -1))
 
 (use-package tool-bar
   :ensure nil
+  :defer t
 
-  :config
+  :init
   (tool-bar-mode -1))
 
 (use-package scroll-bar
   :ensure nil
-  :demand t
 
   :general
   ("<f9>" 'my-scroll-bar-toggle)
@@ -96,29 +97,28 @@
 
     (redraw-frame))
 
-  :config
   (scroll-bar-mode -1)
   (setq scroll-bar-mode 'left))
 
 (use-package frame
   :ensure nil
+  :defer t
 
-  :config
+  :init
   (blink-cursor-mode 0))
 
 (use-package paren
   :ensure nil
+  :defer t
 
   :init
   (setq show-paren-delay 0
         show-paren-when-point-inside-paren t)
 
-  :config
-  (show-paren-mode))
+  (show-paren-mode 1))
 
 (use-package which-func
   :ensure nil
-  :demand t
 
   :general
   (my-map
@@ -130,8 +130,7 @@
     (which-func-update)
     (message "→ %s" (gethash (selected-window) which-func-table)))
 
-  :config
-  (which-function-mode))
+  (which-function-mode 1))
 
 (use-package saveplace
   :ensure nil
@@ -161,23 +160,23 @@
 (use-package recentf
   :ensure nil
   :defines recentf-save-file
+  :defer t
 
   :init
   (setq recentf-save-file (my-cache-dir "recentf")
         recentf-max-saved-items 50)
 
-  :config
   (recentf-mode 1))
 
 (use-package savehist
   :ensure nil
+  :defer t
 
   :init
   (setq savehist-save-minibuffer-history 1
         savehist-file (my-cache-dir "history"))
 
-  :config
-  (savehist-mode))
+  (savehist-mode 1))
 
 (use-package ido
   :ensure nil
@@ -226,6 +225,7 @@
 (use-package whitespace
   :ensure nil
   :diminish whitespace-mode
+  :defer t
 
   :init
   (setq whitespace-line-column nil
@@ -242,7 +242,6 @@
           (newline-mark 10 [36 10])
           (tab-mark 9 [9656 9] [183 9] [187 9] [92 9])))
 
-  :config
   (global-whitespace-mode 1))
 
 (use-package js
@@ -281,12 +280,14 @@
 
 (use-package semantic
   :ensure nil
+  :defer t
   :defines
   semanticdb-default-save-directory
 
-  :config
-  (semantic-mode 1)
+  :init
+  (add-hook 'c++-mode 'semantic-mode)
 
+  :config
   (use-package semantic/db-mode
     :ensure nil
     :functions
@@ -316,15 +317,6 @@
   (setq c-tab-always-indent nil)
   (defvaralias 'c-basic-offset 'tab-width)
 
-  (use-package cc-menus
-    :ensure nil
-    :defer t
-
-    :config
-    ;; add googletest TESTs to imenu
-    (add-to-list 'cc-imenu-c++-generic-expression
-                 '("Test" "^TEST\\(_F\\)?(\\([^)]+\\))" 2) t))
-
   :config
   ;; use C++ mode in header files
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
@@ -351,6 +343,15 @@
         (insert "#define " ident "\n\n")
         (goto-char (point-max))
         (insert "\n#endif  // " ident)))))
+
+(use-package cc-menus
+  :ensure nil
+  :defer t
+
+  :config
+  ;; add googletest TESTs to imenu
+  (add-to-list 'cc-imenu-c++-generic-expression
+               '("Test" "^TEST\\(_F\\)?(\\([^)]+\\))" 2) t))
 
 (use-package imenu
   :ensure nil
@@ -550,6 +551,7 @@ Lisp function does not specify a special indentation."
 
 (use-package elec-pair
   :ensure nil
+  :defer t
 
   :init
   ;; disable electric-pair-mode in the minibuffer unless we're in
@@ -564,7 +566,6 @@ Lisp function does not specify a special indentation."
 
   (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
 
-  :config
   (electric-pair-mode 1))
 
 (use-package sgml-mode
@@ -644,6 +645,7 @@ PR [a-z-+]+/\
 
 (use-package dired-x
   :ensure nil
+  :defer t
 
   :init
   (setq dired-omit-verbose nil)
@@ -652,6 +654,7 @@ PR [a-z-+]+/\
 
 (use-package simple
   :ensure nil
+  :defer t
 
   :general
   (my-map
@@ -667,12 +670,11 @@ PR [a-z-+]+/\
 
   (defun my-prog-auto-fill ()
     (setq-local comment-auto-fill-only-comments t)
-    (auto-fill-mode))
+    (auto-fill-mode 1))
 
   (add-hook 'prog-mode-hook #'my-prog-auto-fill)
 
-  :config
-  (column-number-mode))
+  (column-number-mode 1))
 
 (use-package ansi-color
   :ensure nil
