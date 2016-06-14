@@ -19,6 +19,13 @@
   (add-hook 'global-auto-revert-mode 'my-enable-notify)
   (global-auto-revert-mode 1))
 
+(use-package delsel
+  :ensure nil
+  :defer t
+
+  :init
+  (delete-selection-mode 1))
+
 (use-package iso-transl
   :ensure nil
 
