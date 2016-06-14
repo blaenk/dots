@@ -1,10 +1,11 @@
 (require 'use-package)
+(require 'conf/common)
 
 (use-package solarized
   :ensure solarized-theme
-  :demand t
+  :defer t
 
-  :config
+  :init
   (eval-when-compile
     (require 'solarized))
 
@@ -176,8 +177,7 @@
                                                 :weight bold))))
 
         `(hl-line ((,class (:background
-                            ,(solarized-color-blend
-                              base02 base03 0.5)))))
+                            ,(solarized-color-blend base02 base03 0.5)))))
         `(region ((,class (:background ,base02))))
 
         `(show-paren-match ((,class (:foreground unspecified
