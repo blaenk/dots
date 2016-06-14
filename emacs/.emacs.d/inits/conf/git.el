@@ -28,16 +28,11 @@
   (add-hook 'find-file-hook #'bug-reference-github-set-url-format))
 
 (use-package browse-at-remote
-  :defer t
-
   :general
   (my-map "o g" 'browse-at-remote/kill)
 
   :init
   (setq browse-at-remote/prefer-symbolic nil))
-
-(use-package git-messenger
-  :defer t)
 
 (use-package git-timemachine
   :defer t)
