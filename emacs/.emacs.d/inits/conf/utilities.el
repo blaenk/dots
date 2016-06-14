@@ -89,11 +89,9 @@
   :general
   ("C-M-/" 'helm-projectile-ag)
 
-  ;; FIXME
-  ;; https://github.com/noctuid/general.el/issues/26
-  ;; (my-map
-  ;;   "p" '(:keymap projectile-command-map
-  ;;         :which-key "projectile"))
+  (my-map
+    "p" '(:keymap projectile-command-map
+          :which-key "projectile"))
 
   :init
   ;; consider files ending in _test to be tests
