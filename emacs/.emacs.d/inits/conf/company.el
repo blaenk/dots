@@ -23,6 +23,14 @@
 
   (add-hook 'after-init-hook 'global-company-mode))
 
+(use-package company-try-hard
+  :general
+  (:keymaps 'company-mode-map
+   "C-S-n" 'company-try-hard)
+
+  (:keymaps 'company-active-map
+   "C-S-n" 'company-try-hard))
+
 (use-package company-statistics
   :after company
 
