@@ -15,8 +15,6 @@
    '("VM" "PATH" "GTAGSCONF" "GTAGSLABEL" "SSH_AUTH_SOCK")))
 
 (use-package unicode-fonts
-  :disabled t
-
   :config
   (unicode-fonts-setup))
 
