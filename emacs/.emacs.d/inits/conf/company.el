@@ -2,8 +2,6 @@
 (require 'general)
 
 (use-package company
-  :demand t
-
   :general
   (:keymaps 'company-active-map
    "C-w" nil
@@ -23,10 +21,11 @@
         ;; company-dabbrev-ignore-case t
         )
 
-  :config
-  (global-company-mode))
+  (add-hook 'after-init-hook 'global-company-mode))
 
 (use-package company-statistics
+  :after company
+
   :init
   (setq company-statistics-file
         (my-cache-dir "company-statistics-cache.el"))
@@ -63,8 +62,11 @@
   :defer t
 
   :init
-  (add-to-list 'company-backends 'company-math-symbols-unicode t)
-  (add-to-list 'company-backends 'company-math-symbols-latex t)
+  (defun my-company-math ()
+    (add-to-list 'company-backends 'company-math-symbols-unicode t)
+    (add-to-list 'company-backends 'company-math-symbols-latex t))
+
+  (add-hook 'global-company-mode-hook #'my-company-math)
 
   :config
   (add-to-list 'company-math-allow-latex-symbols-in-faces 'markdown-math-face))
@@ -89,9 +91,11 @@
 
   (add-hook 'robe-mode-hook #'my-company-robe))
 
-(use-package company-web
+(use-package company-web-html
+  :ensure company-web
+  :defer t
+
   :config
-  (require 'company-web-html)
   (defun my-company-web-html ()
     (set (make-local-variable 'company-backends)
          (add-to-list 'company-backends 'company-web-html)))
@@ -162,6 +166,9 @@
   :defer t
 
   :init
-  (add-to-list 'company-backends 'company-emoji t))
+  (defun my-company-emoji ()
+    (add-to-list 'company-backends 'company-emoji t))
+
+  (add-hook 'global-company-mode-hook #'my-company-emoji))
 
 (provide 'conf/company)
