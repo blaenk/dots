@@ -42,22 +42,21 @@
 ;;   "Return whether the current window is active."
 ;;   (eq my-selected-window (selected-window)))
 
-(with-eval-after-load 'evil
-  (defun my--is-evil-on ()
-    (and (or
-          (bound-and-true-p evil-mode)
-          (bound-and-true-p evil-local-mode))
-         (not (evil-emacs-state-p))))
+(defun my--is-evil-on ()
+  (and (or
+        (bound-and-true-p evil-mode)
+        (bound-and-true-p evil-local-mode))
+       (not (evil-emacs-state-p))))
 
-  (defun my--evil-indicator ()
-    (let* ((is-evil (my--is-evil-on))
-           (indicator (if is-evil "V" "E")))
-      (propertize
-       (s-wrap indicator " ")
-       'face
-       (if is-evil
-           'mode-line-evil-mode-indicator-face
-         'mode-line-emacs-mode-indicator-face)))))
+(defun my--evil-indicator ()
+  (let* ((is-evil (my--is-evil-on))
+         (indicator (if is-evil "V" "E")))
+    (propertize
+     (s-wrap indicator " ")
+     'face
+     (if is-evil
+         'mode-line-evil-mode-indicator-face
+       'mode-line-emacs-mode-indicator-face))))
 
 (defun my--render-mode-line (left center right)
   (let* ((available-width (- (window-total-width)
@@ -77,32 +76,31 @@
              (file-remote-p default-directory))
     (s-wrap (fontawesome "cloud") " ")))
 
-(with-eval-after-load 'flycheck
-  (defun my--format-flycheck (count face)
-    (when count
-      (propertize (s-wrap (number-to-string count) " ") 'face face)))
+(defun my--format-flycheck (count face)
+  (when count
+    (propertize (s-wrap (number-to-string count) " ") 'face face)))
 
-  (defun my--format-flycheck-errors ()
-    (if (flycheck-has-current-errors-p)
-        (let-alist (flycheck-count-errors flycheck-current-errors)
-          (let* ((error-counts (flycheck-count-errors flycheck-current-errors)))
-            (concat
-             (my--format-flycheck .info 'mode-line-flycheck-infos-face)
-             (my--format-flycheck .warning 'mode-line-flycheck-warnings-face)
-             (my--format-flycheck .error 'mode-line-flycheck-errors-face))))
-      (propertize " ✔ " 'face 'mode-line-flycheck-no-errors-face)))
+(defun my--format-flycheck-errors ()
+  (if (flycheck-has-current-errors-p)
+      (let-alist (flycheck-count-errors flycheck-current-errors)
+        (let* ((error-counts (flycheck-count-errors flycheck-current-errors)))
+          (concat
+           (my--format-flycheck .info 'mode-line-flycheck-infos-face)
+           (my--format-flycheck .warning 'mode-line-flycheck-warnings-face)
+           (my--format-flycheck .error 'mode-line-flycheck-errors-face))))
+    (propertize " ✔ " 'face 'mode-line-flycheck-no-errors-face)))
 
-  (defun my--flycheck-mode-line ()
-    (pcase flycheck-last-status-change
-      (`not-checked nil)
-      (`no-checker nil)
-      (`suspicious (propertize " suspicious " 'face 'mode-line-flycheck-warnings-face))
-      (`errored (propertize " errored " 'face 'mode-line-flycheck-errors-face))
-      (`interrupted (propertize " interrupted " 'face 'mode-line-flycheck-errors-face))
-      (`running (propertize
-                 " R "
-                 'face 'mode-line-flycheck-checking-face))
-      (`finished (my--format-flycheck-errors)))))
+(defun my--flycheck-mode-line ()
+  (pcase flycheck-last-status-change
+    (`not-checked nil)
+    (`no-checker nil)
+    (`suspicious (propertize " suspicious " 'face 'mode-line-flycheck-warnings-face))
+    (`errored (propertize " errored " 'face 'mode-line-flycheck-errors-face))
+    (`interrupted (propertize " interrupted " 'face 'mode-line-flycheck-errors-face))
+    (`running (propertize
+               " R "
+               'face 'mode-line-flycheck-checking-face))
+    (`finished (my--format-flycheck-errors))))
 
 (defun my--vc-mode ()
   (let ((noback (replace-regexp-in-string
@@ -126,43 +124,46 @@
 
 ;; TODO
 ;; make functions private
-(with-eval-after-load 'projectile
-  (defun my--title-format ()
-    (if (projectile-project-p)
-        (concat
-         (projectile-project-name)
-         " — "
-         (if buffer-file-name
-             (f-relative buffer-file-name (projectile-project-root))
-           (buffer-name)))
-      (my--regular-identification)))
-
-  (defun my--regular-identification ()
-    (if buffer-file-name
-        (my--file-identification buffer-file-name)
-      (propertize "%b" 'face 'mode-line-buffer-id)))
-
-  (defun my--file-identification (path)
-    (let* ((dirname (f-short (f-dirname path)))
-           (filename (f-filename path)))
+(defun my--title-format ()
+  (if (and (featurep 'projectile)
+           (projectile-project-p))
       (concat
-       (propertize (f-slash dirname) 'face 'mode-line-stem-face)
-       (propertize filename 'face 'mode-line-buffer-id))))
+       (projectile-project-name)
+       " — "
+       (if buffer-file-name
+           (f-relative buffer-file-name (projectile-project-root))
+         (buffer-name)))
+    (my--regular-identification)))
 
-  (defun my--buffer-identification ()
+(defun my--regular-identification ()
+  (if (and (featurep 'projectile)
+           buffer-file-name)
+      (my--file-identification buffer-file-name)
+    (propertize "%b" 'face 'mode-line-buffer-id)))
+
+(defun my--file-identification (path)
+  (let* ((dirname (f-short (f-dirname path)))
+         (filename (f-filename path)))
     (concat
-     (when (projectile-project-p)
-       (propertize
-        (s-wrap (projectile-project-name) " ")
-        'face 'mode-line-branch-face))
-     " "
-     (if (and buffer-file-name (projectile-project-p))
-         (let* ((root (projectile-project-root))
-                (root-relative (f-relative buffer-file-name root)))
-           (my--file-identification root-relative))
-       (my--regular-identification)))))
+     (propertize (f-slash dirname) 'face 'mode-line-stem-face)
+     (propertize filename 'face 'mode-line-buffer-id))))
 
-(setq mode-line-left
+(defun my--buffer-identification ()
+  (concat
+   (when (and (featurep 'projectile)
+              (projectile-project-p))
+     (propertize
+      (s-wrap (projectile-project-name) " ")
+      'face 'mode-line-branch-face))
+   " "
+   (if (and (featurep 'projectile)
+            (and buffer-file-name (projectile-project-p)))
+       (let* ((root (projectile-project-root))
+              (root-relative (f-relative buffer-file-name root)))
+         (my--file-identification root-relative))
+     (my--regular-identification))))
+
+(defvar my-mode-line-left
       `(
         (:propertize "%3c " face mode-line-column-face)
         (anzu-mode
@@ -175,19 +176,20 @@
          face mode-line-remote-face)
         ))
 
-(setq mode-line-center
+(defvar my-mode-line-center
       `(
         (:eval (my--buffer-identification))
         ))
 
-(setq mode-line-right
+(defvar my-mode-line-right
       `(
         (:propertize
          (:eval (when (my--is-modified) " + ")) face mode-line-modified-face)
         (:propertize
          (:eval (when buffer-read-only (s-wrap (fontawesome "lock") " ")))
          face mode-line-read-only-face)
-        (:eval (my--flycheck-mode-line))
+        (global-flycheck-mode
+         (:eval (my--flycheck-mode-line)))
         (vc-mode
          (:propertize (:eval (my--vc-mode)) face mode-line-branch-face))
         ))
@@ -195,9 +197,9 @@
 (setq-default
  mode-line-format
  `(:eval (my--render-mode-line
-          (format-mode-line mode-line-left)
-          (format-mode-line mode-line-center)
-          (format-mode-line mode-line-right))))
+          (format-mode-line my-mode-line-left)
+          (format-mode-line my-mode-line-center)
+          (format-mode-line my-mode-line-right))))
 
 (setq frame-title-format '(:eval (my--title-format)))
 
