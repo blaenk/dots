@@ -1,5 +1,6 @@
 (require 'use-package)
 (require 'general)
+(require 'conf/common)
 
 (use-package helm-config
   :ensure nil)
@@ -42,12 +43,14 @@
 
 (use-package helm-imenu
   :ensure nil
+  :defer t
 
   :init
   (setq helm-imenu-execute-action-at-once-if-one nil))
 
 (use-package helm-adaptive
   :ensure nil
+  :defer t
 
   :init
   (setq helm-adaptive-history-file
@@ -168,8 +171,13 @@
     (add-hook 'helm-gtags-mode-hook #'evil-normalize-keymaps)))
 
 (use-package helm-descbinds
-  :config
-  (helm-descbinds-mode))
+  :general
+  ([remap describe-bindings] 'helm-descbinds)
+
+  :init
+  (define-advice describe-bindings
+      (:override (&optional prefix buffer) auto-load-helm-descbinds)
+    (helm-descbinds prefix buffer)))
 
 (use-package helm-projectile
   :diminish projectile-mode
