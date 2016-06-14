@@ -14,12 +14,7 @@
         company-selection-wrap-around t
         company-tooltip-limit 20
         company-tooltip-align-annotations t
-        company-require-match 'never
-
-        ;; company-global-modes '(not git-commit-mode)
-        ;; company-dabbrev-downcase nil
-        ;; company-dabbrev-ignore-case t
-        )
+        company-require-match 'never)
 
   (add-hook 'after-init-hook 'global-company-mode))
 
