@@ -155,7 +155,6 @@
   (add-hook 'enh-ruby-mode-hook #'robe-mode))
 
 (use-package scss-mode
-  :defer t
   :mode "\\.sass\\'"
 
   :init
@@ -180,8 +179,6 @@
   :defer t)
 
 (use-package irony
-  :defer t
-
   :general
   (:keymaps 'irony-mode-map
    [remap completion-at-point] 'irony-completion-at-point-async
@@ -212,10 +209,10 @@
   :defer t)
 
 (use-package js2-mode
+  :interpreter "node"
   :mode
   (("\\.js\\'" . js2-mode)
    ("\\.jsx\\'" . js2-jsx-mode))
-  :interpreter "node"
 
   :init
   (setq-default js2-basic-offset 2
@@ -337,10 +334,10 @@
                                 ("HTML Viewer" "open %o")))
 
   (add-hook 'LaTeX-mode-hook #'flyspell-mode)
-  (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)
+  (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode))
 
-  (use-package latex-preview-pane
-    :defer t))
+(use-package latex-preview-pane
+  :defer t)
 
 (use-package pkgbuild-mode
   :defer t)
@@ -357,6 +354,7 @@
 
 (use-package google-c-style
   :defer t
+
   :init
   (add-hook 'c-mode-common-hook #'google-set-c-style))
 
