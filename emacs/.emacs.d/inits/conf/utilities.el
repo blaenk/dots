@@ -156,7 +156,12 @@
     "l" 'buf-move-right))
 
 (use-package frame-cmds
-  :defer t)
+  :general
+  (:keymaps 'global
+   "C-M-S-h" 'shrink-frame-horizontally
+   "C-M-S-l" 'enlarge-frame-horizontally
+   "C-M-S-k" 'shrink-frame
+   "C-M-S-j" 'enlarge-frame))
 
 (use-package olivetti
   :defer t)
