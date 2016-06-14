@@ -385,7 +385,4 @@
   (add-hook 'sgml-mode-hook #'emmet-mode)
   (add-hook 'css-mode-hook  #'emmet-mode))
 
-(use-package esup
-  :defer t)
-
 (provide 'conf/utilities)
