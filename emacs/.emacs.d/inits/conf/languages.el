@@ -53,6 +53,10 @@
 (use-package json-mode
   :defer t
 
+  :mode
+  (("\\.eslintrc\\'" . json-mode)
+   ("\\.babelrc\\'" . json-mode))
+
   :init
   (setq json-reformat:indent-width 2))
 
