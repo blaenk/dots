@@ -246,8 +246,13 @@
   (add-hook 'js2-mode-hook #'subword-mode)
 
   :config
+  (defun my-js2-comment-line-break (&optional soft)
+    (if (nth 4 (syntax-ppss))
+        (js2-line-break soft)
+      (comment-indent-new-line soft)))
+
   (defun my-js2-hook ()
-    (setq-local comment-line-break-function #'comment-indent-new-line))
+    (setq-local comment-line-break-function #'my-js2-comment-line-break))
 
   (add-hook 'js2-mode-hook #'my-js2-hook))
 
