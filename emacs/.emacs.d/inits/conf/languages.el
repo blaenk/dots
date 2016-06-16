@@ -125,8 +125,8 @@
   :defer t
 
   :init
-  (add-hook 'yaml-mode-hook #'flyspell-prog-mode)
-  (add-hook 'yaml-mode-hook #'turn-off-flyspell))
+  (add-hook 'yaml-mode-hook #'turn-off-flyspell t)
+  (add-hook 'yaml-mode-hook #'flyspell-prog-mode t))
 
 (use-package inf-ruby
   :defer t
