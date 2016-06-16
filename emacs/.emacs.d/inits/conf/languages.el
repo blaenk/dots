@@ -58,7 +58,8 @@
    ("\\.babelrc\\'" . json-mode))
 
   :init
-  (setq json-reformat:indent-width 2))
+  (setq json-reformat:indent-width 2)
+  (add-hook 'json-mode-hook #'subword-mode))
 
 (use-package systemd
   :defer t)
