@@ -180,6 +180,8 @@
   "o a" '(:ignore t :which-key "all")
   "t" '(:ignore t :which-key "toggle")
 
+  "m" '(:ignore t :which-key "mode")
+
   ;; kill things
   "k" '(:ignore t :which-key "kill")
   "k e" 'save-buffers-kill-terminal
