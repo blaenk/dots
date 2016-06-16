@@ -22,13 +22,17 @@
   :diminish which-key-mode
 
   :init
-  (setq which-key-idle-delay 1.0
-        which-key-idle-secondary-delay 0
+  (setq which-key-idle-delay 0.0
+        which-key-idle-secondary-delay 0.0
         which-key-use-C-h-commands nil
         which-key-side-window-max-height 1.0)
 
-  (setq which-key-delayed-prefixes '([3]))
-  (setq which-key-delayed-prefixes-delay 0.1)
+  (defun my-which-key-delay (prefix length)
+    (unless (or (> length 1)
+                (string-match-p "^\\(SPC\\|M-SPC\\|C-c\\)" prefix))
+      1.0))
+
+  (add-hook 'which-key-delay-functions 'my-which-key-delay)
 
   :config
   (which-key-mode))
