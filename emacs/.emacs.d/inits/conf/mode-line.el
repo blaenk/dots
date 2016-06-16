@@ -145,7 +145,8 @@
   (let* ((dirname (f-short (f-dirname path)))
          (filename (f-filename path)))
     (concat
-     (propertize (f-slash dirname) 'face 'mode-line-stem-face)
+     (unless (equal dirname "./")
+       (propertize (f-slash dirname) 'face 'mode-line-stem-face))
      (propertize filename 'face 'mode-line-buffer-id))))
 
 (defun my--buffer-identification ()
