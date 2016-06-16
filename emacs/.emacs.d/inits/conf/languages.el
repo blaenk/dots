@@ -122,7 +122,11 @@
   (add-to-list 'markdown-gfm-additional-languages "elisp"))
 
 (use-package yaml-mode
-  :defer t)
+  :defer t
+
+  :init
+  (add-hook 'yaml-mode-hook #'flyspell-prog-mode)
+  (add-hook 'yaml-mode-hook #'turn-off-flyspell))
 
 (use-package inf-ruby
   :defer t
