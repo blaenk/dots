@@ -243,6 +243,7 @@
                                      ))
 
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+  (add-hook 'js2-mode-hook #'subword-mode)
 
   :config
   (defun my-js2-hook ()
