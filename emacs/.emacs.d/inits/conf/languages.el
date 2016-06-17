@@ -222,9 +222,7 @@
 
 (use-package js2-mode
   :interpreter "node"
-  :mode
-  (("\\.js\\'" . js2-mode)
-   ("\\.jsx\\'" . js2-jsx-mode))
+  :mode ("\\.jsx?\\'" . js2-jsx-mode)
 
   :init
   (setq-default js2-basic-offset 2
