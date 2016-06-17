@@ -240,8 +240,26 @@
                                      "specify"
                                      ))
 
-  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
   (add-hook 'js2-mode-hook #'subword-mode)
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+
+  (defun my-js2-imenu-index-function ()
+    (let* ((js2-imenu-index (js2-mode-create-imenu-index))
+           (mocha-index
+            (imenu--generic-function
+             '(("After" "^\\s-*after\\(\.skip\\|\.only\\)?\\s-*([\"']\\(.+\\)[\"']\\s-*,.*" 2)
+               ("AfterEach" "^\\s-*afterEach\\(\.skip\\|\.only\\)?\\s-*([\"']\\(.+\\)[\"']\\s-*,.*" 2)
+               ("It" "^\\s-*it\\(\.skip\\|\.only\\)?\\s-*([\"']\\(.+\\)[\"']\\s-*,.*" 2)
+               ("Context" "^\\s-*context\\(\.skip\\|\.only\\)?\\s-*([\"']\\(.+\\)[\"']\\s-*,.*" 2)
+               ("BeforeEach" "^\\s-*beforeEach\\(\.skip\\|\.only\\)?\\s-*([\"']\\(.+\\)[\"']\\s-*,.*" 2)
+               ("Before" "^\\s-*before\\(\.skip\\|\.only\\)?\\s-*([\"']\\(.+\\)[\"']\\s-*,.*" 2)
+               ("Describe" "^\\s-*describe\\(\.skip\\|\.only\\)?\\s-*([\"']\\(.+\\)[\"']\\s-*,.*" 2)))))
+      (-concat js2-imenu-index mocha-index)))
+
+  (defun my-js2-imenu-extras-hook ()
+    (setq-local imenu-create-index-function #'my-js2-imenu-index-function))
+
+  (add-hook 'js2-imenu-extras-mode-hook #'my-js2-imenu-extras-hook)
 
   :config
   (defun my-js2-comment-line-break (&optional soft)
