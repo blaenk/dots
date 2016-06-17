@@ -235,6 +235,7 @@
                                      "beforeEach"
                                      "context"
                                      "describe"
+                                     "expect"
                                      "it"
                                      "sinon"
                                      "specify"
