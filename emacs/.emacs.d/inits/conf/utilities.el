@@ -243,7 +243,7 @@
 (use-package swiper
   :general
   ("C-s" 'swiper
-   "M-/" 'swiper
+   ;; "M-/" 'swiper
    "M-?" 'swiper-all
    [f6] 'ivy-resume)
 
