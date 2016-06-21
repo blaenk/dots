@@ -178,6 +178,7 @@
 
 (use-package css-eldoc
   :defer t
+  :commands turn-on-css-eldoc
 
   :init
   (add-hook 'css-mode-hook #'turn-on-css-eldoc)
