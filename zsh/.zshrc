@@ -1,6 +1,13 @@
 # determine path to dots dir
 DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
 
+# if TMUX_FZF is set, we're only interested in loading the fzf functions
+# everything else will just slow us down
+if [[ ! -z "$TMUX_FZF" ]]; then
+  source $DOTSPATH/zsh/zsh/fzf.zsh
+  return
+fi
+
 fpath=(
   "$DOTSPATH/zsh/zsh/comp"
   "${fpath[@]}"
