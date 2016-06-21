@@ -278,6 +278,10 @@
 (use-package helm-css-scss
   :defer t
 
+  :general
+  (:keymaps '(css-mode-map less-css-mode-map scss-mode-map)
+   "M-i" 'helm-css-scss)
+
   :init
   ;; TODO
   ;; do local key bind
