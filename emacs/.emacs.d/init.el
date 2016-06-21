@@ -3,7 +3,7 @@
 ;; frame
 (defun my-frame-options (frame)
   (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10.5"))
-  (add-to-list 'default-frame-alist '(width . 86))
+  (add-to-list 'default-frame-alist '(width . 101))
   (add-to-list 'default-frame-alist '(height . 36))
 
   (cond
