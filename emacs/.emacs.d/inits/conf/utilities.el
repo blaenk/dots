@@ -386,8 +386,24 @@
 (use-package emmet-mode
   :defer t
 
+  :general
+  (:keymaps 'emmet-mode-keymap
+   "C-S-j" 'my-emmet-preview)
+
   :init
+  (defun my-emmet-jsx ()
+    (setq-local emmet-expand-jsx-className? t))
+
+  (add-hook 'js2-jsx-mode-hook #'my-emmet-jsx)
+
+  (add-hook 'js2-mode-hook #'emmet-mode)
+  (add-hook 'js2-jsx-mode-hook #'emmet-mode)
   (add-hook 'sgml-mode-hook #'emmet-mode)
-  (add-hook 'css-mode-hook  #'emmet-mode))
+  (add-hook 'css-mode-hook  #'emmet-mode)
+
+  :config
+  (defun my-emmet-preview ()
+    (interactive)
+    (emmet-expand-line '(4))))
 
 (provide 'conf/utilities)
