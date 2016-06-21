@@ -22,8 +22,9 @@
   :diminish which-key-mode
 
   :init
-  (setq which-key-idle-delay 0.0
-        which-key-idle-secondary-delay 0.0
+  (setq which-key-idle-delay 0.2
+        which-key-idle-secondary-delay 0.2
+        ;; which-key-echo-keystrokes 0.01
         which-key-use-C-h-commands nil
         which-key-side-window-max-height 1.0)
 
