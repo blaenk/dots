@@ -289,8 +289,8 @@
   (:keymaps 'js2-mode-map
    "@" 'js-doc-insert-tag)
 
-  (my-map
-    "m i" 'js-doc-insert-function-doc))
+  (my-map :keymaps 'js2-mode-map
+    "m d" 'js-doc-insert-function-doc))
 
 (use-package tern
   :defer t
