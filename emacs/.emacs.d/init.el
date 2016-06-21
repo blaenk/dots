@@ -42,7 +42,14 @@
 (require 'bind-key)
 
 (use-package benchmark-init
-  :defer t)
+  :defer t
+
+  :init
+  (defvar my-benchmarking-p
+    (prog1
+        (member "--benchmark" command-line-args)
+      (setq command-line-args (delete "--benchmark" command-line-args)))
+    "Whether emacs should run benchmark-init"))
 
 (use-package auto-compile
   :defines
@@ -212,7 +219,8 @@
   "w s h" 'evil-window-split
   "w s p" 'my-split-with-previous-buffer)
 
-;; (benchmark-init/activate)
+(when my-benchmarking-p
+  (benchmark-init/activate))
 
 (require 'conf/built-in)
 (require 'conf/mode-line)
@@ -228,6 +236,7 @@
 (require 'conf/company)
 (require 'conf/smartparens)
 
-;; (benchmark-init/deactivate)
+(when my-benchmarking-p
+  (benchmark-init/deactivate))
 
 (load custom-file 'noerror)
