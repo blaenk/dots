@@ -41,7 +41,8 @@
 (require 'diminish)
 (require 'bind-key)
 
-(use-package benchmark-init)
+(use-package benchmark-init
+  :defer t)
 
 (use-package auto-compile
   :defines
