@@ -11,8 +11,6 @@
   :general
   (my-map
     "h" '(:keymap helm-command-map :which-key "helm")
-    "o a f" 'helm-find-files
-    "o a b" 'helm-buffers-list
     "o r" 'helm-recentf)
 
   ("M-x" 'helm-M-x
@@ -201,15 +199,15 @@
     (let ((default-directory "~/.dots"))
       (helm-projectile-find-file)))
 
-  (defun my-open-file ()
-    (interactive)
-    (if (projectile-project-p)
+  (defun my-open-file (arg)
+    (interactive "P")
+    (if (and (not arg) (projectile-project-p))
         (helm-projectile)
-      (call-interactively #'helm-find-files)))
+      (helm-find-files nil)))
 
-  (defun my-open-buffer ()
-    (interactive)
-    (if (projectile-project-p)
+  (defun my-open-buffer (arg)
+    (interactive "P")
+    (if (and (not arg) (projectile-project-p))
         (helm-projectile-switch-to-buffer)
       (helm-buffers-list)))
 
