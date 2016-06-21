@@ -743,6 +743,10 @@ PR [a-z-+]+/\
   flyspell-overlay-p
   flyspell-goto-next-error
 
+  :general
+  (:keymaps 'flyspell-mode-map
+   "C-c $" nil)
+
   :init
   (add-hook 'text-mode-hook #'flyspell-mode)
   (add-hook 'prog-mode-hook #'flyspell-prog-mode)
