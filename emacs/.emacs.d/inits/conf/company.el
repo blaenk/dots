@@ -14,7 +14,8 @@
         company-selection-wrap-around t
         company-tooltip-limit 20
         company-tooltip-align-annotations t
-        company-require-match 'never)
+        company-require-match 'never
+        company-dabbrev-downcase nil)
 
   (add-hook 'after-init-hook 'global-company-mode))
 
