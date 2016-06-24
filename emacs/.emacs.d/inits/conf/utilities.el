@@ -216,15 +216,15 @@
   ;; http://comments.gmane.org/gmane.emacs.vim-emulation/2079
   (setq undo-tree-history-directory-alist
         `((".*" . ,(my-cache-dir "undos/"))))
-  (setq undo-tree-auto-save-history t)
+  (setq undo-tree-auto-save-history nil)
   (setq undo-tree-visualizer-timestamps t
         undo-tree-visualizer-diff nil)
 
   :config
   (define-advice undo-tree-make-history-save-file-name
-      (:after (file) compress-undo-history)
+      (:filter-return (file) compress-undo-history)
     "Compress the persisted undo-tree history."
-    (setq file (concat file ".gz")))
+    (concat file ".gz"))
 
   (global-undo-tree-mode))
 
