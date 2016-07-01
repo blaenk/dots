@@ -60,18 +60,6 @@
           #'magit-display-buffer-fullframe-status-v1)
 
   :config
-  (defun my-magit-hunk-recenter-top ()
-    (when (and (memq this-command '(magit-stage magit-unstage))
-               (magit-section-when '((hunk file)) t)
-               ;; TODO also check if previously at beg of window.
-               ;; using information saved before the refresh
-               )
-      (recenter (min (max 0 scroll-margin)
-                     (truncate (/ (window-body-height) 4.0))))
-      ))
-
-  (add-hook 'magit-refresh-buffer-hook 'my-magit-hunk-recenter-top)
-
   (defun my-open-pr ()
     "Visit the current branch's PR on Github."
     (interactive)
