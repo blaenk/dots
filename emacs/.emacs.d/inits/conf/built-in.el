@@ -256,7 +256,8 @@
   :defer t
 
   :init
-  (setq js-indent-level 2))
+  (setq js-indent-level 2
+        js-switch-indent-offset 2))
 
 (use-package sh-script
   :ensure nil
