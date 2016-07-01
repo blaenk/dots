@@ -7,6 +7,10 @@
   ([remap describe-mode] 'discover-my-major
    "C-h M-m" 'discover-my-mode))
 
+(use-package imenu-anywhere
+  :general
+  ("M-I" 'imenu-anywhere))
+
 (use-package exec-path-from-shell
   :if (and (daemonp) (not (equal system-type 'windows-nt)))
 
