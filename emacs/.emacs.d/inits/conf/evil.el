@@ -184,7 +184,8 @@ The initial state for a mode can be set with
             (-non-nil
              ;; add comment-start-regexps to this as needed
              `("\\s<"
-               ,(regexp-quote (s-trim-right comment-start))
+               ,(when (bound-and-true-p comment-start)
+                  (regexp-quote (s-trim-right comment-start)))
                ,(bound-and-true-p c-comment-start-regexp))))
            (comment-starts (s-join "\\|" starts))
            (start-re (concat "\\(" comment-starts "\\)")))
