@@ -557,6 +557,14 @@ Lisp function does not specify a special indentation."
   (add-hook 'ediff-suspend-hook #'my-ediff-quit 'append)
   (add-hook 'ediff-quit-hook #'my-ediff-quit 'append))
 
+(use-package minibuffer
+  :ensure nil
+  :defer t
+
+  :init
+  (add-to-list 'completion-styles 'substring t)
+  (add-to-list 'completion-styles 'initials t))
+
 (use-package elec-pair
   :ensure nil
   :defer t
