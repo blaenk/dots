@@ -246,6 +246,12 @@
   (add-hook 'js2-mode-hook #'subword-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
 
+  (defun my-make-jsx-angle-pairs ()
+    (modify-syntax-entry ?< "(>")
+    (modify-syntax-entry ?> ")<"))
+
+  (add-hook 'js2-jsx-mode-hook #'my-make-jsx-angle-pairs)
+
   (defun my--mocha-expression (name)
     `(,(upcase-initials name)
       ,(concat
