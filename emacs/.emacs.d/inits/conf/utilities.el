@@ -417,4 +417,32 @@
     (interactive)
     (emmet-expand-line '(4))))
 
+(use-package yasnippet
+  :defer t
+
+  :general
+  (:keymaps 'yas-minor-mode-map
+   "<tab>" nil
+   "TAB" nil
+   "M-n" 'yas-expand
+   "M-N" 'company-yasnippet)
+
+  :init
+  (setq yas-indent-line 'auto
+        yas-also-auto-indent-first-line t)
+
+  (defun my-evil-insert-before-yasnippet-expand ()
+    (evil-insert-state))
+
+  (add-hook 'yas-before-expand-snippet-hook
+            #'my-evil-insert-before-yasnippet-expand)
+
+  (add-hook 'after-init-hook 'yas-global-mode))
+
+(use-package mocha-snippets
+  :defer t)
+
+(use-package react-snippets
+  :defer t)
+
 (provide 'conf/utilities)
