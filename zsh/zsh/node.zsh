@@ -8,6 +8,7 @@ if (( $+commands[npm] )); then
   eval "$(npm completion 2>/dev/null)"
 
   alias n="npm"
+  alias nr="npm run"
   alias nis="npm --save install"
   alias nus="npm --save uninstall"
   alias nisd="npm --save-dev install"
