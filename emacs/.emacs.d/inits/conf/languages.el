@@ -378,7 +378,8 @@
   :defer t)
 
 (use-package web-mode
-  :mode "\\.html?\\'"
+  :mode (("\\.html?\\'" . web-mode)
+         ("\\.handlebars\\'" . web-mode))
 
   :init
   (setq web-mode-markup-indent-offset 2)
