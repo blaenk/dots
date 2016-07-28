@@ -362,7 +362,8 @@
   (add-hook 'prog-mode-hook #'highlight-numbers-mode))
 
 (use-package restclient
-  :defer t)
+  :defer t
+  :mode ("\\.rest\\'" . restclient-mode))
 
 (use-package know-your-http-well
   :defer t)
