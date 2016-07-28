@@ -246,11 +246,19 @@
   (add-hook 'js2-mode-hook #'subword-mode)
   (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
 
+  ;; NOTE
+  ;; this isn't used because setting ?> as a pair has the consequence of leading
+  ;; emacs to believe that the pairs are unbalanced when it sees an ES6 fat
+  ;; arrow function of form (arg1, arg2) => { … }, which goes on to break
+  ;; electric-pair-mode and many other things
+  ;;
+  ;; for this to work it would need to be possible to specify that > is a pair
+  ;; but not if it's preceded by =
   (defun my-make-jsx-angle-pairs ()
-    (modify-syntax-entry ?< "(>")
-    (modify-syntax-entry ?> ")<"))
+    (modify-syntax-entry ?< "(>" js2-jsx-mode-syntax-table)
+    (modify-syntax-entry ?> ")<" js2-jsx-mode-syntax-table))
 
-  (add-hook 'js2-jsx-mode-hook #'my-make-jsx-angle-pairs)
+  ;; (add-hook 'js2-jsx-mode-hook #'my-make-jsx-angle-pairs)
 
   (defun my--mocha-expression (name)
     `(,(upcase-initials name)
