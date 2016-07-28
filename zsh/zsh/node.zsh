@@ -1,7 +1,7 @@
 export NVM_DIR="$HOME/.nvm"
 
 if [[ -d "$NVM_DIR" && -s "$NVM_DIR/nvm.sh" ]]; then
-    source "$NVM_DIR/nvm.sh"
+  source "$NVM_DIR/nvm.sh"
 fi
 
 if (( $+commands[npm] )); then
@@ -10,8 +10,8 @@ if (( $+commands[npm] )); then
   alias n="npm"
   alias nr="npm run"
   alias nis="npm --save install"
-  alias nus="npm --save uninstall"
   alias nisd="npm --save-dev install"
+  alias nus="npm --save uninstall"
   alias nusd="npm --save-dev uninstall"
   alias nex='PATH=$(npm bin):$PATH'
 fi
