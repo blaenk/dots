@@ -14,6 +14,10 @@
 
   (add-hook 'after-init-hook 'global-flycheck-mode))
 
+(use-package flycheck-pos-tip
+  :init
+  (add-hook 'global-flycheck-mode-hook 'flycheck-pos-tip-mode))
+
 (use-package flycheck-irony
   :after irony
 
