@@ -78,7 +78,8 @@
           conf-mode
           TeX-mode
           LaTeX-mode
-          yaml-mode)
+          yaml-mode
+          restclient-mode)
         evil-emacs-state-modes
         '(help-mode
           term-mode
