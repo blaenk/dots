@@ -260,6 +260,28 @@
 
   ;; (add-hook 'js2-jsx-mode-hook #'my-make-jsx-angle-pairs)
 
+  (defun my--route-expression (method)
+    `(,(upcase method)
+      ,(concat
+        "^\\s-*\\sw+\."
+        method
+        "\\s-*([\"']\\(.+\\)[\"']\\s-*,.*")
+      1))
+
+  (defvar my-route-imenu-expressions
+    (-map #'my--route-expression
+          '("all"
+            "delete"
+            "get"
+            "head"
+            "options"
+            "post"
+            "put"
+            "patch"
+            "use"
+            "trace"
+            )))
+
   (defun my--mocha-expression (name)
     `(,(upcase-initials name)
       ,(concat
@@ -279,9 +301,12 @@
             "describe")))
 
   (defun my-js2-imenu-index-function ()
+    ;; a submenu can be created as:
+    ;; (list (cons "Menu Title" (imenu--generic-function expressions)))
     (let ((js2-imenu-index (js2-mode-create-imenu-index))
-          (mocha-index (imenu--generic-function my-mocha-imenu-expressions)))
-      (-concat js2-imenu-index mocha-index)))
+          (mocha-index (imenu--generic-function my-mocha-imenu-expressions))
+          (route-index (imenu--generic-function my-route-imenu-expressions)))
+      (-concat js2-imenu-index mocha-index route-index)))
 
   (defun my-js2-imenu-extras-hook ()
     (setq-local imenu-create-index-function #'my-js2-imenu-index-function))
