@@ -105,6 +105,8 @@
       inhibit-startup-echo-area-message t
       inhibit-startup-message t
 
+      initial-scratch-message nil
+
       mouse-wheel-follow-mouse t
       mouse-wheel-progressive-speed t
       mouse-wheel-scroll-amount '(1 ((shift) . 1))
