@@ -51,7 +51,6 @@ antigen apply
 sources=(
   'hub'
   'path'
-  'rbenv'
   'chruby'
   'node'
   'vcsinfo'
