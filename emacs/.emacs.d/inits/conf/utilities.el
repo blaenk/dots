@@ -412,6 +412,7 @@
   (add-hook 'js2-jsx-mode-hook #'emmet-mode)
   (add-hook 'sgml-mode-hook #'emmet-mode)
   (add-hook 'css-mode-hook  #'emmet-mode)
+  (add-hook 'web-mode-hook  #'emmet-mode)
 
   :config
   (defun my-emmet-preview ()
