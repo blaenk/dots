@@ -94,8 +94,6 @@
 
 (use-package projectile
   :general
-  ("C-M-/" 'helm-projectile-ag)
-
   (my-map
     "p" '(:keymap projectile-command-map
           :which-key "projectile"))

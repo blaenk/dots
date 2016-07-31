@@ -184,7 +184,8 @@
 
   :general
   ("C-<" 'my-open-buffer
-   "C->" 'my-open-file)
+   "C->" 'my-open-file
+   "C-M-/" 'my-helm-ag)
 
   (:keymaps '(helm-projectile-find-file-map helm-projectile-projects-map)
    "M-h" 'my-helm-horizontal-split
@@ -212,6 +213,12 @@
     (if (and (not arg) (projectile-project-p))
         (helm-projectile-switch-to-buffer)
       (helm-buffers-list)))
+
+  (defun my-helm-ag (arg)
+    (interactive "P")
+    (if (and (not arg) (projectile-project-p))
+        (helm-projectile-ag)
+      (helm-do-ag)))
 
   (helm-projectile-on))
 
