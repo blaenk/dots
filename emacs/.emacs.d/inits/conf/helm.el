@@ -138,7 +138,22 @@
   :defer t)
 
 (use-package helm-ag
-  :defer t)
+  :general
+  (:keymaps 'helm-ag-map
+   "C-c C-a" 'my-helm-ag-launch-ag)
+
+  :init
+  (defun my-helm-ag--launch-ag (_candidate)
+    "Launch ag.el from the current helm-ag invocation."
+    (let* ((parsed (helm-ag--parse-options-and-query helm-ag--last-query))
+           (ag-arguments (car parsed))
+           (query (cdr parsed))
+           (joined-patterns (helm-ag--join-patterns query)))
+      (ag-regexp joined-patterns helm-ag--last-default-directory)))
+
+  (defun my-helm-ag-launch-ag ()
+    (interactive)
+    (helm-exit-and-execute-action 'my-helm-ag--launch-ag)))
 
 (use-package helm-gtags
   :diminish helm-gtags-mode
