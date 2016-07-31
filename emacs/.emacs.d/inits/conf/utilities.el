@@ -73,9 +73,7 @@
   :defer t
 
   :init
-  (setq dtrt-indent-verbosity 0)
-
-  (add-hook 'prog-mode-hook #'dtrt-indent-mode))
+  (setq dtrt-indent-verbosity 0))
 
 (use-package paradox
   :general
