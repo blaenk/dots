@@ -50,17 +50,6 @@
 (use-package clojure-mode
   :defer t)
 
-(use-package json-mode
-  :defer t
-
-  :mode
-  (("\\.eslintrc\\'" . json-mode)
-   ("\\.babelrc\\'" . json-mode))
-
-  :init
-  (setq json-reformat:indent-width 2)
-  (add-hook 'json-mode-hook #'subword-mode))
-
 (use-package systemd
   :defer t)
 
@@ -323,6 +312,18 @@
     (setq-local comment-line-break-function #'my-js2-comment-line-break))
 
   (add-hook 'js2-mode-hook #'my-js2-hook))
+
+(use-package json-mode
+  :defer t
+
+  :mode
+  (("\\.eslintrc\\'" . json-mode)
+   ("\\.babelrc\\'" . json-mode))
+
+  :init
+  (setq json-reformat:indent-width 2)
+
+  (add-hook 'json-mode-hook #'subword-mode))
 
 (use-package js-doc
   :general
