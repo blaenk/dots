@@ -326,6 +326,12 @@
 
   (add-hook 'json-mode-hook #'subword-mode))
 
+(use-package jade
+  :defer t
+
+  :init
+  (add-hook 'js2-mode-hook #'jade-interaction-mode))
+
 (use-package js-doc
   :general
   (:keymaps 'js2-mode-map
