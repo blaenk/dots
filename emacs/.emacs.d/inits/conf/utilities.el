@@ -93,6 +93,8 @@
       (projectile-project-root)))
 
   (setq ag-highlight-search t
+        ;; needed for wgrep-ag. preferably this would be set as-needed
+        ag-group-matches nil
         ag-project-root-function #'my-ag-root-function))
 
 (use-package projectile
@@ -316,6 +318,10 @@
 (use-package wgrep
   :defer t)
 
+;; TODO
+;; this only works when ag-group-matches is nil
+;; preferably keep it on unless necessary, so perhaps
+;; if wgrep-ag is invoked, rerun ag with it off?
 (use-package wgrep-ag
   :defer t)
 
