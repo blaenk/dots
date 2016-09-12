@@ -72,9 +72,9 @@
     (concat left center-fmt right)))
 
 (defun my--remote-mode-line ()
-  (when (and (stringp default-directory)
-             (file-remote-p default-directory))
-    (s-wrap (fontawesome "cloud") " ")))
+  (when (and buffer-file-name (file-remote-p buffer-file-name))
+    (let ((host (tramp-file-name-real-host (tramp-dissect-file-name buffer-file-name))))
+      (s-wrap (concat (fontawesome "cloud") " " host) " "))))
 
 (defun my--format-flycheck (count face)
   (when count
@@ -125,44 +125,60 @@
 ;; TODO
 ;; make functions private
 (defun my--title-format ()
-  (if (and (featurep 'projectile)
-           (projectile-project-p))
+  (cond
+   ((and buffer-file-name (file-remote-p buffer-file-name))
+    (let ((tramp-vec (tramp-dissect-file-name buffer-file-name)))
       (concat
-       (projectile-project-name)
+       (tramp-file-name-real-host tramp-vec)
        " — "
-       (if buffer-file-name
-           (f-relative buffer-file-name (projectile-project-root))
-         (buffer-name)))
-    (my--regular-identification)))
+       (f-short (tramp-file-name-localname tramp-vec)))))
+
+   ((and (featurep 'projectile) (projectile-project-p))
+    (concat
+     (projectile-project-name)
+     " — "
+     (if buffer-file-name
+         (f-relative buffer-file-name (projectile-project-root))
+       (buffer-name))))
+
+   (t (my--regular-identification))))
 
 (defun my--regular-identification ()
   (if (and (featurep 'projectile)
-           buffer-file-name)
+           buffer-file-name
+           (not (file-remote-p buffer-file-name)))
       (my--file-identification buffer-file-name)
     (propertize "%b" 'face 'mode-line-buffer-id)))
 
 (defun my--file-identification (path)
-  (let* ((dirname (f-short (f-dirname path)))
+  (let* ((path (if (file-remote-p buffer-file-name)
+                   (tramp-file-name-localname (tramp-dissect-file-name buffer-file-name))
+                 path))
+         (dirname (file-name-as-directory (f-short (f-dirname path))))
          (filename (f-filename path)))
     (concat
      (unless (equal dirname "./")
-       (propertize (f-slash dirname) 'face 'mode-line-stem-face))
+       (propertize dirname 'face 'mode-line-stem-face))
      (propertize filename 'face 'mode-line-buffer-id))))
 
 (defun my--buffer-identification ()
   (concat
-   (when (and (featurep 'projectile)
-              (projectile-project-p))
+   (when (and buffer-file-name (not (file-remote-p buffer-file-name))
+              (featurep 'projectile) (projectile-project-p))
      (propertize
       (s-wrap (projectile-project-name) " ")
       'face 'mode-line-branch-face))
    " "
-   (if (and (featurep 'projectile)
-            (and buffer-file-name (projectile-project-p)))
-       (let* ((root (projectile-project-root))
-              (root-relative (f-relative buffer-file-name root)))
-         (my--file-identification root-relative))
-     (my--regular-identification))))
+   (cond
+    ((and buffer-file-name (file-remote-p buffer-file-name))
+     (my--file-identification
+      (tramp-file-name-localname (tramp-dissect-file-name buffer-file-name))))
+
+    ((and (featurep 'projectile) (and buffer-file-name (projectile-project-p)))
+     (my--file-identification
+      (f-relative buffer-file-name (projectile-project-root))))
+
+    (t (my--regular-identification)))))
 
 (defvar my-mode-line-left
       `(
