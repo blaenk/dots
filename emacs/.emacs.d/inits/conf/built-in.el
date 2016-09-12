@@ -9,6 +9,12 @@
   :init
   (setq auto-revert-check-vc-info t)
 
+  (defun my-disable-auto-revert-vc-when-remote ()
+    (when (and buffer-file-name (file-remote-p buffer-file-name))
+      (setq-local auto-revert-check-vc-info nil)))
+
+  (add-hook 'find-file-hook #'my-disable-auto-revert-vc-when-remote)
+
   ;; emacs 25 disables notify for global-auto-revert
   ;; because there can be a problem on OSX where it may use too many resources
   ;; or something
