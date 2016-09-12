@@ -330,10 +330,7 @@
   (add-hook 'json-mode-hook #'subword-mode))
 
 (use-package jade
-  :defer t
-
-  :init
-  (add-hook 'js2-mode-hook #'jade-interaction-mode))
+  :defer t)
 
 (use-package js-doc
   :general
