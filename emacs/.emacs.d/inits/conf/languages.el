@@ -201,6 +201,9 @@
   :init
   (add-hook 'irony-mode-hook #'irony-eldoc))
 
+(use-package realgud
+  :defer t)
+
 (use-package swift-mode
   :if (eq system-type 'darwin)
 
