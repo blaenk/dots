@@ -4,9 +4,8 @@
 (use-package flycheck
   :general
   (my-map
-    "c" '(:ignore t :which-key "check")
-    "c l" 'flycheck-list-errors
-    "c c" 'helm-flycheck)
+    "c r" 'flycheck-buffer
+    "c l" 'flycheck-list-errors)
 
   :init
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)
