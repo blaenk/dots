@@ -679,6 +679,10 @@ PR [a-z-+]+/\
   :defer t
 
   :general
+  (:keymaps 'normal
+   "[ c" 'my-previous-error
+   "] c" 'my-next-error)
+
   (my-map
     "c" '(:ignore t :which-key "check")
     "c j" 'my-next-error
