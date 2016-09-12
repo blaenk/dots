@@ -49,7 +49,10 @@
 
   (:keymaps 'evil-window-map
    "<left>" 'winner-undo
+   "u" 'winner-undo
+
    "<right>" 'winner-redo
+   "r" 'winner-redo
 
    "m k" 'buf-move-up
    "m j" 'buf-move-down
