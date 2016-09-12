@@ -239,6 +239,9 @@
 
 (use-package helm-flycheck
   :general
+  (my-map
+    "c h" 'helm-flycheck)
+
   (:keymaps 'flycheck-mode-map
    "C-c ! h" 'helm-flycheck))
 
