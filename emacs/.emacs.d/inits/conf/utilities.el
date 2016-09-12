@@ -11,6 +11,9 @@
   :general
   ("M-I" 'imenu-anywhere))
 
+(use-package imenu-list
+  :defer t)
+
 (use-package exec-path-from-shell
   :if (and (daemonp) (not (equal system-type 'windows-nt)))
 
