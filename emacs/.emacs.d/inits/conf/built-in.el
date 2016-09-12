@@ -680,8 +680,9 @@ PR [a-z-+]+/\
 
   :general
   (my-map
-    "c j" 'next-error
-    "c k" 'previous-error
+    "c" '(:ignore t :which-key "check")
+    "c j" 'my-next-error
+    "c k" 'my-previous-error
 
     "t a" 'auto-fill-mode)
 
@@ -689,6 +690,24 @@ PR [a-z-+]+/\
   (setq next-error-recenter '(4))
 
   (add-hook 'prog-mode-hook #'visual-line-mode)
+
+  (defun my-next-error (&optional n reset)
+    "Dispatch to flycheck or standard emacs error."
+    (interactive "P")
+    (if (and (boundp 'flycheck-mode)
+             (symbol-value flycheck-mode)
+             (not (get-buffer-window "*compilation*")))
+        (call-interactively 'flycheck-next-error)
+      (call-interactively 'next-error)))
+
+  (defun my-previous-error (&optional n reset)
+    "Dispatch to flycheck or standard emacs error."
+    (interactive "P")
+    (if (and (boundp 'flycheck-mode)
+             (symbol-value flycheck-mode)
+             (not (get-buffer-window "*compilation*")))
+        (call-interactively 'flycheck-previous-error)
+      (call-interactively 'previous-error)))
 
   (defun my-prog-auto-fill ()
     (setq-local comment-auto-fill-only-comments t)
