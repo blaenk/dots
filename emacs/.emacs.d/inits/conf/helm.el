@@ -125,7 +125,7 @@
    "M-v" 'my-helm-vertical-split)
 
   :config
-  (helm-mt/wrap-shells t))
+  (helm-mt/reroute-terminal-functions t))
 
 (use-package helm-open-github
   :defer t)
