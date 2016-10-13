@@ -2,15 +2,22 @@
 
 ;; frame
 (defun my-frame-options (frame)
-  (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-10.5"))
   (add-to-list 'default-frame-alist '(width . 101))
   (add-to-list 'default-frame-alist '(height . 36))
 
   (cond
    ((eq system-type 'gnu/linux)
+    (set-frame-font "DejaVu Sans Mono-10.5" nil t)
+
     (set-fontset-font "fontset-default" nil
                       (font-spec :name "Symbola") nil 'prepend))
+
+   ((eq system-type 'windows-nt)
+    (set-frame-font "Consolas-10.5" nil t))
+
    ((eq system-type 'darwin)
+    (set-frame-font "Monaco-10.5" nil t)
+
     (set-fontset-font t 'symbol
                       (font-spec :family "Apple Color Emoji") nil 'prepend)
     (set-fontset-font t 'symbol
