@@ -41,6 +41,14 @@
 
   (helm-autoresize-mode t))
 
+(use-package helm-semantic
+  :ensure nil
+  :defer t
+
+  :config
+  (push '(c-mode . semantic-format-tag-summarize) helm-semantic-display-style)
+  (push '(c++-mode . semantic-format-tag-summarize) helm-semantic-display-style))
+
 (use-package helm-imenu
   :ensure nil
   :defer t
