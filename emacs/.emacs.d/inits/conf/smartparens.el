@@ -53,7 +53,7 @@
         sp-autoinsert-quote-if-followed-by-closing-pair nil
         )
 
-  (add-hook 'prog-mode-hook 'smartparens-mode)
+  (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
 
   :config
   (sp-use-paredit-bindings)
