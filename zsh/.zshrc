@@ -42,7 +42,11 @@ source $DOTSPATH/zsh/zsh/antigen/antigen.zsh
 antigen bundles <<EOBUNDLES
   zsh-users/zsh-syntax-highlighting
   zsh-users/zsh-completions src
+
   command-not-found
+
+  lukechilds/zsh-nvm
+  lukechilds/zsh-better-npm-completion
 EOBUNDLES
 
 antigen apply
