@@ -118,6 +118,21 @@
   (add-hook 'yaml-mode-hook #'turn-off-flyspell t)
   (add-hook 'yaml-mode-hook #'flyspell-prog-mode t))
 
+(use-package enh-ruby-mode
+  :defer t
+  :interpreter "ruby"
+  :mode (("\\.rb\\'" . enh-ruby-mode)
+         ("Rakefile" . enh-ruby-mode)
+         ("Gemfile" . enh-ruby-mode)
+         ("\\.rake\\'" . enh-ruby-mode)))
+
+(use-package robe
+  :defer t
+
+  :init
+  (add-hook 'ruby-mode-hook #'robe-mode)
+  (add-hook 'enh-ruby-mode-hook #'robe-mode))
+
 (use-package inf-ruby
   :defer t
 
@@ -128,8 +143,18 @@
   :config
   (inf-ruby-switch-setup))
 
-(use-package enh-ruby-mode
-  :defer t)
+(use-package projectile-rails
+  :defer t
+
+  :general
+  (my-map :keymaps 'ruby-mode-map
+    "m r" '(:keymap projectile-rails-command-map :which-key "rails"))
+
+  :init
+  (add-hook 'ruby-mode-hook #'projectile-rails-on)
+
+  :config
+  (remove-hook 'enh-ruby-mode-hook 'erm-define-faces))
 
 (use-package erlang
   :defer t)
@@ -148,13 +173,6 @@
 
 (use-package less-css-mode
   :defer t)
-
-(use-package robe
-  :defer t
-
-  :init
-  (add-hook 'ruby-mode-hook #'robe-mode)
-  (add-hook 'enh-ruby-mode-hook #'robe-mode))
 
 (use-package scss-mode
   :mode "\\.sass\\'"
