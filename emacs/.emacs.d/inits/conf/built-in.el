@@ -2,6 +2,16 @@
 (require 'general)
 (require 'conf/common)
 
+(use-package profiler
+  :ensure nil
+
+  :general
+  (my-map
+    "e p" '(:ignore t :which-key "profiler")
+    "e p p" 'profiler-start
+    "e p r" 'profiler-report
+    "e p s" 'profiler-stop))
+
 (use-package autorevert
   :ensure nil
   :defer t
