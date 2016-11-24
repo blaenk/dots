@@ -82,15 +82,6 @@
   (add-hook 'git-commit-setup-hook #'git-commit-turn-on-flyspell)
   (add-hook 'git-commit-setup-hook #'fci-mode))
 
-(use-package magit-gh-pulls
-  :after magit
-
-  :config
-  (magit-define-popup-action 'magit-dispatch-popup
-    ?# "Pull requests" 'magit-gh-pulls-popup ?!)
-
-  (add-hook 'magit-mode-hook #'turn-on-magit-gh-pulls))
-
 (use-package magithub
   :after magit)
 
