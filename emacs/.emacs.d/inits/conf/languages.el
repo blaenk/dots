@@ -163,7 +163,10 @@
   :defer t)
 
 (use-package go-mode
-  :defer t)
+  :defer t
+
+  :init
+  (add-hook 'before-save-hook 'gofmt-before-save))
 
 (use-package go-eldoc
   :defer t
