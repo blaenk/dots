@@ -253,6 +253,9 @@
   :init
   (setq whitespace-line-column nil
 
+        whitespace-indentation-regexp
+        '("^ *\\(\t+\\)[^\n]" . "^ *\\(\t+\\)[^\n]")
+
         ;; NOTE
         ;; lines-tail to see which lines go beyond max col
         whitespace-style
