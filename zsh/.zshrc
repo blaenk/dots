@@ -50,6 +50,11 @@ zplug "plugins/command-not-found", from:oh-my-zsh
 zplug "lukechilds/zsh-nvm"
 zplug "lukechilds/zsh-better-npm-completion"
 
+zplug "b4b4r07/enhancd", use:init.sh
+
+export ENHANCD_HYPHEN_ARG=--
+export ENHANCD_DOT_ARG=...
+
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
   printf "Install? [y/N]: "
