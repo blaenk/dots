@@ -64,6 +64,16 @@ if command_exists rustup; then
   alias rup='rustup'
 fi
 
+if (( $+commands[npm] )); then
+  alias n="npm"
+  alias nr="npm run"
+  alias nis="npm --save install"
+  alias nisd="npm --save-dev install"
+  alias nus="npm --save uninstall"
+  alias nusd="npm --save-dev uninstall"
+  alias nex='PATH=$(npm bin):$PATH'
+fi
+
 if command_exists gist; then
   alias gist='gist -c -o'
 fi

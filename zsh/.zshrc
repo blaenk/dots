@@ -56,7 +56,6 @@ sources=(
   'hub'
   'path'
   'chruby'
-  'node'
   'vcsinfo'
   'prompt'
   'completions'
