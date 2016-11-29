@@ -168,6 +168,7 @@
   :init
   (setq gofmt-command "goimports")
 
+  (add-hook 'go-mode-hook #'subword-mode)
   (add-hook 'before-save-hook 'gofmt-before-save))
 
 (use-package go-eldoc
