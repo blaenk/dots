@@ -52,6 +52,8 @@ If you use urxvt, you'll want to merge the `.Xresources` into your `xrdb` to use
 $ xrdb -merge ~/.Xresources
 ```
 
+You should also install [these useful extensions](https://github.com/muennich/urxvt-perls), preferably in ‘~/.urxvt/ext/‘.
+
 #### Command Not Found
 
 You can get functionality where, if you enter a command that's not installed on your system, zsh will tell you which package it _is_ available in, if it finds it in some package. This is available for Ubuntu and Archlinux.
