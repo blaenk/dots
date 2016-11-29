@@ -1,7 +1,7 @@
 .DS_Store
 flycheck_*.el
 
-zsh/zsh/antigen/
+zsh/zsh/zplug/
 zsh/zsh/cache/
 
 emacs/.emacs.d/cache/

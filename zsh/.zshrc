@@ -31,25 +31,34 @@ setopt extendedglob
 export EDITOR=vim
 export VISUAL=vim
 
-# bundles
-if [[ ! -d $DOTSPATH/zsh/zsh/antigen ]]; then
-  git clone https://github.com/zsh-users/antigen.git $DOTSPATH/zsh/zsh/antigen
+# zplug
+export ZPLUG_HOME=$DOTSPATH/zsh/zsh/zplug
+
+if [[ ! -d $ZPLUG_HOME ]]; then
+  git clone https://github.com/zplug/zplug $ZPLUG_HOME
 fi
 
-source $DOTSPATH/zsh/zsh/antigen/antigen.zsh
+source $ZPLUG_HOME/init.zsh
 
-# antigen
-antigen bundles <<EOBUNDLES
-  zsh-users/zsh-syntax-highlighting
-  zsh-users/zsh-completions src
+zplug "zplug/zplug"
 
-  command-not-found
+zplug "zsh-users/zsh-syntax-highlighting", nice:10
+zplug "zsh-users/zsh-completions"
 
-  lukechilds/zsh-nvm
-  lukechilds/zsh-better-npm-completion
-EOBUNDLES
+zplug "plugins/command-not-found", from:oh-my-zsh
 
-antigen apply
+zplug "lukechilds/zsh-nvm"
+zplug "lukechilds/zsh-better-npm-completion"
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+  printf "Install? [y/N]: "
+  if read -q; then
+    echo; zplug install
+  fi
+fi
+
+zplug load
 
 # strict control over source order
 sources=(
