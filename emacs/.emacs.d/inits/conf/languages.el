@@ -162,6 +162,12 @@
 (use-package scala-mode
   :defer t)
 
+(use-package go-guru
+  :defer t)
+
+(use-package go-rename
+  :defer t)
+
 (use-package go-mode
   :defer t
 
@@ -176,6 +182,9 @@
 
   :init
   (add-hook 'go-mode-hook #'go-eldoc-setup))
+
+(use-package go-playground
+  :defer t)
 
 (use-package less-css-mode
   :defer t)
