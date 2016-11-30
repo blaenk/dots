@@ -52,7 +52,7 @@ If you use urxvt, you'll want to merge the `.Xresources` into your `xrdb` to use
 $ xrdb -merge ~/.Xresources
 ```
 
-You should also install [these useful extensions](https://github.com/muennich/urxvt-perls), preferably in ‘~/.urxvt/ext/‘.
+You should also install [these useful extensions](https://github.com/muennich/urxvt-perls), preferably in `~/.urxvt/ext/`.
 
 #### Command Not Found
 
@@ -67,4 +67,3 @@ $ abiword
 abiword may be found in the following packages:
   extra/abiword 3.0.0-2 /usr/bin/abiword
 ```
-
