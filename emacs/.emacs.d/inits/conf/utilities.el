@@ -176,12 +176,6 @@
 (use-package olivetti
   :defer t)
 
-(use-package typo
-  :defer t
-
-  :init
-  (setq-default typo-language "English"))
-
 (use-package link-hint
   :general
   (my-map
