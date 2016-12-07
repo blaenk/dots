@@ -29,10 +29,10 @@
 
 (use-package browse-at-remote
   :general
-  (my-map "o g" 'browse-at-remote/kill)
+  (my-map "o g" 'browse-at-remote-kill)
 
   :init
-  (setq browse-at-remote/prefer-symbolic nil))
+  (setq browse-at-remote-prefer-symbolic nil))
 
 (use-package git-timemachine
   :defer t)
