@@ -40,6 +40,16 @@
 (use-package github-clone
   :defer t)
 
+(use-package git-commit
+  :defer t
+
+  :init
+  (setq git-commit-summary-max-length 50
+        git-commit-fill-column 72)
+
+  :config
+  (add-to-list 'git-commit-style-convention-checks 'overlong-summary-line))
+
 (use-package magit
   :diminish
   (magit-wip-after-save-local-mode
