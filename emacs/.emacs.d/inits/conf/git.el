@@ -66,7 +66,6 @@
   (setq magit-save-repository-buffers 'dontask
         magit-refs-show-commit-count 'all
         magit-log-auto-more t
-        magit-diff-refine-hunk t
         magit-display-buffer-function
           #'magit-display-buffer-fullframe-status-v1)
 
