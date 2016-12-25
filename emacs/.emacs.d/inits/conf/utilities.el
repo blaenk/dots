@@ -425,12 +425,19 @@
   (:keymaps 'yas-minor-mode-map
    "<tab>" nil
    "TAB" nil
-   "M-n" 'yas-expand
-   "M-N" 'company-yasnippet)
+   "M-n" 'my-yasnippet)
 
   :init
   (setq yas-indent-line 'auto
+        yas-wrap-around-region t
         yas-also-auto-indent-first-line t)
+
+  (defun my-yasnippet ()
+    (interactive)
+
+    (if (region-active-p)
+        (yas-insert-snippet)
+      (yas-expand)))
 
   (defun my-evil-insert-before-yasnippet-expand ()
     (evil-insert-state))
