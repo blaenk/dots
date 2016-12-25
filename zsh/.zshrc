@@ -21,11 +21,18 @@ promptinit
 colors
 
 # history
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=10000
+export SAVEHIST=$HISTSIZE
+
+setopt inc_append_history
 setopt hist_ignore_space
 setopt append_history
 setopt hist_ignore_dups
 setopt share_history
 setopt extendedglob
+setopt hist_reduce_blanks
+setopt hist_verify
 
 # env vars
 export EDITOR=vim
