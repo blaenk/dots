@@ -42,7 +42,7 @@ source $ZPLUG_HOME/init.zsh
 
 zplug "zplug/zplug"
 
-zplug "zsh-users/zsh-syntax-highlighting", nice:10
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-completions"
 
 zplug "plugins/command-not-found", from:oh-my-zsh
