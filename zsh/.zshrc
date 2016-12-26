@@ -61,6 +61,7 @@ zplug "b4b4r07/enhancd", use:init.sh
 
 export ENHANCD_HYPHEN_ARG=--
 export ENHANCD_DOT_ARG=...
+export ENHANCD_DISABLE_HOME=1
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
