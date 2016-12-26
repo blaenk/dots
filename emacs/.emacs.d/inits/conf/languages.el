@@ -425,7 +425,7 @@
   :defer t
 
   :init
-  (setq racer-rust-src-path "~/code/rust/rust/src")
+  (setq racer-rust-src-path "~/.multirust/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src")
 
   (add-hook 'rust-mode-hook #'racer-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode))
