@@ -474,11 +474,6 @@
   (:keymaps 'c-mode-base-map
    "C-c C-f" 'clang-format-buffer))
 
-(use-package rustfmt
-  :general
-  (:keymaps 'rust-mode-map
-   "C-c C-f" 'rustfmt-format-buffer))
-
 (use-package google-c-style
   :defer t
 
