@@ -421,6 +421,9 @@
 
   (add-hook 'rust-mode-hook #'my-rust-hook))
 
+(use-package rust-playground
+  :defer t)
+
 (use-package racer
   :defer t
 
