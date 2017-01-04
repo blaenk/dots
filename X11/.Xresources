@@ -4,13 +4,18 @@ URxvt.geometry: 100x25
 URxvt.intensityStyles: false
 URxvt.urgentOnBell: true
 URxvt.saveLines: 1000
-URxvt.font: xft:DejaVu Sans Mono:size=10
-URxvt.boldFont: xft:DejaVu Sans Mono:bold:size=10
-URxvt.perl-ext-common: default,vtwheel,clipboard,keyboard-select,url-select
+URxvt.lineSpace: 1
+URxvt.font: xft:DejaVu Sans Mono:size=10.5
+URxvt.boldFont: xft:DejaVu Sans Mono:bold:size=10.5
+URxvt.perl-ext-common: default,matcher,vtwheel,clipboard,keyboard-select,url-select,fullscreen
 
 ! browser
 URxvt.url-launcher: /usr/bin/chromium
 URxvt.matcher.button: 1
+URxvt.matcher.rend.0: Uline
+
+! fullscreen
+URxvt.keysym.F11: perl:fullscreen:switch
 
 ! keyboard select
 URxvt.keysym.M-i: perl:keyboard-select:activate
