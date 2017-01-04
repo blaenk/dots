@@ -7,71 +7,32 @@ _fzf_compgen_path() {
   ag -g "" "$1"
 }
 
-# fd - cd to selected directory
-fd() {
+# use fzf to select from all of the descendants
+fzf-cd-down() {
   local dir
-  dir=$(find ${1:-*} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf-tmux +m) &&
-  cd "$dir"
+  dir=$(find ${1} -type d -printf '%P\n' 2> /dev/null \
+          | fzf-tmux +m) && cd "$dir"
+  zle reset-prompt
 }
 
-# M-SPC to go down
-bindkey -s '^[ ' 'fd\n'
+# M-j to cd down
+zle -N fzf-cd-down
+bindkey '^[j' fzf-cd-down
 
-# fda - including hidden directories
-fda() {
-  local dir
-  dir=$(find ${1:-.} -type d 2> /dev/null | fzf-tmux +m) && cd "$dir"
+# use fzf to select from all of the ancestors
+fzf-cd-up() {
+  __enhancd::cd::builtin "$(__enhancd::arguments::dot "$2")"
+  zle reset-prompt
 }
 
-# fdr - cd to selected parent directory
-fdr() {
-  local declare dirs=()
-  get_parent_dirs() {
-    if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
-    if [[ "${1}" == '/' ]]; then
-      for _dir in "${dirs[@]}"; do echo $_dir; done
-    else
-      get_parent_dirs $(dirname "$1")
-    fi
-  }
-  local DIR=$(get_parent_dirs $(realpath "${1:-$(pwd)}") | fzf-tmux --tac)
-  cd "$DIR"
-}
-
-# C-SPC to go up
-bindkey -s '^@' 'fdr\n'
-
-# cf - fuzzy cd from anywhere
-# ex: cf word1 word2 ... (even part of a file name)
-# zsh autoload function
-cf() {
-  local file
-
-  file="$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf-tmux --read0 -0 -1)"
-
-  if [[ -n $file ]]
-  then
-     if [[ -d $file ]]
-     then
-        cd -- $file
-     else
-        cd -- ${file:h}
-     fi
-  fi
-}
-
-# cdf - cd into the directory of the selected file
-cdf() {
-   local file
-   local dir
-   file=$(fzf-tmux +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
-}
+# M-k to cd up
+zle -N fzf-cd-up
+bindkey '^[k' fzf-cd-up
 
 # fs [FUZZY PATTERN] - Select selected tmux session
 #   - Bypass fuzzy finder if there's only one match (--select-1)
 #   - Exit if there's no match (--exit-0)
-fs() {
+fzf-tmux-select-session() {
   local session
 
   if ! tmux info &> /dev/null; then
@@ -86,10 +47,10 @@ fs() {
 }
 
 # M-. to fzf sessions
-bindkey -s '^[.' 'fs\n'
+bindkey -s '^[.' 'fzf-tmux-select-session\n'
 
 # ftw - switch window
-ftw() {
+fzf-tmux-select-window() {
   [ -z "$TMUX" ] && return
 
   local windows current_window target target_window
@@ -105,10 +66,10 @@ ftw() {
 }
 
 # M-, to fzf windows in current session
-bindkey -s '^[,' 'ftw\n'
+bindkey -s '^[,' 'fzf-tmux-select-window\n'
 
 # ftwa - switch window all
-ftwa() {
+fzf-tmux-select-all-window() {
   if ! tmux info &> /dev/null; then
     echo "no tmux session available"
     return
@@ -137,7 +98,7 @@ ftwa() {
 }
 
 # M-, to fzf all windows in every session
-bindkey -s '^[<' 'ftwa\n'
+bindkey -s '^[<' 'fzf-select-all-window\n'
 
 if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
   source /usr/share/fzf/key-bindings.zsh
