@@ -7,6 +7,22 @@ _fzf_compgen_path() {
   ag -g "" "$1"
 }
 
+# use fzf to select from the previous command's arguments
+fzf-select-history-argument() {
+  local argument
+  argument=$(print -r -- "${(@pj.\n.)${(z)history[$((HISTCMD-1))]}[2,-1]}" \
+               | fzf-tmux +m --header="select historical argument" --exit-0)
+
+  if [[ -z "${argument}" ]]; then
+    return
+  fi
+
+  BUFFER="$BUFFER${argument}" && zle end-of-line
+}
+
+zle -N fzf-select-history-argument
+bindkey '^[o' fzf-select-history-argument
+
 # use fzf to select from all of the descendants
 fzf-cd-down() {
   local dir
