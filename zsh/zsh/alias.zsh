@@ -65,6 +65,10 @@ if command_exists rustup; then
   alias clippy='rustup run nightly cargo clippy'
 fi
 
+if command_exists cargo; then
+  alias c='cargo'
+fi
+
 if (( $+commands[npm] )); then
   alias n="npm"
   alias nr="npm run"
