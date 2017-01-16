@@ -41,6 +41,17 @@
 
   (helm-autoresize-mode t))
 
+(use-package helm-regexp
+  :ensure nil
+  :defer t
+
+  :config
+  ;; Make helm-occur auto-enable follow-mode, acting more like swiper.
+  ;; see https://github.com/emacs-helm/helm/issues/530#issuecomment-195350607
+  (setq helm-source-occur
+        (helm-make-source "Occur" 'helm-source-multi-occur
+          :follow 1)))
+
 (use-package helm-semantic
   :ensure nil
   :defer t
