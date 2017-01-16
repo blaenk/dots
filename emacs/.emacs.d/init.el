@@ -46,6 +46,7 @@
       backup-by-copying t
 
       use-package-always-ensure t
+      use-package-check-before-init t
       use-package-enable-imenu-support t)
 
 (eval-when-compile
