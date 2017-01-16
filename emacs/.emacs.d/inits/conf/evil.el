@@ -306,11 +306,6 @@ The initial state for a mode can be set with
 
   (global-evil-surround-mode 1))
 
-(use-package evil-visual-mark-mode
-  :general
-  (my-map
-    "t m" 'evil-visual-mark-mode))
-
 (use-package evil-visualstar
   :after evil
   :config

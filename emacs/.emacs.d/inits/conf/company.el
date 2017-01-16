@@ -85,16 +85,6 @@
 
   (add-hook 'tern-mode-hook #'my-company-tern))
 
-(use-package robe
-  :defer t
-
-  :init
-  (defun my-company-robe ()
-    (set (make-local-variable 'company-backends)
-         (add-to-list 'company-backends 'company-robe)))
-
-  (add-hook 'robe-mode-hook #'my-company-robe))
-
 (use-package company-web-html
   :ensure company-web
   :defer t
@@ -105,16 +95,6 @@
          (add-to-list 'company-backends 'company-web-html)))
 
   (add-hook 'web-mode-hook #'my-company-web-html))
-
-(use-package company-lua
-  :defer t
-
-  :init
-  (defun my-company-lua ()
-    (set (make-local-variable 'company-backends)
-         (add-to-list 'company-backends 'company-lua)))
-
-  (add-hook 'lua-mode-hook #'my-company-lua))
 
 (use-package company-auctex
   :defer t
@@ -145,26 +125,6 @@
          (add-to-list 'company-backends 'company-restclient)))
 
   (add-hook 'restclient-mode-hook #'my-company-restclient))
-
-(use-package company-anaconda
-  :defer t
-
-  :init
-  (defun my-company-anaconda ()
-    (set (make-local-variable 'company-backends)
-         (add-to-list 'company-backends 'company-anaconda)))
-
-  (add-hook 'anaconda-mode-hook #'my-company-anaconda))
-
-(use-package company-cabal
-  :defer t
-
-  :init
-  (defun my-company-cabal ()
-    (set (make-local-variable 'company-backends)
-         (add-to-list 'company-backends 'company-cabal)))
-
-  (add-hook 'haskell-cabal-mode-hook #'my-company-cabal))
 
 (use-package company-emoji
   :defer t

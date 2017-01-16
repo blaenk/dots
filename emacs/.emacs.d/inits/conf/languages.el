@@ -2,68 +2,19 @@
 (require 'general)
 (require 'conf/common)
 
-(use-package anaconda-mode
-  :defer t
+(use-package dockerfile-mode :defer t)
 
-  :init
-  (setq anaconda-mode-installation-directory (my-cache-dir "anaconda-mode"))
+(use-package clojure-mode :defer t)
 
-  (add-hook 'python-mode-hook #'anaconda-mode)
-  (add-hook 'python-mode-hook #'anaconda-eldoc-mode))
+(use-package systemd :defer t)
 
-(use-package elpy
-  :defer t)
+(use-package gitconfig-mode :defer t)
 
-(use-package lua-mode
-  :defer t)
+(use-package gitignore-mode :defer t)
 
-(use-package lispy
-  :defer t)
+(use-package gitattributes-mode :defer t)
 
-(use-package dockerfile-mode
-  :defer t)
-
-(use-package cider
-  :defer t
-
-  :init
-  (add-hook 'cider-mode-hook #'eldoc-mode))
-
-;; TODO
-;; requires extra setup
-;; choose between ghc and haskell-mode
-(use-package ghc
-  :defer t)
-
-(use-package haskell-mode
-  :defer t
-
-  :init
-  (add-hook 'haskell-mode-hook #'haskell-indentation-mode))
-
-(use-package intero
-  :defer t
-
-  :init
-  (add-hook 'haskell-mode-hook #'intero-mode))
-
-(use-package clojure-mode
-  :defer t)
-
-(use-package systemd
-  :defer t)
-
-(use-package gitconfig-mode
-  :defer t)
-
-(use-package gitignore-mode
-  :defer t)
-
-(use-package gitattributes-mode
-  :defer t)
-
-(use-package ox-gfm
-  :defer t)
+(use-package ox-gfm :defer t)
 
 (use-package markdown-mode
   :defer t
@@ -117,55 +68,9 @@
   (add-hook 'yaml-mode-hook #'turn-off-flyspell t)
   (add-hook 'yaml-mode-hook #'flyspell-prog-mode t))
 
-(use-package enh-ruby-mode
-  :defer t
-  :interpreter "ruby"
-  :mode (("\\.rb\\'" . enh-ruby-mode)
-         ("Rakefile" . enh-ruby-mode)
-         ("Gemfile" . enh-ruby-mode)
-         ("\\.rake\\'" . enh-ruby-mode)))
+(use-package go-guru :defer t)
 
-(use-package robe
-  :defer t
-
-  :init
-  (add-hook 'ruby-mode-hook #'robe-mode)
-  (add-hook 'enh-ruby-mode-hook #'robe-mode))
-
-(use-package inf-ruby
-  :defer t
-
-  :init
-  (add-hook 'ruby-mode-hook #'inf-ruby-minor-mode)
-  (add-hook 'enh-ruby-mode-hook #'inf-ruby-minor-mode)
-
-  :config
-  (inf-ruby-switch-setup))
-
-(use-package projectile-rails
-  :defer t
-
-  :general
-  (my-map :keymaps 'ruby-mode-map
-    "m r" '(:keymap projectile-rails-command-map :which-key "rails"))
-
-  :init
-  (add-hook 'ruby-mode-hook #'projectile-rails-on)
-
-  :config
-  (remove-hook 'enh-ruby-mode-hook 'erm-define-faces))
-
-(use-package erlang
-  :defer t)
-
-(use-package scala-mode
-  :defer t)
-
-(use-package go-guru
-  :defer t)
-
-(use-package go-rename
-  :defer t)
+(use-package go-rename :defer t)
 
 (use-package go-mode
   :defer t
@@ -185,8 +90,7 @@
 (use-package go-playground
   :defer t)
 
-(use-package less-css-mode
-  :defer t)
+(use-package less-css-mode :defer t)
 
 (use-package scss-mode
   :mode "\\.sass\\'"
@@ -206,12 +110,6 @@
   (add-hook 'css-mode-hook #'turn-on-css-eldoc)
   (add-hook 'less-css-mode-hook #'turn-on-css-eldoc)
   (add-hook 'scss-mode-hook #'turn-on-css-eldoc))
-
-(use-package elixir-mode
-  :defer t)
-
-(use-package alchemist
-  :defer t)
 
 (use-package irony
   :general
@@ -233,18 +131,9 @@
   :init
   (add-hook 'irony-mode-hook #'irony-eldoc))
 
-(use-package realgud
-  :defer t)
+(use-package realgud :defer t)
 
-(use-package swift-mode
-  :if (eq system-type 'darwin)
-
-  :config
-  (with-eval-after-load 'flycheck
-    (add-to-list 'flycheck-checkers 'swift)))
-
-(use-package vimrc-mode
-  :defer t)
+(use-package vimrc-mode :defer t)
 
 (use-package js2-mode
   :interpreter "node"
@@ -369,17 +258,6 @@
   :init
   (add-hook 'js2-mode-hook #'tern-mode))
 
-(use-package ggtags
-  :disabled t
-  :defer t
-
-  :init
-  (defun my-ggtags-hook ()
-    (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'rust-mode)
-      (ggtags-mode 1)))
-
-  (add-hook 'prog-mode-hook #'my-ggtags-hook))
-
 (use-package rtags
   :defer t
 
@@ -466,11 +344,9 @@
   (add-hook 'LaTeX-mode-hook #'flyspell-mode)
   (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode))
 
-(use-package latex-preview-pane
-  :defer t)
+(use-package latex-preview-pane :defer t)
 
-(use-package pkgbuild-mode
-  :defer t)
+(use-package pkgbuild-mode :defer t)
 
 (use-package clang-format
   :general

@@ -1,9 +1,6 @@
 (require 'use-package)
 (require 'general)
 
-(use-package paxedit
-  :defer t)
-
 (use-package smartparens
   :diminish smartparens-mode
 

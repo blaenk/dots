@@ -14,13 +14,6 @@
 (use-package imenu-list
   :defer t)
 
-(use-package exec-path-from-shell
-  :if (and (daemonp) (not (equal system-type 'windows-nt)))
-
-  :config
-  (exec-path-from-shell-copy-envs
-   '("VM" "PATH" "GTAGSCONF" "GTAGSLABEL" "SSH_AUTH_SOCK")))
-
 (use-package unicode-fonts
   :config
   (unicode-fonts-setup))
@@ -152,10 +145,6 @@
   (add-hook 'anzu-mode-hook #'my-anzu-hook)
   (global-anzu-mode +1))
 
-(use-package expand-region
-  :general
-  ("C-=" 'er/expand-region))
-
 (use-package buffer-move
   :general
   (my-map :infix "b m"
@@ -257,13 +246,6 @@
   (setq swiper-action-recenter t
         ivy-use-virtual-buffers t))
 
-(use-package counsel
-  :defer t)
-
-(use-package pt
-  :if (executable-find "pt")
-  :defer t)
-
 (use-package rainbow-mode
   :diminish rainbow-mode
 
@@ -278,10 +260,6 @@
 
   (add-hook 'prog-mode-hook #'rainbow-mode))
 
-(use-package rainbow-blocks
-  :general
-  (my-map "t r b" 'rainbow-blocks-mode))
-
 (use-package rainbow-delimiters
   :general
   (my-map "t r d" 'rainbow-delimiters-mode)
@@ -289,10 +267,6 @@
   :init
   (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
-
-(use-package color-identifiers-mode
-  :general
-  (my-map "t r i" 'color-identifiers-mode))
 
 (use-package relative-line-numbers
   :general
@@ -383,10 +357,6 @@
                 '(flycheck-error-list-mode
                   magit-status-mode
                   magit-revision-mode))))
-
-(use-package emoji-cheat-sheet-plus
-  :general
-  ("C-x 8 e" 'emoji-cheat-sheet-plus-insert))
 
 (use-package list-environment
   :defer t)
