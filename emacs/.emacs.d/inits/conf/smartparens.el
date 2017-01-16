@@ -47,7 +47,6 @@
         sp-cancel-autoskip-on-backward-movement nil
         sp-autodelete-wrap nil
         sp-autowrap-region nil
-        sp-autoinsert-quote-if-followed-by-closing-pair nil
         )
 
   (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
