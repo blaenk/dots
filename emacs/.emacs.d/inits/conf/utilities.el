@@ -313,7 +313,7 @@
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
 (use-package shackle
-  :init
+  :config
   (setq shackle-rules
         '((help-mode :select t)
           (compilation-mode :noselect t)
@@ -321,7 +321,6 @@
           ("*Flycheck errors*" :select t)
           ("*Package Commit List*" :select t)))
 
-  :config
   (shackle-mode))
 
 (use-package reveal-in-osx-finder
