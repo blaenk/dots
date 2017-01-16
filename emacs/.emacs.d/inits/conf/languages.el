@@ -87,8 +87,7 @@
   :init
   (add-hook 'go-mode-hook #'go-eldoc-setup))
 
-(use-package go-playground
-  :defer t)
+(use-package go-playground :defer t)
 
 (use-package less-css-mode :defer t)
 
@@ -241,8 +240,7 @@
 
   (add-hook 'json-mode-hook #'subword-mode))
 
-(use-package jade
-  :defer t)
+(use-package jade :defer t)
 
 (use-package js-doc
   :general
@@ -276,8 +274,7 @@
   :init
   (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode))
 
-(use-package cmake-mode
-  :defer t)
+(use-package cmake-mode :defer t)
 
 (use-package cmake-font-lock
   :defer t
@@ -299,8 +296,7 @@
 
   (add-hook 'rust-mode-hook #'my-rust-hook))
 
-(use-package rust-playground
-  :defer t)
+(use-package rust-playground :defer t)
 
 (use-package racer
   :defer t
@@ -309,8 +305,7 @@
   (add-hook 'rust-mode-hook #'racer-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode))
 
-(use-package toml-mode
-  :defer t)
+(use-package toml-mode :defer t)
 
 (use-package web-mode
   :mode (("\\.html?\\'" . web-mode)

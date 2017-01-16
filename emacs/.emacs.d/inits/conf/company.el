@@ -48,8 +48,7 @@
   :config
   (company-quickhelp-mode 1))
 
-(use-package company-irony
-  :defer t)
+(use-package company-irony :defer t)
 
 (use-package company-irony-c-headers
   :defer t

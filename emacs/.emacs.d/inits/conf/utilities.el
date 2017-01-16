@@ -11,8 +11,7 @@
   :general
   ("M-I" 'imenu-anywhere))
 
-(use-package imenu-list
-  :defer t)
+(use-package imenu-list :defer t)
 
 (use-package unicode-fonts
   :config
@@ -162,8 +161,7 @@
    "C-M-S-k" 'shrink-frame
    "C-M-S-j" 'enlarge-frame))
 
-(use-package olivetti
-  :defer t)
+(use-package olivetti :defer t)
 
 (use-package link-hint
   :general
@@ -283,15 +281,13 @@
 
   (add-hook 'prog-mode-hook #'relative-line-numbers-mode))
 
-(use-package wgrep
-  :defer t)
+(use-package wgrep :defer t)
 
 ;; TODO
 ;; this only works when ag-group-matches is nil
 ;; preferably keep it on unless necessary, so perhaps
 ;; if wgrep-ag is invoked, rerun ag with it off?
-(use-package wgrep-ag
-  :defer t)
+(use-package wgrep-ag :defer t)
 
 (use-package fill-column-indicator
   :general
@@ -337,8 +333,7 @@
   :defer t
   :mode ("\\.rest\\'" . restclient-mode))
 
-(use-package know-your-http-well
-  :defer t)
+(use-package know-your-http-well :defer t)
 
 (use-package emojify
   :general
@@ -357,11 +352,9 @@
                   magit-status-mode
                   magit-revision-mode))))
 
-(use-package list-environment
-  :defer t)
+(use-package list-environment :defer t)
 
-(use-package narrow-indirect
-  :defer t)
+(use-package narrow-indirect :defer t)
 
 (use-package emmet-mode
   :defer t
@@ -416,10 +409,8 @@
 
   (add-hook 'after-init-hook 'yas-global-mode))
 
-(use-package mocha-snippets
-  :defer t)
+(use-package mocha-snippets :defer t)
 
-(use-package react-snippets
-  :defer t)
+(use-package react-snippets :defer t)
 
 (provide 'conf/utilities)

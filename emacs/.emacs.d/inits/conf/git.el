@@ -34,11 +34,9 @@
   :init
   (setq browse-at-remote-prefer-symbolic nil))
 
-(use-package git-timemachine
-  :defer t)
+(use-package git-timemachine :defer t)
 
-(use-package github-clone
-  :defer t)
+(use-package github-clone :defer t)
 
 (use-package git-commit
   :defer t

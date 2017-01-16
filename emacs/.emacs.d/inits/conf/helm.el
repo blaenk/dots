@@ -146,15 +146,13 @@
   :config
   (helm-mt/reroute-terminal-functions t))
 
-(use-package helm-open-github
-  :defer t)
+(use-package helm-open-github :defer t)
 
 (use-package helm-unicode
   :general
   ([remap insert-char] 'helm-unicode))
 
-(use-package helm-describe-modes
-  :defer t)
+(use-package helm-describe-modes :defer t)
 
 (use-package helm-ag
   :general
@@ -313,8 +311,7 @@
   (:keymaps 'projectile-command-map
    "p" 'projectile-persp-switch-project))
 
-(use-package helm-make
-  :defer t)
+(use-package helm-make :defer t)
 
 (use-package helm-company
   :general
