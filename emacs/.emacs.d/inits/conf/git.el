@@ -91,6 +91,9 @@
   (add-hook 'git-commit-setup-hook #'fci-mode))
 
 (use-package magithub
-  :after magit)
+  :after magit
+
+  :config
+  (magithub-feature-autoinject t))
 
 (provide 'conf/git)
