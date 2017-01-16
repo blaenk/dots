@@ -160,6 +160,9 @@
         `(markdown-language-keyword-face ((,class (:weight bold))))
         `(markdown-comment-face ((,class (:strike-through nil))))
 
+        ;; fringe
+        `(fringe ((,class (:foreground ,base02))))
+
         ;; whitespace
         `(whitespace-trailing ((,class (:background ,red-l))))
         `(whitespace-tab ((,class (:background ,red-l))))
