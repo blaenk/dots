@@ -2,6 +2,21 @@
 (require 'general)
 (require 'conf/common)
 
+(use-package fringe
+  :ensure nil
+  :init
+  (setq-default fringe-indicator-alist
+        '((truncation left-arrow right-arrow)
+          (continuation left-curly-arrow nil)
+          (overlay-arrow . right-triangle)
+          (up . up-arrow)
+          (down . down-arrow)
+          (top top-left-angle top-right-angle)
+          (bottom bottom-left-angle bottom-right-angle top-right-angle top-left-angle)
+          (top-bottom left-bracket right-bracket top-right-angle top-left-angle)
+          (empty-line . empty-line)
+          (unknown . question-mark))))
+
 (use-package profiler
   :ensure nil
 
@@ -705,6 +720,8 @@ PR [a-z-+]+/\
     "t a" 'auto-fill-mode)
 
   :init
+  (setq visual-line-fringe-indicators '(left-curly-arrow nil))
+
   (setq next-error-recenter '(4))
 
   (add-hook 'prog-mode-hook #'visual-line-mode)
