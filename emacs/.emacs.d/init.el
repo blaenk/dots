@@ -1,3 +1,9 @@
+;; # Emacs Daemon
+;;
+;; If the emacs daemon is used, certain environment variables won't be
+;; available, so they should be redefined here or exec-path-from-shell should be
+;; used, which spawns a shell in order to copy select environment variables.
+
 (require 'package)
 
 ;; frame
