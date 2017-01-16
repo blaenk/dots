@@ -4,8 +4,6 @@
 
 (use-package dockerfile-mode :defer t)
 
-(use-package clojure-mode :defer t)
-
 (use-package systemd :defer t)
 
 (use-package gitconfig-mode :defer t)
