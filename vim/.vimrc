@@ -18,10 +18,10 @@ endif
 set t_Co=256
 syntax enable
 
-if $USE_SOLARIZED_LIGHT
-  set background=light
-else
+if $USE_SOLARIZED_DARK
   set background=dark
+else
+  set background=light
 endif
 
 colorscheme solarized

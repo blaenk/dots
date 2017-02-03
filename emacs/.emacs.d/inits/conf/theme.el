@@ -12,14 +12,14 @@
   (defvar my-theme-loaded nil)
 
   (defvar my-theme-variant
-    (if (getenv "USE_SOLARIZED_LIGHT")
-        'light
-      'dark))
+    (if (getenv "USE_SOLARIZED_DARK")
+        'dark
+      'light))
 
   (defvar my-theme-name
-    (if (getenv "USE_SOLARIZED_LIGHT")
-        'solarized-light
-      'solarized-dark))
+    (if (getenv "USE_SOLARIZED_DARK")
+        'solarized-dark
+      'solarized-light))
 
   (defun my-load-theme ()
     (if my-theme-loaded

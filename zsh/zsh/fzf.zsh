@@ -1,11 +1,11 @@
-if [ -z "$USE_SOLARIZED_LIGHT" ]; then
+if [ -z "$USE_SOLARIZED_DARK" ]; then
   export FZF_DEFAULT_OPTS='
-    --color fg:12,hl:3,fg+:12,bg+:0,hl+:3
+    --color fg:11,hl:3,fg+:11,bg+:7,hl+:3
     --color info:5,spinner:6,pointer:6,marker:6
   '
 else
   export FZF_DEFAULT_OPTS='
-    --color fg:11,hl:3,fg+:11,bg+:7,hl+:3
+    --color fg:12,hl:3,fg+:12,bg+:0,hl+:3
     --color info:5,spinner:6,pointer:6,marker:6
   '
 fi

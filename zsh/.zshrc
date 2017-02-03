@@ -1,8 +1,8 @@
 # determine path to dots dir
 export DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
 
-if [[ -f "$DOTSPATH/.theme.light" ]]; then
-  export USE_SOLARIZED_LIGHT=1
+if [[ -f "$DOTSPATH/.theme.dark" ]]; then
+  export USE_SOLARIZED_DARK=1
 fi
 
 # if TMUX_FZF is set, we're only interested in loading the fzf functions

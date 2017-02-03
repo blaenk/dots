@@ -11,10 +11,10 @@ export LESS_TERMCAP_mb=$(tput setaf 2) # green
 export LESS_TERMCAP_md=$(tput bold; tput setaf 6) # cyan
 export LESS_TERMCAP_me=$(tput sgr0)
 
-if [ -z "$USE_SOLARIZED_LIGHT" ]; then
-  export LESS_TERMCAP_so=$(tput bold; tput setaf 12; tput setab 0)
-else
+if [ -z "$USE_SOLARIZED_DARK" ]; then
   export LESS_TERMCAP_so=$(tput bold; tput setaf 11; tput setab 7)
+else
+  export LESS_TERMCAP_so=$(tput bold; tput setaf 12; tput setab 0)
 fi
 
 export LESS_TERMCAP_se=$(tput rmso; tput sgr0)

@@ -63,8 +63,8 @@ URxvt.iso14755_52: false
 #define S_cyan    #2aa198
 #define S_green   #859900
 
-#ifdef USE_SOLARIZED_LIGHT
-  #include ".Xresources.light"
-#else
+#ifdef USE_SOLARIZED_DARK
   #include ".Xresources.dark"
+#else
+  #include ".Xresources.light"
 #endif
