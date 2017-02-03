@@ -1,0 +1,4 @@
+# key: path
+# name: path
+# --
+<span class="path">${1:Path}</span>$0
