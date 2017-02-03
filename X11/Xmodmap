@@ -7,4 +7,3 @@ keycode 135 = XF86AudioLowerVolume
 remove mod4 = Super_R
 keycode 134 = XF86AudioMute
 add mod4 = Super_R
-
