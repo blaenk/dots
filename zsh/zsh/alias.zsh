@@ -34,6 +34,10 @@ if command_exists ag; then
   alias agq="ag -Q"
 fi
 
+if command_exists tree; then
+  alias tree="tree -I .git -a"
+fi
+
 if command_exists emacs; then
   alias ec="emacsclient -nc"
 fi
