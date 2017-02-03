@@ -8,12 +8,12 @@ Config {
     -- NOTE: refresh rate uses deciseconds (1/10th of second)
       Run Date "%A, %B %_d" "date" 10
     , Run Date "%I:%M:%S %p" "time" 10
-    -- , Run DynNetwork ["-t", "<fc=#3a89c9><icon=/home/jorge/.xmonad/icons/net_down.xbm/></fc> <rx> <fc=#3a89c9><icon=/home/jorge/.xmonad/icons/net_up.xbm/></fc> <tx>"] 10
+    -- , Run DynNetwork ["-t", "<fc=#3a89c9><icon=$HOME/.xmonad/icons/net_down.xbm/></fc> <rx> <fc=#3a89c9><icon=$HOME/.xmonad/icons/net_up.xbm/></fc> <tx>"] 10
     , Run Com "~/.xmonad/scripts/pacman-updates.sh" [] "pacman" 6000 -- 10 minutes
     , Run PipeReader "/tmp/volume-pipe" "volume"
     , Run StdinReader
   ],
   , sepChar = "%"
   , alignSep = "}{"
-  , template = "  <icon=/home/jorge/.xmonad/icons/arch_10x10.xbm/>  %StdinReader% } <icon=/home/jorge/.xmonad/icons/calendar.xbm/>  <action=/home/jorge/.xmonad/scripts/cal.sh>%date%</action>   <icon=/home/jorge/.xmonad/icons/time.xbm/>  %time% { %pacman%   %volume% "
+  , template = "  <icon=$HOME/.xmonad/icons/arch_10x10.xbm/>  %StdinReader% } <icon=$HOME/.xmonad/icons/calendar.xbm/>  <action=$HOME/.xmonad/scripts/cal.sh>%date%</action>   <icon=$HOME/.xmonad/icons/time.xbm/>  %time% { %pacman%   %volume% "
 }

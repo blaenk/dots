@@ -66,7 +66,7 @@ myPP = xmobarPP
   where clickableWS fg bg ws = "<action=xdotool key super+" ++ ws ++ ">" ++
           (xmobarColor fg bg . pad $ ws) ++ "</action>"
 
-xmobarIcon icon = "<icon=/home/jorge/.xmonad/icons/" ++ icon ++ ".xbm/>"
+xmobarIcon icon = "<icon=$HOME/.xmonad/icons/" ++ icon ++ ".xbm/>"
 
 layoutIcon layout =
   case layout of
@@ -230,4 +230,3 @@ myConfig = defaultConfig {
   }
 
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey (withUrgencyHook NoUrgencyHook myConfig)
-

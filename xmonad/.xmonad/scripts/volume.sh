@@ -23,10 +23,10 @@ transmit() {
   STATE=`amixer get Master | awk -F '[][]' '/%/{print $4; exit}'`
 
   if [ x$STATE == x"on" ]; then
-    COLORED="<fc=#718c00><icon=/home/jorge/.xmonad/icons/volume.xbm/></fc>  "`volume`
+    COLORED="<fc=#718c00><icon=$HOME/.xmonad/icons/volume.xbm/></fc>  "`volume`
     echo $COLORED > $PIPE
   else
-    COLORED="<fc=#b32d47><icon=/home/jorge/.xmonad/icons/muted.xbm/></fc>  muted"
+    COLORED="<fc=#b32d47><icon=$HOME/.xmonad/icons/muted.xbm/></fc>  muted"
     echo $COLORED > $PIPE
   fi
 
