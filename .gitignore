@@ -11,7 +11,8 @@ flycheck_*.el
 /emacs/.emacs.d/var/
 /emacs/.emacs.d/**/*.elc
 
-/vim/.vim/bundle/
+/vim/.vim/autoload/plug.vim
+/vim/.vim/plugged/
 /vim/.vim/unite/
 /vim/.vim/spell/
 /vim/.vim/.VimballRecord

@@ -30,91 +30,78 @@ colorscheme solarized
 " Vundle: {{{
 set nocompatible
 
-let install_vundle = 0
-
-if !isdirectory($HOME . "/.vim/bundle/Vundle.vim")
-  silent !mkdir -p $HOME/.vim/bundle
-  silent !git clone https://github.com/gmarik/Vundle.vim $HOME/.vim/bundle/Vundle.vim
-  let install_vundle = 1
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-filetype off
-
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'gmarik/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
 " sort the bundles by plugin name with
 "   sort i /\/\zs.\+\ze'/ r
 
-Plugin 'vim-scripts/a.vim'
-Plugin 'rking/ag.vim'
-Plugin 'msanders/cocoa.vim'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'Raimondi/delimitMate'
-Plugin 'mattn/gist-vim'
-Plugin 'sjl/gundo.vim'
-Plugin 'vim-scripts/python.vim--Vasiliev'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'rust-lang/rust.vim'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'tomtom/tlib_vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'PeterRincker/vim-argumentative'
-Plugin 'guns/vim-clojure-highlight'
-Plugin 'guns/vim-clojure-static'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'tommcdo/vim-exchange'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'jnwhiteh/vim-golang'
-Plugin 'wlangstroth/vim-haskell'
-Plugin 'henrik/vim-indexed-search'
-Plugin 'groenewege/vim-less'
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'guns/vim-sexp'
-Plugin 'toyamarinyon/vim-swift'
-Plugin 'milkypostman/vim-togglelist.git'
-Plugin 'cespare/vim-toml'
-Plugin 'bronson/vim-visual-star-search'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'mattn/webapi-vim'
-Plugin 'vim-scripts/yaml.vim'
+Plug 'vim-scripts/a.vim'
+Plug 'rking/ag.vim'
+Plug 'msanders/cocoa.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'Raimondi/delimitMate'
+Plug 'mattn/gist-vim'
+Plug 'sjl/gundo.vim'
+Plug 'vim-scripts/python.vim--Vasiliev'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'rust-lang/rust.vim'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'godlygeek/tabular'
+Plug 'tomtom/tlib_vim'
+Plug 'SirVer/ultisnips'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'PeterRincker/vim-argumentative'
+Plug 'guns/vim-clojure-highlight'
+Plug 'guns/vim-clojure-static'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'tommcdo/vim-exchange'
+Plug 'airblade/vim-gitgutter'
+Plug 'jnwhiteh/vim-golang'
+Plug 'wlangstroth/vim-haskell'
+Plug 'henrik/vim-indexed-search'
+Plug 'groenewege/vim-less'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'derekwyatt/vim-scala'
+Plug 'guns/vim-sexp'
+Plug 'toyamarinyon/vim-swift'
+Plug 'milkypostman/vim-togglelist'
+Plug 'cespare/vim-toml'
+Plug 'bronson/vim-visual-star-search'
+Plug 'Shougo/vimproc.vim'
+Plug 'mattn/webapi-vim'
+Plug 'vim-scripts/yaml.vim'
 
 if has('unix')
   if empty($SSH_CONNECTION)
-    " Plugin 'Valloric/YouCompleteMe'
+    " Plug 'Valloric/YouCompleteMe'
   endif
 endif
 
 " tpope chorus
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-dispatch'
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-fireplace'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-leiningen'
-Plugin 'tpope/vim-projectionist'
-Plugin 'tpope/vim-ragtag'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-rsi'
-Plugin 'tpope/vim-sexp-mappings-for-regular-people'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-unimpaired'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fireplace'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-leiningen'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-ragtag'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 
-call vundle#end()
-filetype plugin indent on
-
-if install_vundle == 1
-  :silent! PluginInstall
-  :qa
-endif
+call plug#end()
 
 " }}}
 
