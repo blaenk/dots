@@ -2,4 +2,4 @@
 # name: kbd
 # key: kbd
 # --
-<kbd>$0</kbd>
+<kbd>${1:Keys}</kbd>$0
