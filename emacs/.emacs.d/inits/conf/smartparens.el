@@ -56,7 +56,7 @@
 
   (with-eval-after-load 'evil
     (use-package on-parens
-      :demand t
+      :after smartparens
       :config
       (eval-when-compile
         (require 'smartparens))
