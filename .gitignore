@@ -3,6 +3,7 @@ flycheck_*.el
 
 zsh/zsh/zplug/
 zsh/zsh/cache/
+/.theme.dark
 
 emacs/.emacs.d/cache/
 emacs/.emacs.d/elpa/
