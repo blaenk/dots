@@ -1,10 +1,6 @@
 [include]
 	path = .gitconfig.local
 
-[user]
-	name = Jorge Israel Peña
-	email = jorge.israel.p@gmail.com
-
 [pull]
 	rebase = preserve
 
