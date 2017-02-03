@@ -397,7 +397,10 @@
   (defun my-yasnippet ()
     (interactive)
 
-    (if (region-active-p)
+    ;; If there region is active or there's nothing to expand, use completing
+    ;; read to select the snippet. Otherwise expand.
+    (if (or (region-active-p)
+            (not (yas--maybe-expand-key-filter 'yas-expand)))
         (yas-insert-snippet)
       (yas-expand)))
 
