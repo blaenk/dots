@@ -1,5 +1,9 @@
 # determine path to dots dir
-DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
+export DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
+
+if [[ -f "$DOTSPATH/.theme.light" ]]; then
+  export USE_SOLARIZED_LIGHT=1
+fi
 
 # if TMUX_FZF is set, we're only interested in loading the fzf functions
 # everything else will just slow us down

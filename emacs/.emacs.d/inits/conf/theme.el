@@ -11,14 +11,24 @@
 
   (defvar my-theme-loaded nil)
 
+  (defvar my-theme-variant
+    (if (getenv "USE_SOLARIZED_LIGHT")
+        'light
+      'dark))
+
+  (defvar my-theme-name
+    (if (getenv "USE_SOLARIZED_LIGHT")
+        'solarized-light
+      'solarized-dark))
+
   (defun my-load-theme ()
     (if my-theme-loaded
-        (enable-theme 'solarized-light)
+        (enable-theme my-theme-name)
       (progn
-        (load-theme 'solarized-light t)
+        (load-theme my-theme-name t)
         (setq my-theme-loaded t)))
 
-    (solarized-with-color-variables 'light
+    (solarized-with-color-variables my-theme-variant
       (defface mode-line-column-face
         `((,class (:background ,base03)))
         "column number in mode-line"
@@ -142,7 +152,7 @@
         :group 'basic-faces)
 
       (custom-theme-set-faces
-        'solarized-light
+        my-theme-name
         ;; rtags
         `(rtags-warnline ((,class (:underline "goldenrod4"))))
         `(rtags-errline ((,class (:underline "red"))))

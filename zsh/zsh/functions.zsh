@@ -115,6 +115,30 @@ go_dots() {
   cd $DOTSPATH
 }
 
+# load the given theme variant
+set_theme_dots() {
+  case "$1" in
+    light )
+      touch "$DOTSPATH/.theme.light"
+      xrdb -DUSE_SOLARIZED_LIGHT=1 -merge ~/.Xresources
+
+      msg_success "theme set to Solarized Light"
+      msg_success "you may need to restart your terminal"
+      ;;
+    dark )
+      rm -f "$DOTSPATH/.theme.light"
+      xrdb -UUSE_SOLARIZED_LIGHT -merge ~/.Xresources
+
+      msg_success "theme set to Solarized Dark"
+      msg_success "you may need to restart your terminal"
+      ;;
+    * )
+      msg_user "valid theme variants are 'light' and 'dark'"
+      echo ''
+      ;;
+  esac
+}
+
 # edit the dotfiles
 
 edit_dots() {
@@ -281,6 +305,9 @@ dots() {
   echo ''
 
   case "$1" in
+    set-theme )
+      shift
+      set_theme_dots "$@";;
     get )
       get_dots;;
     put )

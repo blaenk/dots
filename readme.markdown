@@ -46,10 +46,10 @@ Afterward, log out and log back in for the change to take effect. The first time
 
 #### urxvt
 
-If you use urxvt, you'll want to merge the `.Xresources` into your `xrdb` to use the Solarized Light theme that I use:
+If you use urxvt, you'll want to merge the `.Xresources` into your `xrdb` to use the Solarized theme that I use. You can use the `dots set-theme` command with an argument of either 'light' or 'dark':
 
 ``` bash
-$ xrdb -merge ~/.Xresources
+$ dots set-theme light
 ```
 
 You should also install [these useful extensions](https://github.com/muennich/urxvt-perls), preferably in `~/.urxvt/ext/`.
