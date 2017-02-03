@@ -1,25 +1,26 @@
 .DS_Store
 flycheck_*.el
 
-zsh/zsh/zplug/
-zsh/zsh/cache/
 /.theme.dark
 
-emacs/.emacs.d/cache/
-emacs/.emacs.d/elpa/
-emacs/.emacs.d/var/
-emacs/.emacs.d/**/*.elc
+/zsh/zsh/zplug/
+/zsh/zsh/cache/
 
-vim/.vim/bundle/
-vim/.vim/unite/
-vim/.vim/spell/
-vim/.vim/.VimballRecord
-vim/.vim/.netrwhist
+/emacs/.emacs.d/cache/
+/emacs/.emacs.d/elpa/
+/emacs/.emacs.d/var/
+/emacs/.emacs.d/**/*.elc
 
-mpv/.mpv/watch_later/
+/vim/.vim/bundle/
+/vim/.vim/unite/
+/vim/.vim/spell/
+/vim/.vim/.VimballRecord
+/vim/.vim/.netrwhist
 
-xmonad/.xmonad/history
-xmonad/.xmonad/xmonad-x86_64-linux
-xmonad/.xmonad/xmonad.errors
-xmonad/.xmonad/xmonad.hi
-xmonad/.xmonad/xmonad.o
+/mpv/.mpv/watch_later/
+
+/xmonad/.xmonad/history
+/xmonad/.xmonad/xmonad-x86_64-linux
+/xmonad/.xmonad/xmonad.errors
+/xmonad/.xmonad/xmonad.hi
+/xmonad/.xmonad/xmonad.o
