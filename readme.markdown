@@ -1,11 +1,26 @@
 These are my dotfiles. Read about them [here](http://www.blaenkdenum.com/posts/dots/).
 
+### Dependencies
+
+There are no real, hard dependencies since these are simply configuration files, aside from perhaps the font that I use if you don't change it. That said, here are some programs I use for which these configuration files mainly exist:
+
+* Font: DejaVu Sans Mono, `ttf-dejavu`
+* Terminal: urxvt, AUR `rxvt-unicode-patched`
+* Terminal Multiplexer: `tmux`
+* Emacs 25
+* vim + gvim: `gvim`
+* Shell: `zsh`
+* Fuzzy Complete: `fzf`
+* Searching: ag, `the_silver_searcher`
+* Command Not Found: `pkgfile` (Arch)
+* `ls` colors: `colord`
+
 ### Installation
 
 ``` bash
-$ cd $HOME # or just cd
-$ git clone https://github.com/blaenk/dots.git .dots
-$ cd .dots
+$ git clone https://github.com/blaenk/dots.git ~/.dots
+$ cd ~/.dots
+$ dots put
 ```
 
 ### Usage
@@ -42,15 +57,21 @@ You'll want to have zsh installed and setup for your user. Install it, then run 
 $ chsh -s $(which zsh)
 ```
 
-Afterward, log out and log back in for the change to take effect. The first time you open a zsh shell, zsh antigen (a zsh package manager) will download the packages I use. Don't interrupt this process.
+Afterward, log out and log back in for the change to take effect. The first time you open a zsh shell, zplug (a zsh package manager) will download the packages I use.
 
-#### urxvt
+#### Theme Variant
 
-If you use urxvt, you'll want to merge the `.Xresources` into your `xrdb` to use the Solarized theme that I use. You can use the `dots set-theme` command with an argument of either 'light' or 'dark':
+I use the [Solarized](http://ethanschoonover.com/solarized) color theme for everything. I particularly use the light variant by default, but you can also enable the dark theme by running:
 
 ``` bash
-$ dots set-theme light
+$ dots set-theme dark
 ```
+
+This also installs the `.Xresources` file so that URxvt uses the appropriate theme.
+
+An environment variable `USE_SOLARIZED_DARK` is exposed which, if set, means that the Solarized Dark theme is being used. This is used in Xresources, vim, emacs, tmux, fzf, and other configurations in order to fine-tune colors for the currently-enabled theme.
+
+#### URxvt
 
 You should also install [these useful extensions](https://github.com/muennich/urxvt-perls), preferably in `~/.urxvt/ext/`.
 
