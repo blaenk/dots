@@ -7,7 +7,7 @@ fi
 
 # if TMUX_FZF is set, we're only interested in loading the fzf functions
 # everything else will just slow us down
-if [[ ! -z "$TMUX_FZF" ]]; then
+if [[ -n "$TMUX_FZF" ]]; then
   source $DOTSPATH/zsh/zsh/fzf.zsh
   return
 fi
