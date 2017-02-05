@@ -61,9 +61,12 @@ Afterward, log out and log back in for the change to take effect. The first time
 
 #### Theme Variant
 
-I use the [Solarized](http://ethanschoonover.com/solarized) color theme for everything. I particularly use the light variant by default, but you can also enable the dark theme by running:
+I use the [Solarized](http://ethanschoonover.com/solarized) color theme for everything. Run the `set-theme` command to properly configure your desired variant:
 
 ``` bash
+$ dots set-theme light
+
+# or
 $ dots set-theme dark
 ```
 

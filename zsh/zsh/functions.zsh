@@ -121,14 +121,18 @@ set_theme_dots() {
   case "$1" in
     light )
       rm -f "$DOTSPATH/.theme.dark"
-      xrdb -UUSE_SOLARIZED_DARK -merge ~/.Xresources
+
+      cat $DOTSPATH/X11/Xresources{,.light} > ~/.Xresources
+      xrdb -nocpp -merge ~/.Xresources
 
       msg_success "theme set to Solarized Light"
       msg_success "you may need to restart your terminal"
       ;;
     dark )
       touch "$DOTSPATH/.theme.dark"
-      xrdb -DUSE_SOLARIZED_DARK=1 -merge ~/.Xresources
+
+      cat $DOTSPATH/X11/Xresources{,.dark} > ~/.Xresources
+      xrdb -nocpp -merge ~/.Xresources
 
       msg_success "theme set to Solarized Dark"
       msg_success "you may need to restart your terminal"
