@@ -97,6 +97,6 @@ for src in $sources; do
   source $DOTSPATH/zsh/zsh/$src.zsh
 done
 
-if [[ -f "~/.zsh.local" ]]; then
+if [[ -f ~/.zsh.local ]]; then
   source ~/.zsh.local
 fi
