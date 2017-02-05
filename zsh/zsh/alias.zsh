@@ -26,8 +26,8 @@ if command_exists tlmgr; then
 fi
 
 if command_exists vim; then
-  # update vundle
-  alias vimup='vim +PluginInstall! +qall'
+  # update packages
+  alias vimup='vim +PlugInstall +qall'
 fi
 
 if command_exists ag; then
