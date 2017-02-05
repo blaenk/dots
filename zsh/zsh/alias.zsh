@@ -73,7 +73,7 @@ if command_exists cargo; then
   alias c='cargo'
 fi
 
-if (( $+commands[npm] )); then
+if command_exists npm; then
   alias n="npm"
   alias nr="npm run"
   alias nis="npm --save install"
