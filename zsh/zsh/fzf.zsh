@@ -58,6 +58,23 @@ fzf-cd-up() {
 zle -N fzf-cd-up
 bindkey '^[k' fzf-cd-up
 
+# use fzf to show all aliases
+# selecting an alias inserts the alias' target into the prompt without accepting
+# it, allowing the user to edit the line before entering
+fzf-aliases() {
+  local selection truncated
+  selection=$(alias | fzf-tmux +m --query="$1" --header="aliases" --exit-0 --select-1)
+
+  if [[ -n "$selection" ]]; then
+    expanded=$(echo "$selection" | cut -d"'" -f2)
+    BUFFER="$BUFFER${expanded}" && zle end-of-line
+  fi
+}
+
+# M-? to list all aliases
+zle -N fzf-aliases
+bindkey '^[?' fzf-aliases
+
 # select a tmux window from among all windows in every session
 fzf-tmux-select-all-window() {
   if ! tmux info &> /dev/null; then
