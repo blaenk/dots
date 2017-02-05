@@ -62,7 +62,7 @@ bindkey '^[k' fzf-cd-up
 # selecting an alias inserts the alias' target into the prompt without accepting
 # it, allowing the user to edit the line before entering
 fzf-aliases() {
-  local selection truncated
+  local selection expanded
   selection=$(alias | fzf-tmux +m --query="$1" --header="aliases" --exit-0 --select-1)
 
   if [[ -n "$selection" ]]; then
