@@ -75,6 +75,13 @@ fzf-aliases() {
 zle -N fzf-aliases
 bindkey '^[?' fzf-aliases
 
+# fzf the git aliases and print the result
+fzf-git-aliases() {
+  git config --get-regexp ^alias\. | \
+    sed -e "s/^alias\.//" -e "s/\ /\ =\ /" | \
+    fzf-tmux +m --query="$1" --header="aliases" --exit-0 --select-1
+}
+
 # select a tmux window from among all windows in every session
 fzf-tmux-select-all-window() {
   if ! tmux info &> /dev/null; then

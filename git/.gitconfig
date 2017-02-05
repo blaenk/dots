@@ -88,6 +88,9 @@
 	# view man page in html format
 	web-help = help -w
 
+	# fzf list aliases
+	aliases = "! TMUX_FZF=1 zsh -i -c fzf-git-aliases"
+
 [color]
 	ui = true
 	branch = auto
