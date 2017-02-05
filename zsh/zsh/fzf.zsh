@@ -85,7 +85,7 @@ fzf-tmux-select-all-window() {
   local windows current_window target target_window
   windows=$(tmux list-windows -a -F '#{session_name}:#{window_index}: #{window_name}')
 
-  if [ ! -z "$TMUX" ]; then
+  if [ -n "$TMUX" ]; then
     current_window=$(tmux display-message -p '#{session_name}:#{window_index}: #{window_name}')
     windows=$(echo "$windows" | grep -v "$current_window")
   fi
