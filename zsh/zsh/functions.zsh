@@ -174,7 +174,7 @@ get_dots() {
   fi
 
   # msg_info "updating vim plugins"
-  # vim +PluginInstall +qall
+  # vim +PlugInstall +qall
 
   popd > /dev/null
 
