@@ -14,6 +14,86 @@ if has('win32')
 endif
 " }}}
 
+" Plugins: {{{
+set nocompatible
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+
+" sort the bundles by plugin name with
+" vim: sort i /\/\zs.\+\ze'/ r
+" emacs: (sort-regexp-fields nil "^Plug '.+/\\(.+\\)'$" "\\1" (region-beginning) (region-end))
+
+Plug 'vim-scripts/a.vim'
+Plug 'rking/ag.vim'
+Plug 'msanders/cocoa.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'Raimondi/delimitMate'
+Plug 'mattn/gist-vim'
+Plug 'sjl/gundo.vim'
+Plug 'vim-scripts/python.vim--Vasiliev'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'rust-lang/rust.vim'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'godlygeek/tabular'
+Plug 'tomtom/tlib_vim'
+Plug 'SirVer/ultisnips'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'PeterRincker/vim-argumentative'
+Plug 'guns/vim-clojure-highlight'
+Plug 'guns/vim-clojure-static'
+Plug 'altercation/vim-colors-solarized'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'tommcdo/vim-exchange'
+Plug 'airblade/vim-gitgutter'
+Plug 'jnwhiteh/vim-golang'
+Plug 'wlangstroth/vim-haskell'
+Plug 'henrik/vim-indexed-search'
+Plug 'groenewege/vim-less'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'derekwyatt/vim-scala'
+Plug 'guns/vim-sexp'
+Plug 'toyamarinyon/vim-swift'
+Plug 'milkypostman/vim-togglelist'
+Plug 'cespare/vim-toml'
+Plug 'bronson/vim-visual-star-search'
+Plug 'Shougo/vimproc.vim'
+Plug 'mattn/webapi-vim'
+Plug 'vim-scripts/yaml.vim'
+
+if has('unix')
+  if empty($SSH_CONNECTION)
+    " Plug 'Valloric/YouCompleteMe'
+  endif
+endif
+
+" tpope chorus
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fireplace'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-leiningen'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-ragtag'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+
+call plug#end()
+
+" }}}
+
 " Colors: {{{
 set t_Co=256
 syntax enable
@@ -166,8 +246,8 @@ else
     let s:green       = "DarkGreen"     " 2
 
 endif
-"}}}
-" Formatting options and null values for passthrough effect "{{{
+
+" Formatting options and null values for passthrough effect "{{{3
 " ---------------------------------------------------------------------
     let s:none            = "NONE"
     let s:none            = "NONE"
@@ -179,7 +259,7 @@ endif
     let s:ou              = ""
     let s:ob              = ""
 "}}}
-" Background value based on termtrans setting "{{{
+" Background value based on termtrans setting "{{{3
 " ---------------------------------------------------------------------
 if (has("gui_running") || g:solarized_termtrans == 0)
     let s:back        = s:base03
@@ -187,7 +267,7 @@ else
     let s:back        = "NONE"
 endif
 "}}}
-" Alternate light scheme "{{{
+" Alternate light scheme "{{{3
 " ---------------------------------------------------------------------
 if &background == "light"
     let s:temp03      = s:base03
@@ -207,7 +287,7 @@ if &background == "light"
     endif
 endif
 "}}}
-" Optional contrast schemes "{{{
+" Optional contrast schemes "{{{3
 " ---------------------------------------------------------------------
 if g:solarized_contrast == "high"
     let s:base01      = s:base00
@@ -222,7 +302,7 @@ if g:solarized_contrast == "low"
     let s:ou          = ",underline"
 endif
 "}}}
-" Overrides dependent on user specified values and environment "{{{
+" Overrides dependent on user specified values and environment "{{{3
 " ---------------------------------------------------------------------
 if (g:solarized_bold == 0 || &t_Co == 8 )
     let s:b           = ""
@@ -244,7 +324,7 @@ else
     let s:i           = ",italic"
 endif
 "}}}
-" Highlighting primitives"{{{
+" Highlighting primitives"{{{3
 " ---------------------------------------------------------------------
 
 exe "let s:bg_none      = ' ".s:vmode."bg=".s:none   ."'"
@@ -342,6 +422,20 @@ else
     let s:sp_blue      = ""
     let s:sp_cyan      = ""
 endif
+
+" }}}
+
+" Tweaks: {{{2
+exe "hi! Comment"        .s:fmt_none   .s:fg_base01 .s:bg_none
+exe "hi! CursorLineNR"   .s:fmt_uopt   .s:fg_magenta   .s:bg_base02  .s:fmt_none
+exe "hi! StatusLine"     .s:fmt_none   .s:fg_base1 .s:bg_base02
+exe "hi! StatusLineNC"   .s:fmt_none   .s:fg_base01 .s:bg_base02
+
+exe "hi! pandocStrong"   .s:fg_base0  .s:bg_none  .s:fmt_bold
+
+if (g:solarized_visibility!="high" && g:solarized_visibility!="low")
+  exe "hi! SpecialKey" .s:fmt_bold   .s:fg_base00 .s:bg_none
+endif
 " }}}
 
 " Status Line Colors: {{{2
@@ -359,84 +453,6 @@ exe "hi VisualCursor"  .s:fg_base03 .s:bg_magenta
 exe "hi ReplaceCursor" .s:fg_base03 .s:bg_red
 exe "hi CommandCursor" .s:fg_base03 .s:bg_blue
 " }}}
-
-" }}}
-
-" Vundle: {{{
-set nocompatible
-
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin('~/.vim/plugged')
-
-" sort the bundles by plugin name with
-"   sort i /\/\zs.\+\ze'/ r
-
-Plug 'vim-scripts/a.vim'
-Plug 'rking/ag.vim'
-Plug 'msanders/cocoa.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'Raimondi/delimitMate'
-Plug 'mattn/gist-vim'
-Plug 'sjl/gundo.vim'
-Plug 'vim-scripts/python.vim--Vasiliev'
-Plug 'kien/rainbow_parentheses.vim'
-Plug 'rust-lang/rust.vim'
-Plug 'cakebaker/scss-syntax.vim'
-Plug 'godlygeek/tabular'
-Plug 'tomtom/tlib_vim'
-Plug 'SirVer/ultisnips'
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'PeterRincker/vim-argumentative'
-Plug 'guns/vim-clojure-highlight'
-Plug 'guns/vim-clojure-static'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'tommcdo/vim-exchange'
-Plug 'airblade/vim-gitgutter'
-Plug 'jnwhiteh/vim-golang'
-Plug 'wlangstroth/vim-haskell'
-Plug 'henrik/vim-indexed-search'
-Plug 'groenewege/vim-less'
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'derekwyatt/vim-scala'
-Plug 'guns/vim-sexp'
-Plug 'toyamarinyon/vim-swift'
-Plug 'milkypostman/vim-togglelist'
-Plug 'cespare/vim-toml'
-Plug 'bronson/vim-visual-star-search'
-Plug 'Shougo/vimproc.vim'
-Plug 'mattn/webapi-vim'
-Plug 'vim-scripts/yaml.vim'
-
-if has('unix')
-  if empty($SSH_CONNECTION)
-    " Plug 'Valloric/YouCompleteMe'
-  endif
-endif
-
-" tpope chorus
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-fireplace'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-leiningen'
-Plug 'tpope/vim-projectionist'
-Plug 'tpope/vim-ragtag'
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-sexp-mappings-for-regular-people'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-
-call plug#end()
 
 " }}}
 
@@ -837,7 +853,7 @@ nnoremap <silent> <leader>u :GundoToggle<CR>
 
 " }}}
 
-" Plugins: {{{
+" Plugin Configuration: {{{
 
 " Fugitive: {{{2
 autocmd User Fugitive
