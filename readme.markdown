@@ -71,10 +71,6 @@ This also installs the `.Xresources` file so that URxvt uses the appropriate the
 
 An environment variable `USE_SOLARIZED_DARK` is exposed which, if set, means that the Solarized Dark theme is being used. This is used in Xresources, vim, emacs, tmux, fzf, and other configurations in order to fine-tune colors for the currently-enabled theme.
 
-#### URxvt
-
-You should also install [these useful extensions](https://github.com/muennich/urxvt-perls), preferably in `~/.urxvt/ext/`.
-
 #### Command Not Found
 
 You can get functionality where, if you enter a command that's not installed on your system, zsh will tell you which package it _is_ available in, if it finds it in some package. This is available for Ubuntu and Archlinux.

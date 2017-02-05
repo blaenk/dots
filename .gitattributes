@@ -1,0 +1,4 @@
+X11/.urxvt/ext/* linguist-vendored
+
+# jquery.js linguist-vendored=false
+# *.rb linguist-language=Java

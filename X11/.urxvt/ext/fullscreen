@@ -1,0 +1,10 @@
+#! perl
+# This is taken from https://aur.archlinux.org/packages/urxvt-fullscreen/
+# It was modified to remove the float attribute.
+
+sub on_user_command {
+	my ($self, $cmd) = @_;
+	if ($cmd eq "fullscreen:switch") {
+		my $dummy = `wmctrl -r :ACTIVE: -b toggle,fullscreen` ;
+	}
+}
