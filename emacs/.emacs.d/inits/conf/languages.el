@@ -14,6 +14,8 @@
 
 (use-package ox-gfm :defer t)
 
+(use-package haskell-mode :defer t)
+
 (use-package markdown-mode
   :defer t
 
