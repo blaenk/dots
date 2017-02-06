@@ -305,6 +305,13 @@
   (add-hook 'rust-mode-hook #'racer-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode))
 
+(use-package lsp-mode
+  :disabled t
+  :defer t
+
+  :init
+  (add-hook 'rust-mode-hook #'global-lsp-mode))
+
 (use-package toml-mode :defer t)
 
 (use-package web-mode
