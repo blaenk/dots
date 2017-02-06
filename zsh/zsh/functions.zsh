@@ -205,8 +205,8 @@ get_dots() {
 
   popd > /dev/null
 
-  msg_info "reloading zsh"
-  exec zsh
+  msg_info "reloading all zsh sessions"
+  killall -USR1 zsh
 }
 
 # deploy the dotfiles
