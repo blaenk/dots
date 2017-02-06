@@ -177,8 +177,31 @@ get_dots() {
     msg_fail "there was an error with updating"
   fi
 
-  # msg_info "updating vim plugins"
-  # vim +PlugInstall +qall
+  msg_info "updating zsh plugins"
+  zplug update
+
+  msg_info "updating tmux plugins"
+  ~/.tmux/plugins/tpm/bin/update_plugins all
+
+  # Reload tmux configuration if there are running sessions. Note that this
+  # simply "overlays" the new configuration over the previously loaded one,
+  # meaning for example that key binds that were removed in a newer
+  # configuration version will remain in the running session until it's
+  # restarted.
+  #
+  # It's possible to unbind all binds with `unbind -a` and then load a "clean
+  # slate" configuration of out-of-the-box tmux binds which can be retrieved
+  # using:
+  #
+  # $ tmux -f /dev/null -L temp start-server \; list-keys
+  #
+  # See https://unix.stackexchange.com/questions/57641
+  if tmux info &> /dev/null; then
+    tmux source-file ~/.tmux.conf \; display "Reloaded!"
+  fi
+
+  msg_info "updating vim plugins"
+  vim +PlugInstall +qall
 
   popd > /dev/null
 
