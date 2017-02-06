@@ -1,5 +1,7 @@
 alias ":q"="exit"
 
+alias reload="killall -USR1 zsh"
+
 alias ls="ls -lh --color=auto"
 
 alias tsup="sudo ntpd -qg"
