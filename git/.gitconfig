@@ -1,6 +1,3 @@
-[include]
-	path = .gitconfig.local
-
 [pull]
 	rebase = preserve
 
@@ -111,3 +108,6 @@
 
 [rerere]
 	enabled = true
+
+[include]
+	path = .gitconfig.local
