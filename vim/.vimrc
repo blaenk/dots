@@ -17,10 +17,14 @@ endif
 " Plugins: {{{
 set nocompatible
 
+let install_plug = 0
+
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+
+  let install_plug = 1
+  :echom "Plug bootstrapped!"
 endif
 
 call plug#begin('~/.vim/plugged')
@@ -91,6 +95,11 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 
 call plug#end()
+
+if install_plug == 1
+  PlugInstall --sync
+  :echom "Plugins installed!"
+endif
 
 " }}}
 
