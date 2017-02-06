@@ -14,6 +14,7 @@ There are no real, hard dependencies since these are simply configuration files,
 * Searching: ag, `the_silver_searcher`
 * Command Not Found: `pkgfile` (Arch)
 * `ls` colors: `colord`
+* Clipboard integration: `xsel`
 
 ### Installation
 
