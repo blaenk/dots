@@ -45,9 +45,8 @@ if command_exists emacs; then
 fi
 
 if command_exists tmux; then
-  alias tmux="tmux -u"
+  alias tmux="tmux -2 -u"
   alias t="tmux"
-  alias tmux="tmux -2"
   alias tn="tmux new -s"
   alias ta="tmux a -t"
   alias taro="tmux a -rt"
