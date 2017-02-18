@@ -37,7 +37,6 @@
 
   (setq markdown-enable-math t
         markdown-asymmetric-header t
-        markdown-gfm-use-electric-backquote nil
         markdown-italic-underscore t
         markdown-use-pandoc-style-yaml-metadata t)
 
