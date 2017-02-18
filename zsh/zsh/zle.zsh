@@ -76,6 +76,7 @@ bindkey -M vicmd "j" down-line-or-history # history-search-forward
 bindkey -M vicmd "/" history-incremental-search-backward
 bindkey -M vicmd "?" history-incremental-search-forward
 bindkey -M vicmd "u" undo
+bindkey -M vicmd "U" redo
 bindkey -M vicmd "_" beginning-of-line
 bindkey -M vicmd "g_" end-of-line
 bindkey -M vicmd ":" undefined-key # annoying default bind
