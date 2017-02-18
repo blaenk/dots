@@ -57,6 +57,14 @@ zle -N edit-command-line
 bindkey -v
 bindkey -M vicmd V edit-command-line # ESC-v to edit in an external editor.
 
+# Home key variants
+bindkey '\e[1~' vi-beginning-of-line
+bindkey '\eOH' vi-beginning-of-line
+
+# End key variants
+bindkey '\e[4~' vi-end-of-line
+bindkey '\eOF' vi-end-of-line
+
 bindkey ' ' magic-space
 bindkey -M vicmd "gg" beginning-of-history
 bindkey -M vicmd "G" end-of-history
