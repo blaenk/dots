@@ -55,7 +55,7 @@ zle -N zle-line-finish
 zle -N edit-command-line
 
 bindkey -v
-bindkey -M vicmd v edit-command-line # ESC-v to edit in an external editor.
+bindkey -M vicmd V edit-command-line # ESC-v to edit in an external editor.
 
 bindkey ' ' magic-space
 bindkey -M vicmd "gg" beginning-of-history
