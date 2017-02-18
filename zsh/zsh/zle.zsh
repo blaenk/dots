@@ -60,6 +60,8 @@ manydots-magic
 bindkey -v
 bindkey -M vicmd V edit-command-line # ESC-v to edit in an external editor.
 
+bindkey '\e.' insert-last-word
+
 # Home key variants
 bindkey '\e[1~' vi-beginning-of-line
 bindkey '\eOH' vi-beginning-of-line
