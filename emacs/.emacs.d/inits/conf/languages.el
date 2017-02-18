@@ -58,6 +58,12 @@
   (add-hook 'markdown-mode-hook #'visual-line-mode)
   (add-hook 'markdown-mode-hook #'whitespace-mode))
 
+(use-package markdown-edit-indirect
+  :defer t
+
+  :general
+  (:keymaps 'markdown-mode-map
+   "C-'" 'markdown-edit-indirect))
 
 (use-package yaml-mode
   :defer t
