@@ -178,6 +178,7 @@ get_dots() {
   fi
 
   msg_info "updating zsh plugins"
+  zplug clear
   zplug update
 
   msg_info "updating tmux plugins"
