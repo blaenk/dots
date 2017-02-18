@@ -32,7 +32,7 @@
   :defer t
 
   :init
-  (setq auto-revert-check-vc-info t)
+  (setq-default auto-revert-check-vc-info t)
 
   (defun my-disable-auto-revert-vc-when-remote ()
     (when (and buffer-file-name (file-remote-p buffer-file-name))
@@ -44,8 +44,9 @@
   ;; because there can be a problem on OSX where it may use too many resources
   ;; or something
   (defun my-enable-notify ()
-    (when (not (eq system-type 'darwin))
-      (setq auto-revert-use-notify t)))
+    (when (and (not (eq system-type 'darwin))
+               (not (and buffer-file-name (file-remote-p buffer-file-name))))
+      (setq-local auto-revert-use-notify t)))
 
   (add-hook 'global-auto-revert-mode 'my-enable-notify)
   (global-auto-revert-mode 1))
