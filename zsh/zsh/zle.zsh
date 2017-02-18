@@ -54,6 +54,9 @@ zle -N zle-keymap-select
 zle -N zle-line-finish
 zle -N edit-command-line
 
+autoload -Uz manydots-magic
+manydots-magic
+
 bindkey -v
 bindkey -M vicmd V edit-command-line # ESC-v to edit in an external editor.
 
