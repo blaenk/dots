@@ -330,6 +330,8 @@
   ;; do local key bind
   (setq helm-css-scss-split-direction 'split-window-horizontally))
 
+(use-package helm-tramp :defer t)
+
 (use-package ace-jump-helm-line
   :general
   (:keymaps 'helm-map
