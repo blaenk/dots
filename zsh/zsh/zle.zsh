@@ -97,6 +97,23 @@ bindkey -M viins "^H" backward-delete-char  # vi-backward-delete-char
 bindkey -M viins "^U" backward-kill-line    # vi-kill-line
 bindkey -M viins "^?" backward-delete-char  # vi-backward-delete-char
 
+function vi-yank-x-selection () {
+  zle vi-yank
+  print -rn -- $CUTBUFFER | eval "cbc"
+}
+
+zle -N vi-yank-x-selection
+bindkey -M vicmd "y" vi-yank-x-selection
+bindkey -M visual "y" vi-yank-x-selection
+
+function vi-yank-whole-line-x-selection () {
+  zle vi-yank-whole-line
+  print -rn -- $BUFFER | eval "cbc"
+}
+
+zle -N vi-yank-whole-line-x-selection
+bindkey -M vicmd "yy" vi-yank-whole-line-x-selection
+
 # allow interactive incr search, ^G or ^C to exit
 bindkey -M isearch "^P" history-incremental-search-backward
 bindkey -M isearch "^N" history-incremental-search-forward
