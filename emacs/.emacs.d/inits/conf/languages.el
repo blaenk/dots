@@ -38,9 +38,10 @@
   (setq markdown-enable-math t
         markdown-asymmetric-header t
         markdown-italic-underscore t
-        markdown-use-pandoc-style-yaml-metadata t)
+        markdown-use-pandoc-style-yaml-metadata t
+        markdown-gfm-additional-languages '("cpp" "elisp"))
 
-  (defun my-gfm-hook ()
+  (defun my-markdown-mode-hook ()
     (interactive)
 
     (setq-local word-wrap t)
@@ -49,18 +50,14 @@
     (with-eval-after-load 'evil-surround
       (push '(?s . ("**" . "**")) evil-surround-pairs-alist)
       (push '(?i . ("_" . "_")) evil-surround-pairs-alist)
-      (push '(?p . ("<span class=\"path\">" . "</span>"))
-            evil-surround-pairs-alist)))
+      (push '(?p . ("<span class=\"path\">" . "</span>")) evil-surround-pairs-alist)))
 
-  (add-hook 'gfm-mode-hook #'my-gfm-hook)
-  (add-hook 'gfm-mode-hook #'outline-minor-mode)
-  (add-hook 'gfm-mode-hook #'flyspell-mode)
-  (add-hook 'gfm-mode-hook #'visual-line-mode)
-  (add-hook 'gfm-mode-hook #'whitespace-mode)
+  (add-hook 'markdown-mode-hook #'my-markdown-mode-hook)
+  (add-hook 'markdown-mode-hook #'outline-minor-mode)
+  (add-hook 'markdown-mode-hook #'flyspell-mode)
+  (add-hook 'markdown-mode-hook #'visual-line-mode)
+  (add-hook 'markdown-mode-hook #'whitespace-mode))
 
-  :config
-  (add-to-list 'markdown-gfm-additional-languages "cpp")
-  (add-to-list 'markdown-gfm-additional-languages "elisp"))
 
 (use-package yaml-mode
   :defer t
