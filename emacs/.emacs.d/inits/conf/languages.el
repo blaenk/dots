@@ -6,6 +6,8 @@
 
 (use-package systemd :defer t)
 
+(use-package nginx-mode :defer t)
+
 (use-package gitconfig-mode :defer t)
 
 (use-package gitignore-mode :defer t)
