@@ -1,5 +1,38 @@
 # key bindings
 
+# support for ci( etc
+
+autoload -U select-bracketed
+zle -N select-bracketed
+
+for m in visual viopp; do
+  for c in {a,i}${(s..)^:-'()[]{}<>bB'}; do
+    bindkey -M $m $c select-bracketed
+  done
+done
+
+# support ci" etc
+
+autoload -U select-quoted
+zle -N select-quoted
+
+for m in visual viopp; do
+  for c in {a,i}{\',\",\`}; do
+    bindkey -M $m $c select-quoted
+  done
+done
+
+# support surrounding
+
+autoload -Uz surround
+zle -N delete-surround surround
+zle -N add-surround surround
+zle -N change-surround surround
+bindkey -a cs change-surround
+bindkey -a ds delete-surround
+bindkey -a ys add-surround
+bindkey -M visual S add-surround
+
 function zle-keymap-select {
   zle reset-prompt
 
