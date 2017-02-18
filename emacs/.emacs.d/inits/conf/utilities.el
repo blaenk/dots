@@ -7,6 +7,13 @@
   ([remap describe-mode] 'discover-my-major
    "C-h M-m" 'discover-my-mode))
 
+(use-package sudo-edit
+  :defer t
+
+  :init
+  (with-eval-after-load 'evil-ex
+    (evil-ex-define-cmd "w!!" 'sudo-edit)))
+
 (use-package imenu-anywhere
   :general
   ("M-I" 'imenu-anywhere))
