@@ -42,6 +42,16 @@
 ;;   "Return whether the current window is active."
 ;;   (eq my-selected-window (selected-window)))
 
+(defconst my--lock-icon
+  (if (not (eq system-type 'windows-nt))
+    (fontawesome "lock")
+    "🔒"))
+
+(defconst my--cloud-icon
+  (if (not (eq system-type 'windows-nt))
+    (fontawesome "cloud")
+    "☁"))
+
 (defun my--is-evil-on ()
   (and (or
         (bound-and-true-p evil-mode)
@@ -74,7 +84,7 @@
 (defun my--remote-mode-line ()
   (when (and buffer-file-name (file-remote-p buffer-file-name))
     (let ((host (tramp-file-name-real-host (tramp-dissect-file-name buffer-file-name))))
-      (s-wrap (concat (fontawesome "cloud") " " host) " "))))
+      (s-wrap (concat my--cloud-icon " " host) " "))))
 
 (defun my--format-flycheck (count face)
   (when count
@@ -203,7 +213,7 @@
         (:propertize
          (:eval (when (my--is-modified) " + ")) face mode-line-modified-face)
         (:propertize
-         (:eval (when buffer-read-only (s-wrap (fontawesome "lock") " ")))
+         (:eval (when buffer-read-only (s-wrap my--lock-icon " ")))
          face mode-line-read-only-face)
         (global-flycheck-mode
          (:eval (my--flycheck-mode-line)))

@@ -51,6 +51,7 @@
 ;; use (member "Symbola" (font-family-list))
 ;; to fall back on unicode icons
 (use-package fontawesome
+  :if (not (eq system-type 'windows-nt))
   :defer t
 
   :config
