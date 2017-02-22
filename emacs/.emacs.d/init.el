@@ -239,8 +239,8 @@
   (benchmark-init/activate))
 
 (require 'conf/built-in)
-(require 'conf/mode-line)
 (require 'conf/theme)
+(require 'conf/mode-line)
 (require 'conf/evil)
 
 (require 'conf/helm)
