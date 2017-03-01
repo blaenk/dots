@@ -1,6 +1,7 @@
 (require 'use-package)
 (require 'general)
 (require 'conf/common)
+(require 'f)
 
 (use-package dockerfile-mode :defer t)
 
@@ -332,21 +333,43 @@
   :ensure auctex
   :defer t
 
+  :general
+  (:keymaps 'LaTeX-mode-map
+   "C-c C-c" 'my-latex-rubber-and-preview)
+
   :init
-  (setq-default TeX-master nil)
+  ;; Offer to save the file if there are changes, then build the file with Rubber.
+  (defun my-latex-rubber-and-preview ()
+    (interactive)
+
+    (if (and (buffer-modified-p)
+             (y-or-n-p (concat "Save file " buffer-file-name "? ")))
+        (save-buffer))
+
+    (TeX-command "Rubber" 'TeX-master-file 0))
+
+  ;; Introduce two expansion variables:
+  ;;   %projectile-root is self-explanatory
+  ;;   %pdf-path is the path to the backing file with a .pdf extension
+  (setq TeX-expand-list
+        '(("%projectile-root" (lambda () (projectile-project-root)))
+          ("%pdf-path" (lambda () (f-swap-ext buffer-file-name "pdf")))))
+
+  ;; Introduce a Rubber command that builds the project using the Makefile at
+  ;; the project root, then view the PDF with evince.
+  (with-eval-after-load 'tex
+    (add-to-list 'TeX-command-list
+                 '("Rubber"
+                   "make -C %projectile-root && evince %pdf-path"
+                   TeX-run-command nil t
+                   :help "Build with Rubber and View")))
 
   (setq TeX-PDF-mode t
-        TeX-auto-save t
         TeX-parse-self t
+        TeX-view-program-selection '((output-pdf "PDF Viewer"))
+        TeX-view-program-list '(("PDF Viewer" "open %pdf-path")))
 
-        TeX-view-program-selection '((output-dvi "DVI Viewer")
-                                     (output-pdf "PDF Viewer")
-                                     (output-html "HTML Viewer"))
-
-        TeX-view-program-list '(("DVI Viewer" "open %o")
-                                ("PDF Viewer" "open %o")
-                                ("HTML Viewer" "open %o")))
-
+  (add-hook 'LaTeX-mode-hook #'olivetti-mode)
   (add-hook 'LaTeX-mode-hook #'flyspell-mode)
   (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode))
 
