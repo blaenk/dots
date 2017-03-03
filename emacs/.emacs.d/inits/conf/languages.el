@@ -2,6 +2,7 @@
 (require 'general)
 (require 'conf/common)
 (require 'f)
+(require 'cl)
 
 (use-package dockerfile-mode :defer t)
 
@@ -335,34 +336,40 @@
 
   :general
   (:keymaps 'LaTeX-mode-map
-   "C-c C-c" 'my-latex-rubber-and-preview)
+   "C-c C-c" 'my-latex-make-and-preview)
 
   :init
-  ;; Offer to save the file if there are changes, then build the file with Rubber.
-  (defun my-latex-rubber-and-preview ()
+  (define-advice TeX-command-sentinel
+      (:after (process msg) show-output-window-on-error)
+    (if (not (eq (process-exit-status process) 0))
+        (TeX-recenter-output-buffer nil)))
+
+  ;; Offer to save the file if there are changes, then build the file with Make.
+  (defun my-latex-make-and-preview ()
     (interactive)
 
     (if (and (buffer-modified-p)
              (y-or-n-p (concat "Save file " buffer-file-name "? ")))
         (save-buffer))
 
-    (TeX-command "Rubber" 'TeX-master-file 0))
+    (flet ((TeX-process-check (&rest IGNORE) nil))
+      (TeX-command "Make" 'TeX-master-file 0)))
 
   ;; Introduce two expansion variables:
   ;;   %projectile-root is self-explanatory
   ;;   %pdf-path is the path to the backing file with a .pdf extension
   (setq TeX-expand-list
-        '(("%projectile-root" (lambda () (projectile-project-root)))
+        '(("%projectile-root" projectile-project-root)
           ("%pdf-path" (lambda () (f-swap-ext buffer-file-name "pdf")))))
 
-  ;; Introduce a Rubber command that builds the project using the Makefile at
+  ;; Introduce a Make command that builds the project using the Makefile at
   ;; the project root, then view the PDF with evince.
   (with-eval-after-load 'tex
     (add-to-list 'TeX-command-list
-                 '("Rubber"
+                 '("Make"
                    "make -C %projectile-root && evince %pdf-path"
                    TeX-run-command nil t
-                   :help "Build with Rubber and View")))
+                   :help "Build with Make and View")))
 
   (setq TeX-PDF-mode t
         TeX-parse-self t
