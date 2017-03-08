@@ -2,7 +2,6 @@
 	rebase = preserve
 
 [core]
-	editor = vim
 	pager = less -+$LESS -FRX
 
 [status]
