@@ -73,6 +73,7 @@ fi
 
 if command_exists cargo; then
   alias c='cargo'
+  alias cargo-update-binaries='cargo +nightly install-update -a'
 fi
 
 if command_exists npm; then
