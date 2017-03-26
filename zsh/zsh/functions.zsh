@@ -154,29 +154,7 @@ edit_dots() {
   gvim --cmd "cd $DOTSPATH"
 }
 
-# update the dotfiles
-get_dots() {
-  emulate -LR zsh
-
-  pushd $DOTSPATH > /dev/null
-
-  pre=$(git log -1 HEAD --pretty=format:%h)
-
-  msg_info "checking for updates since $pre"
-
-  if git pull > /dev/null 2>&1; then
-    post=$(git log -1 HEAD --pretty=format:%h)
-
-    if [[ "$pre" == "$post" ]]; then
-      msg_info "no updates available"
-    else
-      msg_info "updated to $post\n"
-      git log --oneline --format='  %C(green)+%Creset %C(bold)%h%Creset %s' $pre..HEAD
-    fi
-  else
-    msg_fail "there was an error with updating"
-  fi
-
+update_dependencies_dots() {
   msg_info "updating zsh plugins"
   zplug clear
   zplug update
@@ -203,11 +181,37 @@ get_dots() {
 
   msg_info "updating vim plugins"
   vim +PlugInstall +qall
+}
 
-  popd > /dev/null
+# update the dotfiles
+get_dots() {
+  emulate -LR zsh
+
+  pushd $DOTSPATH > /dev/null
+
+  pre=$(git log -1 HEAD --pretty=format:%h)
+
+  msg_info "checking for updates since $pre"
+
+  if git pull > /dev/null 2>&1; then
+    post=$(git log -1 HEAD --pretty=format:%h)
+
+    if [[ "$pre" == "$post" ]]; then
+      msg_info "no updates available"
+    else
+      msg_info "updated to $post\n"
+      git log --oneline --format='  %C(green)+%Creset %C(bold)%h%Creset %s' $pre..HEAD
+    fi
+  else
+    msg_fail "there was an error with updating"
+  fi
+
+  update_dependencies_dots
 
   msg_info "reloading all zsh sessions"
   killall -USR1 zsh
+
+  popd > /dev/null
 }
 
 # deploy the dotfiles
@@ -339,6 +343,8 @@ dots() {
       set_theme_dots "$@";;
     get )
       get_dots;;
+    update-dependencies )
+      update_dependencies_dots;;
     put )
       put_dots;;
     edit )
