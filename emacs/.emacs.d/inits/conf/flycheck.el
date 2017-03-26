@@ -32,7 +32,8 @@
   (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
 (use-package flycheck-rust
-  :after rust
+  :after rust-mode
+  :commands flycheck-rust-setup
 
   :init
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
