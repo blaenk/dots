@@ -268,6 +268,11 @@ The initial state for a mode can be set with
   :config
   (global-evil-quickscope-mode 1))
 
+(use-package evil-lion
+  :after evil
+  :config
+  (evil-lion-mode))
+
 (use-package evil-textobj-anyblock
   :general
   (:keymaps 'inner
