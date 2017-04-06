@@ -2,9 +2,6 @@
 (require 'general)
 (require 'conf/common)
 
-(use-package helm-config
-  :ensure nil)
-
 (use-package helm
   :diminish helm-mode
 
@@ -37,6 +34,7 @@
         helm-display-header-line nil)
 
   :config
+  (require 'helm-config)
   (helm-mode 1)
 
   (helm-autoresize-mode t))
