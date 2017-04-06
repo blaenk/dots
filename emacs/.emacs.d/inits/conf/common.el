@@ -21,13 +21,13 @@
 
 (function-put #'my-map 'lisp-indent-function 'defun)
 
-(defun my-emacs-dir (path)
-  (expand-file-name path user-emacs-directory))
+(defun my-emacs-dir (&optional path)
+  (expand-file-name (or path "") user-emacs-directory))
 
-(defun my-cache-dir (path)
+(defun my-cache-dir (&optional path)
   (my-emacs-dir (concat "cache/" path)))
 
-(defun my-inits-dir (path)
+(defun my-inits-dir (&optional path)
   (my-emacs-dir (concat "inits/" path)))
 
 (defun my-is-fullscreen ()
