@@ -803,6 +803,21 @@ PR [a-z-+]+/\
   :init
   (add-hook 'prog-mode-hook #'hs-minor-mode))
 
+(use-package ispell
+  :ensure nil
+  :defer t
+
+  :init
+  ;; NOTE
+  ;; Remember to install Hunspell and its English dictionaries on new setups.
+  (when (executable-find "hunspell")
+    (setq ispell-program-name "hunspell"
+          ispell-dictionary "en_US"
+          ispell-really-hunspell t))
+
+  :config
+  (ispell-set-spellchecker-params))
+
 (use-package flyspell
   :ensure nil
   :defer t
