@@ -18,7 +18,7 @@ _fzf_compgen_path() {
 fzf-select-history-argument() {
   local argument
   argument=$(print -r -- "${(@pj.\n.)${(z)history[$((HISTCMD-1))]}[2,-1]}" \
-               | fzf-tmux +m --reverse --header="select historical argument" --exit-0)
+               | fzf-tmux +m --reverse --header="select historical argument" --select-1 --exit-0)
 
   if [[ -z "${argument}" ]]; then
     return
