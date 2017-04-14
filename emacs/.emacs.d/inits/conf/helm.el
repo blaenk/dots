@@ -73,64 +73,17 @@
   (setq helm-adaptive-history-file
         (my-cache-dir "helm-adaptive-history")))
 
+(use-package helm-ext
+  :config
+  (helm-ext-ff-enable-split-actions t))
+
 (use-package helm-files
   :ensure nil
 
   :general
   (:keymaps '(helm-find-files-map helm-buffer-map)
-   "M-h" 'my-helm-horizontal-split
-   "M-v" 'my-helm-vertical-split)
-
-  :config
-  (defun my-helm-action-horizontal-split (candidate)
-    "Display buffer in horizontal split"
-    ;; Select the bottom right window
-    (require 'winner)
-    ;; Display buffers in new windows
-    (dolist (buf (helm-marked-candidates))
-      (select-window (split-window-below))
-      (if (get-buffer buf)
-          (switch-to-buffer buf)
-        (find-file buf)))
-    (balance-windows))
-
-  (defun my-helm-action-vertical-split (candidate)
-    "Display buffer in vertical split"
-    ;; Select the bottom right window
-    (require 'winner)
-    ;; Display buffers in new windows
-    (dolist (buf (helm-marked-candidates))
-      (select-window (split-window-right))
-      (if (get-buffer buf)
-          (switch-to-buffer buf)
-        (find-file buf)))
-    (balance-windows))
-
-  (add-to-list 'helm-find-files-actions
-               '("Display buffer in horizontal split" .
-                 my-helm-action-horizontal-split) t)
-
-  (add-to-list 'helm-type-buffer-actions
-               '("Display buffer in horizontal split" .
-                 my-helm-action-horizontal-split) t)
-
-  (add-to-list 'helm-find-files-actions
-               '("Display buffer in vertical split" .
-                 my-helm-action-vertical-split) t)
-
-  (add-to-list 'helm-type-buffer-actions
-               '("Display buffer in vertical split" .
-                 my-helm-action-vertical-split) t)
-
-  (defun my-helm-horizontal-split ()
-    (interactive)
-    (with-helm-alive-p
-      (helm-exit-and-execute-action 'my-helm-action-horizontal-split)))
-
-  (defun my-helm-vertical-split ()
-    (interactive)
-    (with-helm-alive-p
-      (helm-exit-and-execute-action 'my-helm-action-vertical-split))))
+   helm-ext-ff-horizontal-split-key 'helm-ext-ff-execute-horizontal-split
+   helm-ext-ff-vertical-split-key 'helm-ext-ff-execute-vertical-split))
 
 (use-package helm-mt
   :general
@@ -138,8 +91,8 @@
     "o t" 'helm-mt)
 
   (:keymaps 'helm-mt/keymap
-   "M-h" 'my-helm-horizontal-split
-   "M-v" 'my-helm-vertical-split)
+   helm-ext-ff-horizontal-split-key 'helm-ext-ff-execute-horizontal-split
+   helm-ext-ff-vertical-split-key 'helm-ext-ff-execute-vertical-split)
 
   :config
   (helm-mt/reroute-terminal-functions t))
@@ -218,8 +171,8 @@
    "C-M-/" 'my-helm-ag)
 
   (:keymaps '(helm-projectile-find-file-map helm-projectile-projects-map)
-   "M-h" 'my-helm-horizontal-split
-   "M-v" 'my-helm-vertical-split)
+   helm-ext-ff-horizontal-split-key 'helm-ext-ff-execute-horizontal-split
+   helm-ext-ff-vertical-split-key 'helm-ext-ff-execute-vertical-split)
 
   (my-map
     "o b" 'my-open-buffer
