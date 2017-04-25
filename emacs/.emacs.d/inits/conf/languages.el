@@ -247,7 +247,7 @@
 
   (add-hook 'json-mode-hook #'subword-mode))
 
-(use-package jade :defer t)
+(use-package indium :defer t)
 
 (use-package js-doc
   :general
