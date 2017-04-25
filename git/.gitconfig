@@ -1,3 +1,8 @@
+# Personal information such as the [user] block containing the name and email,
+# or [github] block containing the user, etc. should be stored in separate file
+# at ~/.gitconfig.local, which is included at the end of this file, allowing it
+# to override anything this configuration file specifies.
+
 [pull]
 	rebase = preserve
 
