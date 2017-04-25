@@ -67,7 +67,8 @@ elif command_exists pbcopy; then
 fi
 
 if command_exists rustup; then
-  alias rup='rustup'
+  alias rsup='rustup'
+  alias rsupdate='rustup update'
   alias clippy='rustup run nightly cargo clippy'
 fi
 
