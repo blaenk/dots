@@ -319,6 +319,8 @@
   :init
   (add-hook 'rust-mode-hook #'global-lsp-mode))
 
+(use-package lsp-rust :disabled t :defer t)
+
 (use-package toml-mode :defer t)
 
 (use-package web-mode

@@ -38,4 +38,14 @@
   :init
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
+(use-package lsp-flycheck
+  :ensure nil
+  :after lsp-mode
+
+  :config
+  (add-hook 'flycheck-mode-hook #'lsp-flycheck-setup))
+
+;; Clojure
+;; (use-package flycheck-joker)
+
 (provide 'conf/flycheck)
