@@ -46,8 +46,7 @@
         sp-autoskip-opening-pair nil
         sp-cancel-autoskip-on-backward-movement nil
         sp-autodelete-wrap nil
-        sp-autowrap-region nil
-        )
+        sp-autowrap-region nil)
 
   (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
 
