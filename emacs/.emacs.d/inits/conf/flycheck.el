@@ -40,10 +40,7 @@
 
 (use-package lsp-flycheck
   :ensure nil
-  :after lsp-mode
-
-  :config
-  (add-hook 'flycheck-mode-hook #'lsp-flycheck-setup))
+  :after lsp-mode)
 
 ;; Clojure
 ;; (use-package flycheck-joker)
