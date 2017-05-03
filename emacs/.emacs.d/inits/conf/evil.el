@@ -268,6 +268,11 @@ The initial state for a mode can be set with
   :config
   (global-evil-quickscope-mode 1))
 
+(use-package evil-goggles
+  :after evil
+  :config
+  (evil-goggles-mode))
+
 (use-package evil-lion
   :after evil
   :config
