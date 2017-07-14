@@ -74,6 +74,17 @@
   :config
   (add-to-list 'company-math-allow-latex-symbols-in-faces 'markdown-math-face))
 
+(use-package robe
+  :ensure nil
+  :after robe
+
+  :init
+  (defun my-company-robe ()
+    (set (make-local-variable 'company-backends)
+         (add-to-list 'company-backends 'company-robe)))
+
+  (add-hook 'robe-mode-hook #'my-company-robe))
+
 (use-package company-tern
   :defer t
 
