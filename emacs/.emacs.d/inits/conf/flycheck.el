@@ -8,6 +8,8 @@
     "c l" 'flycheck-list-errors)
 
   :init
+  (setq flycheck-rubocop-lint-only t)
+
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)
                 flycheck-emacs-lisp-load-path 'inherit)
 
