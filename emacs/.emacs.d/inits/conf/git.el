@@ -21,6 +21,12 @@
                  (lambda (names)
                    (mapconcat 'identity names ", "))))))
 
+(use-package git-commit-insert-issue
+  :defer t
+
+  :init
+  (add-hook 'git-commit-mode-hook 'git-commit-insert-issue-mode))
+
 (use-package bug-reference-github
   :defer t
 
