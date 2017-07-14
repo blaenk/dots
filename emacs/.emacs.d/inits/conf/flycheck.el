@@ -33,6 +33,12 @@
   :init
   (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
+(use-package flycheck-clang-analyzer
+  :after irony
+
+  :init
+  (add-hook 'flycheck-mode-hook #'flycheck-clang-analyzer-setup))
+
 (use-package flycheck-rust
   :after rust-mode
   :commands flycheck-rust-setup
