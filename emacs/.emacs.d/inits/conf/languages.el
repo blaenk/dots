@@ -250,9 +250,7 @@
 
   (add-hook 'js2-mode-hook #'my-js2-hook))
 
-(use-package rjsx-mode
-  :defer t
-  :mode ("\\.jsx?\\'" . rjsx-mode))
+(use-package rjsx-mode :defer t)
 
 (use-package json-mode
   :defer t
