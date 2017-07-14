@@ -192,7 +192,9 @@
 
 (defvar my-mode-line-left
       `(
-        (:propertize "%3c " face mode-line-column-face)
+        (:propertize
+         (:eval (format "%%%dc " (+ (line-number-display-width) 2)))
+         face mode-line-column-face)
         (anzu-mode
          (:propertize
           (:eval (anzu--update-mode-line))

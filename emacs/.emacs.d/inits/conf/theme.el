@@ -30,7 +30,7 @@
 
     (solarized-with-color-variables my-theme-variant
       (defface mode-line-column-face
-        `((,class (:background ,base03)))
+        `((,class (:background ,s-fringe-bg :foreground ,base1 :weight bold)))
         "column number in mode-line"
         :group 'mode-line-faces
         :group 'basic-faces)
@@ -172,6 +172,14 @@
 
         ;; fringe
         `(fringe ((,class (:foreground ,base02))))
+
+        ;; line numbers
+        `(line-number ((,class (:weight normal :underline nil
+                                :foreground ,s-fringe-fg
+                                :background ,s-fringe-bg))))
+        `(line-number-current-line ((,class (:inherit line-number
+                                             :foreground ,base1
+                                             :weight bold))))
 
         ;; whitespace
         `(whitespace-trailing ((,class (:background ,red-l))))

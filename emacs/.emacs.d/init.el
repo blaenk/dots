@@ -238,6 +238,18 @@
   "w s h" 'evil-window-split
   "w s p" 'my-split-with-previous-buffer)
 
+(defun my-enable-line-numbers ()
+  (setq-local display-line-numbers 'visual))
+
+(add-hook 'prog-mode-hook #'my-enable-line-numbers)
+
+(defun my-toggle-line-numbers ()
+  (interactive)
+
+  (setq-local display-line-numbers (if display-line-numbers nil 'visual)))
+
+(my-map "t n" 'my-toggle-line-numbers)
+
 (when my-benchmarking-p
   (benchmark-init/activate))
 
