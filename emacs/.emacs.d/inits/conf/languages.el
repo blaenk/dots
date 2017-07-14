@@ -75,6 +75,24 @@
   (add-hook 'yaml-mode-hook #'turn-off-flyspell t)
   (add-hook 'yaml-mode-hook #'flyspell-prog-mode t))
 
+(use-package yard-mode
+  :defer t
+
+  :init
+  (add-hook 'ruby-mode-hook 'yard-mode))
+
+(use-package robe
+  :defer t
+
+  :init
+  (add-hook 'ruby-mode-hook 'robe-mode))
+
+(use-package inf-ruby
+  :defer t
+
+  :init
+  (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode))
+
 (use-package go-guru :defer t)
 
 (use-package go-rename :defer t)
