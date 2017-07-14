@@ -99,6 +99,9 @@
 (use-package magithub
   :after magit
 
+  :init
+  (setq magithub-dir (my-cache-dir "magithub"))
+
   :config
   (magithub-feature-autoinject t))
 
