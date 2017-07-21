@@ -147,6 +147,8 @@
 
       tab-always-indent nil
 
+      display-line-numbers-width 3
+
       load-prefer-newer t
       sentence-end-double-space nil
       uniquify-buffer-name-style 'forward
