@@ -303,7 +303,8 @@
   :config
   (setq shackle-rules
         '((help-mode :select t)
-          (compilation-mode :noselect t)
+          (compilation-mode :select t)
+          (cargo-process-mode :select t)
           ("*Diff*" :select t :frame t)
           ("*Flycheck errors*" :select t)
           ("*Package Commit List*" :select t)))
