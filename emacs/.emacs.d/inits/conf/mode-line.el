@@ -112,12 +112,30 @@
                'face 'mode-line-flycheck-checking-face))
     (`finished (my--format-flycheck-errors))))
 
-(defun my--vc-mode ()
-  (let ((noback (replace-regexp-in-string
-                 (format "^ %s[-:@!?]" (vc-backend buffer-file-name))
-                 ""
-                 vc-mode)))
-    (s-wrap noback " ")))
+(defun my--vc-git-status ()
+  (-when-let* ((rev (vc-working-revision buffer-file-name 'Git))
+               (state
+                (when buffer-file-name
+                  ;; I wanted to use `vc-state' here but for some reason, on ignored
+                  ;; files, it straight-up returns nil, whereas `vc-git-state' does
+                  ;; correctly return `ignored'.
+                  (pcase (vc-git-state buffer-file-name)
+                    ('ignored      '("I" . mode-line-flycheck-checking-face))
+                    ('unregistered '("." . mode-line-flycheck-checking-face))
+                    ('removed      '("-" . mode-line-flycheck-errors-face))
+                    ('edited       '("#" . mode-line-branch-face))
+                    ('added        '("+" . mode-line-branch-face))
+                    ('conflict     '("C" . mode-line-flycheck-errors-face))
+                    (_ nil)
+                    ))))
+    (-when-let ((label . face) state)
+      (propertize (s-wrap label " ") 'face face))))
+
+(defun my--vc-git-mode ()
+  (-when-let* ((rev (vc-working-revision buffer-file-name 'Git))
+               (disp-rev (or (vc-git--symbolic-ref buffer-file-name)
+                             (substring rev 0 7))))
+    (concat (propertize (s-wrap disp-rev " ") 'face 'mode-line-branch-face))))
 
 (defun my--is-modified ()
   (and (not buffer-read-only) (buffer-modified-p)))
@@ -219,8 +237,8 @@
          face mode-line-read-only-face)
         (global-flycheck-mode
          (:eval (my--flycheck-mode-line)))
-        (vc-mode
-         (:propertize (:eval (my--vc-mode)) face mode-line-branch-face))
+        (:eval (my--vc-git-status))
+        (:eval (my--vc-git-mode))
         ))
 
 (setq-default
