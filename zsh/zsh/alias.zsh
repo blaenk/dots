@@ -72,7 +72,7 @@ fi
 if command_exists rustup; then
   alias rsup='rustup'
   alias rsupdate='rustup update'
-  alias clippy='rustup run nightly cargo clippy'
+  alias clippy='cargo +nightly clippy'
 fi
 
 if command_exists cargo; then
