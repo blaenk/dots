@@ -93,6 +93,8 @@
   (magit-wip-after-apply-mode)
   (magit-wip-before-change-mode)
 
+  (add-hook 'magit-mode-hook 'global-magit-file-mode)
+
   (add-hook 'git-commit-setup-hook #'git-commit-turn-on-flyspell)
   (add-hook 'git-commit-setup-hook #'fci-mode))
 
