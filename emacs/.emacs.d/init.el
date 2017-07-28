@@ -245,15 +245,24 @@
   "w s h" 'evil-window-split
   "w s p" 'my-split-with-previous-buffer)
 
+(defvar-local my-display-column-number nil
+  "Whether or not to display the column number in the mode-line
+
+This is defined instead of using column-number-mode because
+column-number-mode is global, and we want to control this on a
+buffer-local basis.")
+
 (defun my-enable-line-numbers ()
-  (setq-local display-line-numbers 'visual))
+  (setq-local display-line-numbers 'visual)
+  (setq-local my-display-column-number t))
 
 (add-hook 'prog-mode-hook #'my-enable-line-numbers)
 
 (defun my-toggle-line-numbers ()
   (interactive)
 
-  (setq-local display-line-numbers (if display-line-numbers nil 'visual)))
+  (setq-local display-line-numbers (if display-line-numbers nil 'visual))
+  (setq-local my-display-column-number (not my-display-column-number)))
 
 (my-map "t n" 'my-toggle-line-numbers)
 

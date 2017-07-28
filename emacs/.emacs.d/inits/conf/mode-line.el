@@ -208,11 +208,15 @@
 
     (t (my--regular-identification)))))
 
+(defun my--column-number ()
+  (when my-display-column-number
+    (propertize
+     (format "%%%dc " (+ (line-number-display-width) 2))
+     'face 'mode-line-column-face)))
+
 (defvar my-mode-line-left
       `(
-        (:propertize
-         (:eval (format "%%%dc " (+ (line-number-display-width) 2)))
-         face mode-line-column-face)
+        (:eval (my--column-number))
         (anzu-mode
          (:propertize
           (:eval (anzu--update-mode-line))
