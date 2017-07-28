@@ -87,6 +87,19 @@ if command_exists npm; then
   alias nex='PATH=$(npm bin):$PATH'
 fi
 
+if command_exists yarn; then
+  alias y='yarn'
+  alias yr='yarn run'
+  alias yt='yarn test'
+  alias yup='yarn upgrade'
+  alias yout='yarn outdated'
+  alias ya='yarn install'
+  alias yad='yarn --dev install'
+  alias yr='yarn remove'
+  alias yrd='yarn --dev remove'
+  alias yex='PATH=$(yarn bin):$PATH'
+fi
+
 if command_exists gist; then
   alias gist='gist -c -o'
 fi
