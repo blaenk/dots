@@ -588,6 +588,10 @@ Lisp function does not specify a special indentation."
     (my-toggle-ediff-wide-display)
     (my-unfullscreen-if-wasnt))
 
+  (defun my-ediff-janitor ()
+    (ediff-janitor nil nil))
+
+  (add-hook 'ediff-cleanup-hook #'my-ediff-janitor)
   (add-hook 'ediff-prepare-buffer-hook #'my-ediff-prepare)
   (add-hook 'ediff-startup-hook #'my-ediff-start)
   (add-hook 'ediff-suspend-hook #'my-ediff-quit 'append)
