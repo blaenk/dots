@@ -189,6 +189,10 @@
   (set-buffer-modified-p t)
   (save-buffer))
 
+(defun my-touch-buffer ()
+  (interactive)
+  (shell-command (concat "touch " (shell-quote-argument (buffer-file-name)))))
+
 (bind
   [remap eval-last-sexp] 'pp-eval-last-sexp
   [remap eval-expression] 'pp-eval-expression
@@ -230,6 +234,7 @@
   "b b" 'bury-buffer
   "b o" 'my-switch-to-previous-buffer
   "b s" 'my-force-save
+  "b t" 'my-touch-buffer
 
   ;; windows
   "w" '(:ignore t :which-key "window")
