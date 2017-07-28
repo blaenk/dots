@@ -269,34 +269,6 @@ The initial state for a mode can be set with
   :config
   (global-evil-quickscope-mode 1))
 
-(use-package evil-goggles
-  :after evil
-
-  :init
-  (setq evil-goggles-duration 0.100
-
-        ;; to disable the hint when pasting:
-        ;; evil-goggles-enable-paste nil
-
-        ;; list of all on/off variables, their default value is `t`:
-        ;;
-        ;; evil-goggles-enable-delete
-        ;; evil-goggles-enable-indent
-        ;; evil-goggles-enable-yank
-        ;; evil-goggles-enable-join
-        ;; evil-goggles-enable-fill-and-move
-        ;; evil-goggles-enable-paste
-        ;; evil-goggles-enable-shift
-        ;; evil-goggles-enable-surround
-        ;; evil-goggles-enable-commentary
-        ;; evil-goggles-enable-replace-with-register
-        ;; evil-goggles-enable-set-marker
-        )
-
-  :config
-  (evil-goggles-mode)
-  (evil-goggles-use-diff-faces))
-
 (use-package evil-lion
   :after evil
   :config
@@ -376,5 +348,32 @@ The initial state for a mode can be set with
     (evil-forward-arg 1)
     (evil-backward-arg 2)
     (apply 'evil-exchange (evil-inner-arg))))
+
+(use-package evil-goggles
+  :after evil
+
+  :init
+  (setq evil-goggles-duration 0.100
+
+        ;; to disable the hint when pasting:
+        ;; evil-goggles-enable-paste nil
+
+        ;; list of all on/off variables, their default value is `t`:
+        ;;
+        ;; evil-goggles-enable-delete
+        ;; evil-goggles-enable-indent
+        ;; evil-goggles-enable-yank
+        ;; evil-goggles-enable-join
+        ;; evil-goggles-enable-fill-and-move
+        ;; evil-goggles-enable-paste
+        ;; evil-goggles-enable-shift
+        ;; evil-goggles-enable-surround
+        ;; evil-goggles-enable-commentary
+        ;; evil-goggles-enable-replace-with-register
+        ;; evil-goggles-enable-set-marker
+        )
+
+  :config
+  (evil-goggles-mode))
 
 (provide 'conf/evil)
