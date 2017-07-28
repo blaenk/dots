@@ -2,7 +2,7 @@ alias ":q"='exit'
 
 alias reload='killall -USR1 zsh'
 
-alias ls='ls -lh --color=auto'
+alias ls='ls -lh --color=always'
 
 alias less='less -FXr'
 alias -g eless='2>&1 | less'
