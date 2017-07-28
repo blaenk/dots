@@ -216,6 +216,13 @@
                                            :inverse-video unspecified
                                            :weight unspecified))))
 
+        ;; cargo
+        `(cargo-process--standard-face ((,class (:weight bold))))
+        `(cargo-process--warning-face ((,class (:background ,base02))))
+        `(cargo-process--error-face ((,class (:inherit magit-diff-removed-highlight))))
+        `(cargo-process--ok-face ((,class (:inherit magit-diff-added-highlight))))
+        `(cargo-process--errno-face ((,class (:weight bold :underline t))))
+
         ;; evil-quickscope
         `(evil-quickscope-first-face ((,class (:weight bold :underline t))))
         `(evil-quickscope-second-face ((,class (:foreground ,red-lc
