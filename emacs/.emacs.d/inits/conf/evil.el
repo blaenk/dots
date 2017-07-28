@@ -86,6 +86,7 @@
         evil-emacs-state-modes
         '(help-mode
           term-mode
+          compilation-mode
           undo-tree-visualizer-mode))
 
   (setq-default evil-symbol-word-search t
