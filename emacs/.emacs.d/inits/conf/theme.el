@@ -285,6 +285,12 @@
                     :background ,s-mode-line-inactive-bg
                     ))))
 
+        ;; evil-goggles
+        `(evil-goggles-delete-face
+          ((,class (:inherit magit-diff-removed-highlight))))
+        `(evil-goggles-paste-face
+          ((,class (:inherit magit-diff-added-highlight))))
+
         ;; smerge
        `(smerge-markers
          ((,class (:inherit magit-diff-hunk-heading-highlight))))
