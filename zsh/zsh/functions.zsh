@@ -1,7 +1,7 @@
 # open man page and jump to specific option
 # $ manf ls -l
 manf() {
-  man -P "less -p \"^ +$2\"" $1
+  man -P "less -p \"^( +\K$2| +-[^ ]+( or|,) \K$2)\"" $1
 }
 
 # open man page and jump to examples section
