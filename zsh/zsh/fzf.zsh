@@ -118,6 +118,10 @@ fzf-tmux-select-all-window() {
   zle accept-line
 }
 
+# NOTE
+# When inside of tmux, a tmux binding for this takes precedence, which allows us
+# to invoke it while another program is running.
+
 # M-, to fzf all windows in every session
 zle -N fzf-tmux-select-all-window
 bindkey '^[,' fzf-tmux-select-all-window
