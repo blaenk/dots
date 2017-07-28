@@ -4,6 +4,9 @@ alias reload='killall -USR1 zsh'
 
 alias ls='ls -lh --color=auto'
 
+alias less='less -FXr'
+alias -g eless='2>&1 | less'
+
 alias tsup='sudo ntpd -qg'
 
 # fixes weird problem in tmux and ssh with zsh-syntax-highlighting
