@@ -38,6 +38,9 @@
         sp-highlight-wrap-overlay nil
         sp-highlight-wrap-tag-overlay nil
 
+        sp-escape-quotes-after-insert nil
+        sp-escape-wrapped-region nil
+
         sp-autoinsert-pair nil
         sp-autodelete-pair nil
         sp-autodelete-closing-pair nil
