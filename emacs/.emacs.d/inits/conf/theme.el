@@ -29,6 +29,30 @@
         (setq my-theme-loaded t)))
 
     (solarized-with-color-variables my-theme-variant
+      ;; Taken from magit because they're very nice faces, usable in many
+      ;; scenarios. To avoid eager-loading _all_ of magit or waiting for it to
+      ;; load, let's pre-define them here.
+      (defface magit-diff-added-highlight
+        '((((class color) (background light))
+           :background "#cceecc"
+           :foreground "#22aa22")
+          (((class color) (background dark))
+           :background "#336633"
+           :foreground "#cceecc"))
+        "Face for lines in a diff that have been added."
+        :group 'magit-faces)
+
+      (defface magit-diff-removed-highlight
+        '((((class color) (background light))
+           :background "#eecccc"
+           :foreground "#aa2222")
+          (((class color) (background dark))
+           :background "#663333"
+           :foreground "#eecccc"))
+        "Face for lines in a diff that have been removed."
+        :group 'magit-faces)
+
+      ;; Mode line faces
       (defface mode-line-column-face
         `((,class (:background ,s-fringe-bg :foreground ,base1 :weight bold)))
         "column number in mode-line"
