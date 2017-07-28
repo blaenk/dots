@@ -77,7 +77,11 @@ fi
 
 if command_exists cargo; then
   alias c='cargo'
-  alias cargo-update-binaries='cargo +nightly install-update -a'
+  alias cb='cargo build'
+  alias cbl='cargo build --color=always 2>&1 | less -K +F'
+  alias ct='cargo test'
+  alias ctl='cargo test --color=always 2>&1 | less -K +F'
+  alias cup='cargo +nightly install-update -a'
 fi
 
 if command_exists npm; then
