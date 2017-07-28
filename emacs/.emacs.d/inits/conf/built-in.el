@@ -781,7 +781,13 @@ PR [a-z-+]+/\
   (setq compilation-scroll-output 'first-error
         compilation-ask-about-save nil
         compilation-skip-threshold 0
-        compilation-always-kill t))
+        compilation-always-kill t)
+
+  (defun my-compilation-mode-hook ()
+    (setq truncate-lines nil)
+    (set (make-local-variable 'truncate-partial-width-windows) nil))
+
+  (add-hook 'compilation-mode-hook 'my-compilation-mode-hook))
 
 (use-package hl-line
   :ensure nil
