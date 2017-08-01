@@ -147,8 +147,6 @@
 
       tab-always-indent nil
 
-      display-line-numbers-width 3
-
       load-prefer-newer t
       sentence-end-double-space nil
       uniquify-buffer-name-style 'forward
@@ -252,8 +250,14 @@ This is defined instead of using column-number-mode because
 column-number-mode is global, and we want to control this on a
 buffer-local basis.")
 
+(when (>= emacs-major-version 26)
+  (setq display-line-numbers-width 3))
+
 (defun my-enable-line-numbers ()
-  (setq-local display-line-numbers 'visual)
+  (if (< emacs-major-version 26)
+      (relative-line-numbers-mode)
+    (setq-local display-line-numbers 'visual))
+
   (setq-local my-display-column-number t))
 
 (add-hook 'prog-mode-hook #'my-enable-line-numbers)
@@ -261,7 +265,10 @@ buffer-local basis.")
 (defun my-toggle-line-numbers ()
   (interactive)
 
-  (setq-local display-line-numbers (if display-line-numbers nil 'visual))
+  (if (< emacs-major-version 26)
+      (relative-line-numbers-mode 'toggle)
+    (setq-local display-line-numbers (if display-line-numbers nil 'visual)))
+
   (setq-local my-display-column-number (not my-display-column-number)))
 
 (my-map "t n" 'my-toggle-line-numbers)

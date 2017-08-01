@@ -272,6 +272,20 @@
   (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
 
+(use-package relative-line-numbers
+  :if (< emacs-major-version 26)
+
+  :init
+  (defun abs-rel-numbers (offset)
+    (if (= offset 0)
+        (format "%3d " (line-number-at-pos))
+      (format "%3d " (abs offset))))
+
+  (setq relative-line-numbers-format #'abs-rel-numbers
+        relative-line-numbers-motion-function #'forward-visible-line)
+
+  (add-hook 'prog-mode-hook #'relative-line-numbers-mode))
+
 (use-package wgrep :defer t)
 
 ;; TODO

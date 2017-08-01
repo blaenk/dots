@@ -210,9 +210,11 @@
 
 (defun my--column-number ()
   (when my-display-column-number
-    (propertize
-     (format "%%%dc " (+ (line-number-display-width) 2))
-     'face 'mode-line-column-face)))
+    (let ((padding (if (< emacs-major-version 26)
+                       (1- relative-line-numbers--width)
+                     (+ (line-number-display-width) 2))))
+      (propertize (format "%%%dc " padding)
+                  'face 'mode-line-column-face))))
 
 (defvar my-mode-line-left
       `(
