@@ -714,10 +714,10 @@ function! Status(winnum)
       call fugitive#detect(getcwd())
       let head = fugitive#head()
     endif
-  endif
 
-  if !empty(head)
-    let stat .= Color(active, 'SLBranch', ' ← ') . head . ' '
+    if !empty(head)
+      let stat .= Color(active, 'SLBranch', ' ← ') . head . ' '
+    endif
   endif
 
   return stat
