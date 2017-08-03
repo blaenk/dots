@@ -75,6 +75,10 @@ fi
 
 zplug load
 
+command_exists() {
+  (( $+commands[$1]))
+}
+
 # strict control over source order
 sources=(
   'hub'

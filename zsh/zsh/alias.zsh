@@ -1,3 +1,8 @@
+# There are some ways to alter invocations of programs:
+#
+# * nocorrect: don't suggest a correction
+# * noglob: don't interpret glob patterns
+
 alias ":q"='exit'
 
 alias reload='killall -USR1 zsh'
@@ -19,10 +24,6 @@ alias which='type -a'
 
 # prompt if deleting more than 3 files
 alias rm='rm -I'
-
-command_exists() {
-  (( $+commands[$1]))
-}
 
 if command_exists git; then
   alias git='noglob git'
