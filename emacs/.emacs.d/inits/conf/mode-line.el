@@ -223,13 +223,19 @@
 
     (t (my--regular-identification)))))
 
-(defun my--column-number ()
+(defun my--column-number--linum ()
   (when my-display-column-number
-    (let ((padding (if (< emacs-major-version 26)
-                       4
-                     (+ (line-number-display-width) 2))))
-      (propertize (format "%%%dc " padding)
-                  'face 'mode-line-column-face))))
+    (propertize "%4c " 'face 'mode-line-column-face)))
+
+(defun my--column-number--native ()
+  (when my-display-column-number
+    (propertize (format "%%%dc " (+ (line-number-display-width) 2))
+                'face 'mode-line-column-face)))
+
+(fset 'my--column-number
+      (if (< emacs-major-version 26)
+          'my--column-number--linum
+        'my--column-number--native))
 
 (defvar my-mode-line-left
       `(
