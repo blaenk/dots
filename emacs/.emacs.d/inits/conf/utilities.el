@@ -114,6 +114,9 @@
         projectile-known-projects-file (my-cache-dir "projectile-bookmarks.eld")
         projectile-test-suffix-function #'my-projectile-test-suffix-function)
 
+  (when (eq system-type 'windows-nt)
+    (setq projectile-indexing-method 'alien))
+
   :config
   (projectile-global-mode)
 
