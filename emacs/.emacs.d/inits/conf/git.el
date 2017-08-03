@@ -117,7 +117,8 @@
   :after magit
 
   :init
-  (setq magithub-dir (my-cache-dir "magithub"))
+  (setq magithub-dir (my-cache-dir "magithub")
+        magithub-api-timeout 5)
 
   :config
   (magithub-feature-autoinject t))
