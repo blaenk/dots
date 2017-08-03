@@ -1,10 +1,7 @@
 (require 'use-package)
 (require 'conf/common)
 
-(use-package solarized
-  :ensure solarized-theme
-  :defer t
-
+(use-package solarized-theme
   :init
   (eval-when-compile
     (require 'solarized))
@@ -310,6 +307,7 @@
          ((,class (:inherit magit-diff-added-highlight))))))
     )
 
+  :config
   (my-after-frame (my-load-theme)))
 
 (provide 'conf/theme)
