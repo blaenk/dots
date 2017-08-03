@@ -14,6 +14,9 @@ alias sudo='sudo '
 
 alias sedit='sudoedit'
 
+# using `type` is much nicer and provides information for various layers
+alias which='type -a'
+
 # prompt if deleting more than 3 files
 alias rm='rm -I'
 
