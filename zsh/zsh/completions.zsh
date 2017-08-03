@@ -33,3 +33,8 @@ zstyle ':completion::complete:*' cache-path $DOTSPATH/zsh/zsh/cache
 zstyle ':completion:*:functions' ignored-patterns '_*'
 
 zstyle '*' single-ignored complete
+
+if [[ "$OSTYPE" == 'msys' ]]; then
+  local drives=($(mount | command grep --perl-regexp '^\w: on /\w ' | cut --delimiter=' ' --fields=3))
+  zstyle ':completion:*' fake-files "/:${(j. .)drives//\//}"
+fi
