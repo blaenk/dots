@@ -272,19 +272,14 @@
   (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
 
-(use-package relative-line-numbers
+(use-package linum-relative
   :if (< emacs-major-version 26)
 
   :init
-  (defun abs-rel-numbers (offset)
-    (if (= offset 0)
-        (format "%3d " (line-number-at-pos))
-      (format "%3d " (abs offset))))
+  (setq linum-relative-current-symbol ""
+        linum-relative-format "%4s ")
 
-  (setq relative-line-numbers-format #'abs-rel-numbers
-        relative-line-numbers-motion-function #'forward-visible-line)
-
-  (add-hook 'prog-mode-hook #'relative-line-numbers-mode))
+  (add-hook 'prog-mode-hook #'linum-relative-mode))
 
 (use-package wgrep :defer t)
 

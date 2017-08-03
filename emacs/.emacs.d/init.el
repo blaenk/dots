@@ -255,7 +255,7 @@ buffer-local basis.")
 
 (defun my-enable-line-numbers ()
   (if (< emacs-major-version 26)
-      (relative-line-numbers-mode)
+      (linum-relative-mode)
     (setq-local display-line-numbers 'visual))
 
   (setq-local my-display-column-number t))
@@ -266,7 +266,7 @@ buffer-local basis.")
   (interactive)
 
   (if (< emacs-major-version 26)
-      (relative-line-numbers-mode 'toggle)
+      (linum-relative-mode)
     (setq-local display-line-numbers (if display-line-numbers nil 'visual)))
 
   (setq-local my-display-column-number (not my-display-column-number)))

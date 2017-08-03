@@ -204,6 +204,9 @@
         `(line-number-current-line ((,class (:inherit line-number
                                              :foreground ,base1
                                              :weight bold))))
+        `(linum-relative-current-face ((,class (:inherit line-number
+                                                :foreground ,base1
+                                                :weight bold))))
 
         ;; whitespace
         `(whitespace-trailing ((,class (:background ,red-l))))

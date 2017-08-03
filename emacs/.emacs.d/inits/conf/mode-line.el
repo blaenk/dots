@@ -211,7 +211,7 @@
 (defun my--column-number ()
   (when my-display-column-number
     (let ((padding (if (< emacs-major-version 26)
-                       (1- relative-line-numbers--width)
+                       4
                      (+ (line-number-display-width) 2))))
       (propertize (format "%%%dc " padding)
                   'face 'mode-line-column-face))))
