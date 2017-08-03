@@ -132,12 +132,25 @@
     (-when-let ((label . face) state)
       (propertize (s-wrap label " ") 'face face))))
 
+(defvar-local my--vc-git-status-cache ""
+  "Cache the vc-git-status response")
+
 (defun my--vc-git-mode ()
   (-when-let* ((_ buffer-file-name)
                (rev (vc-working-revision buffer-file-name 'Git))
                (disp-rev (or (vc-git--symbolic-ref buffer-file-name)
                              (substring rev 0 7))))
     (concat (propertize (s-wrap disp-rev " ") 'face 'mode-line-branch-face))))
+
+(defvar-local my--vc-git-mode-cache ""
+  "Cache the vc-git-mode response")
+
+(defun my-cache-vc-info ()
+  (setq-local my--vc-git-status-cache (my--vc-git-status))
+  (setq-local my--vc-git-mode-cache (my--vc-git-mode)))
+
+(add-hook 'find-file-hook #'my-cache-vc-info)
+(add-hook 'after-revert-hook #'my-cache-vc-info)
 
 (defun my--is-modified ()
   (and (not buffer-read-only) (buffer-modified-p)))
@@ -245,8 +258,8 @@
          face mode-line-read-only-face)
         (global-flycheck-mode
          (:eval (my--flycheck-mode-line)))
-        (:eval (my--vc-git-status))
-        (:eval (my--vc-git-mode))
+        (:eval my--vc-git-status-cache)
+        (:eval my--vc-git-mode-cache)
         ))
 
 (setq-default
