@@ -21,6 +21,21 @@
                  (lambda (names)
                    (mapconcat 'identity names ", "))))))
 
+(use-package smerge-mode
+  :no-require t
+  :ensure nil
+
+  :general
+  (my-map :infix "g c" :keymaps 'smerge-mode-map
+    "" '(:ignore t :which-key "conflict")
+    "k" 'smerge-keep-current
+    "e" 'smerge-ediff
+    "n" 'smerge-next
+    "p" 'smerge-prev
+    "a" 'smerge-keep-all
+    "u" 'smerge-keep-upper
+    "l" 'smerge-keep-lower))
+
 (use-package git-commit-insert-issue
   :defer t
 
