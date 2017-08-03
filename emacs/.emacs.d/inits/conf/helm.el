@@ -182,7 +182,7 @@
   :config
   (defun my-edit-inits ()
     (interactive)
-    (let ((default-directory "~/.dots"))
+    (let ((default-directory (getenv "DOTSPATH")))
       (helm-projectile-find-file)))
 
   (defun my-open-file (arg)
