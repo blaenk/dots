@@ -113,7 +113,8 @@
     (`finished (my--format-flycheck-errors))))
 
 (defun my--vc-git-status ()
-  (-when-let* ((rev (vc-working-revision buffer-file-name 'Git))
+  (-when-let* ((_ buffer-file-name)
+               (rev (vc-working-revision buffer-file-name 'Git))
                (state
                 (when buffer-file-name
                   ;; I wanted to use `vc-state' here but for some reason, on ignored
@@ -132,7 +133,8 @@
       (propertize (s-wrap label " ") 'face face))))
 
 (defun my--vc-git-mode ()
-  (-when-let* ((rev (vc-working-revision buffer-file-name 'Git))
+  (-when-let* ((_ buffer-file-name)
+               (rev (vc-working-revision buffer-file-name 'Git))
                (disp-rev (or (vc-git--symbolic-ref buffer-file-name)
                              (substring rev 0 7))))
     (concat (propertize (s-wrap disp-rev " ") 'face 'mode-line-branch-face))))
