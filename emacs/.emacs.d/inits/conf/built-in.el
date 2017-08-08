@@ -9,6 +9,21 @@
   :init
   (setq server-auth-dir (my-cache-dir "server")))
 
+(use-package smerge-mode
+  :ensure nil
+  :defer t
+
+  :general
+  (my-map :infix "g c" :keymaps 'smerge-mode-map
+    "" '(:ignore t :which-key "conflict")
+    "n" 'smerge-next
+    "p" 'smerge-prev
+    "k" 'smerge-keep-current
+    "a" 'smerge-keep-all
+    "u" 'smerge-keep-upper
+    "l" 'smerge-keep-lower
+    "e" 'smerge-ediff))
+
 (use-package fringe
   :ensure nil
   :init
