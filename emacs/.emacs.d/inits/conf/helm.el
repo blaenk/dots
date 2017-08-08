@@ -177,14 +177,15 @@
   (my-map
     "o b" 'my-open-buffer
     "o f" 'my-open-file
-    "e e" 'my-edit-inits)
+    "e e" 'my-edit-dots)
 
   :config
-  (defun my-edit-inits ()
+  (defun my-edit-dots ()
     (interactive)
     (ignore-errors
-      (let ((projectile-cached-project-root (getenv "DOTSPATH")))
-        (projectile-find-file-in-directory (getenv "DOTSPATH")))))
+      (let* ((target (getenv "DOTSPATH"))
+             (projectile-cached-project-root target))
+        (projectile-find-file-in-directory target))))
 
   (defun my-open-file (arg)
     (interactive "P")
