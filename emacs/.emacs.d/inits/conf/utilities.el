@@ -197,6 +197,7 @@
 
   :init
   (setq highlight-quoted-highlight-symbols nil)
+
   (add-hook 'emacs-lisp-mode-hook #'highlight-quoted-mode))
 
 (use-package undo-tree
