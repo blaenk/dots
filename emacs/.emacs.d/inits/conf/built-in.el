@@ -2,6 +2,13 @@
 (require 'general)
 (require 'conf/common)
 
+(use-package server
+  :ensure nil
+  :defer t
+
+  :init
+  (setq server-auth-dir (my-cache-dir "server")))
+
 (use-package fringe
   :ensure nil
   :init
