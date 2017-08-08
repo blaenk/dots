@@ -182,7 +182,9 @@
   :config
   (defun my-edit-inits ()
     (interactive)
-    (projectile-find-file-in-directory (getenv "DOTSPATH")))
+    (ignore-errors
+      (let ((projectile-cached-project-root (getenv "DOTSPATH")))
+        (projectile-find-file-in-directory (getenv "DOTSPATH")))))
 
   (defun my-open-file (arg)
     (interactive "P")
