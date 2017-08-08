@@ -182,8 +182,7 @@
   :config
   (defun my-edit-inits ()
     (interactive)
-    (let ((default-directory (getenv "DOTSPATH")))
-      (helm-projectile-find-file)))
+    (projectile-find-file-in-directory (getenv "DOTSPATH")))
 
   (defun my-open-file (arg)
     (interactive "P")
