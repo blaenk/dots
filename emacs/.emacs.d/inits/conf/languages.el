@@ -44,8 +44,6 @@
         markdown-gfm-additional-languages '("cpp" "elisp" "postgresql"))
 
   (defun my-markdown-mode-hook ()
-    (interactive)
-
     (setq-local word-wrap t)
     (setq-local outline-regexp "^\\(?:\\(#+\\)[ \t]+\\(.*?\\)[ \t]*\\(#*\\)\\)$")
 
