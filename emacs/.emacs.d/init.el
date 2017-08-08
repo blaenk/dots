@@ -212,6 +212,9 @@
 
 (my-map
   "e" '(:ignore t :which-key "emacs")
+  "e f f" 'find-function
+  "e f l" 'find-library
+
   "o" '(:ignore t :which-key "open")
   "o a" '(:ignore t :which-key "all")
   "t" '(:ignore t :which-key "toggle")
