@@ -63,8 +63,14 @@
   :defer t
 
   :init
-  (setq git-commit-summary-max-length 50
-        git-commit-fill-column 72)
+  (setq git-commit-summary-max-length 50)
+
+  (defun my-git-commit-setup-hook ()
+    (setq-local fill-column 72))
+
+  (add-hook 'git-commit-setup-hook #'my-git-commit-setup-hook)
+  (add-hook 'git-commit-setup-hook #'git-commit-turn-on-flyspell)
+  (add-hook 'git-commit-setup-hook #'fci-mode)
 
   :config
   (add-to-list 'git-commit-style-convention-checks 'overlong-summary-line))
@@ -109,10 +115,7 @@
     (magit-wip-after-apply-mode)
     (magit-wip-before-change-mode))
 
-  (add-hook 'magit-mode-hook 'global-magit-file-mode)
-
-  (add-hook 'git-commit-setup-hook #'git-commit-turn-on-flyspell)
-  (add-hook 'git-commit-setup-hook #'fci-mode))
+  (add-hook 'magit-mode-hook 'global-magit-file-mode))
 
 (use-package magithub
   :after magit
