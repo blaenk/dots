@@ -33,9 +33,15 @@
    "j" 'evil-next-visual-line
    "k" 'evil-previous-visual-line)
 
-  :init
-  (my-map
+  (my-map :keymaps '(markdown-mode-map gfm-mode-map)
+    "m c" 'my-insert-gfm-code-block
     "t t" 'orgtbl-mode)
+
+  :init
+  (defun my-insert-gfm-code-block ()
+    (interactive)
+    (call-interactively 'markdown-insert-gfm-code-block)
+    (evil-insert-state))
 
   (setq markdown-enable-math t
         markdown-asymmetric-header t
