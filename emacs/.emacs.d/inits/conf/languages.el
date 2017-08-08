@@ -52,8 +52,8 @@
       (push '(?i . ("_" . "_")) evil-surround-pairs-alist)
       (push '(?p . ("<span class=\"path\">" . "</span>")) evil-surround-pairs-alist)))
 
-  (add-hook 'markdown-mode-hook #'olivetti-mode)
   (add-hook 'markdown-mode-hook #'my-markdown-mode-hook)
+  (add-hook 'markdown-mode-hook #'olivetti-mode)
   (add-hook 'markdown-mode-hook #'outline-minor-mode)
   (add-hook 'markdown-mode-hook #'flyspell-mode)
   (add-hook 'markdown-mode-hook #'visual-line-mode)
