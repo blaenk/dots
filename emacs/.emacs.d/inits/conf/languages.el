@@ -41,7 +41,7 @@
         markdown-asymmetric-header t
         markdown-italic-underscore t
         markdown-use-pandoc-style-yaml-metadata t
-        markdown-gfm-additional-languages '("cpp" "elisp"))
+        markdown-gfm-additional-languages '("cpp" "elisp" "postgresql"))
 
   (defun my-markdown-mode-hook ()
     (interactive)
