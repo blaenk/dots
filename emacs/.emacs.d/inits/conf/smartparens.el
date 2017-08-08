@@ -32,26 +32,11 @@
     "> f" 'my-move-form-forward)
 
   :init
-  (setq sp-show-pair-from-inside nil
+  (defun my-emacs-lisp-mode-smartparens ()
+    (electric-pair-local-mode -1)
+    (smartparens-mode +1))
 
-        sp-highlight-pair-overlay nil
-        sp-highlight-wrap-overlay nil
-        sp-highlight-wrap-tag-overlay nil
-
-        sp-escape-quotes-after-insert nil
-        sp-escape-wrapped-region nil
-
-        sp-autoinsert-pair nil
-        sp-autodelete-pair nil
-        sp-autodelete-closing-pair nil
-        sp-autodelete-opening-pair nil
-        sp-autoskip-closing-pair nil
-        sp-autoskip-opening-pair nil
-        sp-cancel-autoskip-on-backward-movement nil
-        sp-autodelete-wrap nil
-        sp-autowrap-region nil)
-
-  (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
+  (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-smartparens)
 
   :config
   (sp-use-paredit-bindings)
