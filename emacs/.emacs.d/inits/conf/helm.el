@@ -27,7 +27,8 @@
   (:keymaps 'helm-map
    "<tab>" 'helm-execute-persistent-action
    "C-i" 'helm-execute-persistent-action
-   "C-z" 'helm-select-action)
+   "C-z" 'helm-select-action
+   "C-w" 'my-backward-delete-word)
 
   :init
   (setq helm-split-window-in-side-p t

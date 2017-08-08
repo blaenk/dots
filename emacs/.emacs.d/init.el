@@ -204,6 +204,20 @@
 
   "C-S-x C-S-s" 'my-force-save)
 
+(defun my-backward-kill-line ()
+  (interactive)
+  (kill-line 0))
+
+(defun my-backward-delete-word (arg)
+  "Delete characters backward until encountering the beginning of a word.
+With argument ARG, do this that many times."
+  (interactive "p")
+  (delete-region (point) (progn (backward-word arg) (point))))
+
+(bind :keymaps 'minibuffer-local-map
+  "C-u" 'my-backward-kill-line
+  "C-w" 'my-backward-delete-word)
+
 ;; C-c prefix:
 ;;
 ;; @ hs
