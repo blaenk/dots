@@ -409,11 +409,7 @@
         (yas-insert-snippet)
       (yas-expand)))
 
-  (defun my-evil-insert-before-yasnippet-expand ()
-    (evil-insert-state))
-
-  (add-hook 'yas-before-expand-snippet-hook
-            #'my-evil-insert-before-yasnippet-expand)
+  (add-hook 'yas-before-expand-snippet-hook #'evil-insert-state)
 
   (add-hook 'after-init-hook 'yas-global-mode))
 
