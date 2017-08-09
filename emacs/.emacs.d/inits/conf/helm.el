@@ -185,8 +185,10 @@
     (interactive)
     (ignore-errors
       (let* ((target (getenv "DOTSPATH"))
-             (projectile-cached-project-root target))
-        (projectile-find-file-in-directory target))))
+             (default-directory target)
+             (projectile-cached-project-root target)
+             (projectile-require-project-root nil))
+        (helm-projectile-find-file))))
 
   (defun my-open-file (arg)
     (interactive "P")
