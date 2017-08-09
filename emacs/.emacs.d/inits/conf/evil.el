@@ -198,6 +198,31 @@
     (evil-normal-state)
     (evil-visual-restore))
 
+  (evil-define-command my-evil-paste-before-and-indent
+    (count &optional register yank-handler)
+    "Pastes the latest yanked text before point
+ and gives it the same indentation as the surrounding code.
+ The return value is the yanked text."
+    (interactive "P<x>")
+    (evil-with-single-undo
+      (evil-paste-before count register yank-handler)
+      (evil-indent (evil-get-marker ?[) (evil-get-marker ?]))))
+
+  (evil-define-command my-evil-paste-after-and-indent
+    (count &optional register yank-handler)
+    "Pastes the latest yanked text behind point
+ and gives it the same indentation as the surrounding code.
+ The return value is the yanked text."
+    (interactive "P<x>")
+    (evil-with-single-undo
+      (evil-paste-after count register yank-handler)
+      (evil-indent (evil-get-marker ?[) (evil-get-marker ?]))))
+
+  (define-key evil-normal-state-map "]p" 'my-evil-paste-after-and-indent)
+  (define-key evil-normal-state-map "]P" 'my-evil-paste-before-and-indent)
+  (define-key evil-normal-state-map "[p" 'my-evil-paste-before-and-indent)
+  (define-key evil-normal-state-map "[P" 'my-evil-paste-before-and-indent)
+
   (defun my-evil-open-in-between ()
     (interactive)
 
