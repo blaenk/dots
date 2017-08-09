@@ -6,10 +6,6 @@
   :diminish helm-mode
 
   :general
-  (my-map
-    "h" '(:keymap helm-command-map :which-key "helm")
-    "o r" 'helm-recentf)
-
   ("M-x" 'helm-M-x
    "M-y" 'helm-show-kill-ring
    "M-i" 'helm-semantic-or-imenu
@@ -29,6 +25,10 @@
    "C-i" 'helm-execute-persistent-action
    "C-z" 'helm-select-action
    "C-w" 'my-backward-delete-word)
+
+  (my-map
+    "h" '(:keymap helm-command-map :which-key "helm")
+    "o r" 'helm-recentf)
 
   :init
   (setq helm-split-window-in-side-p t
@@ -255,8 +255,7 @@
     (interactive)
     (push-mark-no-activate)
     (flyspell-goto-next-error)
-    (call-interactively #'helm-flyspell-correct))
-  )
+    (call-interactively #'helm-flyspell-correct)))
 
 (use-package persp-projectile
   :disabled t
