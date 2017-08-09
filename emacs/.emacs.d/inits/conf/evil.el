@@ -10,9 +10,6 @@
   (:keymaps 'motion
    "M-l" 'my-clear-search
 
-   "j" 'evil-next-visual-line
-   "k" 'evil-previous-visual-line
-
    "C-k" 'evil-scroll-up
    "C-j" 'evil-scroll-down)
 
@@ -23,6 +20,9 @@
    ;; still able to shift things in normal mode
    "< <" 'evil-shift-left-line
    "> >" 'evil-shift-right-line
+
+   "j" 'evil-next-visual-line
+   "k" 'evil-previous-visual-line
 
    "g p" 'exchange-point-and-mark
 
