@@ -68,26 +68,7 @@
 
         evil-search-module 'evil-search
 
-        ;; TODO show trailing whitespace in combination with this?
-        ;; evil-move-cursor-back nil
-
-        evil-want-C-w-delete t
-        evil-default-state 'emacs
-        evil-normal-state-modes
-        '(text-mode
-          prog-mode
-          fundamental-mode
-          css-mode
-          conf-mode
-          TeX-mode
-          LaTeX-mode
-          yaml-mode
-          restclient-mode)
-        evil-emacs-state-modes
-        '(help-mode
-          term-mode
-          compilation-mode
-          undo-tree-visualizer-mode))
+        evil-want-C-w-delete t)
 
   (setq-default evil-symbol-word-search t
                 evil-shift-width 2
@@ -99,35 +80,6 @@
 
     (setq evil-complete-next-func #'my-evil-company
           evil-complete-previous-func #'my-evil-company))
-
-  (defun my-evil--real-function (fun)
-    "Figure out the actual symbol behind a function.
-Returns a different symbol if FUN is an alias, otherwise FUN."
-    (let ((symbol-function (symbol-function fun)))
-      (if (symbolp symbol-function)
-          symbol-function
-        fun)))
-
-  (defun my-evil--derived-mode-p (mode modes)
-    (let ((parent (my-evil--real-function mode)))
-      (while (and parent (not (memq parent modes)))
-        (setq parent (my-evil--real-function (get parent 'derived-mode-parent))))
-      parent))
-
-  (with-eval-after-load 'evil-core
-    (defun evil-initial-state (mode &optional default)
-      "Return the Evil state to use for MODE.
-Returns DEFAULT if no initial state is associated with MODE.
-The initial state for a mode can be set with
-`evil-set-initial-state'."
-      (let (state modes)
-        (catch 'done
-          (dolist (entry (nreverse (evil-state-property t :modes)) default)
-            (setq state (car entry)
-                  modes (symbol-value (cdr entry)))
-            (when (or (memq mode modes)
-                      (my-evil--derived-mode-p mode modes))
-              (throw 'done state)))))))
 
   (add-hook 'after-init-hook 'evil-mode)
 
