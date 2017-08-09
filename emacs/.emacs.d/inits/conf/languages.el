@@ -254,11 +254,10 @@
 
   (add-hook 'js2-mode-hook #'my-js2-hook))
 
-(use-package rjsx-mode :defer t)
+(use-package rjsx-mode
+  :mode "/\\(components\\|containers\\)/.+\\.js")
 
 (use-package json-mode
-  :defer t
-
   :mode
   (("\\.eslintrc\\'" . json-mode)
    ("\\.babelrc\\'" . json-mode))
