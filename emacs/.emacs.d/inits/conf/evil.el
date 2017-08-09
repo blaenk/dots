@@ -183,8 +183,7 @@
     :motion evil-line
     :type line
     (interactive "<r><vc>")
-    (evil-shift-left beg end)
-    ;; TODO necessary?
+    (call-interactively 'evil-shift-left)
     (evil-normal-state)
     (evil-visual-restore))
 
@@ -194,7 +193,7 @@
     :motion evil-line
     :type line
     (interactive "<r><vc>")
-    (evil-shift-right beg end)
+    (call-interactively 'evil-shift-right)
     (evil-normal-state)
     (evil-visual-restore))
 
