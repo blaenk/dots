@@ -76,7 +76,7 @@
 
   (with-eval-after-load 'company
     (defun my-evil-company (arg)
-      (company-complete))
+      (call-interactively 'company-complete))
 
     (setq evil-complete-next-func #'my-evil-company
           evil-complete-previous-func #'my-evil-company))
