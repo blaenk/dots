@@ -47,6 +47,11 @@
 (use-package git-commit
   :defer t
 
+  :general
+  (:keymaps 'git-commit-mode-map
+   "M-K" 'scroll-other-window-down
+   "M-J" 'scroll-other-window)
+
   :init
   (setq git-commit-summary-max-length 50)
 
