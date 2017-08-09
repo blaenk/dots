@@ -29,7 +29,7 @@
 
   :general
   (:keymaps '(markdown-mode-map gfm-mode-map)
-   :states 'normal
+   :states 'motion
    "j" 'evil-next-visual-line
    "k" 'evil-previous-visual-line)
 
