@@ -7,26 +7,14 @@
   :defines my-evil-join
 
   :general
-  (:keymaps 'emacs
-   "C-w" 'evil-window-map)
+  (:keymaps 'motion
+   "M-l" 'my-clear-search
 
-  (my-map
-    "k w" 'evil-window-delete
+   "j" 'evil-next-visual-line
+   "k" 'evil-previous-visual-line
 
-    "w k" 'evil-window-up
-    "w j" 'evil-window-down
-    "w h" 'evil-window-left
-    "w l" 'evil-window-right)
-
-  (:keymaps 'insert
-   "C-y" 'my-evil-insert-mode-paste
-
-   "C-u" 'my-kill-line
-   "C-l" 'move-end-of-line)
-
-  (:keymaps 'visual
-   ">" 'visual-shift-right
-   "<" 'visual-shift-left)
+   "C-k" 'evil-scroll-up
+   "C-j" 'evil-scroll-down)
 
   (:keymaps 'normal
    "<" nil
@@ -38,16 +26,18 @@
 
    "g p" 'exchange-point-and-mark
 
-   "j" 'evil-next-visual-line
-   "k" 'evil-previous-visual-line
+   "M-o" 'my-evil-open-in-between)
 
-   "M-l" 'my-clear-search
-   "M-o" 'my-evil-open-in-between
+  (:keymaps 'visual
+   ">" 'my-visual-shift-right
+   "<" 'my-visual-shift-left)
 
-   "C-k" 'evil-scroll-up
-   "C-j" 'evil-scroll-down)
+  (:keymaps 'insert
+   "C-y" 'my-evil-insert-mode-paste
+   "C-u" 'my-kill-line
+   "C-l" 'move-end-of-line)
 
-  (:keymaps 'evil-window-map
+  (:keymaps 'window
    "<left>" 'winner-undo
    "u" 'winner-undo
 
@@ -58,6 +48,17 @@
    "m j" 'buf-move-down
    "m h" 'buf-move-left
    "m l" 'buf-move-right)
+
+  (:keymaps 'emacs
+   "C-w" 'evil-window-map)
+
+  (my-map
+    "k w" 'evil-window-delete
+
+    "w k" 'evil-window-up
+    "w j" 'evil-window-down
+    "w h" 'evil-window-left
+    "w l" 'evil-window-right)
 
   :init
   ;; don't auto-copy visual selections
@@ -177,7 +178,7 @@
     (evil-paste-before 1)
     (forward-char))
 
-  (evil-define-operator visual-shift-left (beg end type)
+  (evil-define-operator my-visual-shift-left (beg end type)
     "shift text to the left"
     :keep-visual t
     :motion evil-line
@@ -187,7 +188,7 @@
     (evil-normal-state)
     (evil-visual-restore))
 
-  (evil-define-operator visual-shift-right (beg end type)
+  (evil-define-operator my-visual-shift-right (beg end type)
     "shift text to the right"
     :keep-visual t
     :motion evil-line
