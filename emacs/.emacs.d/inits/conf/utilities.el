@@ -7,6 +7,10 @@
   ([remap describe-mode] 'discover-my-major
    "C-h M-m" 'discover-my-mode))
 
+(use-package beginend
+  :config
+  (beginend-global-mode))
+
 (use-package sudo-edit
   :defer t
 
