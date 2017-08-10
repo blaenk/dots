@@ -37,13 +37,29 @@
    "C-u" 'my-kill-line
    "C-l" 'move-end-of-line)
 
-  (:keymaps 'window
+  (:keymaps 'evil-window-map
    "<left>" 'winner-undo
    "u" 'winner-undo
 
    "<right>" 'winner-redo
    "r" 'winner-redo
 
+   "o" 'delete-other-windows
+
+   "k" 'evil-window-up
+   "j" 'evil-window-down
+   "h" 'evil-window-left
+   "l" 'evil-window-right
+
+   ;; windows
+   "f" 'my-pop-to-frame
+
+   "s" '(nil :which-key "split")
+   "s v" 'evil-window-vsplit
+   "s h" 'evil-window-split
+   "s p" 'my-split-with-previous-buffer
+
+   "m" '(:ignore t :which-key "move")
    "m k" 'buf-move-up
    "m j" 'buf-move-down
    "m h" 'buf-move-left
@@ -53,12 +69,8 @@
    "C-w" 'evil-window-map)
 
   (my-map
-    "k w" 'evil-window-delete
-
-    "w k" 'evil-window-up
-    "w j" 'evil-window-down
-    "w h" 'evil-window-left
-    "w l" 'evil-window-right)
+    "w" '(:keymap evil-window-map :which-key "window")
+    "k w" 'evil-window-delete)
 
   :init
   ;; don't auto-copy visual selections

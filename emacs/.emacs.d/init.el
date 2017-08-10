@@ -250,16 +250,7 @@ With argument ARG, do this that many times."
   "b b" 'bury-buffer
   "b o" 'my-switch-to-previous-buffer
   "b s" 'my-force-save
-  "b t" 'my-touch-buffer
-
-  ;; windows
-  "w" '(:ignore t :which-key "window")
-  "w f" 'my-pop-to-frame
-
-  "w s" '(:ignore t :which-key "split")
-  "w s v" 'evil-window-vsplit
-  "w s h" 'evil-window-split
-  "w s p" 'my-split-with-previous-buffer)
+  "b t" 'my-touch-buffer)
 
 (defvar-local my-display-column-number nil
   "Whether or not to display the column number in the mode-line

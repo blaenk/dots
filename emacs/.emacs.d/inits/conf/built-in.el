@@ -92,11 +92,6 @@
 (use-package winner
   :ensure nil
 
-  :general
-  (my-map
-    "w u" 'winner-undo
-    "w r" 'winner-redo)
-
   :init
   (winner-mode 1))
 

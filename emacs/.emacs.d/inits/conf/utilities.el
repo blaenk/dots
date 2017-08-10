@@ -310,7 +310,6 @@
 
   :general
   (my-map
-    "w o" 'ace-window
     "o w" 'ace-window)
 
   :init
