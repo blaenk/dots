@@ -4,6 +4,19 @@
 (require 'f)
 (require 'cl)
 
+(use-package ahk-mode
+  :if (eq system-type 'windows-nt)
+  :defer t
+
+  :init
+  (setq ahk-indentation 2)
+
+  (defun my-ahk-mode-hook()
+    (hack-local-variables)
+    (run-mode-hooks 'prog-mode-hook))
+
+  (add-hook 'ahk-mode-hook 'my-ahk-mode-hook))
+
 (use-package dockerfile-mode :defer t)
 
 (use-package systemd :defer t)
