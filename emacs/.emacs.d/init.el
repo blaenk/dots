@@ -66,11 +66,6 @@
     "Whether emacs should run benchmark-init"))
 
 (use-package auto-compile
-  ;; auto-compile seems to break on Windows in emacs-git.
-  ;; It does go ahead and compile files, but then subsequent emacs sessions are
-  ;; not able to interpret the bytecode without error.
-  :if (not (eq system-type 'windows-nt))
-
   :defines
   auto-compile-display-buffer
 
