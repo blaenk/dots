@@ -13,6 +13,11 @@
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)
                 flycheck-emacs-lisp-load-path 'inherit)
 
+  (defun my-flycheck-error-list-hook ()
+    (select-window (get-buffer-window flycheck-error-list-buffer)))
+
+  (add-hook 'flycheck-error-list-after-refresh-hook 'my-flycheck-error-list-hook)
+
   (defun my-use-eslint-from-node-modules ()
     (let* ((root (locate-dominating-file
                   (or (buffer-file-name) default-directory)
