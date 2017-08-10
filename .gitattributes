@@ -1,4 +1,6 @@
 X11/.urxvt/ext/* linguist-vendored
+ahk/Lib/* linguist-vendored
+ahk/Lib/Common.ahk linguist-vendored=false
 
 # jquery.js linguist-vendored=false
 # *.rb linguist-language=Java
