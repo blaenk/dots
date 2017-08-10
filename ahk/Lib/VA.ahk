@@ -913,3 +913,18 @@ VA_IAudioSessionEnumerator_GetSession(this, SessionCount, ByRef Session) {
 VA_xIPolicyConfigVista_SetDefaultEndpoint(this, DeviceId, Role) {
     return DllCall(NumGet(NumGet(this+0)+12*A_PtrSize), "ptr", this, "wstr", DeviceId, "int", Role)
 }
+
+VA_ISimpleAudioVolume_SetMasterVolume(this, ByRef fLevel, GuidEventContext="")
+{
+  return DllCall(NumGet(NumGet(this+0)+3*A_PtrSize)
+                , "ptr", this
+                , "float", fLevel
+                , "ptr", VA_GUID(GuidEventContext))
+}
+
+VA_ISimpleAudioVolume_SetMute(this, ByRef Muted, GuidEventContext="") {
+  return DllCall(NumGet(NumGet(this+0)+5*A_PtrSize)
+                , "ptr", this
+                , "int", Muted
+                , "ptr", VA_GUID(GuidEventContext))
+}
