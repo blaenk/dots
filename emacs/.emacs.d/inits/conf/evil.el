@@ -97,6 +97,8 @@
   (add-hook 'after-init-hook 'evil-mode)
 
   :config
+  (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
+
   (eval-when-compile
     (require 'evil-macros)
     (require 'evil-types))
