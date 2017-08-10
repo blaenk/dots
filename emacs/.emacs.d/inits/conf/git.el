@@ -100,7 +100,7 @@
   (with-eval-after-load 'magit-ediff
     (add-hook 'magit-ediff-quit-hook #'my-ediff-quit))
 
-  (when (eq system-type 'windows-nt)
+  (when (not (eq system-type 'windows-nt))
     (magit-wip-after-save-mode)
     (magit-wip-after-apply-mode)
     (magit-wip-before-change-mode))
