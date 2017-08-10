@@ -112,7 +112,7 @@
    "C-c a" 'my-helm-ag-launch-ag)
 
   (my-map
-    "e s" 'my-search-dots)
+    ". s" 'my-search-dots)
 
   :init
   (defun my-search-dots ()
@@ -187,7 +187,8 @@
   (my-map
     "o b" 'my-open-buffer
     "o f" 'my-open-file
-    "e e" 'my-edit-dots)
+    "o ." 'my-edit-dots
+    ". f" 'my-edit-dots)
 
   :config
   (defun my-edit-dots ()

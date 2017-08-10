@@ -218,8 +218,11 @@ With argument ARG, do this that many times."
   "e f l" 'find-library
   "e f v" 'find-variable
 
+  "." '(:ignore t :which-key "dots")
+
   "o" '(:ignore t :which-key "open")
   "o a" '(:ignore t :which-key "all")
+
   "t" '(:ignore t :which-key "toggle")
 
   "m" '(:ignore t :which-key "mode")
