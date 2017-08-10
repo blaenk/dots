@@ -223,6 +223,7 @@ With argument ARG, do this that many times."
   "e" '(:ignore t :which-key "emacs")
   "e f f" 'find-function
   "e f l" 'find-library
+  "e f v" 'find-variable
 
   "o" '(:ignore t :which-key "open")
   "o a" '(:ignore t :which-key "all")
