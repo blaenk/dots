@@ -131,7 +131,6 @@
 
       help-window-select t
 
-      confirm-kill-emacs #'y-or-n-p
       custom-file (my-cache-dir "custom.el")
 
       scroll-conservatively 10000
