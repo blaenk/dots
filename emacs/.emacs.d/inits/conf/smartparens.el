@@ -1,21 +1,24 @@
 (require 'use-package)
 (require 'general)
+(require 'dash)
 
 (use-package smartparens
   :diminish smartparens-mode
 
   :general
-  (:keymaps 'smartparens-mode-map
+  (:keymaps 'emacs-lisp-mode-map
     "M-S" 'sp-split-sexp
     "M-J" 'sp-join-sexp)
 
-  (:keymaps 'smartparens-mode-map
+  (:keymaps 'emacs-lisp-mode-map
    :states 'normal
     "> )" 'my-move-closing-paren-forward
     "< )" 'my-move-closing-paren-backward
+
     "> (" 'my-move-opening-paren-forward
     "< (" 'my-move-opening-paren-backward
 
+    "C-S-<backspace>" 'sp-splice-sexp-killing-around
     "< u" 'sp-splice-sexp-killing-backward
     "> u" 'sp-splice-sexp-killing-forward
 
@@ -28,55 +31,54 @@
     "< i" 'my-insert-before-form
     "> i" 'my-insert-after-form
 
-    "< f" 'my-move-form-backward
-    "> f" 'my-move-form-forward)
-
-  :init
-  (defun my-emacs-lisp-mode-smartparens ()
-    (electric-pair-local-mode -1)
-    (smartparens-mode +1))
-
-  (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-smartparens)
+    "< f" 'my-restricted-move-form-backward
+    "> f" 'my-restricted-move-form-forward)
 
   :config
-  (sp-use-paredit-bindings)
-
   (with-eval-after-load 'evil
     (use-package on-parens
       :after smartparens
+
       :config
       (eval-when-compile
         (require 'smartparens))
 
+      ;; This is all inspired by this awesome vim package:
       ;; https://github.com/tpope/vim-sexp-mappings-for-regular-people
 
       (defun my-evil-goto-char (pos)
-        (when (evil-normal-state-p) (decf pos))
-        (goto-char pos))
+        (goto-char
+         (if (evil-normal-state-p)
+             (1- pos)
+           pos)))
 
       ;; TODO evil-commentary delegating sp-comment wrapper?
 
       (defun my-move-closing-paren-forward ()
         (interactive)
         (on-parens-forward-slurp)
+
         ;; get back on paren
         (sp-get (sp-get-enclosing-sexp) (my-evil-goto-char :end)))
 
       (defun my-move-closing-paren-backward ()
         (interactive)
         (on-parens-forward-barf)
+
         ;; get back on paren
         (sp-restrict-to-object 'sp-prefix-pair-object 'sp-backward-down-sexp))
 
       (defun my-move-opening-paren-forward ()
         (interactive)
         (on-parens-backward-barf)
+
         ;; get back on paren
         (sp-restrict-to-object 'sp-prefix-pair-object 'sp-next-sexp))
 
       (defun my-move-opening-paren-backward ()
         (interactive)
         (on-parens-backward-slurp)
+
         ;; get back on paren
         (sp-get (sp-get-enclosing-sexp) (my-evil-goto-char (+ :beg 1))))
 
@@ -90,7 +92,7 @@
 
       (defun my-delete-sexp-backward ()
         (interactive)
-        (sp-kill-sexp '(-4)))
+        (on-parens-kill-sexp '(-4)))
 
       (defun my-delete-sexp-forward ()
         (interactive)
@@ -99,7 +101,7 @@
         ;; so we'll hack it by simply using forward-char
         ;; even on-parens-kill-sexp doesn't seem to work
         (forward-char)
-        (sp-kill-sexp '(4)))
+        (on-parens-kill-sexp '(4)))
 
       (defun my-sp-get-current-non-string-sexp (pos)
         "get the enclosing, non-string sexp"
@@ -107,21 +109,19 @@
           (if (or (eq pos (sp-get current-sexp :beg))
                   (eq pos (sp-get current-sexp :end)))
               current-sexp
-            (let* ((enclosing-sexp (sp-get-enclosing-sexp))
-                   (op (sp-get enclosing-sexp :op))
-                   (end (sp-get enclosing-sexp :end)))
-              (when enclosing-sexp
-                (if (string-equal op "\"")
-                    (my-sp-get-current-non-string-sexp (goto-char end))
-                  enclosing-sexp))))))
+            (-when-let* ((enclosing-sexp (sp-get-enclosing-sexp))
+                         (op (sp-get enclosing-sexp :op))
+                         (end (sp-get enclosing-sexp :end)))
+              (if (string-equal op "\"")
+                  (my-sp-get-current-non-string-sexp (goto-char end))
+                enclosing-sexp)))))
 
       (defun my-sp-end-of-current-sexp (pos)
         "jump to the end of the current, non-string sexp"
         (interactive "d")
 
-        (let ((end (sp-get (my-sp-get-current-non-string-sexp pos) :end)))
-          (when end
-            (my-evil-goto-char end))))
+        (-when-let (end (sp-get (my-sp-get-current-non-string-sexp pos) :end))
+          (my-evil-goto-char end)))
 
       (defmacro my-save-position (&rest body)
         "restore column and form-relative line number"
@@ -129,21 +129,23 @@
                 (pos (point))
                 (begin-line (line-number-at-pos pos)))
            (my-sp-end-of-current-sexp pos)
-           (when (evil-normal-state-p) (forward-char))
+
+           (when (evil-normal-state-p)
+             (forward-char))
 
            (let* ((end-line (line-number-at-pos (point))))
              ,@body
              (forward-line (- begin-line end-line))
              (move-to-column column))))
 
-      (defun move-form-forward (pos &optional arg)
+      (defun my-move-form-forward (pos &optional arg)
         "move a form forward"
         (interactive "d *p")
 
         (my-save-position
           (sp-transpose-sexp)))
 
-      (defun move-form-backward (pos &optional arg)
+      (defun my-move-form-backward (pos &optional arg)
         "move a form backward"
         (interactive "d *p")
 
@@ -154,7 +156,7 @@
         "move a symbol backward"
         (interactive "*p")
 
-        (unless (looking-at-p "\)\\|\(")
+        (unless (on-parens-on-delimiter?)
           (evil-forward-word-end)
           (evil-backward-WORD-begin))
 
@@ -165,31 +167,36 @@
       (defun my-move-symbol-forward (&optional arg)
         "move a symbol forward"
         (interactive "*p")
+
         (on-parens-forward-sexp arg)
         (sp-transpose-sexp)
         (backward-char)
         (on-parens-backward-sexp arg))
 
-      (defun my-insert-before-form ()
+      (defun my-insert-before-form (&optional arg)
         "jump to the beginning of the sexp and go into insert mode"
-        (interactive)
+        (interactive "*p")
+
         (sp-beginning-of-sexp)
-        (evil-insert 0))
+        (evil-insert-state))
 
-      (defun my-insert-after-form ()
+      (defun my-insert-after-form (&optional arg)
         "jump to the end of the sexp and go into insert mode"
-        (interactive)
+        (interactive "*p")
+
         (sp-end-of-sexp)
-        (evil-insert 0))
+        (evil-insert-state))
 
-      (defun my-move-form-backward ()
-        (interactive)
-        (sp-restrict-to-object
-         'sp-prefix-pair-object 'move-form-backward))
+      (defun my-restricted-move-form-backward (&optional arg)
+        (interactive "*p")
 
-      (defun my-move-form-forward ()
-        (interactive)
         (sp-restrict-to-object
-         'sp-prefix-pair-object 'move-form-forward)))))
+         'sp-prefix-pair-object 'my-move-form-backward))
+
+      (defun my-restricted-move-form-forward (&optional arg)
+        (interactive "*p")
+
+        (sp-restrict-to-object
+         'sp-prefix-pair-object 'my-move-form-forward)))))
 
 (provide 'conf/smartparens)
