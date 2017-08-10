@@ -376,8 +376,10 @@
   (defun my-emmet-jsx ()
     (setq-local emmet-expand-jsx-className? t))
 
+  (add-hook 'rjsx-mode-hook #'my-emmet-jsx)
   (add-hook 'js2-jsx-mode-hook #'my-emmet-jsx)
 
+  (add-hook 'rjsx-mode-hook #'emmet-mode)
   (add-hook 'js2-mode-hook #'emmet-mode)
   (add-hook 'js2-jsx-mode-hook #'emmet-mode)
   (add-hook 'sgml-mode-hook #'emmet-mode)
