@@ -99,6 +99,9 @@
   :config
   (evil-set-initial-state 'flycheck-error-list-mode 'emacs)
 
+  (with-eval-after-load 'help-mode
+    (evil-make-overriding-map help-mode-map 'motion))
+
   (eval-when-compile
     (require 'evil-macros)
     (require 'evil-types))
