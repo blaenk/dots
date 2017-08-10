@@ -109,9 +109,18 @@
 (use-package helm-ag
   :general
   (:keymaps 'helm-ag-map
-   "C-c C-a" 'my-helm-ag-launch-ag)
+   "C-c a" 'my-helm-ag-launch-ag)
+
+  (my-map
+    "e s" 'my-search-dots)
 
   :init
+  (defun my-search-dots ()
+    (interactive)
+    (let ((helm-ag--extra-options
+           "--hidden --ignore-dir .git --ignore .gitignore --ignore .projectile"))
+      (helm-do-ag (getenv "DOTSPATH"))))
+
   (defun my-helm-ag--launch-ag (_candidate)
     "Launch ag.el from the current helm-ag invocation."
     (let* ((parsed (helm-ag--parse-options-and-query helm-ag--last-query))
