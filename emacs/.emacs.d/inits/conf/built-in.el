@@ -9,6 +9,16 @@
   :init
   (setq server-auth-dir (my-cache-dir "server")))
 
+(use-package pp
+  :ensure nil
+  :defer t
+
+  :init
+  (define-advice pp-display-expression
+      (:after (expression out-buffer-name) auto-select-window)
+    "Auto-select the *Pp Eval Output* window"
+    (select-window (get-buffer-window out-buffer-name))))
+
 (use-package smerge-mode
   :ensure nil
   :defer t
