@@ -112,6 +112,17 @@
                'face 'mode-line-flycheck-checking-face))
     (`finished (my--format-flycheck-errors))))
 
+(defun my--format-error (count face)
+  (when (> count 0)
+    (propertize (s-wrap (number-to-string count) " ") 'face face)))
+
+(defun my--compilation-mode-line ()
+  (when (derived-mode-p 'compilation-mode)
+    (concat
+     (my--format-error compilation-num-infos-found 'mode-line-flycheck-infos-face)
+     (my--format-error compilation-num-warnings-found 'mode-line-flycheck-warnings-face)
+     (my--format-error compilation-num-errors-found 'mode-line-flycheck-errors-face))))
+
 (defun my--vc-git-status ()
   (-when-let* ((_ buffer-file-name)
                (rev (vc-working-revision buffer-file-name 'Git))
@@ -264,6 +275,7 @@
          face mode-line-read-only-face)
         (global-flycheck-mode
          (:eval (my--flycheck-mode-line)))
+        (:eval (my--compilation-mode-line))
         (:eval my--vc-git-status-cache)
         (:eval my--vc-git-mode-cache)
         ))
