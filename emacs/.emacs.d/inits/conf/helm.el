@@ -119,7 +119,7 @@
     (interactive)
     (let ((helm-ag--extra-options
            "--hidden --ignore-dir .git --ignore .gitignore --ignore .projectile"))
-      (helm-do-ag (getenv "DOTSPATH"))))
+      (helm-do-ag my-dots-path)))
 
   (defun my-helm-ag--launch-ag (_candidate)
     "Launch ag.el from the current helm-ag invocation."
@@ -194,7 +194,7 @@
   (defun my-edit-dots ()
     (interactive)
     (ignore-errors
-      (let* ((target (getenv "DOTSPATH"))
+      (let* ((target my-dots-path)
              (default-directory target)
              (projectile-cached-project-root target)
              (projectile-require-project-root nil))

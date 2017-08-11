@@ -1,6 +1,16 @@
 (require 'use-package)
 (require 'general)
 
+(defconst my-dots-path (getenv "DOTSPATH")
+  "The DOTSPATH environment variable.
+
+This is read once when initializing to avoid the cost of calling
+`getenv' multiple times. It also allows for a consistent value of
+it throughout the lifetime of the emacs session.
+
+In the unlikely event that the value is changed, simply restart
+emacs.")
+
 (function-put #'general-define-key 'lisp-indent-function 'defun)
 (function-put #'general-create-definer 'lisp-indent-function 'defun)
 
