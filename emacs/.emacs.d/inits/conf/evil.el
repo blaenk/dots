@@ -98,6 +98,7 @@
 
   :config
   (evil-set-initial-state 'flycheck-error-list-mode 'emacs)
+  (evil-set-initial-state 'paradox-menu-mode 'emacs)
 
   (with-eval-after-load 'help-mode
     (evil-make-overriding-map help-mode-map 'motion))
