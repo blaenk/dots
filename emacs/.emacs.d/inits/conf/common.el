@@ -74,7 +74,7 @@ emacs.")
                      ,body)))
      ;; can get current frame with
      ;; (window-frame (get-buffer-window))
-     (progn ,@body)))
+     ,body))
 
 (defun my-get-faces (pos)
   "Get the font faces at POS."
