@@ -75,7 +75,9 @@
     "g" '(:ignore t :which-key "git")
     "g s" 'magit-status
     "g p" 'magit-dispatch-popup
-    "g f" 'magit-file-popup)
+    "g f" 'magit-file-popup
+
+    ". g" 'my-dots-git)
 
   :init
   (setq magit-save-repository-buffers 'dontask
@@ -83,6 +85,11 @@
         magit-log-auto-more t
         magit-display-buffer-function
           #'magit-display-buffer-fullframe-status-v1)
+
+  (defun my-dots-git ()
+    (interactive)
+
+    (magit-status-internal my-dots-path))
 
   :config
   (defun my-open-pr ()
