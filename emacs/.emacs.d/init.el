@@ -206,6 +206,9 @@ With argument ARG, do this that many times."
   "C-u" 'my-backward-kill-line
   "C-w" 'my-backward-delete-word)
 
+(bind :keymaps 'minibuffer-inactive-mode-map
+  [mouse-1] nil)
+
 ;; C-c prefix:
 ;;
 ;; @ hs
