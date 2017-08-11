@@ -16,8 +16,14 @@
   :init
   (define-advice pp-display-expression
       (:after (expression out-buffer-name) auto-select-window)
-    "Auto-select the *Pp Eval Output* window"
-    (select-window (get-buffer-window out-buffer-name))))
+    "Auto-select the *Pp Eval Output* window.
+
+Also bind `q' to `quit-window'."
+    (-when-let (window (get-buffer-window out-buffer-name))
+      (select-window window)
+
+      (with-current-buffer out-buffer-name
+        (bind-local :states '(normal emacs) "q" 'quit-window)))))
 
 (use-package smerge-mode
   :ensure nil
