@@ -88,6 +88,9 @@ MuteAllExceptActive(ActivePID, SPID, ISAV)
     ; Mute all apps that aren't the currently focused one.
     VA_ISimpleAudioVolume_SetMute(ISAV, True)
   } else {
+    ; Ensure it's unmuted.
+    VA_ISimpleAudioVolume_SetMute(ISAV, False)
+
     ; Maximize the currently focused one.
     VA_ISimpleAudioVolume_SetMasterVolume(ISAV, 1)
   }
