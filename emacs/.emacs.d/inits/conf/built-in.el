@@ -9,6 +9,18 @@
   :init
   (setq server-auth-dir (my-cache-dir "server")))
 
+(use-package browse-url
+  :ensure nil
+  :defer t
+
+  :init
+  (defun my-browse-file-directory ()
+    "Open the current file's directory however the OS would."
+    (interactive)
+    (if default-directory
+        (browse-url-of-file (expand-file-name default-directory))
+      (error "No `default-directory' to open"))))
+
 (use-package pp
   :ensure nil
   :defer t
