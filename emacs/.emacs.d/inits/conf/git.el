@@ -11,6 +11,7 @@
 
   :init
   (setq gist-ask-for-description t
+        gist-ask-for-filename t
         gist-list-format
         '((created "Created" 15 nil "%D %R")
           (visibility "Visibility" 8 nil
