@@ -20,7 +20,11 @@
                             "private")))
           (files "Files" 0 nil
                  (lambda (names)
-                   (mapconcat 'identity names ", "))))))
+                   (mapconcat 'identity names ", ")))))
+
+  (when (not my-is-within-vm)
+    (setq gist-view-gist t)))
+
 
 (use-package git-commit-insert-issue
   :defer t
