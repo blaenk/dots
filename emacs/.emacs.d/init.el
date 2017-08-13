@@ -95,7 +95,7 @@
 (defun emacs-session-filename (session-id)
   (my-cache-dir (concat "sessions/" session-id)))
 
-(when (getenv "VM")
+(when my-is-within-vm
   (setq browse-url-browser-function #'kill-new))
 
 (setq delete-old-versions t

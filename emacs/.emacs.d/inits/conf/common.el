@@ -11,6 +11,12 @@ it throughout the lifetime of the emacs session.
 In the unlikely event that the value is changed, simply restart
 emacs.")
 
+(defconst my-is-within-vm (getenv "VM")
+  "Whether or not we're within a virtual machine.
+
+I set this environment variable within ~/.zsh.local to represent
+that we are withing a virtual machine.")
+
 (function-put #'general-define-key 'lisp-indent-function 'defun)
 (function-put #'general-create-definer 'lisp-indent-function 'defun)
 
