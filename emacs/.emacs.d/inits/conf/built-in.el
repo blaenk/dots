@@ -37,23 +37,9 @@ Also bind `q' to `quit-window'."
       (with-current-buffer out-buffer-name
         (bind-local :states '(normal emacs) "q" 'quit-window)))))
 
-(use-package smerge-mode
-  :ensure nil
-  :defer t
-
-  :general
-  (my-map :infix "g c" :keymaps 'smerge-mode-map
-    "" '(:ignore t :which-key "conflict")
-    "n" 'smerge-next
-    "p" 'smerge-prev
-    "k" 'smerge-keep-current
-    "a" 'smerge-keep-all
-    "u" 'smerge-keep-upper
-    "l" 'smerge-keep-lower
-    "e" 'smerge-ediff))
-
 (use-package fringe
   :ensure nil
+
   :init
   (setq-default fringe-indicator-alist
         '((truncation left-arrow right-arrow)
@@ -228,9 +214,21 @@ Also bind `q' to `quit-window'."
 
 (use-package smerge-mode
   :ensure nil
-  :defer t
+
+  :general
+  (my-map :infix "g c" :keymaps 'smerge-mode-map
+    "" '(:ignore t :which-key "conflict")
+    "n" 'smerge-next
+    "p" 'smerge-prev
+    "k" 'smerge-keep-current
+    "a" 'smerge-keep-all
+    "u" 'smerge-keep-upper
+    "l" 'smerge-keep-lower
+    "e" 'smerge-ediff)
 
   :init
+  (add-hook 'smerge-mode-hook #'evil-normalize-keymaps)
+
   ;; attempt to start smerge, automatically disabling it if not relevant
   (add-hook 'find-file-hook #'smerge-start-session))
 
