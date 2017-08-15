@@ -19,6 +19,8 @@
       'solarized-light))
 
   (defun my-load-theme ()
+    (interactive)
+
     (if my-theme-loaded
         (enable-theme my-theme-name)
       (progn
