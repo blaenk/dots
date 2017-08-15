@@ -888,6 +888,8 @@ PR [a-z-+]+/\
    "C-c $" nil)
 
   :init
+  (setq flyspell-issue-message-flag nil)
+
   (add-hook 'text-mode-hook #'flyspell-mode)
   (add-hook 'prog-mode-hook #'flyspell-prog-mode)
 
