@@ -232,6 +232,13 @@
     "Compress the persisted undo-tree history."
     (concat file ".gz"))
 
+  (define-advice undo-tree-visualize
+      (:around (old-func) vertical-split)
+    "Force undo-tree-visualize to show up on the right."
+    (let ((split-height-threshold nil)
+          (split-width-threshold 0))
+      (funcall old-func)))
+
   (global-undo-tree-mode))
 
 (use-package multi-term
