@@ -127,7 +127,7 @@
 
       custom-file (my-cache-dir "custom.el")
 
-      scroll-conservatively 10000
+      scroll-conservatively 101
       scroll-preserve-screen-position t
       scroll-step 1
 
