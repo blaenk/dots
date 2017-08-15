@@ -154,6 +154,13 @@
 (fset #'yes-or-no-p #'y-or-n-p)
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
 
+;; Don't let the cursor go into the minibuffer prompt
+;; Source: https://lists.gnu.org/archive/html/emacs-devel/2016-04/msg00857.html
+(let ((default (eval (car (get 'minibuffer-prompt-properties 'standard-value))))
+      (dont-touch-prompt-prop '(cursor-intangible t)))
+  (setq minibuffer-prompt-properties (append default dont-touch-prompt-prop))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+
 (defun my-kill-this-buffer ()
   (interactive)
   (let ((buffer-modified-p nil))
