@@ -9,6 +9,9 @@
    "C-o" 'company-show-location
    "C-/" 'company-filter-candidates)
 
+  (:keymaps 'yas-minor-mode-map
+   "M-N" 'my-company-yasnippet)
+
   :init
   (setq company-minimum-prefix-length 1
         company-selection-wrap-around t
@@ -16,6 +19,16 @@
         company-tooltip-align-annotations t
         company-require-match 'never
         company-dabbrev-downcase nil)
+
+  (defun my-company-yasnippet ()
+    (interactive)
+
+    ;; If there region is active or there's nothing to expand, use completing
+    ;; read to select the snippet. Otherwise expand.
+    (if (or (region-active-p)
+            (not (yas--maybe-expand-key-filter 'yas-expand)))
+        (call-interactively 'company-yasnippet)
+      (yas-expand)))
 
   (add-hook 'after-init-hook 'global-company-mode))
 
