@@ -271,6 +271,13 @@
 (use-package rjsx-mode
   :mode "/\\(components\\|containers\\)/.+\\.js")
 
+(use-package prettier-js
+  :defer t
+
+  :general
+  (:keymaps 'js2-mode-map
+   "m f" 'prettier-js))
+
 (use-package json-mode
   :mode
   (("\\.eslintrc\\'" . json-mode)
