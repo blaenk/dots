@@ -99,6 +99,7 @@
   :config
   (evil-set-initial-state 'flycheck-error-list-mode 'emacs)
   (evil-set-initial-state 'paradox-menu-mode 'emacs)
+  (evil-set-initial-state 'paradox-commit-list-mode 'emacs)
 
   (with-eval-after-load 'help-mode
     (evil-add-hjkl-bindings help-mode-map 'normal)
