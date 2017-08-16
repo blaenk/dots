@@ -47,7 +47,6 @@
 
     "o" 'delete-other-windows
     "c" 'evil-window-delete
-    "n" 'evil-window-new
 
     "_" 'evil-window-set-height
     "|" 'evil-window-set-width
@@ -75,6 +74,10 @@
     "s v" 'evil-window-vsplit
     "s h" 'evil-window-split
     "s p" 'my-split-with-previous-buffer
+
+    "s n" '(:ignore t :which-key "new")
+    "s n v" 'evil-window-vnew
+    "s n h" 'evil-window-new
 
     "m" '(:ignore t :which-key "move")
     "m k" 'buf-move-up
