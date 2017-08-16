@@ -37,50 +37,63 @@
    "C-u" 'my-kill-line
    "C-l" 'move-end-of-line)
 
-  (:keymaps 'evil-window-map
-   "<left>" 'winner-undo
-   "u" 'winner-undo
+  (my-map :infix "w"
+    "" '(:ignore t :which-key "window")
+    "<left>" 'winner-undo
+    "u" 'winner-undo
 
-   "<right>" 'winner-redo
-   "r" 'winner-redo
+    "<right>" 'winner-redo
+    "r" 'winner-redo
 
-   "o" 'delete-other-windows
+    "o" 'delete-other-windows
+    "c" 'evil-window-delete
+    "n" 'evil-window-new
 
-   "k" 'evil-window-up
-   "j" 'evil-window-down
-   "h" 'evil-window-left
-   "l" 'evil-window-right
+    "_" 'evil-window-set-height
+    "|" 'evil-window-set-width
 
-   ;; windows
-   "f" 'my-pop-to-frame
+    "+" 'evil-window-increase-height
+    "-" 'evil-window-decrease-height
+    "<" 'evil-window-decrease-width
+    ">" 'evil-window-increase-width
+    "=" 'balance-windows
 
-   "s" '(nil :which-key "split")
-   "s v" 'evil-window-vsplit
-   "s h" 'evil-window-split
-   "s p" 'my-split-with-previous-buffer
+    "H" 'evil-window-move-far-left
+    "J" 'evil-window-move-far-bottom
+    "K" 'evil-window-move-far-top
+    "L" 'evil-window-move-far-right
 
-   "m" '(:ignore t :which-key "move")
-   "m k" 'buf-move-up
-   "m j" 'buf-move-down
-   "m h" 'buf-move-left
-   "m l" 'buf-move-right)
+    "k" 'evil-window-up
+    "j" 'evil-window-down
+    "h" 'evil-window-left
+    "l" 'evil-window-right
 
-  (:keymaps 'emacs
-   "C-w" 'evil-window-map)
+    ;; windows
+    "f" 'my-pop-to-frame
+
+    "s" '(:ignore t :which-key "split")
+    "s v" 'evil-window-vsplit
+    "s h" 'evil-window-split
+    "s p" 'my-split-with-previous-buffer
+
+    "m" '(:ignore t :which-key "move")
+    "m k" 'buf-move-up
+    "m j" 'buf-move-down
+    "m h" 'buf-move-left
+    "m l" 'buf-move-right)
+
+  (:keymaps '(motion emacs)
+   "C-w" (general-simulate-keys "C-c w"))
 
   (my-map
-    "w" '(:keymap evil-window-map :which-key "window")
     "k w" 'evil-window-delete)
 
   :init
   ;; don't auto-copy visual selections
   (fset 'evil-visual-update-x-selection 'ignore)
 
-  (setq evil-want-C-w-in-emacs-state t
-        evil-text-object-change-visual-type nil
-
+  (setq evil-text-object-change-visual-type nil
         evil-search-module 'evil-search
-
         evil-want-C-w-delete t)
 
   (setq-default evil-symbol-word-search t
