@@ -101,6 +101,8 @@
   (evil-set-initial-state 'paradox-menu-mode 'emacs)
 
   (with-eval-after-load 'help-mode
+    (evil-add-hjkl-bindings help-mode-map 'normal)
+
     (evil-make-overriding-map help-mode-map 'motion))
 
   (eval-when-compile
