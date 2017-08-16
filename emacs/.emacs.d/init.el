@@ -224,6 +224,7 @@ With argument ARG, do this that many times."
 
 (my-map
   "e" '(:ignore t :which-key "emacs")
+  "e f" '(:ignore t :which-key "find")
   "e f f" 'find-function
   "e f l" 'find-library
   "e f v" 'find-variable
