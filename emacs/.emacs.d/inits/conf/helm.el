@@ -112,10 +112,10 @@
    "C-c a" 'my-helm-ag-launch-ag)
 
   (my-map
-    ". s" 'my-search-dots)
+    ". s" 'my-dots-search)
 
   :init
-  (defun my-search-dots ()
+  (defun my-dots-search ()
     (interactive)
     (let ((helm-ag--extra-options
            "--hidden --ignore-dir .git --ignore .gitignore --ignore .projectile"))
@@ -187,11 +187,11 @@
   (my-map
     "o b" 'my-open-buffer
     "o f" 'my-open-file
-    "o ." 'my-edit-dots
-    ". f" 'my-edit-dots)
+    "o ." 'my-dots-file
+    ". f" 'my-dots-file)
 
   :config
-  (defun my-edit-dots ()
+  (defun my-dots-file ()
     (interactive)
     (ignore-errors
       (let* ((target my-dots-path)
