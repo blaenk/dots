@@ -36,3 +36,13 @@ SetTitleMatchMode RegEx
 #Volume_Mute::
   EnumerateAudioSessions(Func("MuteAllExceptActive"))
   Return
+
+; Rewire Everything's Ctrl+Shift+Alt+Space to Win+Space
+#Space::
+  SendInput ^+!{Space}
+  Return
+
+; Rewire Wox' Ctrl+Shift+Alt+/ to Win+/
+#/::
+  SendInput ^+!{/}
+  Return
