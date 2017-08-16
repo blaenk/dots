@@ -130,4 +130,7 @@
   :config
   (magithub-feature-autoinject t))
 
+(use-package vdiff-magit
+  :defer t)
+
 (provide 'conf/git)

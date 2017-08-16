@@ -82,6 +82,8 @@
   :init
   (setq dtrt-indent-verbosity 0))
 
+(use-package vdiff :defer t)
+
 (use-package paradox
   :general
   (my-map
