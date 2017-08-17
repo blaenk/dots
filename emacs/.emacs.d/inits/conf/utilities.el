@@ -376,7 +376,7 @@
   :general
   (my-map
     "k o W" 'ace-delete-window
-    "w M" 'ace-swap-window
+    "w m m" 'ace-swap-window
     "o w" 'ace-window)
 
   :init
