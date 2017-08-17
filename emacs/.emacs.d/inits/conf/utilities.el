@@ -14,7 +14,13 @@
 (use-package sudo-edit
   :defer t
 
+  :general
+  (my-map
+    "o s" 'sudo-edit)
+
   :init
+  (setq sudo-edit-user "root")
+
   (with-eval-after-load 'evil-ex
     (evil-ex-define-cmd "w!!" 'sudo-edit)))
 
