@@ -83,7 +83,7 @@
 
 (defun my--remote-mode-line ()
   (when (and buffer-file-name (file-remote-p buffer-file-name))
-    (let ((host (tramp-file-name-real-host (tramp-dissect-file-name buffer-file-name))))
+    (let ((host (tramp-file-name-host (tramp-dissect-file-name buffer-file-name))))
       (s-wrap (concat my--cloud-icon " " host) " "))))
 
 (defun my--format-flycheck (count face)
@@ -183,7 +183,7 @@
    ((and buffer-file-name (file-remote-p buffer-file-name))
     (let ((tramp-vec (tramp-dissect-file-name buffer-file-name)))
       (concat
-       (tramp-file-name-real-host tramp-vec)
+       (tramp-file-name-host tramp-vec)
        " — "
        (f-short (tramp-file-name-localname tramp-vec)))))
 
