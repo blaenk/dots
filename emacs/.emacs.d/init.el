@@ -300,10 +300,6 @@ With argument ARG, do this that many times."
   "w s p" 'my-split-with-previous-buffer
   )
 
-;; Short-circuit the window map: C-w → C-c w
-(bind :keymaps '(motion emacs)
-  "C-w" (general-simulate-keys "C-c w"))
-
 (defvar-local my-display-column-number nil
   "Whether or not to display the column number in the mode-line
 

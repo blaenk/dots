@@ -68,6 +68,10 @@
   (my-map
     "k w" 'evil-window-delete)
 
+  ;; Short-circuit the window map: C-w → C-c w
+  (:keymaps '(motion emacs)
+    "C-w" (general-simulate-keys "C-c w"))
+
   :init
   ;; don't auto-copy visual selections
   (fset 'evil-visual-update-x-selection 'ignore)
