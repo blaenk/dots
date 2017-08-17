@@ -106,7 +106,17 @@ Also bind `q' to `quit-window'."
 (use-package winner
   :ensure nil
 
+  :general
+  (my-map :infix "w"
+    "<left>" 'winner-undo
+    "u" 'winner-undo
+
+    "<right>" 'winner-redo
+    "r" 'winner-redo)
+
   :init
+  (setq winner-dont-bind-my-keys t)
+
   (winner-mode 1))
 
 (use-package newcomment

@@ -256,8 +256,24 @@ With argument ARG, do this that many times."
   "b" '(:ignore t :which-key "buffer")
   "b b" 'bury-buffer
   "b o" 'my-switch-to-previous-buffer
-  "b s" 'my-force-save
-  "b t" 'my-touch-buffer)
+  "b s" 'save-buffer
+  "b S" 'my-force-save
+  "b t" 'my-touch-buffer
+
+  "w" '(:ignore t :which-key "window")
+  "w o" 'my-switch-to-last-window
+  "w =" 'balance-windows
+  "w p" 'my-pop-to-frame
+  "w b" 'balance-windows
+  "w f" 'delete-other-windows
+
+  "w s" '(:ignore t :which-key "split")
+  "w s p" 'my-split-with-previous-buffer
+  )
+
+;; Short-circuit the window map: C-w → C-c w
+(bind :keymaps '(motion emacs)
+  "C-w" (general-simulate-keys "C-c w"))
 
 (defvar-local my-display-column-number nil
   "Whether or not to display the column number in the mode-line

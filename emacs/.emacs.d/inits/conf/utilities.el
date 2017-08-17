@@ -167,6 +167,13 @@
 
 (use-package buffer-move
   :general
+  (my-map :infix "w m"
+    "" '(:ignore t :which-key "move")
+    "k" 'buf-move-up
+    "j" 'buf-move-down
+    "h" 'buf-move-left
+    "l" 'buf-move-right)
+
   (my-map :infix "b m"
     "" '(:ignore t :which-key "move")
     "k" 'buf-move-up

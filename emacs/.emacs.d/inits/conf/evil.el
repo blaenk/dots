@@ -38,14 +38,6 @@
    "C-l" 'move-end-of-line)
 
   (my-map :infix "w"
-    "" '(:ignore t :which-key "window")
-    "<left>" 'winner-undo
-    "u" 'winner-undo
-
-    "<right>" 'winner-redo
-    "r" 'winner-redo
-
-    "o" 'delete-other-windows
     "c" 'evil-window-delete
 
     "_" 'evil-window-set-height
@@ -55,11 +47,10 @@
     "-" 'evil-window-decrease-height
     "<" 'evil-window-decrease-width
     ">" 'evil-window-increase-width
-    "=" 'balance-windows
 
     "H" 'evil-window-move-far-left
-    "J" 'evil-window-move-far-bottom
-    "K" 'evil-window-move-far-top
+    "J" 'evil-window-move-very-bottom
+    "K" 'evil-window-move-very-top
     "L" 'evil-window-move-far-right
 
     "k" 'evil-window-up
@@ -67,26 +58,12 @@
     "h" 'evil-window-left
     "l" 'evil-window-right
 
-    ;; windows
-    "f" 'my-pop-to-frame
-
-    "s" '(:ignore t :which-key "split")
     "s v" 'evil-window-vsplit
     "s h" 'evil-window-split
-    "s p" 'my-split-with-previous-buffer
 
     "s n" '(:ignore t :which-key "new")
     "s n v" 'evil-window-vnew
-    "s n h" 'evil-window-new
-
-    "m" '(:ignore t :which-key "move")
-    "m k" 'buf-move-up
-    "m j" 'buf-move-down
-    "m h" 'buf-move-left
-    "m l" 'buf-move-right)
-
-  (:keymaps '(motion emacs)
-   "C-w" (general-simulate-keys "C-c w"))
+    "s n h" 'evil-window-new)
 
   (my-map
     "k w" 'evil-window-delete)
