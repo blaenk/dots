@@ -375,10 +375,22 @@
 
   :general
   (my-map
+    "k o W" 'ace-delete-window
+    "w M" 'ace-swap-window
     "o w" 'ace-window)
 
   :init
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+        aw-dispatch-alist
+        '((?d aw-delete-window " Ace - Delete Window")
+          (?m aw-swap-window " Ace - Swap Window")
+          (?M aw-move-window " Ace - Move Window")
+          (?n aw-flip-window)
+          (?c aw-split-window-fair " Ace - Split Fair Window")
+          (?b aw-split-window-vert " Ace - Split Vert Window")
+          (?v aw-split-window-horz " Ace - Split Horz Window")
+          (?i delete-other-windows " Ace - Delete Other Windows")
+          (?o delete-other-windows))))
 
 (use-package shackle
   :config
