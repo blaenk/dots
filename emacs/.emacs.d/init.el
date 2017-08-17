@@ -233,10 +233,19 @@ With argument ARG, do this that many times."
 
 (my-map
   "e" '(:ignore t :which-key "emacs")
+
   "e f" '(:ignore t :which-key "find")
   "e f f" 'find-function
   "e f l" 'find-library
   "e f v" 'find-variable
+
+  "e e" '(:ignore t :which-key "eval")
+  "e e b" 'eval-buffer
+  "e e d" 'eval-defun
+  "e e r" 'eval-region
+  "e e e" 'pp-eval-expression
+  "e e s" 'pp-eval-last-sexp
+  "e e p" 'eval-print-last-sexp
 
   "." '(:ignore t :which-key "dots")
 
