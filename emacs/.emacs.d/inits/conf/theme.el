@@ -207,6 +207,10 @@
                                                 :foreground ,base1
                                                 :weight bold))))
 
+        ;; eyebrowse
+        `(eyebrowse-mode-line-active ((,class (:background ,base0 :foreground "white" :weight bold))))
+        `(eyebrowse-mode-line-inactive ((,class (:background ,base01 :foreground "white"))))
+
         ;; whitespace
         `(whitespace-trailing ((,class (:background ,red-l))))
         `(whitespace-tab ((,class (:background ,red-l))))

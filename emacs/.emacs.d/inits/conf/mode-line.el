@@ -278,7 +278,14 @@
         (:eval (my--compilation-mode-line))
         (:eval my--vc-git-status-cache)
         (:eval my--vc-git-mode-cache)
-        ))
+        (eyebrowse-mode
+         (:eval
+          ;; Eyebrowse uses the same formatters for the mode-line as for the
+          ;; completing-read function, but we want separate formatters for each,
+          ;; so we create local bindings here.
+          (let ((eyebrowse-slot-format " %s ")
+                (eyebrowse-tagged-slot-format " %s "))
+            (eyebrowse-mode-line-indicator))))))
 
 (setq-default
  mode-line-format
