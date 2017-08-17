@@ -249,6 +249,9 @@ With argument ARG, do this that many times."
 
   "e h" '(:keymap help-map :which-key "help")
 
+  "e q" 'save-buffers-kill-terminal
+  "e c" 'save-buffers-kill-terminal
+
   "." '(:ignore t :which-key "dots")
 
   "o" '(:ignore t :which-key "open")
@@ -268,6 +271,7 @@ With argument ARG, do this that many times."
   "k e" 'save-buffers-kill-terminal
   "k b" 'my-kill-this-buffer
   "k f" 'delete-frame
+
   "k o" '(:ignore t :which-key "other")
   "k o f" 'delete-other-frames
   "k o w" 'delete-other-windows
