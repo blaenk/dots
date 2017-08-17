@@ -247,6 +247,8 @@ With argument ARG, do this that many times."
   "e e s" 'pp-eval-last-sexp
   "e e p" 'eval-print-last-sexp
 
+  "e h" '(:keymap help-map :which-key "help")
+
   "." '(:ignore t :which-key "dots")
 
   "o" '(:ignore t :which-key "open")
