@@ -216,6 +216,15 @@ With argument ARG, do this that many times."
 (bind :keymaps 'minibuffer-inactive-mode-map
   [mouse-1] nil)
 
+(defun my-switch-to-last-window ()
+  (interactive)
+  (let ((win (get-mru-window t t t)))
+    (unless win (error "Last window not found."))
+    (let ((frame (window-frame win)))
+      (raise-frame frame)
+      (select-frame frame)
+      (select-window win))))
+
 ;; C-c prefix:
 ;;
 ;; @ hs
@@ -233,6 +242,11 @@ With argument ARG, do this that many times."
 
   "o" '(:ignore t :which-key "open")
   "o a" '(:ignore t :which-key "all")
+
+  "o o" '(:ignore t :which-key "other")
+  "o o f" 'other-frame
+  "o o b" 'my-switch-to-previous-buffer
+  "o o w" 'my-switch-to-last-window
 
   "t" '(:ignore t :which-key "toggle")
 
