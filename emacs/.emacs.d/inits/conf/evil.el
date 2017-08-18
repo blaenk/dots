@@ -73,9 +73,6 @@
     "C-w" (general-simulate-keys "C-c w"))
 
   :init
-  ;; don't auto-copy visual selections
-  (fset 'evil-visual-update-x-selection 'ignore)
-
   (setq evil-text-object-change-visual-type nil
         evil-search-module 'evil-search
         evil-want-C-w-delete t)
@@ -94,6 +91,9 @@
   (add-hook 'after-init-hook 'evil-mode)
 
   :config
+  ;; don't auto-copy visual selections
+  (fset 'evil-visual-update-x-selection 'ignore)
+
   (evil-set-initial-state 'flycheck-error-list-mode 'emacs)
   (evil-set-initial-state 'paradox-menu-mode 'emacs)
   (evil-set-initial-state 'paradox-commit-list-mode 'emacs)
