@@ -13,7 +13,7 @@
   :general
   (my-map :keymaps 'eyebrowse-mode-map :infix "w w"
     "" '(:ignore t :which-key "eyebrowse")
-    "g" 'eyebrowse-switch-to-window-config
+    "w" 'eyebrowse-switch-to-window-config
     "l" 'eyebrowse-next-window-config
     "h" 'eyebrowse-prev-window-config
     "o" 'eyebrowse-last-window-config
