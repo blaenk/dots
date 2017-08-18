@@ -61,10 +61,6 @@
   (with-eval-after-load 'evil-ex
     (evil-ex-define-cmd "w!!" 'sudo-edit)))
 
-(use-package imenu-anywhere
-  :general
-  ("M-I" 'imenu-anywhere))
-
 (use-package imenu-list :defer t)
 
 (use-package unicode-fonts

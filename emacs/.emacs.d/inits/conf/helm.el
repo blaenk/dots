@@ -9,6 +9,7 @@
   ([remap execute-extended-command] 'helm-M-x
    "M-y" 'helm-show-kill-ring
    "M-i" 'helm-semantic-or-imenu
+   "M-I" 'helm-imenu-in-all-buffers
    "M-r" 'helm-resume
 
    "M-/" 'helm-occur
