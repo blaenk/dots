@@ -84,8 +84,8 @@
 
   :general
   (:keymaps '(helm-find-files-map helm-buffer-map)
-   helm-ext-ff-horizontal-split-key 'helm-ext-ff-execute-horizontal-split
-   helm-ext-ff-vertical-split-key 'helm-ext-ff-execute-vertical-split))
+   "C-c C-h" 'helm-ext-ff-execute-horizontal-split
+   "C-c C-v" 'helm-ext-ff-execute-vertical-split))
 
 (use-package helm-mt
   :general
@@ -93,8 +93,8 @@
     "o t" 'helm-mt)
 
   (:keymaps 'helm-mt/keymap
-   helm-ext-ff-horizontal-split-key 'helm-ext-ff-execute-horizontal-split
-   helm-ext-ff-vertical-split-key 'helm-ext-ff-execute-vertical-split)
+   "C-c C-h" 'helm-ext-ff-execute-horizontal-split
+   "C-c C-v" 'helm-ext-ff-execute-vertical-split)
 
   :config
   (helm-mt/reroute-terminal-functions t))
@@ -182,8 +182,8 @@
    "C-M-/" 'my-helm-ag)
 
   (:keymaps '(helm-projectile-find-file-map helm-projectile-projects-map)
-   helm-ext-ff-horizontal-split-key 'helm-ext-ff-execute-horizontal-split
-   helm-ext-ff-vertical-split-key 'helm-ext-ff-execute-vertical-split)
+   "C-c C-h" 'helm-ext-ff-execute-horizontal-split
+   "C-c C-v" 'helm-ext-ff-execute-vertical-split)
 
   (my-map
     "o b" 'my-open-buffer
