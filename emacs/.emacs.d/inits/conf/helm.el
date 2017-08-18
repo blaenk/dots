@@ -6,7 +6,7 @@
   :diminish helm-mode
 
   :general
-  ("M-x" 'helm-M-x
+  ([remap execute-extended-command] 'helm-M-x
    "M-y" 'helm-show-kill-ring
    "M-i" 'helm-semantic-or-imenu
    "M-r" 'helm-resume
