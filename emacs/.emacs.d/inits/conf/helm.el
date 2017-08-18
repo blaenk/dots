@@ -15,10 +15,11 @@
 
    "C-x b" 'helm-buffers-list
    "C-x C-f" 'helm-find-files
-   "C-x C-r" 'helm-recentf
+   "C-x C-r" 'helm-recentf)
 
-   "C-h a" 'helm-apropos
-   "C-h i" 'helm-info-emacs)
+  (:keymaps 'help-map
+   "a" 'helm-apropos
+   "i" 'helm-info-emacs)
 
   (:keymaps 'helm-map
    "<tab>" 'helm-execute-persistent-action
