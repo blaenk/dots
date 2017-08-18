@@ -278,7 +278,7 @@
 
 (defconst my--mode-line-left
       `(
-        (my-display-column-number
+        (my--display-column-number
          (:eval (my--column-number)))
         (anzu-mode
          (:propertize

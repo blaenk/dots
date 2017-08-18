@@ -22,7 +22,7 @@
                  (lambda (names)
                    (mapconcat 'identity names ", ")))))
 
-  (when (not my-is-within-vm)
+  (when (not my--is-within-vm)
     (setq gist-view-gist t)))
 
 
@@ -95,7 +95,7 @@
   (defun my-dots-git ()
     (interactive)
 
-    (magit-status-internal my-dots-path))
+    (magit-status-internal my--dots-path))
 
   :config
   (defun my-open-pr ()

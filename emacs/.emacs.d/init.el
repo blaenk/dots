@@ -1,7 +1,9 @@
 (require 'package)
 
 ;; frame
-(defun my-frame-options (frame)
+(defun my--set-frame-options (frame)
+  "Set the options for the current frame."
+
   (add-to-list 'default-frame-alist '(width . 101))
   (add-to-list 'default-frame-alist '(height . 36))
 
@@ -23,9 +25,9 @@
     (set-fontset-font t 'symbol
                       (font-spec :family "Apple Symbols") nil 'prepend))))
 
-(my-frame-options nil)
+(my--set-frame-options nil)
 
-(add-hook 'after-make-frame-functions #'my-frame-options)
+(add-hook 'after-make-frame-functions #'my--set-frame-options)
 
 ;; packages
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
@@ -37,14 +39,14 @@
   (package-install 'use-package))
 
 (setq load-prefer-newer t
-      backup-by-copying t
-
-      use-package-always-ensure t
-      use-package-check-before-init t
-      use-package-enable-imenu-support t)
+      backup-by-copying t)
 
 (eval-when-compile
   (require 'use-package))
+
+(setq use-package-always-ensure t
+      use-package-check-before-init t
+      use-package-enable-imenu-support t)
 
 (require 'diminish)
 (require 'bind-key)
@@ -53,7 +55,7 @@
   :defer t
 
   :init
-  (defvar my-benchmarking-p
+  (defvar my--is-benchmarking-p
     (prog1
         (member "--benchmark" command-line-args)
       (setq command-line-args (delete "--benchmark" command-line-args)))
@@ -92,10 +94,13 @@
   (setq auto-save-list-file-prefix (expand-file-name "saves-" auto-save-dir)
         auto-save-file-name-transforms `((".*" ,auto-save-dir t))))
 
-(defun emacs-session-filename (session-id)
+(define-advice emacs-session-filename
+    (:override (session-id) store-in-cache-dir)
+  "Store the session files in the cache directory."
+
   (my-cache-dir (concat "sessions/" session-id)))
 
-(when my-is-within-vm
+(when my--is-within-vm
   (setq browse-url-browser-function #'kill-new))
 
 (setq delete-old-versions t
@@ -162,34 +167,50 @@
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
 
 (defun my-kill-this-buffer ()
+  "Kill this buffer regardless of whether or not it's modified."
   (interactive)
+
   (let ((buffer-modified-p nil))
     (kill-buffer (current-buffer))))
 
 (defun my-switch-to-previous-buffer ()
+  "Switch to the previously used buffer."
   (interactive)
+
   (switch-to-buffer (other-buffer)))
 
 (defun my-split-with-previous-buffer ()
+  "Split this window and open the previous buffer in it."
   (interactive)
+
   (select-window (split-window-below))
   (my-switch-to-previous-buffer))
 
 (defun my-pop-to-frame ()
+  "Pop the current window and its buffer into a new frame."
   (interactive)
+
   (unless (one-window-p)
     (let ((buffer (current-buffer)))
       (delete-window)
       (select-window (display-buffer-pop-up-frame buffer nil)))))
 
 (defun my-force-save ()
+  "Force a save regardless of whether or not the buffer is modified.
+
+This may be useful for situations in which other applications are
+waiting to react to the save."
   (interactive)
+
   (set-buffer-modified-p t)
   (save-buffer))
 
 (defun my-touch-buffer ()
+  "Perform a 'touch' on the file backing the buffer."
   (interactive)
-  (shell-command (concat "touch " (shell-quote-argument (buffer-file-name)))))
+
+  (when buffer-file-name
+    (shell-command (concat "touch " (shell-quote-argument (buffer-file-name))))))
 
 (bind
   [remap eval-last-sexp] 'pp-eval-last-sexp
@@ -200,13 +221,17 @@
   "C-S-x C-S-s" 'my-force-save)
 
 (defun my-backward-kill-line ()
+  "Kill a line backwards."
   (interactive)
+
   (kill-line 0))
 
 (defun my-backward-delete-word (arg)
   "Delete characters backward until encountering the beginning of a word.
+
 With argument ARG, do this that many times."
   (interactive "p")
+
   (delete-region (point) (progn (backward-word arg) (point))))
 
 (bind :keymaps 'minibuffer-local-map
@@ -217,7 +242,9 @@ With argument ARG, do this that many times."
   [mouse-1] nil)
 
 (defun my-switch-to-last-window ()
+  "Focus the most recently used window."
   (interactive)
+
   (let ((win (get-mru-window t t t)))
     (unless win (error "Last window not found."))
     (let ((frame (window-frame win)))
@@ -328,7 +355,7 @@ text by that amount."
   "w s p" 'my-split-with-previous-buffer
   )
 
-(defvar-local my-display-column-number nil
+(defvar-local my--display-column-number nil
   "Whether or not to display the column number in the mode-line
 
 This is defined instead of using column-number-mode because
@@ -343,22 +370,23 @@ buffer-local basis.")
       (linum-relative-mode)
     (setq-local display-line-numbers 'visual))
 
-  (setq-local my-display-column-number t))
+  (setq-local my--display-column-number t))
 
 (add-hook 'prog-mode-hook #'my-enable-line-numbers)
 
 (defun my-toggle-line-numbers ()
+  "Toggle the visibility of line and column numbers."
   (interactive)
 
   (if (< emacs-major-version 26)
       (linum-relative-mode)
     (setq-local display-line-numbers (if display-line-numbers nil 'visual)))
 
-  (setq-local my-display-column-number (not my-display-column-number)))
+  (setq-local my--display-column-number (not my--display-column-number)))
 
 (my-map "t n" 'my-toggle-line-numbers)
 
-(when my-benchmarking-p
+(when my--is-benchmarking-p
   (benchmark-init/activate))
 
 (require 'conf/built-in)
@@ -375,7 +403,7 @@ buffer-local basis.")
 (require 'conf/company)
 (require 'conf/smartparens)
 
-(when my-benchmarking-p
+(when my--is-benchmarking-p
   (benchmark-init/deactivate))
 
 (load custom-file 'noerror)

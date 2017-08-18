@@ -1,7 +1,7 @@
 (require 'use-package)
 (require 'general)
 
-(defconst my-dots-path (getenv "DOTSPATH")
+(defconst my--dots-path (getenv "DOTSPATH")
   "The DOTSPATH environment variable.
 
 This is read once when initializing to avoid the cost of calling
@@ -11,7 +11,7 @@ it throughout the lifetime of the emacs session.
 In the unlikely event that the value is changed, simply restart
 emacs.")
 
-(defconst my-is-within-vm (getenv "VM")
+(defconst my--is-within-vm (getenv "VM")
   "Whether or not we're within a virtual machine.
 
 I set this environment variable within ~/.zsh.local to represent
