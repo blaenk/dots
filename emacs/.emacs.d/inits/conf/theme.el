@@ -66,6 +66,14 @@
         :group 'mode-line-faces
         :group 'basic-faces)
 
+      (defface mode-line-edebug-face
+        `((,class (:background ,violet
+                   :foreground "white"
+                   :weight bold)))
+        "branch for mode-line"
+        :group 'mode-line-faces
+        :group 'basic-faces)
+
       (defface mode-line-anzu-face
         `((,class (:background ,orange-l
                    :foreground "white"
