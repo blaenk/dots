@@ -225,11 +225,39 @@ With argument ARG, do this that many times."
       (select-frame frame)
       (select-window win))))
 
-;; C-c prefix:
-;;
-;; @ hs
-;; $ flyspell
-;; , semantic
+(defun my--copy-without-indentation (region &optional indent-to)
+  (let* ((lines (s-lines region))
+         (indent-lengths (--map (or (cdar (s-matched-positions-all "^[[:space:]]+" it))
+                                    0)
+                                lines))
+         (indent-lengths-and-lines (-zip indent-lengths lines))
+         (non-empty-line-indents (--map (car it)
+                                        (--filter (s-present? (cdr it))
+                                                  indent-lengths-and-lines)))
+         (min-indent (if non-empty-line-indents (-min non-empty-line-indents) 0))
+         (unindented-lines (--map (if (or (= min-indent 0) (= (car it) 0))
+                                      (cdr it)
+                                    (substring (cdr it) min-indent))
+                                  indent-lengths-and-lines))
+         (indented-lines (when (and indent-to (> indent-to 0))
+                           (--map (if (s-matches? "^[[:space:]]*$" it)
+                                      it
+                                    (concat (s-repeat indent-to " ") it))
+                                  unindented-lines)))
+         (resulting-lines (or indented-lines unindented-lines))
+         (joined (s-join "\n" resulting-lines)))
+    (kill-new joined)))
+
+(defun my-copy-without-indentation (arg start end)
+  "Copy the region without any leading indentation.
+
+With argument, after removing leading indentation, indent to 4 spaces.
+This is useful for Markdown codeblocks, for example."
+  (interactive "P\nr")
+
+  (let ((region (filter-buffer-substring start end)))
+    (my--copy-without-indentation region (when arg 4))))
+
 
 (my-map
   "e" '(:ignore t :which-key "emacs")
