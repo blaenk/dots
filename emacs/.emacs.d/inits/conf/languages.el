@@ -406,6 +406,9 @@
   (:keymaps 'LaTeX-mode-map
    "C-c C-c" 'my-latex-make-and-preview)
 
+  (my-map :keymaps 'LaTeX-mode-map
+    "m c" 'my-latex-make-and-preview)
+
   :init
   (define-advice TeX-command-sentinel
       (:after (process msg) show-output-window-on-error)
@@ -455,7 +458,10 @@
 (use-package clang-format
   :general
   (:keymaps 'c-mode-base-map
-   "C-c C-f" 'clang-format-buffer))
+   "C-c C-f" 'clang-format-buffer)
+
+  (my-map :keymaps 'c-mode-base-map
+    "m f" 'clang-format-buffer))
 
 (use-package google-c-style
   :defer t
