@@ -110,7 +110,10 @@
 (use-package helm-ag
   :general
   (:keymaps 'helm-ag-map
-   "C-c a" 'my-helm-ag-launch-ag)
+   "C-c a" 'my-helm-ag-launch-ag
+
+   "C-c C-h" 'my--ag-split-horizontal
+   "C-c C-v" 'my--ag-split-vertical)
 
   (my-map
     ". s" 'my-dots-search)
@@ -132,7 +135,46 @@
 
   (defun my-helm-ag-launch-ag ()
     (interactive)
-    (helm-exit-and-execute-action 'my-helm-ag--launch-ag)))
+    (with-helm-alive-p
+      (helm-exit-and-execute-action 'my-helm-ag--launch-ag)))
+
+  (defun my--helm-ag-horizontal-find-func (buf)
+    (select-window (split-window-below))
+    (if (get-buffer buf)
+        (switch-to-buffer buf)
+      (find-file buf))
+    (balance-windows))
+
+  (defun my--helm-ag-action-find-file-horizontal (candidate)
+    "Open ag candidate(s) in horizontal splits."
+
+    (dolist (buf (helm-marked-candidates))
+      (helm-ag--find-file-action buf 'my--helm-ag-horizontal-find-func
+                                 (helm-ag--search-this-file-p))))
+
+  (defun my--ag-split-horizontal ()
+    (interactive)
+    (with-helm-alive-p
+      (helm-exit-and-execute-action 'my--helm-ag-action-find-file-horizontal)))
+
+  (defun my--helm-ag-vertical-find-func (buf)
+    (select-window (split-window-right))
+    (if (get-buffer buf)
+        (switch-to-buffer buf)
+      (find-file buf))
+    (balance-windows))
+
+  (defun my--helm-ag-action-find-file-vertical (candidate)
+    "Open ag candidate(s) in vertical splits."
+
+    (dolist (buf (helm-marked-candidates))
+      (helm-ag--find-file-action buf 'my--helm-ag-vertical-find-func
+                                 (helm-ag--search-this-file-p))))
+
+  (defun my--ag-split-vertical ()
+    (interactive)
+    (with-helm-alive-p
+      (helm-exit-and-execute-action 'my--helm-ag-action-find-file-vertical))))
 
 (use-package helm-gtags
   :diminish helm-gtags-mode
