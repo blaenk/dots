@@ -79,6 +79,14 @@
   :config
   (helm-ext-ff-enable-split-actions t))
 
+(use-package helm-locate
+  :ensure nil
+
+  :general
+  (:keymaps 'helm-generic-files-map
+   "C-c C-h" 'helm-ext-ff-execute-horizontal-split
+   "C-c C-v" 'helm-ext-ff-execute-vertical-split))
+
 (use-package helm-files
   :ensure nil
 
