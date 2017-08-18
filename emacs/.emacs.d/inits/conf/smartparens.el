@@ -6,11 +6,11 @@
   :diminish smartparens-mode
 
   :general
-  (:keymaps '(emacs-lisp-mode-map web-mode-map)
+  (:keymaps '(emacs-lisp-mode-map web-mode-map lisp-interaction-mode-map)
     "M-S" 'sp-split-sexp
     "M-J" 'sp-join-sexp)
 
-  (:keymaps '(emacs-lisp-mode-map web-mode-map)
+  (:keymaps '(emacs-lisp-mode-map web-mode-map lisp-interaction-mode-map)
    :states 'normal
     "> )" 'my-move-closing-paren-forward
     "< )" 'my-move-closing-paren-backward
