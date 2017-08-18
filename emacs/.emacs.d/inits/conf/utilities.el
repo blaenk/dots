@@ -92,7 +92,9 @@
   (which-key-mode))
 
 (use-package help-fns+
-  :commands describe-keymap)
+  :general
+  (:keymaps 'help-map
+   "M-k" 'describe-keymap))
 
 ;; TODO
 ;; use (member "Symbola" (font-family-list))
