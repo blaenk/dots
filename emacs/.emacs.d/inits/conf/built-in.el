@@ -581,72 +581,62 @@ Lisp function does not specify a special indentation."
   ;; doing M-x ediff-show-diff-output from ediff-current-file doesn't work
   ;; https://emacs.stackexchange.com/questions/22090/
 
-  (defvar my-ediff-last-windows nil)
+  (defvar my--ediff-last-windows nil
+    "Stores the window configuration from before ediff was invoked.")
 
-  (defun my-toggle-ediff-wide-display ()
+  (defvar-local my--ediff-problem-modes
+    '(hs-minor-mode fci-mode visual-line-mode whitespace-mode)
+    "Modes that are known to cause issues with ediff.
+
+If any of these modes were enabled prior to entering ediff,
+they'll be disabled and then re-enabled on exit.")
+
+  (defvar-local my--ediff-disabled-problem-modes '()
+    "Stores any problem modes that were disabled prior to entering ediff.")
+
+  (defun my--ediff-disable-wide-display ()
     (require 'ediff-util)
-    "Turn off wide-display mode (if was enabled) before quitting ediff."
     (when ediff-wide-display-p
       (ediff-toggle-wide-display)))
 
-  ;; this is run for each buffer A, B, C after they are setup. note that the
-  ;; "current" buffer is itself one of those. this means for example that if
-  ;; whitespace-mode was enabled in the current buffer, simply launching ediff
-  ;; will turn it off
-  (defun my-ediff-prepare ()
-    (setq my-ediff-last-windows (current-window-configuration))
+  (defun my--ediff-save-window-configuration ()
+    (setq my--ediff-last-windows (current-window-configuration)))
 
-    (when (bound-and-true-p hs-minor-mode)
-      (setq-local my-ediff-was-on-hs-minor-mode t)
-      (hs-minor-mode -1))
+  (defun my--ediff-restore-window-configuration ()
+    (set-window-configuration my--ediff-last-windows)
+    (setq my--ediff-last-windows nil))
 
-    (when (bound-and-true-p fci-mode)
-      (setq-local my-ediff-was-on-fci-mode t)
-      (fci-mode -1))
+  (defun my--ediff-disable-problem-modes ()
+    (dolist (mode my--ediff-problem-modes)
+      (when (bound-and-true-p mode)
+        (funcall mode -1)
+        (push mode my--ediff-disabled-problem-modes))))
 
-    (when (bound-and-true-p visual-line-mode)
-      (setq-local my-ediff-was-on-visual-line-mode t)
-      (visual-line-mode -1))
+  (defun my--ediff-restore-problem-modes ()
+    (dolist (mode my--ediff-disabled-problem-modes)
+      (funcall mode +1))
 
-    (when (bound-and-true-p whitespace-mode)
-      (setq-local my-ediff-was-on-whitespace-mode t)
-      (global-whitespace-mode -1)))
+    (setq-local my--ediff-disabled-problem-modes '()))
 
-  (defun my-ediff-start ()
-    (interactive)
+  (defun my--ediff-start ()
     (my-fullscreen-if-wasnt))
 
-  (defun my-ediff-quit ()
-    (interactive)
-
-    (when (bound-and-true-p my-ediff-was-on-hs-minor-mode)
-      (kill-local-variable my-ediff-was-on-hs-minor-mode)
-      (hs-minor-mode +1))
-
-    (when (bound-and-true-p my-ediff-was-on-fci-mode)
-      (kill-local-variable my-ediff-was-on-fci-mode)
-      (fci-mode +1))
-
-    (when (bound-and-true-p my-ediff-was-on-visual-line-mode)
-      (kill-local-variable my-ediff-was-on-visual-line-mode)
-      (visual-line-mode +1))
-
-    (when (bound-and-true-p my-ediff-was-on-whitespace-mode)
-      (kill-local-variable my-ediff-was-on-whitespace-mode)
-      (global-whitespace-mode +1))
-
-    (set-window-configuration my-ediff-last-windows)
-    (my-toggle-ediff-wide-display)
+  (defun my--ediff-quit ()
+    (my--ediff-restore-problem-modes)
+    (my--ediff-restore-window-configuration)
+    (my--ediff-disable-wide-display)
     (my-unfullscreen-if-wasnt))
 
-  (defun my-ediff-janitor ()
+  (defun my--ediff-janitor ()
     (ediff-janitor nil nil))
 
-  (add-hook 'ediff-cleanup-hook #'my-ediff-janitor)
-  (add-hook 'ediff-prepare-buffer-hook #'my-ediff-prepare)
-  (add-hook 'ediff-startup-hook #'my-ediff-start)
-  (add-hook 'ediff-suspend-hook #'my-ediff-quit 'append)
-  (add-hook 'ediff-quit-hook #'my-ediff-quit 'append))
+  (add-hook 'ediff-prepare-buffer-hook #'my--ediff-disable-problem-modes)
+  (add-hook 'ediff-before-setup-hook #'my--ediff-save-window-configuration)
+  (add-hook 'ediff-startup-hook #'my--ediff-start)
+
+  (add-hook 'ediff-suspend-hook #'my--ediff-quit 'append)
+  (add-hook 'ediff-quit-hook #'my--ediff-quit 'append)
+  (add-hook 'ediff-cleanup-hook #'my--ediff-janitor))
 
 (use-package minibuffer
   :ensure nil
