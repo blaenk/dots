@@ -686,10 +686,11 @@ they'll be disabled and then re-enabled on exit.")
   :init
   (setq bug-reference-bug-regexp "\\(\
 [Ii]ssue ?#\\|\
-[Bb]ug ?#\\|\
+[Bb]ug ?#?\\|\
 [Pp]atch ?#\\|\
 RFE ?#\\|\
-PR [a-z-+]+/\
+GH-\\|\
+PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 \\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
 
   (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
