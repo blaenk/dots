@@ -125,11 +125,7 @@
 
 (use-package vdiff :defer t)
 
-(use-package easy-escape
-  :defer t
-
-  :init
-  (add-hook 'emacs-lisp-mode-hook 'easy-escape-minor-mode))
+(use-package easy-escape :defer t)
 
 (use-package paradox
   :general
