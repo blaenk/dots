@@ -17,6 +17,7 @@
   (defun my-browse-file-directory ()
     "Open the current file's directory however the OS would."
     (interactive)
+
     (if default-directory
         (browse-url-of-file (expand-file-name default-directory))
       (error "No `default-directory' to open"))))
@@ -70,21 +71,25 @@ Also bind `q' to `quit-window'."
   :init
   (setq-default auto-revert-check-vc-info t)
 
-  (defun my-disable-auto-revert-vc-when-remote ()
-    (when (and buffer-file-name (file-remote-p buffer-file-name))
-      (setq-local auto-revert-check-vc-info nil)))
-
-  (add-hook 'find-file-hook #'my-disable-auto-revert-vc-when-remote)
-
   ;; emacs 25 disables notify for global-auto-revert
   ;; because there can be a problem on OSX where it may use too many resources
   ;; or something
-  (defun my-enable-notify ()
-    (when (and (not (eq system-type 'darwin))
-               (not (and buffer-file-name (file-remote-p buffer-file-name))))
+  (defun my--enable-notify ()
+    "Enable auto-revert-use-notify unless on macos."
+
+    (unless (eq system-type 'darwin)
       (setq-local auto-revert-use-notify t)))
 
-  (add-hook 'global-auto-revert-mode 'my-enable-notify)
+  (add-hook 'global-auto-revert-mode #'my--enable-notify)
+
+  (defun my--disable-auto-revert-vc-when-remote ()
+    "Disable auto-revert-mode for remote files."
+
+    (when (and buffer-file-name (file-remote-p buffer-file-name))
+      (setq-local auto-revert-check-vc-info nil)))
+
+  (add-hook 'find-file-hook #'my--disable-auto-revert-vc-when-remote)
+
   (global-auto-revert-mode 1))
 
 (use-package delsel
@@ -127,6 +132,7 @@ Also bind `q' to `quit-window'."
   (define-advice comment-indent-new-line
       (:after (&optional soft) at-least-one-space)
     "Ensure that at least one space is added after the comment-start."
+
     (let* ((comment-start (s-trim-right comment-start))
            (start-pattern (regexp-quote comment-start))
            (in-comment (looking-back start-pattern (- (point) (length comment-start))))
@@ -143,7 +149,6 @@ Also bind `q' to `quit-window'."
 
 (use-package menu-bar
   :ensure nil
-  :defer t
 
   :general
   ("<f10>" 'toggle-menu-bar-mode-from-frame)
@@ -166,6 +171,7 @@ Also bind `q' to `quit-window'."
 
   :init
   (defun my-scroll-bar-toggle ()
+    "Toggle visibility of the scroll bar for the current window."
     (interactive)
 
     (let ((window (selected-window))
@@ -201,16 +207,7 @@ Also bind `q' to `quit-window'."
 (use-package which-func
   :ensure nil
 
-  :general
-  (my-map
-    "p f" 'my-which-func-print)
-
   :init
-  (defun my-which-func-print ()
-    (interactive)
-    (which-func-update)
-    (message "→ %s" (gethash (selected-window) which-func-table)))
-
   (which-function-mode 1))
 
 (use-package saveplace
@@ -326,8 +323,6 @@ Also bind `q' to `quit-window'."
         whitespace-indentation-regexp
         '("^ *\\(\t+\\)[^\n]" . "^ *\\(\t+\\)[^\n]")
 
-        ;; NOTE
-        ;; lines-tail to see which lines go beyond max col
         whitespace-style
         '(face indentation trailing empty space-after-tab
                space-before-tab tab-mark)
@@ -358,22 +353,21 @@ Also bind `q' to `quit-window'."
         sh-basic-offset 2
         sh-indentation 2)
 
-  (defun my-zsh-hook ()
+  (defun my--zsh-hook ()
     (when (string-match "\\.zsh\\(rc\\)?\\'" buffer-file-name)
       (sh-set-shell "zsh")))
 
-  (add-hook 'sh-mode-hook 'my-zsh-hook))
+  (add-hook 'sh-mode-hook #'my--zsh-hook))
 
 (use-package python
   :ensure nil
   :defer t
 
   :init
-  ;; TODO other PEP8 stuff
-  (defun my-python-hook ()
+  (defun my--python-hook ()
     (setq fill-column 79))
 
-  (add-hook 'python-mode-hook #'my-python-hook))
+  (add-hook 'python-mode-hook #'my--python-hook))
 
 (use-package semantic
   :ensure nil
@@ -382,26 +376,27 @@ Also bind `q' to `quit-window'."
   semanticdb-default-save-directory
 
   :init
-  (add-hook 'c++-mode 'semantic-mode)
+  (add-hook 'c++-mode #'semantic-mode))
+
+(use-package semantic/db-mode
+  :ensure nil
+  :after semantic
+  :functions
+  global-semanticdb-minor-mode
+  global-semantic-idle-scheduler-mode
+
+  :init
+  (setq semanticdb-default-save-directory (my-cache-dir "semanticdb"))
 
   :config
-  (use-package semantic/db-mode
-    :ensure nil
-    :functions
-    global-semanticdb-minor-mode
-    global-semantic-idle-scheduler-mode
+  (global-semanticdb-minor-mode 1))
 
-    :init
-    (setq semanticdb-default-save-directory (my-cache-dir "semanticdb"))
+(use-package semantic/idle
+  :ensure nil
+  :after semantic
 
-    :config
-    (global-semanticdb-minor-mode 1))
-
-  (use-package semantic/idle
-    :ensure nil
-
-    :config
-    (global-semantic-idle-scheduler-mode 1)))
+  :config
+  (global-semantic-idle-scheduler-mode 1))
 
 (use-package cc-mode
   :ensure nil
@@ -419,7 +414,9 @@ Also bind `q' to `quit-window'."
   (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
   (defun my-insert-include-guard ()
+    "Insert C pre-processor include guards."
     (interactive)
+
     (let* ((project-root (when (projectile-project-p)
                            (projectile-project-root)))
            (buf-name (or (buffer-file-name) (buffer-name)))
@@ -446,7 +443,7 @@ Also bind `q' to `quit-window'."
   :defer t
 
   :config
-  ;; add googletest TESTs to imenu
+  ;; Add googletest TESTs to imenu.
   (add-to-list 'cc-imenu-c++-generic-expression
                '("Test" "^TEST\\(_F\\)?(\\([^)]+\\))" 2) t))
 
@@ -460,21 +457,22 @@ Also bind `q' to `quit-window'."
 (use-package lisp-mode
   :ensure nil
   :defer t
-  :functions my-lisp-indent-function
+  :functions my--lisp-indent-function
   :defines calculate-lisp-indent-last-sexp
 
   :init
-  ;; taken from Fuco1
-  ;; https://github.com/Fuco1/.emacs.d/blob/master/site-lisp/my-redef.el#L18
+  ;; Fixes list indentation.
   ;;
-  ;; redefines the silly indent of keyword lists
-  ;; before
+  ;; Before:
   ;;   (:foo bar
   ;;         :baz qux)
-  ;; after
+  ;; After:
   ;;   (:foo bar
   ;;    :baz qux)
-  (defun my-lisp-indent-function (indent-point state)
+  ;;
+  ;; Source:
+  ;; https://github.com/Fuco1/.emacs.d/blob/master/site-lisp/my-redef.el#L18
+  (defun my--lisp-indent-function (indent-point state)
     "This function is the normal value of the variable `lisp-indent-function'.
 The function `calculate-lisp-indent' calls this to determine
 if the arguments of a Lisp function call should be indented specially.
@@ -550,9 +548,10 @@ Lisp function does not specify a special indentation."
                 (method
                  (funcall method indent-point state))))))))
 
-  (add-hook 'emacs-lisp-mode-hook
-            (defun my-use-my-lisp-indent-function ()
-              (setq-local lisp-indent-function #'my-lisp-indent-function))))
+  (defun my--use-my-lisp-indent-function ()
+    (setq-local lisp-indent-function #'my--lisp-indent-function))
+
+  (add-hook 'emacs-lisp-mode-hook #'my--use-my-lisp-indent-function))
 
 (use-package diff
   :ensure nil
@@ -562,13 +561,12 @@ Lisp function does not specify a special indentation."
   (defun my-diff ()
     "Generate unified diff of current buffer with backing file."
     (interactive)
+
     (diff-buffer-with-file (current-buffer))))
 
 (use-package ediff
   :ensure nil
-  :defer t
   :functions
-  my-toggle-ediff-wide-display
   ediff-toggle-wide-display
 
   :general
@@ -663,17 +661,17 @@ Lisp function does not specify a special indentation."
   :defer t
 
   :init
-  ;; disable electric-pair-mode in the minibuffer unless we're in
-  ;; eval-expression
-  (defun my-electric-pair-inhibit-in-minibuffer (char)
+  ;; Disable electric-pair-mode in the minibuffer unless we're in
+  ;; eval-expression.
+  (defun my--electric-pair-inhibit-in-minibuffer (char)
     'inhibit)
 
-  (defun my-minibuffer-setup-hook ()
+  (defun my--minibuffer-setup-hook ()
     (when (not (eq this-command 'pp-eval-expression))
       (setq-local electric-pair-inhibit-predicate
-                  #'my-electric-pair-inhibit-in-minibuffer)))
+                  #'my--electric-pair-inhibit-in-minibuffer)))
 
-  (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
+  (add-hook 'minibuffer-setup-hook #'my--minibuffer-setup-hook)
 
   (electric-pair-mode 1))
 
@@ -836,11 +834,11 @@ PR [a-z-+]+/\
         compilation-skip-threshold 0
         compilation-always-kill t)
 
-  (defun my-compilation-mode-hook ()
-    (setq truncate-lines nil)
-    (set (make-local-variable 'truncate-partial-width-windows) nil))
+  (defun my--compilation-mode-hook ()
+    (setq-local truncate-lines nil)
+    (setq-local truncate-partial-width-windows nil))
 
-  (add-hook 'compilation-mode-hook 'my-compilation-mode-hook))
+  (add-hook 'compilation-mode-hook #'my--compilation-mode-hook))
 
 (use-package hl-line
   :ensure nil
@@ -848,11 +846,11 @@ PR [a-z-+]+/\
 
   :init
   (setq hl-line-sticky-flag t)
+
   (add-hook 'prog-mode-hook #'hl-line-mode))
 
 (use-package help-mode
   :ensure nil
-  :defer t
 
   :general
   (:keymaps 'help-mode-map
@@ -883,13 +881,12 @@ PR [a-z-+]+/\
 
 (use-package flyspell
   :ensure nil
-  :defer t
 
   :functions
   push-mark-no-activate
-  flyspell-goto-previous-error
   flyspell-overlay-p
   flyspell-goto-next-error
+  my-flyspell-goto-previous-error
 
   :general
   (:keymaps 'flyspell-mode-map
@@ -902,9 +899,10 @@ PR [a-z-+]+/\
   (add-hook 'prog-mode-hook #'flyspell-prog-mode)
 
   :config
-  (defun flyspell-goto-previous-error (arg)
+  (defun my-flyspell-goto-previous-error (arg)
     "Go to arg previous spelling error."
     (interactive "p")
+
     (while (not (= 0 arg))
       (let ((pos (point))
             (min (point-min)))

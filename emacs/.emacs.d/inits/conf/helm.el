@@ -286,7 +286,7 @@
    "C-;" 'my-flyspell-last)
 
   (:keymaps 'normal
-   "[ s" 'flyspell-goto-previous-error
+   "[ s" 'my-flyspell-goto-previous-error
    "] s" 'flyspell-goto-next-error
 
    "[ S" 'check-previous-spelling-error
