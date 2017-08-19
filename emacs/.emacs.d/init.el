@@ -39,14 +39,14 @@
   (package-install 'use-package))
 
 (setq load-prefer-newer t
-      backup-by-copying t)
+      backup-by-copying t
+
+      use-package-always-ensure t
+      use-package-check-before-init t
+      use-package-enable-imenu-support t)
 
 (eval-when-compile
   (require 'use-package))
-
-(setq use-package-always-ensure t
-      use-package-check-before-init t
-      use-package-enable-imenu-support t)
 
 (require 'diminish)
 (require 'bind-key)
