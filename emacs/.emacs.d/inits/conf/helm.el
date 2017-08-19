@@ -311,7 +311,7 @@
     "Jump to previous spelling error and correct it"
     (interactive)
     (push-mark-no-activate)
-    (flyspell-goto-previous-error 1)
+    (my-flyspell-goto-previous-error 1)
     (call-interactively #'helm-flyspell-correct))
 
   (defun check-next-spelling-error ()
