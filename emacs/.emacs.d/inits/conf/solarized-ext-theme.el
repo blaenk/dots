@@ -34,6 +34,12 @@
     :group 'mode-line-faces
     :group 'basic-faces)
 
+  (defface mode-line-which-function-face
+    `((,class (:background ,blue-l :foreground "white")))
+    "which-function in mode-line"
+    :group 'mode-line-faces
+    :group 'basic-faces)
+
   (defface mode-line-branch-face
     `((,class (:background ,base0
                :foreground "white"
