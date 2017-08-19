@@ -771,17 +771,18 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
     "t a" 'auto-fill-mode)
 
   :init
-  (setq visual-line-fringe-indicators '(left-curly-arrow nil))
+  (setq visual-line-fringe-indicators '(left-curly-arrow nil)
+        next-error-recenter '(4))
 
-  (setq next-error-recenter '(4))
+  (setq-default comment-auto-fill-only-comments t)
 
   (add-hook 'prog-mode-hook #'visual-line-mode)
 
   (defun my-next-error (&optional n reset)
     "Dispatch to flycheck or standard emacs error."
     (interactive "P")
-    (if (and (boundp 'flycheck-mode)
-             (symbol-value flycheck-mode)
+
+    (if (and (bound-and-true-p 'flycheck-mode)
              (not (get-buffer-window "*compilation*")))
         (call-interactively 'flycheck-next-error)
       (call-interactively 'next-error)))
@@ -789,17 +790,13 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   (defun my-previous-error (&optional n reset)
     "Dispatch to flycheck or standard emacs error."
     (interactive "P")
-    (if (and (boundp 'flycheck-mode)
-             (symbol-value flycheck-mode)
+
+    (if (and (bound-and-true-p 'flycheck-mode)
              (not (get-buffer-window "*compilation*")))
         (call-interactively 'flycheck-previous-error)
       (call-interactively 'previous-error)))
 
-  (defun my-prog-auto-fill ()
-    (setq-local comment-auto-fill-only-comments t)
-    (auto-fill-mode 1))
-
-  (add-hook 'prog-mode-hook #'my-prog-auto-fill)
+  (add-hook 'prog-mode-hook #'auto-fill-mode)
 
   (column-number-mode 1))
 
