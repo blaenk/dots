@@ -226,7 +226,7 @@
 
    `(hl-line ((,class (:background
                        ,(solarized-color-blend base02 base03 0.5)))))
-   `(region ((,class (:background ,base02))))
+   `(region ((,class (:background ,base02 :foreground unspecified))))
 
    `(show-paren-match ((,class (:foreground unspecified
                                 :background ,base02
