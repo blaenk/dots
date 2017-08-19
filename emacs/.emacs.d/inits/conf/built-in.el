@@ -713,20 +713,24 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   org-at-table-p
   org-table-hline-and-move
 
-  ;; TODO check
   :general
   (:keymaps 'orgtbl-mode-map
    "C-c RET" 'my-orgtbl-ret)
 
   :config
   (defun my-orgtbl-ret ()
+    "Insert hline-and-move if in an org table, else pass-through C-c RET."
     (interactive)
+
+    ;; If we're within an org table then insert an hline and move, otherwise
+    ;; make it appear as if orgtbl-mode is off and re-run the key sequence
+    ;; interactively, effectively passing it through to whatever binding it may
+    ;; have outside of orgtbl-mode.
     (if (org-at-table-p)
         (org-table-hline-and-move)
       (let (orgtbl-mode)
-        ;; TODO
-        ;; encodes C-c
-        (call-interactively (key-binding (kbd "C-c RET")))))))
+        (-when-let (binding (key-binding (this-command-keys-vector)))
+          (call-interactively binding))))))
 
 (use-package dired
   :ensure nil
