@@ -17,37 +17,44 @@
              ))))
     (concat left center-fmt right)))
 
+;; Note that Eyebrowse uses the same formatters for the mode-line as for the
+;; completing-read function, but we want separate formatters for each, so we
+;; work around this by locally binding the format strings.
+
+;; For the header-line show the tag name as well.
 (defun my--eyebrowse-indicator-header-line ()
   (when header-line-format
-    ;; Eyebrowse uses the same formatters for the mode-line as for the
-    ;; completing-read function, but we want separate formatters for each,
-    ;; so we create local bindings here.
     (let ((eyebrowse-slot-format " %s ")
           (eyebrowse-tagged-slot-format " %s:%t "))
       (eyebrowse-mode-line-indicator))))
 
+;; For the mode-line just show the slot number.
 (defun my--eyebrowse-indicator-mode-line ()
   (unless header-line-format
-    ;; Eyebrowse uses the same formatters for the mode-line as for the
-    ;; completing-read function, but we want separate formatters for each,
-    ;; so we create local bindings here.
     (let ((eyebrowse-slot-format " %s ")
           (eyebrowse-tagged-slot-format " %s "))
       (eyebrowse-mode-line-indicator))))
 
 (defconst my--header-line-left
-  `((:propertize
-     (:eval (s-wrap mode-name " "))
-     face mode-line-mode-name-face)
+  `(
     ))
 
 (defconst my--header-line-center
-  `((which-function-mode
-     (:eval (concat " → " (gethash (selected-window) which-func-table))))
+  `(
+    (which-function-mode
+     (:eval
+      (propertize
+       (concat " λ " (gethash (selected-window) which-func-table) " ")
+       'face 'mode-line-which-function-face)
+       ))
     ))
 
 (defconst my--header-line-right
-  `((eyebrowse-mode
+  `(
+    (eyebrowse-mode
+     (:propertize
+      (:eval (s-wrap mode-name " "))
+      face mode-line-mode-name-face)
      (:eval (my--eyebrowse-indicator-header-line)))
     ))
 
@@ -58,45 +65,44 @@
           (format-mode-line my--header-line-right))))
 
 (defun my-toggle-header-line ()
+  "Toggle visibility of the header-line."
   (interactive)
+
   (if header-line-format
       (kill-local-variable 'header-line-format)
     (setq-local header-line-format my--header-line-template))
+
   (force-mode-line-update))
 
 (my-map
   "t h" 'my-toggle-header-line)
 
-;; (defvar my-selected-window (frame-selected-window))
+(defvar my--selected-window (frame-selected-window)
+  "The currently-selected window.")
 
-;; (defun my-set-selected-window ()
-;;   "sets the variable `my-selected-window` appropriately"
-;;   (when (not (minibuffer-window-active-p (frame-selected-window)))
-;;     (setq my-selected-window (frame-selected-window))))
+(defun my--save-selected-window ()
+  (when (not (minibuffer-window-active-p (frame-selected-window)))
+    (setq my--selected-window (frame-selected-window))))
 
-;; (defun my-unset-selected-window ()
-;;   "Unsets the variable `my-selected-window` and updates the modeline"
-;;   (setq my-selected-window nil)
-;;   (force-mode-line-update))
+(add-hook 'window-configuration-change-hook #'my--save-selected-window)
+(add-hook 'focus-in-hook #'my--save-selected-window)
 
-;; (add-hook 'window-configuration-change-hook 'my-set-selected-window)
+(defun my--clear-selected-window ()
+  (setq my--selected-window nil)
+  (force-mode-line-update))
 
-;; (add-hook 'focus-in-hook 'my-set-selected-window)
-;; (add-hook 'focus-out-hook 'my-unset-selected-window)
+(add-hook 'focus-out-hook #'my--clear-selected-window)
 
-;;  ;; Executes after the window manager requests that the user's events
-;; ;; be directed to a different frame.
-;; (defadvice handle-switch-frame
-;;     (after my-set-selected-window-after-switch-frame activate)
-;;   (my-set-selected-window))
+(define-advice handle-switch-frame
+    (:after (event) save-selected-window-after-switch-frame)
+  (my--save-selected-window))
 
-;; (defadvice select-window (after my-select-window activate)
-;;   "makes powerline aware of window changes"
-;;   (my-set-selected-window))
+(define-advice select-window
+    (:after (window &optional norecord) save-selected-window)
+  (my--save-selected-window))
 
-;; (defun my-selected-window-active ()
-;;   "Return whether the current window is active."
-;;   (eq my-selected-window (selected-window)))
+(defun my--is-selected-window-p ()
+  (eq my--selected-window (selected-window)))
 
 (defconst my--lock-icon
   (if (not (eq system-type 'windows-nt))
@@ -108,14 +114,13 @@
     (fontawesome "cloud")
     "☁"))
 
-(defun my--is-evil-on ()
-  (and (or
-        (bound-and-true-p evil-mode)
-        (bound-and-true-p evil-local-mode))
+(defun my--is-evil-on-p ()
+  (and (or (bound-and-true-p evil-mode)
+           (bound-and-true-p evil-local-mode))
        (not (evil-emacs-state-p))))
 
 (defun my--evil-indicator ()
-  (let* ((is-evil (my--is-evil-on))
+  (let* ((is-evil (my--is-evil-on-p))
          (indicator (if is-evil "V" "E"))
          (face (if is-evil
                    'mode-line-evil-mode-indicator-face
@@ -127,8 +132,8 @@
     (let ((host (tramp-file-name-host (tramp-dissect-file-name buffer-file-name))))
       (s-wrap (concat my--cloud-icon " " host) " "))))
 
-(defun my--format-flycheck (count face)
-  (when count
+(defun my--format-error (count face)
+  (when (and count (> count 0))
     (propertize (s-wrap (number-to-string count) " ") 'face face)))
 
 (defun my--format-flycheck-errors ()
@@ -136,26 +141,20 @@
       (let-alist (flycheck-count-errors flycheck-current-errors)
         (let* ((error-counts (flycheck-count-errors flycheck-current-errors)))
           (concat
-           (my--format-flycheck .info 'mode-line-flycheck-infos-face)
-           (my--format-flycheck .warning 'mode-line-flycheck-warnings-face)
-           (my--format-flycheck .error 'mode-line-flycheck-errors-face))))
+           (my--format-error .info 'mode-line-flycheck-infos-face)
+           (my--format-error .warning 'mode-line-flycheck-warnings-face)
+           (my--format-error .error 'mode-line-flycheck-errors-face))))
     (propertize " ✔ " 'face 'mode-line-flycheck-no-errors-face)))
 
 (defun my--flycheck-mode-line ()
   (pcase flycheck-last-status-change
     (`not-checked nil)
     (`no-checker nil)
-    (`suspicious (propertize " suspicious " 'face 'mode-line-flycheck-warnings-face))
-    (`errored (propertize " errored " 'face 'mode-line-flycheck-errors-face))
-    (`interrupted (propertize " interrupted " 'face 'mode-line-flycheck-errors-face))
-    (`running (propertize
-               " R "
-               'face 'mode-line-flycheck-checking-face))
+    (`suspicious (propertize " ⁇ " 'face 'mode-line-flycheck-warnings-face))
+    (`errored (propertize " ‼ " 'face 'mode-line-flycheck-errors-face))
+    (`interrupted (propertize " ⊣ " 'face 'mode-line-flycheck-errors-face))
+    (`running (propertize " … " 'face 'mode-line-flycheck-checking-face))
     (`finished (my--format-flycheck-errors))))
-
-(defun my--format-error (count face)
-  (when (> count 0)
-    (propertize (s-wrap (number-to-string count) " ") 'face face)))
 
 (defun my--compilation-mode-line ()
   (when (derived-mode-p 'compilation-mode)
@@ -173,16 +172,16 @@
                   ;; files, it straight-up returns nil, whereas `vc-git-state' does
                   ;; correctly return `ignored'.
                   (pcase (vc-git-state buffer-file-name)
-                    ('ignored      '("." . mode-line-flycheck-checking-face))
-                    ('unregistered '("." . mode-line-flycheck-checking-face))
-                    ('removed      '("-" . mode-line-flycheck-errors-face))
+                    ('ignored      '("." . mode-line-branch-face))
+                    ('unregistered '("." . mode-line-branch-face))
+                    ('removed      '("-" . mode-line-branch-face))
                     ('edited       '("#" . mode-line-branch-face))
                     ('added        '("+" . mode-line-branch-face))
-                    ('conflict     '("‼" . mode-line-flycheck-errors-face))
+                    ('conflict     '("‼" . mode-line-branch-face))
                     (_ nil)
-                    ))))
-    (-when-let ((label . face) state)
-      (propertize (s-wrap label " ") 'face face))))
+                    )))
+               ((label . face) state))
+    (propertize (s-wrap label " ") 'face face)))
 
 (defvar-local my--vc-git-status-cache ""
   "Cache the vc-git-status response")
@@ -204,12 +203,13 @@
 (add-hook 'find-file-hook #'my--cache-vc-info)
 (add-hook 'after-revert-hook #'my--cache-vc-info)
 
-(defun my--is-modified ()
+(defun my--is-modified-p ()
   (and (not buffer-read-only) (buffer-modified-p)))
 
 ;; TODO
-;; make functions private
-(defun my--title-format ()
+;; Remove tramp conditions for projectile, it seems to have been resolved
+;; upstream with PR bbatsov/projectile#1129
+(defun my--frame-title-format ()
   (cond
    ((and buffer-file-name (file-remote-p buffer-file-name))
     (let ((tramp-vec (tramp-dissect-file-name buffer-file-name)))
@@ -227,13 +227,6 @@
        (buffer-name))))
 
    (t (my--regular-identification))))
-
-(defun my--regular-identification ()
-  (if (and (featurep 'projectile)
-           buffer-file-name
-           (not (file-remote-p buffer-file-name)))
-      (my--file-identification buffer-file-name)
-    (propertize "%b" 'face 'mode-line-buffer-id)))
 
 (defun my--file-identification (path)
   (let* ((path (if (file-remote-p buffer-file-name)
@@ -265,6 +258,13 @@
 
     (t (my--regular-identification)))))
 
+(defun my--regular-identification ()
+  (if (and (featurep 'projectile)
+           buffer-file-name
+           (not (file-remote-p buffer-file-name)))
+      (my--file-identification buffer-file-name)
+    (propertize "%b" 'face 'mode-line-buffer-id)))
+
 (defun my--column-number--linum ()
   (propertize "%4c " 'face 'mode-line-column-face))
 
@@ -272,10 +272,9 @@
   (propertize (format "%%%dc " (+ (line-number-display-width) 2))
               'face 'mode-line-column-face))
 
-(fset 'my--column-number
-      (if (< emacs-major-version 26)
-          'my--column-number--linum
-        'my--column-number--native))
+(fset 'my--column-number (if (< emacs-major-version 26)
+                             'my--column-number--linum
+                           'my--column-number--native))
 
 (defconst my--mode-line-left
       `(
@@ -300,7 +299,7 @@
 (defconst my--mode-line-right
       `(
         (:propertize
-         (:eval (when (my--is-modified) " + "))
+         (:eval (when (my--is-modified-p) " + "))
          face mode-line-modified-face)
         (edebug-mode
          (:propertize " DBG " face mode-line-edebug-face))
@@ -314,7 +313,8 @@
         (:eval my--vc-git-status-cache)
         (:eval my--vc-git-mode-cache)
         (eyebrowse-mode
-         (:eval (my--eyebrowse-indicator-mode-line)))))
+         (:eval (my--eyebrowse-indicator-mode-line)))
+        ))
 
 (setq-default
  mode-line-format
@@ -323,6 +323,6 @@
           (format-mode-line my--mode-line-center)
           (format-mode-line my--mode-line-right))))
 
-(setq frame-title-format '(:eval (my--title-format)))
+(setq frame-title-format '(:eval (my--frame-title-format)))
 
 (provide 'conf/mode-line)
