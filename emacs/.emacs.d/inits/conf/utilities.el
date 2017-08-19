@@ -322,18 +322,14 @@
 
   :general
   (my-map
-    "t r" '(:ignore t :which-key "rainbow")
-    "t r c" 'rainbow-mode)
+    "t r" 'rainbow-mode)
 
   :init
-  ;; disable highlighting color names
-  (setq rainbow-x-colors nil)
-
-  (add-hook 'prog-mode-hook #'rainbow-mode))
+  ;; Disable highlighting color names.
+  (setq rainbow-x-colors nil))
 
 (use-package rainbow-delimiters
-  :general
-  (my-map "t r d" 'rainbow-delimiters-mode)
+  :defer t
 
   :init
   (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
