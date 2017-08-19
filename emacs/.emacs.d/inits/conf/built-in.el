@@ -855,15 +855,13 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 
 (use-package ispell
   :ensure nil
-  :defer t
 
   :init
-  ;; NOTE
-  ;; Remember to install Hunspell and its English dictionaries on new setups.
-  (when (executable-find "hunspell")
-    (setq ispell-program-name "hunspell"
-          ispell-dictionary "en_US"
-          ispell-really-hunspell t))
+  (if (executable-find "hunspell")
+      (setq ispell-program-name "hunspell"
+            ispell-dictionary "en_US"
+            ispell-really-hunspell t)
+    (warn "Don't forget to install hunspell!"))
 
   :config
   (ispell-set-spellchecker-params))
