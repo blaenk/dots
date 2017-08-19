@@ -66,8 +66,7 @@
 
   (defface mode-line-mode-name-face
     `((,class (:background ,base0
-               :foreground "white"
-               :weight bold)))
+               :foreground "white")))
     "mode name for mode-line"
     :group 'mode-line-faces
     :group 'basic-faces)
