@@ -803,18 +803,15 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 (use-package ansi-color
   :ensure nil
   :defer t
-  :defines
-  compilation-filter-start
   :functions
   ansi-color-apply-on-region
 
   :init
-  (ignore-errors
-    (defun colorize-compilation-buffer ()
-      (when (eq major-mode 'compilation-mode)
-        (ansi-color-apply-on-region compilation-filter-start (point-max))))
+  (defun my--colorize-compilation-buffer ()
+    (when (eq major-mode 'compilation-mode)
+      (ansi-color-apply-on-region compilation-filter-start (point-max))))
 
-    (add-hook 'compilation-filter-hook #'colorize-compilation-buffer)))
+  (add-hook 'compilation-filter-hook #'my--colorize-compilation-buffer))
 
 (use-package compile
   :ensure nil
