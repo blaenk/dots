@@ -1,6 +1,14 @@
 (require 'use-package)
 (require 'general)
 
+(defconst my--theme-variant
+  (if (getenv "USE_SOLARIZED_DARK") 'dark 'light)
+  "The Solarized variant to use.")
+
+(defconst my--solarized-theme-name
+  (intern (concat "solarized-" (symbol-name my--theme-variant)))
+  "The Solarized theme to use.")
+
 (defconst my--dots-path (getenv "DOTSPATH")
   "The DOTSPATH environment variable.
 

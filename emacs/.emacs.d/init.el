@@ -81,6 +81,8 @@
 
 (use-package general)
 
+(add-to-list 'custom-theme-load-path (expand-file-name "inits/conf/" user-emacs-directory) t)
+
 (add-to-list 'load-path (expand-file-name "inits/" user-emacs-directory) t)
 
 (byte-recompile-directory (expand-file-name "inits/" user-emacs-directory) 0)

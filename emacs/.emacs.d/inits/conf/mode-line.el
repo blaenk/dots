@@ -12,8 +12,9 @@
             (concat
              center
              (propertize
-              " " 'display
-              `((space :width ,(- available-width (string-width center)))))))))
+              " "
+              'display `((space :width ,(- available-width (string-width center)))))
+             ))))
     (concat left center-fmt right)))
 
 (defun my--eyebrowse-indicator-header-line ()
