@@ -23,14 +23,14 @@
 
 ;; For the header-line show the tag name as well.
 (defun my--eyebrowse-indicator-header-line ()
-  (when header-line-format
+  (when (and (my--is-selected-window-p) header-line-format)
     (let ((eyebrowse-slot-format " %s ")
           (eyebrowse-tagged-slot-format " %s:%t "))
       (eyebrowse-mode-line-indicator))))
 
 ;; For the mode-line just show the slot number.
 (defun my--eyebrowse-indicator-mode-line ()
-  (unless header-line-format
+  (when (and (my--is-selected-window-p) (not header-line-format))
     (let ((eyebrowse-slot-format " %s ")
           (eyebrowse-tagged-slot-format " %s "))
       (eyebrowse-mode-line-indicator))))
