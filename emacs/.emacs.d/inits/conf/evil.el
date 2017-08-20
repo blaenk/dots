@@ -156,7 +156,7 @@
     (eval-when-compile
       (require 'solarized))
 
-    (solarized-with-color-variables 'light
+    (solarized-with-color-variables my--theme-variant
       (setq evil-normal-state-cursor `(,blue-l box)
             evil-insert-state-cursor `(,green-l box)
             evil-visual-state-cursor `(,magenta-l box)
