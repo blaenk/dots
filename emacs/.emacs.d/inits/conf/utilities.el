@@ -424,7 +424,7 @@
         yas-also-auto-indent-first-line t)
 
   (defun my-yasnippet ()
-    "Expand partial snippet or choose a snippet.
+    "Expand partial snippet or choose a snippet with helm.
 
 If a region is active, it'll be used to \"wrap\" the selection."
     (interactive)

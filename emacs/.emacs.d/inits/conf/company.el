@@ -21,16 +21,19 @@
         company-dabbrev-downcase nil)
 
   (defun my-company-yasnippet ()
+    "Expand partial snippet or choose a snippet with company.
+
+If a region is active, it'll be used to \"wrap\" the selection."
     (interactive)
 
     ;; If there region is active or there's nothing to expand, use completing
     ;; read to select the snippet. Otherwise expand.
     (if (or (region-active-p)
             (not (yas--maybe-expand-key-filter 'yas-expand)))
-        (call-interactively 'company-yasnippet)
+        (call-interactively #'company-yasnippet)
       (yas-expand)))
 
-  (add-hook 'after-init-hook 'global-company-mode))
+  (add-hook 'after-init-hook #'global-company-mode))
 
 (use-package company-try-hard
   :general
@@ -67,95 +70,94 @@
   :defer t
 
   :init
-  (defun my-company-irony ()
-    (set (make-local-variable 'company-backends)
-         (add-to-list 'company-backends
-                      '(company-irony-c-headers company-irony))))
+  (defun my--company-irony ()
+    (setq-local company-backends
+                (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
 
-  (add-hook 'irony-mode-hook #'my-company-irony))
+  (add-hook 'irony-mode-hook #'my--company-irony))
 
 (use-package company-math
   :defer t
 
   :init
-  (defun my-company-math ()
+  (defun my--company-math ()
     (add-to-list 'company-backends 'company-math-symbols-unicode t)
     (add-to-list 'company-backends 'company-math-symbols-latex t))
 
-  (add-hook 'global-company-mode-hook #'my-company-math)
+  (add-hook 'global-company-mode-hook #'my--company-math)
 
   :config
-  (add-to-list 'company-math-allow-latex-symbols-in-faces 'markdown-math-face))
+  (add-to-list 'company-math-allow-latex-symbols-in-faces #'markdown-math-face))
 
 (use-package robe
   :ensure nil
   :after robe
 
   :init
-  (defun my-company-robe ()
-    (set (make-local-variable 'company-backends)
-         (add-to-list 'company-backends 'company-robe)))
+  (defun my--company-robe ()
+    (setq-local company-backends
+                (add-to-list 'company-backends 'company-robe)))
 
-  (add-hook 'robe-mode-hook #'my-company-robe))
+  (add-hook 'robe-mode-hook #'my--company-robe))
 
 (use-package company-tern
   :defer t
 
   :init
-  (defun my-company-tern ()
-    (set (make-local-variable 'company-backends)
-         (add-to-list 'company-backends 'company-tern)))
+  (defun my--company-tern ()
+    (setq-local company-backends
+                (add-to-list 'company-backends 'company-tern)))
 
-  (add-hook 'tern-mode-hook #'my-company-tern))
+  (add-hook 'tern-mode-hook #'my--company-tern))
 
 (use-package company-web-html
   :ensure company-web
   :defer t
 
   :config
-  (defun my-company-web-html ()
-    (set (make-local-variable 'company-backends)
-         (add-to-list 'company-backends 'company-web-html)))
+  (defun my--company-web-html ()
+    (setq-local company-backends
+                (add-to-list 'company-backends 'company-web-html)))
 
-  (add-hook 'web-mode-hook #'my-company-web-html))
+  (add-hook 'web-mode-hook #'my--company-web-html))
 
 (use-package company-auctex
   :defer t
 
   :init
-  (defun my-company-auctex ()
+  (defun my--company-auctex ()
     (make-local-variable 'company-backends)
     (company-auctex-init))
 
-  (add-hook 'LaTeX-mode-hook #'my-company-auctex))
+  (add-hook 'LaTeX-mode-hook #'my--company-auctex))
 
 (use-package company-go
   :defer t
 
   :init
-  (defun my-company-go ()
-    (set (make-local-variable 'company-backends)
-         (add-to-list 'company-backends 'company-go)))
+  (defun my--company-go ()
+    (setq-local company-backends
+                (add-to-list 'company-backends 'company-go)))
 
-  (add-hook 'go-mode-hook #'my-company-go))
+  (add-hook 'go-mode-hook #'my--company-go))
 
 (use-package company-restclient
   :defer t
 
   :init
-  (defun my-company-restclient ()
-    (set (make-local-variable 'company-backends)
-         (add-to-list 'company-backends 'company-restclient)))
+  (defun my--company-restclient ()
+    (setq-local company-backends
+                (add-to-list 'company-backends 'company-restclient)))
 
-  (add-hook 'restclient-mode-hook #'my-company-restclient))
+  (add-hook 'restclient-mode-hook #'my--company-restclient))
 
 (use-package company-emoji
   :defer t
 
   :init
-  (defun my-company-emoji ()
+  (defun my--company-emoji ()
     (add-to-list 'company-backends 'company-emoji t))
 
-  (add-hook 'global-company-mode-hook #'my-company-emoji))
+  (add-hook 'global-company-mode-hook #'my--company-emoji))
 
 (provide 'conf/company)
