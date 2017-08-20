@@ -316,12 +316,42 @@
          (:eval (my--eyebrowse-indicator-mode-line)))
         ))
 
-(setq-default
- mode-line-format
- `(:eval (my--render-mode-line
-          (format-mode-line my--mode-line-left)
-          (format-mode-line my--mode-line-center)
-          (format-mode-line my--mode-line-right))))
+(defconst my--default-mode-line-format mode-line-format
+  "The default mode-line-format.")
+
+(defconst my--custom-mode-line-format
+  `(:eval (my--render-mode-line
+           (format-mode-line my--mode-line-left)
+           (format-mode-line my--mode-line-center)
+           (format-mode-line my--mode-line-right)))
+  "My custom mode-line-format.")
+
+(defun my-toggle-custom-mode-line (arg)
+  "Toggle between custom and default mode-line.
+
+If ARG is given, do this for all buffers."
+  (interactive "P")
+
+  (let ((format (if (equal mode-line-format my--default-mode-line-format)
+                   my--custom-mode-line-format
+                 my--default-mode-line-format)))
+    (if arg
+        (progn
+          (setq-default mode-line-format format)
+
+          (dolist (buffer (buffer-list))
+            (with-current-buffer buffer
+              (kill-local-variable 'mode-line-format)))
+
+          (force-mode-line-update 'all))
+      (progn
+        (setq-local mode-line-format format)
+        (force-mode-line-update)))))
+
+(my-map
+  "t m" 'my-toggle-custom-mode-line)
+
+(setq-default mode-line-format my--custom-mode-line-format)
 
 (setq frame-title-format '(:eval (my--frame-title-format)))
 
