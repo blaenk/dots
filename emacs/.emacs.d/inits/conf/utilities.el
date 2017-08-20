@@ -405,8 +405,6 @@
                   magit-status-mode
                   magit-revision-mode))))
 
-(use-package list-environment :defer t)
-
 (use-package narrow-indirect :defer t)
 
 (use-package yasnippet
