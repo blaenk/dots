@@ -30,7 +30,11 @@
 
   (add-hook 'flycheck-mode-hook #'my-use-eslint-from-node-modules)
 
-  (add-hook 'after-init-hook 'global-flycheck-mode))
+  (add-hook 'after-init-hook 'global-flycheck-mode)
+
+  :config
+  (with-eval-after-load 'evil
+    (evil-set-initial-state #'flycheck-error-list-mode 'emacs)))
 
 (use-package flycheck-irony
   :after irony
