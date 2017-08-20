@@ -852,7 +852,15 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   :general
   (:keymaps 'help-mode-map
     "[" 'help-go-back
-    "]" 'help-go-forward))
+    "]" 'help-go-forward)
+
+  :config
+  (eval-when-compile
+    (require 'evil-core))
+
+  (with-eval-after-load 'evil-core
+    (evil-add-hjkl-bindings help-mode-map 'normal)
+    (evil-make-overriding-map help-mode-map 'motion)))
 
 (use-package hideshow
   :ensure nil
