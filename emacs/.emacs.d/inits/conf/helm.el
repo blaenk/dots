@@ -225,22 +225,24 @@ overridden with the prefix ARG."
   (defun my-dots-search ()
     "Search within dotfiles."
     (interactive)
-    (let ((helm-ag--extra-options
-           "--hidden --ignore-dir .git --ignore .gitignore --ignore .projectile"))
-      (helm-do-ag my--dots-path)))
 
-  (defun my-helm-ag--launch-ag (_candidate)
-    "Launch ag.el from the current helm-ag invocation."
-    (let* ((parsed (helm-ag--parse-options-and-query helm-ag--last-query))
-           (ag-arguments (car parsed))
-           (query (cdr parsed))
+    (helm-do-ag my--dots-path))
+
+  (defun my--helm-ag-launch-ag (_candidate)
+    (require 'ag)
+
+    (let* ((ag-arguments (-union (or ag-arguments '())
+                                 (cdr (butlast helm-ag--last-command))))
+           (query helm-ag--last-query)
            (joined-patterns (helm-ag--join-patterns query)))
       (ag-regexp joined-patterns helm-ag--last-default-directory)))
 
   (defun my-helm-ag-launch-ag ()
+    "Launch ag.el from the current helm-ag invocation."
     (interactive)
+
     (with-helm-alive-p
-      (helm-exit-and-execute-action 'my-helm-ag--launch-ag)))
+      (helm-exit-and-execute-action 'my--helm-ag-launch-ag)))
 
   (defun my--helm-ag-horizontal-find-func (buf)
     (select-window (split-window-below))
