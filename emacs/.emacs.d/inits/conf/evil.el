@@ -108,8 +108,6 @@
   ;; don't auto-copy visual selections
   (fset #'evil-visual-update-x-selection #'ignore)
 
-  (evil-set-initial-state #'paradox-menu-mode 'emacs)
-  (evil-set-initial-state #'paradox-commit-list-mode 'emacs)
   (evil-set-initial-state #'imenu-list-major-mode 'emacs)
 
   (eval-when-compile

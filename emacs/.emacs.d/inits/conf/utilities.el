@@ -132,7 +132,12 @@
 (use-package paradox
   :general
   (my-map
-    "e u" 'paradox-list-packages))
+    "e u" 'paradox-list-packages)
+
+  :config
+  (with-eval-after-load 'evil
+    (evil-set-initial-state #'paradox-menu-mode 'emacs)
+    (evil-set-initial-state #'paradox-commit-list-mode 'emacs)))
 
 (use-package ag
   :if (executable-find "ag")
