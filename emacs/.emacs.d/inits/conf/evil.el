@@ -87,9 +87,10 @@
     "C-w" (general-simulate-keys "C-c w"))
 
   :init
-  (setq evil-text-object-change-visual-type nil
-        evil-search-module 'evil-search
-        evil-want-C-w-delete t)
+  (setq evil-text-object-change-visual-type nil)
+
+  (customize-set-variable 'evil-search-module 'evil-search)
+  (customize-set-variable 'evil-want-C-w-delete t)
 
   (setq-default evil-symbol-word-search t
                 evil-shift-width 2
