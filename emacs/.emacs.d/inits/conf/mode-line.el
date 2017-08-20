@@ -303,12 +303,12 @@
          face mode-line-modified-face)
         (edebug-mode
          (:propertize " DBG " face mode-line-edebug-face))
+        (global-flycheck-mode
+         (:eval (my--flycheck-mode-line)))
         (buffer-read-only
          (:propertize
           (:eval (s-wrap my--lock-icon " "))
           face mode-line-read-only-face))
-        (global-flycheck-mode
-         (:eval (my--flycheck-mode-line)))
         (:eval (my--compilation-mode-line))
         (:eval my--vc-git-status-cache)
         (:eval my--vc-git-mode-cache)
