@@ -97,7 +97,7 @@
 
   (with-eval-after-load 'company
     (defun my--evil-company (arg)
-      (call-interactively 'company-complete))
+      (call-interactively #'company-complete))
 
     (setq evil-complete-next-func #'my--evil-company
           evil-complete-previous-func #'my--evil-company))
@@ -207,7 +207,7 @@
     :motion evil-line
     :type line
     (interactive "<r><vc>")
-    (call-interactively 'evil-shift-left)
+    (call-interactively #'evil-shift-left)
     (evil-normal-state)
     (evil-visual-restore))
 
@@ -217,7 +217,7 @@
     :motion evil-line
     :type line
     (interactive "<r><vc>")
-    (call-interactively 'evil-shift-right)
+    (call-interactively #'evil-shift-right)
     (evil-normal-state)
     (evil-visual-restore))
 
@@ -356,18 +356,18 @@ The return value is the yanked text."
     "Swap the current argument with the next one."
     (interactive)
 
-    (apply 'evil-exchange (evil-inner-arg))
-    (call-interactively 'evil-forward-arg)
-    (apply 'evil-exchange (evil-inner-arg)))
+    (apply #'evil-exchange (evil-inner-arg))
+    (call-interactively #'evil-forward-arg)
+    (apply #'evil-exchange (evil-inner-arg)))
 
   (defun evil-arg-swap-backward ()
     "Swap the current argument with the previous one."
     (interactive)
 
-    (apply 'evil-exchange (evil-inner-arg))
+    (apply #'evil-exchange (evil-inner-arg))
     (evil-forward-arg 1)
     (evil-backward-arg 2)
-    (apply 'evil-exchange (evil-inner-arg))))
+    (apply #'evil-exchange (evil-inner-arg))))
 
 (use-package evil-goggles
   :after evil

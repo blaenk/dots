@@ -792,8 +792,8 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 
     (if (and (bound-and-true-p flycheck-mode)
              (not (get-buffer-window "*compilation*")))
-        (call-interactively 'flycheck-next-error)
-      (call-interactively 'next-error)))
+        (call-interactively #'flycheck-next-error)
+      (call-interactively #'next-error)))
 
   (defun my-previous-error (&optional n reset)
     "Dispatch to flycheck or standard emacs error."
@@ -801,8 +801,8 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 
     (if (and (bound-and-true-p flycheck-mode)
              (not (get-buffer-window "*compilation*")))
-        (call-interactively 'flycheck-previous-error)
-      (call-interactively 'previous-error)))
+        (call-interactively #'flycheck-previous-error)
+      (call-interactively #'previous-error)))
 
   (add-hook 'prog-mode-hook #'auto-fill-mode)
 
