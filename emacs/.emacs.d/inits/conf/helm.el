@@ -96,6 +96,75 @@
    "C-c C-h" 'helm-ext-ff-execute-horizontal-split
    "C-c C-v" 'helm-ext-ff-execute-vertical-split))
 
+(use-package helm-projectile
+  :diminish projectile-mode
+
+  :general
+  ("C-<" 'my-open-buffer
+   "C->" 'my-open-file
+   "C-M-/" 'my-helm-ag)
+
+  (:keymaps '(helm-projectile-find-file-map helm-projectile-projects-map)
+   "C-c C-h" 'helm-ext-ff-execute-horizontal-split
+   "C-c C-v" 'helm-ext-ff-execute-vertical-split)
+
+  (my-map
+    "o b" 'my-open-buffer
+    "o f" 'my-open-file
+    "o ." 'my-dots-file
+    ". f" 'my-dots-file)
+
+  :init
+  (add-hook 'after-init-hook #'helm-projectile-on)
+
+  :config
+  (defun my-dots-file ()
+    "Open a dotfile."
+    (interactive)
+
+    (ignore-errors
+      (let* ((target my--dots-path)
+             (default-directory target)
+             (projectile-cached-project-root target)
+             (projectile-require-project-root nil))
+        (helm-projectile-find-file))))
+
+  (defun my-open-file (arg)
+    "Open a file.
+
+When in a Projectile project, use Projectile. This can be
+overridden with the prefix ARG."
+    (interactive "P")
+
+    (if (and (not arg) (projectile-project-p))
+        (helm-projectile)
+      (helm-find-files nil)))
+
+  (defun my-open-buffer (arg)
+    "Open a buffer.
+
+When in a Projectile project, use Projectile. This can be
+overridden with the prefix ARG."
+    (interactive "P")
+
+    (if (and (not arg) (projectile-project-p))
+        (helm-projectile-switch-to-buffer)
+      (helm-buffers-list)))
+
+  (defun my-helm-ag (arg)
+    "Search files.
+
+When in a Projectile project, use Projectile. This can be
+overridden with the prefix ARG."
+    (interactive "P")
+
+    (if (and (not arg) (projectile-project-p))
+        ;; We are specifically not using helm-projectile-ag because it does
+        ;; other things such as using grep-find-ignored-{files,directories}
+        ;; without us asking it to. Beyond that, I see no reason to use it.
+        (helm-do-ag (projectile-project-root))
+      (helm-do-ag))))
+
 (use-package helm-mt
   :general
   (my-map
@@ -223,54 +292,6 @@
   (define-advice describe-bindings
       (:override (&optional prefix buffer) auto-load-helm-descbinds)
     (helm-descbinds prefix buffer)))
-
-(use-package helm-projectile
-  :diminish projectile-mode
-
-  :general
-  ("C-<" 'my-open-buffer
-   "C->" 'my-open-file
-   "C-M-/" 'my-helm-ag)
-
-  (:keymaps '(helm-projectile-find-file-map helm-projectile-projects-map)
-   "C-c C-h" 'helm-ext-ff-execute-horizontal-split
-   "C-c C-v" 'helm-ext-ff-execute-vertical-split)
-
-  (my-map
-    "o b" 'my-open-buffer
-    "o f" 'my-open-file
-    "o ." 'my-dots-file
-    ". f" 'my-dots-file)
-
-  :config
-  (defun my-dots-file ()
-    (interactive)
-    (ignore-errors
-      (let* ((target my--dots-path)
-             (default-directory target)
-             (projectile-cached-project-root target)
-             (projectile-require-project-root nil))
-        (helm-projectile-find-file))))
-
-  (defun my-open-file (arg)
-    (interactive "P")
-    (if (and (not arg) (projectile-project-p))
-        (helm-projectile)
-      (helm-find-files nil)))
-
-  (defun my-open-buffer (arg)
-    (interactive "P")
-    (if (and (not arg) (projectile-project-p))
-        (helm-projectile-switch-to-buffer)
-      (helm-buffers-list)))
-
-  (defun my-helm-ag (arg)
-    (interactive "P")
-    (if (and (not arg) (projectile-project-p))
-        (helm-projectile-ag)
-      (helm-do-ag)))
-
-  (helm-projectile-on))
 
 (use-package helm-flycheck
   :general
