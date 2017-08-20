@@ -51,10 +51,10 @@
 
 (defconst my--header-line-right
   `(
+    (:propertize
+     (:eval (s-wrap mode-name " "))
+     face mode-line-mode-name-face)
     (eyebrowse-mode
-     (:propertize
-      (:eval (s-wrap mode-name " "))
-      face mode-line-mode-name-face)
      (:eval (my--eyebrowse-indicator-header-line)))
     ))
 
