@@ -51,8 +51,6 @@
   (beginend-global-mode))
 
 (use-package sudo-edit
-  :defer t
-
   :general
   (my-map
     "o s" 'sudo-edit)
@@ -84,12 +82,12 @@
         which-key-use-C-h-commands nil
         which-key-side-window-max-height 1.0)
 
-  (defun my-which-key-delay (prefix length)
+  (defun my--which-key-delay (prefix length)
     (unless (or (> length 1)
                 (string-match-p "^\\(SPC\\|M-SPC\\|C-c\\)" prefix))
       1.0))
 
-  (add-hook 'which-key-delay-functions 'my-which-key-delay)
+  (add-hook 'which-key-delay-functions #'my--which-key-delay)
 
   :config
   (which-key-mode))
@@ -99,15 +97,12 @@
   (:keymaps 'help-map
    "M-k" 'describe-keymap))
 
-;; TODO
-;; use (member "Symbola" (font-family-list))
-;; to fall back on unicode icons
 (use-package fontawesome
   :if (not (eq system-type 'windows-nt))
   :defer t
 
   :config
-  (defun my-set-char-widths (alist)
+  (defun my--set-char-widths (alist)
     (while (char-table-parent char-width-table)
       (setq char-width-table (char-table-parent char-width-table)))
     (dolist (pair alist)
@@ -120,7 +115,7 @@
         (set-char-table-parent table char-width-table)
         (setq char-width-table table))))
 
-  (my-set-char-widths
+  (my--set-char-widths
    `((2 . (,(string-to-char (fontawesome "cloud"))
            ,(string-to-char (fontawesome "refresh")))))))
 
@@ -154,29 +149,29 @@
       (projectile-project-root)))
 
   (setq ag-highlight-search t
-        ;; needed for wgrep-ag. preferably this would be set as-needed
+        ;; This is needed for wgrep-ag.
         ag-group-matches nil
         ag-project-root-function #'my-ag-root-function))
 
 (use-package projectile
+  :demand t
+
   :general
   (my-map
     "p" '(:keymap projectile-command-map
           :which-key "projectile"))
 
   :init
-  ;; consider files ending in _test to be tests
-  (defun my-projectile-test-suffix-function (project-type)
+  ;; Consider files ending in _test to be tests.
+  (defun my--projectile-test-suffix-function (project-type)
     (or (projectile-test-suffix project-type) "_test"))
 
   (setq projectile-sort-order 'recently-active
         projectile-completion-system 'helm
         projectile-cache-file (my-cache-dir "projectile.cache")
         projectile-known-projects-file (my-cache-dir "projectile-bookmarks.eld")
-        projectile-test-suffix-function #'my-projectile-test-suffix-function)
-
-  (when (eq system-type 'windows-nt)
-    (setq projectile-indexing-method 'alien))
+        projectile-test-suffix-function #'my--projectile-test-suffix-function
+        projectile-indexing-method 'alien)
 
   :config
   (projectile-global-mode)
@@ -187,10 +182,11 @@
 (use-package term-projectile :disabled t)
 
 (use-package anzu
-  :diminish anzu-mode
-
   :init
-  (defun my-anzu-update (here total)
+  (setq anzu-mode-line-update-function #'my--anzu-update
+        anzu-cons-mode-line-p nil)
+
+  (defun my--anzu-update (here total)
     (when anzu--state
       (let ((status
              (cond
@@ -202,14 +198,7 @@
               ((eq anzu--state 'replace) (format " %d of %d " here total)))))
         (propertize status 'face 'anzu-mode-line))))
 
-  (defun my-anzu-hook ()
-    (make-local-variable 'anzu--state))
-
-  (setq anzu-mode-line-update-function #'my-anzu-update
-        anzu-cons-mode-line-p nil)
-
   :config
-  (add-hook 'anzu-mode-hook #'my-anzu-hook)
   (global-anzu-mode +1))
 
 (use-package buffer-move
@@ -270,33 +259,32 @@
   :diminish undo-tree-mode
 
   :init
-  ;; NOTE
-  ;; undo-tree breaks sometimes, some people think it may be
-  ;; the persistent history feature that is causing this
+  ;; undo-tree breaks sometimes. Some people think the persistent history
+  ;; feature may be to blame.
   ;;
-  ;; it's a huge pain when it breaks because I lose a lot of
+  ;; It's a huge pain when it breaks because I lose a lot of
   ;; undo history, so I'm gonna try to disable the persistent
-  ;; feature for a while to see if the problem goes away
+  ;; feature for a while to see if the problem goes away.
   ;;
   ;; https://github.com/syl20bnr/spacemacs/issues/298
   ;; https://github.com/syl20bnr/spacemacs/issues/774
   ;; https://github.com/syl20bnr/spacemacs/commit/885d092e72aeaa470253c19831ba42e2eecf3514
   ;; http://comments.gmane.org/gmane.emacs.vim-emulation/2079
-  (setq undo-tree-history-directory-alist
-        `((".*" . ,(my-cache-dir "undos/"))))
-  (setq undo-tree-auto-save-history nil)
-  (setq undo-tree-visualizer-timestamps t
-        undo-tree-visualizer-diff nil)
+  (setq undo-tree-history-directory-alist `((".*" . ,(my-cache-dir "undos/")))
+        undo-tree-visualizer-timestamps t undo-tree-visualizer-diff nil
+        undo-tree-auto-save-history nil)
 
   :config
   (define-advice undo-tree-make-history-save-file-name
       (:filter-return (file) compress-undo-history)
     "Compress the persisted undo-tree history."
+
     (concat file ".gz"))
 
   (define-advice undo-tree-visualize
       (:around (old-func) vertical-split)
     "Force undo-tree-visualize to show up on the right."
+
     (let ((split-height-threshold nil)
           (split-width-threshold 0))
       (funcall old-func)))
@@ -310,22 +298,11 @@
   (setq multi-term-buffer-name "term"
         multi-term-program "/usr/bin/zsh"))
 
-(use-package visual-regexp
+(use-package stripe-buffer
   :defer t
 
   :init
-  (setq vr/default-replace-preview t))
-
-(use-package swiper
-  :general
-  ("C-s" 'swiper
-   ;; "M-/" 'swiper
-   "M-?" 'swiper-all
-   [f6] 'ivy-resume)
-
-  :init
-  (setq swiper-action-recenter t
-        ivy-use-virtual-buffers t))
+  (add-hook #'profiler-report-mode #'turn-on-stripe-buffer-mode))
 
 (use-package rainbow-mode
   :diminish rainbow-mode
@@ -356,10 +333,6 @@
 
 (use-package wgrep :defer t)
 
-;; TODO
-;; this only works when ag-group-matches is nil
-;; preferably keep it on unless necessary, so perhaps
-;; if wgrep-ag is invoked, rerun ag with it off?
 (use-package wgrep-ag :defer t)
 
 (use-package fill-column-indicator
@@ -371,8 +344,6 @@
         fci-dash-pattern 0.50))
 
 (use-package ace-window
-  :defer t
-
   :general
   (my-map
     "k o W" 'ace-delete-window
@@ -399,14 +370,9 @@
           (compilation-mode :select t)
           (cargo-process-mode :select t)
           ("*Diff*" :select t :frame t)
-          ("*Flycheck errors*" :select t)
           ("*Package Commit List*" :select t)))
 
   (shackle-mode))
-
-(use-package reveal-in-osx-finder
-  :if (eq system-type 'darwin)
-  :defer t)
 
 (use-package highlight-numbers
   :defer t
@@ -455,6 +421,9 @@
         yas-also-auto-indent-first-line t)
 
   (defun my-yasnippet ()
+    "Expand partial snippet or choose a snippet.
+
+If a region is active, it'll be used to \"wrap\" the selection."
     (interactive)
 
     ;; If there region is active or there's nothing to expand, use completing
@@ -466,7 +435,7 @@
 
   (add-hook 'yas-before-expand-snippet-hook #'evil-insert-state)
 
-  (add-hook 'after-init-hook 'yas-global-mode))
+  (add-hook 'after-init-hook #'yas-global-mode))
 
 (use-package mocha-snippets :defer t)
 
