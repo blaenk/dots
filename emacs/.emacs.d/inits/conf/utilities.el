@@ -222,8 +222,7 @@
 
 (use-package frame-cmds
   :general
-  (:keymaps 'global
-   "C-M-S-h" 'shrink-frame-horizontally
+  ("C-M-S-h" 'shrink-frame-horizontally
    "C-M-S-l" 'enlarge-frame-horizontally
    "C-M-S-k" 'shrink-frame
    "C-M-S-j" 'enlarge-frame))
