@@ -174,8 +174,6 @@
 
 (use-package term-projectile :disabled t)
 
-(use-package perspective :disabled t)
-
 (use-package anzu
   :diminish anzu-mode
 

@@ -343,13 +343,6 @@ overridden with the prefix ARG."
     (flyspell-goto-next-error)
     (call-interactively #'helm-flyspell-correct)))
 
-(use-package persp-projectile
-  :disabled t
-
-  :general
-  (:keymaps 'projectile-command-map
-   "p" 'projectile-persp-switch-project))
-
 (use-package helm-make :defer t)
 
 (use-package helm-company
