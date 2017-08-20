@@ -63,7 +63,12 @@
   (with-eval-after-load 'evil-ex
     (evil-ex-define-cmd "w!!" 'sudo-edit)))
 
-(use-package imenu-list :defer t)
+(use-package imenu-list
+  :defer t
+
+  :config
+  (with-eval-after-load 'evil
+    (evil-set-initial-state #'imenu-list-major-mode 'emacs)))
 
 (use-package unicode-fonts
   :config
