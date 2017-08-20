@@ -198,6 +198,9 @@
               ((eq anzu--state 'replace) (format " %d of %d " here total)))))
         (propertize status 'face 'anzu-mode-line))))
 
+  (setq anzu-mode-line-update-function #'my--anzu-update
+        anzu-cons-mode-line-p nil)
+
   :config
   (global-anzu-mode +1))
 
