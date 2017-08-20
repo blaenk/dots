@@ -14,10 +14,12 @@
    "C-j" 'evil-scroll-down)
 
   (:keymaps 'normal
+   ;; Unbind {>,<} to be able to use them as prefixes for e.g. smartparens or
+   ;; evil-args.
    "<" nil
    ">" nil
 
-   ;; still able to shift things in normal mode
+   ;; Twice the key to shift.
    "< <" 'evil-shift-left-line
    "> >" 'evil-shift-right-line
 
