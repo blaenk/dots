@@ -1,3 +1,4 @@
+(require 'conf/common)
 (require 'use-package)
 (require 'general)
 
@@ -13,7 +14,8 @@
   (setq gist-ask-for-description t
         gist-ask-for-filename t
         gist-list-format
-        '((created "Created" 15 nil "%D %R")
+        '((created "Created" 15 nil
+                   "%D %R")
           (visibility "Visibility" 8 nil
                       (lambda (public)
                         (or (and public "public")
@@ -22,7 +24,7 @@
                  (lambda (names)
                    (mapconcat 'identity names ", ")))))
 
-  (when (not my--is-within-vm)
+  (unless my--is-within-vm
     (setq gist-view-gist t)))
 
 
@@ -30,7 +32,7 @@
   :defer t
 
   :init
-  (add-hook 'git-commit-mode-hook 'git-commit-insert-issue-mode))
+  (add-hook 'git-commit-mode-hook #'git-commit-insert-issue-mode))
 
 (use-package bug-reference-github
   :defer t
@@ -50,8 +52,6 @@
 (use-package github-clone :defer t)
 
 (use-package git-commit
-  :defer t
-
   :general
   (:keymaps 'git-commit-mode-map
    "M-K" 'scroll-other-window-down
@@ -60,10 +60,10 @@
   :init
   (setq git-commit-summary-max-length 50)
 
-  (defun my-git-commit-setup-hook ()
+  (defun my--git-commit-setup-hook ()
     (setq-local fill-column 72))
 
-  (add-hook 'git-commit-setup-hook #'my-git-commit-setup-hook)
+  (add-hook 'git-commit-setup-hook #'my--git-commit-setup-hook)
   (add-hook 'git-commit-setup-hook #'git-commit-turn-on-flyspell)
   (add-hook 'git-commit-setup-hook #'fci-mode)
 
@@ -93,14 +93,18 @@
           #'magit-display-buffer-fullframe-status-v1)
 
   (defun my-dots-git ()
+    "Open a Magit Status buffer for the dotfiles directory."
     (interactive)
 
     (magit-status-internal my--dots-path))
+
+  (add-hook 'magit-mode-hook #'global-magit-file-mode)
 
   :config
   (defun my-open-pr ()
     "Visit the current branch's PR on Github."
     (interactive)
+
     (browse-url
      (format "https://github.com/%s/pull/new/%s"
              (replace-regexp-in-string
@@ -113,12 +117,10 @@
   (with-eval-after-load 'magit-ediff
     (add-hook 'magit-ediff-quit-hook #'my-ediff-quit))
 
-  (when (not (eq system-type 'windows-nt))
+  (unless (eq system-type 'windows-nt)
     (magit-wip-after-save-mode)
     (magit-wip-after-apply-mode)
-    (magit-wip-before-change-mode))
-
-  (add-hook 'magit-mode-hook 'global-magit-file-mode))
+    (magit-wip-before-change-mode)))
 
 (use-package magithub
   :after magit
@@ -130,7 +132,6 @@
   :config
   (magithub-feature-autoinject t))
 
-(use-package vdiff-magit
-  :defer t)
+(use-package vdiff-magit :defer t)
 
 (provide 'conf/git)
