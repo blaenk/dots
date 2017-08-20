@@ -28,11 +28,23 @@
 
    "g p" 'exchange-point-and-mark
 
-   "M-o" 'my-evil-open-in-between)
+   "M-o" 'my-evil-open-in-between
+
+   "]p" 'my-evil-paste-after-and-indent
+   "]P" 'my-evil-paste-before-and-indent
+
+   "[p" 'my-evil-paste-before-and-indent
+   "[P" 'my-evil-paste-before-and-indent
+
+   "[y" 'my-evil-yank-without-indentation
+   "]y" 'my-evil-yank-for-markdown)
 
   (:keymaps 'visual
    ">" 'my-visual-shift-right
-   "<" 'my-visual-shift-left)
+   "<" 'my-visual-shift-left
+
+   "[y" 'my-evil-yank-without-indentation
+   "]y" 'my-evil-yank-for-markdown)
 
   (:keymaps 'insert
    "C-y" 'my-evil-insert-mode-paste
@@ -152,10 +164,10 @@
             evil-operator-state-cursor `((hbar . 6))
             evil-emacs-state-cursor `(,red-l box))))
 
-  ;; if the point is in a comment that has non-whitespace content, delete up
-  ;; until the beginning of the comment. if already at the beginning of the
-  ;; comment, delete up to the indentation point. if already at the indentation
-  ;; point, delete to the beginning of the line
+  ;; If the point is in a comment that has non-whitespace content, delete up
+  ;; until the beginning of the comment. If already at the beginning of the
+  ;; comment, delete up to the indentation point. If already at the indentation
+  ;; point, delete to the beginning of the line.
   (defun my-kill-line ()
     (interactive)
     (let* ((starts
@@ -238,10 +250,21 @@
       (evil-paste-after count register yank-handler)
       (evil-indent (evil-get-marker ?[) (evil-get-marker ?]))))
 
-  (define-key evil-normal-state-map "]p" 'my-evil-paste-after-and-indent)
-  (define-key evil-normal-state-map "]P" 'my-evil-paste-before-and-indent)
-  (define-key evil-normal-state-map "[p" 'my-evil-paste-before-and-indent)
-  (define-key evil-normal-state-map "[P" 'my-evil-paste-before-and-indent)
+  (evil-define-operator my-evil-yank-without-indentation (beg end type)
+    "Saves the characters in motion into the kill-ring."
+    :move-point nil
+    :repeat nil
+    (interactive "<R>")
+    (unless (eq type 'block)
+      (my-copy-region-unindented nil beg end)))
+
+  (evil-define-operator my-evil-yank-for-markdown (beg end type)
+    "Saves the characters in motion into the kill-ring."
+    :move-point nil
+    :repeat nil
+    (interactive "<R>")
+    (unless (eq type 'block)
+      (my-copy-region-unindented '(4) beg end)))
 
   (defun my-evil-open-in-between ()
     (interactive)
