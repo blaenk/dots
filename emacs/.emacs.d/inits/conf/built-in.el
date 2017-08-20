@@ -589,8 +589,11 @@ Lisp function does not specify a special indentation."
   ;; doing M-x ediff-show-diff-output from ediff-current-file doesn't work
   ;; https://emacs.stackexchange.com/questions/22090/
 
-  (defvar my--ediff-last-windows nil
+  (defvar my--ediff-previous-window-configuration nil
     "Stores the window configuration from before ediff was invoked.")
+
+  (defvar my--ediff-previous-frame-configuration nil
+    "Stores the frame configuration from before ediff was invoked.")
 
   (defvar-local my--ediff-problem-modes
     '(hs-minor-mode fci-mode visual-line-mode whitespace-mode)
@@ -607,12 +610,15 @@ they'll be disabled and then re-enabled on exit.")
     (when ediff-wide-display-p
       (ediff-toggle-wide-display)))
 
-  (defun my--ediff-save-window-configuration ()
-    (setq my--ediff-last-windows (current-window-configuration)))
+  (defun my--ediff-save-window-and-frame-configuration ()
+    (setq my--ediff-previous-window-configuration (current-window-configuration)
+          my--ediff-previous-frame-configuration (current-frame-configuration)))
 
-  (defun my--ediff-restore-window-configuration ()
-    (set-window-configuration my--ediff-last-windows)
-    (setq my--ediff-last-windows nil))
+  (defun my--ediff-restore-window-and-frame-configuration ()
+    (set-frame-configuration my--ediff-previous-frame-configuration)
+    (set-window-configuration my--ediff-previous-window-configuration)
+    (setq my--ediff-previous-window-configuration nil
+          my--ediff-previous-frame-configuration nil))
 
   (defun my--ediff-disable-problem-modes ()
     (dolist (mode my--ediff-problem-modes)
@@ -626,21 +632,17 @@ they'll be disabled and then re-enabled on exit.")
 
     (setq-local my--ediff-disabled-problem-modes '()))
 
-  (defun my--ediff-start ()
-    (my-fullscreen-if-wasnt))
-
   (defun my--ediff-quit ()
+    (my--ediff-restore-window-and-frame-configuration)
     (my--ediff-restore-problem-modes)
-    (my--ediff-restore-window-configuration)
-    (my--ediff-disable-wide-display)
-    (my-unfullscreen-if-wasnt))
+    (my--ediff-disable-wide-display))
 
   (defun my--ediff-janitor ()
     (ediff-janitor nil nil))
 
+  (add-hook 'ediff-before-setup-hook #'my--ediff-save-window-and-frame-configuration)
   (add-hook 'ediff-prepare-buffer-hook #'my--ediff-disable-problem-modes)
-  (add-hook 'ediff-before-setup-hook #'my--ediff-save-window-configuration)
-  (add-hook 'ediff-startup-hook #'my--ediff-start)
+  (add-hook 'ediff-startup-hook #'my-turn-on-fullscreen)
 
   (add-hook 'ediff-suspend-hook #'my--ediff-quit 'append)
   (add-hook 'ediff-quit-hook #'my--ediff-quit 'append)

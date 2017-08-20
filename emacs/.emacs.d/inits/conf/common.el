@@ -34,9 +34,8 @@ that we are withing a virtual machine.")
 (general-create-definer bind-local :keymaps 'local)
 (function-put #'bind-local 'lisp-indent-function 'defun)
 
-;; NOTE
-;; on gnome, have to unbind M-SPC, known as Alt+Space in
-;; settings → windows → activate the window menu
+;; On gnome, have to unbind M-SPC, known as Alt+Space in
+;; settings → windows → activate the window menu.
 (general-create-definer my-map
   :states '(emacs normal visual motion insert)
   :global-prefix "C-c"
@@ -46,61 +45,58 @@ that we are withing a virtual machine.")
 (function-put #'my-map 'lisp-indent-function 'defun)
 
 (defun my-emacs-dir (&optional path)
+  "Return a path relative to the emacs directory."
+
   (expand-file-name (or path "") user-emacs-directory))
 
 (defun my-cache-dir (&optional path)
+  "Return a path relative to the cache directory."
+
   (my-emacs-dir (concat "cache/" path)))
 
 (defun my-inits-dir (&optional path)
+  "Return a path relative to the inits directory."
+
   (my-emacs-dir (concat "inits/" path)))
 
-(defun my-is-fullscreen ()
+(defun my-is-fullscreen-p ()
   (memq (frame-parameter nil 'fullscreen) '(fullscreen fullboth)))
 
-(defun my-go-fullscreen ()
+;; TODO
+;; These commands are probably redundant now.
+
+(defun my-turn-on-fullscreen ()
+  "Unconditionally enable fullscreen on this frame."
   (interactive)
+
   (set-frame-parameter nil 'fullscreen 'fullboth))
 
-(defun my-un-fullscreen ()
+(defun my-turn-off-fullscreen ()
+  "Unconditionally disable fullscreen on this frame."
+  (interactive)
+
   (set-frame-parameter nil 'fullscreen nil))
 
-(defvar my-was-fullscreen)
-
-(defun my-fullscreen-if-wasnt ()
-  (if (my-is-fullscreen)
-      (setq my-was-fullscreen t)
-    (progn
-      (setq my-was-fullscreen nil)
-      (my-go-fullscreen))))
-
-(defun my-unfullscreen-if-wasnt ()
-  (when (not my-was-fullscreen)
-    (my-un-fullscreen)))
-
-(defmacro my-setq-append (var &rest elems)
-  `(setq ,var (append ,var '(,@elems))))
-
-(defmacro my-after-frame (body)
+(defmacro my-after-frame (&rest body)
   `(if (daemonp)
        (add-hook 'after-make-frame-functions
                  (lambda (frame)
                    (with-selected-frame frame
-                     ,body)))
+                     ,@body)))
      ;; can get current frame with
      ;; (window-frame (get-buffer-window))
-     ,body))
+     (progn ,@body)))
 
-(defun my-get-faces (pos)
-  "Get the font faces at POS."
-  (remq nil
-        (list
-         (get-char-property pos 'read-face-name)
-         (get-char-property pos 'face)
-         (plist-get (text-properties-at pos) 'face))))
+(defun my-force-eval-buffer ()
+  "Execute the current buffer as Lisp code.
+Top-level forms are evaluated with `eval-defun' so that `defvar'
+and `defcustom' forms reset their default values."
+  (interactive)
 
-(defun my-what-face (pos)
-  (interactive "d")
-  (let ((face (my-get-faces pos)))
-    (if face (message "Face: %s" face) (message "No face at %d" pos))))
+  (save-excursion
+    (goto-char (point-min))
+    (while (not (eobp))
+      (forward-sexp)
+      (eval-defun nil))))
 
 (provide 'conf/common)
