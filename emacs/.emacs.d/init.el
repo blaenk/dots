@@ -81,13 +81,12 @@
 
 (use-package general)
 
-(add-to-list 'custom-theme-load-path (expand-file-name "inits/conf/" user-emacs-directory) t)
-
 (add-to-list 'load-path (expand-file-name "inits/" user-emacs-directory) t)
-
 (byte-recompile-directory (expand-file-name "inits/" user-emacs-directory) 0)
 
 (require 'conf/common)
+
+(add-to-list 'custom-theme-load-path (my-inits-dir "conf/"))
 
 (when (not (file-exists-p (my-cache-dir)))
   (make-directory (my-cache-dir)))
