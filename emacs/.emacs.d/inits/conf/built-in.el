@@ -856,9 +856,9 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 
   :config
   (eval-when-compile
-    (require 'evil-core))
+    (require 'evil))
 
-  (with-eval-after-load 'evil-core
+  (with-eval-after-load 'evil
     (evil-add-hjkl-bindings help-mode-map 'normal)
     (evil-make-overriding-map help-mode-map 'motion)))
 
