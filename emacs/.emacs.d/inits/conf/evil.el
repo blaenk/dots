@@ -96,17 +96,17 @@
                 evil-shift-round nil)
 
   (with-eval-after-load 'company
-    (defun my-evil-company (arg)
+    (defun my--evil-company (arg)
       (call-interactively 'company-complete))
 
-    (setq evil-complete-next-func #'my-evil-company
-          evil-complete-previous-func #'my-evil-company))
+    (setq evil-complete-next-func #'my--evil-company
+          evil-complete-previous-func #'my--evil-company))
 
-  (add-hook 'after-init-hook 'evil-mode)
+  (add-hook 'after-init-hook #'evil-mode)
 
   :config
   ;; don't auto-copy visual selections
-  (fset 'evil-visual-update-x-selection 'ignore)
+  (fset #'evil-visual-update-x-selection #'ignore)
 
   (evil-set-initial-state 'flycheck-error-list-mode 'emacs)
   (evil-set-initial-state 'paradox-menu-mode 'emacs)
@@ -269,6 +269,7 @@ The return value is the yanked text."
       (my-copy-region-unindented '(4) beg end)))
 
   (defun my-evil-open-in-between ()
+    "Open a new line in between the current line."
     (interactive)
 
     (evil-with-single-undo
@@ -277,7 +278,9 @@ The return value is the yanked text."
       (evil-open-above 1)))
 
   (defun my-clear-search ()
+    "Clear the evil search persisted highlight."
     (interactive)
+
     (evil-ex-nohighlight)
     (force-mode-line-update)))
 
@@ -359,13 +362,17 @@ The return value is the yanked text."
 
   :config
   (defun evil-arg-swap-forward ()
+    "Swap the current argument with the next one."
     (interactive)
+
     (apply 'evil-exchange (evil-inner-arg))
     (call-interactively 'evil-forward-arg)
     (apply 'evil-exchange (evil-inner-arg)))
 
   (defun evil-arg-swap-backward ()
+    "Swap the current argument with the previous one."
     (interactive)
+
     (apply 'evil-exchange (evil-inner-arg))
     (evil-forward-arg 1)
     (evil-backward-arg 2)
