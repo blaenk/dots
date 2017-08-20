@@ -29,7 +29,7 @@
    "C-w" 'my-backward-delete-word)
 
   (my-map
-    "h" '(:keymap helm-command-map :which-key "helm")
+    "h" '(:command helm-command-prefix :which-key "helm")
     "o r" 'helm-recentf)
 
   :init
