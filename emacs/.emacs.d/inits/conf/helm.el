@@ -190,14 +190,40 @@ overridden with the prefix ARG."
   (:keymaps 'helm-ag-map
    "C-c a" 'my-helm-ag-launch-ag
 
-   "C-c C-h" 'my--ag-split-horizontal
-   "C-c C-v" 'my--ag-split-vertical)
+   "C-c C-h" 'my-helm-ag-split-horizontal
+   "C-c C-v" 'my-helm-ag-split-vertical)
 
   (my-map
     ". s" 'my-dots-search)
 
   :init
+  (defconst my--helm-ag-dotfile-options
+    '("--hidden"
+      "--ignore-dir .git"
+      "--ignore .gitignore"
+      "--ignore .projectile")
+    "Options to use with ag when searching dotfiles.")
+
+  (defun my--helm-ag-merge-options (options)
+    (s-join " " (-union (if helm-ag--extra-options
+                            (s-split " " helm-ag--extra-options)
+                          '())
+                        options)))
+
+  ;; Note that we could use dir-locals but that would only take effect once a
+  ;; file under the directory were accessed, AFAIK. It also wouldn't take effect
+  ;; when running for example my-dots-search from outside of the dots dir.
+  (define-advice helm-do-ag
+      (:around (old-func &optional basedir targets query) show-hidden-dotfiles)
+    "Show hidden files and folders when searching dotfiles."
+
+    (if (and basedir (f-same? basedir my--dots-path))
+        (let ((helm-ag--extra-options (my--helm-ag-merge-options my--helm-ag-dotfile-options)))
+          (funcall old-func basedir targets query))
+      (funcall old-func basedir targets query)))
+
   (defun my-dots-search ()
+    "Search within dotfiles."
     (interactive)
     (let ((helm-ag--extra-options
            "--hidden --ignore-dir .git --ignore .gitignore --ignore .projectile"))
@@ -224,14 +250,14 @@ overridden with the prefix ARG."
     (balance-windows))
 
   (defun my--helm-ag-action-find-file-horizontal (candidate)
-    "Open ag candidate(s) in horizontal splits."
-
     (dolist (buf (helm-marked-candidates))
       (helm-ag--find-file-action buf 'my--helm-ag-horizontal-find-func
                                  (helm-ag--search-this-file-p))))
 
-  (defun my--ag-split-horizontal ()
+  (defun my-helm-ag-split-horizontal ()
+    "Open ag candidate(s) in horizontal splits."
     (interactive)
+
     (with-helm-alive-p
       (helm-exit-and-execute-action 'my--helm-ag-action-find-file-horizontal)))
 
@@ -243,14 +269,14 @@ overridden with the prefix ARG."
     (balance-windows))
 
   (defun my--helm-ag-action-find-file-vertical (candidate)
-    "Open ag candidate(s) in vertical splits."
-
     (dolist (buf (helm-marked-candidates))
       (helm-ag--find-file-action buf 'my--helm-ag-vertical-find-func
                                  (helm-ag--search-this-file-p))))
 
-  (defun my--ag-split-vertical ()
+  (defun my-helm-ag-split-vertical ()
+    "Open ag candidate(s) in vertical splits."
     (interactive)
+
     (with-helm-alive-p
       (helm-exit-and-execute-action 'my--helm-ag-action-find-file-vertical))))
 
