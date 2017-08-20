@@ -146,6 +146,7 @@
       history-delete-duplicates t
 
       tab-always-indent nil
+      standard-indent 2
 
       load-prefer-newer t
       sentence-end-double-space nil
