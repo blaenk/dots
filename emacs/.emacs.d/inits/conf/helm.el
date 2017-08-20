@@ -286,12 +286,7 @@ overridden with the prefix ARG."
 
 (use-package helm-descbinds
   :general
-  ([remap describe-bindings] 'helm-descbinds)
-
-  :init
-  (define-advice describe-bindings
-      (:override (&optional prefix buffer) auto-load-helm-descbinds)
-    (helm-descbinds prefix buffer)))
+  ([remap describe-bindings] 'helm-descbinds))
 
 (use-package helm-flycheck
   :general
