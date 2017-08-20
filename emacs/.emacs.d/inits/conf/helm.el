@@ -310,35 +310,36 @@ overridden with the prefix ARG."
    "[ s" 'my-flyspell-goto-previous-error
    "] s" 'flyspell-goto-next-error
 
-   "[ S" 'check-previous-spelling-error
-   "] S" 'check-next-spelling-error
+   "[ S" 'my-check-previous-spelling-error
+   "] S" 'my-check-next-spelling-error
 
    "z =" 'helm-flyspell-correct)
 
   :config
   (defun my-flyspell-last ()
+    "Interactively correct the previous spelling error."
     (interactive)
-    (save-excursion
-      (check-previous-spelling-error)))
 
-  (defun push-mark-no-activate ()
+    (save-excursion
+      (my-check-previous-spelling-error)))
+
+  (defun my--push-mark-no-activate ()
     "Pushes `point' to `mark-ring' and does not activate the region
  Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
-    (interactive)
-    (push-mark (point) t nil)
-    (message "Pushed mark to ring"))
+    (push-mark (point) t nil))
 
-  (defun check-previous-spelling-error ()
-    "Jump to previous spelling error and correct it"
+  (defun my-check-previous-spelling-error ()
+    "Jump to the previous spelling error and correct it."
     (interactive)
-    (push-mark-no-activate)
+
+    (my--push-mark-no-activate)
     (my-flyspell-goto-previous-error 1)
     (call-interactively #'helm-flyspell-correct))
 
-  (defun check-next-spelling-error ()
-    "Jump to next spelling error and correct it"
+  (defun my-check-next-spelling-error ()
+    "Jump to the next spelling error and correct it."
     (interactive)
-    (push-mark-no-activate)
+    (my--push-mark-no-activate)
     (flyspell-goto-next-error)
     (call-interactively #'helm-flyspell-correct)))
 
@@ -357,15 +358,11 @@ overridden with the prefix ARG."
    "M-/" 'helm-company))
 
 (use-package helm-css-scss
-  :defer t
-
   :general
   (:keymaps '(css-mode-map less-css-mode-map scss-mode-map)
    "M-i" 'helm-css-scss)
 
   :init
-  ;; TODO
-  ;; do local key bind
   (setq helm-css-scss-split-direction 'split-window-horizontally))
 
 (use-package helm-tramp :defer t)
@@ -379,10 +376,10 @@ overridden with the prefix ARG."
   (setq ace-jump-helm-line-default-action 'select
         ace-jump-helm-line-style 'post
 
-        ;; press 'o' before the avy anchor to only move to it
+        ;; Press 'o' before the avy anchor to only move to it.
         ace-jump-helm-line-move-only-key ?o
 
-        ;; press 'p' before the avy anchor to move to it and execute
+        ;; Press 'p' before the avy anchor to move to it and execute.
         ;; it's persistent action
         ace-jump-helm-line-persistent-key ?p))
 
