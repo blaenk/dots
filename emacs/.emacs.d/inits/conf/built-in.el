@@ -608,7 +608,7 @@ they'll be disabled and then re-enabled on exit.")
 
   (defun my--ediff-disable-problem-modes ()
     (dolist (mode my--ediff-problem-modes)
-      (when (bound-and-true-p mode)
+      (when (and (boundp mode) (symbol-value mode))
         (funcall mode -1)
         (push mode my--ediff-disabled-problem-modes))))
 
@@ -782,7 +782,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
     "Dispatch to flycheck or standard emacs error."
     (interactive "P")
 
-    (if (and (bound-and-true-p 'flycheck-mode)
+    (if (and (bound-and-true-p flycheck-mode)
              (not (get-buffer-window "*compilation*")))
         (call-interactively 'flycheck-next-error)
       (call-interactively 'next-error)))
@@ -791,7 +791,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
     "Dispatch to flycheck or standard emacs error."
     (interactive "P")
 
-    (if (and (bound-and-true-p 'flycheck-mode)
+    (if (and (bound-and-true-p flycheck-mode)
              (not (get-buffer-window "*compilation*")))
         (call-interactively 'flycheck-previous-error)
       (call-interactively 'previous-error)))
