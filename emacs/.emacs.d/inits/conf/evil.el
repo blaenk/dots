@@ -77,10 +77,12 @@
 
     "s v" 'evil-window-vsplit
     "s h" 'evil-window-split
+    "s s" 'evil-window-split
 
     "s n" '(:ignore t :which-key "new")
     "s n v" 'evil-window-vnew
-    "s n h" 'evil-window-new)
+    "s n h" 'evil-window-new
+    "s n n" 'evil-window-new)
 
   (my-map
     "k w" 'evil-window-delete)
