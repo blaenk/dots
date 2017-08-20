@@ -9,6 +9,14 @@
   :init
   (setq server-auth-dir (my-cache-dir "server")))
 
+(use-package profiler
+  :ensure nil
+  :defer t
+
+  :config
+  (with-eval-after-load 'evil
+    (evil-set-initial-state #'profiler-report-mode 'emacs)))
+
 (use-package browse-url
   :ensure nil
   :defer t
