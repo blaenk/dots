@@ -229,7 +229,7 @@ The return value is the yanked text."
     (interactive "P<x>")
     (evil-with-single-undo
       (let ((text (evil-paste-before count register yank-handler)))
-        (evil-indent (evil-get-marker ?[) (evil-get-marker ?]))
+        (evil-indent (evil-get-marker ?\[) (evil-get-marker ?\]))
         text)))
 
   (evil-define-command my-evil-paste-after-and-indent
@@ -240,7 +240,7 @@ The return value is the yanked text."
     (interactive "P<x>")
     (evil-with-single-undo
       (let ((text (evil-paste-after count register yank-handler)))
-        (evil-indent (evil-get-marker ?[) (evil-get-marker ?]))
+        (evil-indent (evil-get-marker ?\[) (evil-get-marker ?\]))
         text)))
 
   (evil-define-operator my-evil-yank-without-indentation (beg end type)
