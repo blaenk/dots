@@ -186,6 +186,8 @@ overridden with the prefix ARG."
 (use-package helm-describe-modes :defer t)
 
 (use-package helm-ag
+  :if (executable-find "ag")
+
   :general
   (:keymaps 'helm-ag-map
    "C-c a" 'my-helm-ag-launch-ag
