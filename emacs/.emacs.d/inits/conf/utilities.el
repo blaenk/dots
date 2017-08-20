@@ -2,6 +2,8 @@
 (require 'general)
 (require 'conf/common)
 
+(use-package pcre2el :defer t)
+
 (use-package discover-my-major
   :general
   ([remap describe-mode] 'discover-my-major

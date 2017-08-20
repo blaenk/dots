@@ -228,6 +228,19 @@ overridden with the prefix ARG."
 
     (helm-do-ag my--dots-path))
 
+  (defun my-search-todo ()
+    "Search for any TODO markers as specified in hl-todo-keyword-faces.
+
+Note that this uses the word boundary \\b to avoid matching these
+within other words, but this means that non-word keywords such as
+???, which is in the list by default, will not be matched."
+    (interactive)
+    (require 'projectile)
+
+    (let* ((grouped (funcall #'regexp-opt (--map (car it) hl-todo-keyword-faces)))
+           (pcre (rxt-elisp-to-pcre (s-wrap grouped "\\b"))))
+      (helm-do-ag (projectile-project-root) nil pcre)))
+
   (defun my--helm-ag-launch-ag (_candidate)
     (require 'ag)
 
