@@ -88,10 +88,50 @@
    "C-c C-v" 'my-helm-bookmarks-split-vertical)
 
   (my-map
-    "b b" 'helm-filtered-bookmarks)
+    "o m" 'my-open-bookmark)
 
   :init
   (setq helm-bookmark-show-location t)
+
+  (defun my--helm-bookmark-projectile-p (bookmark)
+    (and (projectile-project-p)
+         (f-ancestor-of? (projectile-project-root)
+                         (bookmark-get-filename bookmark))))
+
+  (defun my--helm-bookmark-project-setup-alist ()
+    (helm-bookmark-filter-setup-alist 'my--helm-bookmark-projectile-p))
+
+  (defconst my--helm-source-bookmark-project
+    (helm-make-source "Project Bookmarks" 'helm-source-filtered-bookmarks
+      :init (lambda ()
+              (bookmark-maybe-load-default-file)
+              (helm-init-candidates-in-buffer
+                  'global (my--helm-bookmark-project-setup-alist)))))
+
+  (defconst my--helm-project-bookmarks-sources
+    (append '(helm-source-bookmark-org
+              my--helm-source-bookmark-project
+              helm-source-bookmark-helm-find-files
+              helm-source-bookmark-info
+              helm-source-bookmark-gnus
+              helm-source-bookmark-man
+              helm-source-bookmark-images
+              helm-source-bookmark-w3m)
+            (list 'helm-source-bookmark-uncategorized
+                  'helm-source-bookmark-set))
+    "List of sources to use in `my-project-bookmarks'.")
+
+  (defun my-open-bookmark (arg)
+    "Open a bookmark.
+
+When in a Projectile project, only show project bookmarks. This
+can be overridden with the prefix ARG."
+    (interactive "P")
+
+    (if (and (not arg) (projectile-project-p))
+        (let ((helm-bookmark-default-filtered-sources my--helm-project-bookmarks-sources))
+          (helm-filtered-bookmarks))
+      (helm-filtered-bookmarks)))
 
   (defun my--helm-bookmarks-action-vertical (candidate)
     (dolist (bookmark (helm-marked-candidates))
