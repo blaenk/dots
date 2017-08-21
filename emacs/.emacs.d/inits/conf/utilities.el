@@ -226,6 +226,10 @@
     "f r" 'my-frame-resizer/body)
 
   :init
+  (defun my--hydra-cycle-verbosity (hydra)
+    (hydra-set-property hydra :verbosity
+                        (if (= (hydra-get-property hydra :verbosity) 0) 1 0)))
+
   (defhydra my-frame-resizer ()
     "Resize frame."
 
@@ -236,7 +240,10 @@
 
     ("q" nil "quit")
     ("," nil "quit")
-    ))
+    ("?" (my--hydra-cycle-verbosity 'my-frame-resizer) "± verbosity"))
+
+  (with-eval-after-load 'hydra
+    (hydra-set-property 'my-frame-resizer :verbosity 0)))
 
 (use-package olivetti :defer t)
 
@@ -454,6 +461,6 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
 (use-package hydra
   :init
-  (setq hydra-is-helpful nil))
+  (setq hydra-lv nil))
 
 (provide 'conf/utilities)

@@ -128,7 +128,11 @@ If it was already set, unset it. Otherwise invoke
     ("K" evil-window-up "go 🡅")
     ("H" evil-window-left "go 🡄")
     ("L" evil-window-right "go 🡆")
-    ))
+
+    ("?" (my--hydra-cycle-verbosity 'my-window-resizer) "± verbosity"))
+
+  (with-eval-after-load 'hydra
+    (hydra-set-property 'my-window-resizer :verbosity 0)))
 
 (use-package server
   :ensure nil
