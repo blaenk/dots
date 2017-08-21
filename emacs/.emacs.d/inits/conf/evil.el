@@ -30,6 +30,8 @@
 
    "M-o" 'my-evil-open-in-between
 
+   "gr" 'my-evil-replace
+
    "]p" 'my-evil-paste-after-and-indent
    "]P" 'my-evil-paste-before-and-indent
 
@@ -42,6 +44,8 @@
   (:keymaps 'visual
    ">" 'my-visual-shift-right
    "<" 'my-visual-shift-left
+
+   "gr" 'my-evil-replace
 
    "[y" 'my-evil-yank-without-indentation
    "]y" 'my-evil-yank-for-markdown)
@@ -261,6 +265,14 @@ The return value is the yanked text."
     (interactive "<R>")
     (unless (eq type 'block)
       (my-copy-region-unindented '(4) beg end)))
+
+  (evil-define-operator my-evil-replace (beg end type)
+    "Replace the characters in motion with ex replace."
+    :move-point nil
+    :repeat nil
+    (interactive "<R>")
+    (let ((region (buffer-substring-no-properties beg end)))
+      (evil-ex (concat "%s/" region "/"))))
 
   (defun my-evil-open-in-between ()
     "Open a new line in between the current line."
