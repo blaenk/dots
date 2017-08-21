@@ -112,6 +112,13 @@ If it was already set, unset it. Otherwise invoke
 
     (funcall 'my--exit-window-resizer))
 
+  (defun my-frame-resizer-wrapper ()
+    "Wrapper for my-frame-resizer which quits my-window-resizer."
+    (interactive)
+
+    (my-exit-window-resizer)
+    (call-interactively #'my-frame-resizer))
+
   (defalias 'my-window-resizer
     (my-define-repeatable-command
      '(("C-u" . my-universal-argument-toggle)

@@ -221,7 +221,29 @@
     "h" 'buf-move-left
     "l" 'buf-move-right))
 
-(use-package frame-cmds :defer t)
+(use-package frame-cmds
+  :general
+  (my-map
+    "f r" 'my-frame-resizer)
+
+  :init
+  (defun my-exit-frame-resizer ()
+    "Explicitly exit the frame-resizer transient map."
+    (interactive)
+
+    (funcall 'my--exit-frame-resizer))
+
+  (defalias 'my-frame-resizer
+    (my-define-repeatable-command
+     '(("j" . enlarge-frame)
+       ("k" . shrink-frame)
+       ("h" . shrink-frame-horizontally)
+       ("l" . enlarge-frame-horizontally)
+
+       ("q" . my-exit-frame-resizer)
+       ("," . my-exit-frame-resizer))
+     'my--exit-frame-resizer)
+    "Repeatable frame resizing commands."))
 
 (use-package olivetti :defer t)
 
