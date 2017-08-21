@@ -259,6 +259,17 @@
   :defer t
 
   :init
+  (with-eval-after-load 'solarized
+    (eval-when-compile
+      (require 'solarized))
+
+    (solarized-with-color-variables
+      my--theme-variant
+      (setq hl-todo-keyword-faces
+            `(("TODO"  . ,cyan-lc)
+              ("NOTE"  . ,yellow-lc)
+              ("FIXME" . ,red-hc)))))
+
   (add-hook 'prog-mode-hook #'hl-todo-mode))
 
 (use-package highlight-escape-sequences
