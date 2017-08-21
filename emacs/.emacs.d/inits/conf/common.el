@@ -1,6 +1,21 @@
 (require 'use-package)
 (require 'general)
 
+(defun my-define-repeatable-command (alist &optional exit-func)
+  "Return a lambda that calls the first function of ALIST.
+It sets the transient map to all functions of ALIST,
+allowing you to repeat those functions as needed."
+  (lexical-let ((keymap (make-sparse-keymap))
+                (exit-func exit-func))
+    (mapc (lambda (x)
+            (when x
+              (define-key keymap (kbd (car x)) (cdr x))))
+          alist)
+    (lambda (arg)
+      (interactive "p")
+      (fset exit-func (set-transient-map keymap t)))))
+
+
 (defconst my--theme-variant
   (if (getenv "USE_SOLARIZED_DARK") 'dark 'light)
   "The Solarized variant to use.")

@@ -51,9 +51,6 @@
    "C-u" 'my-kill-line
    "C-l" 'move-end-of-line)
 
-  ("C-M-<" 'enlarge-window
-   "C-M->" 'shrink-window)
-
   (my-map :infix "w"
     "c" 'evil-window-delete
 

@@ -80,7 +80,8 @@
         which-key-idle-secondary-delay 0.3
         ;; which-key-echo-keystrokes 0.01
         which-key-use-C-h-commands nil
-        which-key-side-window-max-height 1.0)
+        which-key-side-window-max-height 1.0
+        which-key-show-transient-maps t)
 
   (defun my--which-key-delay (prefix length)
     (unless (or (> length 1)
@@ -220,12 +221,7 @@
     "h" 'buf-move-left
     "l" 'buf-move-right))
 
-(use-package frame-cmds
-  :general
-  ("C-M-S-h" 'shrink-frame-horizontally
-   "C-M-S-l" 'enlarge-frame-horizontally
-   "C-M-S-k" 'shrink-frame
-   "C-M-S-j" 'enlarge-frame))
+(use-package frame-cmds :defer t)
 
 (use-package olivetti :defer t)
 

@@ -2,6 +2,139 @@
 (require 'general)
 (require 'conf/common)
 
+(use-package windmove
+  :ensure nil
+
+  :general
+  ("C-M-S-h" 'my-move-splitter-left
+   "C-M-S-l" 'my-move-splitter-right
+   "C-M-S-k" 'my-move-splitter-up
+   "C-M-S-j" 'my-move-splitter-down)
+
+  (my-map
+    "w r" 'my-window-resizer)
+
+  :init
+  (defun my-move-splitter-left (arg)
+    "Move the right edge to the left.
+
+Resizing the right edge is not possible if there is no window to
+the right. If there's a window to the left, then the left edge is
+resized instead.
+
+Since this command is meant to be repeatable, it preserves the
+prefix argument so that it's not necessary to keep setting the it
+for each adjustment."
+    (interactive "P")
+
+    (universal-argument--preserve)
+
+    (adjust-window-trailing-edge
+     (or (and arg (window-in-direction 'left nil t))
+         (and (not (window-in-direction 'right nil t))
+              (window-in-direction 'left nil t)))
+     -1 t))
+
+  (defun my-move-splitter-right (arg)
+    "Move the right edge to the right.
+
+Resizing the right edge is not possible if there is no window to
+the right. If there's a window to the left, then the left edge is
+resized instead.
+
+Since this command is meant to be repeatable, it preserves the
+prefix argument so that it's not necessary to keep setting the it
+for each adjustment."
+    (interactive "P")
+
+    (universal-argument--preserve)
+
+    (adjust-window-trailing-edge
+     (or (and arg (window-in-direction 'left nil t))
+         (and (not (window-in-direction 'right nil t))
+              (window-in-direction 'left nil t)))
+     1 t))
+
+  (defun my-move-splitter-up (arg)
+    "Move the bottom edge upward.
+
+Resizing the bottom edge is not possible if there is no window
+below. If there is a window above, then the top edge is resized
+instead.
+
+Since this command is meant to be repeatable, it preserves the
+prefix argument so that it's not necessary to keep setting the it
+for each adjustment."
+    (interactive "P")
+
+    (universal-argument--preserve)
+
+    (adjust-window-trailing-edge
+     (or (and arg (window-in-direction 'above nil t))
+         (and (not (window-in-direction 'below nil t))
+              (window-in-direction 'above nil t)))
+     -1))
+
+  (defun my-move-splitter-down (arg)
+    "Move the bottom edge downward.
+
+Resizing the bottom edge is not possible if there is no window
+below. If there is a window above, then the top edge is resized
+instead.
+
+Since this command is meant to be repeatable, it preserves the
+prefix argument so that it's not necessary to keep setting the it
+for each adjustment."
+    (interactive "P")
+
+    (universal-argument--preserve)
+
+    (adjust-window-trailing-edge
+     (or (and arg (window-in-direction 'above nil t))
+         (and (not (window-in-direction 'below nil t))
+              (window-in-direction 'above nil t)))
+     1))
+
+  (defun my-universal-argument-toggle ()
+    "Toggle the universal argument.
+
+If it was already set, unset it. Otherwise invoke
+`universal-argument'."
+    (interactive)
+
+    (if current-prefix-arg
+        (setq current-prefix-arg nil)
+      (call-interactively #'universal-argument)))
+
+  (defun my-exit-window-resizer ()
+    "Explicitly exit the window-resizer transient map."
+    (interactive)
+
+    (funcall 'my--exit-window-resizer))
+
+  (defalias 'my-window-resizer
+    (my-define-repeatable-command
+     '(("C-u" . my-universal-argument-toggle)
+
+       ("j" . my-move-splitter-down)
+       ("k" . my-move-splitter-up)
+       ("h" . my-move-splitter-left)
+       ("l" . my-move-splitter-right)
+
+       ("w" . ace-window)
+
+       ("c" . evil-window-delete)
+
+       ("q" . my-exit-window-resizer)
+       ("," . my-exit-window-resizer)
+
+       ("J" . evil-window-down)
+       ("K" . evil-window-up)
+       ("H" . evil-window-left)
+       ("L" . evil-window-right))
+     'my--exit-window-resizer)
+    "Repeatable window resizing commands."))
+
 (use-package server
   :ensure nil
   :defer t
@@ -122,10 +255,9 @@ Also bind `q' to `quit-window'."
   :general
   (my-map :infix "w"
     "<left>" 'winner-undo
-    "u" 'winner-undo
-
+    "C-S-h" 'winner-undo
     "<right>" 'winner-redo
-    "r" 'winner-redo)
+    "C-S-l" 'winner-redo)
 
   :init
   (setq winner-dont-bind-my-keys t)
