@@ -208,11 +208,18 @@
    `(eyebrowse-mode-line-inactive ((,class (:background ,base01 :foreground "white"))))
 
    ;; whitespace
-   `(whitespace-trailing ((,class (:background ,red-l))))
-   `(whitespace-tab ((,class (:background ,red-l))))
-   `(whitespace-line ((,class (:underline t))))
-   `(whitespace-space-after-tab ((,class (:foreground ,red-l))))
-   `(whitespace-space-before-tab ((,class (:foreground ,red-l))))
+   `(whitespace-trailing ((,class (:background ,red-l
+                                   :foreground unspecified
+                                   :inverse-video unspecified))))
+   `(whitespace-tab ((,class (:background ,red-l
+                              :foreground unspecified
+                              :inverse-video unspecified))))
+   `(whitespace-line ((,class (:foreground unspecified :underline t))))
+   `(whitespace-space-after-tab ((,class (:foreground ,red-l
+                                          :weight unspecified
+                                          :inverse-video nil))))
+   `(whitespace-space-before-tab ((,class (:foreground ,red-l
+                                           :background unspecified))))
    `(whitespace-indentation ((,class (:background unspecified
                                       :foreground ,base02
                                       :inverse-video unspecified
