@@ -76,6 +76,51 @@
   :init
   (setq helm-imenu-execute-action-at-once-if-one nil))
 
+(use-package helm-bookmark
+  :ensure nil
+  :defer t
+
+  :general
+  (:keymaps 'helm-bookmark-map
+   "C-c C-k" 'helm-bookmark-run-delete
+
+   "C-c C-h" 'my-helm-bookmarks-split-horizontal
+   "C-c C-v" 'my-helm-bookmarks-split-vertical)
+
+  (my-map
+    "b b" 'helm-filtered-bookmarks)
+
+  :init
+  (setq helm-bookmark-show-location t)
+
+  (defun my--helm-bookmarks-action-vertical (candidate)
+    (dolist (bookmark (helm-marked-candidates))
+      (select-window (split-window-right))
+      (bookmark-jump bookmark))
+
+    (balance-windows))
+
+  (defun my-helm-bookmarks-split-vertical ()
+    "Open the bookmark in a vertical split."
+    (interactive)
+
+    (with-helm-alive-p
+     (helm-exit-and-execute-action 'my--helm-bookmarks-action-vertical)))
+
+  (defun my--helm-bookmarks-action-horizontal (candidate)
+    (dolist (bookmark (helm-marked-candidates))
+      (select-window (split-window-below))
+      (bookmark-jump bookmark))
+
+    (balance-windows))
+
+  (defun my-helm-bookmarks-split-horizontal ()
+    "Open the bookmark in a horizontal split."
+    (interactive)
+
+    (with-helm-alive-p
+     (helm-exit-and-execute-action 'my--helm-bookmarks-action-horizontal))))
+
 (use-package helm-adaptive
   :ensure nil
   :defer t
@@ -275,6 +320,7 @@ within other words, but this means that non-word keywords such as
     (if (get-buffer buf)
         (switch-to-buffer buf)
       (find-file buf))
+
     (balance-windows))
 
   (defun my--helm-ag-action-find-file-horizontal (candidate)
@@ -294,6 +340,7 @@ within other words, but this means that non-word keywords such as
     (if (get-buffer buf)
         (switch-to-buffer buf)
       (find-file buf))
+
     (balance-windows))
 
   (defun my--helm-ag-action-find-file-vertical (candidate)

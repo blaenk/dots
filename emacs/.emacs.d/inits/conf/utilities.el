@@ -97,6 +97,16 @@
   (:keymaps 'help-map
    "M-k" 'describe-keymap))
 
+(use-package bookmark+-lit
+  :ensure bookmark+
+
+  :init
+  (setq bmkp-auto-light-when-jump 'all-in-buffer
+        bmkp-auto-light-when-set 'all-in-buffer
+        bmkp-light-right-fringe-bitmap 'left-triangle))
+
+(use-package bookmark+)
+
 (use-package fontawesome
   :if (not (eq system-type 'windows-nt))
   :defer t

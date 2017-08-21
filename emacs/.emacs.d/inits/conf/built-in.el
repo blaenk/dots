@@ -384,7 +384,8 @@ Also bind `q' to `quit-window'."
   :defines bookmark-default-file
 
   :init
-  (setq bookmark-default-file (my-cache-dir "bookmarks")))
+  (setq bookmark-default-file (my-cache-dir "bookmarks")
+        bookmark-save-flag 1))
 
 (use-package recentf
   :ensure nil

@@ -340,7 +340,7 @@ text by that amount."
 
   ;; buffers
   "b" '(:ignore t :which-key "buffer")
-  "b b" 'bury-buffer
+  "b h" 'bury-buffer
   "b o" 'my-switch-to-previous-buffer
   "b s" 'save-buffer
   "b S" 'my-force-save

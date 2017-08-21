@@ -185,6 +185,13 @@
    ;; fringe
    `(fringe ((,class (:foreground ,base02))))
 
+   `(bmkp-light-non-autonamed ((,class (:background unspecified))))
+   `(bmkp-light-autonamed ((,class (:background unspecified))))
+   `(bmkp-light-fringe-non-autonamed ((,class (:background unspecified
+                                               :foreground ,s-fringe-fg))))
+   `(bmkp-light-fringe-autonamed ((,class (:background unspecified
+                                           :foreground ,s-fringe-fg))))
+
    ;; line numbers
    `(line-number ((,class (:weight normal :underline nil
                            :foreground ,s-fringe-fg
