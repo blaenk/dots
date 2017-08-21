@@ -332,7 +332,7 @@
 If ARG is given, do this for all buffers."
   (interactive "P")
 
-  (let ((format (if (equal mode-line-format my--default-mode-line-format)
+  (let ((format (if (eq mode-line-format my--default-mode-line-format)
                    my--custom-mode-line-format
                  my--default-mode-line-format)))
     (if arg
