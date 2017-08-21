@@ -80,8 +80,7 @@
         which-key-idle-secondary-delay 0.3
         ;; which-key-echo-keystrokes 0.01
         which-key-use-C-h-commands nil
-        which-key-side-window-max-height 1.0
-        which-key-show-transient-maps t)
+        which-key-side-window-max-height 1.0)
 
   (defun my--which-key-delay (prefix length)
     (unless (or (> length 1)
@@ -224,26 +223,20 @@
 (use-package frame-cmds
   :general
   (my-map
-    "f r" 'my-frame-resizer)
+    "f r" 'my-frame-resizer/body)
 
   :init
-  (defun my-exit-frame-resizer ()
-    "Explicitly exit the frame-resizer transient map."
-    (interactive)
+  (defhydra my-frame-resizer ()
+    "Resize frame."
 
-    (funcall 'my--exit-frame-resizer))
+    ("j" enlarge-frame "🡇")
+    ("k" shrink-frame "🡅")
+    ("h" shrink-frame-horizontally "🡄")
+    ("l" enlarge-frame-horizontally "🡆")
 
-  (defalias 'my-frame-resizer
-    (my-define-repeatable-command
-     '(("j" . enlarge-frame)
-       ("k" . shrink-frame)
-       ("h" . shrink-frame-horizontally)
-       ("l" . enlarge-frame-horizontally)
-
-       ("q" . my-exit-frame-resizer)
-       ("," . my-exit-frame-resizer))
-     'my--exit-frame-resizer)
-    "Repeatable frame resizing commands."))
+    ("q" nil "quit")
+    ("," nil "quit")
+    ))
 
 (use-package olivetti :defer t)
 
@@ -458,5 +451,9 @@ If a region is active, it'll be used to \"wrap\" the selection."
 (use-package mocha-snippets :defer t)
 
 (use-package react-snippets :defer t)
+
+(use-package hydra
+  :init
+  (setq hydra-is-helpful nil))
 
 (provide 'conf/utilities)

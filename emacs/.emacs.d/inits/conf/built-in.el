@@ -12,7 +12,7 @@
    "C-M-S-j" 'my-move-splitter-down)
 
   (my-map
-    "w r" 'my-window-resizer)
+    "w r" 'my-window-resizer/body)
 
   :init
   (defun my-move-splitter-left (arg)
@@ -106,41 +106,29 @@ If it was already set, unset it. Otherwise invoke
         (setq current-prefix-arg nil)
       (call-interactively #'universal-argument)))
 
-  (defun my-exit-window-resizer ()
-    "Explicitly exit the window-resizer transient map."
-    (interactive)
+  (defhydra my-window-resizer ()
+    "Resize window."
 
-    (funcall 'my--exit-window-resizer))
+    ("C-u" my-universal-argument-toggle "prefix")
 
-  (defun my-frame-resizer-wrapper ()
-    "Wrapper for my-frame-resizer which quits my-window-resizer."
-    (interactive)
+    ("j" my-move-splitter-down "🡇")
+    ("k" my-move-splitter-up "🡅")
+    ("h" my-move-splitter-left "🡄")
+    ("l" my-move-splitter-right "🡆")
 
-    (my-exit-window-resizer)
-    (call-interactively #'my-frame-resizer))
+    ("w" ace-window "ace")
 
-  (defalias 'my-window-resizer
-    (my-define-repeatable-command
-     '(("C-u" . my-universal-argument-toggle)
+    ("c" evil-window-delete "close")
+    ("b" balance-windows "balance")
 
-       ("j" . my-move-splitter-down)
-       ("k" . my-move-splitter-up)
-       ("h" . my-move-splitter-left)
-       ("l" . my-move-splitter-right)
+    ("q" nil "quit")
+    ("," nil "quit")
 
-       ("w" . ace-window)
-
-       ("c" . evil-window-delete)
-
-       ("q" . my-exit-window-resizer)
-       ("," . my-exit-window-resizer)
-
-       ("J" . evil-window-down)
-       ("K" . evil-window-up)
-       ("H" . evil-window-left)
-       ("L" . evil-window-right))
-     'my--exit-window-resizer)
-    "Repeatable window resizing commands."))
+    ("J" evil-window-down "go 🡇")
+    ("K" evil-window-up "go 🡅")
+    ("H" evil-window-left "go 🡄")
+    ("L" evil-window-right "go 🡆")
+    ))
 
 (use-package server
   :ensure nil
