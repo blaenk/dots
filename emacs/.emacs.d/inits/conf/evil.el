@@ -150,17 +150,13 @@
       ;; remove the mark
       (set-marker fixup-mark nil)))
 
-  (with-eval-after-load 'solarized
-    (eval-when-compile
-      (require 'solarized))
-
-    (solarized-with-color-variables my--theme-variant
-      (setq evil-normal-state-cursor `(,blue-l box)
-            evil-insert-state-cursor `(,green-l box)
-            evil-visual-state-cursor `(,magenta-l box)
-            evil-replace-state-cursor `(,red-l (hbar . 4))
-            evil-operator-state-cursor `((hbar . 6))
-            evil-emacs-state-cursor `(,red-l box))))
+  (my-with-solarized-colors
+   (setq evil-normal-state-cursor `(,blue-l box)
+         evil-insert-state-cursor `(,green-l box)
+         evil-visual-state-cursor `(,magenta-l box)
+         evil-replace-state-cursor `(,red-l (hbar . 4))
+         evil-operator-state-cursor `((hbar . 6))
+         evil-emacs-state-cursor `(,red-l box)))
 
   ;; If the point is in a comment that has non-whitespace content, delete up
   ;; until the beginning of the comment. If already at the beginning of the

@@ -257,18 +257,16 @@
 
 (use-package hl-todo
   :defer t
+  :defines hl-todo-keyword-faces
 
   :init
-  (with-eval-after-load 'solarized
-    (eval-when-compile
-      (require 'solarized))
-
-    (solarized-with-color-variables
-      my--theme-variant
-      (setq hl-todo-keyword-faces
-            `(("TODO"  . ,cyan-lc)
-              ("NOTE"  . ,yellow-lc)
-              ("FIXME" . ,red-hc)))))
+  ;; TODO
+  ;; Create a macro that wraps this all up.
+  (my-with-solarized-colors
+   (setq hl-todo-keyword-faces
+         `(("TODO"  . ,cyan-lc)
+           ("NOTE"  . ,yellow-lc)
+           ("FIXME" . ,red-lc))))
 
   (add-hook 'prog-mode-hook #'hl-todo-mode))
 

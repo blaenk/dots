@@ -1,28 +1,6 @@
 (require 'use-package)
 (require 'general)
 
-(defun my-define-repeatable-command (alist &optional exit-func)
-  "Return a lambda that calls the first function of ALIST.
-It sets the transient map to all functions of ALIST,
-allowing you to repeat those functions as needed."
-  (lexical-let ((keymap (make-sparse-keymap))
-                (exit-func exit-func))
-    (mapc (lambda (x)
-            (when x
-              (define-key keymap (kbd (car x)) (cdr x))))
-          alist)
-    (lambda (arg)
-      (interactive "p")
-      (fset exit-func (set-transient-map keymap t)))))
-
-(defmacro csetq (variable value)
-  "Uses variable's custom-set property if it has one.
-
-Otherwise it uses `set-default'."
-  `(funcall (or (get ',variable 'custom-set)
-                'set-default)
-            ',variable ,value))
-
 (defconst my--theme-variant
   (if (getenv "USE_SOLARIZED_DARK") 'dark 'light)
   "The Solarized variant to use.")
@@ -120,5 +98,36 @@ and `defcustom' forms reset their default values."
     (while (not (eobp))
       (forward-sexp)
       (eval-defun nil))))
+
+(defun my-define-repeatable-command (alist &optional exit-func)
+  "Return a lambda that calls the first function of ALIST.
+It sets the transient map to all functions of ALIST,
+allowing you to repeat those functions as needed."
+  (lexical-let ((keymap (make-sparse-keymap))
+                (exit-func exit-func))
+    (mapc (lambda (x)
+            (when x
+              (define-key keymap (kbd (car x)) (cdr x))))
+          alist)
+    (lambda (arg)
+      (interactive "p")
+      (fset exit-func (set-transient-map keymap t)))))
+
+(defmacro csetq (variable value)
+  "Uses variable's custom-set property if it has one.
+
+Otherwise it uses `set-default'."
+  `(funcall (or (get ',variable 'custom-set)
+                'set-default)
+            ',variable ,value))
+
+(defmacro my-with-solarized-colors (&rest body)
+  `(with-eval-after-load 'solarized
+     (eval-when-compile
+       (require 'solarized))
+
+     (solarized-with-color-variables
+       ',my--theme-variant
+       ,@body)))
 
 (provide 'conf/common)
