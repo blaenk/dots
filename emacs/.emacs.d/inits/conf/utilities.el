@@ -355,7 +355,7 @@
   :init
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
         aw-dispatch-alist
-        '((?d aw-delete-window " Ace - Delete Window")
+        '((?x aw-delete-window " Ace - Delete Window")
           (?m aw-swap-window " Ace - Swap Window")
           (?M aw-move-window " Ace - Move Window")
           (?n aw-flip-window)
