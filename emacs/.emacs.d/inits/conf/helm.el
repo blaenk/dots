@@ -23,6 +23,7 @@
    "i" 'helm-info-emacs)
 
   (:keymaps 'helm-map
+   "<f9>" 'my--helm-scroll-bar-toggle
    "<tab>" 'helm-execute-persistent-action
    "C-i" 'helm-execute-persistent-action
    "C-z" 'helm-select-action
@@ -35,6 +36,13 @@
   :init
   (setq helm-split-window-in-side-p t
         helm-display-header-line nil)
+
+  (defun my--helm-scroll-bar-toggle ()
+    "Toggle the scroll-bar within the Helm candidates window."
+    (interactive)
+
+    (with-helm-window
+      (my-scroll-bar-toggle)))
 
   :config
   (require 'helm-config)
