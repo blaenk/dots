@@ -100,6 +100,9 @@
   :ensure nil
 
   :general
+  (:keymaps 'helm-buffer-map
+   "C-c C-k" 'helm-buffer-run-kill-persistent)
+
   (:keymaps '(helm-find-files-map helm-buffer-map)
    "C-c C-h" 'helm-ext-ff-execute-horizontal-split
    "C-c C-v" 'helm-ext-ff-execute-vertical-split))
