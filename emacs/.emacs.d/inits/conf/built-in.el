@@ -981,7 +981,11 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   :general
   (:keymaps 'help-mode-map
     "[" 'help-go-back
-    "]" 'help-go-forward)
+    "]" 'help-go-forward
+
+    "h" nil
+    "l" nil
+    "0" nil)
 
   :config
   (with-eval-after-load 'evil
