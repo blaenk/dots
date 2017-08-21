@@ -15,6 +15,13 @@ allowing you to repeat those functions as needed."
       (interactive "p")
       (fset exit-func (set-transient-map keymap t)))))
 
+(defmacro csetq (variable value)
+  "Uses variable's custom-set property if it has one.
+
+Otherwise it uses `set-default'."
+  `(funcall (or (get ',variable 'custom-set)
+                'set-default)
+            ',variable ,value))
 
 (defconst my--theme-variant
   (if (getenv "USE_SOLARIZED_DARK") 'dark 'light)
