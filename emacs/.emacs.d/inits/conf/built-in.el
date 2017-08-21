@@ -989,10 +989,10 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
     "]" 'help-go-forward)
 
   :config
-  (eval-when-compile
-    (require 'evil))
-
   (with-eval-after-load 'evil
+    (eval-when-compile
+      (require 'evil))
+
     (evil-add-hjkl-bindings help-mode-map 'normal)
     (evil-make-overriding-map help-mode-map 'motion)))
 
