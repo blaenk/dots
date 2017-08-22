@@ -4,6 +4,7 @@
 
 (use-package helm
   :diminish helm-mode
+  :demand t
 
   :general
   ([remap execute-extended-command] 'helm-M-x
