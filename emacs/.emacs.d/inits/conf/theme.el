@@ -2,6 +2,12 @@
 (require 'conf/common)
 
 (use-package solarized-theme
+  :demand t
+
+  :general
+  (my-map
+    "t t" 'my-load-theme)
+
   :init
   (defun my-load-theme ()
     "Load theme if not already loaded, else re-enable.
@@ -14,9 +20,7 @@ which includes additions and modifications to solarized."
         (enable-theme my--solarized-theme-name)
       (load-theme my--solarized-theme-name t))
 
-    (if (memq 'solarized-ext custom-enabled-themes)
-        (enable-theme 'solarized-ext)
-      (load-theme 'solarized-ext t)))
+    (load-theme 'solarized-ext t))
 
   :config
   (my-after-frame (my-load-theme)))

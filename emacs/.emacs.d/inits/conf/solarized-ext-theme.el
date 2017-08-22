@@ -5,166 +5,119 @@
 
 (deftheme solarized-ext "Solarized with some modifications")
 
+(defface magit-diff-added-highlight nil
+  "Face for lines in a diff that have been added."
+  :group 'magit-faces)
+
+(defface magit-diff-removed-highlight nil
+  "Face for lines in a diff that have been removed."
+  :group 'magit-faces)
+
+(defface mode-line-column-face nil
+  "Column number in mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-which-function-face nil
+  "Which-function in mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-branch-face nil
+  "Branch for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-edebug-face nil
+  "EDebug indicator for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-anzu-face nil
+  "Anzu for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-mode-name-face nil
+  "Mode name for header-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-read-only-face nil
+  "Read-only marker for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-emacs-mode-indicator-face nil
+  "Emacs mode marker for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-evil-mode-indicator-face nil
+  "Evil mode marker for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-flycheck-no-errors-face nil
+  "Flycheck 'no errors' marker for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-flycheck-warnings-face nil
+  "Flycheck 'warnings' marker for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-flycheck-infos-face nil
+  "Flycheck 'infos' marker for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-flycheck-checking-face nil
+  "Flycheck 'checking' marker for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-flycheck-errors-face nil
+  "Flycheck 'errors' marker for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-which-func-separator nil
+  "Which-func separator for header-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-modified-face nil
+  "Buffer-modified marker for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-remote-face nil
+  "Remote marker for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
+(defface mode-line-stem-face nil
+  "Buffer file path dirname for mode-line."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
 (solarized-with-color-variables
   my--theme-variant
-  (defface magit-diff-added-highlight
-    '((((class color) (background light))
-       :background "#cceecc"
-       :foreground "#22aa22")
-      (((class color) (background dark))
-       :background "#336633"
-       :foreground "#cceecc"))
-    "Face for lines in a diff that have been added."
-    :group 'magit-faces)
-
-  (defface magit-diff-removed-highlight
-    '((((class color) (background light))
-       :background "#eecccc"
-       :foreground "#aa2222")
-      (((class color) (background dark))
-       :background "#663333"
-       :foreground "#eecccc"))
-    "Face for lines in a diff that have been removed."
-    :group 'magit-faces)
-
-  ;; Mode line faces
-  (defface mode-line-column-face
-    `((,class (:background ,s-fringe-bg :foreground ,base1 :weight bold)))
-    "column number in mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-which-function-face
-    `((,class (:background ,blue-l :foreground "white")))
-    "which-function in mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-branch-face
-    `((,class (:background ,base0
-               :foreground "white"
-               :weight bold)))
-    "branch for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-edebug-face
-    `((,class (:background ,violet
-               :foreground "white"
-               :weight bold)))
-    "branch for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-anzu-face
-    `((,class (:background ,orange-l
-               :foreground "white"
-               :weight bold)))
-    "anzu for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-mode-name-face
-    `((,class (:background ,base0
-               :foreground "white")))
-    "mode name for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-read-only-face
-    `((,class (:background ,red-l
-               :foreground "white")))
-    "read-only marker for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-emacs-mode-indicator-face
-    `((,class (:background ,red-l
-               :foreground "white"
-               :weight bold)))
-    "emacs mode marker for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-evil-mode-indicator-face
-    `((,class (:background ,blue-l
-               :foreground "white"
-               :weight bold)))
-    "evil mode marker for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-flycheck-no-errors-face
-    `((,class (:background ,base0
-               :foreground "white"
-               :weight bold)))
-    "flycheck no errors marker for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-flycheck-warnings-face
-    `((,class (:background ,yellow-lc
-               :foreground "white"
-               :weight bold)))
-    "flycheck warnings marker for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-flycheck-infos-face
-    `((,class (:background ,blue-l
-               :foreground "white"
-               :weight bold)))
-    "flycheck infos marker for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-flycheck-checking-face
-    `((,class (:background ,base01
-               :foreground "white"
-               :weight bold)))
-    "flycheck checking marker for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-flycheck-errors-face
-    `((,class (:background ,red-l
-               :foreground "white"
-               :weight bold)))
-    "flycheck errors marker for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-which-func-arrow-face
-    `((,class (:foreground ,green
-               :weight bold)))
-    "which-func separator for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-modified-face
-    `((,class (:background ,green-l
-               :foreground "white"
-               :weight bold)))
-    "buffer modified marker for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-remote-face
-    `((,class (:background ,green-lc
-               :foreground "white"
-               :weight bold)))
-    "remote marker for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
-  (defface mode-line-stem-face
-    `((,class (:foreground ,base0)))
-    "buffer file path dirname for mode-line"
-    :group 'mode-line-faces
-    :group 'basic-faces)
-
   (custom-theme-set-faces
    'solarized-ext
+   ;; magit
+   `(magit-diff-added-highlight ((((class color) (background light))
+                                  (:background "#cceecc" :foreground "#22aa22"))))
+   `(magit-diff-added-highlight ((((class color) (background dark))
+                                  (:background "#336633" :foreground "#cceecc"))))
+
+   `(magit-diff-removed-highlight ((((class color) (background light))
+                                    (:background "#eecccc" :foreground "#aa2222"))))
+   `(magit-diff-removed-highlight ((((class color) (background dark))
+                                    (:background "#663333" :foreground "#eecccc"))))
+
    ;; rtags
    `(rtags-warnline ((,class (:underline "goldenrod4"))))
    `(rtags-errline ((,class (:underline "red"))))
@@ -237,14 +190,12 @@
    `(evil-quickscope-second-face ((,class (:foreground ,red-lc
                                            :weight bold))))
 
-   `(hl-line ((,class (:background
-                       ,(solarized-color-blend base02 base03 0.5)))))
+   `(hl-line ((,class (:background ,(solarized-color-blend base02 base03 0.5)))))
    `(region ((,class (:background ,base02 :foreground unspecified))))
 
    `(show-paren-match ((,class (:foreground unspecified
                                 :background ,base02
-                                :weight bold
-                                ))))
+                                :weight bold))))
 
    ;; smartparents
    `(sp-show-pair-match-face ((,class (:foreground unspecified
@@ -274,17 +225,44 @@
    `(rainbow-delimiters-unmatched-face
      ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
 
-   ;; mmm-mode
-   `(mmm-default-submode-face ((,class (:background unspecified))))
-
    `(header-line
      ((,class (:inverse-video unspecified
                :overline ,s-mode-line-underline
                :underline ,s-mode-line-underline
                :foreground ,s-mode-line-fg
                :background ,s-mode-line-bg
-               :box unspecified
-               ))))
+               :box unspecified))))
+
+   ;; mode-line
+   `(mode-line-column-face
+     ((,class (:background ,s-fringe-bg :foreground ,base1 :weight bold))))
+
+   `(mode-line-which-function-face ((,class (:background ,blue-l :foreground "white"))))
+   `(mode-line-branch-face ((,class (:background ,base0 :foreground "white" :weight bold))))
+   `(mode-line-edebug-face ((,class (:background ,violet :foreground "white" :weight bold))))
+   `(mode-line-anzu-face ((,class (:background ,orange-l :foreground "white" :weight bold))))
+   `(mode-line-mode-name-face ((,class (:background ,base0 :foreground "white"))))
+   `(mode-line-read-only-face ((,class (:background ,red-l :foreground "white"))))
+   `(mode-line-emacs-mode-indicator-face
+     ((,class (:background ,red-l :foreground "white" :weight bold))))
+   `(mode-line-evil-mode-indicator-face
+     ((,class (:background ,blue-l :foreground "white" :weight bold))))
+   `(mode-line-flycheck-no-errors-face
+     ((,class (:background ,base0 :foreground "white" :weight bold))))
+   `(mode-line-flycheck-warnings-face
+     ((,class (:background ,yellow-lc :foreground "white" :weight bold))))
+   `(mode-line-flycheck-infos-face
+     ((,class (:background ,blue-l :foreground "white" :weight bold))))
+   `(mode-line-flycheck-checking-face
+     ((,class (:background ,base01 :foreground "white" :weight bold))))
+   `(mode-line-flycheck-errors-face
+     ((,class (:background ,red-l :foreground "white" :weight bold))))
+   `(mode-line-which-func-separator ((,class (:foreground ,green :weight bold))))
+   `(mode-line-modified-face
+     ((,class (:background ,green-l :foreground "white" :weight bold))))
+   `(mode-line-remote-face
+     ((,class (:background ,green-lc :foreground "white" :weight bold))))
+   `(mode-line-stem-face ((,class (:foreground ,base0))))
 
    `(mode-line
      ((,class (:inverse-video unspecified
@@ -292,8 +270,7 @@
                :underline ,s-mode-line-underline
                :foreground ,s-mode-line-fg
                :background ,s-mode-line-bg
-               :box unspecified
-               ))))
+               :box unspecified))))
 
    `(mode-line-inactive
      ((,class (:inverse-video unspecified
@@ -301,8 +278,7 @@
                :underline ,s-mode-line-underline
                :foreground ,s-mode-line-inactive-fg
                :background ,s-mode-line-inactive-bg
-               :box unspecified
-               ))))
+               :box unspecified))))
 
    ;; evil-goggles
    `(evil-goggles-delete-face
