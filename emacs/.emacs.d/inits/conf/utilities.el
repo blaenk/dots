@@ -184,7 +184,7 @@
         projectile-indexing-method 'alien)
 
   :config
-  (projectile-global-mode)
+  (projectile-mode)
 
   (add-to-list 'projectile-other-file-alist '("cc" "h" "hpp" "hh"))
   (add-to-list 'projectile-other-file-alist '("h" "c" "cpp" "cc")))
