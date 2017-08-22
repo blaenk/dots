@@ -293,6 +293,8 @@ overridden with the prefix ARG."
    "C-c C-v" 'my-helm-ag-split-vertical)
 
   (my-map
+    ". t" 'my-search-todos
+    ". p" 'my-search-packages
     ". s" 'my-dots-search)
 
   :init
@@ -327,7 +329,7 @@ overridden with the prefix ARG."
 
     (helm-do-ag my--dots-path))
 
-  (defun my-search-todo ()
+  (defun my-search-todos ()
     "Search for any TODO markers as specified in hl-todo-keyword-faces.
 
 Note that this uses the word boundary \\b to avoid matching these
@@ -339,6 +341,13 @@ within other words, but this means that non-word keywords such as
     (let* ((grouped (funcall #'regexp-opt (--map (car it) hl-todo-keyword-faces)))
            (pcre (rxt-elisp-to-pcre (s-wrap grouped "\\b"))))
       (helm-do-ag (projectile-project-root) nil pcre)))
+
+  (defun my-search-packages ()
+    "List any use-package declarations."
+    (interactive)
+    (require 'projectile)
+
+    (helm-do-ag (projectile-project-root) nil "\\(use-package "))
 
   (defun my--helm-ag-launch-ag (_candidate)
     (require 'ag)
