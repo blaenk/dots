@@ -32,6 +32,12 @@
 
   (my-map
     "h" '(:command helm-command-prefix :which-key "helm")
+
+    "s i" 'helm-semantic-or-imenu
+    "s I" 'helm-imenu-in-all-buffers
+    "s o" 'helm-occur
+    "s m" 'helm-all-mark-rings
+
     "o r" 'helm-recentf)
 
   :init
@@ -205,6 +211,8 @@ can be overridden with the prefix ARG."
    "C-c C-v" 'helm-ext-ff-execute-vertical-split)
 
   (my-map
+    "s a" 'my-helm-ag
+
     "o b" 'my-open-buffer
     "o f" 'my-open-file
     "o ." 'my-dots-file
