@@ -126,8 +126,12 @@ Otherwise it uses `set-default'."
      (eval-when-compile
        (require 'solarized))
 
-     (solarized-with-color-variables
-       ',my--theme-variant
-       ,@body)))
+     ;; TODO
+     ;; File PR upstream that adds these variables.
+     (let ((light-class '((class color) (background light)))
+           (dark-class '((class color) (background dark))))
+       (solarized-with-color-variables
+         ',my--theme-variant
+         ,@body))))
 
 (provide 'conf/common)

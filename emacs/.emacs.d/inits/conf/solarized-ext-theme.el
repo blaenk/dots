@@ -103,20 +103,17 @@
   :group 'mode-line-faces
   :group 'basic-faces)
 
-(solarized-with-color-variables
-  my--theme-variant
+(my-with-solarized-colors
   (custom-theme-set-faces
    'solarized-ext
    ;; magit
-   `(magit-diff-added-highlight ((((class color) (background light))
-                                  (:background "#cceecc" :foreground "#22aa22"))))
-   `(magit-diff-added-highlight ((((class color) (background dark))
-                                  (:background "#336633" :foreground "#cceecc"))))
+   `(magit-diff-added-highlight
+     ((,light-class (:background "#cceecc" :foreground "#22aa22"))
+      (,dark-class (:background "#336633" :foreground "#cceecc"))))
 
-   `(magit-diff-removed-highlight ((((class color) (background light))
-                                    (:background "#eecccc" :foreground "#aa2222"))))
-   `(magit-diff-removed-highlight ((((class color) (background dark))
-                                    (:background "#663333" :foreground "#eecccc"))))
+   `(magit-diff-removed-highlight
+     ((,light-class (:background "#eecccc" :foreground "#aa2222"))
+      (,dark-class (:background "#663333" :foreground "#eecccc"))))
 
    ;; rtags
    `(rtags-warnline ((,class (:underline "goldenrod4"))))
