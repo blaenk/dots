@@ -112,6 +112,7 @@
 (use-package help-fns+
   :general
   (:keymaps 'help-map
+   "o" 'describe-option
    "M-k" 'describe-keymap))
 
 (use-package bookmark+-lit
