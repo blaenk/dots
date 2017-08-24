@@ -55,6 +55,13 @@
   (helm-mode 1)
 
   (helm-autoresize-mode t))
+(use-package helm-regexp
+  :ensure nil
+  :defer t
+
+  :init
+  (setq helm-moccur-show-buffer-fontification t))
+
 
 (use-package helm-regexp
   :ensure nil
