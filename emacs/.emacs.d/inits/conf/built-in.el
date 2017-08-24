@@ -253,6 +253,7 @@ Also bind `q' to `quit-window'."
   (:keymaps 'iso-transl-ctl-x-8-map
    "<right>" "→"
    "<left>" "←"
+   "." "…"
    "n" "ñ"))
 
 (use-package winner
