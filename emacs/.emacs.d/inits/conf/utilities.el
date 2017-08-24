@@ -4,6 +4,23 @@
 
 (use-package pcre2el :defer t)
 
+(use-package macrostep
+  :defer t
+
+  :general
+  (my-map
+    "e e m" 'macrostep-expand)
+
+  :init
+  (defun my--macrostep-hook ()
+    (evil-emacs-state))
+
+  (define-advice macrostep-collapse-all
+      (:after () switch-to-normal)
+    (evil-normal-state))
+
+  (add-hook 'macrostep-mode-hook #'my--macrostep-hook))
+
 (use-package discover-my-major
   :general
   ([remap describe-mode] 'discover-my-major
