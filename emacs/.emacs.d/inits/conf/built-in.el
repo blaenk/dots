@@ -2,6 +2,13 @@
 (require 'general)
 (require 'conf/common)
 
+(use-package help-fns
+  :ensure nil
+
+  :general
+  (:keymaps 'help-map
+   "s" 'describe-symbol))
+
 (use-package windmove
   :ensure nil
 
