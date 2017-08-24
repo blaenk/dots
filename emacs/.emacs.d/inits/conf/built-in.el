@@ -181,6 +181,21 @@ If it was already set, unset it. Otherwise invoke
   (advice-add 'pp-eval-last-sexp :before #'my--leave-insert-state)
   (advice-add 'pp-macroexpand-last-sexp :before #'my--leave-insert-state)
 
+  (define-advice eval-print-last-sexp
+      (:around (old-func &optional eval-last-sexp-arg-internal) print-after-paren)
+    "Make sure to print sexp after the closing parenthesis when in Evil mode."
+    (interactive "P")
+
+    (require 'smartparens)
+    (require 'on-parens)
+
+    (if (evil-normal-state-p)
+        (progn
+          (evil-append 1)
+          (funcall old-func eval-last-sexp-arg-internal)
+          (evil-normal-state))
+      (funcall old-func eval-last-sexp-arg-internal)))
+
   (define-advice pp-display-expression
       (:after (expression out-buffer-name) auto-select-window)
     "Auto-select the *Pp Eval Output* window.
