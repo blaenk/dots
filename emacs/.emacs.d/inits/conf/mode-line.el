@@ -127,10 +127,21 @@
                  'mode-line-emacs-mode-indicator-face)))
     (propertize (s-wrap indicator " ") 'face face)))
 
+(defun my--is-sudo-edit-p (method host)
+  (and (string= method "sudo") (string= host "localhost")))
+
 (defun my--mode-line-remote-component ()
-  (when (file-remote-p buffer-file-name)
-    (let ((host (tramp-file-name-host (tramp-dissect-file-name buffer-file-name))))
-      (s-wrap (concat my--cloud-icon " " host) " "))))
+  (when (and (file-remote-p buffer-file-name)
+             (tramp-tramp-file-p buffer-file-name))
+    (let* ((tramp-file-name-struct (tramp-dissect-file-name buffer-file-name))
+           (host (tramp-file-name-host tramp-file-name-struct))
+           (method (tramp-file-name-method tramp-file-name-struct)))
+      (if (my--is-sudo-edit-p method host)
+          (propertize " SUDO " 'face 'mode-line-emacs-mode-indicator-face)
+        (propertize
+         (s-wrap (concat my--cloud-icon " " host) " ")
+         'face 'mode-line-remote-face)
+        ))))
 
 (defun my--mode-line-format-error (count face)
   (when (and count (> count 0))
@@ -296,9 +307,7 @@
         (buffer-file-name
          (:eval (my--mode-line-project-component)))
         (buffer-file-name
-         (:propertize
-          (:eval (my--mode-line-remote-component))
-          face mode-line-remote-face))
+          (:eval (my--mode-line-remote-component)))
         ))
 
 (defconst my--mode-line-right
