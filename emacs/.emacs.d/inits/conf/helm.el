@@ -35,8 +35,7 @@
     "o r" 'helm-recentf)
 
   :init
-  (setq helm-split-window-in-side-p t
-        helm-display-header-line nil)
+  (setq helm-split-window-in-side-p t)
 
   (defun my--helm-scroll-bar-toggle ()
     "Toggle the scroll-bar within the Helm candidates window."
