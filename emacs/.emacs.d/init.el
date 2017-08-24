@@ -312,6 +312,9 @@ text by that amount."
 
   "." '(:ignore t :which-key "dots")
 
+  "i" '(:ignore t :which-key "insert")
+  "s" '(:ignore t :which-key "search")
+
   "o" '(:ignore t :which-key "open")
   "o a" '(:ignore t :which-key "all")
 
