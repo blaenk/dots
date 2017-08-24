@@ -292,7 +292,7 @@
   ;; Create a macro that wraps this all up.
   (my-with-solarized-colors
    (setq hl-todo-keyword-faces
-         `(("TODO"  . ,cyan-lc)
+         `(("TODO"  . ,blue-lc)
            ("NOTE"  . ,yellow-lc)
            ("FIXME" . ,red-lc))))
 
