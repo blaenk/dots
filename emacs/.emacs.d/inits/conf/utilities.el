@@ -470,6 +470,9 @@
    "TAB" nil
    "M-n" 'my-yasnippet)
 
+  (my-map
+    "i s" 'my-yasnippet)
+
   :init
   (setq yas-indent-line 'auto
         yas-wrap-around-region t
