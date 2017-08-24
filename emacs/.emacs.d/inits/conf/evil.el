@@ -86,6 +86,7 @@
     "s n n" 'evil-window-new)
 
   (my-map
+    "i n" 'my-evil-open-in-between
     "k w" 'evil-window-delete)
 
   ;; Short-circuit the window map: C-w → C-c w
