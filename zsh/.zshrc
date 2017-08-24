@@ -1,6 +1,26 @@
 # determine path to dots dir
 export DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
 
+# When setting up for Emacs Tramp, set the prompt to something simple that it
+# can detect and disable superfluous features in order to optimize for speed.
+if [[ "$TERM" == "dumb" ]]; then
+  unsetopt zle
+  unsetopt prompt_cr
+  unsetopt prompt_subst
+
+  if whence -w precmd >/dev/null; then
+    unfunction precmd
+  fi
+
+  if whence -w preexec >/dev/null; then
+    unfunction preexec
+  fi
+
+  PS1='$ '
+
+  return
+fi
+
 if [[ -f "$DOTSPATH/.theme.dark" ]]; then
   export USE_SOLARIZED_DARK=1
 fi
