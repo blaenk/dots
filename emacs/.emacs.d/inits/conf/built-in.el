@@ -377,10 +377,10 @@ Also bind `q' to `quit-window'."
   :ensure nil
 
   :general
-  ("<f9>" 'my-scroll-bar-toggle)
+  ("<f9>" 'my-toggle-scroll-bar)
 
   :init
-  (defun my-scroll-bar-toggle ()
+  (defun my-toggle-scroll-bar ()
     "Toggle visibility of the scroll bar for the current window."
     (interactive)
 
