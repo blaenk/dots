@@ -499,7 +499,7 @@ within other words, but this means that non-word keywords such as
     (interactive)
     (require 'projectile)
 
-    (helm-do-ag (projectile-project-root) nil "\\(use-package "))
+    (helm-do-ag my--dots-path nil "\\(use-package "))
 
   (defun my--helm-ag-launch-ag (_candidate)
     (require 'ag)
