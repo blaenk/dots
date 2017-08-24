@@ -62,6 +62,13 @@
   :init
   (setq helm-moccur-show-buffer-fontification t))
 
+(use-package helm-font
+  :ensure nil
+  :defer t
+
+  :general
+  (my-map
+    "i c" 'helm-ucs))
 
 (use-package helm-regexp
   :ensure nil
