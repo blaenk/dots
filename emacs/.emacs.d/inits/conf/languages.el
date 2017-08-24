@@ -44,6 +44,7 @@
    "k" 'evil-previous-visual-line)
 
   (my-map :keymaps '(markdown-mode-map gfm-mode-map)
+    "m e" 'markdown-edit-code-block
     "m c" 'my-insert-gfm-code-block
     "t t" 'orgtbl-mode)
 
