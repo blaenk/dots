@@ -223,7 +223,7 @@
   (let* ((path (if (file-remote-p buffer-file-name)
                    (tramp-file-name-localname (tramp-dissect-file-name buffer-file-name))
                  path))
-         (dirname (file-name-as-directory (f-short (f-dirname path))))
+         (dirname (file-name-as-directory (f-short (file-name-directory path))))
          (filename (f-filename path))
          (propertized-filename
           (propertize filename 'face 'mode-line-buffer-id)))
