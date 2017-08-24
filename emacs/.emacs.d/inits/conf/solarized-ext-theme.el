@@ -128,6 +128,7 @@
    `(pulse-highlight-start-face ((,class (:background ,base02))))
 
    ;; markdown
+   `(markdown-code-face ((,class (:background unspecified))))
    `(markdown-pre-face ((,class (:foreground unspecified))))
    `(markdown-language-keyword-face ((,class (:weight bold))))
    `(markdown-comment-face ((,class (:strike-through nil))))

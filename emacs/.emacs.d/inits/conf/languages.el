@@ -64,6 +64,7 @@
         markdown-asymmetric-header t
         markdown-italic-underscore t
         markdown-use-pandoc-style-yaml-metadata t
+        markdown-fontify-code-blocks-natively t
         markdown-gfm-additional-languages '("cpp" "elisp" "postgresql"))
 
   (defun my--markdown-mode-hook ()
@@ -80,15 +81,14 @@
   (add-hook 'markdown-mode-hook #'outline-minor-mode)
   (add-hook 'markdown-mode-hook #'flyspell-mode)
   (add-hook 'markdown-mode-hook #'visual-line-mode)
-  (add-hook 'markdown-mode-hook #'whitespace-mode))
+  (add-hook 'markdown-mode-hook #'whitespace-mode)
 
-(use-package markdown-edit-indirect
-  :general
-  (:keymaps 'markdown-mode-map
-   "C-'" 'markdown-edit-indirect)
+  :config
+  ;; (fset #'markdown-update-code-face #'ignore)
 
-  (my-map
-    "m e" 'markdown-edit-indirect))
+  (setq markdown-code-lang-modes
+        (-concat '(("postgresql" . sql-mode)
+                   ("zsh" . sh-mode)))))
 
 (use-package yaml-mode
   :defer t
