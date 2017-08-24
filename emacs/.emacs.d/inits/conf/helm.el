@@ -44,6 +44,8 @@
     "o r" 'helm-recentf)
 
   :init
+  (setq helm-display-header-line nil)
+
   (defun my--helm-toggle-scroll-bar ()
     "Toggle the scroll-bar within the Helm candidates window."
     (interactive)
