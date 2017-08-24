@@ -30,22 +30,21 @@
 
    "M-o" 'my-evil-open-in-between
 
-   "gr" 'my-evil-replace
-
    "]p" 'my-evil-paste-after-and-indent
    "]P" 'my-evil-paste-before-and-indent
 
    "[p" 'my-evil-paste-before-and-indent
-   "[P" 'my-evil-paste-before-and-indent
-
-   "[y" 'my-evil-yank-without-indentation
-   "]y" 'my-evil-yank-for-markdown)
+   "[P" 'my-evil-paste-before-and-indent)
 
   (:keymaps 'visual
    ">" 'my-visual-shift-right
-   "<" 'my-visual-shift-left
+   "<" 'my-visual-shift-left)
 
+  (:keymaps '(normal visual)
    "gr" 'my-evil-replace
+   "gR" 'my-evil-visual-replace
+
+   "gX" 'my-cancel-exchange-or-visual-replace
 
    "[y" 'my-evil-yank-without-indentation
    "]y" 'my-evil-yank-for-markdown)
@@ -120,6 +119,14 @@
     (require 'evil-macros)
     (require 'evil-types))
 
+  (my-with-solarized-colors
+   (setq evil-normal-state-cursor `(,blue-lc box)
+         evil-insert-state-cursor `(,green-lc box)
+         evil-visual-state-cursor `(,magenta-lc box)
+         evil-replace-state-cursor `(,red-lc (hbar . 4))
+         evil-operator-state-cursor `((hbar . 6))
+         evil-emacs-state-cursor `(,red-lc box)))
+
   ;; FIXME
   ;; when done on line:
   ;;     (insert "\n#endif  // " ident)))))
@@ -150,14 +157,6 @@
             (fixup-whitespace))))
       ;; remove the mark
       (set-marker fixup-mark nil)))
-
-  (my-with-solarized-colors
-   (setq evil-normal-state-cursor `(,blue-l box)
-         evil-insert-state-cursor `(,green-l box)
-         evil-visual-state-cursor `(,magenta-l box)
-         evil-replace-state-cursor `(,red-l (hbar . 4))
-         evil-operator-state-cursor `((hbar . 6))
-         evil-emacs-state-cursor `(,red-l box)))
 
   ;; If the point is in a comment that has non-whitespace content, delete up
   ;; until the beginning of the comment. If already at the beginning of the
@@ -204,6 +203,32 @@
     (interactive)
     (evil-paste-before 1)
     (forward-char))
+
+  (defun my-evil-open-in-between ()
+    "Open a new line in between the current line."
+    (interactive)
+
+    (evil-with-single-undo
+      (evil-open-below 1)
+      (evil-maybe-remove-spaces t)
+      (evil-open-above 1)))
+
+  (defun my-cancel-exchange-or-visual-replace ()
+    "Cancel any pending evil-exchange or visual-replace."
+    (interactive)
+
+    (when (bound-and-true-p evil-exchange--position)
+      (evil-exchange--clean))
+
+    (when (bound-and-true-p my--evil-visual-replace-position)
+      (my--evil-visual-replace-clean)))
+
+  (defun my-clear-search ()
+    "Clear the evil search persisted highlight."
+    (interactive)
+
+    (evil-ex-nohighlight)
+    (force-mode-line-update))
 
   (evil-define-operator my-visual-shift-left (beg end type)
     "shift text to the left"
@@ -271,21 +296,67 @@ The return value is the yanked text."
     (let ((region (buffer-substring-no-properties beg end)))
       (evil-ex (concat "%s/" region "/"))))
 
-  (defun my-evil-open-in-between ()
-    "Open a new line in between the current line."
+  ;; This defines an operator named my-evil-visual-replace which I bind to gR in
+  ;; normal and visual modes. First make a selection or motion with gR, this
+  ;; selects that region as the text to be replaced. Next select a region within
+  ;; which to replace that text and press gR again, which pre-fills an
+  ;; ex-command for making the replacement.
+  ;;
+  ;; I noticed that the evil-exchange command was very much like this (i.e. a
+  ;; 2-step operation) and noticed that its code was pleasantly simple, so most
+  ;; of this code comes from there.
+  (defvar my--evil-visual-replace-position nil
+    "Position to replace.")
+
+  (defvar my--evil-visual-replace-overlays nil
+    "Overlays for highlighting to-replace area.")
+
+  (defun my--evil-visual-replace-highlight (beg end)
+    (let ((o (make-overlay beg end nil t nil)))
+      (overlay-put o 'face 'highlight)
+      (add-to-list 'my--evil-visual-replace-overlays o)))
+
+  (defun my--evil-visual-replace-clean ()
+    (setq my--evil-visual-replace-position nil)
+    (mapc 'delete-overlay my--evil-visual-replace-overlays)
+    (setq my--evil-visual-replace-overlays nil))
+
+  (evil-define-operator my-evil-visual-replace (beg end type)
+    "Replace the first selection within the second."
+    :move-point nil
+    (interactive "<R>")
+
+    (let ((beg-marker (copy-marker beg t))
+          (end-marker (copy-marker end nil)))
+      (if (null my--evil-visual-replace-position)
+          ;; call without my--evil-visual-replace-position set: store region
+          (progn
+            (setq my--evil-visual-replace-position (list (current-buffer) beg-marker end-marker type))
+
+            ;; highlight area marked to exchange
+            (if (eq type 'block)
+                (evil-apply-on-block #'my--evil-visual-replace-highlight beg end nil)
+              (my--evil-visual-replace-highlight beg end)))
+        ;; secondary call: do exchange
+        (cl-destructuring-bind
+            (orig-buffer orig-beg orig-end orig-type) my--evil-visual-replace-position
+          (let ((region (buffer-substring-no-properties orig-beg orig-end)))
+            (evil-ex (concat "'<,'>s/" region "/"))
+            (my--evil-visual-replace-clean))
+          )))
+    ;; place cursor on beginning of line
+    (when (and (called-interactively-p 'any) (eq type 'line))
+      (evil-first-non-blank)))
+
+  (defun my-evil-visual-replace-cancel ()
+    "Cancel current pending visual replace."
     (interactive)
 
-    (evil-with-single-undo
-      (evil-open-below 1)
-      (evil-maybe-remove-spaces t)
-      (evil-open-above 1)))
-
-  (defun my-clear-search ()
-    "Clear the evil search persisted highlight."
-    (interactive)
-
-    (evil-ex-nohighlight)
-    (force-mode-line-update)))
+    (if (null my--evil-visual-replace-position)
+        (message "No pending visual replace")
+      (my--evil-visual-replace-clean)
+      (message "Visual Replace canceled")))
+  )
 
 (use-package evil-indent-plus
   :after evil
@@ -322,8 +393,10 @@ The return value is the yanked text."
 
 (use-package evil-exchange
   :after evil
-  :config
-  (evil-exchange-install))
+
+  :general
+  (:keymaps '(normal visual)
+   "gx" 'evil-exchange))
 
 (use-package evil-numbers
   :general
