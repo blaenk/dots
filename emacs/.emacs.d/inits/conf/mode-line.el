@@ -3,19 +3,20 @@
 (require 'f)
 (require 's)
 
-(defun my--render-mode-line (left center right)
-  (let* ((available-width (- (window-total-width)
-                             (+ (string-width left) (string-width right))))
-         (center-fmt
-          (if (> (string-width center) available-width)
-              (s-truncate (- available-width 1) center)
-            (concat
-             center
-             (propertize
-              " "
-              'display `((space :width ,(- available-width (string-width center)))))
-             ))))
-    (concat left center-fmt right)))
+(defun my--render-mode-line (left-line right-line &optional identifier-func)
+  (let* ((left-length (string-width left-line))
+         (right-length (string-width right-line))
+         (max-identifier-width (- (window-total-width)
+                                  (+ left-length right-length)))
+         (identifier (when identifier-func
+                       (funcall identifier-func max-identifier-width)))
+         (align (1- (string-width right-line))))
+    (concat
+     left-line
+     (when identifier identifier)
+     (propertize " " 'display `(space :align-to (- right ,align)))
+     right-line
+     )))
 
 ;; Note that Eyebrowse uses the same formatters for the mode-line as for the
 ;; completing-read function, but we want separate formatters for each, so we
@@ -37,10 +38,6 @@
 
 (defconst my--header-line-left
   `(
-    ))
-
-(defconst my--header-line-center
-  `(
     (which-function-mode
      (:eval
       (propertize
@@ -61,7 +58,6 @@
 (defconst my--header-line-template
  `(:eval (my--render-mode-line
           (format-mode-line my--header-line-left)
-          (format-mode-line my--header-line-center)
           (format-mode-line my--header-line-right))))
 
 (defun my-toggle-header-line ()
@@ -206,9 +202,30 @@
 (defun my--is-modified-p ()
   (and (not buffer-read-only) (buffer-modified-p)))
 
-;; TODO
-;; Remove tramp conditions for projectile, it seems to have been resolved
-;; upstream with PR bbatsov/projectile#1129
+;; Construct the buffer identifier for a buffer backed by a file. This is done
+;; by combining: dirname/ + filename, each propertized separately.
+(defun my--file-identification (path &optional max-width)
+  (let* ((path (if (file-remote-p buffer-file-name)
+                   (tramp-file-name-localname (tramp-dissect-file-name buffer-file-name))
+                 path))
+         (dirname (file-name-as-directory (f-short (f-dirname path))))
+         (filename (f-filename path))
+         (propertized-filename
+          (propertize filename 'face 'mode-line-buffer-id)))
+    (if (> (+ (length dirname) (length filename) 2) max-width)
+        propertized-filename
+      (concat
+       (unless (string= dirname "./")
+         (propertize dirname 'face 'mode-line-stem-face))
+       propertized-filename))))
+
+;; Construct the buffer identifier for a regular, simple buffer that is not
+;; backed by a file nor remote.
+(defun my--regular-identification (&optional max-width)
+  (if buffer-file-name
+      (my--file-identification buffer-file-name max-width)
+    (propertize "%b" 'face 'mode-line-buffer-id)))
+
 (defun my--frame-title-format ()
   (cond
    ((and buffer-file-name (file-remote-p buffer-file-name))
@@ -228,42 +245,22 @@
 
    (t (my--regular-identification))))
 
-(defun my--file-identification (path)
-  (let* ((path (if (file-remote-p buffer-file-name)
-                   (tramp-file-name-localname (tramp-dissect-file-name buffer-file-name))
-                 path))
-         (dirname (file-name-as-directory (f-short (f-dirname path))))
-         (filename (f-filename path)))
-    (concat
-     (unless (equal dirname "./")
-       (propertize dirname 'face 'mode-line-stem-face))
-     (propertize filename 'face 'mode-line-buffer-id))))
-
-(defun my--buffer-identification ()
+(defun my--buffer-identification (&optional max-width)
   (concat
-   (when (and buffer-file-name (not (file-remote-p buffer-file-name))
-              (featurep 'projectile) (projectile-project-p))
-     (propertize
-      (s-wrap (projectile-project-name) " ")
-      'face 'mode-line-branch-face))
    " "
    (cond
     ((and buffer-file-name (file-remote-p buffer-file-name))
      (my--file-identification
-      (tramp-file-name-localname (tramp-dissect-file-name buffer-file-name))))
+      (tramp-file-name-localname (tramp-dissect-file-name buffer-file-name))
+      max-width))
 
     ((and (featurep 'projectile) (and buffer-file-name (projectile-project-p)))
      (my--file-identification
-      (f-relative buffer-file-name (projectile-project-root))))
+      (f-relative buffer-file-name (projectile-project-root))
+      max-width))
 
-    (t (my--regular-identification)))))
-
-(defun my--regular-identification ()
-  (if (and (featurep 'projectile)
-           buffer-file-name
-           (not (file-remote-p buffer-file-name)))
-      (my--file-identification buffer-file-name)
-    (propertize "%b" 'face 'mode-line-buffer-id)))
+    (t (my--regular-identification max-width)))
+   " "))
 
 (defun my--column-number--linum ()
   (propertize "%4c " 'face 'mode-line-column-face))
@@ -276,6 +273,13 @@
                              'my--column-number--linum
                            'my--column-number--native))
 
+(defun my--mode-line-project-indicator ()
+  (when (and (not (file-remote-p buffer-file-name))
+             (featurep 'projectile) (projectile-project-p))
+    (propertize
+     (s-wrap (projectile-project-name) " ")
+     'face 'mode-line-branch-face)))
+
 (defconst my--mode-line-left
       `(
         (my--display-column-number
@@ -286,14 +290,11 @@
           face mode-line-anzu-face))
         (:eval (my--evil-indicator))
         (buffer-file-name
+         (:eval (my--mode-line-project-indicator)))
+        (buffer-file-name
          (:propertize
           (:eval (my--remote-mode-line))
           face mode-line-remote-face))
-        ))
-
-(defconst my--mode-line-center
-      `(
-        (:eval (my--buffer-identification))
         ))
 
 (defconst my--mode-line-right
@@ -322,8 +323,8 @@
 (defconst my--custom-mode-line-format
   `(:eval (my--render-mode-line
            (format-mode-line my--mode-line-left)
-           (format-mode-line my--mode-line-center)
-           (format-mode-line my--mode-line-right)))
+           (format-mode-line my--mode-line-right)
+           #'my--buffer-identification))
   "My custom mode-line-format.")
 
 (defun my-toggle-custom-mode-line (arg)
