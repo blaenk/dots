@@ -303,6 +303,7 @@ text by that amount."
   "e e e" 'pp-eval-expression
   "e e s" 'pp-eval-last-sexp
   "e e p" 'eval-print-last-sexp
+  "e e M" 'pp-macroexpand-last-sexp
 
   "e h" '(:keymap help-map :which-key "help")
 
