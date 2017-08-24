@@ -10,13 +10,15 @@
                                   (+ left-length right-length)))
          (identifier (when identifier-func
                        (funcall identifier-func max-identifier-width)))
-         (align (1- (string-width right-line))))
+         (align (string-width right-line)))
     (concat
      left-line
      (when identifier identifier)
-     (propertize " " 'display `(space :align-to (- right ,align)))
-     right-line
-     )))
+     (propertize " "
+                 'display
+                 `(space :align-to (- (+ right right-fringe right-margin)
+                                      ,align)))
+     right-line)))
 
 ;; Note that Eyebrowse uses the same formatters for the mode-line as for the
 ;; completing-read function, but we want separate formatters for each, so we
