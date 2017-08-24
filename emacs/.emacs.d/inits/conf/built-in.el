@@ -169,6 +169,47 @@ If it was already set, unset it. Otherwise invoke
         (browse-url-of-file (expand-file-name default-directory))
       (error "No `default-directory' to open"))))
 
+(use-package edebug
+  :ensure nil
+
+  :general
+  (my-map
+    "e e d" 'edebug-eval-defun)
+
+  :init
+  (defun my--edebug-hook ()
+    (if edebug-mode
+        (evil-emacs-state)
+      (evil-normal-state)))
+
+  (add-hook 'edebug-mode-hook #'my--edebug-hook)
+
+  (defconst my--defun-regexp
+    "(\\s-*\\(defun\\|defmacro\\|use-package\\)\\s-+"
+    "Regexp to find a defun or defmacro definition.")
+
+  :config
+  ;; edebug-eval-defun is advised to override eval-defun, so we need to advise
+  ;; edebug-eval-defun otherwise if we advised eval-defun, our advice would be
+  ;; side-stepped once the edebug-eval-defun autoload kicks in and overrides
+  ;; eval-defun, meaning our advice would never run.
+  (define-advice edebug-eval-defun
+      (:around (old-func edebug-it) my--eval-use-package-defun)
+    "Allow evaluation of indented defuns, particularly those in use-package forms."
+
+    (save-excursion
+      (if (or (looking-at-p my--defun-regexp)
+              (search-backward-regexp my--defun-regexp))
+          (progn
+            (mark-sexp)
+
+            (save-restriction
+              (narrow-to-region (point) (mark))
+              (funcall old-func edebug-it))
+
+            (deactivate-mark))
+        (funcall old-func edebug-it)))))
+
 (use-package pp
   :ensure nil
   :defer t
