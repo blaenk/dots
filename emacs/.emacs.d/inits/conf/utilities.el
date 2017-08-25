@@ -13,11 +13,9 @@
 
   :init
   (defun my--macrostep-hook ()
-    (evil-emacs-state))
-
-  (define-advice macrostep-collapse-all
-      (:after () switch-to-normal)
-    (evil-normal-state))
+    (if macrostep-mode
+        (evil-emacs-state)
+      (evil-normal-state)))
 
   (add-hook 'macrostep-mode-hook #'my--macrostep-hook))
 
