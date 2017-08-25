@@ -213,11 +213,26 @@ waiting to react to the save."
   (when buffer-file-name
     (shell-command (concat "touch " (shell-quote-argument (buffer-file-name))))))
 
+(defun my-scroll-mru-window-up ()
+  "Scroll up the last window."
+  (interactive)
+
+  (my-with-last-used-window (scroll-down)))
+
+(defun my-scroll-mru-window-down ()
+  "Scroll down the last window."
+  (interactive)
+
+  (my-with-last-used-window (scroll-up)))
+
 (bind
   [remap eval-last-sexp] 'pp-eval-last-sexp
   [remap eval-expression] 'pp-eval-expression
 
   "C-z" nil
+
+  "M-K" 'my-scroll-mru-window-up
+  "M-J" 'my-scroll-mru-window-down
 
   "C-S-x C-S-s" 'my-force-save)
 

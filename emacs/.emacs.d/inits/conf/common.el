@@ -152,4 +152,12 @@ verbatim."
          ',my--theme-variant
          ,@body))))
 
+(defmacro my-with-last-used-window (&rest body)
+  "Perform BODY within the context of the last used window."
+  `(let ((win (get-mru-window t t t)))
+     (unless win (error "Last window not found."))
+     (let ((frame (window-frame win)))
+       (with-selected-frame frame
+         (with-selected-window win ,@body)))))
+
 (provide 'conf/common)
