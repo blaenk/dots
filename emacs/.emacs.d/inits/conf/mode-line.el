@@ -225,7 +225,7 @@
   (let* ((path (if (file-remote-p buffer-file-name)
                    (tramp-file-name-localname (tramp-dissect-file-name buffer-file-name))
                  path))
-         (dirname (file-name-as-directory (f-short (file-name-directory path))))
+         (dirname (file-name-as-directory (f-short (or (file-name-directory path) "./"))))
          (filename (f-filename path))
          (propertized-filename
           (propertize filename 'face 'mode-line-buffer-id)))
@@ -263,8 +263,7 @@
    (t (my--mode-line-buffer-identifier))))
 
 (defun my--mode-line-buffer-identifier-component (&optional max-width)
-  (concat
-   " "
+  (s-wrap
    (cond
     ((and buffer-file-name (file-remote-p buffer-file-name))
      (my--mode-line-file-identifier
