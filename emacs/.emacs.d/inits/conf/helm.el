@@ -440,7 +440,7 @@ overridden with the prefix ARG."
    "C-c C-v" 'my-helm-ag-split-vertical)
 
   (my-map
-    ". t" 'my-search-todos
+    "s t" 'my-search-todos
     ". p" 'my-search-packages
     ". s" 'my-dots-search)
 
