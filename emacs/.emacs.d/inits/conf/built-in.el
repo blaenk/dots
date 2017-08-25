@@ -985,8 +985,8 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
     "t a" 'auto-fill-mode)
 
   :init
-  (setq visual-line-fringe-indicators '(left-curly-arrow nil)
-        next-error-recenter '(4))
+  (customize-set-variable 'visual-line-fringe-indicators '(left-curly-arrow nil))
+  (setq next-error-recenter '(4))
 
   (setq-default comment-auto-fill-only-comments t)
 
