@@ -43,12 +43,55 @@
    "j" 'evil-next-visual-line
    "k" 'evil-previous-visual-line)
 
+  (:keymaps '(markdown-mode-map gfm-mode-map)
+    "M-{" 'markdown-previous-visible-heading
+    "M-}" 'markdown-next-visible-heading)
+
   (my-map :keymaps '(markdown-mode-map gfm-mode-map)
     "m e" 'markdown-edit-code-block
-    "m c" 'my-insert-gfm-code-block
+
+    "m t c" 'markdown-toggle-gfm-checkbox
+    "m t g" 'markdown-toggle-inline-images
+    "m t l" 'markdown-toggle-url-hiding
+    "m t m" 'markdown-toggle-markup-hiding
+
+    "m i b" 'markdown-insert-bold
+    "m i c" 'my-insert-gfm-code-block
+    "m i f" 'my-markdown-insert-named-footnote
+    "m i g" 'markdown-insert-image
+    "m i h" 'markdown-insert-header-dwim
+    "m i i" 'markdown-insert-italic
+    "m i k" 'markdown-insert-kbd
+    "m i l" 'markdown-insert-link
+    "m i l" 'markdown-insert-list-item
+    "m i p" 'markdown-insert-code
+    "m i q" 'markdown-insert-blockquote
+    "m i s" 'markdown-insert-strikethrough
+
+    "m o l" 'markdown-follow-thing-at-point
+
+    ;; Jump between footnote marker and definition, etc.
+    "m s o" 'markdown-do
+
+    "m m" '(:ignore t :which-key "move")
+    "m m k" 'markdown-move-up
+    "m m j" 'markdown-move-down
+
+    "m p" '(:ignore t :which-key "promote")
+    "m p p" 'markdown-promote
+    "m p d" 'markdown-demote
+
     "t t" 'orgtbl-mode)
 
   :init
+  (setq markdown-enable-math t
+        markdown-asymmetric-header t
+        markdown-italic-underscore t
+        markdown-use-pandoc-style-yaml-metadata t
+        markdown-fontify-code-blocks-natively t
+        markdown-footnote-location 'immediately
+        markdown-gfm-additional-languages '("cpp" "elisp" "postgresql"))
+
   ;; TODO
   ;; Turn this into an advice instead?
   ;; Or turn this into a macro that advises or creates functions to re-use? This
@@ -59,13 +102,6 @@
 
     (call-interactively #'markdown-insert-gfm-code-block)
     (evil-insert-state))
-
-  (setq markdown-enable-math t
-        markdown-asymmetric-header t
-        markdown-italic-underscore t
-        markdown-use-pandoc-style-yaml-metadata t
-        markdown-fontify-code-blocks-natively t
-        markdown-gfm-additional-languages '("cpp" "elisp" "postgresql"))
 
   (defun my--markdown-mode-hook ()
     (setq-local word-wrap t)
@@ -90,7 +126,21 @@
 
   (setq markdown-code-lang-modes
         (-concat '(("postgresql" . sql-mode)
-                   ("zsh" . sh-mode)))))
+                   ("zsh" . sh-mode))))
+
+  (defun my-markdown-insert-named-footnote (name)
+    "Insert footnote with a given name and move point to footnote definition."
+    (interactive "sFootnote name: ")
+
+    (insert (format "[^%s]" name))
+    (markdown-footnote-text-find-new-location)
+    (markdown-ensure-blank-line-before)
+
+    (unless (markdown-cur-line-blank-p)
+      (insert "\n"))
+
+    (insert (format "[^%s]: " name))
+    (markdown-ensure-blank-line-after)))
 
 (use-package yaml-mode
   :defer t
