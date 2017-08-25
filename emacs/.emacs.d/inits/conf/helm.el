@@ -387,13 +387,12 @@ overridden with the prefix ARG."
   (defun my-open-buffer (arg)
     "Open a buffer.
 
-When in a Projectile project, use Projectile. This can be
-overridden with the prefix ARG."
+With ARG, when in a project, show only project buffers."
     (interactive "P")
 
-    (if (and (not arg) (projectile-project-p))
-        (helm-projectile-switch-to-buffer)
-      (helm-buffers-list)))
+    (if (not arg)
+        (helm-buffers-list)
+      (helm-projectile-switch-to-buffer)))
 
   (defun my-helm-ag (arg)
     "Search files.
