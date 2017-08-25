@@ -121,6 +121,24 @@ Otherwise it uses `set-default'."
                 'set-default)
             ',variable ,value))
 
+(defmacro my-setq (&rest args)
+  "setq variant that warns if the variable has a :custom-set property.
+
+It takes arguments in the same manner as `setq'. It goes through
+each variable to see if it has a :custom-set property and if so
+it warns about it, then it passes the arguments to `setq'
+verbatim."
+  (if (= (% (length args) 2) 1)
+      (error "Wrong number of arguments, %s" (length args))
+    `(let ((pairs (-partition 2 ',args)))
+       (dolist (pair pairs)
+         (-let (((name value) pair))
+           (when (get name 'custom-set)
+             (warn "Variable `%s' has a :custom-set property!" name))
+           )
+         )
+       (setq ,@args))))
+
 (defmacro my-with-solarized-colors (&rest body)
   `(with-eval-after-load 'solarized
      (eval-when-compile
