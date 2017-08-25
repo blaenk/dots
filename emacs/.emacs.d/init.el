@@ -149,8 +149,7 @@
 
       load-prefer-newer t
       sentence-end-double-space nil
-      uniquify-buffer-name-style 'forward
-      visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+      uniquify-buffer-name-style 'forward)
 
 (setq-default fill-column 80
               indent-tabs-mode nil
