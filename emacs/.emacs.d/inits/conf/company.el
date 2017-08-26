@@ -4,6 +4,14 @@
 (use-package company
   :general
   (:keymaps 'company-active-map
+   "TAB" 'company-complete-selection
+   "<tab>" 'company-complete-selection
+
+   "RET" nil
+   "<return>" nil
+
+   "C-SPC" 'company-complete-selection
+
    "C-w" nil
 
    "C-o" 'company-show-location
