@@ -347,7 +347,11 @@
 
   (add-hook 'json-mode-hook #'subword-mode))
 
-(use-package indium :defer t)
+(use-package indium
+  :defer t
+
+  :init
+  (setq indium-workspace-file (my-cache-dir "indium/workspaces.el")))
 
 (use-package js-doc
   :general
