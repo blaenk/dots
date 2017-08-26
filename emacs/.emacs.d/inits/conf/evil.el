@@ -93,10 +93,14 @@
     "C-w" (general-simulate-keys "C-c w"))
 
   :init
-  (setq evil-text-object-change-visual-type nil)
-
-  (customize-set-variable 'evil-search-module 'evil-search)
-  (customize-set-variable 'evil-want-C-w-delete t)
+  (setq evil-text-object-change-visual-type nil
+        evil-split-window-below t
+        evil-vsplit-window-right t
+        evil-want-Y-yank-to-eol t
+        evil-echo-state nil
+        ;; evil-ex-visual-char-range t
+        ;; evil-ex-substitute-global t
+        evil-respect-visual-line-mode t)
 
   (setq-default evil-symbol-word-search t
                 evil-shift-width 2
@@ -114,6 +118,11 @@
   :config
   ;; don't auto-copy visual selections
   (fset #'evil-visual-update-x-selection #'ignore)
+
+  (customize-set-variable 'evil-search-module 'evil-search)
+  (customize-set-variable 'evil-want-C-w-delete t)
+
+  ;; (add-to-list '("Pattern" . emacs) 'evil-buffer-regexps)
 
   (eval-when-compile
     (require 'evil-macros)
