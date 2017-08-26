@@ -320,13 +320,13 @@
          (:eval (my--mode-line-flycheck-component)))
         (edebug-mode
          (:propertize " DBG " face mode-line-edebug-face))
+        (:eval (my--mode-line-compile-component))
+        (:eval my--mode-line-git-status-component-cache)
+        (:eval my--mode-line-git-branch-component-cache)
         (buffer-read-only
          (:propertize
           (:eval (s-wrap my--lock-icon " "))
           face mode-line-read-only-face))
-        (:eval (my--mode-line-compile-component))
-        (:eval my--mode-line-git-status-component-cache)
-        (:eval my--mode-line-git-branch-component-cache)
         (eyebrowse-mode
          (:eval (my--mode-line-eyebrowse-component)))
         ))
