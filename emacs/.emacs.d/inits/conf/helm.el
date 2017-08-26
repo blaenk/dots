@@ -31,7 +31,8 @@
    "C-w" 'my-backward-delete-word)
 
   (:keymaps 'helm-command-map
-   "s" 'my-helm-solarized-colors)
+   "s" 'my-helm-solarized-colors
+   "f" 'my-helm-faces-at-point)
 
   (my-map
     "h" '(:command helm-command-prefix :which-key "helm")
@@ -132,7 +133,7 @@ mid-execution."
   (defun my--helm-solarized-build-candidates ()
     (-map #'my--helm-solarized-format-candidate (my--helm-solarized-colors)))
 
-  (defun my--helm-solarized-select-name (candidate)
+  (defun my--helm-select-first-word (candidate)
     "Function to only match on the Solarized color name."
     (cadr (s-match "^\\([^ ]+\\)\\b" candidate)))
 
@@ -160,13 +161,13 @@ mid-execution."
      "Copy name" #'my--helm-solarized-action-copy-name
      "Copy hex" #'my--helm-solarized-action-copy-hex))
 
-  (defun my--helm-solarized-remove-selection-highlight ()
+  (defun my--helm-remove-selection-highlight ()
     "Remove the Helm selection background color while using Helm Solarized.
 
 It can clash with the colors being shown."
     (set-face-attribute 'helm-selection nil :background 'unspecified))
 
-  (defun my--helm-solarized-restore-selection-highlight ()
+  (defun my--helm-restore-selection-highlight ()
     "Restore the Helm selection background color."
     (face-spec-set 'helm-selection
                    (get 'helm-selection 'face-defface-spec)
@@ -174,17 +175,97 @@ It can clash with the colors being shown."
 
   (defconst my--helm-source-solarized-colors
     (helm-build-sync-source "solarized colors"
-      :init 'my--helm-solarized-remove-selection-highlight
-      :cleanup 'my--helm-solarized-restore-selection-highlight
+      :init 'my--helm-remove-selection-highlight
+      :cleanup 'my--helm-restore-selection-highlight
       :candidates 'my--helm-solarized-build-candidates
       :action my--helm-solarized-actions
-      :match-part 'my--helm-solarized-select-name))
+      :match-part 'my--helm-select-first-word))
 
   (defun my-helm-solarized-colors ()
     "List the Solarized color names and hex values."
     (interactive)
     (helm :sources 'my--helm-source-solarized-colors
-          :buffer "*helm solarized colors*")))
+          :buffer "*helm solarized colors*"))
+
+  (defun my--get-faces-at-point ()
+    ;; NOTE
+    ;; We can also get:
+    ;; * the defface via property 'face-defface-spec
+    ;; * the specs defined by themes via property 'theme-face
+    (remq nil (-flatten
+               (-concat
+                (list (plist-get (text-properties-at (point)) 'face))
+                (list (get-char-property (point) 'face))
+                (list (get-char-property (point) 'read-face-name))))))
+
+  (defun my--helm-faces-at-point-format-display (face)
+    "Propertize a candidate of the Helm window."
+    (concat
+     (symbol-name face)
+     (propertize " " 'display '(space :align-to (- right 8)))
+     (propertize "example" 'face face)
+     " "
+     ))
+
+  (defun my--helm-faces-at-point-format-candidate (face)
+    `(,(my--helm-faces-at-point-format-display face) . ,face))
+
+  (defun my--helm-faces-at-point-build-candidates ()
+    (with-helm-current-buffer
+      (-map #'my--helm-faces-at-point-format-candidate
+            (my--get-faces-at-point))))
+
+  (defun my--helm-faces-at-point-action-insert-name (candidate)
+    "Insert the face name into the buffer."
+    (insert (symbol-name candidate)))
+
+  (defun my--helm-faces-at-point-action-copy-name (candidate)
+    "Copy the face name."
+    (kill-new (symbol-name candidate)))
+
+  (defun my--helm-faces-at-point-action-describe (candidate)
+    "Describe the face"
+    (describe-face candidate))
+
+  (defconst my--helm-faces-at-point-actions
+    (helm-make-actions
+     "Describe face" #'my--helm-faces-at-point-action-describe
+     "Insert face name" #'my--helm-faces-at-point-action-insert-name
+     "Copy face name" #'my--helm-faces-at-point-action-copy-name))
+
+  (defun my--helm-faces-at-point-list-faces-action (candidate)
+    (with-helm-current-buffer
+      (list-faces-display
+       (regexp-opt (-map #'symbol-name (my--get-faces-at-point))))))
+
+  (defun my--helm-faces-at-point-list-faces ()
+    (interactive)
+
+    (with-helm-alive-p
+      (helm-exit-and-execute-action 'my--helm-faces-at-point-list-faces-action)))
+
+  (defvar my--helm-faces-at-point-keymap
+    (let ((map (make-sparse-keymap)))
+      (set-keymap-parent map helm-map)
+      (define-key map (kbd "C-c C-l") 'my--helm-faces-at-point-list-faces)
+      map)
+    "Keymap for `my-helm-faces-at-point'.")
+
+  (defconst my--helm-source-faces-at-point
+    (helm-build-sync-source "Faces at point"
+      :init 'my--helm-remove-selection-highlight
+      :cleanup 'my--helm-restore-selection-highlight
+      :candidates 'my--helm-faces-at-point-build-candidates
+      :action my--helm-faces-at-point-actions
+      :keymap my--helm-faces-at-point-keymap
+      :match-part 'my--helm-select-first-word))
+
+  (defun my-helm-faces-at-point ()
+    "List the faces at the point."
+    (interactive)
+    (helm :sources 'my--helm-source-faces-at-point
+          :buffer "*helm faces at point*"))
+  )
 
 (use-package helm-regexp
   :ensure nil
