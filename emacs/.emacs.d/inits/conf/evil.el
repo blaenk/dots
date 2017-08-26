@@ -98,9 +98,7 @@
         evil-vsplit-window-right t
         evil-want-Y-yank-to-eol t
         evil-echo-state nil
-        ;; evil-ex-visual-char-range t
-        ;; evil-ex-substitute-global t
-        evil-respect-visual-line-mode t)
+        evil-ex-substitute-global t)
 
   (setq-default evil-symbol-word-search t
                 evil-shift-width 2
