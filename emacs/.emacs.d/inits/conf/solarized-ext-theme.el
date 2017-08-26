@@ -188,6 +188,15 @@
    `(evil-quickscope-second-face ((,class (:foreground ,red-lc
                                            :weight bold))))
 
+   `(evil-ex-lazy-highlight
+     ((,class (:background ,(solarized-color-blend yellow-lc base03 0.3)))))
+   `(evil-ex-search
+     ((,class (:background ,(solarized-color-blend yellow-lc base03 0.7)))))
+   `(evil-ex-substitute-matches
+     ((,class (:inherit magit-diff-removed-highlight))))
+   `(evil-ex-substitute-replacement
+     ((,class (:inherit magit-diff-added-highlight))))
+
    `(hl-line ((,class (:background ,(solarized-color-blend base02 base03 0.5)))))
    `(region ((,class (:background ,base02 :foreground unspecified))))
 
