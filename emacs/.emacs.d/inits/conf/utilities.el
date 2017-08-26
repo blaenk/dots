@@ -503,4 +503,6 @@ If a region is active, it'll be used to \"wrap\" the selection."
   :init
   (setq hydra-lv nil))
 
+(use-package mwim :defer t)
+
 (provide 'conf/utilities)
