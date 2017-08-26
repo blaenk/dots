@@ -264,6 +264,8 @@
     ("h" shrink-frame-horizontally "🡄")
     ("l" enlarge-frame-horizontally "🡆")
 
+    ("f" toggle-frame-fullscreen)
+
     ("q" nil "quit")
     ("," nil "quit")
     ("?" (my--hydra-cycle-verbosity 'my-frame-resizer) "± verbosity"))
