@@ -316,10 +316,10 @@
         (:propertize
          (:eval (when (my--is-buffer-modified-p) " + "))
          face mode-line-modified-face)
-        (edebug-mode
-         (:propertize " DBG " face mode-line-edebug-face))
         (global-flycheck-mode
          (:eval (my--mode-line-flycheck-component)))
+        (edebug-mode
+         (:propertize " DBG " face mode-line-edebug-face))
         (buffer-read-only
          (:propertize
           (:eval (s-wrap my--lock-icon " "))
