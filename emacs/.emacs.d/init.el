@@ -140,8 +140,6 @@
       visible-bell t
       ring-bell-function #'ignore
 
-      delete-by-moving-to-trash t
-
       history-delete-duplicates t
 
       tab-always-indent nil
