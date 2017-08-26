@@ -39,11 +39,6 @@
 
   :general
   (:keymaps '(markdown-mode-map gfm-mode-map)
-   :states 'motion
-   "j" 'evil-next-visual-line
-   "k" 'evil-previous-visual-line)
-
-  (:keymaps '(markdown-mode-map gfm-mode-map)
     "M-{" 'markdown-previous-visible-heading
     "M-}" 'markdown-next-visible-heading)
 

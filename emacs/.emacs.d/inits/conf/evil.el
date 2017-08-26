@@ -23,9 +23,6 @@
    "< <" 'evil-shift-left-line
    "> >" 'evil-shift-right-line
 
-   "j" 'evil-next-visual-line
-   "k" 'evil-previous-visual-line
-
    "g p" 'exchange-point-and-mark
 
    "M-o" 'my-evil-open-in-between
@@ -41,6 +38,9 @@
    "<" 'my-visual-shift-left)
 
   (:keymaps '(normal visual)
+   "j" 'evil-next-visual-line
+   "k" 'evil-previous-visual-line
+
    "gr" 'my-evil-replace
    "gR" 'my-evil-visual-replace
 
