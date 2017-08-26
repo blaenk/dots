@@ -9,6 +9,13 @@
   (:keymaps 'help-map
    "s" 'describe-symbol))
 
+(use-package tramp
+  :ensure nil
+  :defer t
+
+  :init
+  (setq tramp-auto-save-directory (my-cache-dir "tramp")))
+
 (use-package windmove
   :ensure nil
 
