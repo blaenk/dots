@@ -188,8 +188,11 @@
    `(evil-quickscope-second-face ((,class (:foreground ,red-lc
                                            :weight bold))))
 
-   `(evil-ex-lazy-highlight
-     ((,class (:background ,(solarized-color-blend yellow-lc base03 0.3)))))
+   `(isearch
+     ((,class (:foreground unspecified
+               :background ,(solarized-color-blend yellow-lc base03 0.3)))))
+
+   `(evil-ex-lazy-highlight ((,class (:inherit isearch))))
    `(evil-ex-search
      ((,class (:background ,(solarized-color-blend yellow-lc base03 0.7)))))
    `(evil-ex-substitute-matches
