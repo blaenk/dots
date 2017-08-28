@@ -136,17 +136,29 @@ verbatim."
          )
        (setq ,@args))))
 
+;; NOTE
+;; This is for use with the fork
+;; (defmacro my-with-solarized-colors (&rest body)
+;;   `(with-eval-after-load 'solarized-theme
+;;      (eval-when-compile
+;;        (push "~/code/emacs/solarized-emacs" load-path)
+;;        (require 'solarized-theme))
+
+;;      (solarized-with-color-variables
+;;        ',my--theme-variant
+;;        ,@body)))
+
+;; TODO
+;; Use the above when the PR is merged.
 (defmacro my-with-solarized-colors (&rest body)
   `(with-eval-after-load 'solarized
      (eval-when-compile
        (require 'solarized))
 
-     ;; TODO
-     ;; File PR upstream that adds these variables.
-     (let ((light-class '((class color) (background light)))
-           (dark-class '((class color) (background dark))))
-       (solarized-with-color-variables
-         ',my--theme-variant
+     (solarized-with-color-variables
+       ',my--theme-variant
+       (let ((light-class (append '((background light)) class))
+             (dark-class (append '((background dark)) class)))
          ,@body))))
 
 (defmacro my-with-last-used-window (&rest body)

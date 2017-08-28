@@ -1,8 +1,5 @@
 (require 'conf/common)
 
-(eval-when-compile
-  (require 'solarized))
-
 (deftheme solarized-ext "Solarized with some modifications")
 
 (defface magit-diff-added-highlight nil
@@ -104,205 +101,221 @@
   :group 'basic-faces)
 
 (my-with-solarized-colors
-  (custom-theme-set-faces
-   'solarized-ext
-   ;; magit
-   `(magit-diff-added-highlight
-     ((,light-class (:background "#cceecc" :foreground "#22aa22"))
-      (,dark-class (:background "#336633" :foreground "#cceecc"))))
+ (custom-theme-set-faces
+  'solarized-ext
+  ;; magit
+  `(magit-diff-added-highlight
+    ((,light-class (:background "#cceecc" :foreground "#22aa22"))
+     (,dark-class (:background "#336633" :foreground "#cceecc"))))
 
-   `(magit-diff-removed-highlight
-     ((,light-class (:background "#eecccc" :foreground "#aa2222"))
-      (,dark-class (:background "#663333" :foreground "#eecccc"))))
+  `(magit-diff-removed-highlight
+    ((,light-class (:background "#eecccc" :foreground "#aa2222"))
+     (,dark-class (:background "#663333" :foreground "#eecccc"))))
 
-   ;; rtags
-   `(rtags-warnline ((,class (:underline "goldenrod4"))))
-   `(rtags-errline ((,class (:underline "red"))))
-   `(rtags-fixitline ((,class (:underline "blue"))))
-   `(rtags-skippedline ((,class (:background ,base02))))
+  ;; rtags
+  `(rtags-warnline ((,class (:underline "goldenrod4"))))
+  `(rtags-errline ((,class (:underline "red"))))
+  `(rtags-fixitline ((,class (:underline "blue"))))
+  `(rtags-skippedline ((,class (:background ,base02))))
 
-   ;; ucs char
-   `(helm-ucs-char ((,class (:foreground unspecified))))
+  ;; ucs char
+  `(helm-ucs-char ((,class (:foreground unspecified))))
 
-   ;; pulse highlight
-   `(pulse-highlight-start-face ((,class (:background ,base02))))
+  ;; pulse highlight
+  `(pulse-highlight-start-face ((,class (:background ,base02))))
 
-   ;; markdown
-   `(markdown-code-face ((,class (:background unspecified))))
-   `(markdown-pre-face ((,class (:foreground unspecified))))
-   `(markdown-language-keyword-face ((,class (:weight bold))))
-   `(markdown-comment-face ((,class (:strike-through nil))))
+  ;; markdown
+  `(markdown-code-face ((,class (:background unspecified))))
+  `(markdown-pre-face ((,class (:foreground unspecified))))
+  `(markdown-language-keyword-face ((,class (:weight bold))))
+  `(markdown-comment-face ((,class (:strike-through nil))))
 
-   ;; fringe
-   `(fringe ((,class (:foreground ,base02))))
+  ;; fringe
+  `(fringe ((,class (:foreground ,base02))))
 
-   `(bmkp-light-non-autonamed ((,class (:background unspecified))))
-   `(bmkp-light-autonamed ((,class (:background unspecified))))
-   `(bmkp-light-fringe-non-autonamed ((,class (:background unspecified
-                                               :foreground ,s-fringe-fg))))
-   `(bmkp-light-fringe-autonamed ((,class (:background unspecified
-                                           :foreground ,s-fringe-fg))))
+  `(bmkp-light-non-autonamed ((,class (:background unspecified))))
+  `(bmkp-light-autonamed ((,class (:background unspecified))))
+  `(bmkp-light-fringe-non-autonamed ((,class (:background unspecified
+                                              :foreground ,s-fringe-fg))))
+  `(bmkp-light-fringe-autonamed ((,class (:background unspecified
+                                          :foreground ,s-fringe-fg))))
 
-   ;; line numbers
-   `(line-number ((,class (:weight normal :underline nil
-                           :foreground ,s-fringe-fg
-                           :background ,s-fringe-bg))))
-   `(line-number-current-line ((,class (:inherit line-number
-                                        :foreground ,base1
-                                        :weight bold))))
-   `(linum-relative-current-face ((,class (:inherit line-number
-                                           :foreground ,base1
-                                           :weight bold))))
-
-   ;; eyebrowse
-   `(eyebrowse-mode-line-active ((,class (:background ,base0 :foreground "white" :weight bold))))
-   `(eyebrowse-mode-line-inactive ((,class (:background ,base01 :foreground "white"))))
-
-   ;; whitespace
-   `(whitespace-trailing ((,class (:background ,red-l
-                                   :foreground unspecified
-                                   :inverse-video unspecified))))
-   `(whitespace-tab ((,class (:background ,red-l
-                              :foreground unspecified
-                              :inverse-video unspecified))))
-   `(whitespace-line ((,class (:foreground unspecified :underline t))))
-   `(whitespace-space-after-tab ((,class (:foreground ,red-l
-                                          :weight unspecified
-                                          :inverse-video nil))))
-   `(whitespace-space-before-tab ((,class (:foreground ,red-l
-                                           :background unspecified))))
-   `(whitespace-indentation ((,class (:background unspecified
-                                      :foreground ,base02
-                                      :inverse-video unspecified
-                                      :weight unspecified))))
-
-   ;; cargo
-   `(cargo-process--standard-face ((,class (:weight bold))))
-   `(cargo-process--warning-face ((,class (:background ,base02))))
-   `(cargo-process--error-face ((,class (:inherit magit-diff-removed-highlight))))
-   `(cargo-process--ok-face ((,class (:inherit magit-diff-added-highlight))))
-   `(cargo-process--errno-face ((,class (:weight bold :underline t))))
-
-   ;; evil-quickscope
-   `(evil-quickscope-first-face ((,class (:weight bold :underline t))))
-   `(evil-quickscope-second-face ((,class (:foreground ,red-lc
-                                           :weight bold))))
-
-   `(isearch
-     ((,class (:foreground unspecified
-               :background ,(solarized-color-blend yellow-lc base03 0.3)))))
-
-   `(evil-ex-lazy-highlight ((,class (:inherit isearch))))
-   `(evil-ex-search
-     ((,class (:background ,(solarized-color-blend yellow-lc base03 0.7)))))
-   `(evil-ex-substitute-matches
-     ((,class (:inherit magit-diff-removed-highlight))))
-   `(evil-ex-substitute-replacement
-     ((,class (:inherit magit-diff-added-highlight))))
-
-   `(hl-line ((,class (:background ,(solarized-color-blend base02 base03 0.5)))))
-   `(region ((,class (:background ,base02 :foreground unspecified))))
-
-   `(show-paren-match ((,class (:foreground unspecified
-                                :background ,base02
-                                :weight bold))))
-
-   ;; smartparents
-   `(sp-show-pair-match-face ((,class (:foreground unspecified
-                                       :background ,base02
+  ;; line numbers
+  `(line-number ((,class (:weight normal :underline nil
+                          :foreground ,s-fringe-fg
+                          :background ,s-fringe-bg))))
+  `(line-number-current-line ((,class (:inherit line-number
+                                       :foreground ,base1
                                        :weight bold))))
+  `(linum-relative-current-face ((,class (:inherit line-number
+                                          :foreground ,base1
+                                          :weight bold))))
 
-   `(sp-show-pair-mismatch-face ((,class (:foreground unspecified
-                                          :background ,red
-                                          :weight normal))))
+  ;; eyebrowse
+  `(eyebrowse-mode-line-active ((,class (:background ,base0 :foreground "white" :weight bold))))
+  `(eyebrowse-mode-line-inactive ((,class (:background ,base01 :foreground "white"))))
 
-   `(highlight-quoted-quote ((,class (:foreground ,red-hc))))
+  ;; whitespace
+  `(whitespace-trailing ((,class (:background ,red-l
+                                  :foreground unspecified
+                                  :inverse-video unspecified))))
+  `(whitespace-tab ((,class (:background ,red-l
+                             :foreground unspecified
+                             :inverse-video unspecified))))
+  `(whitespace-line ((,class (:foreground unspecified :underline t))))
+  `(whitespace-space-after-tab ((,class (:foreground ,red-l
+                                         :weight unspecified
+                                         :inverse-video nil))))
+  `(whitespace-space-before-tab ((,class (:foreground ,red-l
+                                          :background unspecified))))
+  `(whitespace-indentation ((,class (:background unspecified
+                                     :foreground ,base02
+                                     :inverse-video unspecified
+                                     :weight unspecified))))
 
-   ;; rainbow delimiters
-   `(rainbow-delimiters-depth-1-face ((,class (:foreground ,base01))))
-   `(rainbow-delimiters-depth-2-face ((,class (:foreground ,cyan))))
-   `(rainbow-delimiters-depth-3-face ((,class (:foreground ,yellow))))
-   `(rainbow-delimiters-depth-4-face ((,class (:foreground ,blue))))
-   `(rainbow-delimiters-depth-5-face ((,class (:foreground ,violet))))
-   `(rainbow-delimiters-depth-6-face ((,class (:foreground ,green))))
-   `(rainbow-delimiters-depth-7-face ((,class (:foreground ,yellow))))
-   `(rainbow-delimiters-depth-8-face ((,class (:foreground ,blue))))
-   `(rainbow-delimiters-depth-9-face ((,class (:foreground ,violet))))
-   `(rainbow-delimiters-depth-10-face ((,class (:foreground ,green))))
-   `(rainbow-delimiters-depth-11-face ((,class (:foreground ,yellow))))
-   `(rainbow-delimiters-depth-12-face ((,class (:foreground ,blue))))
-   `(rainbow-delimiters-depth-13-face ((,class (:foreground ,violet))))
-   `(rainbow-delimiters-unmatched-face
-     ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
+  ;; cargo
+  `(cargo-process--standard-face ((,class (:weight bold))))
+  `(cargo-process--warning-face ((,class (:background ,base02))))
+  `(cargo-process--error-face ((,class (:inherit magit-diff-removed-highlight))))
+  `(cargo-process--ok-face ((,class (:inherit magit-diff-added-highlight))))
+  `(cargo-process--errno-face ((,class (:weight bold :underline t))))
 
-   `(header-line
-     ((,class (:inverse-video unspecified
-               :overline ,s-mode-line-underline
-               :underline ,s-mode-line-underline
-               :foreground ,s-mode-line-fg
-               :background ,s-mode-line-bg
-               :box unspecified))))
+  ;; evil-quickscope
+  `(evil-quickscope-first-face ((,class (:weight bold :underline t))))
+  `(evil-quickscope-second-face ((,class (:foreground ,red-lc
+                                          :weight bold))))
 
-   ;; mode-line
-   `(mode-line-column-face
-     ((,class (:background ,s-fringe-bg :foreground ,base1 :weight bold))))
+  `(isearch
+    ((,class (:foreground unspecified
+              :background ,(solarized-color-blend yellow-lc base03 0.3)))))
 
-   `(mode-line-which-function-face ((,class (:background ,blue-l :foreground "white"))))
-   `(mode-line-branch-face ((,class (:background ,base0 :foreground "white" :weight bold))))
-   `(mode-line-edebug-face ((,class (:background ,violet :foreground "white" :weight bold))))
-   `(mode-line-anzu-face ((,class (:background ,orange-l :foreground "white" :weight bold))))
-   `(mode-line-mode-name-face ((,class (:background ,base0 :foreground "white"))))
-   `(mode-line-read-only-face ((,class (:background ,red-l :foreground "white"))))
-   `(mode-line-emacs-mode-indicator-face
-     ((,class (:background ,red-l :foreground "white" :weight bold))))
-   `(mode-line-evil-mode-indicator-face
-     ((,class (:background ,blue-l :foreground "white" :weight bold))))
-   `(mode-line-flycheck-no-errors-face
-     ((,class (:background ,base0 :foreground "white" :weight bold))))
-   `(mode-line-flycheck-warnings-face
-     ((,class (:background ,yellow-lc :foreground "white" :weight bold))))
-   `(mode-line-flycheck-infos-face
-     ((,class (:background ,blue-l :foreground "white" :weight bold))))
-   `(mode-line-flycheck-checking-face
-     ((,class (:background ,base01 :foreground "white" :weight bold))))
-   `(mode-line-flycheck-errors-face
-     ((,class (:background ,red-l :foreground "white" :weight bold))))
-   `(mode-line-which-func-separator ((,class (:foreground ,green :weight bold))))
-   `(mode-line-modified-face
-     ((,class (:background ,green-l :foreground "white" :weight bold))))
-   `(mode-line-remote-face
-     ((,class (:background ,green-lc :foreground "white" :weight bold))))
-   `(mode-line-stem-face ((,class (:foreground ,base0))))
+  `(evil-ex-lazy-highlight ((,class (:inherit isearch))))
+  `(evil-ex-search
+    ((,class (:background ,(solarized-color-blend yellow-lc base03 0.7)))))
+  `(evil-ex-substitute-matches
+    ((,class (:inherit magit-diff-removed-highlight))))
+  `(evil-ex-substitute-replacement
+    ((,class (:inherit magit-diff-added-highlight))))
 
-   `(mode-line
-     ((,class (:inverse-video unspecified
-               :overline ,s-mode-line-underline
-               :underline ,s-mode-line-underline
-               :foreground ,s-mode-line-fg
-               :background ,s-mode-line-bg
-               :box unspecified))))
+  ;; avy
+  ;; leading chars
+  `(avy-lead-face
+    ((,class (:background ,(solarized-color-blend yellow-lc base03 0.3)))))
 
-   `(mode-line-inactive
-     ((,class (:inverse-video unspecified
-               :overline ,s-mode-line-underline
-               :underline ,s-mode-line-underline
-               :foreground ,s-mode-line-inactive-fg
-               :background ,s-mode-line-inactive-bg
-               :box unspecified))))
+  ;; non-terminating leading chars
+  `(avy-lead-face-0
+    ((,class (:background ,(solarized-color-blend yellow-lc base03 0.3)))))
 
-   ;; evil-goggles
-   `(evil-goggles-delete-face
-     ((,class (:inherit magit-diff-removed-highlight))))
-   `(evil-goggles-paste-face
-     ((,class (:inherit magit-diff-added-highlight))))
+  ;; matched leading chars
+  `(avy-lead-face-1
+    ((,class (:background ,(solarized-color-blend yellow-lc base03 0.7)))))
 
-   ;; smerge
-   `(smerge-markers
-     ((,class (:inherit magit-diff-hunk-heading-highlight))))
-   `(smerge-mine
-     ((,class (:inherit magit-diff-removed-highlight))))
-   `(smerge-other
-     ((,class (:inherit magit-diff-added-highlight)))))
-  )
+  ;; leading chars
+  `(avy-lead-face-2 ((,class (:background ,green-lc))))
+
+  `(hl-line ((,class (:background ,(solarized-color-blend base02 base03 0.5)))))
+  `(region ((,class (:background ,base02 :foreground unspecified))))
+
+  `(show-paren-match ((,class (:foreground unspecified
+                               :background ,base02
+                               :weight bold))))
+
+  ;; smartparents
+  `(sp-show-pair-match-face ((,class (:foreground unspecified
+                                      :background ,base02
+                                      :weight bold))))
+
+  `(sp-show-pair-mismatch-face ((,class (:foreground unspecified
+                                         :background ,red
+                                         :weight normal))))
+
+  `(highlight-quoted-quote ((,class (:foreground ,red-hc))))
+
+  ;; rainbow delimiters
+  `(rainbow-delimiters-depth-1-face ((,class (:foreground ,base01))))
+  `(rainbow-delimiters-depth-2-face ((,class (:foreground ,cyan))))
+  `(rainbow-delimiters-depth-3-face ((,class (:foreground ,yellow))))
+  `(rainbow-delimiters-depth-4-face ((,class (:foreground ,blue))))
+  `(rainbow-delimiters-depth-5-face ((,class (:foreground ,violet))))
+  `(rainbow-delimiters-depth-6-face ((,class (:foreground ,green))))
+  `(rainbow-delimiters-depth-7-face ((,class (:foreground ,yellow))))
+  `(rainbow-delimiters-depth-8-face ((,class (:foreground ,blue))))
+  `(rainbow-delimiters-depth-9-face ((,class (:foreground ,violet))))
+  `(rainbow-delimiters-depth-10-face ((,class (:foreground ,green))))
+  `(rainbow-delimiters-depth-11-face ((,class (:foreground ,yellow))))
+  `(rainbow-delimiters-depth-12-face ((,class (:foreground ,blue))))
+  `(rainbow-delimiters-depth-13-face ((,class (:foreground ,violet))))
+  `(rainbow-delimiters-unmatched-face
+    ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
+
+  `(header-line
+    ((,class (:inverse-video unspecified
+              :overline ,s-mode-line-underline
+              :underline ,s-mode-line-underline
+              :foreground ,s-mode-line-fg
+              :background ,s-mode-line-bg
+              :box unspecified))))
+
+  ;; mode-line
+  `(mode-line-column-face
+    ((,class (:background ,s-fringe-bg :foreground ,base1 :weight bold))))
+
+  `(mode-line-which-function-face ((,class (:background ,blue-l :foreground "white"))))
+  `(mode-line-branch-face ((,class (:background ,base0 :foreground "white" :weight bold))))
+  `(mode-line-edebug-face ((,class (:background ,violet :foreground "white" :weight bold))))
+  `(mode-line-anzu-face ((,class (:background ,orange-l :foreground "white" :weight bold))))
+  `(mode-line-mode-name-face ((,class (:background ,base0 :foreground "white"))))
+  `(mode-line-read-only-face ((,class (:background ,red-l :foreground "white"))))
+  `(mode-line-emacs-mode-indicator-face
+    ((,class (:background ,red-l :foreground "white" :weight bold))))
+  `(mode-line-evil-mode-indicator-face
+    ((,class (:background ,blue-l :foreground "white" :weight bold))))
+  `(mode-line-flycheck-no-errors-face
+    ((,class (:background ,base0 :foreground "white" :weight bold))))
+  `(mode-line-flycheck-warnings-face
+    ((,class (:background ,yellow-lc :foreground "white" :weight bold))))
+  `(mode-line-flycheck-infos-face
+    ((,class (:background ,blue-l :foreground "white" :weight bold))))
+  `(mode-line-flycheck-checking-face
+    ((,class (:background ,base01 :foreground "white" :weight bold))))
+  `(mode-line-flycheck-errors-face
+    ((,class (:background ,red-l :foreground "white" :weight bold))))
+  `(mode-line-which-func-separator ((,class (:foreground ,green :weight bold))))
+  `(mode-line-modified-face
+    ((,class (:background ,green-l :foreground "white" :weight bold))))
+  `(mode-line-remote-face
+    ((,class (:background ,green-lc :foreground "white" :weight bold))))
+  `(mode-line-stem-face ((,class (:foreground ,base0))))
+
+  `(mode-line
+    ((,class (:inverse-video unspecified
+              :overline ,s-mode-line-underline
+              :underline ,s-mode-line-underline
+              :foreground ,s-mode-line-fg
+              :background ,s-mode-line-bg
+              :box unspecified))))
+
+  `(mode-line-inactive
+    ((,class (:inverse-video unspecified
+              :overline ,s-mode-line-underline
+              :underline ,s-mode-line-underline
+              :foreground ,s-mode-line-inactive-fg
+              :background ,s-mode-line-inactive-bg
+              :box unspecified))))
+
+  ;; evil-goggles
+  `(evil-goggles-delete-face
+    ((,class (:inherit magit-diff-removed-highlight))))
+  `(evil-goggles-paste-face
+    ((,class (:inherit magit-diff-added-highlight))))
+
+  ;; smerge
+  `(smerge-markers
+    ((,class (:inherit magit-diff-hunk-heading-highlight))))
+  `(smerge-mine
+    ((,class (:inherit magit-diff-removed-highlight))))
+  `(smerge-other
+    ((,class (:inherit magit-diff-added-highlight)))))
+ )
 
 (provide-theme 'solarized-ext)

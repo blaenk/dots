@@ -2,8 +2,10 @@
 (require 'conf/common)
 
 (use-package solarized-theme
-  :load-path "~/code/emacs/solarized-emacs"
-  :ensure nil
+  ;; NOTE
+  ;; This is for using the fork.
+  ;; :load-path "~/code/emacs/solarized-emacs"
+  ;; :ensure nil
 
   :demand t
 
