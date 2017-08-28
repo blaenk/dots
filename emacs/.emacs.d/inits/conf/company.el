@@ -26,7 +26,9 @@
         company-tooltip-limit 20
         company-tooltip-align-annotations t
         company-require-match 'never
-        company-dabbrev-downcase nil)
+        company-dabbrev-downcase nil
+        company-dabbrev-code-other-buffers 'code
+        company-dabbrev-code-everywhere t)
 
   (defun my-company-yasnippet ()
     "Expand partial snippet or choose a snippet with company.

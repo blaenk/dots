@@ -55,8 +55,20 @@
   :init
   (setq git-commit-summary-max-length 50)
 
+  (defun my--company-dabbrev-ignore-except-magit-diff (buffer)
+    (let ((name (buffer-name)))
+      (and (string-match-p "\\`[ *]" name)
+           (not (string-match-p "\\*magit-diff:" name)))))
+
   (defun my--git-commit-setup-hook ()
-    (setq-local fill-column 72))
+    (setq-local fill-column 72)
+
+    ;; This enables us to use company completion inside of the git-commit message
+    ;; buffer to complete things from the accompanying diff buffer. This is very
+    ;; useful when talking about affected functions, variables, etc.
+    (setq-local company-dabbrev-code-modes '(text-mode magit-diff-mode))
+    (setq-local company-dabbrev-ignore-buffers
+                #'my--company-dabbrev-ignore-except-magit-diff))
 
   (add-hook 'git-commit-setup-hook #'my--git-commit-setup-hook)
   (add-hook 'git-commit-setup-hook #'git-commit-turn-on-flyspell)
