@@ -416,7 +416,7 @@
 (use-package shackle
   :config
   (setq shackle-rules
-        '((help-mode :select t)
+        '((help-mode :select t :align 'below)
           (compilation-mode :select t)
           (cargo-process-mode :select t)
           ("*Diff*" :select t :frame t)
