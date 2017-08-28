@@ -62,9 +62,6 @@ that we are withing a virtual machine.")
 (defun my-is-fullscreen-p ()
   (memq (frame-parameter nil 'fullscreen) '(fullscreen fullboth)))
 
-;; TODO
-;; These commands are probably redundant now.
-
 (defun my-turn-on-fullscreen ()
   "Unconditionally enable fullscreen on this frame."
   (interactive)
@@ -159,5 +156,15 @@ verbatim."
      (let ((frame (window-frame win)))
        (with-selected-frame frame
          (with-selected-window win ,@body)))))
+
+(defmacro my-create-evil-toggle-for-mode (mode)
+  "Defines an evil toggle function for use with a mode hook.
+
+Defines a function which enters Emacs state when the given MODE is entered,
+then enters normal state when the MODE is exited."
+  `(defun ,(intern (concat "my--evil-toggle-for-" (symbol-name mode))) ()
+     (if ,mode
+         (evil-emacs-state)
+       (evil-normal-state))))
 
 (provide 'conf/common)

@@ -12,12 +12,7 @@
     "e e m" 'macrostep-expand)
 
   :init
-  (defun my--macrostep-hook ()
-    (if macrostep-mode
-        (evil-emacs-state)
-      (evil-normal-state)))
-
-  (add-hook 'macrostep-mode-hook #'my--macrostep-hook))
+  (add-hook 'macrostep-mode-hook (my-create-evil-toggle-for-mode macrostep-mode)))
 
 (use-package discover-my-major
   :general
