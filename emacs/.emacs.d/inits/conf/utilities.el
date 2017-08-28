@@ -288,8 +288,6 @@
   :defines hl-todo-keyword-faces
 
   :init
-  ;; TODO
-  ;; Create a macro that wraps this all up.
   (my-with-solarized-colors
    (setq hl-todo-keyword-faces
          `(("TODO"  . ,blue-lc)
@@ -319,9 +317,9 @@
   ;; undo-tree breaks sometimes. Some people think the persistent history
   ;; feature may be to blame.
   ;;
-  ;; It's a huge pain when it breaks because I lose a lot of
-  ;; undo history, so I'm gonna try to disable the persistent
-  ;; feature for a while to see if the problem goes away.
+  ;; It's a huge pain when it breaks because I lose a lot of undo history, so
+  ;; I'm gonna try to disable the persistent feature for a while to see if the
+  ;; problem goes away.
   ;;
   ;; https://github.com/syl20bnr/spacemacs/issues/298
   ;; https://github.com/syl20bnr/spacemacs/issues/774
