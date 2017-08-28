@@ -56,9 +56,9 @@
     "m i g" 'markdown-insert-image
     "m i h" 'markdown-insert-header-dwim
     "m i i" 'markdown-insert-italic
-    "m i k" 'markdown-insert-kbd
+    "m i k" 'my-markdown-insert-kbd
     "m i l" 'markdown-insert-link
-    "m i l" 'markdown-insert-list-item
+    "m i m" 'markdown-insert-list-item
     "m i p" 'markdown-insert-code
     "m i q" 'markdown-insert-blockquote
     "m i s" 'markdown-insert-strikethrough
@@ -85,7 +85,14 @@
         markdown-use-pandoc-style-yaml-metadata t
         markdown-fontify-code-blocks-natively t
         markdown-footnote-location 'immediately
+        markdown-reference-location 'immediately
         markdown-gfm-additional-languages '("cpp" "elisp" "postgresql"))
+
+  (defun my-markdown-insert-kbd ()
+    "Insert the kbd snippet."
+    (interactive)
+
+    (yas-expand-snippet (yas-lookup-snippet "kbd")))
 
   ;; TODO
   ;; Turn this into an advice instead?
