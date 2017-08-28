@@ -217,12 +217,8 @@ If it was already set, unset it. Otherwise invoke
   :defer t
 
   :init
-  (defun my--leave-insert-state (arg)
-    (when (evil-insert-state-p)
-      (evil-normal-state)))
-
-  (advice-add 'pp-eval-last-sexp :before #'my--leave-insert-state)
-  (advice-add 'pp-macroexpand-last-sexp :before #'my--leave-insert-state)
+  (advice-add 'pp-eval-last-sexp :before #'my--exit-insert-state)
+  (advice-add 'pp-macroexpand-last-sexp :before #'my--exit-insert-state)
 
   (define-advice eval-print-last-sexp
       (:around (old-func &optional eval-last-sexp-arg-internal) print-after-paren)

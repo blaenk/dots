@@ -174,4 +174,9 @@ then enters normal state when the MODE is exited."
          (evil-emacs-state)
        (evil-normal-state))))
 
+(defun my--exit-insert-state (arg)
+  (when (and (fboundp 'evil-insert-state-p)
+             (evil-insert-state-p))
+    (evil-normal-state)))
+
 (provide 'conf/common)
