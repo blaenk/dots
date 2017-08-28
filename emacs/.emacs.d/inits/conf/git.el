@@ -83,6 +83,9 @@
    magit-wip-before-change-mode)
 
   :general
+  (:keymaps 'magit-status-mode-map
+   "jl" 'avy-goto-line)
+
   (my-map
     "g" '(:ignore t :which-key "git")
     "g s" 'magit-status

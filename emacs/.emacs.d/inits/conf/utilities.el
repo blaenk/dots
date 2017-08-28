@@ -498,4 +498,10 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
 (use-package mwim :defer t)
 
+(use-package avy
+  :defer t
+
+  :init
+  (setq avy-style 'pre))
+
 (provide 'conf/utilities)

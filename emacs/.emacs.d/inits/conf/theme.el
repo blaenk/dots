@@ -2,6 +2,9 @@
 (require 'conf/common)
 
 (use-package solarized-theme
+  :load-path "~/code/emacs/solarized-emacs"
+  :ensure nil
+
   :demand t
 
   :general
