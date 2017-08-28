@@ -51,7 +51,7 @@
     "m t m" 'markdown-toggle-markup-hiding
 
     "m i b" 'markdown-insert-bold
-    "m i c" 'my-insert-gfm-code-block
+    "m i c" 'markdown-insert-gfm-code-block
     "m i f" 'my-markdown-insert-named-footnote
     "m i g" 'markdown-insert-image
     "m i h" 'markdown-insert-header-dwim
@@ -94,16 +94,7 @@
 
     (yas-expand-snippet (yas-lookup-snippet "kbd")))
 
-  ;; TODO
-  ;; Turn this into an advice instead?
-  ;; Or turn this into a macro that advises or creates functions to re-use? This
-  ;; has become a pretty common task.
-  (defun my-insert-gfm-code-block ()
-    "Insert a GFM code block, then enter evil insert state."
-    (interactive)
-
-    (call-interactively #'markdown-insert-gfm-code-block)
-    (evil-insert-state))
+  (my-advise-to-insert-after markdown-insert-gfm-code-block)
 
   (defun my--markdown-mode-hook ()
     (setq-local word-wrap t)

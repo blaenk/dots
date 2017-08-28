@@ -157,6 +157,13 @@ verbatim."
        (with-selected-frame frame
          (with-selected-window win ,@body)))))
 
+(defmacro my-advise-to-insert-after (fn)
+  "Advice the FN to enter Evil insert state after it executes."
+  `(define-advice ,fn
+       (:after (&rest args) enter-insert-state)
+     ,(format "Call `%s', then enter Evil insert state." (symbol-name fn))
+     (evil-insert-state)))
+
 (defmacro my-create-evil-toggle-for-mode (mode)
   "Defines an evil toggle function for use with a mode hook.
 
