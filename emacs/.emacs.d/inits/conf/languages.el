@@ -113,10 +113,6 @@
   (add-hook 'markdown-mode-hook #'whitespace-mode)
 
   :config
-  ;; TODO
-  ;; Remove once the issue is resolved.
-  (fset #'markdown-update-code-face #'ignore)
-
   (setq markdown-code-lang-modes
         (-concat '(("postgresql" . sql-mode)
                    ("zsh" . sh-mode))))
