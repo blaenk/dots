@@ -54,12 +54,6 @@
     (with-helm-window
       (my-toggle-scroll-bar)))
 
-  :config
-  (require 'helm-config)
-  (helm-mode 1)
-
-  (helm-autoresize-mode t)
-
   (defun helm-ext-ff-default-find-function (candidate)
     (if (get-buffer candidate)
         (switch-to-buffer candidate)
@@ -88,6 +82,12 @@
            (interactive)
            (with-helm-alive-p
              (helm-exit-and-execute-action ',action-func))))))
+
+  :config
+  (require 'helm-config)
+  (helm-mode 1)
+
+  (helm-autoresize-mode t)
 
   (defun my--helm-solarized-colors ()
     "Produce an alist of color name and its hex color.
