@@ -78,10 +78,6 @@
   (with-eval-after-load 'evil
     (evil-set-initial-state #'imenu-list-major-mode 'emacs)))
 
-(use-package unicode-fonts
-  :config
-  (unicode-fonts-setup))
-
 (use-package which-key
   :diminish which-key-mode
 
