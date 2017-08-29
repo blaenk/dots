@@ -60,6 +60,35 @@
 
   (helm-autoresize-mode t)
 
+  (defun helm-ext-ff-default-find-function (candidate)
+    (if (get-buffer candidate)
+        (switch-to-buffer candidate)
+      (find-file candidate)))
+
+  (defun helm-ext-ff-get-split-function (type find-func balance-p)
+    (let ((body `(lambda (buf)
+                   (select-window (,(if (eq type 'horizontal)
+                                        'split-window-below
+                                      'split-window-right)))
+                   (,find-func buf))))
+      (if balance-p
+          (append body '((balance-windows)))
+        body)))
+
+  (defmacro helm-ext-ff-define-split (name type find-func &optional balance-p)
+    (declare (indent 2))
+    (let ((action-func (intern (format "helm-ext-ff-%s-action-%s-split" name type)))
+          (execution-func (intern (format "helm-ext-ff-%s-execute-%s-split" name type)))
+          (split-func (helm-ext-ff-get-split-function type find-func balance-p)))
+      `(progn
+         (defun ,action-func (candidate)
+           (dolist (buf (helm-marked-candidates))
+             (,split-func buf)))
+         (defun ,execution-func ()
+           (interactive)
+           (with-helm-alive-p
+             (helm-exit-and-execute-action ',action-func))))))
+
   (defun my--helm-solarized-colors ()
     "Produce an alist of color name and its hex color.
 
@@ -311,8 +340,8 @@ It can clash with the colors being shown."
   (:keymaps 'helm-bookmark-map
    "C-c C-k" 'helm-bookmark-run-delete
 
-   "C-c C-h" 'my-helm-bookmarks-split-horizontal
-   "C-c C-v" 'my-helm-bookmarks-split-vertical)
+   "C-c C-h" 'helm-ext-ff-helm-bookmark-execute-horizontal-split
+   "C-c C-v" 'helm-ext-ff-helm-bookmark-execute-vertical-split)
 
   (my-map
     "o m" 'my-open-bookmark)
@@ -360,33 +389,8 @@ can be overridden with the prefix ARG."
           (helm-filtered-bookmarks))
       (helm-filtered-bookmarks)))
 
-  (defun my--helm-bookmarks-action-vertical (candidate)
-    (dolist (bookmark (helm-marked-candidates))
-      (select-window (split-window-right))
-      (bookmark-jump bookmark))
-
-    (balance-windows))
-
-  (defun my-helm-bookmarks-split-vertical ()
-    "Open the bookmark in a vertical split."
-    (interactive)
-
-    (with-helm-alive-p
-     (helm-exit-and-execute-action 'my--helm-bookmarks-action-vertical)))
-
-  (defun my--helm-bookmarks-action-horizontal (candidate)
-    (dolist (bookmark (helm-marked-candidates))
-      (select-window (split-window-below))
-      (bookmark-jump bookmark))
-
-    (balance-windows))
-
-  (defun my-helm-bookmarks-split-horizontal ()
-    "Open the bookmark in a horizontal split."
-    (interactive)
-
-    (with-helm-alive-p
-     (helm-exit-and-execute-action 'my--helm-bookmarks-action-horizontal))))
+  (helm-ext-ff-define-split helm-bookmark horizontal bookmark-jump balance)
+  (helm-ext-ff-define-split helm-bookmark vertical bookmark-jump balance))
 
 (use-package helm-adaptive
   :ensure nil
@@ -516,8 +520,8 @@ overridden with the prefix ARG."
   (:keymaps 'helm-ag-map
    "C-c a" 'my-helm-ag-launch-ag
 
-   "C-c C-h" 'my-helm-ag-split-horizontal
-   "C-c C-v" 'my-helm-ag-split-vertical)
+   "C-c C-h" 'helm-ext-ff-helm-ag-execute-horizontal-split
+   "C-c C-v" 'helm-ext-ff-helm-ag-execute-vertical-split)
 
   (my-map
     "s t" 'my-search-todos
@@ -592,45 +596,19 @@ within other words, but this means that non-word keywords such as
     (with-helm-alive-p
       (helm-exit-and-execute-action 'my--helm-ag-launch-ag)))
 
-  (defun my--helm-ag-horizontal-find-func (buf)
-    (select-window (split-window-below))
-    (if (get-buffer buf)
-        (switch-to-buffer buf)
-      (find-file buf))
+  (helm-ext-ff-define-split helm-ag horizontal
+    (lambda (candidate)
+      (helm-ag--find-file-action candidate
+                                 'find-file
+                                 (helm-ag--search-this-file-p)))
+    balance)
 
-    (balance-windows))
-
-  (defun my--helm-ag-action-find-file-horizontal (candidate)
-    (dolist (buf (helm-marked-candidates))
-      (helm-ag--find-file-action buf 'my--helm-ag-horizontal-find-func
-                                 (helm-ag--search-this-file-p))))
-
-  (defun my-helm-ag-split-horizontal ()
-    "Open ag candidate(s) in horizontal splits."
-    (interactive)
-
-    (with-helm-alive-p
-      (helm-exit-and-execute-action 'my--helm-ag-action-find-file-horizontal)))
-
-  (defun my--helm-ag-vertical-find-func (buf)
-    (select-window (split-window-right))
-    (if (get-buffer buf)
-        (switch-to-buffer buf)
-      (find-file buf))
-
-    (balance-windows))
-
-  (defun my--helm-ag-action-find-file-vertical (candidate)
-    (dolist (buf (helm-marked-candidates))
-      (helm-ag--find-file-action buf 'my--helm-ag-vertical-find-func
-                                 (helm-ag--search-this-file-p))))
-
-  (defun my-helm-ag-split-vertical ()
-    "Open ag candidate(s) in vertical splits."
-    (interactive)
-
-    (with-helm-alive-p
-      (helm-exit-and-execute-action 'my--helm-ag-action-find-file-vertical))))
+  (helm-ext-ff-define-split helm-ag vertical
+    (lambda (candidate)
+      (helm-ag--find-file-action candidate
+                                 'find-file
+                                 (helm-ag--search-this-file-p)))
+    balance))
 
 (use-package helm-gtags
   :diminish helm-gtags-mode
