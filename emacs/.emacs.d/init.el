@@ -407,19 +407,22 @@ buffer-local basis.")
 (when my--is-benchmarking-p
   (benchmark-init/activate))
 
-(require 'conf/built-in)
-(require 'conf/theme)
-(require 'conf/mode-line)
-(require 'conf/evil)
+;; We use use-package instead of a plain `require' to allow us to use
+;; use-package's profiling instrumentation if necessary, otherwise it seems like
+;; the use-package forms within these required files don't show up.
+(use-package conf/built-in :ensure nil)
+(use-package conf/theme :ensure nil)
+(use-package conf/mode-line :ensure nil)
+(use-package conf/evil :ensure nil)
 
-(require 'conf/helm)
-(require 'conf/utilities)
-(require 'conf/languages)
-(require 'conf/git)
+(use-package conf/helm :ensure nil)
+(use-package conf/utilities :ensure nil)
+(use-package conf/languages :ensure nil)
+(use-package conf/git :ensure nil)
 
-(require 'conf/flycheck)
-(require 'conf/company)
-(require 'conf/smartparens)
+(use-package conf/flycheck :ensure nil)
+(use-package conf/company :ensure nil)
+(use-package conf/smartparens :ensure nil)
 
 (when my--is-benchmarking-p
   (benchmark-init/deactivate))
