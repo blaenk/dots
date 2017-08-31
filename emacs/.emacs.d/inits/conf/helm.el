@@ -389,6 +389,7 @@ can be overridden with the prefix ARG."
           (helm-filtered-bookmarks))
       (helm-filtered-bookmarks)))
 
+  :config
   (helm-ext-ff-define-split helm-bookmark horizontal bookmark-jump balance)
   (helm-ext-ff-define-split helm-bookmark vertical bookmark-jump balance))
 
@@ -544,6 +545,7 @@ overridden with the prefix ARG."
                           '())
                         options)))
 
+  :config
   ;; Note that we could use dir-locals but that would only take effect once a
   ;; file under the directory were accessed, AFAIK. It also wouldn't take effect
   ;; when running for example my-dots-search from outside of the dots dir.
