@@ -529,6 +529,8 @@ overridden with the prefix ARG."
     ". s" 'my-dots-search)
 
   :init
+  (setq helm-ag-use-agignore t)
+
   (defconst my--helm-ag-dotfile-options
     '("--hidden"
       "--ignore-dir .git"
