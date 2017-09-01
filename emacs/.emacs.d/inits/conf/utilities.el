@@ -98,6 +98,8 @@
   :config
   (which-key-mode))
 
+(use-package help-mode+)
+
 (use-package help-fns+
   :general
   (:keymaps 'help-map
