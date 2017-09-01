@@ -502,4 +502,6 @@ If a region is active, it'll be used to \"wrap\" the selection."
   :init
   (setq avy-style 'pre))
 
+(use-package helpful :defer t)
+
 (provide 'conf/utilities)
