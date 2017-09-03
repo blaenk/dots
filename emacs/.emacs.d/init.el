@@ -367,7 +367,6 @@ text by that amount."
   "w =" 'balance-windows
   "w p" 'my-pop-to-frame
   "w b" 'balance-windows
-  "w f" 'delete-other-windows
 
   "w s" '(:ignore t :which-key "split")
   "w s p" 'my-split-with-previous-buffer

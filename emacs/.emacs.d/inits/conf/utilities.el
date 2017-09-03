@@ -411,6 +411,14 @@
           (?i delete-other-windows " Ace - Delete Other Windows")
           (?o delete-other-windows))))
 
+(use-package zoom-window
+  :general
+  (my-map :infix "w"
+    "f" 'zoom-window-zoom)
+
+  :init
+  (setq zoom-window-mode-line-color nil))
+
 (use-package shackle
   :config
   (setq shackle-rules
