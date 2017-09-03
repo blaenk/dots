@@ -125,10 +125,22 @@
   `(pulse-highlight-start-face ((,class (:background ,base02))))
 
   ;; markdown
-  `(markdown-code-face ((,class (:background unspecified))))
+  `(markdown-code-face ((,class (:foreground unspecified :background unspecified))))
+  `(markdown-metadata-key-face ((,class (:foreground unspecified
+                                         :weight bold
+                                         :inherit unspecified))))
+  `(markdown-inline-code-face ((,class (:foreground unspecified :weight bold))))
   `(markdown-pre-face ((,class (:foreground unspecified))))
   `(markdown-language-keyword-face ((,class (:weight bold))))
   `(markdown-comment-face ((,class (:strike-through nil))))
+  `(markdown-header-face ((,class (:foreground ,blue :weight bold))))
+  `(markdown-footnote-marker-face ((,class (:foreground unspecified :weight bold))))
+  `(markdown-url-face ((,class (:foreground unspecified))))
+  `(markdown-link-title-face ((,class (:foreground unspecified :inherit unspecified))))
+  `(markdown-link-face ((,class (:foreground unspecified :weight bold))))
+  `(markdown-blockquote-face ((,class (:foreground unspecified
+                                       :inherit unspecified
+                                       :slant italic))))
 
   ;; fringe
   `(fringe ((,class (:foreground ,base02))))
