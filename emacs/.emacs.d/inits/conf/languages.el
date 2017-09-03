@@ -135,6 +135,10 @@
     (setq-local word-wrap t)
     (setq-local outline-regexp "^\\(?:\\(#+\\)[ \t]+\\(.*?\\)[ \t]*\\(#*\\)\\)$")
 
+    (with-eval-after-load 'elec-pair
+      (make-variable-buffer-local 'electric-pair-pairs)
+      (add-to-list 'electric-pair-pairs '(96 . 96)))
+
     (with-eval-after-load 'evil-surround
       (push '(?s . ("**" . "**")) evil-surround-pairs-alist)
       (push '(?i . ("_" . "_")) evil-surround-pairs-alist)
