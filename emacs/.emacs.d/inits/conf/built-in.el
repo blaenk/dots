@@ -315,6 +315,7 @@ Also bind `q' to `quit-window'."
    "<right>" "→"
    "<left>" "←"
    "." "…"
+   "-" "—"
    "n" "ñ"))
 
 (use-package winner
