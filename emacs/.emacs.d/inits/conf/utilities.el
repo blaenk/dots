@@ -512,4 +512,6 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
 (use-package helpful :defer t)
 
+(use-package edit-indirect :defer t)
+
 (provide 'conf/utilities)
