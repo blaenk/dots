@@ -155,7 +155,9 @@
   (defconst markdown-inline-footnote-properties nil)
 
   (setq markdown-code-lang-modes
-        (-concat '(("postgresql" . sql-mode)
+        (-concat markdown-code-lang-modes
+                 '(("postgresql" . sql-mode)
+                   ("console" . sh-mode)
                    ("zsh" . sh-mode))))
 
   (defun my-markdown-insert-named-footnote (name)
