@@ -152,6 +152,8 @@
   (add-hook 'markdown-mode-hook #'whitespace-mode)
 
   :config
+  (defconst markdown-inline-footnote-properties nil)
+
   (setq markdown-code-lang-modes
         (-concat '(("postgresql" . sql-mode)
                    ("zsh" . sh-mode))))
