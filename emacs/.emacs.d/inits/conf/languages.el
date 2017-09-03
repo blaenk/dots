@@ -568,4 +568,6 @@
   :init
   (add-hook 'rust-mode-hook #'cargo-minor-mode))
 
+(use-package sqlup-mode :defer t)
+
 (provide 'conf/languages)
