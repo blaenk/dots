@@ -512,6 +512,11 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
 (use-package helpful :defer t)
 
-(use-package edit-indirect :defer t)
+(use-package edit-indirect
+  :defer t
+
+  :general
+  (:keymaps 'edit-indirect-mode-map
+   "C-x C-s" 'edit-indirect-commit))
 
 (provide 'conf/utilities)
