@@ -409,7 +409,12 @@
           (?b aw-split-window-vert " Ace - Split Vert Window")
           (?v aw-split-window-horz " Ace - Split Horz Window")
           (?i delete-other-windows " Ace - Delete Other Windows")
-          (?o delete-other-windows))))
+          (?o delete-other-windows)))
+
+  :config
+  (define-advice ace-delete-window
+      (:after (&rest args) balance-windows)
+    (balance-windows)))
 
 (use-package zoom-window
   :general
