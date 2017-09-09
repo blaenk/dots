@@ -393,7 +393,7 @@
    "@" 'js-doc-insert-tag)
 
   (my-map :keymaps 'js2-mode-map
-    "m d" 'js-doc-insert-function-doc-snippet))
+    "m i d" 'js-doc-insert-function-doc-snippet))
 
 (use-package tern
   :defer t
