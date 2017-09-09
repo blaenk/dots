@@ -125,6 +125,7 @@
               #'evil-insert-state
               nil 'local)
 
+    (evil-normal-state)
     (markdown-edit-code-block)
 
     (remove-hook 'edit-indirect-after-creation-hook
