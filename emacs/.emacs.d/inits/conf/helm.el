@@ -349,6 +349,7 @@ It can clash with the colors being shown."
   :init
   (setq helm-bookmark-show-location t)
 
+  :config
   (defun my--helm-bookmark-projectile-p (bookmark)
     (and (projectile-project-p)
          (f-ancestor-of? (projectile-project-root)
@@ -389,7 +390,6 @@ can be overridden with the prefix ARG."
           (helm-filtered-bookmarks))
       (helm-filtered-bookmarks)))
 
-  :config
   (helm-ext-ff-define-split helm-bookmark horizontal bookmark-jump balance)
   (helm-ext-ff-define-split helm-bookmark vertical bookmark-jump balance))
 
