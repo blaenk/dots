@@ -177,22 +177,23 @@
      (my--mode-line-format-error compilation-num-errors-found 'mode-line-flycheck-errors-face))))
 
 (defun my--mode-line-git-status-component ()
-  (-when-let* ((_ buffer-file-name)
-               (rev (vc-working-revision buffer-file-name 'Git))
+  (-when-let* ((wem (not (and (boundp 'with-editor-mode)
+                              with-editor-mode)))
+               (b buffer-file-name)
+               (rev (vc-working-revision b 'Git))
                (state
-                (when buffer-file-name
-                  ;; I wanted to use `vc-state' here but for some reason, on ignored
-                  ;; files, it straight-up returns nil, whereas `vc-git-state' does
-                  ;; correctly return `ignored'.
-                  (pcase (vc-git-state buffer-file-name)
-                    ('ignored      '("." . mode-line-branch-face))
-                    ('unregistered '("." . mode-line-branch-face))
-                    ('removed      '("-" . mode-line-branch-face))
-                    ('edited       '("#" . mode-line-branch-face))
-                    ('added        '("+" . mode-line-branch-face))
-                    ('conflict     '("‼" . mode-line-branch-face))
-                    (_ nil)
-                    )))
+                ;; I wanted to use `vc-state' here but for some reason, on ignored
+                ;; files, it straight-up returns nil, whereas `vc-git-state' does
+                ;; correctly return `ignored'.
+                (pcase (vc-git-state b)
+                  ('ignored      '("." . mode-line-branch-face))
+                  ('unregistered '("." . mode-line-branch-face))
+                  ('removed      '("-" . mode-line-branch-face))
+                  ('edited       '("#" . mode-line-branch-face))
+                  ('added        '("+" . mode-line-branch-face))
+                  ('conflict     '("‼" . mode-line-branch-face))
+                  (_ nil)
+                  ))
                ((label . face) state))
     (propertize (s-wrap label " ") 'face face)))
 
@@ -200,9 +201,11 @@
   "Cache the vc-git-status response")
 
 (defun my--mode-line-git-branch-component ()
-  (-when-let* ((_ buffer-file-name)
-               (rev (vc-working-revision buffer-file-name 'Git))
-               (disp-rev (or (vc-git--symbolic-ref buffer-file-name)
+  (-when-let* ((wem (not (and (boundp 'with-editor-mode)
+                              with-editor-mode)))
+               (b buffer-file-name)
+               (rev (vc-working-revision b 'Git))
+               (disp-rev (or (vc-git--symbolic-ref b)
                              (substring rev 0 7))))
     (concat (propertize (s-wrap disp-rev " ") 'face 'mode-line-branch-face))))
 
