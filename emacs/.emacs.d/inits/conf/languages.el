@@ -283,6 +283,8 @@
                                      "assert"
                                      "before"
                                      "beforeEach"
+                                     "browser"
+                                     "chrome"
                                      "context"
                                      "describe"
                                      "expect"
