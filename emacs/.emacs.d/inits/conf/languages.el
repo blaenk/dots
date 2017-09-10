@@ -529,6 +529,7 @@
 
   (define-advice TeX-command-sentinel
       (:after (process msg) show-output-window-on-error)
+    "Show the output window when there is an error."
     (if (not (eq (process-exit-status process) 0))
         (TeX-recenter-output-buffer nil)))
 

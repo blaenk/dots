@@ -651,6 +651,7 @@ within other words, but this means that non-word keywords such as
   :init
   (define-advice describe-bindings
       (:override (&optional prefix buffer) auto-load-helm-descbinds)
+    "Explicitly auto-load helm-descbinds."
     (helm-descbinds prefix buffer)))
 
 (use-package helm-flycheck

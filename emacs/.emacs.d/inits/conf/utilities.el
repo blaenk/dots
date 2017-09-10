@@ -414,6 +414,7 @@
   :config
   (define-advice ace-delete-window
       (:after (&rest args) balance-windows)
+    "Balance the windows after deleting a window."
     (balance-windows)))
 
 (use-package zoom-window
