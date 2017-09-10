@@ -401,7 +401,17 @@ Also bind `q' to `quit-window'."
   :defer t
 
   :init
-  (blink-cursor-mode 0))
+  (blink-cursor-mode 0)
+
+  :config
+  (define-advice toggle-frame-fullscreen
+      (:after (&rest args) reset-olivetti)
+    "If there are any buffers in which olivetti-mode is enabled, reset their
+environment."
+    (dolist (buffer (buffer-list))
+      (with-current-buffer buffer
+        (when (bound-and-true-p olivetti-mode)
+          (run-with-idle-timer 0.1 nil #'olivetti-set-environment))))))
 
 (use-package paren
   :ensure nil
