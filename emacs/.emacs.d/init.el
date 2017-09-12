@@ -62,6 +62,8 @@
     "Whether emacs should run benchmark-init"))
 
 (use-package auto-compile
+  :unless (eq system-type 'windows-nt)
+
   :defines
   auto-compile-display-buffer
 
