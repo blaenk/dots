@@ -191,4 +191,34 @@ then enters normal state when the MODE is exited."
              (evil-insert-state-p))
     (evil-normal-state)))
 
+(with-eval-after-load 'helm
+  (defun helm-ext-ff-default-find-function (candidate)
+    (if (get-buffer candidate)
+        (switch-to-buffer candidate)
+      (find-file candidate)))
+
+  (defun helm-ext-ff-get-split-function (type find-func balance-p)
+    (let ((body `(lambda (buf)
+                   (select-window (,(if (eq type 'horizontal)
+                                        'split-window-below
+                                      'split-window-right)))
+                   (,find-func buf))))
+      (if balance-p
+          (append body '((balance-windows)))
+        body)))
+
+  (defmacro helm-ext-ff-define-split (name type find-func &optional balance-p)
+    (declare (indent 2))
+    (let ((action-func (intern (format "helm-ext-ff-%s-action-%s-split" name type)))
+          (execution-func (intern (format "helm-ext-ff-%s-execute-%s-split" name type)))
+          (split-func (helm-ext-ff-get-split-function type find-func balance-p)))
+      `(progn
+         (defun ,action-func (candidate)
+           (dolist (buf (helm-marked-candidates))
+             (,split-func buf)))
+         (defun ,execution-func ()
+           (interactive)
+           (with-helm-alive-p
+             (helm-exit-and-execute-action ',action-func)))))))
+
 (provide 'conf/common)

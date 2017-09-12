@@ -1,6 +1,7 @@
 (require 'use-package)
 (require 'general)
-(require 'conf/common)
+(eval-when-compile
+  (require 'conf/common))
 
 (use-package help-fns
   :ensure nil
@@ -120,32 +121,35 @@ If it was already set, unset it. Otherwise invoke
         (setq current-prefix-arg nil)
       (call-interactively #'universal-argument)))
 
-  (defhydra my-window-resizer ()
-    "Resize window."
-
-    ("C-u" my-universal-argument-toggle "prefix")
-
-    ("j" my-move-splitter-down "🡇")
-    ("k" my-move-splitter-up "🡅")
-    ("h" my-move-splitter-left "🡄")
-    ("l" my-move-splitter-right "🡆")
-
-    ("w" ace-window "ace")
-
-    ("c" evil-window-delete "close")
-    ("b" balance-windows "balance")
-
-    ("q" nil "quit")
-    ("," nil "quit")
-
-    ("J" evil-window-down "go 🡇")
-    ("K" evil-window-up "go 🡅")
-    ("H" evil-window-left "go 🡄")
-    ("L" evil-window-right "go 🡆")
-
-    ("?" (my--hydra-cycle-verbosity 'my-window-resizer) "± verbosity"))
-
   (with-eval-after-load 'hydra
+    (eval-when-compile
+      (require 'hydra))
+
+    (defhydra my-window-resizer ()
+      "Resize window."
+
+      ("C-u" my-universal-argument-toggle "prefix")
+
+      ("j" my-move-splitter-down "🡇")
+      ("k" my-move-splitter-up "🡅")
+      ("h" my-move-splitter-left "🡄")
+      ("l" my-move-splitter-right "🡆")
+
+      ("w" ace-window "ace")
+
+      ("c" evil-window-delete "close")
+      ("b" balance-windows "balance")
+
+      ("q" nil "quit")
+      ("," nil "quit")
+
+      ("J" evil-window-down "go 🡇")
+      ("K" evil-window-up "go 🡅")
+      ("H" evil-window-left "go 🡄")
+      ("L" evil-window-right "go 🡆")
+
+      ("?" (my--hydra-cycle-verbosity 'my-window-resizer) "± verbosity"))
+
     (hydra-set-property 'my-window-resizer :verbosity 0)))
 
 (use-package server
@@ -453,7 +457,8 @@ environment."
     "e" 'smerge-ediff)
 
   :init
-  (add-hook 'smerge-mode-hook #'evil-normalize-keymaps)
+  (with-eval-after-load 'evil
+    (add-hook 'smerge-mode-hook #'evil-normalize-keymaps))
 
   ;; attempt to start smerge, automatically disabling it if not relevant
   (add-hook 'find-file-hook #'smerge-start-session))

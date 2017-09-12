@@ -249,21 +249,21 @@
     (hydra-set-property hydra :verbosity
                         (if (= (hydra-get-property hydra :verbosity) 0) 1 0)))
 
-  (defhydra my-frame-resizer ()
-    "Resize frame."
-
-    ("j" enlarge-frame "🡇")
-    ("k" shrink-frame "🡅")
-    ("h" shrink-frame-horizontally "🡄")
-    ("l" enlarge-frame-horizontally "🡆")
-
-    ("f" toggle-frame-fullscreen)
-
-    ("q" nil "quit")
-    ("," nil "quit")
-    ("?" (my--hydra-cycle-verbosity 'my-frame-resizer) "± verbosity"))
-
   (with-eval-after-load 'hydra
+    (defhydra my-frame-resizer ()
+      "Resize frame."
+
+      ("j" enlarge-frame "🡇")
+      ("k" shrink-frame "🡅")
+      ("h" shrink-frame-horizontally "🡄")
+      ("l" enlarge-frame-horizontally "🡆")
+
+      ("f" toggle-frame-fullscreen)
+
+      ("q" nil "quit")
+      ("," nil "quit")
+      ("?" (my--hydra-cycle-verbosity 'my-frame-resizer) "± verbosity"))
+
     (hydra-set-property 'my-frame-resizer :verbosity 0)))
 
 (use-package olivetti :defer t)
@@ -467,8 +467,6 @@
 (use-package narrow-indirect :defer t)
 
 (use-package yasnippet
-  :defer t
-
   :general
   (:keymaps 'yas-minor-mode-map
    "<tab>" nil

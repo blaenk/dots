@@ -1,9 +1,9 @@
 (require 'use-package)
 (require 'general)
-(require 'conf/common)
+(eval-when-compile
+  (require 'conf/common))
 
 (use-package helm
-  :diminish helm-mode
   :demand t
 
   :general
@@ -54,38 +54,8 @@
     (with-helm-window
       (my-toggle-scroll-bar)))
 
-  (defun helm-ext-ff-default-find-function (candidate)
-    (if (get-buffer candidate)
-        (switch-to-buffer candidate)
-      (find-file candidate)))
-
-  (defun helm-ext-ff-get-split-function (type find-func balance-p)
-    (let ((body `(lambda (buf)
-                   (select-window (,(if (eq type 'horizontal)
-                                        'split-window-below
-                                      'split-window-right)))
-                   (,find-func buf))))
-      (if balance-p
-          (append body '((balance-windows)))
-        body)))
-
-  (defmacro helm-ext-ff-define-split (name type find-func &optional balance-p)
-    (declare (indent 2))
-    (let ((action-func (intern (format "helm-ext-ff-%s-action-%s-split" name type)))
-          (execution-func (intern (format "helm-ext-ff-%s-execute-%s-split" name type)))
-          (split-func (helm-ext-ff-get-split-function type find-func balance-p)))
-      `(progn
-         (defun ,action-func (candidate)
-           (dolist (buf (helm-marked-candidates))
-             (,split-func buf)))
-         (defun ,execution-func ()
-           (interactive)
-           (with-helm-alive-p
-             (helm-exit-and-execute-action ',action-func))))))
-
   :config
   (require 'helm-config)
-  (helm-mode 1)
 
   (helm-autoresize-mode t)
 
@@ -293,8 +263,13 @@ It can clash with the colors being shown."
     "List the faces at the point."
     (interactive)
     (helm :sources 'my--helm-source-faces-at-point
-          :buffer "*helm faces at point*"))
-  )
+          :buffer "*helm faces at point*")))
+
+(use-package helm-mode
+  :ensure nil
+
+  :config
+  (helm-mode 1))
 
 (use-package helm-regexp
   :ensure nil
@@ -334,7 +309,6 @@ It can clash with the colors being shown."
 
 (use-package helm-bookmark
   :ensure nil
-  :defer t
 
   :general
   (:keymaps 'helm-bookmark-map
