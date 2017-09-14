@@ -159,6 +159,8 @@
         (-concat markdown-code-lang-modes
                  '(("postgresql" . sql-mode)
                    ("console" . sh-mode)
+                   ("html" . web-mode)
+                   ("javascript" . js-mode)
                    ("zsh" . sh-mode))))
 
   (defun my-markdown-insert-named-footnote (name)
