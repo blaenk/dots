@@ -262,10 +262,6 @@
   :init
   (add-hook 'irony-mode-hook #'irony-eldoc))
 
-(use-package realgud
-  :if (not (eq system-type 'windows-nt))
-  :defer t)
-
 (use-package vimrc-mode :defer t)
 
 (use-package js2-mode
