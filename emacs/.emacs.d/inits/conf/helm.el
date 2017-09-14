@@ -388,8 +388,8 @@ can be overridden with the prefix ARG."
 
   :general
   (:keymaps 'helm-generic-files-map
-   "C-c C-h" 'helm-ext-ff-execute-horizontal-split
-   "C-c C-v" 'helm-ext-ff-execute-vertical-split))
+   "C-c C-h" 'helm-ext-ff-buffer-execute-horizontal-split
+   "C-c C-v" 'helm-ext-ff-buffer-execute-vertical-split))
 
 (use-package helm-files
   :ensure nil
@@ -399,8 +399,8 @@ can be overridden with the prefix ARG."
    "C-c C-k" 'helm-buffer-run-kill-persistent)
 
   (:keymaps '(helm-find-files-map helm-buffer-map)
-   "C-c C-h" 'helm-ext-ff-execute-horizontal-split
-   "C-c C-v" 'helm-ext-ff-execute-vertical-split))
+   "C-c C-h" 'helm-ext-ff-buffer-execute-horizontal-split
+   "C-c C-v" 'helm-ext-ff-buffer-execute-vertical-split))
 
 (use-package helm-projectile
   :diminish projectile-mode
@@ -411,8 +411,8 @@ can be overridden with the prefix ARG."
    "C-M-/" 'my-helm-ag)
 
   (:keymaps '(helm-projectile-find-file-map helm-projectile-projects-map)
-   "C-c C-h" 'helm-ext-ff-execute-horizontal-split
-   "C-c C-v" 'helm-ext-ff-execute-vertical-split)
+   "C-c C-h" 'helm-ext-ff-buffer-execute-horizontal-split
+   "C-c C-v" 'helm-ext-ff-buffer-execute-vertical-split)
 
   (my-map
     "s a" 'my-helm-ag
@@ -478,8 +478,8 @@ overridden with the prefix ARG."
     "o t" 'helm-mt)
 
   (:keymaps 'helm-mt/keymap
-   "C-c C-h" 'helm-ext-ff-execute-horizontal-split
-   "C-c C-v" 'helm-ext-ff-execute-vertical-split)
+   "C-c C-h" 'helm-ext-ff-buffer-execute-horizontal-split
+   "C-c C-v" 'helm-ext-ff-buffer-execute-vertical-split)
 
   :config
   (helm-mt/reroute-terminal-functions t))
