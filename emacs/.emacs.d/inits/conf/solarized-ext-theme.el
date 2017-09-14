@@ -15,6 +15,11 @@
   :group 'mode-line-faces
   :group 'basic-faces)
 
+(defface mode-line-zoom-window-face nil
+  "Zoom window indicator in mode-line"
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
 (defface mode-line-which-function-face nil
   "Which-function in mode-line."
   :group 'mode-line-faces
@@ -272,6 +277,7 @@
   `(mode-line-column-face
     ((,class (:background ,s-fringe-bg :foreground ,base1 :weight bold))))
 
+  `(mode-line-zoom-window-face ((,class (:background ,magenta :foreground "white" :weight bold))))
   `(mode-line-which-function-face ((,class (:background ,blue-l :foreground "white"))))
   `(mode-line-branch-face ((,class (:background ,base0 :foreground "white" :weight bold))))
   `(mode-line-edebug-face ((,class (:background ,violet :foreground "white" :weight bold))))

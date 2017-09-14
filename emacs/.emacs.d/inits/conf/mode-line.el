@@ -176,6 +176,10 @@
      (my--mode-line-format-error compilation-num-warnings-found 'mode-line-flycheck-warnings-face)
      (my--mode-line-format-error compilation-num-errors-found 'mode-line-flycheck-errors-face))))
 
+(defun my--zoom-window-component ()
+  (when (and (fboundp 'zoom-window--enable-p) (zoom-window--enable-p))
+    (propertize " 🡭 " 'face 'mode-line-zoom-window-face)))
+
 (defun my--mode-line-git-status-component ()
   (-when-let* ((wem (not (and (boundp 'with-editor-mode)
                               with-editor-mode)))
@@ -308,6 +312,7 @@
           (:eval (anzu--update-mode-line))
           face mode-line-anzu-face))
         (:eval (my--mode-line-evil-component))
+        (:eval (my--zoom-window-component))
         (buffer-file-name
          (:eval (my--mode-line-project-component)))
         (buffer-file-name
