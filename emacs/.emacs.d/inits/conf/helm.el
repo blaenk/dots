@@ -364,8 +364,12 @@ can be overridden with the prefix ARG."
           (helm-filtered-bookmarks))
       (helm-filtered-bookmarks)))
 
-  (helm-ext-ff-define-split helm-bookmark horizontal bookmark-jump balance)
-  (helm-ext-ff-define-split helm-bookmark vertical bookmark-jump balance))
+  (with-eval-after-load 'helm-ext
+    (eval-when-compile
+      (require 'helm-ext))
+
+    (helm-ext-ff-define-split helm-bookmark horizontal bookmark-jump balance)
+    (helm-ext-ff-define-split helm-bookmark vertical bookmark-jump balance)))
 
 (use-package helm-adaptive
   :ensure nil
@@ -620,19 +624,23 @@ within other words, but this means that non-word keywords such as
     (with-helm-alive-p
       (helm-exit-and-execute-action 'my--helm-ag-launch-ag)))
 
-  (helm-ext-ff-define-split helm-ag horizontal
-    (lambda (candidate)
-      (helm-ag--find-file-action candidate
-                                 'find-file
-                                 (helm-ag--search-this-file-p)))
-    balance)
+  (with-eval-after-load 'helm-ext
+    (eval-when-compile
+      (require 'helm-ext))
 
-  (helm-ext-ff-define-split helm-ag vertical
-    (lambda (candidate)
-      (helm-ag--find-file-action candidate
-                                 'find-file
-                                 (helm-ag--search-this-file-p)))
-    balance))
+    (helm-ext-ff-define-split helm-ag horizontal
+      (lambda (candidate)
+        (helm-ag--find-file-action candidate
+                                   'find-file
+                                   (helm-ag--search-this-file-p)))
+      balance)
+
+    (helm-ext-ff-define-split helm-ag vertical
+      (lambda (candidate)
+        (helm-ag--find-file-action candidate
+                                   'find-file
+                                   (helm-ag--search-this-file-p)))
+      balance)))
 
 (use-package helm-gtags
   :diminish helm-gtags-mode
