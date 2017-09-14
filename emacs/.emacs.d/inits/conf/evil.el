@@ -41,8 +41,8 @@
    "j" 'evil-next-visual-line
    "k" 'evil-previous-visual-line
 
-   "gr" 'my-evil-replace
-   "gR" 'my-evil-visual-replace
+   "gr" 'my-evil-visual-replace
+   "gR" 'my-evil-replace
 
    "gX" 'my-cancel-exchange-or-visual-replace
 
