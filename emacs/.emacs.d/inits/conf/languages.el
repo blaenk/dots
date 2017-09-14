@@ -385,7 +385,7 @@
   (add-hook 'json-mode-hook #'subword-mode))
 
 (use-package indium
-  :defer t
+  :commands (indium-run-node indium-run-chrome)
 
   :init
   (setq indium-workspace-file (my-cache-dir "indium/workspaces.el")))
