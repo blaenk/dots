@@ -221,4 +221,15 @@ then enters normal state when the MODE is exited."
            (with-helm-alive-p
              (helm-exit-and-execute-action ',action-func)))))))
 
+(defun my--use-node-modules-binary (name &optional directory)
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (directory (or directory name))
+         (binary (and root
+                      (expand-file-name (concat "node_modules/" name "/bin/" name ".js")
+                                        root))))
+    (when (and binary (file-executable-p binary))
+      binary)))
+
 (provide 'conf/common)

@@ -370,7 +370,13 @@
    "C-c C-f" 'prettier-js)
 
   (my-map :keymaps 'js2-mode-map
-   "m f" 'prettier-js))
+    "m f" 'prettier-js)
+
+  :init
+  (defun my--use-prettier-from-node-modules ()
+    (setq-local prettier-js-command (my--use-node-modules-binary "prettier")))
+
+  (add-hook 'prettier-js-mode-hook #'my--use-prettier-from-node-modules))
 
 (use-package json-mode
   :mode
