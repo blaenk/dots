@@ -52,7 +52,7 @@
   (:keymaps 'insert
    "C-y" 'my-evil-insert-mode-paste
    "C-u" 'my-kill-line
-   "C-l" 'move-end-of-line)
+   "C-l" 'end-of-line)
 
   (my-map :infix "w"
     "c" 'evil-window-delete
