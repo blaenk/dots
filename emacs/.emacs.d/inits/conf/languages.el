@@ -156,12 +156,12 @@
   (defconst markdown-inline-footnote-properties nil)
 
   (setq markdown-code-lang-modes
-        (-concat markdown-code-lang-modes
-                 '(("postgresql" . sql-mode)
+        (-concat '(("postgresql" . sql-mode)
                    ("console" . sh-mode)
-                   ("html" . web-mode)
+                   ("html" . html-mode)
                    ("javascript" . js-mode)
-                   ("zsh" . sh-mode))))
+                   ("zsh" . sh-mode))
+                 markdown-code-lang-modes))
 
   (defun my-markdown-insert-named-footnote (name)
     "Insert footnote with a given name and move point to footnote definition."
