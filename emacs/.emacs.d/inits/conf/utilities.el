@@ -521,6 +521,6 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
   :general
   (:keymaps 'edit-indirect-mode-map
-   "C-x C-s" 'edit-indirect-commit))
+   [remap save-buffer] 'edit-indirect-commit))
 
 (provide 'conf/utilities)
