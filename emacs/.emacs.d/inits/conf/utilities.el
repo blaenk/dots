@@ -523,4 +523,27 @@ If a region is active, it'll be used to \"wrap\" the selection."
   (:keymaps 'edit-indirect-mode-map
    [remap save-buffer] 'edit-indirect-commit))
 
+(use-package xterm-color
+  :config
+  (add-hook 'comint-preoutput-filter-functions #'xterm-color-filter)
+
+  (setq comint-output-filter-functions
+        (remove 'ansi-color-process-output comint-output-filter-functions))
+
+  (setq compilation-environment '("TERM=xterm-256color"))
+
+  (defun my--xterm-color-compilation ()
+    ;; We need to differentiate between compilation-mode buffers
+    ;; and running as part of comint (which at this point we assume
+    ;; has been configured separately for xterm-color)
+    (when (eq (process-filter proc) 'compilation-filter)
+      ;; This is a process associated with a compilation-mode buffer.
+      ;; We may call `xterm-color-filter' before its own filter function.
+      (set-process-filter
+       proc
+       (lambda (proc string)
+         (funcall 'compilation-filter proc (xterm-color-filter string))))))
+
+  (add-hook 'compilation-start-hook #'my--xterm-color-compilation))
+
 (provide 'conf/utilities)
