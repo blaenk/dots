@@ -290,6 +290,7 @@
                                      "it"
                                      "sinon"
                                      "specify"
+                                     "test"
                                      ))
 
   (defun my--route-expression (method)
