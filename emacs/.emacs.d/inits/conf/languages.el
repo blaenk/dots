@@ -361,7 +361,14 @@
   (add-hook 'js2-mode-hook #'my--js2-hook))
 
 (use-package rjsx-mode
-  :mode "/\\(components\\|containers\\)/.+\\.js")
+  :mode "/\\(components\\|containers\\)/.+\\.js"
+
+  :config
+  (with-eval-after-load 'evil
+    (eval-when-compile
+      (require 'evil))
+
+    (evil-make-overriding-map rjsx-mode-map 'insert)))
 
 (use-package prettier-js
   :general
