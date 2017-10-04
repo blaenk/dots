@@ -466,7 +466,6 @@ The return value is the yanked text."
 
   :init
   (setq evil-goggles-duration 0.100
-        evil-goggles-pulse t
 
         ;; to disable the hint when pasting:
         ;; evil-goggles-enable-paste nil
