@@ -356,7 +356,10 @@
       (comment-indent-new-line soft)))
 
   (defun my--js2-hook ()
-    (setq-local comment-line-break-function #'my--js2-comment-line-break))
+    (setq-local comment-line-break-function #'my--js2-comment-line-break)
+
+    (require 'prettier-js)
+    (setq-local prettier-js-command (my--use-node-modules-binary "prettier")))
 
   (add-hook 'js2-mode-hook #'my--js2-hook))
 
@@ -376,13 +379,7 @@
    "C-c C-f" 'prettier-js)
 
   (my-map :keymaps 'js2-mode-map
-    "m f" 'prettier-js)
-
-  :init
-  (defun my--use-prettier-from-node-modules ()
-    (setq-local prettier-js-command (my--use-node-modules-binary "prettier")))
-
-  (add-hook 'prettier-js-mode-hook #'my--use-prettier-from-node-modules))
+    "m f" 'prettier-js))
 
 (use-package json-mode
   :mode
