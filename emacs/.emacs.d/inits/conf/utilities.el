@@ -546,4 +546,8 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
   (add-hook 'compilation-start-hook #'my--xterm-color-compilation))
 
+(use-package diredfl
+  :config
+  (diredfl-global-mode))
+
 (provide 'conf/utilities)
