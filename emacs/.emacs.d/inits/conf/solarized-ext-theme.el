@@ -117,6 +117,22 @@
     ((,light-class (:background "#eecccc" :foreground "#aa2222"))
      (,dark-class (:background "#663333" :foreground "#eecccc"))))
 
+  ;; diredfl
+  `(diredfl-dir-heading ((,class (:foreground ,blue
+                                  :background unspecified))))
+  `(diredfl-dir-priv ((,class (:foreground ,blue))))
+  `(diredfl-read-priv ((,class (:foreground ,green))))
+  `(diredfl-write-priv ((,class (:foreground ,yellow))))
+  `(diredfl-exec-priv ((,class (:foreground ,red))))
+  `(diredfl-no-priv ((,class (:background unspecified))))
+  `(diredfl-number ((,class (:foreground ,violet))))
+  `(diredfl-date-time ((,class (:foreground unspecified))))
+  `(diredfl-dir-name ((,class (:foreground ,cyan))))
+  `(diredfl-file-name ((,class (:foreground ,green))))
+  `(diredfl-ignored-file-name ((,class (:foreground unspecified))))
+  `(diredfl-file-suffix ((,class (:weight bold))))
+  `(diredfl-executable-flag ((,class (:foreground ,red))))
+
   ;; rtags
   `(rtags-warnline ((,class (:underline "goldenrod4"))))
   `(rtags-errline ((,class (:underline "red"))))
