@@ -104,10 +104,10 @@ if command_exists yarn; then
   alias yt='yarn test'
   alias yup='yarn upgrade'
   alias yout='yarn outdated'
-  alias ya='yarn install'
-  alias yad='yarn --dev install'
+  alias ya='yarn add'
+  function yad { yarn add "$@" --dev; }
   alias yr='yarn remove'
-  alias yrd='yarn --dev remove'
+  function yrd { yarn remove "$@" --dev; }
   alias yex='PATH=$(yarn bin):$PATH'
 fi
 
