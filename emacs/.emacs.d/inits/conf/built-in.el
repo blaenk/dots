@@ -971,16 +971,13 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   (when (or (memq system-type '(gnu gnu/linux))
             (string= (file-name-nondirectory insert-directory-program) "gls"))
     (setq dired-listing-switches
-          (concat dired-listing-switches " --group-directories-first -v"))))
+          (concat dired-listing-switches " --group-directories-first -v")))
 
-(use-package dired-x
-  :ensure nil
-  :defer t
+  :config
+  (with-eval-after-load 'evil
+    (evil-set-initial-state #'dired-mode 'emacs)))
 
-  :init
-  (setq dired-omit-verbose nil)
-
-  (add-hook 'dired-mode-hook #'dired-omit-mode))
+(use-package dired-x :ensure nil)
 
 (use-package simple
   :ensure nil
