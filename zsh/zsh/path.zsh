@@ -3,9 +3,6 @@ typeset -U path
 # prepends
 path=(
     ~/.cargo/bin
-    ~/.multirust/toolchains/stable/cargo/bin
-    ~/.multirust/toolchains/beta/cargo/bin
-    ~/.multirust/toolchains/nightly/cargo/bin
     ~/.rbenv/bin
     ~/.cabal/bin
     "$path[@]")
