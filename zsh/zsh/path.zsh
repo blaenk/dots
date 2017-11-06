@@ -18,7 +18,7 @@ export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
 
 if command_exists rustc; then
   # rustup component add rust-src
-  export RUST_SRC_PATH=${HOME}/.multirust/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src
+  export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src
 
   # rust libraries
   export LD_LIBRARY_PATH=$(rustc --print sysroot)/lib:$LD_LIBRARY_PATH
