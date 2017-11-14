@@ -75,6 +75,8 @@
   (add-hook 'git-commit-setup-hook #'fci-mode)
 
   :config
+  (evil-set-initial-state #'git-commit-mode 'insert)
+
   (add-to-list 'git-commit-style-convention-checks 'overlong-summary-line))
 
 (use-package magit
