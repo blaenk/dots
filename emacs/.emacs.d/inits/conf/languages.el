@@ -51,8 +51,8 @@
     "m t m" 'markdown-toggle-markup-hiding
 
     "m i b" 'markdown-insert-bold
-    "m i c" 'my-markdown-insert-gfm-code-block-and-edit
-    "m i C" 'my-markdown-insert-gfm-code-block-and-insert
+    "m i c" 'my-markdown-insert-gfm-code-block-and-insert
+    "m i C" 'markdown-insert-code
     "m i f" 'my-markdown-insert-named-footnote
     "m i g" 'markdown-insert-image
     "m i h" 'markdown-insert-header-dwim
@@ -60,7 +60,7 @@
     "m i k" 'my-markdown-insert-kbd
     "m i l" 'markdown-insert-link
     "m i m" 'markdown-insert-list-item
-    "m i p" 'markdown-insert-code
+    "m i p" 'my-markdown-insert-path
     "m i q" 'markdown-insert-blockquote
     "m i s" 'markdown-insert-strikethrough
 
@@ -89,22 +89,17 @@
         markdown-reference-location 'immediately
         markdown-gfm-additional-languages '("cpp" "elisp" "postgresql"))
 
-  (define-advice markdown-code-block-lang
-      (:filter-return (lang) default-to-plain-text)
-    "Instead of returning `nil' when there is no lang, assume \"text\"."
-    (or lang "text"))
-
   (defun my-markdown-insert-kbd ()
     "Insert the kbd snippet."
     (interactive)
 
     (yas-expand-snippet (yas-lookup-snippet "kbd")))
 
-  (defun my-insert-last-lang-gfm-code-block ()
-    "Insert a GFM code block with the last-used language."
+  (defun my-markdown-insert-path ()
+    "Insert the path snippet."
     (interactive)
 
-    (markdown-insert-gfm-code-block (car markdown-gfm-language-history)))
+    (yas-expand-snippet (yas-lookup-snippet "path")))
 
   (defun my-markdown-insert-gfm-code-block-and-insert ()
     "Insert a GFM code block and enter Evil insert state."
@@ -112,25 +107,6 @@
 
     (call-interactively #'markdown-insert-gfm-code-block)
     (evil-insert-state))
-
-  (defun my-markdown-insert-gfm-code-block-and-edit ()
-    "Insert a GFM code block and edit it in an indirect buffer."
-    (interactive)
-
-    (call-interactively #'markdown-insert-gfm-code-block)
-    (kill-line)
-    (font-lock-ensure)
-
-    (add-hook 'edit-indirect-after-creation-hook
-              #'evil-insert-state
-              nil 'local)
-
-    (evil-normal-state)
-    (markdown-edit-code-block)
-
-    (remove-hook 'edit-indirect-after-creation-hook
-                 #'evil-insert-state
-                 'local))
 
   (defun my--markdown-mode-hook ()
     (setq-local word-wrap t)
