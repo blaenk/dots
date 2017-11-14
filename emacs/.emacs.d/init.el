@@ -363,15 +363,20 @@ text by that amount."
   "b s" 'save-buffer
   "b S" 'my-force-save
   "b t" 'my-touch-buffer
-
   "w" '(:ignore t :which-key "window")
-  "w o" 'my-switch-to-last-window
-  "w =" 'balance-windows
-  "w p" 'my-pop-to-frame
-  "w b" 'balance-windows
+  )
 
-  "w s" '(:ignore t :which-key "split")
-  "w s p" 'my-split-with-previous-buffer
+(my-map :infix "w"
+  :prefix-map 'my-window-prefix-map
+  :prefix-command 'my-window-prefix-command
+
+  "o" 'my-switch-to-last-window
+  "=" 'balance-windows
+  "p" 'my-pop-to-frame
+  "b" 'balance-windows
+
+  "s" '(:ignore t :which-key "split")
+  "s p" 'my-split-with-previous-buffer
   )
 
 (defvar-local my--display-column-number nil

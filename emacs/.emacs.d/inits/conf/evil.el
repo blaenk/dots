@@ -54,7 +54,7 @@
    "C-u" 'my-kill-line
    "C-l" 'end-of-line)
 
-  (my-map :infix "w"
+  (:keymaps 'my-window-prefix-map
     "c" 'evil-window-delete
 
     "_" 'evil-window-set-height
@@ -89,8 +89,8 @@
     "k w" 'evil-window-delete)
 
   ;; Short-circuit the window map: C-w → C-c w
-  (:keymaps '(motion emacs)
-    "C-w" (general-simulate-keys "C-c w"))
+  (:keymaps '(emacs motion)
+   "C-w" 'my-window-prefix-command)
 
   :init
   (setq evil-text-object-change-visual-type nil
