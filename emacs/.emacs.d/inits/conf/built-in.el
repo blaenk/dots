@@ -280,6 +280,10 @@ Also bind `q' to `quit-window'."
   :ensure nil
   :defer t
 
+  :hook
+  ((global-auto-revert-mode . my--enable-notify)
+   (find-file . my--disable-auto-revert-vc-when-remote))
+
   :init
   (setq-default auto-revert-check-vc-info t)
 
@@ -292,15 +296,11 @@ Also bind `q' to `quit-window'."
     (unless (eq system-type 'darwin)
       (setq-local auto-revert-use-notify t)))
 
-  (add-hook 'global-auto-revert-mode #'my--enable-notify)
-
   (defun my--disable-auto-revert-vc-when-remote ()
     "Disable auto-revert-mode for remote files."
 
     (when (and buffer-file-name (file-remote-p buffer-file-name))
       (setq-local auto-revert-check-vc-info nil)))
-
-  (add-hook 'find-file-hook #'my--disable-auto-revert-vc-when-remote)
 
   (global-auto-revert-mode 1))
 
@@ -446,12 +446,13 @@ Also bind `q' to `quit-window'."
     "l" 'smerge-keep-lower
     "e" 'smerge-ediff)
 
+  :hook
+  ;; attempt to start smerge, automatically disabling it if not relevant
+  (find-file . smerge-start-session)
+
   :init
   (with-eval-after-load 'evil
-    (add-hook 'smerge-mode-hook #'evil-normalize-keymaps))
-
-  ;; attempt to start smerge, automatically disabling it if not relevant
-  (add-hook 'find-file-hook #'smerge-start-session))
+    (add-hook 'smerge-mode-hook #'evil-normalize-keymaps)))
 
 (use-package bookmark
   :ensure nil
@@ -564,6 +565,9 @@ Also bind `q' to `quit-window'."
   :functions sh-set-shell
   :mode ("\\.zsh\\(rc\\)?\\'" . sh-mode)
 
+  :hook
+  (sh-mode . my--zsh-hook)
+
   :init
   (setq sh-learn-basic-offset t
         sh-basic-offset 2
@@ -571,19 +575,18 @@ Also bind `q' to `quit-window'."
 
   (defun my--zsh-hook ()
     (when (string-match "\\.zsh\\(rc\\)?\\'" buffer-file-name)
-      (sh-set-shell "zsh")))
-
-  (add-hook 'sh-mode-hook #'my--zsh-hook))
+      (sh-set-shell "zsh"))))
 
 (use-package python
   :ensure nil
   :defer t
 
+  :hook
+  (python-mode . my--python-hook)
+
   :init
   (defun my--python-hook ()
-    (setq fill-column 79))
-
-  (add-hook 'python-mode-hook #'my--python-hook))
+    (setq fill-column 79)))
 
 (use-package semantic
   :ensure nil
@@ -591,8 +594,8 @@ Also bind `q' to `quit-window'."
   :defines
   semanticdb-default-save-directory
 
-  :init
-  (add-hook 'c++-mode #'semantic-mode))
+  :hook
+  (c++-mode . semantic-mode))
 
 (use-package semantic/db-mode
   :ensure nil
@@ -675,6 +678,9 @@ Also bind `q' to `quit-window'."
   :defer t
   :functions my--lisp-indent-function
   :defines calculate-lisp-indent-last-sexp
+
+  :hook
+  (emacs-lisp-mode . my--use-my-lisp-indent-function)
 
   :init
   ;; Fixes list indentation.
@@ -765,9 +771,7 @@ Lisp function does not specify a special indentation."
                  (funcall method indent-point state))))))))
 
   (defun my--use-my-lisp-indent-function ()
-    (setq-local lisp-indent-function #'my--lisp-indent-function))
-
-  (add-hook 'emacs-lisp-mode-hook #'my--use-my-lisp-indent-function))
+    (setq-local lisp-indent-function #'my--lisp-indent-function)))
 
 (use-package diff
   :ensure nil
@@ -787,6 +791,13 @@ Lisp function does not specify a special indentation."
 
   :general
   (my-map "b d" 'ediff-current-file)
+
+  :hook
+  ((ediff-before-setup . my--ediff-save-window-and-frame-configuration)
+   (ediff-prepare-buffer . my--ediff-disable-problem-modes)
+   (ediff-startup . my-turn-on-fullscreen)
+
+   (ediff-cleanup . my--ediff-janitor))
 
   :init
   (setq ediff-custom-diff-options "-u"
@@ -848,13 +859,8 @@ they'll be disabled and then re-enabled on exit.")
   (defun my--ediff-janitor ()
     (ediff-janitor nil nil))
 
-  (add-hook 'ediff-before-setup-hook #'my--ediff-save-window-and-frame-configuration)
-  (add-hook 'ediff-prepare-buffer-hook #'my--ediff-disable-problem-modes)
-  (add-hook 'ediff-startup-hook #'my-turn-on-fullscreen)
-
-  (add-hook 'ediff-suspend-hook #'my--ediff-quit 'append)
-  (add-hook 'ediff-quit-hook #'my--ediff-quit 'append)
-  (add-hook 'ediff-cleanup-hook #'my--ediff-janitor))
+   (add-hook 'ediff-suspend-hook #'my--ediff-quit 'append)
+   (add-hook 'ediff-quit-hook #'my--ediff-quit 'append))
 
 (use-package minibuffer
   :ensure nil
@@ -868,6 +874,9 @@ they'll be disabled and then re-enabled on exit.")
   :ensure nil
   :defer t
 
+  :hook
+  (minibuffer-setup . my--minibuffer-setup-hook)
+
   :init
   ;; Disable electric-pair-mode in the minibuffer unless we're in
   ;; eval-expression.
@@ -878,8 +887,6 @@ they'll be disabled and then re-enabled on exit.")
     (when (not (eq this-command 'pp-eval-expression))
       (setq-local electric-pair-inhibit-predicate
                   #'my--electric-pair-inhibit-in-minibuffer)))
-
-  (add-hook 'minibuffer-setup-hook #'my--minibuffer-setup-hook)
 
   (electric-pair-mode 1))
 
@@ -901,6 +908,10 @@ they'll be disabled and then re-enabled on exit.")
   :ensure nil
   :defer t
 
+  :hook
+  ((prog-mode . bug-reference-prog-mode)
+   (text-mode . bug-reference-mode))
+
   :init
   (setq bug-reference-bug-regexp "\\(\
 [Ii]ssue ?#\\|\
@@ -909,18 +920,15 @@ they'll be disabled and then re-enabled on exit.")
 RFE ?#\\|\
 GH-\\|\
 PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
-\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)")
-
-  (add-hook 'prog-mode-hook #'bug-reference-prog-mode)
-  (add-hook 'text-mode-hook #'bug-reference-mode))
+\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)"))
 
 (use-package goto-addr
   :ensure nil
   :defer t
 
-  :init
-  (add-hook 'prog-mode-hook #'goto-address-prog-mode)
-  (add-hook 'text-mode-hook #'goto-address-mode))
+  :hook
+  ((prog-mode . goto-address-prog-mode)
+   (text-mode . goto-address-mode)))
 
 (use-package org-table
   :ensure nil
@@ -985,13 +993,15 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 
     "t a" 'auto-fill-mode)
 
+  :hook
+  ((prog-mode . visual-line-mode)
+   (prog-mode . auto-fill-mode))
+
   :init
   (customize-set-variable 'visual-line-fringe-indicators '(left-curly-arrow nil))
   (setq next-error-recenter '(4))
 
   (setq-default comment-auto-fill-only-comments t)
-
-  (add-hook 'prog-mode-hook #'visual-line-mode)
 
   (defun my-next-error (&optional n reset)
     "Dispatch to flycheck or standard emacs error."
@@ -1011,8 +1021,6 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
         (call-interactively #'flycheck-previous-error)
       (call-interactively #'previous-error)))
 
-  (add-hook 'prog-mode-hook #'auto-fill-mode)
-
   (column-number-mode 1))
 
 (use-package ansi-color
@@ -1021,16 +1029,20 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   :functions
   ansi-color-apply-on-region
 
+  :hook
+  (compilation-filter . my--colorize-compilation-buffer)
+
   :init
   (defun my--colorize-compilation-buffer ()
     (when (eq major-mode 'compilation-mode)
-      (ansi-color-apply-on-region compilation-filter-start (point-max))))
-
-  (add-hook 'compilation-filter-hook #'my--colorize-compilation-buffer))
+      (ansi-color-apply-on-region compilation-filter-start (point-max)))))
 
 (use-package compile
   :ensure nil
   :defer t
+
+  :hook
+  (compilation-mode . my--compilation-mode-hook)
 
   :init
   (setq compilation-scroll-output 'first-error
@@ -1040,18 +1052,17 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 
   (defun my--compilation-mode-hook ()
     (setq-local truncate-lines nil)
-    (setq-local truncate-partial-width-windows nil))
-
-  (add-hook 'compilation-mode-hook #'my--compilation-mode-hook))
+    (setq-local truncate-partial-width-windows nil)))
 
 (use-package hl-line
   :ensure nil
   :defer t
 
-  :init
-  (setq hl-line-sticky-flag t)
+  :hook
+  (prog-mode . hl-line-mode)
 
-  (add-hook 'prog-mode-hook #'hl-line-mode))
+  :init
+  (setq hl-line-sticky-flag t))
 
 (use-package help-mode
   :ensure nil
@@ -1077,8 +1088,8 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   :ensure nil
   :defer t
 
-  :init
-  (add-hook 'prog-mode-hook #'hs-minor-mode))
+  :hook
+  (prog-mode . hs-minor-mode))
 
 (use-package ispell
   :ensure nil
@@ -1106,11 +1117,12 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   (:keymaps 'flyspell-mode-map
    "C-c $" nil)
 
+  :hook
+  ((text-mode . flyspell-mode)
+   (prog-mode . flyspell-prog-mode))
+
   :init
   (setq flyspell-issue-message-flag nil)
-
-  (add-hook 'text-mode-hook #'flyspell-mode)
-  (add-hook 'prog-mode-hook #'flyspell-prog-mode)
 
   :config
   (defun my-flyspell-goto-previous-error (arg)
