@@ -422,8 +422,8 @@ can be overridden with the prefix ARG."
     "o ." 'my-dots-file
     ". f" 'my-dots-file)
 
-  :init
-  (add-hook 'after-init-hook #'helm-projectile-on)
+  :hook
+  (after-init . helm-projectile-on)
 
   :config
   (defun my-dots-file ()
@@ -656,6 +656,9 @@ within other words, but this means that non-word keywords such as
    "C-S-h" 'helm-gtags-previous-history
    "C-S-l" 'helm-gtags-next-history)
 
+  :hook
+  ((c-mode c++-mode) . helm-gtags-mode)
+
   :init
   (setq helm-gtags-ignore-case t
         helm-gtags-auto-update t
@@ -663,9 +666,6 @@ within other words, but this means that non-word keywords such as
         helm-gtags-direct-helm-completing t
         helm-gtags-prefix-key "\C-t"
         helm-gtags-suggested-key-mapping t)
-
-  (add-hook 'c-mode-hook #'helm-gtags-mode)
-  (add-hook 'c++-mode-hook #'helm-gtags-mode)
 
   :config
   (with-eval-after-load 'evil
