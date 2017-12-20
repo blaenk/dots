@@ -52,6 +52,7 @@
   (:keymaps 'insert
    "C-y" 'my-evil-insert-mode-paste
    "C-u" 'my-kill-line
+   "M-u" 'universal-argument
    "C-l" 'end-of-line)
 
   (:keymaps 'my-window-prefix-map
