@@ -51,8 +51,8 @@
     "m t m" 'markdown-toggle-markup-hiding
 
     "m i b" 'markdown-insert-bold
-    "m i c" 'my-markdown-insert-gfm-code-block-and-insert
-    "m i C" 'markdown-insert-code
+    "m i c" 'markdown-insert-gfm-code-block
+    "m i C" 'my-markdown-insert-gfm-code-block-and-edit
     "m i f" 'my-markdown-insert-named-footnote
     "m i g" 'markdown-insert-image
     "m i h" 'markdown-insert-header-dwim
@@ -101,12 +101,21 @@
 
     (yas-expand-snippet (yas-lookup-snippet "path")))
 
-  (defun my-markdown-insert-gfm-code-block-and-insert ()
-    "Insert a GFM code block and enter Evil insert state."
+  (defun my-markdown-insert-gfm-code-block-and-edit ()
     (interactive)
 
-    (call-interactively #'markdown-insert-gfm-code-block)
-    (evil-insert-state))
+    (add-hook 'edit-indirect-after-creation-hook
+              #'evil-insert-state
+              nil 'local)
+
+    (let ((current-prefix-arg '(4)))
+      (call-interactively 'markdown-insert-gfm-code-block))
+
+    (remove-hook 'edit-indirect-after-creation-hook
+                 #'evil-insert-state
+                 'local)
+
+    (evil-normal-state))
 
   (defun my--markdown-mode-hook ()
     (setq-local word-wrap t)
@@ -130,6 +139,7 @@
 
   :config
   (defconst markdown-inline-footnote-properties nil)
+  (my-advise-to-insert-after markdown-insert-gfm-code-block)
 
   (setq markdown-code-lang-modes
         (-concat '(("postgresql" . sql-mode)
