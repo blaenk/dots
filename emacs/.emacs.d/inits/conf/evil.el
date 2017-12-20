@@ -92,6 +92,9 @@
   (:keymaps '(emacs motion)
    "C-w" 'my-window-prefix-command)
 
+  :hook
+  (after-init . evil-mode)
+
   :init
   (setq evil-text-object-change-visual-type nil
         evil-split-window-below t
@@ -110,8 +113,6 @@
 
     (setq evil-complete-next-func #'my--evil-company
           evil-complete-previous-func #'my--evil-company))
-
-  (add-hook 'after-init-hook #'evil-mode)
 
   :config
   ;; don't auto-copy visual selections
