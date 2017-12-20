@@ -280,28 +280,30 @@
   :defer t
   :defines hl-todo-keyword-faces
 
+  :hook
+  (prog-mode . hl-todo-mode)
+
   :init
   (my-with-solarized-colors
    (setq hl-todo-keyword-faces
          `(("TODO"  . ,blue-lc)
            ("NOTE"  . ,yellow-lc)
-           ("FIXME" . ,red-lc))))
-
-  (add-hook 'prog-mode-hook #'hl-todo-mode))
+           ("FIXME" . ,red-lc)))))
 
 (use-package highlight-escape-sequences
   :defer t
 
-  :init
-  (add-hook 'prog-mode-hook #'hes-mode))
+  :hook
+  (prog-mode . hes-mode))
 
 (use-package highlight-quoted
   :defer t
 
-  :init
-  (setq highlight-quoted-highlight-symbols nil)
+  :hook
+  (emacs-lisp-mode . highlight-quoted-mode)
 
-  (add-hook 'emacs-lisp-mode-hook #'highlight-quoted-mode))
+  :init
+  (setq highlight-quoted-highlight-symbols nil))
 
 (use-package undo-tree
   :diminish undo-tree-mode
@@ -349,8 +351,8 @@
 (use-package stripe-buffer
   :defer t
 
-  :init
-  (add-hook #'profiler-report-mode #'turn-on-stripe-buffer-mode))
+  :hook
+  (profiler-report-mode . turn-on-stripe-buffer-mode))
 
 (use-package rainbow-mode
   :diminish rainbow-mode
@@ -366,18 +368,18 @@
 (use-package rainbow-delimiters
   :defer t
 
-  :init
-  (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
+  :hook
+  ((lisp-mode emacs-lisp-mode) . rainbow-delimiters-mode))
 
 (use-package linum-relative
   :if (< emacs-major-version 26)
 
+  :hook
+  (prog-mode . linum-relative-mode)
+
   :init
   (setq linum-relative-current-symbol ""
-        linum-relative-format "%4s ")
-
-  (add-hook 'prog-mode-hook #'linum-relative-mode))
+        linum-relative-format "%4s "))
 
 (use-package wgrep :defer t)
 
@@ -439,8 +441,8 @@
 (use-package highlight-numbers
   :defer t
 
-  :init
-  (add-hook 'prog-mode-hook #'highlight-numbers-mode))
+  :hook
+  (prog-mode . highlight-numbers-mode))
 
 (use-package restclient
   :mode ("\\.rest\\'" . restclient-mode))
@@ -476,6 +478,10 @@
   (my-map
     "i s" 'my-yasnippet)
 
+  :hook
+  ((yas-before-expand-snippet . evil-insert-state)
+   (after-init . yas-global-mode))
+
   :init
   (setq yas-indent-line 'auto
         yas-wrap-around-region t
@@ -492,11 +498,7 @@ If a region is active, it'll be used to \"wrap\" the selection."
     (if (or (region-active-p)
             (not (yas--maybe-expand-key-filter 'yas-expand)))
         (yas-insert-snippet)
-      (yas-expand)))
-
-  (add-hook 'yas-before-expand-snippet-hook #'evil-insert-state)
-
-  (add-hook 'after-init-hook #'yas-global-mode))
+      (yas-expand))))
 
 (use-package mocha-snippets :defer t)
 
