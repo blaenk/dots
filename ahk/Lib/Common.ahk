@@ -19,8 +19,7 @@ ShouldOverridePTT()
   Process, Exist, GameOverlayUI.exe
   SteamOverlayPresent := ErrorLevel
 
-  return WinExist("ahk_exe Discord(PTB)?.exe")
-    and (SteamOverlayPresent or WinExist(GamesPattern))
+  return SteamOverlayPresent or WinExist(GamesPattern)
 }
 
 ; Enumerate audio sessions and call `Handler` function for each.
