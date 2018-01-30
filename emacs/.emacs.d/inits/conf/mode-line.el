@@ -106,15 +106,9 @@
 (defun my--is-selected-window-p ()
   (eq my--selected-window (selected-window)))
 
-(defconst my--lock-icon
-  (if (not (eq system-type 'windows-nt))
-    (fontawesome "lock")
-    "🔒"))
+(defconst my--lock-icon "RO")
 
-(defconst my--cloud-icon
-  (if (not (eq system-type 'windows-nt))
-    (fontawesome "cloud")
-    "☁"))
+(defconst my--cloud-icon "R")
 
 (defun my--is-vim-state-enabled-p ()
   (and (or (bound-and-true-p evil-mode)
