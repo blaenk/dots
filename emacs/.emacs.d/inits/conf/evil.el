@@ -490,4 +490,7 @@ The return value is the yanked text."
   :config
   (evil-goggles-mode))
 
+(use-package evil-string-inflection
+  :after evil)
+
 (provide 'conf/evil)
