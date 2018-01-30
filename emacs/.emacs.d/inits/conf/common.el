@@ -37,7 +37,7 @@ that we are withing a virtual machine.")
 ;; On gnome, have to unbind M-SPC, known as Alt+Space in
 ;; settings → windows → activate the window menu.
 (general-create-definer my-map
-  :states '(emacs normal visual motion insert)
+  :states '(emacs normal visual insert)
   :global-prefix "C-c"
   :non-normal-prefix "M-SPC"
   :prefix "SPC")
