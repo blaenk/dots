@@ -27,6 +27,20 @@ SetTitleMatchMode RegEx
 ; Reset conditional directive
 #If
 
+; Toggle that swaps the default recording device to Setero Mix and back.
+^!XButton2::
+  Toggle := !Toggle
+  If Toggle {
+    VA_SetDefaultEndpoint("Stereo Mix", 0)
+    VA_SetDefaultEndpoint("Stereo Mix", 1)
+    VA_SetDefaultEndpoint("Stereo Mix", 2)
+  } Else {
+    VA_SetDefaultEndpoint("Microphone", 0)
+    VA_SetDefaultEndpoint("Microphone", 1)
+    VA_SetDefaultEndpoint("Microphone", 2)
+  }
+  Return
+
 ; Maximize all per-application volume levels.
 #Volume_Up::
   EnumerateAudioSessions(Func("MaximizeAudio"))
