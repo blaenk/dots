@@ -40,13 +40,3 @@ SetTitleMatchMode RegEx
 !Volume_Mute::Media_Play_Pause
 !Volume_Down::Media_Prev
 !Volume_Up::Media_Next
-
-; Rewire Everything's Ctrl+Shift+Alt+Space to Win+Space
-#Space::
-  SendInput ^+!{Space}
-  Return
-
-; Rewire Wox' Ctrl+Shift+Alt+/ to Win+/
-#/::
-  SendInput ^+!{/}
-  Return
