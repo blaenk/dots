@@ -1,4 +1,6 @@
 (require 'use-package)
+(require 'general)
+(require 'conf/common)
 (require 'dash)
 (require 'f)
 (require 's)
