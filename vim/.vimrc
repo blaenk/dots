@@ -783,7 +783,7 @@ inoremap jj <ESC>
 " Editing: {{{2
 nnoremap ZS :w<CR>
 
-command! CloneBuffer new | put =getbufline('#',1,'$') | 1d_
+command! CloneBuffer new | 0put =getbufline('#',1,'$')
 
 " 'force' write
 cmap w!! %!sudo tee > /dev/null %
