@@ -452,8 +452,62 @@ If a region is active, it'll be used to \"wrap\" the selection."
 (use-package react-snippets :defer t)
 
 (use-package hydra
+  :general
+  (my-map
+    "f r" 'my-frame-resizer/body)
+
   :init
-  (setq hydra-lv nil))
+  (setq hydra-lv nil)
+
+  ;; Taken from the emacswiki frame-cmds package
+  (defun my-enlarge-frame (&optional increment frame) ; Suggested binding: `C-M-down'.
+    "Increase the height of FRAME (default: selected-frame) by INCREMENT.
+INCREMENT is in lines (characters).
+Interactively, it is given by the prefix argument."
+    (interactive "p")
+    (set-frame-height frame (+ (frame-height frame) increment)))
+
+  (defun my-enlarge-frame-horizontally (&optional increment frame) ; Suggested binding: `C-M-right'.
+    "Increase the width of FRAME (default: selected-frame) by INCREMENT.
+INCREMENT is in columns (characters).
+Interactively, it is given by the prefix argument."
+    (interactive "p")
+    (set-frame-width frame (+ (frame-width frame) increment)))
+
+  (defun my-shrink-frame (&optional increment frame) ; Suggested binding: `C-M-up'.
+    "Decrease the height of FRAME (default: selected-frame) by INCREMENT.
+INCREMENT is in lines (characters).
+Interactively, it is given by the prefix argument."
+    (interactive "p")
+    (set-frame-height frame (- (frame-height frame) increment)))
+
+  (defun my-shrink-frame-horizontally (&optional increment frame) ; Suggested binding: `C-M-left'.
+    "Decrease the width of FRAME (default: selected-frame) by INCREMENT.
+INCREMENT is in columns (characters).
+Interactively, it is given by the prefix argument."
+    (interactive "p")
+    (set-frame-width frame (- (frame-width frame) increment)))
+
+  (defun my--hydra-cycle-verbosity (hydra)
+    (hydra-set-property hydra :verbosity
+                        (if (= (hydra-get-property hydra :verbosity) 0) 1 0)))
+
+  (with-eval-after-load 'hydra
+    (defhydra my-frame-resizer ()
+      "Resize frame."
+
+      ("j" my-enlarge-frame "🡇")
+      ("k" my-shrink-frame "🡅")
+      ("h" my-shrink-frame-horizontally "🡄")
+      ("l" my-enlarge-frame-horizontally "🡆")
+
+      ("f" toggle-frame-fullscreen)
+
+      ("q" nil "quit")
+      ("," nil "quit")
+      ("?" (my--hydra-cycle-verbosity 'my-frame-resizer) "± verbosity"))
+
+    (hydra-set-property 'my-frame-resizer :verbosity 0)))
 
 (use-package mwim :defer t)
 
