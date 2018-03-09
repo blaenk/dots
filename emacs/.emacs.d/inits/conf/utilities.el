@@ -96,24 +96,6 @@
   :config
   (which-key-mode))
 
-(use-package help-mode+)
-
-(use-package help-fns+
-  :general
-  (:keymaps 'help-map
-   "o" 'describe-option
-   "M-k" 'describe-keymap))
-
-(use-package bookmark+-lit
-  :ensure bookmark+
-
-  :init
-  (setq bmkp-auto-light-when-jump 'all-in-buffer
-        bmkp-auto-light-when-set 'all-in-buffer
-        bmkp-light-right-fringe-bitmap 'left-triangle))
-
-(use-package bookmark+)
-
 (use-package fontawesome
   :if (not (eq system-type 'windows-nt))
   :defer t
@@ -236,33 +218,6 @@
     "j" 'buf-move-down
     "h" 'buf-move-left
     "l" 'buf-move-right))
-
-(use-package frame-cmds
-  :general
-  (my-map
-    "f r" 'my-frame-resizer/body)
-
-  :init
-  (defun my--hydra-cycle-verbosity (hydra)
-    (hydra-set-property hydra :verbosity
-                        (if (= (hydra-get-property hydra :verbosity) 0) 1 0)))
-
-  (with-eval-after-load 'hydra
-    (defhydra my-frame-resizer ()
-      "Resize frame."
-
-      ("j" enlarge-frame "🡇")
-      ("k" shrink-frame "🡅")
-      ("h" shrink-frame-horizontally "🡄")
-      ("l" enlarge-frame-horizontally "🡆")
-
-      ("f" toggle-frame-fullscreen)
-
-      ("q" nil "quit")
-      ("," nil "quit")
-      ("?" (my--hydra-cycle-verbosity 'my-frame-resizer) "± verbosity"))
-
-    (hydra-set-property 'my-frame-resizer :verbosity 0)))
 
 (use-package olivetti :defer t)
 
@@ -459,8 +414,6 @@
                 '(flycheck-error-list-mode
                   magit-status-mode
                   magit-revision-mode))))
-
-(use-package narrow-indirect :defer t)
 
 (use-package yasnippet
   :general
