@@ -1094,11 +1094,10 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   :ensure nil
 
   :init
-  (if (executable-find "hunspell")
-      (setq ispell-program-name "hunspell"
-            ispell-dictionary "en_US"
-            ispell-really-hunspell t)
-    (warn "Don't forget to install hunspell!"))
+  (when (executable-find "hunspell")
+    (setq ispell-program-name "hunspell"
+          ispell-dictionary "en_US"
+          ispell-really-hunspell t))
 
   :config
   (ispell-set-spellchecker-params))
