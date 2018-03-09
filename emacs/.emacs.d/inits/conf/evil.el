@@ -394,7 +394,6 @@ The return value is the yanked text."
   :after evil)
 
 (use-package evil-commentary
-  :diminish evil-commentary-mode
   :after evil
 
   :config

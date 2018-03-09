@@ -531,7 +531,6 @@ Also bind `q' to `quit-window'."
 
 (use-package whitespace
   :ensure nil
-  :diminish whitespace-mode
   :defer t
 
   :init

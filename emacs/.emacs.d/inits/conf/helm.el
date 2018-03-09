@@ -403,8 +403,6 @@ can be overridden with the prefix ARG."
    "C-c C-v" 'helm-ext-ff-buffer-execute-vertical-split))
 
 (use-package helm-projectile
-  :diminish projectile-mode
-
   :general
   ("C-<" 'my-open-buffer
    "C->" 'my-open-file
@@ -643,8 +641,6 @@ within other words, but this means that non-word keywords such as
       balance)))
 
 (use-package helm-gtags
-  :diminish helm-gtags-mode
-
   :general
   (:keymaps 'helm-gtags-mode-map
    "M-." 'helm-gtags-dwim

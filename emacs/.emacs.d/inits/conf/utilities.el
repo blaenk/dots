@@ -79,8 +79,6 @@
     (evil-set-initial-state #'imenu-list-major-mode 'emacs)))
 
 (use-package which-key
-  :diminish which-key-mode
-
   :init
   (setq which-key-idle-delay 0.3
         which-key-idle-secondary-delay 0.3
@@ -306,8 +304,6 @@
   (setq highlight-quoted-highlight-symbols nil))
 
 (use-package undo-tree
-  :diminish undo-tree-mode
-
   :init
   ;; undo-tree breaks sometimes. Some people think the persistent history
   ;; feature may be to blame.
@@ -355,8 +351,6 @@
   (profiler-report-mode . turn-on-stripe-buffer-mode))
 
 (use-package rainbow-mode
-  :diminish rainbow-mode
-
   :general
   (my-map
     "t r" 'rainbow-mode)

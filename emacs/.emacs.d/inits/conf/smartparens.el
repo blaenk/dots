@@ -3,8 +3,6 @@
 (require 'dash)
 
 (use-package smartparens
-  :diminish smartparens-mode
-
   :general
   (:keymaps '(emacs-lisp-mode-map web-mode-map lisp-interaction-mode-map)
    :states 'normal

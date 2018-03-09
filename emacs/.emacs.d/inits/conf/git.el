@@ -81,10 +81,6 @@
   (add-to-list 'git-commit-style-convention-checks 'overlong-summary-line))
 
 (use-package magit
-  :diminish
-  (magit-wip-after-save-local-mode
-   magit-wip-before-change-mode)
-
   :general
   (:keymaps 'magit-status-mode-map
    "jl" 'avy-goto-line)

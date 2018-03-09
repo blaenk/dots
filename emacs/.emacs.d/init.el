@@ -48,9 +48,6 @@
 (eval-when-compile
   (require 'use-package))
 
-(require 'diminish)
-(require 'bind-key)
-
 (use-package benchmark-init
   :defer t
 
