@@ -1,6 +1,9 @@
 # determine path to dots dir
 export DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
 
+# TODO
+# Warn when expected programs/packages aren't available.
+
 # When setting up for Emacs Tramp, set the prompt to something simple that it
 # can detect and disable superfluous features in order to optimize for speed.
 if [[ "$TERM" == "dumb" ]]; then

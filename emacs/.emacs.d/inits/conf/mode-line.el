@@ -228,6 +228,8 @@
   (let* ((path (if (file-remote-p buffer-file-name)
                    (tramp-file-name-localname (tramp-dissect-file-name buffer-file-name))
                  path))
+         ;; FIXME
+         ;; This calls f-short on tramp
          (dirname (file-name-as-directory (f-short (or (file-name-directory path) "./"))))
          (filename (f-filename path))
          (propertized-filename
