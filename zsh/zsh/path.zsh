@@ -8,7 +8,7 @@ path=(
     "$path[@]")
 
 # appends
-path+=(/usr/local/texlive/2016/bin/x86_64-linux)
+path+=(/usr/local/texlive/2018/bin/x86_64-linux)
 
 export GOPATH=${HOME}/code/go
 
