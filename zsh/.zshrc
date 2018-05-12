@@ -120,6 +120,7 @@ sources=(
   'fzf'
   'highlight'
   'enhancd'
+  'kubernetes'
 )
 
 for src in $sources; do
