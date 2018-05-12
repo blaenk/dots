@@ -128,6 +128,23 @@ if command_exists systemctl; then
   alias jcu='journalctl --user-unit'
 fi
 
+if command_exists docker; then
+  alias d='docker'
+fi
+
+if command_exists kubectl; then
+  alias k='kubectl'
+  alias kc='kubectl'
+fi
+
+if command_exists minikube; then
+  alias mk='minikube'
+fi
+
+if command_exists helm; then
+  alias h='helm'
+fi
+
 if command_exists pacman; then
   alias p='pacman'
 
