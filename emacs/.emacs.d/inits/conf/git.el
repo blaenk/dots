@@ -124,7 +124,7 @@
              (magit-get-current-branch))))
 
   (with-eval-after-load 'magit-ediff
-    (add-hook 'magit-ediff-quit-hook #'my-ediff-quit))
+    (add-hook 'magit-ediff-quit-hook #'my--ediff-quit))
 
   (unless (eq system-type 'windows-nt)
     (magit-wip-after-save-mode)
