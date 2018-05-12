@@ -26,8 +26,8 @@ alias which='type -a'
 alias rm='rm -I'
 
 if command_exists git; then
-  alias git='noglob git'
   alias g='git'
+  alias git='noglob git'
 fi
 
 if command_exists tlmgr; then
@@ -52,8 +52,8 @@ if command_exists emacs; then
 fi
 
 if command_exists tmux; then
-  alias tmux='tmux -2 -u'
   alias t='tmux'
+  alias tmux='tmux -2 -u'
   alias tn='tmux new -s'
   alias ta='tmux a -t'
   alias taro='tmux a -rt'
@@ -104,11 +104,12 @@ if command_exists yarn; then
   alias yt='yarn test'
   alias yup='yarn upgrade'
   alias yout='yarn outdated'
+  alias yex='yarn exec --'
+
   alias ya='yarn add'
-  function yad { yarn add "$@" --dev; }
   alias yr='yarn remove'
+  function yad { yarn add "$@" --dev; }
   function yrd { yarn remove "$@" --dev; }
-  alias yex='PATH=$(yarn bin):$PATH'
 fi
 
 if command_exists gist; then
@@ -123,7 +124,9 @@ if command_exists systemctl; then
   alias scu='systemctl --user'
   alias scus='systemctl --user status'
   alias scur='systemctl --user restart'
+fi
 
+if command_exists journalctl; then
   alias jc='journalctl'
   alias jcu='journalctl --user-unit'
 fi
