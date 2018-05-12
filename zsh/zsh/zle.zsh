@@ -70,6 +70,9 @@ bindkey '\eOH' vi-beginning-of-line
 bindkey '\e[4~' vi-end-of-line
 bindkey '\eOF' vi-end-of-line
 
+bindkey '^[[3~' delete-char
+bindkey '^[3;5~' delete-char
+
 bindkey ' ' magic-space
 bindkey -M vicmd "gg" beginning-of-history
 bindkey -M vicmd "G" end-of-history
