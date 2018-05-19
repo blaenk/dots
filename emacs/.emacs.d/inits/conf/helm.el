@@ -35,7 +35,7 @@
    "f" 'my-helm-faces-at-point)
 
   (my-map
-    "h" '(:command helm-command-prefix :which-key "helm")
+    "h" '(:keymap helm-command-map :which-key "helm")
 
     "s i" 'helm-semantic-or-imenu
     "s I" 'helm-imenu-in-all-buffers
