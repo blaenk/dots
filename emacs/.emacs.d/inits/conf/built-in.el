@@ -1090,6 +1090,14 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   :hook
   (prog-mode . hs-minor-mode))
 
+(use-package man
+  :ensure nil
+  :defer t
+
+  :config
+  (with-eval-after-load 'evil
+    (evil-set-initial-state #'Man-mode 'normal)))
+
 (use-package ispell
   :ensure nil
 
