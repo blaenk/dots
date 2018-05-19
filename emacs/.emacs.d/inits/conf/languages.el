@@ -348,10 +348,11 @@
 
   :config
   (with-eval-after-load 'evil
-    (eval-when-compile
-      (require 'evil))
-
-    (evil-make-overriding-map rjsx-mode-map 'insert)))
+    (when evil-want-C-d-scroll
+      (evil-define-key 'insert rjsx-mode-map
+        (kbd "C-d") 'rjsx-delete-creates-full-tag)
+      (evil-define-key 'normal rjsx-mode-map
+        (kbd "C-d") 'evil-scroll-down))))
 
 (use-package typescript-mode
   :defer t
