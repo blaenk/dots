@@ -330,7 +330,12 @@
   (setq linum-relative-current-symbol ""
         linum-relative-format "%4s "))
 
-(use-package wgrep :defer t)
+(use-package wgrep
+  :defer t
+
+  :config
+  (evil-define-key nil wgrep-mode-map
+    [remap evil-write] #'wgrep-finish-edit))
 
 (use-package wgrep-ag :defer t)
 
