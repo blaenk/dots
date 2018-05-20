@@ -135,6 +135,13 @@ if command_exists docker; then
   alias d='docker'
 fi
 
+if command_exists docker-compose; then
+  # NOTE
+  # dc is 'an arbitrary precision calculator' from package 'bc'
+  # I'm overriding it because I don't care about it.
+  alias dc='docker-compose'
+fi
+
 if command_exists kubectl; then
   alias k='kubectl'
   alias kc='kubectl'
