@@ -355,7 +355,8 @@
         (kbd "C-d") 'evil-scroll-down))))
 
 (use-package typescript-mode
-  :defer t
+  :mode "\\.tsx\\'"
+
 
   :init
   (setq typescript-indent-level 2))
@@ -373,15 +374,6 @@
     (tide-hl-identifier-mode +1))
 
   (add-hook #'typescript-mode-hook #'my-setup-tide)
-
-  (with-eval-after-load 'web-mode
-    (defun my-setup-tsx ()
-      (when (string-equal "tsx" (file-name-extension buffer-file-name))
-        (setup-tide-mode)))
-
-    (add-hook #'web-mode-hook #'my-setup-tsx)
-
-    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode)))
 
   (with-eval-after-load 'flycheck
     (flycheck-add-mode #'typescript-tslint #'web-mode)))
