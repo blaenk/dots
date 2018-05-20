@@ -44,10 +44,11 @@
    "gr" 'my-evil-visual-replace
    "gR" 'my-evil-replace
 
-   "gX" 'my-cancel-exchange-or-visual-replace
-
    "[y" 'my-evil-yank-without-indentation
    "]y" 'my-evil-yank-for-markdown)
+
+  (:keymaps 'override :states '(normal visual)
+   "gX" 'my-cancel-exchange-or-visual-replace)
 
   (:keymaps 'insert
    "C-y" 'my-evil-insert-mode-paste
@@ -402,9 +403,8 @@ The return value is the yanked text."
 (use-package evil-exchange
   :after evil
 
-  :general
-  (:keymaps '(normal visual)
-   "gx" 'evil-exchange))
+  :config
+  (evil-exchange-install))
 
 (use-package evil-numbers
   :general
