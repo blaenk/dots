@@ -588,4 +588,6 @@
 
 (use-package sqlup-mode :defer t)
 
+(use-package graphql-mode :defer t)
+
 (provide 'conf/languages)
