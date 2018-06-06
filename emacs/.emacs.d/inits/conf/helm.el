@@ -305,7 +305,8 @@ It can clash with the colors being shown."
   :defer t
 
   :init
-  (setq helm-imenu-execute-action-at-once-if-one nil))
+  (setq helm-imenu-execute-action-at-once-if-one nil
+        helm-imenu-extra-modes '(markdown-mode)))
 
 (use-package helm-bookmark
   :ensure nil
