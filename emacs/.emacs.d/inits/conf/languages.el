@@ -359,7 +359,9 @@
 
 
   :init
-  (setq typescript-indent-level 2))
+  (setq typescript-indent-level 2)
+
+  (add-hook 'typescript-mode-hook #'subword-mode))
 
 (use-package tide
   :defer t
