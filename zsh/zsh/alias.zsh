@@ -58,6 +58,7 @@ if command_exists tmux; then
   alias ta='tmux a -t'
   alias taro='tmux a -rt'
   alias ":qa"='[[ -n $TMUX ]] && tmux confirm-before kill-session'
+  alias ":wqa"='[[ -n $TMUX ]] && [[ -f ~/.tmux/plugins/tmux-resurrect/scripts/save.sh ]] && tmux run-shell ~/.tmux/plugins/tmux-resurrect/scripts/save.sh && :qa'
 fi
 
 if command_exists rake; then
