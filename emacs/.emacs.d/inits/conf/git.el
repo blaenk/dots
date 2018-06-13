@@ -63,6 +63,9 @@
   (defun my--git-commit-setup-hook ()
     (setq-local fill-column 72)
 
+    (with-eval-after-load 'yasnippet
+      (yas-activate-extra-mode 'git-commit-mode))
+
     ;; This enables us to use company completion inside of the git-commit message
     ;; buffer to complete things from the accompanying diff buffer. This is very
     ;; useful when talking about affected functions, variables, etc.

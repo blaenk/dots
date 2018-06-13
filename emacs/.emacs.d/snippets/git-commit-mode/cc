@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: cc
+# key: cc
+# --
+${1:topic$(yas-auto-next (yas-choose-value '("build" "chore" "ci" "docs" "feat" "fix" "perf" "refactor" "revert" "style" "test")))}${2:(${3:scope})}: $0
