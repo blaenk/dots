@@ -590,6 +590,10 @@
 
 (use-package sqlup-mode :defer t)
 
+(use-package sql-indent
+  :defer t
+  :pin gnu)
+
 (use-package graphql-mode :defer t)
 
 (provide 'conf/languages)
