@@ -1079,6 +1079,14 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   (with-eval-after-load 'evil
     (evil-set-initial-state #'help-mode 'normal)))
 
+(use-package sql
+  :ensure nil
+  :defer t
+
+  :init
+  (add-hook 'sql-mode-hook #'sql-highlight-postgres-keywords)
+  (add-hook 'sql-mode-hook #'hl-todo-mode))
+
 (use-package hideshow
   :ensure nil
   :defer t
