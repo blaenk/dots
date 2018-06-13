@@ -32,6 +32,8 @@
 ;; packages
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 
+(add-to-list 'package-pinned-packages '(sql-indent . "gnu"))
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
