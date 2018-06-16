@@ -231,18 +231,19 @@
   (setq link-hint-avy-style 'post))
 
 (use-package hl-todo
-  :defer t
   :defines hl-todo-keyword-faces
 
-  :hook
-  (prog-mode . hl-todo-mode)
-
   :init
+  (setq hl-todo-activate-in-modes '(prog-mode text-mode))
+
   (my-with-solarized-colors
    (setq hl-todo-keyword-faces
          `(("TODO"  . ,blue-lc)
            ("NOTE"  . ,yellow-lc)
-           ("FIXME" . ,red-lc)))))
+           ("FIXME" . ,red-lc))))
+
+  :config
+  (global-hl-todo-mode))
 
 (use-package highlight-escape-sequences
   :defer t
