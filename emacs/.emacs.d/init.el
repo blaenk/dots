@@ -39,6 +39,15 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(defun my-reload-init ()
+  "Reload init.el."
+  (interactive)
+  (straight-transaction
+    (straight-mark-transaction-as-init)
+    (message "Reloading init.el...")
+    (load user-init-file nil 'nomessage)
+    (message "Reloading init.el... done.")))
+
 (straight-use-package 'use-package)
 
 (setq load-prefer-newer t
