@@ -141,7 +141,7 @@
  ("macrostep" . "424e3734a1ee526a1bd7b5c3cd1d3ef19d184267")
  ("magit" . "06189617ef4da7b0eb2d48d0f1588e148d2c49c3")
  ("magit-popup" . "60ff82ac7aa8dbc24eb3c34dbed13ad01f20671c")
- ("magit-todos" . "e08c8fa0164c048627f0f8bd685fdeeac8fe06fd")
+ ("magit-todos" . "8636d06d81e89810f8565d8e74cad10b63c585fe")
  ("magithub" . "559a1729c817adf5d659c164f2dad7ed545338c9")
  ("makey" . "a61781e69d3b451551e269446e1c5f624ab81137")
  ("markdown-mode" . "13a4f8e68da4ea5ef6151f8f6852c176e145fdcc")
