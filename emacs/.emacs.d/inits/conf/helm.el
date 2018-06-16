@@ -1,3 +1,4 @@
+(require 'straight)
 (require 'use-package)
 (require 'general)
 (eval-when-compile
@@ -266,13 +267,13 @@ It can clash with the colors being shown."
           :buffer "*helm faces at point*")))
 
 (use-package helm-mode
-  :ensure nil
+  :straight nil
 
   :config
   (helm-mode 1))
 
 (use-package helm-regexp
-  :ensure nil
+  :straight nil
   :defer t
 
   :config
@@ -285,7 +286,7 @@ It can clash with the colors being shown."
 
 
 (use-package helm-font
-  :ensure nil
+  :straight nil
   :defer t
 
   :general
@@ -293,7 +294,7 @@ It can clash with the colors being shown."
     "i c" 'helm-ucs))
 
 (use-package helm-semantic
-  :ensure nil
+  :straight nil
   :defer t
 
   :config
@@ -301,7 +302,7 @@ It can clash with the colors being shown."
   (push '(c++-mode . semantic-format-tag-summarize) helm-semantic-display-style))
 
 (use-package helm-imenu
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -309,7 +310,7 @@ It can clash with the colors being shown."
         helm-imenu-extra-modes '(markdown-mode)))
 
 (use-package helm-bookmark
-  :ensure nil
+  :straight nil
 
   :general
   (:keymaps 'helm-bookmark-map
@@ -373,7 +374,7 @@ can be overridden with the prefix ARG."
     (helm-ext-ff-define-split helm-bookmark vertical bookmark-jump balance)))
 
 (use-package helm-adaptive
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -385,7 +386,7 @@ can be overridden with the prefix ARG."
   (helm-ext-ff-enable-split-actions t))
 
 (use-package helm-locate
-  :ensure nil
+  :straight nil
 
   :general
   (:keymaps 'helm-generic-files-map
@@ -393,7 +394,7 @@ can be overridden with the prefix ARG."
    "C-c C-v" 'helm-ext-ff-buffer-execute-vertical-split))
 
 (use-package helm-files
-  :ensure nil
+  :straight nil
 
   :general
   (:keymaps 'helm-buffer-map

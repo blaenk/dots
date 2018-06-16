@@ -1,3 +1,4 @@
+(require 'straight)
 (require 'use-package)
 (require 'general)
 (require 'conf/common)
@@ -512,7 +513,7 @@
     (emmet-expand-line '(4))))
 
 (use-package tex-site
-  :ensure auctex
+  :straight auctex
 
   :general
   (:keymaps 'LaTeX-mode-map
@@ -592,7 +593,7 @@
 
 (use-package sql-indent
   :defer t
-  :pin gnu)
+  :straight (:host github :repo "alex-hhh/emacs-sql-indent"))
 
 (use-package graphql-mode :defer t)
 

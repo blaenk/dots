@@ -1,24 +1,25 @@
+(require 'straight)
 (require 'use-package)
 (require 'general)
 (eval-when-compile
   (require 'conf/common))
 
 (use-package help-fns
-  :ensure nil
+  :straight nil
 
   :general
   (:keymaps 'help-map
    "s" 'describe-symbol))
 
 (use-package tramp
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
   (setq tramp-auto-save-directory (my-cache-dir "tramp")))
 
 (use-package windmove
-  :ensure nil
+  :straight nil
 
   :general
   ("C-M-S-h" 'my-move-splitter-left
@@ -153,14 +154,14 @@ If it was already set, unset it. Otherwise invoke
     (hydra-set-property 'my-window-resizer :verbosity 0)))
 
 (use-package server
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
   (setq server-auth-dir (my-cache-dir "server")))
 
 (use-package profiler
-  :ensure nil
+  :straight nil
   :defer t
 
   :config
@@ -168,7 +169,7 @@ If it was already set, unset it. Otherwise invoke
     (evil-set-initial-state #'profiler-report-mode 'emacs)))
 
 (use-package browse-url
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -181,7 +182,7 @@ If it was already set, unset it. Otherwise invoke
       (error "No `default-directory' to open"))))
 
 (use-package edebug
-  :ensure nil
+  :straight nil
 
   :general
   (my-map
@@ -217,7 +218,7 @@ If it was already set, unset it. Otherwise invoke
         (funcall old-func edebug-it)))))
 
 (use-package pp
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -251,7 +252,7 @@ Also bind `q' to `quit-window'."
         (bind-local :states '(normal emacs) "q" 'quit-window)))))
 
 (use-package fringe
-  :ensure nil
+  :straight nil
 
   :init
   (setq-default fringe-indicator-alist
@@ -267,7 +268,7 @@ Also bind `q' to `quit-window'."
           (unknown . question-mark))))
 
 (use-package profiler
-  :ensure nil
+  :straight nil
 
   :general
   (my-map
@@ -277,7 +278,7 @@ Also bind `q' to `quit-window'."
     "e p s" 'profiler-stop))
 
 (use-package autorevert
-  :ensure nil
+  :straight nil
   :defer t
 
   :hook
@@ -305,14 +306,14 @@ Also bind `q' to `quit-window'."
   (global-auto-revert-mode 1))
 
 (use-package delsel
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
   (delete-selection-mode 1))
 
 (use-package iso-transl
-  :ensure nil
+  :straight nil
 
   :general
   (:keymaps 'iso-transl-ctl-x-8-map
@@ -323,7 +324,7 @@ Also bind `q' to `quit-window'."
    "n" "ñ"))
 
 (use-package winner
-  :ensure nil
+  :straight nil
 
   :general
   (my-map :infix "w"
@@ -338,7 +339,7 @@ Also bind `q' to `quit-window'."
   (winner-mode 1))
 
 (use-package newcomment
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -354,14 +355,14 @@ Also bind `q' to `quit-window'."
         (insert " ")))))
 
 (use-package mule-util
-  :ensure nil
+  :straight nil
   :defer nil
 
   :init
   (setq truncate-string-ellipsis "…"))
 
 (use-package menu-bar
-  :ensure nil
+  :straight nil
 
   :general
   ("<f10>" 'toggle-menu-bar-mode-from-frame)
@@ -370,14 +371,14 @@ Also bind `q' to `quit-window'."
   (menu-bar-mode -1))
 
 (use-package tool-bar
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
   (tool-bar-mode -1))
 
 (use-package scroll-bar
-  :ensure nil
+  :straight nil
 
   :general
   ("<f9>" 'my-toggle-scroll-bar)
@@ -401,14 +402,14 @@ Also bind `q' to `quit-window'."
   (setq scroll-bar-mode 'left))
 
 (use-package frame
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
   (blink-cursor-mode 0))
 
 (use-package paren
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -418,13 +419,13 @@ Also bind `q' to `quit-window'."
   (show-paren-mode 1))
 
 (use-package which-func
-  :ensure nil
+  :straight nil
 
   :init
   (which-function-mode 1))
 
 (use-package saveplace
-  :ensure nil
+  :straight nil
   :defer t
   :defines save-place-file
 
@@ -433,7 +434,7 @@ Also bind `q' to `quit-window'."
   (setq save-place-file (my-cache-dir "saved-places")))
 
 (use-package smerge-mode
-  :ensure nil
+  :straight nil
 
   :general
   (my-map :infix "g c" :keymaps 'smerge-mode-map
@@ -455,7 +456,7 @@ Also bind `q' to `quit-window'."
     (add-hook 'smerge-mode-hook #'evil-normalize-keymaps)))
 
 (use-package bookmark
-  :ensure nil
+  :straight nil
   :defer t
   :defines bookmark-default-file
 
@@ -465,7 +466,7 @@ Also bind `q' to `quit-window'."
         bookmark-automatically-show-annotations t))
 
 (use-package recentf
-  :ensure nil
+  :straight nil
   :defines recentf-save-file
   :defer t
 
@@ -476,7 +477,7 @@ Also bind `q' to `quit-window'."
   (recentf-mode 1))
 
 (use-package savehist
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -486,7 +487,7 @@ Also bind `q' to `quit-window'."
   (savehist-mode 1))
 
 (use-package ido
-  :ensure nil
+  :straight nil
   :defer t
   :defines ido-save-directory-list-file
 
@@ -494,7 +495,7 @@ Also bind `q' to `quit-window'."
   (setq ido-save-directory-list-file (my-cache-dir "ido.last")))
 
 (use-package eshell
-  :ensure nil
+  :straight nil
   :defer t
   :defines eshell-directory
 
@@ -502,7 +503,7 @@ Also bind `q' to `quit-window'."
   (setq eshell-directory (my-cache-dir "eshell")))
 
 (use-package apropos
-  :ensure nil
+  :straight nil
   :defer t
   :defines apropos-do-all
 
@@ -511,7 +512,7 @@ Also bind `q' to `quit-window'."
 
 ;; NOTE gdb also requires argument `-i=mi`
 (use-package gdb-mi
-  :ensure nil
+  :straight nil
   :defer t
   :defines
   gdb-many-windows
@@ -522,7 +523,7 @@ Also bind `q' to `quit-window'."
         gdb-show-main t))
 
 (use-package shell
-  :ensure nil
+  :straight nil
   :defer t
   :defines explicit-shell-file-name
 
@@ -530,7 +531,7 @@ Also bind `q' to `quit-window'."
   (setq explicit-shell-file-name "/usr/bin/zsh"))
 
 (use-package whitespace
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -552,7 +553,7 @@ Also bind `q' to `quit-window'."
   (global-whitespace-mode 1))
 
 (use-package js
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -560,7 +561,7 @@ Also bind `q' to `quit-window'."
         js-switch-indent-offset 2))
 
 (use-package sh-script
-  :ensure nil
+  :straight nil
   :functions sh-set-shell
   :mode ("\\.zsh\\(rc\\)?\\'" . sh-mode)
 
@@ -577,7 +578,7 @@ Also bind `q' to `quit-window'."
       (sh-set-shell "zsh"))))
 
 (use-package python
-  :ensure nil
+  :straight nil
   :defer t
 
   :hook
@@ -588,7 +589,7 @@ Also bind `q' to `quit-window'."
     (setq fill-column 79)))
 
 (use-package semantic
-  :ensure nil
+  :straight nil
   :defer t
   :defines
   semanticdb-default-save-directory
@@ -597,7 +598,7 @@ Also bind `q' to `quit-window'."
   (c++-mode . semantic-mode))
 
 (use-package semantic/db-mode
-  :ensure nil
+  :straight nil
   :after semantic
   :functions
   global-semanticdb-minor-mode
@@ -610,14 +611,14 @@ Also bind `q' to `quit-window'."
   (global-semanticdb-minor-mode 1))
 
 (use-package semantic/idle
-  :ensure nil
+  :straight nil
   :after semantic
 
   :config
   (global-semantic-idle-scheduler-mode 1))
 
 (use-package cc-mode
-  :ensure nil
+  :straight nil
   :defer t
   :functions
   projectile-project-p
@@ -657,7 +658,7 @@ Also bind `q' to `quit-window'."
         (insert "\n#endif  // " ident)))))
 
 (use-package cc-menus
-  :ensure nil
+  :straight nil
   :defer t
 
   :config
@@ -666,14 +667,14 @@ Also bind `q' to `quit-window'."
                '("Test" "^TEST\\(_F\\)?(\\([^)]+\\))" 2) t))
 
 (use-package imenu
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
   (setq imenu-auto-rescan t))
 
 (use-package lisp-mode
-  :ensure nil
+  :straight nil
   :defer t
   :functions my--lisp-indent-function
   :defines calculate-lisp-indent-last-sexp
@@ -773,7 +774,7 @@ Lisp function does not specify a special indentation."
     (setq-local lisp-indent-function #'my--lisp-indent-function)))
 
 (use-package diff
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -784,7 +785,7 @@ Lisp function does not specify a special indentation."
     (diff-buffer-with-file (current-buffer))))
 
 (use-package ediff
-  :ensure nil
+  :straight nil
   :functions
   ediff-toggle-wide-display
 
@@ -862,7 +863,7 @@ they'll be disabled and then re-enabled on exit.")
    (add-hook 'ediff-quit-hook #'my--ediff-quit 'append))
 
 (use-package minibuffer
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -870,7 +871,7 @@ they'll be disabled and then re-enabled on exit.")
   (add-to-list 'completion-styles 'initials t))
 
 (use-package elec-pair
-  :ensure nil
+  :straight nil
   :defer t
 
   :hook
@@ -890,21 +891,21 @@ they'll be disabled and then re-enabled on exit.")
   (electric-pair-mode 1))
 
 (use-package sgml-mode
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
   (setq sgml-basic-offset 2))
 
 (use-package css-mode
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
   (setq css-indent-offset 2))
 
 (use-package bug-reference
-  :ensure nil
+  :straight nil
   :defer t
 
   :hook
@@ -922,7 +923,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 \\)\\([0-9]+\\(?:#[0-9]+\\)?\\)"))
 
 (use-package goto-addr
-  :ensure nil
+  :straight nil
   :defer t
 
   :hook
@@ -930,7 +931,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
    (text-mode . goto-address-mode)))
 
 (use-package org-table
-  :ensure nil
+  :straight nil
   :defer t
 
   :commands orgtbl-mode
@@ -958,7 +959,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
           (call-interactively binding))))))
 
 (use-package dired
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -974,10 +975,10 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   (with-eval-after-load 'evil
     (evil-set-initial-state #'dired-mode 'emacs)))
 
-(use-package dired-x :ensure nil)
+(use-package dired-x :straight nil)
 
 (use-package simple
-  :ensure nil
+  :straight nil
   :defer t
 
   :general
@@ -1023,7 +1024,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   (column-number-mode 1))
 
 (use-package ansi-color
-  :ensure nil
+  :straight nil
   :defer t
   :functions
   ansi-color-apply-on-region
@@ -1037,7 +1038,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
       (ansi-color-apply-on-region compilation-filter-start (point-max)))))
 
 (use-package compile
-  :ensure nil
+  :straight nil
   :defer t
 
   :hook
@@ -1054,7 +1055,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
     (setq-local truncate-partial-width-windows nil)))
 
 (use-package hl-line
-  :ensure nil
+  :straight nil
   :defer t
 
   :hook
@@ -1064,7 +1065,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   (setq hl-line-sticky-flag t))
 
 (use-package help-mode
-  :ensure nil
+  :straight nil
 
   :general
   (:keymaps 'help-mode-map
@@ -1080,7 +1081,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
     (evil-set-initial-state #'help-mode 'normal)))
 
 (use-package sql
-  :ensure nil
+  :straight nil
   :defer t
 
   :init
@@ -1088,14 +1089,14 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   (add-hook 'sql-mode-hook #'hl-todo-mode))
 
 (use-package hideshow
-  :ensure nil
+  :straight nil
   :defer t
 
   :hook
   (prog-mode . hs-minor-mode))
 
 (use-package man
-  :ensure nil
+  :straight nil
   :defer t
 
   :config
@@ -1103,7 +1104,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
     (evil-set-initial-state #'Man-mode 'normal)))
 
 (use-package ispell
-  :ensure nil
+  :straight nil
 
   :init
   (when (executable-find "hunspell")
@@ -1115,7 +1116,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   (ispell-set-spellchecker-params))
 
 (use-package flyspell
-  :ensure nil
+  :straight nil
 
   :functions
   push-mark-no-activate

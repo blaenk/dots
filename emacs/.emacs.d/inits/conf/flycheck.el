@@ -1,3 +1,4 @@
+(require 'straight)
 (require 'use-package)
 (require 'general)
 
@@ -50,7 +51,7 @@
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 (use-package lsp-flycheck
-  :ensure nil
+  :straight nil
   :after lsp-mode)
 
 (provide 'conf/flycheck)

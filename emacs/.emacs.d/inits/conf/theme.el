@@ -1,3 +1,4 @@
+(require 'straight)
 (require 'use-package)
 (require 'conf/common)
 
@@ -5,7 +6,7 @@
   ;; NOTE
   ;; This is for using the fork.
   ;; :load-path "~/code/emacs/solarized-emacs"
-  ;; :ensure nil
+  ;; :straight nil
 
   :demand t
 

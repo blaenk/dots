@@ -1,5 +1,3 @@
-(require 'package)
-
 ;; frame
 (defun my--set-frame-options (frame)
   "Set the options for the current frame."
@@ -29,19 +27,24 @@
 
 (add-hook 'after-make-frame-functions #'my--set-frame-options)
 
-;; packages
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 4))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(add-to-list 'package-pinned-packages '(sql-indent . "gnu"))
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+(straight-use-package 'use-package)
 
 (setq load-prefer-newer t
       backup-by-copying t
 
-      use-package-always-ensure t
+      straight-use-package-by-default t
       use-package-check-before-init t
       use-package-enable-imenu-support t)
 
@@ -413,19 +416,19 @@ buffer-local basis.")
 ;; We use use-package instead of a plain `require' to allow us to use
 ;; use-package's profiling instrumentation if necessary, otherwise it seems like
 ;; the use-package forms within these required files don't show up.
-(use-package conf/built-in :ensure nil)
-(use-package conf/theme :ensure nil)
-(use-package conf/mode-line :ensure nil)
-(use-package conf/evil :ensure nil)
+(use-package conf/built-in :straight nil)
+(use-package conf/theme :straight nil)
+(use-package conf/mode-line :straight nil)
+(use-package conf/evil :straight nil)
 
-(use-package conf/helm :ensure nil)
-(use-package conf/utilities :ensure nil)
-(use-package conf/languages :ensure nil)
-(use-package conf/git :ensure nil)
+(use-package conf/helm :straight nil)
+(use-package conf/utilities :straight nil)
+(use-package conf/languages :straight nil)
+(use-package conf/git :straight nil)
 
-(use-package conf/flycheck :ensure nil)
-(use-package conf/company :ensure nil)
-(use-package conf/smartparens :ensure nil)
+(use-package conf/flycheck :straight nil)
+(use-package conf/company :straight nil)
+(use-package conf/smartparens :straight nil)
 
 (when my--is-benchmarking-p
   (benchmark-init/deactivate))

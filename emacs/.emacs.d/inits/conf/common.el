@@ -1,3 +1,4 @@
+(require 'straight)
 (require 'use-package)
 (require 'general)
 

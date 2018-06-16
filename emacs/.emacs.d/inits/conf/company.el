@@ -1,3 +1,4 @@
+(require 'straight)
 (require 'use-package)
 (require 'general)
 
@@ -100,7 +101,7 @@ If a region is active, it'll be used to \"wrap\" the selection."
   (add-to-list 'company-math-allow-latex-symbols-in-faces #'markdown-math-face))
 
 (use-package robe
-  :ensure nil
+  :straight nil
   :after robe
 
   :init
@@ -121,7 +122,7 @@ If a region is active, it'll be used to \"wrap\" the selection."
   (add-hook 'tern-mode-hook #'my--company-tern))
 
 (use-package company-web-html
-  :ensure company-web
+  :straight company-web
   :defer t
 
   :config
