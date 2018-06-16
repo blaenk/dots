@@ -135,6 +135,14 @@
     (magit-wip-after-apply-mode)
     (magit-wip-before-change-mode)))
 
+(use-package magit-todos
+  :defer t
+  :commands magit-todos-mode
+  :straight (:host github :repo "alphapapa/magit-todos")
+
+  :init
+  (add-hook 'magit-status-mode-hook #'magit-todos-mode))
+
 (use-package magithub
   :after magit
 
