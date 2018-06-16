@@ -358,11 +358,10 @@
 (use-package typescript-mode
   :mode "\\.tsx\\'"
 
-
   :init
   (setq typescript-indent-level 2)
 
-  (add-hook 'typescript-mode-hook #'subword-mode))
+  (add-hook #'typescript-mode-hook #'subword-mode))
 
 (use-package tide
   :defer t
@@ -371,15 +370,18 @@
   (defun my-setup-tide ()
     (interactive)
 
-    (setq-local flycheck-check-syntax-automatically '(save mode-enabled))
-
     (tide-setup)
-    (tide-hl-identifier-mode +1))
+    (tide-hl-identifier-mode +1)
+
+    (with-eval-after-load 'flycheck
+      (setq-local flycheck-check-syntax-automatically '(save mode-enabled))))
 
   (add-hook #'typescript-mode-hook #'my-setup-tide)
 
+  :config
   (with-eval-after-load 'flycheck
-    (flycheck-add-mode #'typescript-tslint #'web-mode)))
+    (flycheck-add-mode #'javascript-eslint #'typescript-mode)
+    (flycheck-add-next-checker #'typescript-tide #'javascript-eslint 'append)))
 
 (use-package prettier-js
   :general
