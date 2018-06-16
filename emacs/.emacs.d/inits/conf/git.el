@@ -137,7 +137,6 @@
 
 (use-package magit-todos
   :defer t
-  :commands magit-todos-mode
   :straight (:host github :repo "alphapapa/magit-todos")
 
   :init
