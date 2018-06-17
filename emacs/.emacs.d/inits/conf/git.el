@@ -140,7 +140,8 @@
   :straight (:host github :repo "alphapapa/magit-todos")
 
   :init
-  (setq magit-todos-depth -1)
+  (setq magit-todos-depth -1
+        magit-todos-max-items 0)
 
   (add-hook 'magit-status-mode-hook #'magit-todos-mode))
 
