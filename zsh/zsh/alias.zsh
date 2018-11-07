@@ -5,7 +5,7 @@
 
 alias ":q"='exit'
 
-alias reload='killall -USR1 zsh'
+alias reload="killall -USR1 -- zsh -zsh"
 
 alias ls='ls -lh --color=always'
 
