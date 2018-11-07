@@ -115,7 +115,7 @@ sources=(
   'functions'
   'alias'
   'linux'
-  'osx'
+  'macos'
   'gtags'
   'gnome-keyring'
   'fzf'
