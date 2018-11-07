@@ -599,4 +599,6 @@
 
 (use-package graphql-mode :defer t)
 
+(use-package clojure-mode :defer t)
+
 (provide 'conf/languages)
