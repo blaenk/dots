@@ -13,7 +13,7 @@ eg() {
 # this way closing the shell it was started from won't
 # kill emacs, nor will it usurp the shell
 e() {
-  ( setsid emacs $* > /dev/null 2>&1 & );
+  emacs $* > /dev/null 2>&1 &!
 }
 
 # html man pages
