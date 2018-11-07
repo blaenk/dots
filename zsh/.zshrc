@@ -1,4 +1,11 @@
 # determine path to dots dir
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  export MACOS=1
+
+  hash readlink=/usr/local/bin/greadlink
+fi
+
 export DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
 
 # TODO
