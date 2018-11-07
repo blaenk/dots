@@ -112,8 +112,9 @@ command_exists() {
 
 # strict control over source order
 sources=(
-  'hub'
   'path'
+  'brew'
+  'hub'
   'chruby'
   'vcsinfo'
   'prompt'
