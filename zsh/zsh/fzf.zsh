@@ -126,12 +126,18 @@ fzf-tmux-select-all-window() {
 zle -N fzf-tmux-select-all-window
 bindkey '^[,' fzf-tmux-select-all-window
 
-if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
-  source /usr/share/fzf/key-bindings.zsh
+if [[ "$MACOS" ]]; then
+  fzf_path="/usr/local/opt/fzf/shell"
+else
+  fzf_path="/usr/share/fzf"
+fi
+
+if [[ -f "${fzf_path}/key-bindings.zsh" ]]; then
+  source "${fzf_path}/key-bindings.zsh"
 
   bindkey -M vicmd "/" fzf-history-widget
 fi
 
-if [[ -f /usr/share/fzf/completion.zsh ]]; then
-  source /usr/share/fzf/completion.zsh
+if [[ -f "${fzf_path}/completion.zsh" ]]; then
+  source "${fzf_path}/completion.zsh"
 fi
