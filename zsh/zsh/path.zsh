@@ -16,6 +16,10 @@ path+=(${GOPATH}/bin)
 
 export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
 
+if [[ "$MACOS" ]]; then
+ path+=(/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin)
+fi
+
 if command_exists rustc; then
   # rustup component add rust-src
   export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src
