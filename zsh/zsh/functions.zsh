@@ -94,19 +94,14 @@ ip() {
 
 # open alias for xdg-open
 # it ignores stdout and stderr
-# pass-through for os x
 
-open() {
-  emulate -LR zsh
+if (( $+commands[xdg-open] )); then
+  open() {
+    emulate -LR zsh
 
-  # linux
-  if (( $+commands[xdg-open] )); then
     xdg-open $* > /dev/null 2>&1
-  # mac
-  elif (( $+commands[open] )); then
-    open $*
-  fi
-}
+  }
+fi
 
 # go to the dotfiles directory
 
