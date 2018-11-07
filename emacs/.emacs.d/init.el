@@ -71,7 +71,8 @@
     "Whether emacs should run benchmark-init"))
 
 (use-package auto-compile
-  :unless (eq system-type 'windows-nt)
+  :unless (or (eq system-type 'windows-nt)
+              (eq system-type 'darwin))
 
   :defines
   auto-compile-display-buffer
@@ -93,7 +94,10 @@
 (use-package general)
 
 (add-to-list 'load-path (expand-file-name "inits/" user-emacs-directory) t)
-(byte-recompile-directory (expand-file-name "inits/" user-emacs-directory) 0)
+
+(unless (or (eq system-type 'windows-nt)
+            (eq system-type 'darwin))
+  (byte-recompile-directory (expand-file-name "inits/" user-emacs-directory) 0))
 
 (require 'conf/common)
 
