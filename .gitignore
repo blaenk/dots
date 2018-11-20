@@ -9,6 +9,7 @@ flycheck_*.el
 /emacs/.emacs.d/cache/
 /emacs/.emacs.d/straight/build/
 /emacs/.emacs.d/straight/build-cache.el
+/emacs/.emacs.d/straight/modified/
 /emacs/.emacs.d/straight/repos/
 /emacs/.emacs.d/elpa/
 /emacs/.emacs.d/var/
