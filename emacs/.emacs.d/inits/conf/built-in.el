@@ -1111,9 +1111,8 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 
   :init
   (when (executable-find "hunspell")
-    (setq ispell-program-name "hunspell"
-          ispell-dictionary "en_US"
-          ispell-really-hunspell t))
+    (setq ispell-hunspell-dictionary-alist
+            '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8))))
 
   :config
   (ispell-set-spellchecker-params))
