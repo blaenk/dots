@@ -966,6 +966,9 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   (setq dired-auto-revert-buffer t
         dired-listing-switches "-alhF")
 
+  (when (eq system-type 'darwin)
+    (setq insert-directory-program "gls"))
+
   (when (or (memq system-type '(gnu gnu/linux))
             (string= (file-name-nondirectory insert-directory-program) "gls"))
     (setq dired-listing-switches
