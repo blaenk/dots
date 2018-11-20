@@ -30,3 +30,5 @@ fi
 
 # prune paths that don't exist
 path=($^path(N))
+
+hash_override

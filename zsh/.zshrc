@@ -1,9 +1,27 @@
 # determine path to dots dir
 
+hash_overrides=()
+typeset -U hash_overrides
+
+# This overrides the command hash-table
+# It's useful when overriding certain macOS coreutils binaries with
+# those from brew's GNU coreutils.
+# It needs to be re-overridden each time the PATH is modified, since modifying
+# the PATH is what recomputes the command hash table.
+# TODO: Maybe there's a hook for when the PATH is modified?
+# NOTE: This doesn't affect child programs. This is shell-only.
+hash_override() {
+  if [[ ! -z "$*" ]]; then
+    hash_overrides+=($*)
+  fi
+
+  hash "$hash_overrides[@]"
+}
+
 if [[ "$OSTYPE" == darwin* ]]; then
   export MACOS=1
 
-  hash readlink=/usr/local/bin/greadlink
+  hash_override readlink=/usr/local/bin/greadlink
 fi
 
 export DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
