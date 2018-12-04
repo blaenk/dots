@@ -107,6 +107,7 @@ zplug "zsh-users/zsh-completions"
 
 zplug "plugins/command-not-found", from:oh-my-zsh
 
+export NVM_LAZY_LOAD=true
 zplug "lukechilds/zsh-nvm"
 zplug "lukechilds/zsh-better-npm-completion"
 
@@ -132,7 +133,6 @@ command_exists() {
 sources=(
   'path'
   'ruby'
-  'node'
   'brew'
   'hub'
   'vcsinfo'
