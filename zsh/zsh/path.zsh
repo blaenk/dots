@@ -41,3 +41,13 @@ infopath=(
   /usr/local/share/info
   "$infopath[@]"
 )
+
+# To create a custom array-to-envvar link:
+# typeset -aU env_var
+# typeset -T ENV_VAR env_var ' ' # Colon by default.
+# export ENV_VAR
+
+# env_var=(
+#   # …
+#   "$env_var[@]"
+# )
