@@ -76,6 +76,7 @@ colors
 # history
 export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=10000
+export HISTORY_IGNORE=""
 export SAVEHIST=$HISTSIZE
 
 setopt inc_append_history
