@@ -8,8 +8,3 @@ fi
 
 eval "$(brew command-not-found-init)"
 
-# Override certain macos utilities with the GNU coreutil versions
-hash_override ls=/usr/local/bin/gls \
-              wc=/usr/local/bin/gwc \
-              rm=/usr/local/bin/grm \
-              dircolors=/usr/local/bin/gdircolors

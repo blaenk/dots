@@ -16,7 +16,6 @@ mkdir -p ~/bin
 
 path=(
   ~/bin
-  "$path[@]"
 
   ~/.cargo/bin
   ~/.rbenv/bin
@@ -26,9 +25,19 @@ path=(
   /usr/local/texlive/2018/bin/x86_64-linux
   ${GOPATH}/bin
   /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
+
+  "$path[@]"
 )
 
 # prune paths that don't exist
 path=($^path(N))
 
-hash_override
+manpath=(
+  /usr/local/share/man
+  "$manpath[@]"
+)
+
+infopath=(
+  /usr/local/share/info
+  "$infopath[@]"
+)
