@@ -307,10 +307,10 @@ The return value is the yanked text."
     (let ((region (buffer-substring-no-properties beg end)))
       (evil-ex (concat "%s/" region "/"))))
 
-  ;; This defines an operator named my-evil-visual-replace which I bind to gR in
-  ;; normal and visual modes. First make a selection or motion with gR, this
+  ;; This defines an operator named my-evil-visual-replace which I bind to gr in
+  ;; normal and visual modes. First make a selection or motion with gr, this
   ;; selects that region as the text to be replaced. Next select a region within
-  ;; which to replace that text and press gR again, which pre-fills an
+  ;; which to replace that text and press gr again, which pre-fills an
   ;; ex-command for making the replacement.
   ;;
   ;; I noticed that the evil-exchange command was very much like this (i.e. a
