@@ -170,6 +170,12 @@
   :init
   (add-hook 'ruby-mode-hook #'yard-mode))
 
+(use-package ruby-mode
+  :straight nil
+
+  :init
+  (setq ruby-insert-encoding-magic-comment nil))
+
 (use-package robe
   :defer t
 
@@ -599,5 +605,9 @@
 (use-package graphql-mode :defer t)
 
 (use-package clojure-mode :defer t)
+
+(use-package scala-mode :defer t)
+
+(use-package coffee-mode :defer t)
 
 (provide 'conf/languages)
