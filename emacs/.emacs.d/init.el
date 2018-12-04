@@ -2,8 +2,8 @@
 (defun my--set-frame-options (frame)
   "Set the options for the current frame."
 
-  (add-to-list 'default-frame-alist '(width . 101))
-  (add-to-list 'default-frame-alist '(height . 36))
+  (add-to-list 'default-frame-alist '(width . 100))
+  (add-to-list 'default-frame-alist '(height . 50))
 
   (cond
    ((eq system-type 'gnu/linux)
