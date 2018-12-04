@@ -136,6 +136,9 @@ if [[ -f "${fzf_path}/key-bindings.zsh" ]]; then
   source "${fzf_path}/key-bindings.zsh"
 
   bindkey -M vicmd "/" fzf-history-widget
+  bindkey '^T' fzf-file-widget
+  bindkey '^[f' fzf-file-widget
+  bindkey '^[/' fzf-file-widget
 fi
 
 if [[ -f "${fzf_path}/completion.zsh" ]]; then
