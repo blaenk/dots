@@ -21,7 +21,12 @@
     (set-fontset-font t 'symbol
                       (font-spec :family "Apple Color Emoji") nil 'prepend)
     (set-fontset-font t 'symbol
-                      (font-spec :family "Apple Symbols") nil 'prepend))))
+                      (font-spec :family "Apple Symbols") nil 'prepend)
+
+    ;; Make the titlebar transparent, effectively making it the same color as
+    ;; the background.
+    (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+    (add-to-list 'default-frame-alist '(ns-appearance . light)))))
 
 (my--set-frame-options nil)
 
