@@ -28,13 +28,6 @@
   (unless my--is-within-vm
     (setq gist-view-gist t)))
 
-
-(use-package git-commit-insert-issue
-  :defer t
-
-  :init
-  (add-hook 'git-commit-mode-hook #'git-commit-insert-issue-mode))
-
 (use-package bug-reference-github
   :defer t
 
