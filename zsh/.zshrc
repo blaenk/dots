@@ -1,5 +1,6 @@
 # determine path to dots dir
 
+[[ -n "$ENABLE_ZPROF" ]] && zmodload zsh/zprof
 
 if [[ "$OSTYPE" == darwin* ]]; then
   export MACOS=1
@@ -158,3 +159,5 @@ done
 if [[ -f ~/.zsh.local ]]; then
   source ~/.zsh.local
 fi
+
+[[ -n "$ENABLE_ZPROF" ]] && zprof
