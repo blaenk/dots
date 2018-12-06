@@ -402,6 +402,9 @@
         emojify-point-entered-behaviour 'uncover
         emojify-emojis-dir (my-cache-dir "emojis"))
 
+  (when (eq system-type 'darwin)
+    (setq emojify-display-style "unicode"))
+
   :config
   (setq emojify-inhibit-major-modes
         (append emojify-inhibit-major-modes
