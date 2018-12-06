@@ -102,19 +102,6 @@
   :defer t
 
   :config
-  (defun my--set-char-widths (alist)
-    (while (char-table-parent char-width-table)
-      (setq char-width-table (char-table-parent char-width-table)))
-    (dolist (pair alist)
-      (let ((width (car pair))
-            (chars (cdr pair))
-            (table (make-char-table nil)))
-        (dolist (char chars)
-          (set-char-table-range table char width))
-        (optimize-char-table table)
-        (set-char-table-parent table char-width-table)
-        (setq char-width-table table))))
-
   (my--set-char-widths
    `((2 . (,(string-to-char (fontawesome "cloud"))
            ,(string-to-char (fontawesome "refresh")))))))
