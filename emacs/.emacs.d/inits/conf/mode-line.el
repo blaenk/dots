@@ -147,14 +147,13 @@
     (propertize (s-wrap (number-to-string count) " ") 'face face)))
 
 (defun my--mode-line-format-flycheck-errors ()
-  (if (flycheck-has-current-errors-p)
+  (when (flycheck-has-current-errors-p)
       (let-alist (flycheck-count-errors flycheck-current-errors)
         (let* ((error-counts (flycheck-count-errors flycheck-current-errors)))
           (concat
            (my--mode-line-format-error .info 'mode-line-flycheck-infos-face)
            (my--mode-line-format-error .warning 'mode-line-flycheck-warnings-face)
-           (my--mode-line-format-error .error 'mode-line-flycheck-errors-face))))
-    (propertize " ✔ " 'face 'mode-line-flycheck-no-errors-face)))
+           (my--mode-line-format-error .error 'mode-line-flycheck-errors-face))))))
 
 (defun my--mode-line-flycheck-component ()
   (pcase flycheck-last-status-change
