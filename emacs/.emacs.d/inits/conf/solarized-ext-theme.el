@@ -146,7 +146,7 @@
   `(pulse-highlight-start-face ((,class (:background ,base02))))
 
   ;; markdown
-  `(markdown-code-face ((,class (:foreground unspecified :background unspecified))))
+  `(markdown-code-face ((,class (:foreground unspecified :background unspecified :inherit unspecified))))
   `(markdown-metadata-key-face ((,class (:foreground unspecified
                                          :weight bold
                                          :inherit unspecified))))
