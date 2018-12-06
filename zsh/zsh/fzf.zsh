@@ -84,38 +84,33 @@ fzf-git-aliases() {
 
 # select a tmux window from among all windows in every session
 fzf-tmux-select-all-window() {
-  if ! tmux info &> /dev/null; then
+  if ! tmux ls &> /dev/null; then
     zle reset-prompt
     return
   fi
 
   local windows current_window target target_window
-  windows=$(tmux list-windows -a -F '#{session_name}:#{window_index}: #{window_name}')
+  windows=$(tmux list-windows -a -F '#{session_name}:#{window_index} #{window_name}')
 
   if [ -n "$TMUX" ]; then
     current_window=$(tmux display-message -p '#{session_name}:#{window_index}: #{window_name}')
     windows=$(echo "$windows" | grep -v "$current_window")
   fi
 
-  target=$(echo "$windows" | fzf-tmux --query="$1" --header="tmux windows" --select-1 +m --exit-0)
+  target=$(echo "$windows" | fzf-tmux --query="$1" --header="tmux windows" --select-1 +m --exit-0 | awk '{print$1}')
 
   if [[ -z "$target" ]]; then
     zle reset-prompt
     return
   fi
 
-  target_session=$(echo $target | awk 'BEGIN{FS=":"} {print$1}')
-  target_window=$(echo $target | awk 'BEGIN{FS=":"} {print$2}')
-
-  tmux select-window -t "$target_session:$target_window"
-
   if [ -z "$TMUX" ]; then
-    BUFFER="tmux attach-session -t \"$target_session\""
+    BUFFER="tmux attach-session -t \"$target\""
+    zle accept-line
+    return
   else
-    BUFFER="tmux switch-client -t \"$target_session\""
+    tmux switch-client -t "$target"
   fi
-
-  zle accept-line
 }
 
 # NOTE
