@@ -517,6 +517,7 @@ overridden with the prefix ARG."
   (defconst my--helm-ag-dotfile-options
     (if (executable-find "rg")
         '("--hidden"
+          "--glob !.git/"
           "--ignore-file .gitignore"
           "--ignore-file .projectile")
         '("--hidden"
