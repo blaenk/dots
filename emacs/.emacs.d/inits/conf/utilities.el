@@ -553,11 +553,14 @@ Interactively, it is given by the prefix argument."
   (diredfl-global-mode))
 
 (use-package rg
+  :if (executable-find "rg")
   :defer t
 
   :init
   (setq rg-hide-command nil))
 
-(use-package deadgrep :defer t)
+(use-package deadgrep
+  :if (executable-find "rg")
+  :defer t)
 
 (provide 'conf/utilities)
