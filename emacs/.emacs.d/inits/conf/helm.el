@@ -493,8 +493,7 @@ overridden with the prefix ARG."
 (use-package helm-describe-modes :defer t)
 
 (use-package helm-ag
-  :if (or (executable-find "ag")
-          (executable-find "rg"))
+  :if (executable-find "ag")
 
   :general
   (:keymaps 'helm-ag-map
@@ -511,19 +510,11 @@ overridden with the prefix ARG."
   :init
   (setq helm-ag-use-agignore t)
 
-  (when (executable-find "rg")
-    (setq helm-ag-base-command "rg --no-heading"))
-
   (defconst my--helm-ag-dotfile-options
-    (if (executable-find "rg")
-        '("--hidden"
-          "--glob !.git/"
-          "--ignore-file .gitignore"
-          "--ignore-file .projectile")
-        '("--hidden"
-          "--ignore-dir .git"
-          "--ignore .gitignore"
-          "--ignore .projectile"))
+    '("--hidden"
+      "--ignore-dir .git"
+      "--ignore .gitignore"
+      "--ignore .projectile")
     "Options to use with ag when searching dotfiles.")
 
   (defun my--helm-ag-merge-options (options)
