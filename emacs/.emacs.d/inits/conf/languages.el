@@ -610,4 +610,8 @@
 
 (use-package coffee-mode :defer t)
 
+(use-package thrift :defer t)
+
+(use-package protobuf-mode :defer t)
+
 (provide 'conf/languages)
