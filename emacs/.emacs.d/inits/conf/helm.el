@@ -685,6 +685,11 @@ within other words, but this means that non-word keywords such as
     (helm-add-action-to-source
      "Split Vertical" 'helm-ext-ff-helm-ag-action-vertical-split helm-source-do-ag)))
 
+(use-package helm-rg
+  :if (executable-find "rg")
+
+  :defer t)
+
 (use-package helm-gtags
   :general
   (:keymaps 'helm-gtags-mode-map
