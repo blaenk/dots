@@ -524,6 +524,8 @@ Interactively, it is given by the prefix argument."
    [remap save-buffer] 'edit-indirect-commit))
 
 (use-package xterm-color
+  :when (eq system-type 'gnu/linux)
+
   :config
   (add-hook 'comint-preoutput-filter-functions #'xterm-color-filter)
 
