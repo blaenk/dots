@@ -371,7 +371,17 @@ can be overridden with the prefix ARG."
       (require 'helm-ext))
 
     (helm-ext-ff-define-split helm-bookmark horizontal bookmark-jump balance)
-    (helm-ext-ff-define-split helm-bookmark vertical bookmark-jump balance)))
+    (helm-ext-ff-define-split helm-bookmark vertical bookmark-jump balance)
+
+    (helm-add-action-to-source
+     "Split Horizontal" 'helm-ext-ff-helm-bookmark-action-horizontal-split helm-source-bookmarks)
+    (helm-add-action-to-source
+     "Split Vertical" 'helm-ext-ff-helm-bookmark-action-vertical-split helm-source-bookmarks)
+
+    (helm-add-action-to-source
+     "Split Horizontal" 'helm-ext-ff-helm-bookmark-action-horizontal-split my--helm-source-bookmark-project)
+    (helm-add-action-to-source
+     "Split Vertical" 'helm-ext-ff-helm-bookmark-action-vertical-split my--helm-source-bookmark-project)))
 
 (use-package helm-adaptive
   :straight nil
@@ -402,7 +412,15 @@ can be overridden with the prefix ARG."
 
   (:keymaps '(helm-find-files-map helm-buffer-map)
    "C-c C-h" 'helm-ext-ff-buffer-execute-horizontal-split
-   "C-c C-v" 'helm-ext-ff-buffer-execute-vertical-split))
+   "C-c C-v" 'helm-ext-ff-buffer-execute-vertical-split)
+
+  :config
+  (add-hook 'helm-find-files-before-init-hook
+    (lambda ()
+      (helm-add-action-to-source
+       "Split Horizontal" 'helm-ext-ff-buffer-action-horizontal-split helm-source-find-files)
+      (helm-add-action-to-source
+       "Split Vertical" 'helm-ext-ff-buffer-action-vertical-split helm-source-find-files))))
 
 (use-package helm-projectile
   :general
@@ -426,6 +444,21 @@ can be overridden with the prefix ARG."
   (after-init . helm-projectile-on)
 
   :config
+  (helm-add-action-to-source
+   "Split Horizontal" 'helm-ext-ff-buffer-action-horizontal-split helm-source-projectile-files-list)
+  (helm-add-action-to-source
+   "Split Vertical" 'helm-ext-ff-buffer-action-vertical-split helm-source-projectile-files-list)
+
+  (helm-add-action-to-source
+   "Split Horizontal" 'helm-ext-ff-buffer-action-horizontal-split helm-source-projectile-buffers-list)
+  (helm-add-action-to-source
+   "Split Vertical" 'helm-ext-ff-buffer-action-vertical-split helm-source-projectile-buffers-list)
+
+  (helm-add-action-to-source
+   "Split Horizontal" 'helm-ext-ff-buffer-action-horizontal-split helm-source-projectile-projects)
+  (helm-add-action-to-source
+   "Split Vertical" 'helm-ext-ff-buffer-action-vertical-split helm-source-projectile-projects)
+
   (defun my-dots-file ()
     "Open a dotfile."
     (interactive)
@@ -482,7 +515,12 @@ overridden with the prefix ARG."
    "C-c C-v" 'helm-ext-ff-buffer-execute-vertical-split)
 
   :config
-  (helm-mt/reroute-terminal-functions t))
+  (helm-mt/reroute-terminal-functions t)
+
+  (helm-add-action-to-source
+   "Split Horizontal" 'helm-ext-ff-buffer-action-horizontal-split helm-source-projectile-projects)
+  (helm-add-action-to-source
+   "Split Vertical" 'helm-ext-ff-buffer-action-vertical-split helm-source-projectile-projects))
 
 (use-package helm-open-github :defer t)
 
@@ -640,7 +678,12 @@ within other words, but this means that non-word keywords such as
         (helm-ag--find-file-action candidate
                                    'find-file
                                    (helm-ag--search-this-file-p)))
-      balance)))
+      balance)
+
+    (helm-add-action-to-source
+     "Split Horizontal" 'helm-ext-ff-helm-ag-action-horizontal-split helm-source-do-ag)
+    (helm-add-action-to-source
+     "Split Vertical" 'helm-ext-ff-helm-ag-action-vertical-split helm-source-do-ag)))
 
 (use-package helm-gtags
   :general
