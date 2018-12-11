@@ -563,4 +563,11 @@ Interactively, it is given by the prefix argument."
   :if (executable-find "rg")
   :defer t)
 
+(use-package ace-jump-mode
+  :defer t
+
+  :general
+  (:keymaps 'normal
+   "g a" 'ace-jump-char-mode))
+
 (provide 'conf/utilities)
