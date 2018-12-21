@@ -131,6 +131,8 @@
 (setq delete-old-versions t
       version-control t
 
+      auth-sources '("~/.authinfo.gpg")
+
       backup-directory-alist `((".*" . ,(my-cache-dir "backups/")))
 
       enable-recursive-minibuffers t
