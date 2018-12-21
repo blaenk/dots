@@ -43,7 +43,8 @@
     "s o" 'helm-occur
     "s m" 'helm-all-mark-rings
 
-    "o r" 'helm-recentf)
+    "o r" 'helm-recentf
+    "o R" 'helm-register)
 
   :init
   (setq helm-display-header-line nil)
