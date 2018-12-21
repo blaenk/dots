@@ -128,21 +128,15 @@
     (magit-wip-after-apply-mode)
     (magit-wip-before-change-mode)))
 
+(use-package forge
+  :demand t
+  :straight (:host github :repo "magit/forge"))
+
 (use-package magit-todos
   :defer t
 
   :init
   (add-hook 'magit-status-mode-hook #'magit-todos-mode))
-
-(use-package magithub
-  :after magit
-
-  :init
-  (setq magithub-dir (my-cache-dir "magithub")
-        magithub-api-timeout 5)
-
-  :config
-  (magithub-feature-autoinject t))
 
 (use-package vdiff-magit :defer t)
 
