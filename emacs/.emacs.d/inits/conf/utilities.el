@@ -568,4 +568,12 @@ Interactively, it is given by the prefix argument."
   (:keymaps 'normal
    "g a" 'ace-jump-char-mode))
 
+(use-package drag-stuff
+  :demand t
+
+  :general
+  (:keymaps 'normal
+   "<M-up>" 'drag-stuff-up
+   "<M-down>" 'drag-stuff-down))
+
 (provide 'conf/utilities)
