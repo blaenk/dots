@@ -1,30 +1,28 @@
 if [[ -z "$MACOS" ]]; then
+  iterm2_prompt_mark() {}
+
   return 0
 fi
 
-# new tab in terminal.app stays in same dir
-if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]]; then
-  update_terminal_cwd() {
-    local URL_PATH=''
-    {
-      local i ch hexch LANG=C
-      for ((i = 1; i <= ${#PWD}; ++i)); do
-        ch="$PWD[i]"
-        if [[ "$ch" =~ [/._~A-Za-z0-9-] ]]; then
-          URL_PATH+="$ch"
-        else
-          hexch=$(printf "%02X" "'$ch")
-          URL_PATH+="%$hexch"
-        fi
-      done
-    }
+export IS_MACOS=true
 
-    local PWD_URL="file://$HOST$URL_PATH"
-    printf '\e]7;%s\a' "$PWD_URL"
-  }
+ITERM_INTEGRATION="$DOTSPATH/zsh/zsh/iterm.zsh"
 
-  autoload add-zsh-hook
-  add-zsh-hook chpwd update_terminal_cwd
+if [ ! -f "${ITERM_INTEGRATION}" ]; then
+  curl -s -L 'https://iterm2.com/shell_integration/zsh' -o "${ITERM_INTEGRATION}"
 
-  update_terminal_cwd
+  # Apply iterm2_prompt_mark patch
+  patch -s -d "$DOTSPATH/zsh/zsh/" < <(curl -s -L 'https://git.io/fhkwE')
 fi
+
+source "${ITERM_INTEGRATION}"
+
+if ! command_exists brew; then
+  return 0
+fi
+
+if ! brew command command-not-found-init > /dev/null 2>&1; then
+  brew tap homebrew/command-not-found
+fi
+
+eval "$(brew command-not-found-init)"

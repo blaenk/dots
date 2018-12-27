@@ -135,7 +135,6 @@ command_exists() {
 sources=(
   'path'
   'ruby'
-  'brew'
   'hub'
   'vcsinfo'
   'prompt'
@@ -143,14 +142,11 @@ sources=(
   'zle'
   'functions'
   'alias'
+  'highlight'
+  'fzf'
+  'enhancd'
   'linux'
   'macos'
-  'gtags'
-  'gnome-keyring'
-  'fzf'
-  'highlight'
-  'enhancd'
-  'kubernetes'
 )
 
 for src in $sources; do

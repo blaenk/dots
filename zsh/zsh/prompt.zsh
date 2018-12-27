@@ -52,8 +52,8 @@ function p_exit_code {
   echo "%(?..%B%F{red}!%f%b )"
 }
 
-PROMPT='
-%F{blue}λ%f $(p_colored_path)$(p_hostname)$(p_envs)$(p_vcs)
+PS1='
+%{$(iterm2_prompt_mark)%}%F{blue}λ%f $(p_colored_path)$(p_hostname)$(p_envs)$(p_vcs)
 $(p_exit_code)$(p_arrow) '
 
 function p_continuation {

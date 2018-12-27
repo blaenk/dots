@@ -31,3 +31,5 @@ flycheck_*.el
 /xmonad/.xmonad/xmonad.errors
 /xmonad/.xmonad/xmonad.hi
 /xmonad/.xmonad/xmonad.o
+
+/zsh/zsh/iterm.zsh
