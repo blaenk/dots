@@ -564,8 +564,6 @@ Interactively, it is given by the prefix argument."
   :defer t)
 
 (use-package ace-jump-mode
-  :defer t
-
   :general
   (:keymaps 'normal
    "g a" 'ace-jump-char-mode))
