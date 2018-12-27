@@ -13,85 +13,6 @@
 	submoduleSummary = true
 	showUntrackedFiles = all
 
-[alias]
-	br = branch
-	bs = bisect
-	cl = clone
-	co = checkout
-	df = diff
-	mrg = merge
-	rb = rebase
-	re = remote
-	rs = reset
-	sh = stash
-	sm = submodule
-	st = status
-
-	# create an empty commit, e.g. for when initializing a repo
-	root = commit --allow-empty
-
-	# rebase local changes
-	rebase-local = rebase -i @{u}
-
-	# delete remote branch
-	delete-remote-branch = "!f() { git push $1 :$2}; f"
-
-	# interactively clean up
-	clean-up = clean -i
-
-	# show diff between HEAD and index in commit window
-	ci = commit -v
-
-	# add all working directory changes for files that were already staged
-	au = add -u
-
-	# reset hard
-	rh = reset --hard
-
-	# custom log
-	lg = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset'
-
-	# ammend without editing the message
-	oops = commit --amend --no-edit
-
-	# show branches and their upstreams
-	bri = branch -vv
-
-	# show submodule diffs as well
-	dfsm = diff --submodule
-
-	# word diff using color to differentiate
-	dfw = diff --word-diff=color
-
-	# show diff between index and working tree
-	dfc = diff --cached
-
-	# word diff between index and working tree
-	dfcw = diff --cached --word-diff=color
-
-	# search using git grep
-	gr = grep --break --heading --line-number
-
-	# finds the last two commits that contain modifications matching the specified
-	# pattern inside of the specified file.
-	# git lg-grep 'Secure_?Random' some/file.txt
-	lg-find-last-modified = "!f() { git log -G $1 -2 -- $2; }; f"
-
-	# find the last two commits that changed the number of occurrences of text
-	# that matches the provided pattern. i.e. either the matching text was
-	# removed or added. this differs from the above because the above will match
-	# even if it just modified the text, but didn't outright remove it or add it
-	lg-find-last-removed-or-added = "!f() { git log -S $1 --pickaxe-regex -2 -- $2; }; f"
-
-	# reset commiter date of previous commit
-	ut = !GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --date=\"$(date)\"
-
-	# view man page in html format
-	web-help = help -w
-
-	# fzf list aliases
-	aliases = "! TMUX_FZF=1 zsh -i -c fzf-git-aliases"
-
 [color]
 	ui = true
 	branch = auto
@@ -112,6 +33,98 @@
 
 [rerere]
 	enabled = true
+
+[merge]
+	stat = true
+
+[rebase]
+	stat = true
+
+[alias]
+	br = branch
+	bs = bisect
+	cl = clone
+	co = checkout
+	mrg = merge
+	rb = rebase
+	re = remote
+	rs = reset
+	sh = stash
+	sm = submodule
+	st = status
+
+	# Create an empty commit, e.g. for when initializing a repo
+	root = commit --allow-empty
+
+	# Rebase local changes
+	rebase-local = rebase -i @{u}
+
+	# Delete remote branch
+	delete-remote-branch = "!f() { git push $1 :$2}; f"
+
+	# Interactively clean up
+	clean-up = clean -i
+
+	# Show diff between HEAD and index in commit window
+	ci = commit -v
+
+	# Add all working directory changes for files that were already staged
+	au = add -u
+
+	# Reset hard
+	rh = reset --hard
+
+	# Ammend without editing the message
+	amend = commit --amend --no-edit
+
+	# Show branches and their upstreams
+	bri = branch -vv
+
+	df = diff
+
+	# Show diff between index and working tree
+	dfc = diff --cached
+
+	# Word diff using color to differentiate
+	dfw = diff --word-diff=color
+
+	# Word diff between index and working tree
+	dfcw = diff --cached --word-diff=color
+
+	# Show submodule diffs as well
+	dfsm = diff --submodule
+
+	# Show the stash's diff
+	dfz = stash -p
+
+	# Custom log
+	lg = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset'
+
+	# Log starting from the previous reflog entry
+	lg-to-last-reflog = git lg @{1}..
+
+	# Finds the last two commits that contain modifications matching the specified
+	# pattern inside of the specified file.
+	# git lg-grep 'Secure_?Random' some/file.txt
+	lg-find-last-modified = "!f() { git log -G $1 -2 -- $2; }; f"
+
+	# Find the last two commits that changed the number of occurrences of text
+	# that matches the provided pattern. i.e. either the matching text was removed
+	# or added. this differs from the above because the above will match even if
+	# it just modified the text, but didn't outright remove it or add it
+	lg-find-last-removed-or-added = "!f() { git log -S $1 --pickaxe-regex -2 -- $2; }; f"
+
+	# Search using git grep
+	gr = grep --break --heading --line-number
+
+	# Reset commiter date of previous commit
+	ut = !GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --date=\"$(date)\"
+
+	# View man page in html format
+	web-help = help -w
+
+	# Fzf list aliases
+	aliases = "! TMUX_FZF=1 zsh -i -c fzf-git-aliases"
 
 [include]
 	path = ~/.gitconfig.local
