@@ -131,6 +131,10 @@ command_exists() {
   (( $+commands[$1]))
 }
 
+function_exists() {
+  (( $+functions[$1]))
+}
+
 # strict control over source order
 sources=(
   'path'
