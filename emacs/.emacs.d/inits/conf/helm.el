@@ -531,6 +531,11 @@ overridden with the prefix ARG."
 
 (use-package helm-describe-modes :defer t)
 
+(use-package helm-rg
+  :if (executable-find "rg")
+
+  :defer t)
+
 (use-package helm-ag
   :if (executable-find "ag")
 
@@ -685,11 +690,6 @@ within other words, but this means that non-word keywords such as
      "Split Horizontal" 'helm-ext-ff-helm-ag-action-horizontal-split helm-source-do-ag)
     (helm-add-action-to-source
      "Split Vertical" 'helm-ext-ff-helm-ag-action-vertical-split helm-source-do-ag)))
-
-(use-package helm-rg
-  :if (executable-find "rg")
-
-  :defer t)
 
 (use-package helm-gtags
   :general
