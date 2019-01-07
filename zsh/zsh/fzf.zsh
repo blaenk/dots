@@ -159,9 +159,10 @@ if [[ -f "${fzf_path}/completion.zsh" ]]; then
 fi
 
 function mans(){
-  apropos '' | \
-    fzf --preview-window=up:50% --preview 'echo {} | cut -f 1 -d " " | xargs man' | \
+  apropos '.' | \
+    fzf --preview-window=up:50% --preview "echo {} | cut -f 1 -d \" \" | sed -E 's/(.+)\((.+)\),?/\2 \1/g' | xargs man" | \
     cut -f 1 -d " " | \
+    sed -E 's/(.+)\((.+)\),?/\2 \1/g' | \
     xargs man
 }
 
