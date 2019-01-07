@@ -25,6 +25,8 @@ alias which='type -a'
 # prompt if deleting more than 3 files
 alias rm='rm -I'
 
+alias human-readable='numfmt --to=iec --suffix=B'
+
 if command_exists git; then
   alias g='git'
   alias git='noglob git'
