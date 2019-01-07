@@ -87,6 +87,7 @@ setopt share_history
 setopt extendedglob
 setopt hist_reduce_blanks
 setopt hist_verify
+setopt no_complete_aliases
 
 # env vars
 export EDITOR=vim
