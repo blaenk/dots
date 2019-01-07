@@ -104,7 +104,7 @@
 	lg = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset'
 
 	# Log starting from the previous reflog entry
-	lg-to-last-reflog = git lg @{1}..
+	lg-to-last-reflog = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset' @{1}..
 
 	# Finds the last two commits that contain modifications matching the specified
 	# pattern inside of the specified file.
