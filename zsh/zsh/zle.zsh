@@ -102,6 +102,15 @@ bindkey -M viins "^H" backward-delete-char  # vi-backward-delete-char
 bindkey -M viins "^U" backward-kill-line    # vi-kill-line
 bindkey -M viins "^?" backward-delete-char  # vi-backward-delete-char
 
+function vi-paste-x-selection () {
+  CUTBUFFER=$(eval "cbp")
+  zle yank
+}
+
+zle -N vi-paste-x-selection
+bindkey -M vicmd 'p' vi-paste-x-selection
+bindkey -M viins "^Y" vi-paste-x-selection
+
 function vi-yank-x-selection () {
   zle vi-yank
   print -rn -- $CUTBUFFER | eval "cbc"
