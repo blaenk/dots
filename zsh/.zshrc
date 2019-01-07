@@ -88,6 +88,8 @@ setopt extendedglob
 setopt hist_reduce_blanks
 setopt hist_verify
 setopt no_complete_aliases
+setopt auto_pushd
+setopt cdable_vars
 
 # env vars
 export EDITOR=vim
