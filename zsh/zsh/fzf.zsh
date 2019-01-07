@@ -99,38 +99,45 @@ fzf-tmux-list-all-panes() {
     windows=$(echo "$windows" | grep -v "$current_pane" | grep -v "${1}")
   fi
 
-  target=$(echo "$windows" | fzf --header="tmux panes" --select-1 +m --exit-0 | awk '{print$1}')
-
-  if [[ -z "$target" ]]; then
-    zle reset-prompt
-    return
-  fi
-
-  if [ -z "$TMUX" ]; then
-    BUFFER="tmux attach-session -t \"$target\""
-    zle accept-line
-    return
-  else
-    tmux switch-client -t "$target"
-  fi
+  echo "$windows" | fzf --header="tmux panes" --select-1 +m --exit-0 | awk '{print$1}'
 }
 
 # NOTE
 # When inside of tmux, a tmux binding for this takes precedence, which allows us
 # to invoke it while another program is running.
 
+_fzf-tmux-switch-panes() {
+  target=$(fzf-tmux-list-all-panes "${1}")
+
+  if [ -z "$TMUX" ]; then
+    BUFFER="tmux attach-session -t \"$target\""
+    zle accept-line
+  else
+    tmux switch-client -t "$target"
+  fi
+}
+
 # M-, to fzf all windows in every session
-zle -N fzf-tmux-list-all-panes
-bindkey '^[,' fzf-tmux-list-all-panes
+zle -N _fzf-tmux-switch-panes
+bindkey '^[,' _fzf-tmux-switch-panes
 
 fzf-tmux-switch-panes() {
   current_pane=$(tmux display-message -p "${tmux_panes_list_format}")
-  tmux split-window -f "TMUX_FZF=1 zsh -ci 'fzf-tmux-list-all-panes \"$current_pane\"'"
+  tmux split-window -f "TMUX_FZF=1 zsh -ci '_fzf-tmux-switch-panes \"$current_pane\"'"
 }
 
 # bring pane from other window into this window's split
 # join-pane -s other-window.pane-number
-fzf-tmux-bring-pane() {}
+_fzf-tmux-bring-pane() {
+  target=$(fzf-tmux-list-all-panes "${1}")
+
+  tmux join-pane -s "${target}"
+}
+
+fzf-tmux-bring-pane() {
+  current_pane=$(tmux display-message -p "${tmux_panes_list_format}")
+  tmux split-window -f "TMUX_FZF=1 zsh -ci '_fzf-tmux-bring-pane \"$current_pane\"'"
+}
 
 if [[ "$MACOS" ]]; then
   fzf_path="/usr/local/opt/fzf/shell"
