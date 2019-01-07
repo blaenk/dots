@@ -165,9 +165,9 @@ function mans(){
     xargs man
 }
 
-if command_exists brew; then
+if (( $+commands[brew])); then
   function bip() {
-    local inst=$(brew search | eval "fzf ${FZF_DEFAULT_OPTS} -m --header='[brew:install]'")
+    local inst=$(brew search | eval "fzf -m --header='[brew:install]'")
 
     if [[ $inst ]]; then
       for prog in $(echo $inst)
