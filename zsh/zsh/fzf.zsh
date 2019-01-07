@@ -150,3 +150,24 @@ fi
 if [[ -f "${fzf_path}/completion.zsh" ]]; then
   source "${fzf_path}/completion.zsh"
 fi
+
+# echo 'vasprintf(3), vdprintf(3) - formatted output conversion' | grep -Po '([^( ]+)\(([[:digit:]])\)' | sed -E 's/([^(]+)\(([[:digit:]])\),?/\2 \1/g'
+
+# function mans(){
+#   man -k . | \
+#     fzf -n1,2 \
+#         --preview "echo {} | sed -E 's/([^(]+)\(([[:digit:]])\).*/\2 \1/g' | xargs man" \
+#         --bind "enter:execute:(echo {} | sed -E 's/([^(]+)\(([[:digit:]])\).*/\2 \1/g' | xargs man)"
+# }
+
+# echo 'ExtUtils::MM_AIX(3pm)' | grep -Po '(.+)\((.+)\)' | sed -E 's/(.+)\((.+)\),?/\2 \1/g'
+function mans(){
+  # TODO: why dupes?
+  man -k . | \
+  grep -Po '([^ ]+?)\((.+?)\)' | \
+  uniq | \
+  fzf -n1,2 \
+      --preview "echo {} | sed -E 's/(.+)\((.+)\),?/\2 \1/g' | xargs man" | \
+  sed -E 's/(.+)\((.+)\),?/\2 \1/g' | \
+  xargs man
+}
