@@ -171,3 +171,15 @@ function mans(){
   sed -E 's/(.+)\((.+)\),?/\2 \1/g' | \
   xargs man
 }
+
+if command_exists brew; then
+  function bip() {
+    local inst=$(brew search | eval "fzf ${FZF_DEFAULT_OPTS} -m --header='[brew:install]'")
+
+    if [[ $inst ]]; then
+      for prog in $(echo $inst)
+      do brew install $prog
+      done
+    fi
+  }
+fi
