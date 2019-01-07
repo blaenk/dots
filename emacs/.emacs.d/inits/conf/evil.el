@@ -39,9 +39,6 @@
    "<" 'my-visual-shift-left)
 
   (:keymaps '(normal visual)
-   "j" 'evil-next-visual-line
-   "k" 'evil-previous-visual-line
-
    "gr" 'my-evil-visual-replace
    "gR" 'my-evil-replace
 
@@ -100,6 +97,7 @@
 
   :init
   (setq evil-text-object-change-visual-type nil
+        evil-respect-visual-line-mode t
         evil-split-window-below t
         evil-vsplit-window-right t
         evil-want-Y-yank-to-eol t
