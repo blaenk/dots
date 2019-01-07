@@ -82,22 +82,24 @@ fzf-git-aliases() {
     fzf-tmux +m --query="$1" --header="aliases" --exit-0 --select-1
 }
 
+tmux_panes_list_format='#{session_name}:#{window_index}.#{pane_index} #{window_name}:#{pane_current_command}'
+
 # select a tmux window from among all windows in every session
-fzf-tmux-select-all-window() {
+fzf-tmux-list-all-panes() {
   if ! tmux ls &> /dev/null; then
     zle reset-prompt
     return
   fi
 
-  local windows current_window target target_window
-  windows=$(tmux list-windows -a -F '#{session_name}:#{window_index} #{window_name}')
+  local windows current_window target target_window list_format
+  windows=$(tmux list-panes -a -F "${tmux_panes_list_format}")
 
   if [ -n "$TMUX" ]; then
-    current_window=$(tmux display-message -p '#{session_name}:#{window_index}: #{window_name}')
-    windows=$(echo "$windows" | grep -v "$current_window")
+    current_pane=$(tmux display-message -p "${tmux_panes_list_format}")
+    windows=$(echo "$windows" | grep -v "$current_pane" | grep -v "${1}")
   fi
 
-  target=$(echo "$windows" | fzf-tmux --query="$1" --header="tmux windows" --select-1 +m --exit-0 | awk '{print$1}')
+  target=$(echo "$windows" | fzf --header="tmux panes" --select-1 +m --exit-0 | awk '{print$1}')
 
   if [[ -z "$target" ]]; then
     zle reset-prompt
@@ -118,8 +120,17 @@ fzf-tmux-select-all-window() {
 # to invoke it while another program is running.
 
 # M-, to fzf all windows in every session
-zle -N fzf-tmux-select-all-window
-bindkey '^[,' fzf-tmux-select-all-window
+zle -N fzf-tmux-list-all-panes
+bindkey '^[,' fzf-tmux-list-all-panes
+
+fzf-tmux-switch-panes() {
+  current_pane=$(tmux display-message -p "${tmux_panes_list_format}")
+  tmux split-window -f "TMUX_FZF=1 zsh -ci 'fzf-tmux-list-all-panes \"$current_pane\"'"
+}
+
+# bring pane from other window into this window's split
+# join-pane -s other-window.pane-number
+fzf-tmux-bring-pane() {}
 
 if [[ "$MACOS" ]]; then
   fzf_path="/usr/local/opt/fzf/shell"
