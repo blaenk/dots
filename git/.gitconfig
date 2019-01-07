@@ -95,7 +95,7 @@
 	dfsm = diff --submodule
 
 	# Show the stash's diff
-	dfz = stash -p
+	dfz = stash show -p
 
 	# Custom log
 	lg = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset'
