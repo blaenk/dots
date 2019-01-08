@@ -99,7 +99,6 @@
 
   :init
   (setq evil-text-object-change-visual-type nil
-        evil-respect-visual-line-mode t
         evil-split-window-below t
         evil-vsplit-window-right t
         evil-want-Y-yank-to-eol t
@@ -137,6 +136,20 @@
          evil-replace-state-cursor `(,red-lc (hbar . 4))
          evil-operator-state-cursor `((hbar . 6))
          evil-emacs-state-cursor `(,red-lc box)))
+
+  (defun evil-next-line--check-visual-line-mode (orig-fun &rest args)
+    (if visual-line-mode
+        (apply 'evil-next-visual-line args)
+      (apply orig-fun args)))
+
+  (advice-add 'evil-next-line :around 'evil-next-line--check-visual-line-mode)
+
+  (defun evil-previous-line--check-visual-line-mode (orig-fun &rest args)
+    (if visual-line-mode
+        (apply 'evil-previous-visual-line args)
+      (apply orig-fun args)))
+
+  (advice-add 'evil-previous-line :around 'evil-previous-line--check-visual-line-mode)
 
   ;; FIXME
   ;; when done on line:
