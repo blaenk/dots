@@ -75,7 +75,8 @@
   (with-eval-after-load 'evil
     (evil-set-initial-state #'git-commit-mode 'insert))
 
-  (add-to-list 'git-commit-style-convention-checks 'overlong-summary-line))
+  (add-to-list 'git-commit-style-convention-checks 'overlong-summary-line)
+  (add-to-list 'git-commit-style-convention-checks 'non-empty-second-line))
 
 (use-package magit
   :general
