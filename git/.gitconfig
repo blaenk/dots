@@ -73,6 +73,7 @@
 
 	# Fuzzy add
 	af = "!git ls-files -m -o --exclude-standard | fzf-tmux --print0 -m | xargs -0 -t sh -c 'git add \"$@\" </dev/tty' git"
+	rf = "!git ls-files --exclude-standard | fzf-tmux --print0 -m | xargs -0 -t sh -c 'git rm \"$@\" </dev/tty' git"
 
 	# Reset hard
 	rh = reset --hard
