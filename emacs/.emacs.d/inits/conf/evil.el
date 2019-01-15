@@ -24,8 +24,6 @@
    "< <" 'evil-shift-left-line
    "> >" 'evil-shift-right-line
 
-   "TAB" 'indent-for-tab-command
-
    "g p" 'exchange-point-and-mark
 
    "M-o" 'my-evil-open-in-between
