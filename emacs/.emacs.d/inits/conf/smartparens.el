@@ -4,8 +4,10 @@
 (require 'dash)
 
 (use-package smartparens
+  :demand t
+
   :general
-  (:keymaps '(emacs-lisp-mode-map web-mode-map lisp-interaction-mode-map)
+  (:keymaps 'smartparens-mode-map
    :states 'normal
     "> )" 'my-move-closing-paren-forward
     "< )" 'my-move-closing-paren-backward
@@ -30,7 +32,8 @@
     "> f" 'my-restricted-move-form-forward)
 
   :config
-  (require 'smartparens-html)
+  (require 'smartparens-config)
+  (smartparens-global-mode)
 
   (with-eval-after-load 'evil
     (use-package on-parens
