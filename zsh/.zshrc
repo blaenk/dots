@@ -2,6 +2,18 @@
 
 [[ -n "$ENABLE_ZPROF" ]] && zmodload zsh/zprof
 
+if [[ -n "$ENABLE_XTRACE" ]]; then
+  zmodload zsh/datetime
+  setopt PROMPT_SUBST
+  PS4='+$EPOCHREALTIME %N:%i> '
+
+  logfile=$(mktemp zsh_profile.XXXXXXXX)
+  echo "Logging to $logfile"
+  exec 3>&2 2>$logfile
+
+  setopt XTRACE
+fi
+
 if [[ "$OSTYPE" == darwin* ]]; then
   export MACOS=1
 
@@ -142,7 +154,6 @@ function_exists() {
 # strict control over source order
 sources=(
   'path'
-  'ruby'
   'hub'
   'vcsinfo'
   'prompt'
@@ -166,3 +177,8 @@ if [[ -f ~/.zsh.local ]]; then
 fi
 
 [[ -n "$ENABLE_ZPROF" ]] && zprof
+
+if [[ -n "$ENABLE_XTRACE" ]]; then
+  unsetopt XTRACE
+  exec 2>&3 3>&-
+fi
