@@ -122,14 +122,10 @@ zplug "hlissner/zsh-autopair", defer:2
 zplug "zsh-users/zsh-syntax-highlighting", defer:3
 zplug "zsh-users/zsh-completions"
 
-zplug "plugins/command-not-found", from:oh-my-zsh
-
-export NVM_LAZY_LOAD=true
-zplug "lukechilds/zsh-nvm"
-zplug "lukechilds/zsh-better-npm-completion"
+# NOTE: Don't use on macOS because brew is very slow
+zplug "plugins/command-not-found", from:oh-my-zsh, defer:3, if:"[[ $OSTYPE != *darwin* ]]"
 
 zplug "b4b4r07/enhancd", use:init.sh
-zplug "wfxr/forgit", defer:1
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check; then
