@@ -5,11 +5,13 @@ export GOPATH=${HOME}/code/go
 export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
 
 if command_exists rustc; then
+  RUST_SYSROOT=$(rustc --print sysroot)
+
   # rustup component add rust-src
-  export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src
+  export RUST_SRC_PATH=${RUST_SYSROOT}/lib/rustlib/src/rust/src
 
   # rust libraries
-  export LD_LIBRARY_PATH=$(rustc --print sysroot)/lib:$LD_LIBRARY_PATH
+  export LD_LIBRARY_PATH=${RUST_SYSROOT}/lib:$LD_LIBRARY_PATH
 fi
 
 mkdir -p ~/bin
