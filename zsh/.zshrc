@@ -132,7 +132,7 @@ zplug "b4b4r07/enhancd", use:init.sh
 zplug "wfxr/forgit", defer:1
 
 # Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
+if ! zplug check; then
   printf "Install? [y/N]: "
   if read -q; then
     echo; zplug install
