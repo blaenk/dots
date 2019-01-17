@@ -129,9 +129,7 @@
     (magit-wip-after-apply-mode)
     (magit-wip-before-change-mode)))
 
-(use-package forge
-  :demand t
-  :straight (:host github :repo "magit/forge"))
+(use-package forge :demand t)
 
 (use-package magit-todos
   :defer t
