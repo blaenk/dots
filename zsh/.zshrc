@@ -149,6 +149,18 @@ function_exists() {
   (( $+functions[$1]))
 }
 
+typeset -aU ldflags
+typeset -T LDFLAGS ldflags ' '
+export LDFLAGS
+
+typeset -aU cppflags
+typeset -T CPPFLAGS cppflags ' '
+export CPPFLAGS
+
+typeset -aU pkg_config_path
+typeset -T PKG_CONFIG_PATH pkg_config_path
+export PKG_CONFIG_PATH
+
 # strict control over source order
 sources=(
   'path'
