@@ -27,6 +27,10 @@ alias rm='rm -I'
 
 alias human-readable='numfmt --to=iec --suffix=B'
 
+alias loadrvm='[[ -s "~/.rvm/scripts/rvm" ]] && . "~/.rvm/scripts/rvm"'
+alias loadnvm='[[ -s "~/.nvm/nvm.sh" ]] && . "~/.nvm/nvm.sh"'
+alias loadchruby='[[ -s "/usr/share/chruby/chruby.sh" ]] && . "/usr/share/chruby/chruby.sh"'
+
 if command_exists git; then
   alias g='git'
   alias git='noglob git'
