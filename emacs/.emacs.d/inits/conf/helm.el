@@ -404,6 +404,17 @@ can be overridden with the prefix ARG."
    "C-c C-h" 'helm-ext-ff-buffer-execute-horizontal-split
    "C-c C-v" 'helm-ext-ff-buffer-execute-vertical-split))
 
+(use-package helm-buffers
+  :straight nil
+
+  :config
+  ;; FIXME: Can only do this when helm buffer exists or something. Use advice?
+  (helm-add-action-to-source
+   "Split Horizontal" 'helm-ext-ff-buffer-action-horizontal-split helm-source-buffers-list)
+
+  (helm-add-action-to-source
+   "Split Horizontal" 'helm-ext-ff-buffer-action-horizontal-split helm-source-buffers-list))
+
 (use-package helm-files
   :straight nil
 
