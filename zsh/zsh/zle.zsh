@@ -121,26 +121,27 @@ function vi-paste-x-selection () {
   zle yank
 }
 
-zle -N vi-paste-x-selection
-bindkey -M vicmd 'p' vi-paste-x-selection
+# zle -N vi-paste-x-selection
+# bindkey -M vicmd 'p' vi-paste-x-selection
 bindkey -M viins "^Y" vi-paste-x-selection
+bindkey -M viins "^Y" zsh-system-clipboard-vicmd-vi-put-after
 
 function vi-yank-x-selection () {
   zle vi-yank
   print -rn -- $CUTBUFFER | eval "cbc"
 }
 
-zle -N vi-yank-x-selection
-bindkey -M vicmd "y" vi-yank-x-selection
-bindkey -M visual "y" vi-yank-x-selection
+# zle -N vi-yank-x-selection
+# bindkey -M vicmd "y" vi-yank-x-selection
+# bindkey -M visual "y" vi-yank-x-selection
 
 function vi-yank-whole-line-x-selection () {
   zle vi-yank-whole-line
   print -rn -- $BUFFER | eval "cbc"
 }
 
-zle -N vi-yank-whole-line-x-selection
-bindkey -M vicmd "yy" vi-yank-whole-line-x-selection
+# zle -N vi-yank-whole-line-x-selection
+# bindkey -M vicmd "yy" vi-yank-whole-line-x-selection
 
 # allow interactive incr search, ^G or ^C to exit
 bindkey -M isearch "^P" history-incremental-search-backward
