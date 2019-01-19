@@ -121,7 +121,6 @@ zplug "zplug/zplug"
 zplug "hlissner/zsh-autopair", defer:2
 zplug "zsh-users/zsh-syntax-highlighting", defer:3
 zplug "zsh-users/zsh-completions"
-export DISPLAY=:0
 zplug "kutsan/zsh-system-clipboard"
 
 # NOTE: Don't use on macOS because brew is very slow
