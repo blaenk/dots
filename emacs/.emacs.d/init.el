@@ -32,9 +32,11 @@
 
 (add-hook 'after-make-frame-functions #'my--set-frame-options)
 
+(defvar bootstrap-version)
+(defvar straight-repository-branch "develop")
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 4))
+      (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
