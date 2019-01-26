@@ -19,6 +19,7 @@ mkdir -p ~/bin
 path=(
   ~/bin
 
+  ${GOPATH}/bin
   ~/.cargo/bin
   ~/.rbenv/bin
   ~/.cabal/bin
