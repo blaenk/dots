@@ -204,8 +204,8 @@
 (use-package go-eldoc
   :defer t
 
-  :init
-  (add-hook 'go-mode-hook #'go-eldoc-setup))
+  :hook
+  (g-mode . go-eldoc-setup))
 
 (use-package go-playground :defer t)
 
