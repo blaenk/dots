@@ -9,6 +9,7 @@ alias reload="killall -USR1 -- zsh -zsh"
 
 alias ls='ls -lh --color=auto --group-directories-first --classify'
 alias mounts='mount | column -t | sort'
+alias ports='netstat -tulanp'
 
 alias less='less -FXr'
 alias -g eless='2>&1 | less'
