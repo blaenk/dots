@@ -26,7 +26,6 @@ path=(
   ~/.rvm/bin
 
   /usr/local/texlive/2018/bin/x86_64-linux
-  ${GOPATH}/bin
   /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 
   "$path[@]"
