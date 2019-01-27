@@ -408,7 +408,9 @@ can be overridden with the prefix ARG."
   :straight nil
 
   :config
-  ;; FIXME: Can only do this when helm buffer exists or something. Use advice?
+  (setq helm-source-buffers-list
+          (helm-make-source "Buffers" 'helm-source-buffers))
+
   (helm-add-action-to-source
    "Split Horizontal" 'helm-ext-ff-buffer-action-horizontal-split helm-source-buffers-list)
 
