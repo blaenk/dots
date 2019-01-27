@@ -7,7 +7,7 @@ alias ":q"='exit'
 
 alias reload="killall -USR1 -- zsh -zsh"
 
-alias ls='ls -lh --color=always'
+alias ls='ls -lh --color=auto --group-directories-first --classify'
 
 alias less='less -FXr'
 alias -g eless='2>&1 | less'
