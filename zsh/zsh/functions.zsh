@@ -4,6 +4,10 @@ manf() {
   man -P "less -p \"^( +\K$2| +-[^ ]+( or|,) \K$2)\"" $1
 }
 
+cheat() {
+  curl "cht.sh/${1}"
+}
+
 # open man page and jump to examples section
 eg() {
   man -P "less -p \"^EXAMPLES?\"" $1
