@@ -137,6 +137,8 @@
 
       backup-directory-alist `((".*" . ,(my-cache-dir "backups/")))
 
+      use-dialog-box nil
+
       enable-recursive-minibuffers t
 
       inhibit-x-resources t
