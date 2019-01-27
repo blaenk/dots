@@ -50,6 +50,13 @@
   :init
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
+(use-package flycheck-golangci-lint
+  :init
+  (setq flycheck-golangci-lint-tests t
+        flycheck-golangci-lint-fast t)
+
+  :hook (go-mode . flycheck-golangci-lint-setup))
+
 (use-package lsp-flycheck
   :straight nil
   :after lsp-mode)
