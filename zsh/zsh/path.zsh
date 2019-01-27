@@ -1,6 +1,6 @@
 typeset -U path
 
-export GOPATH=${HOME}/code/go
+export GOPATH=${HOME}/code/gopath
 
 export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
 
