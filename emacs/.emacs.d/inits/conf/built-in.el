@@ -189,7 +189,7 @@ If it was already set, unset it. Otherwise invoke
     "e e d" 'edebug-eval-defun)
 
   :init
-  (add-hook 'edebug-mode-hook (my-create-evil-toggle-for-mode edebug-mode))
+  (my-create-evil-toggle-for-mode edebug-mode)
 
   (defconst my--defun-regexp
     "(\\s-*\\(defun\\|defmacro\\|use-package\\)\\s-+"

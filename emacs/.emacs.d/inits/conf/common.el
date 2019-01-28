@@ -178,14 +178,21 @@ verbatim."
      (evil-insert-state)))
 
 (defmacro my-create-evil-toggle-for-mode (mode)
-  "Defines an evil toggle function for use with a mode hook.
+  "Defines an evil toggle function and attaches it to the mode's hook.
 
 Defines a function which enters Emacs state when the given MODE is entered,
-then enters normal state when the MODE is exited."
-  `(defun ,(intern (concat "my--evil-toggle-for-" (symbol-name mode))) ()
-     (if ,mode
-         (evil-emacs-state)
-       (evil-normal-state))))
+then enters normal state when the MODE is exited.
+
+This function is then added to MODE hook."
+  (let
+      ((mode-name (symbol-name mode))
+       (hook-name (intern (concat mode-name "-hook")))
+       (func (intern (concat "my--evil-toggle-for-" mode-name))))
+   `(progn
+      (defun ,func ()
+        (if ,mode (evil-emacs-state) (evil-normal-state)))
+
+      (add-hook ',hook-name ',func))))
 
 (defun my--exit-insert-state (arg)
   (when (and (fboundp 'evil-insert-state-p)

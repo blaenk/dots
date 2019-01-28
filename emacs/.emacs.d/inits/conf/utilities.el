@@ -13,7 +13,7 @@
     "e e m" 'macrostep-expand)
 
   :init
-  (add-hook 'macrostep-mode-hook (my-create-evil-toggle-for-mode macrostep-mode)))
+  (my-create-evil-toggle-for-mode macrostep-mode))
 
 (use-package discover-my-major
   :general

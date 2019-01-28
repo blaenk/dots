@@ -107,6 +107,9 @@
 
   (add-hook 'magit-mode-hook #'global-magit-file-mode)
 
+  (my-create-evil-toggle-for-mode magit-blame-read-only-mode)
+  (my-create-evil-toggle-for-mode magit-blob-mode)
+
   :config
   (defun my-open-pr ()
     "Visit the current branch's PR on Github."
