@@ -520,7 +520,22 @@ Interactively, it is given by the prefix argument."
   :init
   (setq avy-style 'pre))
 
-(use-package helpful :defer t)
+(use-package helpful
+  :defer t
+
+  :general
+  (my-map :infix "e H"
+    "" '(:ignore t :which-key "helpful")
+    "f" 'helpful-callable
+    "v" 'helpful-variable
+    "k" 'helpful-key
+    "H" 'helpful-at-point
+    "F" 'helpful-function
+    "c" 'helpful-command)
+
+  :config
+  (with-eval-after-load 'evil
+    (evil-set-initial-state #'helpful-mode 'evil)))
 
 (use-package edit-indirect
   :defer t
