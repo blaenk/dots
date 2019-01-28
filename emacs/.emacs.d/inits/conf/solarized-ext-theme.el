@@ -299,7 +299,7 @@
   `(mode-line-edebug-face ((,class (:background ,violet :foreground "white" :weight bold))))
   `(mode-line-anzu-face ((,class (:background ,orange-l :foreground "white" :weight bold))))
   `(mode-line-mode-name-face ((,class (:background ,base0 :foreground "white"))))
-  `(mode-line-read-only-face ((,class (:background ,red-l :foreground "white"))))
+  `(mode-line-read-only-face ((,class (:background ,red-l :foreground "white" :weight bold))))
   `(mode-line-emacs-mode-indicator-face
     ((,class (:background ,red-l :foreground "white" :weight bold))))
   `(mode-line-evil-mode-indicator-face
