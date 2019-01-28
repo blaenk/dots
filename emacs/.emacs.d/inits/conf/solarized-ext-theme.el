@@ -247,6 +247,7 @@
   `(avy-lead-face-2 ((,class (:background ,green-lc))))
 
   `(hl-line ((,class (:background ,(solarized-color-blend base02 base03 0.5)))))
+  `(lsp-ui-doc-background ((,class ((:inherit hl-line)))))
   `(region ((,class (:background ,base02 :foreground unspecified))))
 
   `(show-paren-match ((,class (:foreground unspecified
