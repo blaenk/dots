@@ -142,16 +142,6 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
   (add-hook 'LaTeX-mode-hook #'my--company-auctex))
 
-(use-package company-go
-  :defer t
-
-  :init
-  (defun my--company-go ()
-    (setq-local company-backends
-                (add-to-list 'company-backends 'company-go)))
-
-  (add-hook 'go-mode-hook #'my--company-go))
-
 (use-package company-restclient
   :defer t
 
