@@ -470,13 +470,17 @@
   (add-hook 'racer-mode-hook #'eldoc-mode))
 
 (use-package lsp-mode
-  :disabled t
-  :defer t
+  :commands lsp
 
   :init
-  (add-hook 'rust-mode-hook #'global-lsp-mode))
+  (add-hook 'go-mode-hook #'lsp))
 
-(use-package lsp-rust :disabled t :defer t)
+(use-package lsp-ui
+  :after lsp-mode
+  :commands lsp-ui-mode
+
+  :init
+  (add-hook 'lsp-mode-hook #'lsp-ui-mode))
 
 (use-package toml-mode :defer t)
 
