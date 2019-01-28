@@ -57,8 +57,4 @@
 
   :hook (go-mode . flycheck-golangci-lint-setup))
 
-(use-package lsp-flycheck
-  :straight nil
-  :after lsp-mode)
-
 (provide 'conf/flycheck)

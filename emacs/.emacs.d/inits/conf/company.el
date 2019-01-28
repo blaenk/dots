@@ -171,4 +171,14 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
   (add-hook 'global-company-mode-hook #'my--company-emoji))
 
+(use-package company-lsp
+  :after lsp-mode
+  :commands company-lsp
+
+  :init
+  (defun my--company-lsp ()
+    (add-to-list 'company-backends 'company-lsp t))
+
+  (add-hook 'lsp-mode-hook #'my--company-lsp))
+
 (provide 'conf/company)
