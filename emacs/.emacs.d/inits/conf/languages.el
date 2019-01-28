@@ -201,12 +201,6 @@
   (add-hook 'go-mode-hook #'subword-mode)
   (add-hook 'before-save-hook #'gofmt-before-save))
 
-(use-package go-eldoc
-  :defer t
-
-  :hook
-  (g-mode . go-eldoc-setup))
-
 (use-package go-playground :defer t)
 
 (use-package less-css-mode :defer t)
