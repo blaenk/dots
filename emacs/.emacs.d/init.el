@@ -391,12 +391,13 @@ text by that amount."
   "b s" 'save-buffer
   "b S" 'my-force-save
   "b t" 'my-touch-buffer
-  "w" '(:ignore t :which-key "window")
   )
 
 (my-map :infix "w"
   :prefix-map 'my-window-prefix-map
   :prefix-command 'my-window-prefix-command
+
+  "" '(:ignore t :which-key "window")
 
   "o" 'my-switch-to-last-window
   "=" 'balance-windows
