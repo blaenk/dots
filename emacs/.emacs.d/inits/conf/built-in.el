@@ -872,6 +872,7 @@ they'll be disabled and then re-enabled on exit.")
 
 (use-package elec-pair
   :straight nil
+  :disable t
   :defer t
 
   :hook
