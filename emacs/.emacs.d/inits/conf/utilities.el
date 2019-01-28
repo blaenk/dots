@@ -535,7 +535,7 @@ Interactively, it is given by the prefix argument."
 
   :config
   (with-eval-after-load 'evil
-    (evil-set-initial-state #'helpful-mode 'evil)))
+    (evil-set-initial-state #'helpful-mode 'emacs)))
 
 (use-package edit-indirect
   :defer t
