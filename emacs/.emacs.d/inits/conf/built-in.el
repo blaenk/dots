@@ -1081,7 +1081,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 
   :config
   (with-eval-after-load 'evil
-    (evil-set-initial-state #'help-mode 'normal)))
+    (evil-set-initial-state #'help-mode 'emacs)))
 
 (use-package sql
   :straight nil
