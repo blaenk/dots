@@ -137,9 +137,7 @@
     (add-hook 'magit-ediff-quit-hook #'my--ediff-quit))
 
   (unless (eq system-type 'windows-nt)
-    (magit-wip-after-save-mode)
-    (magit-wip-after-apply-mode)
-    (magit-wip-before-change-mode)))
+    (magit-wip-mode)))
 
 (use-package forge :demand t)
 
