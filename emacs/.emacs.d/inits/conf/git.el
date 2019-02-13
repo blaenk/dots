@@ -39,7 +39,14 @@
   (my-map "o g" 'browse-at-remote-kill)
 
   :init
-  (setq browse-at-remote-prefer-symbolic nil))
+  (setq browse-at-remote-prefer-symbolic nil)
+
+  (defun my-browse-at-remote ()
+    (interactive)
+
+    (if my--is-within-vm
+        (call-interactively #'browse-at-remote-kill)
+      (call-interactively #'browse-at-remote))))
 
 (use-package git-timemachine :defer t)
 
