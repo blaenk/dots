@@ -185,9 +185,9 @@ then enters normal state when the MODE is exited.
 
 This function is then added to MODE hook."
   (let*
-      ((mode-name (symbol-name mode))
-       (hook-name (intern (concat mode-name "-hook")))
-       (func (intern (concat "my--evil-toggle-for-" mode-name))))
+      ((name (symbol-name mode))
+       (hook-name (intern (concat name "-hook")))
+       (func (intern (concat "my--evil-toggle-for-" name))))
     `(progn
        (defun ,func ()
          (if ,mode (evil-emacs-state) (evil-normal-state)))
