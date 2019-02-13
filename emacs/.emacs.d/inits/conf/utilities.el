@@ -145,13 +145,22 @@
 
   :general
   (my-map
-    "p" '(:keymap projectile-command-map
-          :which-key "projectile"))
+    "o p" 'my-buffer-file-path
+
+    "p" '(:keymap projectile-command-map :which-key "projectile"))
 
   :init
   ;; Consider files ending in _test to be tests.
   (defun my--projectile-test-suffix-function (project-type)
     (or (projectile-test-suffix project-type) "_test"))
+
+  (defun my-buffer-file-path ()
+    (interactive)
+
+    (kill-new
+     (if buffer-file-name
+         (f-relative buffer-file-name (projectile-project-root))
+       (buffer-name))))
 
   (setq projectile-sort-order 'recently-active
         projectile-completion-system 'helm
