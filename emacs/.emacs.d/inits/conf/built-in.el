@@ -777,12 +777,19 @@ Lisp function does not specify a special indentation."
   :straight nil
   :defer t
 
+  :general
+  (my-map "b d" 'my-diff)
+
   :init
   (defun my-diff ()
     "Generate unified diff of current buffer with backing file."
     (interactive)
 
-    (diff-buffer-with-file (current-buffer))))
+    (diff-buffer-with-file (current-buffer)))
+
+  :config
+  (with-eval-after-load 'evil
+    (evil-set-initial-state #'diff-mode 'emacs)))
 
 (use-package ediff
   :straight nil
@@ -790,7 +797,7 @@ Lisp function does not specify a special indentation."
   ediff-toggle-wide-display
 
   :general
-  (my-map "b d" 'ediff-current-file)
+  (my-map "b e" 'ediff-current-file)
 
   :hook
   ((ediff-before-setup . my--ediff-save-window-and-frame-configuration)
