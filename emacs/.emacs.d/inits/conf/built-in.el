@@ -28,7 +28,7 @@
    "C-M-S-j" 'my-move-splitter-down)
 
   (my-map
-    "w r" 'my-window-resizer/body)
+    "w r" 'my-window-hydra/body)
 
   :init
   (defun my-move-splitter-left (arg)
@@ -126,17 +126,30 @@ If it was already set, unset it. Otherwise invoke
     (eval-when-compile
       (require 'hydra))
 
-    (defhydra my-window-resizer ()
-      "Resize window."
+    (defhydra my-window-hydra ()
+      "Window manipulations."
 
       ("C-u" my-universal-argument-toggle "prefix")
 
-      ("j" my-move-splitter-down "🡇")
-      ("k" my-move-splitter-up "🡅")
-      ("h" my-move-splitter-left "🡄")
-      ("l" my-move-splitter-right "🡆")
+      ("j" evil-window-down)
+      ("k" evil-window-up)
+      ("h" evil-window-left)
+      ("l" evil-window-right)
+
+      ("M-j" buf-move-down)
+      ("M-k" buf-move-up)
+      ("M-h" buf-move-left)
+      ("M-l" buf-move-right)
+
+      ("J" my-move-splitter-down)
+      ("K" my-move-splitter-up)
+      ("H" my-move-splitter-left)
+      ("L" my-move-splitter-right)
 
       ("w" ace-window "ace")
+
+      ("s" evil-window-split)
+      ("v" evil-window-vsplit)
 
       ("c" evil-window-delete "close")
       ("b" balance-windows "balance")
@@ -144,14 +157,9 @@ If it was already set, unset it. Otherwise invoke
       ("q" nil "quit")
       ("," nil "quit")
 
-      ("J" evil-window-down "go 🡇")
-      ("K" evil-window-up "go 🡅")
-      ("H" evil-window-left "go 🡄")
-      ("L" evil-window-right "go 🡆")
+      ("?" (my--hydra-cycle-verbosity 'my-window-hydra) "± verbosity"))
 
-      ("?" (my--hydra-cycle-verbosity 'my-window-resizer) "± verbosity"))
-
-    (hydra-set-property 'my-window-resizer :verbosity 0)))
+    (hydra-set-property 'my-window-hydra :verbosity 0)))
 
 (use-package server
   :straight nil
