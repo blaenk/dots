@@ -385,8 +385,7 @@
   (setq shackle-rules
         '((help-mode :select t)
           (compilation-mode :select t)
-          (cargo-process-mode :select t)
-          ("*Diff*" :select t :frame t)
+          ("*Diff*" :select t)
           ("*Package Commit List*" :select t)))
 
   (shackle-mode))
