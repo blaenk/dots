@@ -118,14 +118,14 @@
   (my-create-evil-toggle-for-mode magit-blob-mode)
 
   :config
-  (magit-define-popup-action 'magit-file-popup
-    ?R "Rename file" 'magit-file-rename)
-  (magit-define-popup-action 'magit-file-popup
-    ?K "Delete file" 'magit-file-delete)
-  (magit-define-popup-action 'magit-file-popup
-    ?U "Untrack file" 'magit-file-untrack)
-  (magit-define-popup-action 'magit-file-popup
-    ?C "Checkout file" 'magit-file-checkout)
+  ;; (magit-define-popup-action 'magit-file-popup
+  ;;   ?R "Rename file" 'magit-file-rename)
+  ;; (magit-define-popup-action 'magit-file-popup
+  ;;   ?K "Delete file" 'magit-file-delete)
+  ;; (magit-define-popup-action 'magit-file-popup
+  ;;   ?U "Untrack file" 'magit-file-untrack)
+  ;; (magit-define-popup-action 'magit-file-popup
+  ;;   ?C "Checkout file" 'magit-file-checkout)
 
   (defun my-open-pr ()
     "Visit the current branch's PR on Github."
