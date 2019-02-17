@@ -93,8 +93,8 @@
   (my-map
     "g" '(:ignore t :which-key "git")
     "g s" 'magit-status
-    "g p" 'magit-dispatch-popup
-    "g f" 'magit-file-popup
+    "g p" 'magit-dispatch
+    "g f" 'magit-file-dispatch
 
     ". g" 'my-dots-git)
 
@@ -105,6 +105,7 @@
         magit-diff-refine-hunk t
         magit-display-buffer-function
           #'magit-display-buffer-fullframe-status-v1)
+        transient-default-level 7
 
   (defun my-dots-git ()
     "Open a Magit Status buffer for the dotfiles directory."
@@ -118,15 +119,6 @@
   (my-create-evil-toggle-for-mode magit-blob-mode)
 
   :config
-  ;; (magit-define-popup-action 'magit-file-popup
-  ;;   ?R "Rename file" 'magit-file-rename)
-  ;; (magit-define-popup-action 'magit-file-popup
-  ;;   ?K "Delete file" 'magit-file-delete)
-  ;; (magit-define-popup-action 'magit-file-popup
-  ;;   ?U "Untrack file" 'magit-file-untrack)
-  ;; (magit-define-popup-action 'magit-file-popup
-  ;;   ?C "Checkout file" 'magit-file-checkout)
-
   (defun my-open-pr ()
     "Visit the current branch's PR on Github."
     (interactive)

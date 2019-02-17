@@ -7,6 +7,7 @@ flycheck_*.el
 /zsh/zsh/cache/
 
 /emacs/.emacs.d/cache/
+/emacs/.emacs.d/transient/
 /emacs/.emacs.d/straight/build/
 /emacs/.emacs.d/straight/build-cache.el
 /emacs/.emacs.d/straight/modified/
