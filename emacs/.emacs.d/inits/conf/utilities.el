@@ -3,6 +3,13 @@
 (require 'general)
 (require 'conf/common)
 
+(use-package straight
+  :straight nil
+
+  :general
+  (my-map
+    "e u" 'straight-pull-all))
+
 (use-package pcre2el :defer t)
 
 (use-package macrostep
