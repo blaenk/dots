@@ -36,7 +36,7 @@
 
 (use-package browse-at-remote
   :general
-  (my-map "o g" 'browse-at-remote-kill)
+  (my-map "o g" 'my-browse-at-remote)
 
   :init
   (setq browse-at-remote-prefer-symbolic nil)
