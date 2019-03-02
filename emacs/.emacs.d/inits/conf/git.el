@@ -88,7 +88,7 @@
 (use-package magit
   :general
   (:keymaps 'magit-status-mode-map
-   "jl" 'avy-goto-line)
+   "jl" 'my-magit-avy-goto-line)
 
   (my-map
     "g" '(:ignore t :which-key "git")
@@ -107,6 +107,11 @@
         transient-default-level 7
         ;; magit-bury-buffer-function #'quit-window
         )
+
+  (defun my-magit-avy-goto-line ()
+    (interactive)
+    (call-interactively #'avy-goto-line)
+    (magit-refresh-buffer))
 
   (defun my-dots-git ()
     "Open a Magit Status buffer for the dotfiles directory."
