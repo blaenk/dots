@@ -105,7 +105,7 @@
         magit-diff-refine-hunk t
         magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
         transient-default-level 7
-        ;; magit-bury-buffer-function #'quit-window
+        magit-bury-buffer-function #'quit-window
         )
 
   (defun my-magit-avy-goto-line ()
