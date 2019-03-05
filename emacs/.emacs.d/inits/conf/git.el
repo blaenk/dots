@@ -103,7 +103,6 @@
         magit-refs-show-commit-count 'all
         magit-log-auto-more t
         magit-diff-refine-hunk t
-        magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
         magit-bury-buffer-function #'magit-mode-quit-window
         transient-default-level 7
         )
