@@ -602,4 +602,7 @@ Interactively, it is given by the prefix argument."
    "<M-up>" 'drag-stuff-up
    "<M-down>" 'drag-stuff-down))
 
+(use-package default-text-scale
+  :defer t)
+
 (provide 'conf/utilities)
