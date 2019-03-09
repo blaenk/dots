@@ -603,6 +603,9 @@ Interactively, it is given by the prefix argument."
    "<M-down>" 'drag-stuff-down))
 
 (use-package default-text-scale
-  :defer t)
+  :demand t
+
+  :config
+  (default-text-scale-mode))
 
 (provide 'conf/utilities)
