@@ -48,7 +48,11 @@ if command_exists vim; then
 fi
 
 if command_exists ag; then
-  alias agq='ag -Q'
+  alias agl='ag -Q'
+fi
+
+if command_exists rg; then
+  alias rgl='rg -F'
 fi
 
 if command_exists tree; then
