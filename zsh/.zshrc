@@ -62,10 +62,6 @@ if [[ "$TERM" == "dumb" ]]; then
   return
 fi
 
-if [[ -f "$DOTSPATH/.theme.dark" ]]; then
-  export USE_SOLARIZED_DARK=1
-fi
-
 # if TMUX_FZF is set, we're only interested in loading the fzf functions
 # everything else will just slow us down
 if [[ -n "$TMUX_FZF" ]]; then

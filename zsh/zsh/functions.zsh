@@ -118,35 +118,6 @@ go_dots() {
   cd $DOTSPATH
 }
 
-# load the given theme variant
-
-set_theme_dots() {
-  case "$1" in
-    light )
-      rm -f "$DOTSPATH/.theme.dark"
-
-      cat $DOTSPATH/X11/Xresources{,.light} > ~/.Xresources
-      xrdb -nocpp -merge ~/.Xresources
-
-      msg_success "theme set to Solarized Light"
-      msg_success "you may need to restart your terminal"
-      ;;
-    dark )
-      touch "$DOTSPATH/.theme.dark"
-
-      cat $DOTSPATH/X11/Xresources{,.dark} > ~/.Xresources
-      xrdb -nocpp -merge ~/.Xresources
-
-      msg_success "theme set to Solarized Dark"
-      msg_success "you may need to restart your terminal"
-      ;;
-    * )
-      msg_user "valid theme variants are 'light' and 'dark'"
-      echo ''
-      ;;
-  esac
-}
-
 # edit the dotfiles
 
 edit_dots() {
@@ -218,7 +189,7 @@ update_dots() {
 }
 
 # deploy the dotfiles
-put_dots() {
+install_dots() {
   emulate -LR zsh
 
   packages=(
@@ -234,6 +205,12 @@ put_dots() {
   for package in $packages; do
     stow -d "$DOTSPATH" "$package"
   done
+
+  msg_info "installing tmux plugins"
+  ~/.tmux/plugins/tpm/bin/install_plugins
+
+  msg_info "installing vim plugins"
+  vim +PlugInstall +qall
 }
 
 # message functions
@@ -243,26 +220,18 @@ tput_msg() {
 
 msg_info() {
   printf "\r$(tput el)  $(tput setaf 4)·$(tput sgr0) $1\n"
-  # tput_msg "4" "·" $1
 }
 
 msg_success() {
   printf "\r$(tput el)  $(tput setaf 2)+$(tput sgr0) $1\n"
-  # tput_msg "2" "+" $1
 }
 
 msg_fail() {
   printf "\r$(tput el)  $(tput setaf 1)-$(tput sgr0) $1\n"
-  # tput_msg "1" "-" $1
 }
 
 msg_user() {
   printf "\r  $(tput setaf 5)?$(tput sgr0) $1 "
-}
-
-link_files() {
-  ln -s $1 $2
-  msg_success "linked $1 $(tput setaf 2)→$(tput sgr0) $2"
 }
 
 # update and deploy dots
@@ -272,17 +241,16 @@ dots() {
   echo ''
 
   case "$1" in
-    set-theme )
-      shift
-      set_theme_dots "$@";;
     update )
       update_dots;;
     update-dependencies )
       update_dependencies_dots;;
-    put )
-      put_dots;;
+    install )
+      install_dots;;
     edit )
       edit_dots;;
+    path )
+      echo "$DOTSPATH";;
     go )
       go_dots;;
     * )
