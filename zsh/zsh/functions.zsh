@@ -187,7 +187,7 @@ update_dependencies_dots() {
 }
 
 # update the dotfiles
-get_dots() {
+update_dots() {
   emulate -LR zsh
 
   pushd $DOTSPATH > /dev/null
@@ -344,8 +344,8 @@ dots() {
     set-theme )
       shift
       set_theme_dots "$@";;
-    get )
-      get_dots;;
+    update )
+      update_dots;;
     update-dependencies )
       update_dependencies_dots;;
     put )
