@@ -79,6 +79,7 @@ fi
 
 if command_exists rake; then
   # Don't interpret brackets in arguments as glob patterns.
+  alias bundle='noglob bundle'
   alias rake='noglob rake'
 fi
 
