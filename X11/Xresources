@@ -7,7 +7,7 @@ URxvt.saveLines: 1000
 URxvt.lineSpace: 1
 URxvt.font: xft:DejaVu Sans Mono:size=10.5
 URxvt.boldFont: xft:DejaVu Sans Mono:bold:size=10.5
-URxvt.perl-ext-common: default,matcher,vtwheel,clipboard,keyboard-select,url-select,fullscreen
+URxvt.perl-ext-common: default,matcher,vtwheel,clipboard,keyboard-select,url-select,fullscreen,resize-font
 
 ! browser
 URxvt.url-launcher: /usr/bin/xdg-open
