@@ -10,7 +10,7 @@ URxvt.boldFont: xft:DejaVu Sans Mono:bold:size=10.5
 URxvt.perl-ext-common: default,matcher,vtwheel,clipboard,keyboard-select,url-select,fullscreen
 
 ! browser
-URxvt.url-launcher: /usr/bin/chromium
+URxvt.url-launcher: /usr/bin/xdg-open
 URxvt.matcher.button: 1
 URxvt.matcher.rend.0: Uline
 
@@ -22,7 +22,7 @@ URxvt.keysym.M-i: perl:keyboard-select:activate
 
 ! url select
 URxvt.keysym.M-u: perl:url-select:select_next
-URxvt.url-select.launcher: /usr/bin/chromium
+URxvt.url-select.launcher: /usr/bin/xdg-open
 URxvt.url-select.button: 1
 
 ! meta copy (like mac)
