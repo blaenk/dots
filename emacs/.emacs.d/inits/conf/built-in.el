@@ -1128,11 +1128,12 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   :init
   (when (executable-find "hunspell")
     (setq ispell-hunspell-dictionary-alist
-            '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8))))
+          '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
+            ("en_US-large" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8))))
 
-    ;; (setq ispell-program-name "hunspell"
-    ;;       ispell-dictionary "en_US-large"
-    ;;       ispell-really-hunspell t))
+    (setq ispell-program-name "hunspell"
+          ispell-dictionary "en_US-large"
+          ispell-really-hunspell t)
 
   :config
   (ispell-set-spellchecker-params))
