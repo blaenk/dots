@@ -15,6 +15,7 @@ setopt auto_cd
 zmodload -i zsh/complist
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' rehash true
 
 zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
