@@ -16,15 +16,15 @@ alias -g eless='2>&1 | less'
 
 alias tsup='sudo ntpd -qg'
 
-# fixes weird problem in tmux and ssh with zsh-syntax-highlighting
+# Fixes weird problem in tmux and ssh with zsh-syntax-highlighting.
 alias sudo='sudo '
 
 alias sedit='sudoedit'
 
-# using `type` is much nicer and provides information for various layers
+# Using `type` is much nicer and provides information for various layers.
 alias whichall='type -a'
 
-# prompt if deleting more than 3 files
+# Prompt if deleting more than 3 files.
 alias rm='rm -I'
 
 alias human-readable='numfmt --to=iec --suffix=B'
@@ -43,7 +43,7 @@ if command_exists tlmgr; then
 fi
 
 if command_exists vim; then
-  # update packages
+  # Update packages.
   alias vimup='vim +PlugInstall +qall'
 fi
 
@@ -74,7 +74,7 @@ if command_exists tmux; then
 fi
 
 if command_exists rake; then
-  # don't interpret brackets in arguments as glob patterns
+  # Don't interpret brackets in arguments as glob patterns.
   alias rake='noglob rake'
 fi
 
