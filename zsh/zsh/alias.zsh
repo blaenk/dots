@@ -174,65 +174,37 @@ if command_exists helm; then
 fi
 
 if command_exists pacman; then
-  alias p='pacman'
+  alias p="pacman"
 
-  alias pacup='sudo pacman -Syu'
-  alias pacin='sudo pacman -S'
-  alias packg='sudo pacman -U'
-  alias pacun='sudo pacman -Rs'
+  alias pacup="sudo pacman -Syu"
+  alias pacin="sudo pacman -S"
+  alias packg="sudo pacman -U"
+  alias pacun="sudo pacman -Rs"
 
-  # search remote/local for package
-  alias pacss='pacman -Ss'
-  alias pacqs='pacman -Qs'
+  # Search remote/local for package.
+  alias pacss="pacman -Ss"
+  alias pacqs="pacman -Qs"
 
-  # information about a package
-  alias pacqi='pacman -Qi'
-  alias pacsi='pacman -Si'
+  # Information about a package.
+  alias pacqi="pacman -Qi"
+  alias pacsi="pacman -Si"
 
-  # list files owned by package
-  alias pacql='pacman -Ql'
+  # List files owned by package.
+  alias pacql="pacman -Ql"
 
-  # who owns this file
-  alias pacqo='pacman -Qo'
+  # Who owns this file.
+  alias pacqo="pacman -Qo"
 
-  # all foreign packages
-  alias pacqm='pacman -Qm'
+  # All foreign packages.
+  alias pacqm="pacman -Qm"
 fi
 
-if command_exists aura; then
-  alias aura='aura -x'
+if command_exists yay; then
+  alias pacman="yay"
 
-  alias aurin='sudo aura -A'
-
-  # update packages, show pkgbuild diffs, remove orphan make deps
-  alias aurup='sudo aura -Aua'
-
-  # same as above but also update repo-sourced packages
-  alias aurud='sudo aura -Aua --devel'
-
-  # edit pkgbuild before install
-  alias aured='sudo aura -A --hotedit'
-
-  alias aurai='aura -Ai'
-
-  # only show first 10 results
-  alias auras='aura -As --head=5'
-
-  # check pkgbuild. useful when piped to vim -
-  alias aurpb='aura -Ap'
-
-  # download tarball only
-  alias aurdl='aura -Aw'
-
-  # downgrade specific packages
-  alias aurdg='sudo aura -C'
-
-  # save n package versions, remove the rest from cache
-  alias aurcc='sudo aura -Cc'
-
-  # show pacman log
-  alias aurlg='aura -L'
-
-  # show pacman log for certain package
-  alias aurli='aura -Li'
+  # Don't use sudo for commands. yay handles privilege elevation.
+  alias pacup="yay -Syu"
+  alias pacin="yay -S"
+  alias packg="yay -U"
+  alias pacun="yay -Rs"
 fi
