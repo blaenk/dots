@@ -221,87 +221,18 @@ update_dots() {
 put_dots() {
   emulate -LR zsh
 
-  msg_info "deploying dots from $DOTSPATH"
-  msg_info "help: "\
-"$(tput bold)b$(tput sgr0)ackup, "\
-"$(tput bold)o$(tput sgr0)verwrite, "\
-"$(tput bold)r$(tput sgr0)emove, "\
-"$(tput bold)s$(tput sgr0)kip\n"\
-"          capitalize to apply to all remaining\n"
+  packages=(
+    'emacs'
+    'git'
+    'mpv'
+    'tmux'
+    'vim'
+    'X11'
+    'zsh'
+  )
 
-  overwrite_all=false
-  backup_all=false
-  skip_all=false
-  remove_all=false
-
-  for src in `find "$DOTSPATH" -mindepth 2 -maxdepth 2  -name .\* ! -path "$DOTSPATH/.git*"`; do
-    dest="$HOME/`basename \"$src\"`"
-
-    if [[ -e $dest ]] || [[ -L $dest ]]; then
-      overwrite=false
-      backup=false
-      skip=false
-      remove=false
-      fname="$(tput bold)`basename $dest`$(tput sgr0)"
-
-      if [[ "$overwrite_all" == "false" ]] &&\
-         [[ "$backup_all" == "false" ]] &&\
-         [[ "$remove_all" == "false" ]] &&\
-         [[ "$skip_all" == "false" ]]; then
-        if [[ ! -L $dest ]]; then
-          msg_user "$fname exists non-linked:"
-        else
-          link=`readlink -mn "$dest"`
-          msg_user "$fname is already linked to $link:"
-        fi
-
-        read -k 1 action
-
-        case "$action" in
-          o )
-            overwrite=true;;
-          O )
-            overwrite_all=true;;
-          b )
-            backup=true;;
-          B )
-            backup_all=true;;
-          s )
-            skip=true;;
-          S )
-            skip_all=true;;
-          r )
-            remove=true;;
-          R )
-            remove_all=true;;
-          * )
-            ;;
-        esac
-      fi
-
-      if [[ "$skip" == "false" ]] && [[ "$skip_all" == "false" ]]; then
-        if [[ "$overwrite" == "true" ]] || [[ "$overwrite_all" == "true" ]] ||\
-           [[ "$remove" == "true" ]] || [[ "$remove_all" == "true" ]]; then
-          rm -rf $dest
-          msg_fail "removed $fname"
-        fi
-
-        if [[ "$backup" == "true" ]] || [[ "$backup_all" == "true" ]]; then
-          mv $dest{,.bak}
-          msg_success "moved $fname to $fname.bak"
-        fi
-
-        if [[ "$overwrite" == "true" ]] || [[ "$overwrite_all" == "true" ]] ||\
-           [[ "$backup" == "true" ]] || [[ "$backup_all" == "true" ]]; then
-          link_files $src $dest
-        fi
-      else
-        msg_info "skipped $fname"
-      fi
-
-    else
-      link_files $src $dest
-    fi
+  for package in $packages; do
+    stow -d "$DOTSPATH" "$package"
   done
 }
 
