@@ -1132,7 +1132,6 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
             ("en_US-large" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8))))
 
     (setq ispell-program-name "hunspell"
-          ispell-dictionary "en_US-large"
           ispell-really-hunspell t)
 
   :config
