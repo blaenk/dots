@@ -25,7 +25,7 @@ path=(
   ~/.cabal/bin
   ~/.rvm/bin
 
-  /usr/local/texlive/2018/bin/x86_64-linux
+  ~/.texlive/2018/bin/x86_64-linux
   /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 
   "$path[@]"
@@ -36,11 +36,13 @@ path=($^path(N))
 
 manpath=(
   /usr/local/share/man
+  ~/.texlive/2018/texmf-dist/doc/man
   "$manpath[@]"
 )
 
 infopath=(
   /usr/local/share/info
+  ~/.texlive/2018/texmf-dist/doc/info
   "$infopath[@]"
 )
 
