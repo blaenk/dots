@@ -139,11 +139,17 @@ fzf-tmux-bring-pane() {
   tmux split-window -f "TMUX_FZF=1 zsh -ci '_fzf-tmux-bring-pane \"$current_pane\"'"
 }
 
-if [[ "$MACOS" ]]; then
-  fzf_path="/usr/local/opt/fzf/shell"
-else
-  fzf_path="/usr/share/fzf"
-fi
+fzf_path=(
+  # Standard install, Ubuntu
+  $HOME/.fzf/shell
+  # Archlinux package
+  /usr/share/fzf
+  # Homebrew
+  /usr/local/opt/fzf/shell
+)
+
+typeset -a fzf_path
+fzf_path=($^fzf_path(N))
 
 if [[ -f "${fzf_path}/key-bindings.zsh" ]]; then
   source "${fzf_path}/key-bindings.zsh"
