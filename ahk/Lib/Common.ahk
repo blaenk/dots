@@ -1,4 +1,4 @@
-Games := "Overwatch"
+Games := "Overwatch|r5apex"
 GamesPattern := "ahk_exe (" . Games  . ")\.exe$"
 
 ; Determine whether the side buttons on the mouse (back and forward buttons)
