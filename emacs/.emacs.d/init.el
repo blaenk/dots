@@ -61,11 +61,12 @@
       backup-by-copying t
 
       straight-use-package-by-default t
-      use-package-check-before-init t
-      use-package-enable-imenu-support t)
+      use-package-check-before-init t)
 
 (eval-when-compile
   (require 'use-package))
+
+(customize-set-variable 'use-package-enable-imenu-support t)
 
 (use-package benchmark-init
   :defer t
