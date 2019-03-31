@@ -137,30 +137,11 @@ verbatim."
          )
        (setq ,@args))))
 
-;; NOTE
-;; This is for use with the fork
-;; (defmacro my-with-solarized-colors (&rest body)
-;;   `(with-eval-after-load 'solarized-theme
-;;      (eval-when-compile
-;;        (push "~/code/emacs/solarized-emacs" load-path)
-;;        (require 'solarized-theme))
-
-;;      (solarized-with-color-variables
-;;        ',my--theme-variant
-;;        ,@body)))
-
-;; TODO
-;; Use the above when the PR is merged.
 (defmacro my-with-solarized-colors (&rest body)
-  `(with-eval-after-load 'solarized
-     (eval-when-compile
-       (require 'solarized))
-
-     (solarized-with-color-variables
-       ',my--theme-variant
-       (let ((light-class (append '((background light)) class))
-             (dark-class (append '((background dark)) class)))
-         ,@body))))
+  `(use-package solarized-theme
+     :defer t
+     :config
+     (solarized-with-color-variables ',my--theme-variant ,@body)))
 
 (defmacro my-with-last-used-window (&rest body)
   "Perform BODY within the context of the last used window."
