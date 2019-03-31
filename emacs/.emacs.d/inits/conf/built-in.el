@@ -122,10 +122,9 @@ If it was already set, unset it. Otherwise invoke
         (setq current-prefix-arg nil)
       (call-interactively #'universal-argument)))
 
-  (with-eval-after-load 'hydra
-    (eval-when-compile
-      (require 'hydra))
-
+  (use-package hydra
+    :defer t
+    :config
     (defhydra my-window-hydra ()
       "Window manipulations."
 
