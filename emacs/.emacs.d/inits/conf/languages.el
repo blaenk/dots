@@ -420,18 +420,6 @@
   :init
   (add-hook 'js2-mode-hook #'tern-mode))
 
-(use-package rtags
-  :defer t
-
-  :init
-  (setq rtags-completions-enabled t
-        rtags-autostart-diagnostics t
-        rtags-use-helm t)
-
-  :config
-  (with-eval-after-load 'evil
-    (add-hook 'rtags-jump-hook #'evil--jumps-push)))
-
 (use-package modern-cpp-font-lock
   :defer t
 
