@@ -361,10 +361,9 @@ can be overridden with the prefix ARG."
           (helm-filtered-bookmarks))
       (helm-filtered-bookmarks)))
 
-  (with-eval-after-load 'helm-ext
-    (eval-when-compile
-      (require 'helm-ext))
-
+  (use-package helm-ext
+    :defer t
+    :config
     (helm-ext-ff-define-split helm-bookmark horizontal bookmark-jump balance)
     (helm-ext-ff-define-split helm-bookmark vertical bookmark-jump balance)
 
@@ -376,7 +375,7 @@ can be overridden with the prefix ARG."
     (helm-add-action-to-source
      "Split Horizontal" 'helm-ext-ff-helm-bookmark-action-horizontal-split my--helm-source-bookmark-project)
     (helm-add-action-to-source
-     "Split Vertical" 'helm-ext-ff-helm-bookmark-action-vertical-split my--helm-source-bookmark-project)))
+     "Split Vertical" 'helm-ext-ff-helm-bookmark-action-vertical-split my--helm-source-bookmark-project) ))
 
 (use-package helm-adaptive
   :straight nil
@@ -675,10 +674,9 @@ within other words, but this means that non-word keywords such as
     (with-helm-alive-p
       (helm-exit-and-execute-action 'my--helm-ag-launch-ag)))
 
-  (with-eval-after-load 'helm-ext
-    (eval-when-compile
-      (require 'helm-ext))
-
+  (use-package helm-ext
+    :defer t
+    :config
     (helm-ext-ff-define-split helm-ag horizontal
       (lambda (candidate)
         (helm-ag--find-file-action candidate
