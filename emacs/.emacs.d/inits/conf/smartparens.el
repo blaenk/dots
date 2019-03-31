@@ -35,12 +35,12 @@
   (require 'smartparens-config)
   (smartparens-global-mode)
 
-  (with-eval-after-load 'evil
+  (use-package evil
+    :defer t
+    :config
     (use-package on-parens
+      :defer t
       :config
-      (eval-when-compile
-        (require 'smartparens))
-
       ;; This is all inspired by this awesome vim package:
       ;; https://github.com/tpope/vim-sexp-mappings-for-regular-people
 
