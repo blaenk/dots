@@ -17,6 +17,7 @@ flycheck_*.el
 /emacs/.emacs.d/tramp
 /emacs/.emacs.d/**/*.elc
 /emacs/.emacs.d/forge-database.sqlite
+/emacs/.emacs.d/.lsp-session-v1
 
 /vim/.vim/autoload/plug.vim
 /vim/.vim/plugged/
