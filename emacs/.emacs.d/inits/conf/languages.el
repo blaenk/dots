@@ -551,7 +551,7 @@
              (y-or-n-p (concat "Save file " buffer-file-name "? ")))
         (save-buffer))
 
-    (flet ((TeX-process-check (&rest IGNORE) nil))
+    (defun TeX-process-check (&rest IGNORE)
       (TeX-command "Make" 'TeX-master-file 0)))
 
   (add-hook 'LaTeX-mode-hook #'olivetti-mode)
