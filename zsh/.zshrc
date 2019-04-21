@@ -105,7 +105,7 @@ export EDITOR=vim
 export VISUAL=vim
 
 # zplug
-export ZPLUG_HOME=~/.zplug
+export ZPLUG_HOME=$HOME/.zplug
 
 if [[ ! -d $ZPLUG_HOME ]]; then
   git clone https://github.com/zplug/zplug $ZPLUG_HOME
