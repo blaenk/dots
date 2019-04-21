@@ -459,9 +459,14 @@
 
 (use-package lsp-mode
   :commands lsp
-
   :init
-  (add-hook 'go-mode-hook #'lsp))
+  (add-hook 'go-mode-hook #'lsp)
+
+  :config
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection "gopls")
+                    :major-modes '(go-mode)
+                    :server-id 'gopls)))
 
 (use-package lsp-ui
   :after lsp-mode
