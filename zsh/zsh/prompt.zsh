@@ -37,13 +37,9 @@ function p_hostname {
 }
 
 function p_envs {
-  # check for cabal sandbox in parent directories, recursively
-  local cabal
-  cabal=( (../)#cabal.sandbox.config(N) )
-
   local envs
-  (( $#cabal ))         && envs += "H"
-  [[ -n $VIRTUAL_ENV ]] && envs += "P"
+
+  if [[ -n $VIRTUAL_ENV ]] && envs+="PY"
 
   [[ -n $envs ]] && echo " %F{green}[%f$envs%F{green}]%f"
 }
