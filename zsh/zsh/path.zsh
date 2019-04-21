@@ -20,6 +20,7 @@ path=(
   ~/bin
 
   ${GOPATH}/bin
+  ~/.local/bin
   ~/.cargo/bin
   ~/.rbenv/bin
   ~/.cabal/bin
