@@ -142,6 +142,7 @@ fzf-tmux-bring-pane() {
 fzf_path=(
   # Standard install, Ubuntu
   $HOME/.fzf/shell
+  /usr/share/doc/fzf/examples/
   # Archlinux package
   /usr/share/fzf
   # Homebrew
