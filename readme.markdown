@@ -10,6 +10,8 @@ There are no real, hard dependencies since these are simply configuration files,
 * Emacs 25
 * vim + gvim: `gvim`
 * Shell: `zsh`
+* Awk: `gawk` on Ubuntu
+* `wmctrl` for urxvt fullscreen
 * Fuzzy Complete: `fzf`
 * Searching: ag, `the_silver_searcher`
 * Command Not Found: `pkgfile` (Arch)
@@ -21,7 +23,7 @@ There are no real, hard dependencies since these are simply configuration files,
 ``` bash
 $ git clone https://github.com/blaenk/dots.git ~/.dots
 $ cd ~/.dots
-$ dots put
+$ dots install
 ```
 
 ### Usage
@@ -29,14 +31,14 @@ $ dots put
 Run the sprinkle script to deploy. It shows a prompt on how (or whether) to apply the files. The prompts are answered by providing the first letter of each word, e.g. "backup" would be "b". If you want to apply the action to every remaining item, capitalize the letter.
 
 ```
-$ ./dots put
+$ ./dots install
 
   · sprinkling dots from /home/user/.dots!
   · help: backup, overwrite, remove, skip
           capitalize to apply to all remaining
 ```
 
-Once the zsh configuration files are deployed, you can use the `dots` command from anywhere to both deploy the dotfiles with `dots put` as well as update the dotfiles with `dots get`.
+Once the zsh configuration files are deployed, you can use the `dots` command from anywhere to both deploy the dotfiles with `dots install` as well as update the dotfiles with `dots get`.
 
 ```
 λ ~/.dots (master)
