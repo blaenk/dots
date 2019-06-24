@@ -146,6 +146,7 @@
 (use-package forge :demand t)
 
 (use-package magit-todos
+  :disabled t
   :defer t
 
   :init
