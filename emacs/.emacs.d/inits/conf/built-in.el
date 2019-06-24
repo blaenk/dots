@@ -455,9 +455,9 @@ Also bind `q' to `quit-window'."
     "l" 'smerge-keep-lower
     "e" 'smerge-ediff)
 
-  :hook
+  ;; :hook
   ;; attempt to start smerge, automatically disabling it if not relevant
-  (find-file . smerge-start-session)
+  ;; (find-file . smerge-start-session)
 
   :init
   (with-eval-after-load 'evil
