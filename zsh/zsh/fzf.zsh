@@ -48,7 +48,7 @@ fzf-cd-up() {
   saved="${FZF_DEFAULT_OPTS}"
   FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --header=\"cd ↑ from $PWD\""
 
-  __enhancd::cd::builtin "$(__enhancd::arguments::dot "$2")"
+  __enhancd::cd::builtin "$(__enhancd::sources::go_up "$2")"
 
   FZF_DEFAULT_OPTS="${saved}"
   zle reset-prompt
