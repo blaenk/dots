@@ -289,28 +289,7 @@ Also bind `q' to `quit-window'."
   :straight nil
   :defer t
 
-  :hook
-  ((global-auto-revert-mode . my--enable-notify)
-   (find-file . my--disable-auto-revert-vc-when-remote))
-
   :init
-  (setq-default auto-revert-check-vc-info t)
-
-  ;; emacs 25 disables notify for global-auto-revert
-  ;; because there can be a problem on OSX where it may use too many resources
-  ;; or something
-  (defun my--enable-notify ()
-    "Enable auto-revert-use-notify unless on macos."
-
-    (unless (eq system-type 'darwin)
-      (setq-local auto-revert-use-notify t)))
-
-  (defun my--disable-auto-revert-vc-when-remote ()
-    "Disable auto-revert-mode for remote files."
-
-    (when (and buffer-file-name (file-remote-p buffer-file-name))
-      (setq-local auto-revert-check-vc-info nil)))
-
   (global-auto-revert-mode 1))
 
 (use-package delsel
