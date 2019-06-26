@@ -287,13 +287,6 @@
 
   (global-undo-tree-mode))
 
-(use-package multi-term
-  :defer t
-
-  :init
-  (setq multi-term-buffer-name "term"
-        multi-term-program "/usr/bin/zsh"))
-
 (use-package stripe-buffer
   :defer t
 

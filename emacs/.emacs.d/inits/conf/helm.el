@@ -512,23 +512,6 @@ overridden with the prefix ARG."
         (helm-do-ag (projectile-project-root))
       (helm-do-ag))))
 
-(use-package helm-mt
-  :general
-  (my-map
-    "o t" 'helm-mt)
-
-  (:keymaps 'helm-mt/keymap
-   "C-c C-h" 'helm-ext-ff-buffer-execute-horizontal-split
-   "C-c C-v" 'helm-ext-ff-buffer-execute-vertical-split)
-
-  :config
-  (helm-mt/reroute-terminal-functions t)
-
-  (helm-add-action-to-source
-   "Split Horizontal" 'helm-ext-ff-buffer-action-horizontal-split helm-source-projectile-projects)
-  (helm-add-action-to-source
-   "Split Vertical" 'helm-ext-ff-buffer-action-vertical-split helm-source-projectile-projects))
-
 (use-package helm-open-github :defer t)
 
 (use-package helm-unicode
