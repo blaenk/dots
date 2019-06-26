@@ -428,10 +428,6 @@ Also bind `q' to `quit-window'."
     "l" 'smerge-keep-lower
     "e" 'smerge-ediff)
 
-  ;; :hook
-  ;; attempt to start smerge, automatically disabling it if not relevant
-  ;; (find-file . smerge-start-session)
-
   :init
   (with-eval-after-load 'evil
     (add-hook 'smerge-mode-hook #'evil-normalize-keymaps)))
