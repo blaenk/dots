@@ -426,12 +426,6 @@ Also bind `q' to `quit-window'."
 
   (show-paren-mode 1))
 
-(use-package which-func
-  :straight nil
-
-  :init
-  (which-function-mode 1))
-
 (use-package saveplace
   :straight nil
   :defer t

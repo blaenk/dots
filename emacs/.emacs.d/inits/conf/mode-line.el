@@ -41,16 +41,7 @@
           (eyebrowse-tagged-slot-format " %s "))
       (eyebrowse-mode-line-indicator))))
 
-(defun my--mode-line-which-func-component ()
-  (propertize
-   (concat " λ " (gethash (selected-window) which-func-table) " ")
-   'face 'mode-line-which-function-face))
-
-(defconst my--header-line-left
-  `(
-    (which-function-mode
-     (:eval (my--mode-line-which-func-component)))
-    ))
+(defconst my--header-line-left `())
 
 (defconst my--header-line-right
   `(
