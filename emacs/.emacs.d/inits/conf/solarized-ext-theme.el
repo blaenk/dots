@@ -347,10 +347,24 @@
   ;; smerge
   `(smerge-markers
     ((,class (:inherit magit-diff-hunk-heading-highlight))))
+
+  `(smerge-base
+    ((,class (:inherit isearch))))
+
   `(smerge-mine
     ((,class (:inherit magit-diff-removed-highlight))))
+  `(smerge-upper
+    ((,class (:inherit magit-diff-removed-highlight))))
+  `(smerge-refined-removed
+    ((,class (:inherit diff-refine-removed))))
+
   `(smerge-other
-    ((,class (:inherit magit-diff-added-highlight)))))
+    ((,class (:inherit magit-diff-added-highlight))))
+  `(smerge-other
+    ((,class (:inherit magit-diff-added-highlight))))
+  `(smerge-refined-added
+    ((,class (:inherit diff-refine-added))))
+  )
  )
 
 (provide-theme 'solarized-ext)
