@@ -349,21 +349,21 @@
     ((,class (:inherit magit-diff-hunk-heading-highlight))))
 
   `(smerge-base
-    ((,class (:inherit isearch))))
+    ((,class (:inherit magit-diff-base-highlight))))
 
   `(smerge-mine
     ((,class (:inherit magit-diff-removed-highlight))))
   `(smerge-upper
-    ((,class (:inherit magit-diff-removed-highlight))))
+    ((,class (:inherit smerge-mine))))
   `(smerge-refined-removed
-    ((,class (:inherit diff-refine-removed))))
+    ((,class (:inherit smerge-upper))))
 
   `(smerge-other
     ((,class (:inherit magit-diff-added-highlight))))
-  `(smerge-other
-    ((,class (:inherit magit-diff-added-highlight))))
+  `(smerge-lower
+    ((,class (:inherit smerge-other))))
   `(smerge-refined-added
-    ((,class (:inherit diff-refine-added))))
+    ((,class (:inherit smerge-other))))
   )
  )
 
