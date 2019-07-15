@@ -33,6 +33,10 @@ alias loadrvm="[[ -s \"$HOME/.rvm/scripts/rvm\" ]] && . \"$HOME/.rvm/scripts/rvm
 alias loadnvm="[[ -s \"$HOME/.nvm/nvm.sh\" ]] && . \"$HOME/.nvm/nvm.sh\""
 alias loadchruby="[[ -s \"/usr/share/chruby/chruby.sh\" ]] && . \"/usr/share/chruby/chruby.sh\""
 
+if command_exists hdfs; then
+  alias hdfs='noglob hdfs'
+fi
+
 if command_exists git; then
   alias g='git'
   alias git='noglob git'
