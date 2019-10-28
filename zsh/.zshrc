@@ -70,6 +70,7 @@ if [[ -n "$TMUX_FZF" ]]; then
 fi
 
 fpath=(
+  "$HOME/.zsh/comp"
   "$DOTSPATH/zsh/zsh/comp"
   "${fpath[@]}"
 )
