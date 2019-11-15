@@ -16,3 +16,5 @@ TRAPUSR1() {
 
 # for man --html etc.
 # export BROWSER=chromium
+
+# export USE_SOLARIZED_DARK=1
