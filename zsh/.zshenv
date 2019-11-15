@@ -13,3 +13,6 @@ TRAPUSR1() {
      exec zsh
   fi
 }
+
+# for man --html etc.
+# export BROWSER=chromium
