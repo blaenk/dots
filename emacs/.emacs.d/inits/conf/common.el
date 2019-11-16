@@ -138,10 +138,11 @@ verbatim."
        (setq ,@args))))
 
 (defmacro my-with-solarized-colors (&rest body)
-  `(use-package solarized-theme
+  `(use-package solarized
      :defer t
+     :straight solarized-theme
      :config
-     (solarized-with-color-variables ',my--theme-variant ,@body)))
+     (solarized-with-color-variables ',my--theme-variant ,solarized-light-color-palette-alist ,@body)))
 
 (defmacro my-with-last-used-window (&rest body)
   "Perform BODY within the context of the last used window."
