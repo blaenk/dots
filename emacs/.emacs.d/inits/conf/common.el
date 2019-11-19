@@ -10,6 +10,10 @@
   (intern (concat "solarized-" (symbol-name my--theme-variant)))
   "The Solarized theme to use.")
 
+(defconst my--solarized-theme-color-palette
+  (intern (concat "solarized-" (symbol-name my--theme-variant) "-color-palette-alist"))
+  "The Solarized theme color palette to use.")
+
 (defconst my--dots-path (getenv "DOTSPATH")
   "The DOTSPATH environment variable.
 
@@ -138,11 +142,10 @@ verbatim."
        (setq ,@args))))
 
 (defmacro my-with-solarized-colors (&rest body)
-  `(use-package solarized
-     :defer t
-     :straight solarized-theme
-     :config
-     (solarized-with-color-variables ',my--theme-variant ,solarized-light-color-palette-alist ,@body)))
+  `(eval-after-load 'solarized
+     (lambda ()
+       (solarized-with-color-variables ',my--theme-variant 'solarized-ext ,my--solarized-theme-color-palette
+         `,(-concat my-solarized-ext-faces ',body)))))
 
 (defmacro my-with-last-used-window (&rest body)
   "Perform BODY within the context of the last used window."

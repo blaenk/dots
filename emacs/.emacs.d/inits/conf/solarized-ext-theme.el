@@ -105,9 +105,10 @@
   :group 'mode-line-faces
   :group 'basic-faces)
 
-(my-with-solarized-colors
- (custom-theme-set-faces
-  'solarized-ext
+(defvar my-solarized-ext-faces '())
+(setq my-solarized-ext-faces
+ '((custom-theme-set-faces
+  theme-name
   ;; magit
   `(magit-diff-added-highlight
     ((,light-class (:background "#cceecc" :foreground "#22aa22"))
@@ -364,7 +365,9 @@
     ((,class (:inherit smerge-other))))
   `(smerge-refined-added
     ((,class (:inherit smerge-other))))
-  )
+  ))
  )
+
+(my-with-solarized-colors)
 
 (provide-theme 'solarized-ext)
