@@ -144,6 +144,8 @@ verbatim."
 (defmacro my-with-solarized-colors (&rest body)
   `(eval-after-load 'solarized
      (lambda ()
+       (eval-when-compile
+         (require 'solarized-palettes))
        (solarized-with-color-variables ',my--theme-variant 'solarized-ext ,my--solarized-theme-color-palette
          `,(-concat my-solarized-ext-faces ',body)))))
 
