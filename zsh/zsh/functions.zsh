@@ -268,3 +268,7 @@ texi-to-epub() {
     zip -0Xq "${name}.epub" mimetype
     zip -Xr9D "${name}.epub" META-INF OEBPS
 }
+
+hdfs-dush() {
+  hdfs dfs -du -s -h "$1/"* | awk '{print $1$2,$5}' | sort -hr
+}
