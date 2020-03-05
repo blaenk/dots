@@ -270,5 +270,5 @@ texi-to-epub() {
 }
 
 hdfs-dush() {
-  hdfs dfs -du -s -h "$1/"* | awk '{print $1$2,$5}' | sort -hr
+  noglob hdfs dfs -du -s -h "$1/"* | awk '{print $1$2,$5}' | sort -hr
 }
