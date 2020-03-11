@@ -111,10 +111,15 @@ if [[ ! -d $ZPLUG_HOME ]]; then
   git clone https://github.com/zplug/zplug $ZPLUG_HOME
 fi
 
+source $DOTSPATH/zsh/zsh/completions.zsh
+source $DOTSPATH/zsh/zsh/zle.zsh
+source $DOTSPATH/zsh/zsh/fzf.zsh
+
 source $ZPLUG_HOME/init.zsh
 
 zplug "zplug/zplug"
 
+zplug "Aloxaf/fzf-tab"
 zplug "hlissner/zsh-autopair", defer:2
 zplug "zsh-users/zsh-syntax-highlighting", defer:3
 zplug "zsh-users/zsh-completions"
@@ -155,26 +160,16 @@ typeset -aU pkg_config_path
 typeset -T PKG_CONFIG_PATH pkg_config_path
 export PKG_CONFIG_PATH
 
-# strict control over source order
-sources=(
-  'path'
-  'hub'
-  'vcsinfo'
-  'prompt'
-  'completions'
-  'zle'
-  'functions'
-  'alias'
-  'highlight'
-  'fzf'
-  'enhancd'
-  'linux'
-  'macos'
-)
-
-for src in $sources; do
-  source $DOTSPATH/zsh/zsh/$src.zsh
-done
+source $DOTSPATH/zsh/zsh/path.zsh
+source $DOTSPATH/zsh/zsh/hub.zsh
+source $DOTSPATH/zsh/zsh/vcsinfo.zsh
+source $DOTSPATH/zsh/zsh/prompt.zsh
+source $DOTSPATH/zsh/zsh/functions.zsh
+source $DOTSPATH/zsh/zsh/alias.zsh
+source $DOTSPATH/zsh/zsh/highlight.zsh
+source $DOTSPATH/zsh/zsh/enhancd.zsh
+source $DOTSPATH/zsh/zsh/linux.zsh
+source $DOTSPATH/zsh/zsh/macos.zsh
 
 if [[ -f ~/.zsh.local ]]; then
   source ~/.zsh.local
