@@ -87,9 +87,6 @@
 
 (use-package magit
   :general
-  (:keymaps 'magit-status-mode-map
-   "jl" 'my-magit-avy-goto-line)
-
   (my-map
     "g" '(:ignore t :which-key "git")
     "g s" 'magit-status
@@ -124,6 +121,9 @@
   (my-create-evil-toggle-for-mode magit-blob-mode)
 
   :config
+  (transient-append-suffix 'magit-status-jump "s"
+    '("a" "avy" my-magit-avy-goto-line))
+
   (defun my-open-pr ()
     "Visit the current branch's PR on Github."
     (interactive)
