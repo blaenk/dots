@@ -5,6 +5,7 @@ URxvt.intensityStyles: false
 URxvt.urgentOnBell: true
 URxvt.saveLines: 1000
 URxvt.lineSpace: 1
+URxvt.letterSpace: -1
 URxvt.font: xft:DejaVu Sans Mono:size=10.5
 URxvt.boldFont: xft:DejaVu Sans Mono:bold:size=10.5
 URxvt.perl-ext-common: default,matcher,vtwheel,clipboard,keyboard-select,url-select,fullscreen,resize-font
