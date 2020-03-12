@@ -1,0 +1,6 @@
+#compdef dexec
+
+words[1]=(docker exec)
+(( CURRENT ++ ))
+_normal
+

@@ -84,6 +84,11 @@ pacqv() {
   echo $(pacman -Qi $1 | grep Version | tr -s ' ' | cut -d ' ' -f 3)
 }
 
+# enter a docker container
+dexec() {
+  docker exec -it "${1}" "${2:-bash}"
+}
+
 # what is my ip? useful for syncplay and mumble
 # $ ip get
 #   copied <ip> to clipboard
