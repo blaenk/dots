@@ -124,6 +124,7 @@ zplug "hlissner/zsh-autopair", defer:2
 zplug "zsh-users/zsh-syntax-highlighting", defer:3
 zplug "zsh-users/zsh-completions"
 zplug "kutsan/zsh-system-clipboard"
+zplug "docker/cli", use:"contrib/completion/zsh", depth:1
 
 # NOTE: Don't use on macOS because brew is very slow
 zplug "plugins/command-not-found", from:oh-my-zsh, defer:3, if:"[[ $OSTYPE != *darwin* ]]"
