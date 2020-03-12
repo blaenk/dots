@@ -35,6 +35,9 @@ zstyle ':completion::complete:*' cache-path $DOTSPATH/zsh/zsh/cache
 # ignore _functions
 zstyle ':completion:*:functions' ignored-patterns '_*'
 
+zstyle ':completion:*:*:docker:*' option-stacking yes
+zstyle ':completion:*:*:docker-*:*' option-stacking yes
+
 zstyle '*' single-ignored complete
 
 if [[ "$OSTYPE" == 'msys' ]]; then
