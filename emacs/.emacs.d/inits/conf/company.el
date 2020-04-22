@@ -111,16 +111,6 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
   (add-hook 'robe-mode-hook #'my--company-robe))
 
-(use-package company-tern
-  :defer t
-
-  :init
-  (defun my--company-tern ()
-    (setq-local company-backends
-                (add-to-list 'company-backends 'company-tern)))
-
-  (add-hook 'tern-mode-hook #'my--company-tern))
-
 (use-package company-web-html
   :straight company-web
   :defer t
