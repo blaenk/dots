@@ -44,19 +44,34 @@ Menu, Tray, Icon , icon.ico,, 1
   }
   Return
 
-; Maximize all per-application volume levels.
-#Volume_Up::
-  EnumerateAudioSessions(Func("MaximizeAudio"))
+; Media keys 'home row' are u/i/o
+#u::Volume_Down
+!#u::Media_Prev
+; ~MButton & WheelDown::Volume_Down
+
+#i::Volume_Mute
+!#i::Media_Play_Pause
+; ~MButton & RButton::Volume_Mute
+
+#o::Volume_Up
+!#o::Media_Next
+; ~MButton & WheelUp::Volume_Up
+
+; Volume down-step for the active application.
++#u::
+  EnumerateAudioSessions(Func("ActiveStepDown"))
   Return
 
 ; Mute all audio sessions except for the one associated with the current application.
-#Volume_Mute::
++#i::
   EnumerateAudioSessions(Func("MuteAllExceptActive"))
   Return
 
-!Volume_Mute::Media_Play_Pause
-!Volume_Down::Media_Prev
-!Volume_Up::Media_Next
+; Maximize all per-application volume levels.
++#o::
+  EnumerateAudioSessions(Func("MaximizeAudio"))
+  Return
+
 ; Allow scrolling the AHK taskbar icon to control volume.
 ; NOTE: This is triggered by global wheel movements, not just those over the task bar icon.
 ; $WheelUp:: 
