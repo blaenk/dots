@@ -54,3 +54,18 @@ SetTitleMatchMode RegEx
 !Volume_Mute::Media_Play_Pause
 !Volume_Down::Media_Prev
 !Volume_Up::Media_Next
+; Allow scrolling the AHK taskbar icon to control volume.
+; NOTE: This is triggered by global wheel movements, not just those over the task bar icon.
+; $WheelUp:: 
+; $WheelDown:: 
+;   MouseGetPos VarX, VarY, CurrentWindow
+;   WinGetClass Class, ahk_id %CurrentWindow%
+
+;   Vol := SubStr(A_ThisHotkey, 7)
+;   Key := SubStr(A_ThisHotkey, 2)
+
+;   If Class = Shell_TrayWnd
+;     Send {Volume_%Vol%}
+;   Else
+;     Send {%Key%}
+;   Return
