@@ -39,6 +39,7 @@
 
 [rebase]
 	stat = true
+	autoStash = true
 
 [alias]
 	br = branch
