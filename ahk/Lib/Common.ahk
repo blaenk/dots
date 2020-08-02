@@ -34,6 +34,7 @@ EnumerateAudioSessions(Handler)
 
   ; GetDefaultAudioEndpoint
   DAE := VA_GetDevice()
+  AEV := VA_GetAudioEndpointVolume()
 
   ; activate the session manager
   VA_IMMDevice_Activate(DAE, IID_IASM2, 0, 0, IASM2)
@@ -61,7 +62,7 @@ EnumerateAudioSessions(Handler)
     ; Query for the ISimpleAudioVolume
     ISAV := ComObjQuery(IASC2, IID_ISAV)
 
-    %Handler%(ActivePID, SPID, ISAV)
+    %Handler%(ActivePID, SPID, ISAV, AEV)
 
     ObjRelease(ISAV)
     ObjRelease(IASC2)
@@ -69,10 +70,11 @@ EnumerateAudioSessions(Handler)
 
   ObjRelease(IASE)
   ObjRelease(IASM2)
+  ObjRelease(AEV)
   ObjRelease(DAE)
 }
 
-MaximizeAudio(ActivePID, SPID, ISAV)
+MaximizeAudio(ActivePID, SPID, ISAV, AEV)
 {
   ; Unmute first
   VA_ISimpleAudioVolume_SetMute(ISAV, False)
@@ -81,7 +83,7 @@ MaximizeAudio(ActivePID, SPID, ISAV)
   VA_ISimpleAudioVolume_SetMasterVolume(ISAV, 1)
 }
 
-MuteAllExceptActive(ActivePID, SPID, ISAV)
+MuteAllExceptActive(ActivePID, SPID, ISAV, AEV)
 {
   if (ActivePID != SPID) {
     ; Mute all apps that aren't the currently focused one.
@@ -92,5 +94,34 @@ MuteAllExceptActive(ActivePID, SPID, ISAV)
 
     ; Maximize the currently focused one.
     VA_ISimpleAudioVolume_SetMasterVolume(ISAV, 1)
+  }
+}
+
+ActiveStepDown(ActivePID, SPID, ISAV, AEV)
+{
+  if (ActivePID == SPID) {
+    ; Ensure it's unmuted.
+    VA_ISimpleAudioVolume_SetMute(ISAV, False)
+
+    volume := 0
+    VA_ISimpleAudioVolume_GetMasterVolume(ISAV, volume)
+
+    volume := Max((volume * 100) - 2, 0) / 100
+
+    VA_ISimpleAudioVolume_SetMasterVolume(ISAV, volume)
+
+    ; ; Maximize the currently focused one.
+    ; VA_IAudioEndpointVolume_VolumeStepDown(AEV)
+  }
+}
+
+ActiveStepUp(ActivePID, SPID, ISAV, AEV)
+{
+  if (ActivePID == SPID) {
+    ; Ensure it's unmuted.
+    VA_ISimpleAudioVolume_SetMute(ISAV, False)
+
+    ; Maximize the currently focused one.
+    VA_IAudioEndpointVolume_VolumeStepUp(AEV)
   }
 }

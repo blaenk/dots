@@ -922,6 +922,13 @@ VA_ISimpleAudioVolume_SetMasterVolume(this, ByRef fLevel, GuidEventContext="")
                 , "ptr", VA_GUID(GuidEventContext))
 }
 
+VA_ISimpleAudioVolume_GetMasterVolume(this, ByRef fLevel)
+{
+  return DllCall(NumGet(NumGet(this+0)+4*A_PtrSize)
+                , "ptr", this
+                , "float*", fLevel)
+}
+
 VA_ISimpleAudioVolume_SetMute(this, ByRef Muted, GuidEventContext="") {
   return DllCall(NumGet(NumGet(this+0)+5*A_PtrSize)
                 , "ptr", this
