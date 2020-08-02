@@ -7,6 +7,9 @@ SetTitleMatchMode RegEx
 #Include <VA>
 #include <Common>
 
+Menu, Tray, Tip, Keys
+Menu, Tray, Icon , icon.ico,, 1
+
 ; Emit backtick (`) when the side mouse buttons are pressed (forward/backward).
 ;
 ; GFE currently only supports one push-to-talk keybind, creating
