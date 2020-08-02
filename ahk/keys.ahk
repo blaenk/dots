@@ -4,6 +4,8 @@ SendMode Input
 SetWorkingDir %A_ScriptDir%
 SetTitleMatchMode RegEx
 
+SetTimer, WatchAxis, 5
+
 #Include <VA>
 #include <Common>
 
@@ -87,3 +89,22 @@ Menu, Tray, Icon , icon.ico,, 1
 ;   Else
 ;     Send {%Key%}
 ;   Return
+
+WatchAxis:
+  JoyU := GetKeyState("3JoyU")
+  KeyToHoldDownPrev := KeyToHoldDown
+
+  if (JoyU > 10)
+    KeyToHoldDown := "Xbutton2"
+  else
+    KeyToHoldDown := ""
+
+  if (KeyToHoldDown = KeyToHoldDownPrev)
+    Return
+
+  SetKeyDelay -1
+  if KeyToHoldDownPrev
+    Send, {%KeyToHoldDownPrev% up}
+  if KeyToHoldDown
+    Send, {%KeyToHoldDown% down}
+  Return
