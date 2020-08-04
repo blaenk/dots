@@ -8,23 +8,17 @@ URxvt.lineSpace: 1
 URxvt.letterSpace: -1
 URxvt.font: xft:DejaVu Sans Mono:size=10.5
 URxvt.boldFont: xft:DejaVu Sans Mono:bold:size=10.5
-URxvt.perl-ext-common: default,matcher,vtwheel,clipboard,keyboard-select,url-select,fullscreen,resize-font
+URxvt.perl-ext-common: default,vtwheel,clipboard,keyboard-select,fullscreen,resize-font
+URxvt.underlineURLs: true
 
 ! browser
 URxvt.url-launcher: /usr/bin/xdg-open
-URxvt.matcher.button: 1
-URxvt.matcher.rend.0: Uline
 
 ! fullscreen
 URxvt.keysym.F11: perl:fullscreen:switch
 
 ! keyboard select
 URxvt.keysym.M-i: perl:keyboard-select:activate
-
-! url select
-URxvt.keysym.M-u: perl:url-select:select_next
-URxvt.url-select.launcher: /usr/bin/xdg-open
-URxvt.url-select.button: 1
 
 ! meta copy (like mac)
 URxvt.keysym.M-c: perl:clipboard:copy
