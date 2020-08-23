@@ -54,6 +54,7 @@
 	sh = stash
 	sm = submodule
 	st = status
+	exec = '!exec '
 
 	# Create an empty commit, e.g. for when initializing a repo
 	root = commit --allow-empty
@@ -131,6 +132,9 @@
 
 	# Fzf list aliases
 	aliases = "! TMUX_FZF=1 zsh -i -c fzf-git-aliases"
+
+	# Mark file as executable. Useful in WSL
+	chmod = update-index --chmod=+x
 
 [include]
 	path = ~/.gitconfig.local
