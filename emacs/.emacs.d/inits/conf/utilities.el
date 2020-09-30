@@ -443,15 +443,6 @@ If a region is active, it'll be used to \"wrap\" the selection."
         (yas-insert-snippet)
       (yas-expand))))
 
-(use-package mocha-snippets
-  :defer t
-
-  :init
-  (setq mocha-snippets-use-fat-arrows t
-        mocha-snippets-add-space-after-function-keyword t))
-
-(use-package react-snippets :defer t)
-
 (use-package hydra
   :general
   (my-map

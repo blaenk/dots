@@ -29,8 +29,6 @@
 
 (use-package gitattributes-mode :defer t)
 
-(use-package ox-gfm :defer t)
-
 (use-package haskell-mode :defer t)
 
 (use-package markdown-mode
@@ -164,33 +162,11 @@
   (add-hook 'yaml-mode-hook #'turn-off-flyspell t)
   (add-hook 'yaml-mode-hook #'flyspell-prog-mode t))
 
-(use-package yard-mode
-  :defer t
-
-  :init
-  (add-hook 'ruby-mode-hook #'yard-mode))
-
 (use-package ruby-mode
   :straight nil
 
   :init
   (setq ruby-insert-encoding-magic-comment nil))
-
-(use-package robe
-  :defer t
-
-  :init
-  (add-hook 'ruby-mode-hook #'robe-mode))
-
-(use-package inf-ruby
-  :defer t
-
-  :init
-  (add-hook 'ruby-mode-hook #'inf-ruby-minor-mode))
-
-(use-package go-guru :defer t)
-
-(use-package go-rename :defer t)
 
 (use-package go-mode
   :defer t
@@ -200,8 +176,6 @@
 
   (add-hook 'go-mode-hook #'subword-mode)
   (add-hook 'before-save-hook #'gofmt-before-save))
-
-(use-package go-playground :defer t)
 
 (use-package less-css-mode :defer t)
 
@@ -224,171 +198,7 @@
   (add-hook 'less-css-mode-hook #'turn-on-css-eldoc)
   (add-hook 'scss-mode-hook #'turn-on-css-eldoc))
 
-(use-package irony
-  :general
-  (:keymaps 'irony-mode-map
-   [remap completion-at-point] 'irony-completion-at-point-async
-   [remap complete-symbol] 'irony-completion-at-point-async)
-
-  :init
-  (setq irony-user-dir (my-cache-dir "irony"))
-
-  (add-hook 'c++-mode-hook #'irony-mode)
-  (add-hook 'c-mode-hook #'irony-mode)
-  (add-hook 'objc-mode-hook #'irony-mode)
-  (add-hook 'irony-mode-hook #'irony-cdb-autosetup-compile-options))
-
-(use-package irony-eldoc
-  :defer t
-
-  :init
-  (add-hook 'irony-mode-hook #'irony-eldoc))
-
 (use-package vimrc-mode :defer t)
-
-(use-package js2-mode
-  :interpreter "node"
-  :mode ("\\.js\\'" . js2-mode)
-
-  :init
-  (setq-default js2-basic-offset 2
-                js2-ignored-warnings '("msg.no.side.effects")
-                js2-skip-preprocessor-directives t
-                js2-strict-trailing-comma-warning nil
-                js2-include-node-externs t
-                js2-global-externs '(
-                                     "after"
-                                     "afterEach"
-                                     "assert"
-                                     "before"
-                                     "beforeEach"
-                                     "browser"
-                                     "chrome"
-                                     "context"
-                                     "describe"
-                                     "expect"
-                                     "it"
-                                     "sinon"
-                                     "specify"
-                                     "test"
-                                     ))
-
-  (defun my--route-expression (method)
-    `(,(upcase method)
-      ,(concat
-        "^\\s-*\\sw+\."
-        method
-        "\\s-*([\"']\\(.+\\)[\"']\\s-*,.*")
-      1))
-
-  (defvar my--route-imenu-expressions
-    (-map #'my--route-expression
-          '("all"
-            "delete"
-            "get"
-            "head"
-            "options"
-            "post"
-            "put"
-            "patch"
-            "use"
-            "trace"
-            )))
-
-  (defun my--mocha-expression (name)
-    `(,(upcase-initials name)
-      ,(concat
-        "^\\s-*"
-        name
-        "\\(\.skip\\|\.only\\)?\\s-*([\"']\\(.+\\)[\"']\\s-*,.*")
-      2))
-
-  (defvar my--mocha-imenu-expressions
-    (-map #'my--mocha-expression
-          '("after"
-            "afterEach"
-            "it"
-            "context"
-            "beforeEach"
-            "before"
-            "describe")))
-
-  (defun my--js2-imenu-index-function ()
-    ;; a submenu can be created as:
-    ;; (list (cons "Menu Title" (imenu--generic-function expressions)))
-    (let ((js2-imenu-index (js2-mode-create-imenu-index))
-          (mocha-index (imenu--generic-function my--mocha-imenu-expressions))
-          (route-index (imenu--generic-function my--route-imenu-expressions)))
-      (-concat js2-imenu-index mocha-index route-index)))
-
-  (defun my--js2-imenu-extras-hook ()
-    (setq-local imenu-create-index-function #'my--js2-imenu-index-function))
-
-  (add-hook 'js2-imenu-extras-mode-hook #'my--js2-imenu-extras-hook)
-
-  (add-hook 'js2-mode-hook #'subword-mode)
-  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
-
-  :config
-  (defun my--js2-comment-line-break (&optional soft)
-    (if (nth 4 (syntax-ppss))
-        (js2-line-break soft)
-      (comment-indent-new-line soft)))
-
-  (defun my--js2-hook ()
-    (setq-local comment-line-break-function #'my--js2-comment-line-break)
-
-    (require 'prettier-js)
-    (setq-local prettier-js-command (my--use-node-modules-binary "prettier")))
-
-  (add-hook 'js2-mode-hook #'my--js2-hook))
-
-(use-package rjsx-mode
-  :mode "/\\(components\\|containers\\)/.+\\.js"
-
-  :config
-  (with-eval-after-load 'evil
-    (when evil-want-C-d-scroll
-      (evil-define-key 'insert rjsx-mode-map
-        (kbd "C-d") 'rjsx-delete-creates-full-tag)
-      (evil-define-key 'normal rjsx-mode-map
-        (kbd "C-d") 'evil-scroll-down))))
-
-(use-package typescript-mode
-  :mode "\\.tsx\\'"
-
-  :init
-  (setq typescript-indent-level 2)
-
-  (add-hook #'typescript-mode-hook #'subword-mode))
-
-(use-package tide
-  :defer t
-
-  :init
-  (defun my-setup-tide ()
-    (interactive)
-
-    (tide-setup)
-    (tide-hl-identifier-mode +1)
-
-    (with-eval-after-load 'flycheck
-      (setq-local flycheck-check-syntax-automatically '(save mode-enabled))))
-
-  (add-hook #'typescript-mode-hook #'my-setup-tide)
-
-  :config
-  (with-eval-after-load 'flycheck
-    (flycheck-add-mode #'javascript-eslint #'typescript-mode)
-    (flycheck-add-next-checker #'typescript-tide #'javascript-eslint 'append)))
-
-(use-package prettier-js
-  :general
-  (:keymaps 'js2-mode-map
-   "C-c C-f" 'prettier-js)
-
-  (my-map :keymaps 'js2-mode-map
-    "m f" 'prettier-js))
 
 (use-package json-mode
   :mode
@@ -399,26 +209,6 @@
   (setq json-reformat:indent-width 2)
 
   (add-hook 'json-mode-hook #'subword-mode))
-
-(use-package indium
-  :commands (indium-run-node indium-run-chrome)
-
-  :init
-  (setq indium-workspace-file (my-cache-dir "indium/workspaces.el")))
-
-(use-package js-doc
-  :general
-  (:keymaps 'js2-mode-map
-   "@" 'js-doc-insert-tag)
-
-  (my-map :keymaps 'js2-mode-map
-    "m i d" 'js-doc-insert-function-doc-snippet))
-
-(use-package tern
-  :defer t
-
-  :init
-  (add-hook 'js2-mode-hook #'tern-mode))
 
 (use-package modern-cpp-font-lock
   :defer t
@@ -434,10 +224,6 @@
   :init
   (add-hook 'cmake-mode-hook #'cmake-font-lock-activate))
 
-(use-package cmake-ide
-  :config
-  (cmake-ide-setup))
-
 (use-package rust-mode
   :defer t
 
@@ -448,41 +234,7 @@
 
   (add-hook 'rust-mode-hook #'my--rust-hook))
 
-(use-package rust-playground :defer t)
-
-(use-package racer
-  :defer t
-
-  :init
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode))
-
-(use-package lsp-mode
-  :commands lsp
-  :init
-  (add-hook 'go-mode-hook #'lsp)
-
-  :config
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection "gopls")
-                    :major-modes '(go-mode)
-                    :server-id 'gopls)))
-
-(use-package lsp-ui
-  :after lsp-mode
-  :commands lsp-ui-mode
-
-  :init
-  (add-hook 'lsp-mode-hook #'lsp-ui-mode))
-
 (use-package toml-mode :defer t)
-
-(use-package web-mode
-  :mode (("\\.html?\\'" . web-mode)
-         ("\\.handlebars\\'" . web-mode))
-
-  :init
-  (setq web-mode-enable-current-element-highlight t))
 
 (use-package emmet-mode
   :defer t
@@ -598,8 +350,6 @@
 (use-package clojure-mode :defer t)
 
 (use-package scala-mode :defer t)
-
-(use-package coffee-mode :defer t)
 
 (use-package thrift :defer t)
 

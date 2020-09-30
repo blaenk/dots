@@ -46,24 +46,6 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
   (add-hook 'after-init-hook #'global-company-mode))
 
-(use-package company-try-hard
-  :general
-  (:keymaps 'company-mode-map
-   "C-S-n" 'company-try-hard)
-
-  (:keymaps 'company-active-map
-   "C-S-n" 'company-try-hard))
-
-(use-package company-statistics
-  :after company
-
-  :init
-  (setq company-statistics-file
-        (my-cache-dir "company-statistics-cache.el"))
-
-  :config
-  (company-statistics-mode))
-
 (use-package company-quickhelp
   :general
   (:keymaps 'company-active-map
@@ -74,18 +56,6 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
   :config
   (company-quickhelp-mode 1))
-
-(use-package company-irony :defer t)
-
-(use-package company-irony-c-headers
-  :defer t
-
-  :init
-  (defun my--company-irony ()
-    (setq-local company-backends
-                (add-to-list 'company-backends '(company-irony-c-headers company-irony))))
-
-  (add-hook 'irony-mode-hook #'my--company-irony))
 
 (use-package company-math
   :defer t
@@ -99,28 +69,6 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
   :config
   (add-to-list 'company-math-allow-latex-symbols-in-faces #'markdown-math-face))
-
-(use-package robe
-  :straight nil
-  :after robe
-
-  :init
-  (defun my--company-robe ()
-    (setq-local company-backends
-                (add-to-list 'company-backends 'company-robe)))
-
-  (add-hook 'robe-mode-hook #'my--company-robe))
-
-(use-package company-web-html
-  :straight company-web
-  :defer t
-
-  :config
-  (defun my--company-web-html ()
-    (setq-local company-backends
-                (add-to-list 'company-backends 'company-web-html)))
-
-  (add-hook 'web-mode-hook #'my--company-web-html))
 
 (use-package company-auctex
   :defer t
@@ -150,15 +98,5 @@ If a region is active, it'll be used to \"wrap\" the selection."
     (add-to-list 'company-backends 'company-emoji t))
 
   (add-hook 'global-company-mode-hook #'my--company-emoji))
-
-(use-package company-lsp
-  :after lsp-mode
-  :commands company-lsp
-
-  :init
-  (defun my--company-lsp ()
-    (add-to-list 'company-backends 'company-lsp t))
-
-  (add-hook 'lsp-mode-hook #'my--company-lsp))
 
 (provide 'conf/company)
