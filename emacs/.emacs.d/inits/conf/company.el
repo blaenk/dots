@@ -80,23 +80,4 @@ If a region is active, it'll be used to \"wrap\" the selection."
 
   (add-hook 'LaTeX-mode-hook #'my--company-auctex))
 
-(use-package company-restclient
-  :defer t
-
-  :init
-  (defun my--company-restclient ()
-    (setq-local company-backends
-                (add-to-list 'company-backends 'company-restclient)))
-
-  (add-hook 'restclient-mode-hook #'my--company-restclient))
-
-(use-package company-emoji
-  :defer t
-
-  :init
-  (defun my--company-emoji ()
-    (add-to-list 'company-backends 'company-emoji t))
-
-  (add-hook 'global-company-mode-hook #'my--company-emoji))
-
 (provide 'conf/company)

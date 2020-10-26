@@ -386,9 +386,6 @@
   :hook
   (prog-mode . highlight-numbers-mode))
 
-(use-package restclient
-  :mode ("\\.rest\\'" . restclient-mode))
-
 (use-package know-your-http-well :defer t)
 
 (use-package emojify
