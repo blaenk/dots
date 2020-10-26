@@ -28,6 +28,8 @@ zstyle ':fzf-tab:*' prefix '·'
 zstyle ':fzf-tab:*' no-group-color $'\033[38;5;11m'
 zstyle ':fzf-tab:*' command $FZF_TAB_COMMAND
 
+bindkey -M viins '^I^I' fzf-tab-complete
+
 _fzf_compgen_path() {
   ag -g "" "$1"
 }
