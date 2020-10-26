@@ -57,6 +57,7 @@
       (my-toggle-scroll-bar)))
 
   :config
+  (require 'helm-lib)
   (require 'helm-config)
 
   (helm-autoresize-mode t)
