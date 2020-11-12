@@ -155,6 +155,7 @@ fi
 
 if command_exists docker; then
   alias d='docker'
+  alias fix-docker='sudo systemctl restart NetworkManager docker'
 fi
 
 if command_exists docker-compose; then
