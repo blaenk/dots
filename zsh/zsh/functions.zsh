@@ -206,6 +206,7 @@ install_dots() {
     'X11'
     'zsh'
     'kitty'
+    'alacritty'
   )
 
   for package in $packages; do
