@@ -205,6 +205,7 @@ install_dots() {
     'vim'
     'X11'
     'zsh'
+    'kitty'
   )
 
   for package in $packages; do
