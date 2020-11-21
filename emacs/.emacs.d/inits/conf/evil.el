@@ -120,6 +120,7 @@
 
   (customize-set-variable 'evil-search-module 'evil-search)
   (customize-set-variable 'evil-want-C-w-delete t)
+  (customize-set-variable 'evil-undo-system (if (version< emacs-version "28") 'undo-fu 'undo-redo))
 
   ;; (add-to-list '("Pattern" . emacs) 'evil-buffer-regexps)
 

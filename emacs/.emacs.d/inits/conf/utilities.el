@@ -253,7 +253,12 @@
   :init
   (setq highlight-quoted-highlight-symbols nil))
 
+(use-package undo-fu
+  :demand t
+  :if (version< emacs-version "28"))
+
 (use-package undo-tree
+  :if (version< emacs-version "27")
   :init
   ;; undo-tree breaks sometimes. Some people think the persistent history
   ;; feature may be to blame.
