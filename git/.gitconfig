@@ -4,7 +4,7 @@
 # allowing it to override anything this configuration file specifies.
 
 [pull]
-	rebase = preserve
+	rebase = merges
 
 [core]
 	pager = less -+$LESS -FRX
