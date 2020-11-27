@@ -165,6 +165,7 @@ source $DOTSPATH/zsh/zsh/path.zsh
 source $DOTSPATH/zsh/zsh/vcsinfo.zsh
 source $DOTSPATH/zsh/zsh/prompt.zsh
 source $DOTSPATH/zsh/zsh/functions.zsh
+source $DOTSPATH/zsh/zsh/nvm.zsh
 source $DOTSPATH/zsh/zsh/alias.zsh
 source $DOTSPATH/zsh/zsh/highlight.zsh
 source $DOTSPATH/zsh/zsh/enhancd.zsh

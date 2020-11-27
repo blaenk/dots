@@ -114,7 +114,7 @@ if command_exists cargo; then
   alias cup='cargo +nightly install-update -a'
 fi
 
-if command_exists npm; then
+if command_exists npm || function_exists npm; then
   alias n='npm'
   alias nr='npm run'
   alias nis='npm --save install'
