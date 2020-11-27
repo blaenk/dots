@@ -104,42 +104,31 @@ setopt cdable_vars
 export EDITOR=vim
 export VISUAL=vim
 
-# zplug
-export ZPLUG_HOME=$HOME/.zplug
+# zinit
+export ZINIT_HOME=$HOME/.zinit
 
-if [[ ! -d $ZPLUG_HOME ]]; then
-  git clone https://github.com/zplug/zplug $ZPLUG_HOME
+if [[ ! -d $ZINIT_HOME ]]; then
+  git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
 fi
+
+source $ZINIT_HOME/bin/zinit.zsh
 
 source $DOTSPATH/zsh/zsh/completions.zsh
 source $DOTSPATH/zsh/zsh/zle.zsh
 source $DOTSPATH/zsh/zsh/fzf.zsh
 
-source $ZPLUG_HOME/init.zsh
-
-zplug "zplug/zplug"
-
-zplug "Aloxaf/fzf-tab"
-zplug "hlissner/zsh-autopair", defer:2
-zplug "zsh-users/zsh-syntax-highlighting", defer:3
-zplug "zsh-users/zsh-completions"
-zplug "kutsan/zsh-system-clipboard"
-zplug "docker/cli", use:"contrib/completion/zsh", depth:1
-
-# NOTE: Don't use on macOS because brew is very slow
-zplug "plugins/command-not-found", from:oh-my-zsh, defer:3, if:"[[ $OSTYPE != *darwin* ]]"
-
-zplug "b4b4r07/enhancd", use:init.sh
-
-# Install plugins if there are plugins that have not been installed
-if ! zplug check; then
-  printf "Install? [y/N]: "
-  if read -q; then
-    echo; zplug install
-  fi
-fi
-
-zplug load
+zinit wait lucid blockf for \
+      Aloxaf/fzf-tab \
+      hlissner/zsh-autopair \
+      kutsan/zsh-system-clipboard \
+      depth'1' pick"contrib/completion/zsh" \
+        docker/cli \
+      pick"init.sh" \
+        b4b4r07/enhancd \
+      if'[[ $OSTYPE != *darwin* ]]' \
+        OMZP::command-not-found \
+      zsh-users/zsh-completions \
+      zsh-users/zsh-syntax-highlighting
 
 command_exists() {
   (( $+commands[$1]))

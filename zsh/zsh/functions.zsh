@@ -135,8 +135,7 @@ edit_dots() {
 
 update_dependencies_dots() {
   msg_info "updating zsh plugins"
-  zplug clear
-  zplug update
+  zinit update
 
   msg_info "updating tmux plugins"
   ~/.tmux/plugins/tpm/bin/update_plugins all
