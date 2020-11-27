@@ -173,7 +173,7 @@ if command_exists kubectl; then
   alias k='kubectl'
   alias kc='kubectl'
 
-  source <(kubectl completion zsh)
+  alias loadkubectl='source <(kubectl completion zsh)'
 fi
 
 if command_exists minikube; then
