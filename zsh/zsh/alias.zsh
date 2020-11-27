@@ -37,6 +37,10 @@ if command_exists hdfs; then
   alias hdfs='noglob hdfs'
 fi
 
+if command_exists exa; then
+  alias exa='exa -la'
+fi
+
 if command_exists git; then
   alias g='git'
   alias git='noglob git'
