@@ -42,6 +42,10 @@ if command_exists git; then
   alias git='noglob git'
 fi
 
+if command_exists hub; then
+  eval "$(hub alias -s)"
+fi
+
 if command_exists tlmgr; then
   alias tlmgr-search-file='tlmgr search --global --file'
 fi

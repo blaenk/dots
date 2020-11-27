@@ -162,7 +162,6 @@ typeset -T PKG_CONFIG_PATH pkg_config_path
 export PKG_CONFIG_PATH
 
 source $DOTSPATH/zsh/zsh/path.zsh
-source $DOTSPATH/zsh/zsh/hub.zsh
 source $DOTSPATH/zsh/zsh/vcsinfo.zsh
 source $DOTSPATH/zsh/zsh/prompt.zsh
 source $DOTSPATH/zsh/zsh/functions.zsh
