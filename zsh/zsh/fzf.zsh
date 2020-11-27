@@ -10,24 +10,6 @@ else
   '
 fi
 
-FZF_TAB_COMMAND=(
-    fzf
-    --ansi   # Enable ANSI color support, necessary for showing groups
-    --expect='$continuous_trigger' # For continuous completion
-    '--color=hl:$(( $#headers == 0 ? 108 : 255 ))'
-    --color fg:11,hl:3,fg+:11,bg+:7,hl+:3
-    --color info:5,spinner:6,pointer:6,marker:6
-    --nth=2,3 --delimiter='\x00'  # Don't search prefix
-    --layout=reverse --height='${FZF_TMUX_HEIGHT:=75%}'
-    --tiebreak=begin -m --bind=tab:down,ctrl-j:accept,change:top,ctrl-space:toggle --cycle
-    '--query=$query'   # $query will be expanded to query string at runtime.
-    '--header-lines=$#headers' # $#headers will be expanded to lines of headers at runtime
-)
-
-zstyle ':fzf-tab:*' prefix '·'
-zstyle ':fzf-tab:*' no-group-color $'\033[38;5;11m'
-zstyle ':fzf-tab:*' command $FZF_TAB_COMMAND
-
 bindkey -M viins '^I^I' fzf-tab-complete
 
 _fzf_compgen_path() {
