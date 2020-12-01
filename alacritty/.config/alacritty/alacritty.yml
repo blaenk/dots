@@ -3,6 +3,8 @@ font:
   size: 11
 cursor:
   unfocused_hollow: false
+key_bindings:
+  - { key: Y, mods: Control, action: Paste }
 colors:
   # Default colors
   primary:
