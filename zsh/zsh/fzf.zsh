@@ -10,7 +10,14 @@ else
   '
 fi
 
+FZF_TAB_FLAGS=(
+  --ansi   # Enable ANSI color support, necessary for showing groups
+  --color fg:11,hl:3,fg+:11,bg+:7,hl+:3
+  --color info:5,spinner:6,pointer:6,marker:6
+)
+
 zstyle ':fzf-tab:*' default-color $'\033[93m'
+zstyle ':fzf-tab:*' fzf-flags $FZF_TAB_FLAGS
 
 bindkey -M viins '^I^I' fzf-tab-complete
 
