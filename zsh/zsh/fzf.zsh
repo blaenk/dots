@@ -10,6 +10,8 @@ else
   '
 fi
 
+zstyle ':fzf-tab:*' default-color $'\033[93m'
+
 bindkey -M viins '^I^I' fzf-tab-complete
 
 _fzf_compgen_path() {
