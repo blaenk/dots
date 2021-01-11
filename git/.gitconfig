@@ -65,8 +65,8 @@
 	# Delete remote branch
 	delete-remote-branch = "!f() { git push $1 :$2}; f"
 
-	# Interactively clean up
-	clean-up = clean -i
+	# Clean up everything including untracked files.
+	clean-up = clean -xfd
 
 	# Show diff between HEAD and index in commit window
 	ci = commit -v
