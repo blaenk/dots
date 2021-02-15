@@ -18,3 +18,5 @@ TRAPUSR1() {
 # export BROWSER=chromium
 
 # export USE_SOLARIZED_DARK=1
+
+source ~/.zshenv.local
