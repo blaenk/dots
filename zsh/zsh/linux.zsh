@@ -10,7 +10,7 @@ if [[ "$OSTYPE" == linux* ]]; then
   fi
 
   # systemctl --user env imports
-  systemctl --user import-environment PATH SSH_AUTH_SOCK GTAGSCONF GTAGSLABEL VM
+  systemctl --user import-environment PATH SSH_AUTH_SOCK VM
 
   if [[ "$TERM" == xterm ]]; then
     export TERM=xterm-256color
