@@ -60,30 +60,30 @@ URxvt.iso14755_52: false
 
 ! Light
 
-URxvt*background:              #fdf6e3
-URxvt*foreground:              #657b83
-! URxvt*fadeColor:               #fdf6e3
-URxvt*cursorColor:             #2aa198
-URxvt*pointerColorBackground:  #93a1a1
-URxvt*pointerColorForeground:  #586e75
+! URxvt*background:              #fdf6e3
+! URxvt*foreground:              #657b83
+! ! URxvt*fadeColor:               #fdf6e3
+! URxvt*cursorColor:             #2aa198
+! URxvt*pointerColorBackground:  #93a1a1
+! URxvt*pointerColorForeground:  #586e75
 
-URxvt*color0:                  #073642
-URxvt*color1:                  #dc322f
-URxvt*color2:                  #859900
-URxvt*color3:                  #b58900
-URxvt*color4:                  #268bd2
-URxvt*color5:                  #d33682
-URxvt*color6:                  #2aa198
-URxvt*color7:                  #eee8d5
+! URxvt*color0:                  #073642
+! URxvt*color1:                  #dc322f
+! URxvt*color2:                  #859900
+! URxvt*color3:                  #b58900
+! URxvt*color4:                  #268bd2
+! URxvt*color5:                  #d33682
+! URxvt*color6:                  #2aa198
+! URxvt*color7:                  #eee8d5
 
-URxvt*color8:                  #002b36
-URxvt*color9:                  #cb4b16
-URxvt*color10:                 #586e75
-URxvt*color11:                 #657b83
-URxvt*color12:                 #839496
-URxvt*color13:                 #6c71c4
-URxvt*color14:                 #93a1a1
-URxvt*color15:                 #fdf6e3
+! URxvt*color8:                  #002b36
+! URxvt*color9:                  #cb4b16
+! URxvt*color10:                 #586e75
+! URxvt*color11:                 #657b83
+! URxvt*color12:                 #839496
+! URxvt*color13:                 #6c71c4
+! URxvt*color14:                 #93a1a1
+! URxvt*color15:                 #fdf6e3
 
 ! ! Dark
 ! URxvt*background:              #002b36
@@ -109,3 +109,41 @@ URxvt*color15:                 #fdf6e3
 ! URxvt*color13:                 #6c71c4
 ! URxvt*color14:                 #93a1a1
 ! URxvt*color15:                 #fdf6e3
+
+! One Dark from onedark.vim
+! special
+*.foreground:   #ABB2BF
+*.background:   #282C34
+*.cursorColor:  #ABB2BF
+
+! black
+*.color0:       #5C6370
+*.color8:       #4B5263
+
+! red
+*.color1:       #E06C75
+*.color9:       #BE5046
+
+! green
+*.color2:       #98C379
+*.color10:      #98C379
+
+! yellow
+*.color3:       #E5C07B
+*.color11:      #D19A66
+
+! blue
+*.color4:       #61AFEF
+*.color12:      #61AFEF
+
+! magenta
+*.color5:       #C678DD
+*.color13:      #C678DD
+
+! cyan
+*.color6:       #56B6C2
+*.color14:      #56B6C2
+
+! white
+*.color7:       #ABB2BF
+*.color15:      #3E4452

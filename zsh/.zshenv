@@ -19,4 +19,4 @@ TRAPUSR1() {
 
 # export USE_SOLARIZED_DARK=1
 
-source ~/.zshenv.local
+[[ -f ~/.zshenv.local ]] && source ~/.zshenv.local

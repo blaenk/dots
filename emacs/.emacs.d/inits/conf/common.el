@@ -149,6 +149,14 @@ verbatim."
        (solarized-with-color-variables ',my--theme-variant 'solarized-ext ,my--solarized-theme-color-palette
          `,(-concat my-solarized-ext-faces ',body)))))
 
+(defmacro my-with-atom-one-dark-colors (&rest body)
+  `(eval-after-load 'atom-one-dark-theme
+     (lambda ()
+       (eval-when-compile
+         (require 'atom-one-dark-theme))
+
+       (atom-one-dark-with-color-variables ,@body))))
+
 (defmacro my-with-last-used-window (&rest body)
   "Perform BODY within the context of the last used window."
   `(let ((win (get-mru-window t t t)))

@@ -128,13 +128,13 @@
     (require 'evil-macros)
     (require 'evil-types))
 
-  (my-with-solarized-colors
-   (setq evil-normal-state-cursor `(,blue-lc box)
-         evil-insert-state-cursor `(,green-lc box)
-         evil-visual-state-cursor `(,magenta-lc box)
-         evil-replace-state-cursor `(,red-lc (hbar . 4))
+  (my-with-atom-one-dark-colors
+   (setq evil-normal-state-cursor `(,atom-one-dark-blue box)
+         evil-insert-state-cursor `(,atom-one-dark-green box)
+         evil-visual-state-cursor `(,atom-one-dark-purple box)
+         evil-replace-state-cursor `(,atom-one-dark-red-1 (hbar . 4))
          evil-operator-state-cursor `((hbar . 6))
-         evil-emacs-state-cursor `(,red-lc box)))
+         evil-emacs-state-cursor `(,atom-one-dark-red-1 box)))
 
   (defun evil-next-line--check-visual-line-mode (orig-fun &rest args)
     (if visual-line-mode

@@ -1,18 +1,15 @@
-if [ -z "$USE_SOLARIZED_DARK" ]; then
-  export FZF_DEFAULT_OPTS='
-    --color fg:11,hl:3,fg+:11,bg+:7,hl+:3
-    --color info:5,spinner:6,pointer:6,marker:6
-  '
-else
-  export FZF_DEFAULT_OPTS='
-    --color fg:12,hl:3,fg+:12,bg+:0,hl+:3
-    --color info:5,spinner:6,pointer:6,marker:6
-  '
-fi
+export FZF_DEFAULT_OPTS='
+  --ansi
+  --color fg:7,hl:3,fg+:7,bg+:8,hl+:3
+  --color info:5,spinner:6,pointer:6,marker:6
+  --preview-window=up:wrap
+'
+
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window wrap:down:2"
 
 FZF_TAB_FLAGS=(
   --ansi   # Enable ANSI color support, necessary for showing groups
-  --color fg:11,hl:3,fg+:11,bg+:7,hl+:3
+  --color fg:7,hl:3,fg+:7,bg+:8,hl+:3
   --color info:5,spinner:6,pointer:6,marker:6
 )
 

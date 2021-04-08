@@ -5,55 +5,90 @@ cursor:
   unfocused_hollow: false
 key_bindings:
   - { key: Y, mods: Control, action: Paste }
+
+# Colors (One Dark)
 colors:
   # Default colors
   primary:
-    background: '#fdf6e3' # base3
-    foreground: '#657b83' # base00
-
-  selection:
-   # text: CellForeground
-   text: '#657b83'
-   background: '#eee8d5'
+    foreground: '0xabb2bf'
+    background: '0x282c34'
 
   # Cursor colors
   cursor:
-    text:   '#fdf6e3' # base3
-    cursor: '#52676f' # base00
+    text: '0x5c6370'
+    cursor: '0xabb2bf'
 
   # Normal colors
   normal:
-    black:   '#073642' # base02
-    red:     '#dc322f' # red
-    green:   '#859900' # green
-    yellow:  '#b58900' # yellow
-    blue:    '#268bd2' # blue
-    magenta: '#d33682' # magenta
-    cyan:    '#2aa198' # cyan
-    white:   '#eee8d5' # base2
+    black:   '0x5c6370'
+    red:     '0xe06c75'
+    green:   '0x98c379'
+    yellow:  '0xe5c07b'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0xabb2bf'
 
   # Bright colors
   bright:
-    black:   '#002b36' # base03
-    red:     '#cb4b16' # orange
-    green:   '#586e75' # base01
-    yellow:  '#657b83' # base00
-    blue:    '#839496' # base0
-    magenta: '#6c71c4' # violet
-    cyan:    '#93a1a1' # base1
-    white:   '#fdf6e3' # base3
+    black:   '0x4b5263'
+    red:     '0xbe5046'
+    green:   '0x98c379'
+    yellow:  '0xd19a66'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0x3e4452'
 
-  search:
-    # Allowed values are CellForeground and CellBackground, which reference the
-    # affected cell, or hexadecimal colors like #ff00ff.
-    matches:
-     foreground: CellForeground
-     background: '#edc479'
+# colors:
+#   # Default colors
+#   primary:
+#     background: '#fdf6e3' # base3
+#     foreground: '#657b83' # base00
 
-    focused_match:
-     foreground: CellBackground
-     background: CellForeground
+#   selection:
+#    # text: CellForeground
+#    text: '#657b83'
+#    background: '#eee8d5'
 
-    bar:
-     background: '#c5c8c6'
-     foreground: '#1d1f21'
+#   # Cursor colors
+#   cursor:
+#     text:   '#fdf6e3' # base3
+#     cursor: '#52676f' # base00
+
+#   # Normal colors
+#   normal:
+#     black:   '#073642' # base02
+#     red:     '#dc322f' # red
+#     green:   '#859900' # green
+#     yellow:  '#b58900' # yellow
+#     blue:    '#268bd2' # blue
+#     magenta: '#d33682' # magenta
+#     cyan:    '#2aa198' # cyan
+#     white:   '#eee8d5' # base2
+
+#   # Bright colors
+#   bright:
+#     black:   '#002b36' # base03
+#     red:     '#cb4b16' # orange
+#     green:   '#586e75' # base01
+#     yellow:  '#657b83' # base00
+#     blue:    '#839496' # base0
+#     magenta: '#6c71c4' # violet
+#     cyan:    '#93a1a1' # base1
+#     white:   '#fdf6e3' # base3
+
+#   search:
+#     # Allowed values are CellForeground and CellBackground, which reference the
+#     # affected cell, or hexadecimal colors like #ff00ff.
+#     matches:
+#      foreground: CellForeground
+#      background: '#edc479'
+
+#     focused_match:
+#      foreground: CellBackground
+#      background: CellForeground
+
+#     bar:
+#      background: '#c5c8c6'
+#      foreground: '#1d1f21'
