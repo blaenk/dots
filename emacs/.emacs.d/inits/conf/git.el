@@ -114,8 +114,6 @@
 
     (magit-status-internal my--dots-path))
 
-  (add-hook 'magit-mode-hook #'global-magit-file-mode)
-
   (my-create-evil-toggle-for-mode magit-blame-read-only-mode)
   (my-create-evil-toggle-for-mode magit-blob-mode)
 
