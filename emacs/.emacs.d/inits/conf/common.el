@@ -2,18 +2,6 @@
 (require 'use-package)
 (require 'general)
 
-(defconst my--theme-variant
-  (if (getenv "USE_SOLARIZED_DARK") 'dark 'light)
-  "The Solarized variant to use.")
-
-(defconst my--solarized-theme-name
-  (intern (concat "solarized-" (symbol-name my--theme-variant)))
-  "The Solarized theme to use.")
-
-(defconst my--solarized-theme-color-palette
-  (intern (concat "solarized-" (symbol-name my--theme-variant) "-color-palette-alist"))
-  "The Solarized theme color palette to use.")
-
 (defconst my--dots-path (getenv "DOTSPATH")
   "The DOTSPATH environment variable.
 
@@ -140,14 +128,6 @@ verbatim."
            )
          )
        (setq ,@args))))
-
-(defmacro my-with-solarized-colors (&rest body)
-  `(eval-after-load 'solarized
-     (lambda ()
-       (eval-when-compile
-         (require 'solarized-palettes))
-       (solarized-with-color-variables ',my--theme-variant 'solarized-ext ,my--solarized-theme-color-palette
-         `,(-concat my-solarized-ext-faces ',body)))))
 
 (defmacro my-with-atom-one-dark-colors (&rest body)
   `(eval-after-load 'atom-one-dark-theme
