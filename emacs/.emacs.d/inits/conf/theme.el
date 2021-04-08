@@ -1,7 +1,6 @@
 (require 'straight)
 (require 'use-package)
 (require 'conf/common)
-(require 'conf/atom-one-dark-ext)
 
 (use-package atom-one-dark-theme
   :demand t
@@ -22,9 +21,7 @@ which includes additions and modifications to solarized."
         (enable-theme 'atom-one-dark)
       (load-theme 'atom-one-dark t))
 
-    (load-theme 'atom-one-dark t)
-
-    (my-atom-one-dark-customizations))
+    (load-theme 'atom-one-dark-ext t))
 
   :config
   (my-after-frame (my-load-atom-one-dark-theme)))

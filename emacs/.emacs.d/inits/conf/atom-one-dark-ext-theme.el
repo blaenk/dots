@@ -1,6 +1,6 @@
 (require 'conf/common)
 
-(deftheme solarized-ext "Solarized with some modifications")
+(deftheme atom-one-dark-ext "Solarized with some modifications")
 
 (defface magit-diff-added-highlight nil
   "Face for lines in a diff that have been added."
@@ -105,46 +105,51 @@
   :group 'mode-line-faces
   :group 'basic-faces)
 
-(defvar my-solarized-ext-faces '())
-(setq my-solarized-ext-faces
- '((custom-theme-set-faces
-  theme-name
+(my-with-atom-one-dark-colors
+ (custom-theme-set-faces
+  'atom-one-dark
   ;; magit
+  `(magit-diff-added
+    ((,class (:background "#2a3d35" :foreground "#57ab5a"))))
+
+  `(magit-diff-removed
+    ((,class (:background "#442d31" :foreground "#e5534b"))))
+
   `(magit-diff-added-highlight
-    ((,light-class (:background "#cceecc" :foreground "#22aa22"))
-     (,dark-class (:background "#336633" :foreground "#cceecc"))))
+    ((,class (:background "#2a3d35" :foreground "#79bc7b"))))
 
   `(magit-diff-removed-highlight
-    ((,light-class (:background "#eecccc" :foreground "#aa2222"))
-     (,dark-class (:background "#663333" :foreground "#eecccc"))))
+    ((,class (:background "#442d31" :foreground "#eb7e78"))))
+
+  `(magit-diff-context-highlight
+    ((,class (:background unspecified :foreground unspecified))))
 
   ;; diredfl
-  `(diredfl-dir-heading ((,class (:foreground ,blue
+  `(diredfl-dir-heading ((,class (:foreground ,atom-one-dark-blue
                                   :background unspecified))))
-  `(diredfl-dir-priv ((,class (:foreground ,blue))))
-  `(diredfl-read-priv ((,class (:foreground ,green))))
-  `(diredfl-write-priv ((,class (:foreground ,yellow))))
-  `(diredfl-exec-priv ((,class (:foreground ,red))))
+  `(diredfl-dir-priv ((,class (:foreground ,atom-one-dark-blue))))
+  `(diredfl-read-priv ((,class (:foreground ,atom-one-dark-green))))
+  `(diredfl-write-priv ((,class (:foreground ,atom-one-dark-orange-2))))
+  `(diredfl-exec-priv ((,class (:foreground ,atom-one-dark-red-1))))
   `(diredfl-no-priv ((,class (:background unspecified))))
-  `(diredfl-number ((,class (:foreground ,violet))))
+  `(diredfl-number ((,class (:foreground ,atom-one-dark-purple))))
   `(diredfl-date-time ((,class (:foreground unspecified))))
-  `(diredfl-dir-name ((,class (:foreground ,cyan))))
-  `(diredfl-file-name ((,class (:foreground ,green))))
+  `(diredfl-dir-name ((,class (:foreground ,atom-one-dark-cyan))))
+  `(diredfl-file-name ((,class (:foreground ,atom-one-dark-green))))
   `(diredfl-ignored-file-name ((,class (:foreground unspecified))))
   `(diredfl-file-suffix ((,class (:weight bold))))
-  `(diredfl-executable-flag ((,class (:foreground ,red))))
+  `(diredfl-executable-flag ((,class (:foreground ,atom-one-dark-red-1))))
 
   ;; rtags
-  `(rtags-warnline ((,class (:underline "goldenrod4"))))
   `(rtags-errline ((,class (:underline "red"))))
   `(rtags-fixitline ((,class (:underline "blue"))))
-  `(rtags-skippedline ((,class (:background ,base02))))
+  `(rtags-skippedline ((,class (:background ,atom-one-dark-bg-hl))))
 
   ;; ucs char
   `(helm-ucs-char ((,class (:foreground unspecified))))
 
   ;; pulse highlight
-  `(pulse-highlight-start-face ((,class (:background ,base02))))
+  `(pulse-highlight-start-face ((,class (:background ,atom-one-dark-bg-hl))))
 
   ;; markdown
   `(markdown-code-face ((,class (:foreground unspecified :background unspecified :inherit unspecified))))
@@ -155,7 +160,7 @@
   `(markdown-pre-face ((,class (:foreground unspecified))))
   `(markdown-language-keyword-face ((,class (:weight bold))))
   `(markdown-comment-face ((,class (:strike-through nil))))
-  `(markdown-header-face ((,class (:foreground ,blue :weight bold))))
+  `(markdown-header-face ((,class (:foreground ,atom-one-dark-blue :weight bold))))
   `(markdown-footnote-marker-face ((,class (:foreground unspecified :weight bold))))
   `(markdown-url-face ((,class (:foreground unspecified))))
   `(markdown-link-title-face ((,class (:foreground unspecified :inherit unspecified))))
@@ -165,67 +170,67 @@
                                        :slant italic))))
 
   ;; fringe
-  `(fringe ((,class (:foreground ,base02))))
+  `(fringe ((,class (:foreground ,atom-one-dark-bg-hl))))
 
   `(bmkp-light-non-autonamed ((,class (:background unspecified))))
   `(bmkp-light-autonamed ((,class (:background unspecified))))
   `(bmkp-light-fringe-non-autonamed ((,class (:background unspecified
-                                              :foreground ,s-fringe-fg))))
+                                              :foreground ,"white"))))
   `(bmkp-light-fringe-autonamed ((,class (:background unspecified
-                                          :foreground ,s-fringe-fg))))
+                                          :foreground ,"white"))))
 
   ;; line numbers
   `(line-number ((,class (:weight normal :underline nil
-                          :foreground ,s-fringe-fg
-                          :background ,s-fringe-bg))))
+                          :foreground ,"white"
+                          :background ,atom-one-dark-gutter))))
   `(line-number-current-line ((,class (:inherit line-number
-                                       :foreground ,base1
+                                       :foreground ,atom-one-dark-mono-1
                                        :weight bold))))
   `(linum-relative-current-face ((,class (:inherit line-number
-                                          :foreground ,base1
+                                          :foreground ,atom-one-dark-mono-1
                                           :weight bold))))
 
   ;; eyebrowse
-  `(eyebrowse-mode-line-active ((,class (:background ,base0 :foreground "white" :weight bold))))
-  `(eyebrowse-mode-line-inactive ((,class (:background ,base01 :foreground "white"))))
+  `(eyebrowse-mode-line-active ((,class (:background ,atom-one-dark-mono-2 :foreground "white" :weight bold))))
+  `(eyebrowse-mode-line-inactive ((,class (:background ,atom-one-dark-mono-3 :foreground "white"))))
 
   ;; whitespace
-  `(whitespace-trailing ((,class (:background ,red-l
+  `(whitespace-trailing ((,class (:background ,atom-one-dark-red-1
                                   :foreground unspecified
                                   :inverse-video unspecified))))
-  `(whitespace-tab ((,class (:background ,red-l
+  `(whitespace-tab ((,class (:background ,atom-one-dark-red-1
                              :foreground unspecified
                              :inverse-video unspecified))))
   `(whitespace-line ((,class (:foreground unspecified :underline t))))
-  `(whitespace-space-after-tab ((,class (:foreground ,red-l
+  `(whitespace-space-after-tab ((,class (:foreground ,atom-one-dark-red-1
                                          :weight unspecified
                                          :inverse-video nil))))
-  `(whitespace-space-before-tab ((,class (:foreground ,red-l
+  `(whitespace-space-before-tab ((,class (:foreground ,atom-one-dark-red-1
                                           :background unspecified))))
   `(whitespace-indentation ((,class (:background unspecified
-                                     :foreground ,base02
+                                     :foreground ,atom-one-dark-bg-hl
                                      :inverse-video unspecified
                                      :weight unspecified))))
 
   ;; cargo
   `(cargo-process--standard-face ((,class (:weight bold))))
-  `(cargo-process--warning-face ((,class (:background ,base02))))
+  `(cargo-process--warning-face ((,class (:background ,atom-one-dark-bg-hl))))
   `(cargo-process--error-face ((,class (:inherit magit-diff-removed-highlight))))
   `(cargo-process--ok-face ((,class (:inherit magit-diff-added-highlight))))
   `(cargo-process--errno-face ((,class (:weight bold :underline t))))
 
   ;; evil-quickscope
   `(evil-quickscope-first-face ((,class (:weight bold :underline t))))
-  `(evil-quickscope-second-face ((,class (:foreground ,red-lc
+  `(evil-quickscope-second-face ((,class (:foreground ,atom-one-dark-red-1
                                           :weight bold))))
 
   `(isearch
     ((,class (:foreground unspecified
-              :background ,(solarized-color-blend yellow-lc base03 0.3)))))
+              :background ,atom-one-dark-orange-2))))
 
   `(evil-ex-lazy-highlight ((,class (:inherit isearch))))
   `(evil-ex-search
-    ((,class (:background ,(solarized-color-blend yellow-lc base03 0.7)))))
+    ((,class (:background ,atom-one-dark-orange-2))))
   `(evil-ex-substitute-matches
     ((,class (:inherit magit-diff-removed-highlight))))
   `(evil-ex-substitute-replacement
@@ -234,109 +239,102 @@
   ;; avy
   ;; leading chars
   `(avy-lead-face
-    ((,class (:background ,(solarized-color-blend yellow-lc base03 0.3)))))
+    ((,class (:background ,atom-one-dark-orange-2))))
 
   ;; non-terminating leading chars
   `(avy-lead-face-0
-    ((,class (:background ,(solarized-color-blend yellow-lc base03 0.3)))))
+    ((,class (:background ,atom-one-dark-orange-2))))
 
   ;; matched leading chars
   `(avy-lead-face-1
-    ((,class (:background ,(solarized-color-blend yellow-lc base03 0.7)))))
+    ((,class (:background ,atom-one-dark-orange-2))))
 
   ;; leading chars
-  `(avy-lead-face-2 ((,class (:background ,green-lc))))
+  `(avy-lead-face-2 ((,class (:background ,atom-one-dark-green))))
 
-  `(hl-line ((,class (:background ,(solarized-color-blend base02 base03 0.5)))))
+  `(hl-line ((,class (:background ,atom-one-dark-bg-hl))))
   `(lsp-ui-doc-background ((,class ((:inherit hl-line)))))
-  `(region ((,class (:background ,base02 :foreground unspecified))))
+  `(region ((,class (:background ,atom-one-dark-bg-hl :foreground unspecified))))
 
   `(show-paren-match ((,class (:foreground unspecified
-                               :background ,base02
+                               :background ,atom-one-dark-bg-hl
                                :weight bold))))
 
   ;; smartparents
   `(sp-show-pair-match-face ((,class (:foreground unspecified
-                                      :background ,base02
+                                      :background ,atom-one-dark-bg-hl
                                       :weight bold))))
 
   `(sp-show-pair-mismatch-face ((,class (:foreground unspecified
-                                         :background ,red
+                                         :background ,atom-one-dark-red-1
                                          :weight normal))))
 
-  `(highlight-quoted-quote ((,class (:foreground ,red-hc))))
+  `(highlight-quoted-quote ((,class (:foreground ,atom-one-dark-red-1))))
 
   ;; rainbow delimiters
-  `(rainbow-delimiters-depth-1-face ((,class (:foreground ,base01))))
-  `(rainbow-delimiters-depth-2-face ((,class (:foreground ,cyan))))
-  `(rainbow-delimiters-depth-3-face ((,class (:foreground ,yellow))))
-  `(rainbow-delimiters-depth-4-face ((,class (:foreground ,blue))))
-  `(rainbow-delimiters-depth-5-face ((,class (:foreground ,violet))))
-  `(rainbow-delimiters-depth-6-face ((,class (:foreground ,green))))
-  `(rainbow-delimiters-depth-7-face ((,class (:foreground ,yellow))))
-  `(rainbow-delimiters-depth-8-face ((,class (:foreground ,blue))))
-  `(rainbow-delimiters-depth-9-face ((,class (:foreground ,violet))))
-  `(rainbow-delimiters-depth-10-face ((,class (:foreground ,green))))
-  `(rainbow-delimiters-depth-11-face ((,class (:foreground ,yellow))))
-  `(rainbow-delimiters-depth-12-face ((,class (:foreground ,blue))))
-  `(rainbow-delimiters-depth-13-face ((,class (:foreground ,violet))))
+  `(rainbow-delimiters-depth-1-face ((,class (:foreground ,atom-one-dark-mono-3))))
+  `(rainbow-delimiters-depth-2-face ((,class (:foreground ,atom-one-dark-cyan))))
+  `(rainbow-delimiters-depth-3-face ((,class (:foreground ,atom-one-dark-orange-2))))
+  `(rainbow-delimiters-depth-4-face ((,class (:foreground ,atom-one-dark-blue))))
+  `(rainbow-delimiters-depth-5-face ((,class (:foreground ,atom-one-dark-purple))))
+  `(rainbow-delimiters-depth-6-face ((,class (:foreground ,atom-one-dark-green))))
+  `(rainbow-delimiters-depth-7-face ((,class (:foreground ,atom-one-dark-orange-2))))
+  `(rainbow-delimiters-depth-8-face ((,class (:foreground ,atom-one-dark-blue))))
+  `(rainbow-delimiters-depth-9-face ((,class (:foreground ,atom-one-dark-purple))))
+  `(rainbow-delimiters-depth-10-face ((,class (:foreground ,atom-one-dark-green))))
+  `(rainbow-delimiters-depth-11-face ((,class (:foreground ,atom-one-dark-orange-2))))
+  `(rainbow-delimiters-depth-12-face ((,class (:foreground ,atom-one-dark-blue))))
+  `(rainbow-delimiters-depth-13-face ((,class (:foreground ,atom-one-dark-purple))))
   `(rainbow-delimiters-unmatched-face
-    ((,class (:foreground ,base0 :background ,base03 :inverse-video t))))
+    ((,class (:foreground ,atom-one-dark-mono-2 :background ,atom-one-dark-bg-1 :inverse-video t))))
 
   `(header-line
     ((,class (:inverse-video unspecified
-              :overline ,s-mode-line-underline
-              :underline ,s-mode-line-underline
-              :foreground ,s-mode-line-fg
-              :background ,s-mode-line-bg
+              :foreground "white"
+              :background ,atom-one-dark-gutter
               :box unspecified))))
 
   ;; mode-line
   `(mode-line-column-face
-    ((,class (:background ,s-fringe-bg :foreground ,base1 :weight bold))))
+    ((,class (:background ,atom-one-dark-bg :foreground ,atom-one-dark-mono-1 :weight bold))))
 
-  `(mode-line-zoom-window-face ((,class (:background ,magenta :foreground "white" :weight bold))))
-  `(mode-line-which-function-face ((,class (:background ,blue-l :foreground "white"))))
-  `(mode-line-branch-face ((,class (:background ,base0 :foreground "white" :weight bold))))
-  `(mode-line-edebug-face ((,class (:background ,violet :foreground "white" :weight bold))))
-  `(mode-line-anzu-face ((,class (:background ,orange-l :foreground "white" :weight bold))))
-  `(mode-line-mode-name-face ((,class (:background ,base0 :foreground "white"))))
-  `(mode-line-read-only-face ((,class (:background ,red-l :foreground "white" :weight bold))))
+  `(mode-line-zoom-window-face ((,class (:background ,atom-one-dark-purple :foreground "white"))))
+  `(mode-line-branch-face ((,class (:background ,atom-one-dark-mono-2 :foreground "white" :weight bold))))
+  `(mode-line-edebug-face ((,class (:background ,atom-one-dark-purple :foreground "white" :weight bold))))
+  `(mode-line-anzu-face ((,class (:background ,atom-one-dark-orange-1 :foreground "white" :weight bold))))
+  `(mode-line-mode-name-face ((,class (:background ,atom-one-dark-mono-2 :foreground "white"))))
+  `(mode-line-read-only-face ((,class (:background ,atom-one-dark-red-1 :foreground "white" :weight bold))))
   `(mode-line-emacs-mode-indicator-face
-    ((,class (:background ,red-l :foreground "white" :weight bold))))
+    ((,class (:background ,atom-one-dark-red-1 :foreground "white" :weight bold))))
   `(mode-line-evil-mode-indicator-face
-    ((,class (:background ,blue-l :foreground "white" :weight bold))))
+    ((,class (:background ,atom-one-dark-blue :foreground "white" :weight bold))))
   `(mode-line-flycheck-no-errors-face
-    ((,class (:background ,base0 :foreground "white" :weight bold))))
+    ((,class (:background ,atom-one-dark-mono-2 :foreground "white" :weight bold))))
   `(mode-line-flycheck-warnings-face
-    ((,class (:background ,yellow-lc :foreground "white" :weight bold))))
+    ((,class (:background ,atom-one-dark-orange-2 :foreground "white" :weight bold))))
   `(mode-line-flycheck-infos-face
-    ((,class (:background ,blue-l :foreground "white" :weight bold))))
+    ((,class (:background ,atom-one-dark-blue :foreground "white" :weight bold))))
   `(mode-line-flycheck-checking-face
-    ((,class (:background ,base01 :foreground "white" :weight bold))))
+    ((,class (:background ,atom-one-dark-mono-3 :foreground "white" :weight bold))))
   `(mode-line-flycheck-errors-face
-    ((,class (:background ,red-l :foreground "white" :weight bold))))
-  `(mode-line-which-func-separator ((,class (:foreground ,green :weight bold))))
+    ((,class (:background ,atom-one-dark-red-1 :foreground "white" :weight bold))))
+  `(mode-line-which-func-separator ((,class (:foreground ,atom-one-dark-green :weight bold))))
   `(mode-line-modified-face
-    ((,class (:background ,green-l :foreground "white" :weight bold))))
+    ((,class (:background ,atom-one-dark-green :foreground "white" :weight bold))))
   `(mode-line-remote-face
-    ((,class (:background ,green-lc :foreground "white" :weight bold))))
-  `(mode-line-stem-face ((,class (:foreground ,base0))))
+    ((,class (:background ,atom-one-dark-green :foreground "white" :weight bold))))
+  `(mode-line-stem-face ((,class (:foreground ,atom-one-dark-mono-2))))
 
   `(mode-line
     ((,class (:inverse-video unspecified
-              :overline ,s-mode-line-underline
-              :underline ,s-mode-line-underline
-              :foreground ,s-mode-line-fg
-              :background ,s-mode-line-bg
+              :foreground "white"
+              :background ,atom-one-dark-gutter
               :box unspecified))))
 
   `(mode-line-inactive
     ((,class (:inverse-video unspecified
-              :overline ,s-mode-line-underline
-              :underline ,s-mode-line-underline
-              :foreground ,s-mode-line-inactive-fg
-              :background ,s-mode-line-inactive-bg
+              :foreground "white"
+              :background ,atom-one-dark-gutter
               :box unspecified))))
 
   ;; evil-goggles
@@ -366,8 +364,4 @@
   `(smerge-refined-added
     ((,class (:inherit smerge-other))))
   ))
- )
-
-(my-with-solarized-colors)
-
-(provide-theme 'solarized-ext)
+(provide-theme 'atom-one-dark-ext)
