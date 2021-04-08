@@ -229,11 +229,11 @@
   :init
   (setq hl-todo-activate-in-modes '(prog-mode text-mode))
 
-  (my-with-solarized-colors
+  (my-with-atom-one-dark-colors
    (setq hl-todo-keyword-faces
-         `(("TODO"  . ,blue-lc)
-           ("NOTE"  . ,yellow-lc)
-           ("FIXME" . ,red-lc))))
+         `(("TODO"  . ,atom-one-dark-blue)
+           ("NOTE"  . ,atom-one-dark-orange-2)
+           ("FIXME" . ,atom-one-dark-red-1))))
 
   :config
   (global-hl-todo-mode))
