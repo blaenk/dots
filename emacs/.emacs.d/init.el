@@ -324,6 +324,15 @@ text by that amount."
         (indent-rigidly (point-min) (point-max) (- indent))
         (copy-region-as-kill (point-min) (point-max))))))
 
+;; based on: https://emacs.stackexchange.com/a/19585/13444
+(defun my-describe-char-at-mouse-click (click-event)
+  "`describe-char' at CLICK-EVENT's position.
+CLICK-EVENT should be a mouse-click event."
+  (interactive "e")
+  (run-hooks 'mouse-leave-buffer-hook)
+  (let ((pos (cadr (event-start click-event))))
+    (describe-char pos)))
+
 (my-map
   "e" '(:ignore t :which-key "emacs")
 
@@ -331,6 +340,7 @@ text by that amount."
   "e f f" 'find-function
   "e f l" 'find-library
   "e f v" 'find-variable
+  "e f <down-mouse-1>" 'my-describe-char-at-mouse-click
 
   "e e" '(:ignore t :which-key "eval")
   "e e b" 'eval-buffer
