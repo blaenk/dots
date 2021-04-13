@@ -89,6 +89,10 @@ dexec() {
   docker exec -it "${1}" "${2:-bash}"
 }
 
+drun() {
+  docker run --rm -it "${1}" "${2:-bash}"
+}
+
 # what is my ip? useful for syncplay and mumble
 # $ ip get
 #   copied <ip> to clipboard
