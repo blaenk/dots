@@ -13,6 +13,11 @@ eg() {
   man -P "less -p \"^EXAMPLES?\"" $1
 }
 
+# create a directory and cd into it
+mkcd() {
+  mkdir $1 && cd $_
+}
+
 # run emacs in a new session
 # this way closing the shell it was started from won't
 # kill emacs, nor will it usurp the shell
