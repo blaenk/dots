@@ -25,6 +25,7 @@ path=(
   ~/.rbenv/bin
   ~/.cabal/bin
   ~/.rvm/bin
+  ~/.poetry/bin
 
   ~/.texlive/2018/bin/x86_64-linux
   /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
