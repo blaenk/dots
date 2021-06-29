@@ -98,6 +98,10 @@ drun() {
   docker run --rm -it "${1}" "${2:-bash}"
 }
 
+klogs() {
+  kubectl logs -n "$1" -c "$2" "$3"
+}
+
 # what is my ip? useful for syncplay and mumble
 # $ ip get
 #   copied <ip> to clipboard
