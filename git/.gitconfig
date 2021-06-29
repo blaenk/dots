@@ -104,6 +104,10 @@
 	# Show the stash's diff
 	dfz = stash show -p
 
+	# Show log of commits containing a given file path. Can be a glob in single quotes.
+	# Example: git find-file '**/*SomeName*'
+	find-file = log --all --
+
 	# Custom log
 	lg = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset'
 
