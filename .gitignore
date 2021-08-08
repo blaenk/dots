@@ -36,3 +36,4 @@ flycheck_*.el
 /xmonad/.xmonad/xmonad.o
 
 /zsh/zsh/iterm.zsh
+/emacs/.emacs.d/eln-cache/
