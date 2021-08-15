@@ -4,6 +4,8 @@ export GOPATH=${HOME}/code/gopath
 
 export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
 
+export VOLTA_HOME="$HOME/.volta"
+
 if command_exists rustc; then
   RUST_SYSROOT=$(rustc --print sysroot)
 
@@ -26,6 +28,7 @@ path=(
   ~/.cabal/bin
   ~/.rvm/bin
   ~/.poetry/bin
+  $VOLTA_HOME/bin
 
   ~/.texlive/2018/bin/x86_64-linux
   /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
