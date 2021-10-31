@@ -18,7 +18,16 @@ if [[ "$OSTYPE" == darwin* ]]; then
   export MACOS=1
 fi
 
-export DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
+if [[ `uname` == "Darwin" ]]; then
+  if ! command -v greadlink &> /dev/null; then
+    echo "You must have GNU coreutils on mac. Skipping initialization."
+    return
+  fi
+
+  export DOTSPATH="$(cd $(dirname $(dirname $(greadlink -f ${(%):-%N}))); pwd)"
+else
+  export DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
+fi
 
 # TODO
 # Warn when expected programs/packages aren't available.

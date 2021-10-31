@@ -1,5 +1,14 @@
 # dircolors
-eval $(dircolors ~/.dircolors)
+if [[ `uname` == "Darwin" ]]; then
+  if ! command -v gdircolors &> /dev/null; then
+    echo "You must have GNU coreutils on mac. Skipping initialization."
+    return
+  fi
+
+  eval $(gdircolors ~/.dircolors)
+else
+  eval $(dircolors ~/.dircolors)
+fi
 
 # highlighting
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern root)
