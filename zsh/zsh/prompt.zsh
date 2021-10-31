@@ -50,7 +50,7 @@ function p_exit_code {
 
 PS1='
 %{$(iterm2_prompt_mark)%}%F{blue}λ%f $(p_colored_path)$(p_hostname)$(p_envs)$(p_vcs)
-$(p_exit_code)$(p_arrow) '
+$(p_exit_code)$(p_arrow)$(iterm2_prompt_end) '
 
 function p_continuation {
   echo "%1(_.%_.contd)"
