@@ -9,7 +9,7 @@
 # See https://superuser.com/questions/852912/
 TRAPUSR1() {
   if [[ -o INTERACTIVE ]]; then
-     {echo; echo execute a new shell instance } 1>&2
+     { echo; echo execute a new shell instance } 1>&2
      exec zsh
   fi
 }
