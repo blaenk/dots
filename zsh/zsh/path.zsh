@@ -30,6 +30,13 @@ path=(
   ~/.texlive/2018/bin/x86_64-linux
   /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 
+  /opt/homebrew/opt/coreutils/libexec/gnubin
+  /opt/homebrew/opt/findutils/libexec/gnubin
+  /opt/homebrew/opt/gnu-tar/libexec/gnubin
+  /opt/homebrew/opt/gnu-sed/libexec/gnubin
+  /opt/homebrew/opt/gnu-getopt/bin
+  /opt/homebrew/opt/grep/libexec/gnubin
+
   "$path[@]"
 )
 
@@ -39,14 +46,27 @@ path=($^path(N))
 manpath=(
   /usr/local/share/man
   ~/.texlive/2018/texmf-dist/doc/man
+
+  /opt/homebrew/share/man
+
+  /opt/homebrew/opt/coreutils/libexec/gnuman
+  /opt/homebrew/opt/findutils/libexec/gnuman
+  /opt/homebrew/opt/gnu-tar/libexec/gnuman
+  /opt/homebrew/opt/gnu-sed/libexec/gnuman
+  /opt/homebrew/opt/grep/libexec/gnuman
+
   "$manpath[@]"
 )
+
+manpath=($^manpath(N))
 
 infopath=(
   /usr/local/share/info
   ~/.texlive/2018/texmf-dist/doc/info
   "$infopath[@]"
 )
+
+infopath=($^infopath(N))
 
 # To create a custom array-to-envvar link:
 # typeset -aU env_var

@@ -16,25 +16,6 @@ fi
 
 if [[ "$OSTYPE" == darwin* ]]; then
   export MACOS=1
-
-  path=(
-    /usr/local/opt/coreutils/libexec/gnubin
-    /usr/local/opt/findutils/libexec/gnubin
-    /usr/local/opt/gnu-tar/libexec/gnubin
-    /usr/local/opt/gnu-sed/libexec/gnubin
-    /usr/local/opt/gnu-getopt/bin
-    /usr/local/opt/grep/libexec/gnubin
-    "$path[@]"
-  )
-
-  manpath=(
-    /usr/local/opt/coreutils/libexec/gnuman
-    /usr/local/opt/findutils/libexec/gnuman
-    /usr/local/opt/gnu-tar/libexec/gnuman
-    /usr/local/opt/gnu-sed/libexec/gnuman
-    /usr/local/opt/grep/libexec/gnuman
-    "$manpath[@]"
-  )
 fi
 
 export DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
@@ -72,6 +53,7 @@ fi
 fpath=(
   "$HOME/.zsh/comp"
   "$DOTSPATH/zsh/zsh/comp"
+  /opt/homebrew/share/zsh/site-functions
   "${fpath[@]}"
 )
 

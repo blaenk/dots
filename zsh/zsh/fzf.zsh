@@ -155,6 +155,7 @@ fzf_path=(
   /usr/share/fzf
   # Homebrew
   /usr/local/opt/fzf/shell
+  /opt/homebrew/opt/fzf/shell
 )
 
 typeset -a fzf_path
