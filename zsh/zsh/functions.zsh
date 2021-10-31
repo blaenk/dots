@@ -225,6 +225,10 @@ install_dots() {
     stow -d "$DOTSPATH" "$package"
   done
 
+  if [[ ! -d ~/.tmux/plugins/tpm ]]; then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  fi
+
   msg_info "installing tmux plugins"
   ~/.tmux/plugins/tpm/bin/install_plugins
 
