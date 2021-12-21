@@ -23,11 +23,7 @@
 
 (use-package nginx-mode :defer t)
 
-(use-package gitconfig-mode :defer t)
-
-(use-package gitignore-mode :defer t)
-
-(use-package gitattributes-mode :defer t)
+(use-package git-modes :defer t)
 
 (use-package haskell-mode :defer t)
 
