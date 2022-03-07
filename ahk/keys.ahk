@@ -47,15 +47,15 @@ Menu, Tray, Icon , icon.ico,, 1
   Return
 
 ; Media keys 'home row' are u/i/o
-#u::Volume_Down
+;#u::Volume_Down
 !#u::Media_Prev
 ; ~MButton & WheelDown::Volume_Down
 
-#i::Volume_Mute
+;#i::Volume_Mute
 !#i::Media_Play_Pause
 ; ~MButton & RButton::Volume_Mute
 
-#o::Volume_Up
+;#o::Volume_Up
 !#o::Media_Next
 ; ~MButton & WheelUp::Volume_Up
 
