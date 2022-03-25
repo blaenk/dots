@@ -19,6 +19,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 if [[ `uname` == "Darwin" ]]; then
+  export PATH="/opt/homebrew/bin:$PATH"
+
   if ! command -v greadlink &> /dev/null; then
     echo "You must have GNU coreutils on mac. Skipping initialization."
     return

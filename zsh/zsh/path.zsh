@@ -35,6 +35,7 @@ path=(
   /opt/homebrew/opt/gnu-tar/libexec/gnubin
   /opt/homebrew/opt/gnu-sed/libexec/gnubin
   /opt/homebrew/opt/gnu-getopt/bin
+  /opt/homebrew/opt/gnu-indent/libexec/gnubin
   /opt/homebrew/opt/grep/libexec/gnubin
 
   "$path[@]"
