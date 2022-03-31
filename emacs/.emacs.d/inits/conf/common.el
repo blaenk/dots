@@ -212,4 +212,10 @@ This function is then added to MODE hook."
       (set-char-table-parent table char-width-table)
       (setq char-width-table table))))
 
+(defmacro my-measure-time (&rest body)
+  "Measure the time it takes to evaluate BODY."
+  `(let ((time (current-time)))
+     ,@body
+     (message "%.06f" (float-time (time-since time)))))
+
 (provide 'conf/common)
