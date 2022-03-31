@@ -90,10 +90,6 @@
 
 (require 'conf/common)
 
-(when (eq system-type 'darwin)
-  (my--set-char-widths
-   `((2 . (,(string-to-char "✔"))))))
-
 (add-to-list 'custom-theme-load-path (my-inits-dir "conf/"))
 
 (when (not (file-exists-p (my-cache-dir)))
