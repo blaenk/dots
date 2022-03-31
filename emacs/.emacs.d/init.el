@@ -78,25 +78,13 @@
       (setq command-line-args (delete "--benchmark" command-line-args)))
     "Whether emacs should run benchmark-init"))
 
-(use-package auto-compile
-  :defines
-  auto-compile-display-buffer
+(eval-and-compile (setq general-use-package-emit-autoloads nil))
 
-  :init
-  (setq auto-compile-display-buffer nil)
-
-  :config
-  (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode))
-
-(use-package dash
-  :config
-  (global-dash-fontify-mode))
-
-(use-package f)
-(use-package s)
-
-(use-package general)
+; NOTE: For some reason, having :general maps increases the time it takes to load evil
+(use-package general :demand t)
+(use-package dash :demand t)
+(use-package f :demand t)
+(use-package s :demand t)
 
 (add-to-list 'load-path (expand-file-name "inits/" user-emacs-directory) t)
 
