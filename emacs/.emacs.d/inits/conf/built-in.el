@@ -4,226 +4,6 @@
 (eval-when-compile
   (require 'conf/common))
 
-(use-package help-fns
-  :straight nil
-
-  :general
-  (:keymaps 'help-map
-   "s" 'describe-symbol))
-
-(use-package tramp
-  :straight nil
-  :defer t
-
-  :init
-  (setq tramp-auto-save-directory (my-cache-dir "tramp")))
-
-(use-package windmove
-  :straight nil
-
-  :general
-  ("C-M-S-h" 'my-move-splitter-left
-   "C-M-S-l" 'my-move-splitter-right
-   "C-M-S-k" 'my-move-splitter-up
-   "C-M-S-j" 'my-move-splitter-down)
-
-  (my-map
-    "w r" 'my-window-hydra/body)
-
-  :init
-  (defun my-move-splitter-left (arg)
-    "Move the right edge to the left.
-
-Resizing the right edge is not possible if there is no window to
-the right. If there's a window to the left, then the left edge is
-resized instead.
-
-Since this command is meant to be repeatable, it preserves the
-prefix argument so that it's not necessary to keep setting the it
-for each adjustment."
-    (interactive "P")
-
-    (universal-argument--preserve)
-
-    (adjust-window-trailing-edge
-     (or (and arg (window-in-direction 'left nil t))
-         (and (not (window-in-direction 'right nil t))
-              (window-in-direction 'left nil t)))
-     -1 t))
-
-  (defun my-move-splitter-right (arg)
-    "Move the right edge to the right.
-
-Resizing the right edge is not possible if there is no window to
-the right. If there's a window to the left, then the left edge is
-resized instead.
-
-Since this command is meant to be repeatable, it preserves the
-prefix argument so that it's not necessary to keep setting the it
-for each adjustment."
-    (interactive "P")
-
-    (universal-argument--preserve)
-
-    (adjust-window-trailing-edge
-     (or (and arg (window-in-direction 'left nil t))
-         (and (not (window-in-direction 'right nil t))
-              (window-in-direction 'left nil t)))
-     1 t))
-
-  (defun my-move-splitter-up (arg)
-    "Move the bottom edge upward.
-
-Resizing the bottom edge is not possible if there is no window
-below. If there is a window above, then the top edge is resized
-instead.
-
-Since this command is meant to be repeatable, it preserves the
-prefix argument so that it's not necessary to keep setting the it
-for each adjustment."
-    (interactive "P")
-
-    (universal-argument--preserve)
-
-    (adjust-window-trailing-edge
-     (or (and arg (window-in-direction 'above nil t))
-         (and (not (window-in-direction 'below nil t))
-              (window-in-direction 'above nil t)))
-     -1))
-
-  (defun my-move-splitter-down (arg)
-    "Move the bottom edge downward.
-
-Resizing the bottom edge is not possible if there is no window
-below. If there is a window above, then the top edge is resized
-instead.
-
-Since this command is meant to be repeatable, it preserves the
-prefix argument so that it's not necessary to keep setting the it
-for each adjustment."
-    (interactive "P")
-
-    (universal-argument--preserve)
-
-    (adjust-window-trailing-edge
-     (or (and arg (window-in-direction 'above nil t))
-         (and (not (window-in-direction 'below nil t))
-              (window-in-direction 'above nil t)))
-     1))
-
-  (defun my-universal-argument-toggle ()
-    "Toggle the universal argument.
-
-If it was already set, unset it. Otherwise invoke
-`universal-argument'."
-    (interactive)
-
-    (if current-prefix-arg
-        (setq current-prefix-arg nil)
-      (call-interactively #'universal-argument)))
-
-  (use-package hydra
-    :defer t
-    :config
-    (defhydra my-window-hydra ()
-      "Window manipulations."
-
-      ("C-u" my-universal-argument-toggle "prefix")
-
-      ("j" evil-window-down)
-      ("k" evil-window-up)
-      ("h" evil-window-left)
-      ("l" evil-window-right)
-
-      ("M-j" buf-move-down)
-      ("M-k" buf-move-up)
-      ("M-h" buf-move-left)
-      ("M-l" buf-move-right)
-
-      ("J" my-move-splitter-down)
-      ("K" my-move-splitter-up)
-      ("H" my-move-splitter-left)
-      ("L" my-move-splitter-right)
-
-      ("w" ace-window "ace")
-
-      ("s" evil-window-split)
-      ("v" evil-window-vsplit)
-
-      ("c" evil-window-delete "close")
-      ("b" balance-windows "balance")
-
-      ("q" nil "quit")
-      ("," nil "quit")
-
-      ("?" (my--hydra-cycle-verbosity 'my-window-hydra) "± verbosity"))
-
-    (hydra-set-property 'my-window-hydra :verbosity 0)))
-
-(use-package server
-  :straight nil
-  :defer t
-
-  :init
-  (setq server-auth-dir (my-cache-dir "server")))
-
-(use-package profiler
-  :straight nil
-  :defer t
-
-  :config
-  (with-eval-after-load 'evil
-    (evil-set-initial-state #'profiler-report-mode 'emacs)))
-
-(use-package browse-url
-  :straight nil
-  :defer t
-
-  :init
-  (defun my-browse-file-directory ()
-    "Open the current file's directory however the OS would."
-    (interactive)
-
-    (if default-directory
-        (browse-url-of-file (expand-file-name default-directory))
-      (error "No `default-directory' to open"))))
-
-(use-package edebug
-  :straight nil
-
-  :general
-  (my-map
-    "e e d" 'edebug-eval-defun)
-
-  :init
-  (my-create-evil-toggle-for-mode edebug-mode)
-
-  (defconst my--defun-regexp
-    "(\\s-*\\(defun\\|defmacro\\|use-package\\)\\s-+"
-    "Regexp to find a defun or defmacro definition.")
-
-  :config
-  ;; edebug-eval-defun is advised to override eval-defun, so we need to advise
-  ;; edebug-eval-defun otherwise if we advised eval-defun, our advice would be
-  ;; side-stepped once the edebug-eval-defun autoload kicks in and overrides
-  ;; eval-defun, meaning our advice would never run.
-  (define-advice edebug-eval-defun
-      (:around (old-func edebug-it) my--eval-use-package-defun)
-    "Allow evaluation of indented defuns, particularly those in use-package forms."
-
-    (save-excursion
-      (if (or (looking-at-p my--defun-regexp)
-              (search-backward-regexp my--defun-regexp))
-          (progn
-            (mark-sexp)
-
-            (save-restriction
-              (narrow-to-region (point) (mark))
-              (funcall old-func edebug-it))
-
-            (deactivate-mark))
-        (funcall old-func edebug-it)))))
-
 (use-package elisp-mode
   :straight nil
   :defer t
@@ -292,13 +72,6 @@ Also bind `q' to `quit-window'."
   :init
   (global-auto-revert-mode 1))
 
-(use-package delsel
-  :straight nil
-  :defer t
-
-  :init
-  (delete-selection-mode 1))
-
 (use-package iso-transl
   :straight nil
 
@@ -340,13 +113,6 @@ Also bind `q' to `quit-window'."
            (not-padded (not (looking-back " "  (- (point) 1)))))
       (when (and in-comment not-padded)
         (insert " ")))))
-
-(use-package mule-util
-  :straight nil
-  :defer nil
-
-  :init
-  (setq truncate-string-ellipsis "…"))
 
 (use-package menu-bar
   :straight nil
@@ -405,15 +171,6 @@ Also bind `q' to `quit-window'."
 
   (show-paren-mode 1))
 
-(use-package saveplace
-  :straight nil
-  :defer t
-  :defines save-place-file
-
-  :init
-  (setq-default save-place t)
-  (setq save-place-file (my-cache-dir "saved-places")))
-
 (use-package smerge-mode
   :straight nil
 
@@ -430,82 +187,8 @@ Also bind `q' to `quit-window'."
 
   :init
   (with-eval-after-load 'evil
-    (add-hook 'smerge-mode-hook #'evil-normalize-keymaps)))
-
-(use-package bookmark
-  :straight nil
-  :defer t
-  :defines bookmark-default-file
-
-  :init
-  (setq bookmark-default-file (my-cache-dir "bookmarks")
-        bookmark-save-flag 1
-        bookmark-automatically-show-annotations t))
-
-(use-package recentf
-  :straight nil
-  :defines recentf-save-file
-  :defer t
-
-  :init
-  (setq recentf-save-file (my-cache-dir "recentf")
-        recentf-max-saved-items 50)
-
-  (recentf-mode 1))
-
-(use-package savehist
-  :straight nil
-  :defer t
-
-  :init
-  (setq savehist-save-minibuffer-history 1
-        savehist-file (my-cache-dir "history"))
-
-  (savehist-mode 1))
-
-(use-package ido
-  :straight nil
-  :defer t
-  :defines ido-save-directory-list-file
-
-  :init
-  (setq ido-save-directory-list-file (my-cache-dir "ido.last")))
-
-(use-package eshell
-  :straight nil
-  :defer t
-  :defines eshell-directory
-
-  :init
-  (setq eshell-directory (my-cache-dir "eshell")))
-
-(use-package apropos
-  :straight nil
-  :defer t
-  :defines apropos-do-all
-
-  :init
-  (setq apropos-do-all t))
-
-;; NOTE gdb also requires argument `-i=mi`
-(use-package gdb-mi
-  :straight nil
-  :defer t
-  :defines
-  gdb-many-windows
-  gdb-show-main
-
-  :init
-  (setq gdb-many-windows t
-        gdb-show-main t))
-
-(use-package shell
-  :straight nil
-  :defer t
-  :defines explicit-shell-file-name
-
-  :init
-  (setq explicit-shell-file-name "/usr/bin/zsh"))
+    (add-hook 'smerge-mode-hook #'evil-normalize-keymaps))
+  )
 
 (use-package whitespace
   :straight nil
@@ -552,96 +235,6 @@ Also bind `q' to `quit-window'."
   (defun my--zsh-hook ()
     (when (string-match "\\.zsh\\(rc\\)?\\'" buffer-file-name)
       (sh-set-shell "zsh"))))
-
-(use-package python
-  :straight nil
-  :defer t
-
-  :hook
-  (python-mode . my--python-hook)
-
-  :init
-  (defun my--python-hook ()
-    (setq fill-column 79)))
-
-(use-package semantic
-  :straight nil
-  :defer t
-  :defines
-  semanticdb-default-save-directory
-
-  :hook
-  (c++-mode . semantic-mode))
-
-(use-package semantic/db-mode
-  :straight nil
-  :after semantic
-  :functions
-  global-semanticdb-minor-mode
-  global-semantic-idle-scheduler-mode
-
-  :init
-  (setq semanticdb-default-save-directory (my-cache-dir "semanticdb"))
-
-  :config
-  (global-semanticdb-minor-mode 1))
-
-(use-package semantic/idle
-  :straight nil
-  :after semantic
-
-  :config
-  (global-semantic-idle-scheduler-mode 1))
-
-(use-package cc-mode
-  :straight nil
-  :defer t
-  :functions
-  projectile-project-p
-  projectile-project-root
-
-  :init
-  (setq c-tab-always-indent nil)
-  (defvaralias 'c-basic-offset 'tab-width)
-
-  :config
-  ;; use C++ mode in header files
-  (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-
-  (defun my-insert-include-guard ()
-    "Insert C pre-processor include guards."
-    (interactive)
-
-    (let* ((project-root (when (projectile-project-p)
-                           (projectile-project-root)))
-           (buf-name (or (buffer-file-name) (buffer-name)))
-           (name (if project-root
-                     (replace-regexp-in-string
-                      (regexp-quote project-root) ""
-                      buf-name)
-                   buf-name))
-           (filtered (replace-regexp-in-string
-                      (regexp-opt '("source/" "src/")) "" name))
-           (ident (concat
-                   (upcase
-                    (replace-regexp-in-string "[/.-]" "_" filtered))
-                   "_")))
-      (save-excursion
-        (goto-char (point-min))
-        (insert "#ifndef " ident "\n")
-        (insert "#define " ident "\n\n")
-        (goto-char (point-max))
-        (insert "\n#endif  // " ident)))))
-
-(use-package cc-menus
-  :straight nil
-  :defer t
-
-  :config
-  ;; Add googletest TESTs to imenu.
-  (add-to-list 'cc-imenu-c++-generic-expression
-               '("Test" "^TEST\\(_F\\)?(\\([^)]+\\))" 2) t))
-
 (use-package imenu
   :straight nil
   :defer t
@@ -874,101 +467,12 @@ they'll be disabled and then re-enabled on exit.")
 
   (electric-pair-mode 1))
 
-(use-package sgml-mode
-  :straight nil
-  :defer t
-
-  :init
-  (setq sgml-basic-offset 2))
-
-(use-package css-mode
-  :straight nil
-  :defer t
-
-  :init
-  (setq css-indent-offset 2))
-
-(use-package bug-reference
-  :straight nil
-  :defer t
-
-  :hook
-  ((prog-mode . bug-reference-prog-mode)
-   (text-mode . bug-reference-mode))
-
-  :init
-  (setq bug-reference-bug-regexp "\\(\
-[Ii]ssue ?#\\|\
-[Bb]ug ?#?\\|\
-[Pp]atch ?#\\|\
-RFE ?#\\|\
-GH-\\|\
-PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
-\\)\\([0-9]+\\(?:#[0-9]+\\)?\\)"))
-
-(use-package goto-addr
-  :straight nil
-  :defer t
-
-  :hook
-  ((prog-mode . goto-address-prog-mode)
-   (text-mode . goto-address-mode)))
-
-(use-package org-table
-  :straight nil
-  :defer t
-
-  :commands orgtbl-mode
-  :functions
-  org-at-table-p
-  org-table-hline-and-move
-
-  :general
-  (:keymaps 'orgtbl-mode-map
-   "C-c RET" 'my-orgtbl-ret)
-
-  :config
-  (defun my-orgtbl-ret ()
-    "Insert hline-and-move if in an org table, else pass-through C-c RET."
-    (interactive)
-
-    ;; If we're within an org table then insert an hline and move, otherwise
-    ;; make it appear as if orgtbl-mode is off and re-run the key sequence
-    ;; interactively, effectively passing it through to whatever binding it may
-    ;; have outside of orgtbl-mode.
-    (if (org-at-table-p)
-        (org-table-hline-and-move)
-      (let (orgtbl-mode)
-        (-when-let (binding (key-binding (this-command-keys-vector)))
-          (call-interactively binding))))))
-
-(use-package dired
-  :straight nil
-  :defer t
-
-  :init
-  (setq dired-auto-revert-buffer t
-        dired-listing-switches "-alhF")
-
-  (when (eq system-type 'darwin)
-    (setq insert-directory-program "gls"))
-
-  (when (or (memq system-type '(gnu gnu/linux))
-            (string= (file-name-nondirectory insert-directory-program) "gls"))
-    (setq dired-listing-switches
-          (concat dired-listing-switches " --group-directories-first -v")))
-
-  :config
-  (with-eval-after-load 'evil
-    (evil-set-initial-state #'dired-mode 'emacs)))
-
-(use-package dired-x :straight nil)
 
 (use-package simple
   :straight nil
   :defer t
 
-  :general
+  :general-config
   (:keymaps 'normal
    "[ c" 'my-previous-error
    "] c" 'my-next-error)
@@ -1009,38 +513,6 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
       (call-interactively #'previous-error)))
 
   (column-number-mode 1))
-
-(use-package ansi-color
-  :straight nil
-  :defer t
-  :functions
-  ansi-color-apply-on-region
-
-  :hook
-  (compilation-filter . my--colorize-compilation-buffer)
-
-  :init
-  (defun my--colorize-compilation-buffer ()
-    (when (eq major-mode 'compilation-mode)
-      (ansi-color-apply-on-region compilation-filter-start (point-max)))))
-
-(use-package compile
-  :straight nil
-  :defer t
-
-  :hook
-  (compilation-mode . my--compilation-mode-hook)
-
-  :init
-  (setq compilation-scroll-output 'first-error
-        compilation-ask-about-save nil
-        compilation-skip-threshold 0
-        compilation-always-kill t)
-
-  (defun my--compilation-mode-hook ()
-    (setq-local truncate-lines nil)
-    (setq-local truncate-partial-width-windows nil)))
-
 (use-package hl-line
   :straight nil
   :defer t
@@ -1081,14 +553,6 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 
   :hook
   (prog-mode . hs-minor-mode))
-
-(use-package man
-  :straight nil
-  :defer t
-
-  :config
-  (with-eval-after-load 'evil
-    (evil-set-initial-state #'Man-mode 'normal)))
 
 (use-package ispell
   :straight nil
