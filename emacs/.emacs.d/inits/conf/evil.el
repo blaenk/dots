@@ -363,8 +363,7 @@ The return value is the yanked text."
 (use-package evil-commentary
   :after evil
 
-  :config
-  (evil-commentary-mode))
+  :hook ((prog-mode . evil-commentary-mode)))
 
 (use-package evil-exchange
   :after evil
