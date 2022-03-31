@@ -70,6 +70,7 @@
 
 (use-package benchmark-init
   :defer t
+  :straight (:host github :repo "404cn/benchmark-init-el")
 
   :init
   (defvar my--is-benchmarking-p
