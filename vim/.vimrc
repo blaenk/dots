@@ -125,40 +125,43 @@ syntax enable
 let g:onedark_termcolors = 16
 
 colorscheme onedark
+let s:colors = onedark#GetColors()
 
 " onedark.vim seems to set the cterm16 bg to 0
 highlight Normal ctermfg=7 ctermbg=NONE guifg=#ABB2BF guibg=#282C34
 
-" " Tweaks: {{{2
-" " exe "hi! Comment"        .s:fmt_none   .s:fg_base01 .s:bg_none
-" " exe "hi! CursorLineNR"   .s:fmt_uopt   .s:fg_magenta   .s:bg_base02  .s:fmt_none
-" " exe "hi! StatusLine"     .s:fmt_none   .s:fg_base1 .s:bg_base02
-" " exe "hi! StatusLineNC"   .s:fmt_none   .s:fg_base01 .s:bg_base02
+" Tweaks: {{{2
+" exe "hi! Comment"        .s:fmt_none   .s:fg_base01 .s:bg_none
+" exe "hi! CursorLineNR"   .s:fmt_uopt   .s:fg_magenta   .s:bg_base02  .s:fmt_none
+" exe "hi! StatusLine"     .s:fmt_none   .s:fg_base1 .s:bg_base02
+" exe "hi! StatusLineNC"   .s:fmt_none   .s:fg_base01 .s:bg_base02
 
-" " exe "hi! pandocStrong"   .s:fg_base0  .s:bg_none  .s:fmt_bold
+" exe "hi! pandocStrong"   .s:fg_base0  .s:bg_none  .s:fmt_bold
 
-" " if (g:solarized_visibility!="high" && g:solarized_visibility!="low")
-" "   exe "hi! SpecialKey" .s:fmt_bold   .s:fg_base00 .s:bg_none
-" " endif
-" " " }}}
-
-" " " Status Line Colors: {{{2
-" " exe "hi SLColumn"   .s:fg_blue    .s:bg_base03
-" " exe "hi SLLineNr"   .s:fg_magenta .s:bg_base02
-" " exe "hi SLBranch"   .s:fg_green   .s:bg_base02
-" " exe "hi SLArrows"   .s:fg_cyan    .s:bg_base02
-" " exe "hi SLProgress" .s:fg_base02  .s:bg_orange
-" " exe "hi SLHelp"     .s:fg_base02  .s:bg_red
+" if (g:solarized_visibility!="high" && g:solarized_visibility!="low")
+"   exe "hi! SpecialKey" .s:fmt_bold   .s:fg_base00 .s:bg_none
+" endif
 " " }}}
 
-" " Cursor Colors: {{{2
-" " exe "hi InsertCursor"  .s:fg_base03 .s:bg_cyan
-" " exe "hi VisualCursor"  .s:fg_base03 .s:bg_magenta
-" " exe "hi ReplaceCursor" .s:fg_base03 .s:bg_red
-" " exe "hi CommandCursor" .s:fg_base03 .s:bg_blue
-" " }}}
+" " Status Line Colors: {{{2
 
-" " }}}
+call onedark#set_highlight("SLColumn", { "fg": s:colors.blue })
+call onedark#set_highlight("SLLineNr", { "fg": s:colors.purple, "bg": s:colors.cursor_grey  })
+call onedark#set_highlight("SLBranch", { "fg": s:colors.green, "bg": s:colors.cursor_grey  })
+call onedark#set_highlight("SLArrows", { "fg": s:colors.cyan, "bg": s:colors.cursor_grey })
+call onedark#set_highlight("SLProgress", { "fg": s:colors.dark_red })
+call onedark#set_highlight("SLHelp", { "bg": s:colors.red })
+
+" }}}
+
+" Cursor Colors: {{{2
+
+call onedark#set_highlight("InsertCursor", { "bg": s:colors.green })
+call onedark#set_highlight("VisualCursor", { "bg": s:colors.purple })
+call onedark#set_highlight("ReplaceCursor", { "bg": s:colors.red })
+call onedark#set_highlight("CommandCursor", { "bg": s:colors.blue })
+
+" }}}
 
 " Settings: {{{
 " don't allow files with the same name to overwrite each other
