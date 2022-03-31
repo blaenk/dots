@@ -59,7 +59,9 @@
       backup-by-copying t
 
       straight-use-package-by-default t
-      use-package-check-before-init t)
+      use-package-check-before-init t
+      use-package-always-defer t
+      )
 
 (eval-when-compile
   (require 'use-package))
