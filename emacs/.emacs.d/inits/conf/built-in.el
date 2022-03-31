@@ -509,7 +509,6 @@ Also bind `q' to `quit-window'."
 
 (use-package whitespace
   :straight nil
-  :defer t
 
   :init
   (setq whitespace-line-column nil
@@ -527,7 +526,7 @@ Also bind `q' to `quit-window'."
           (newline-mark 10 [36 10])
           (tab-mark 9 [9656 9] [183 9] [187 9] [92 9])))
 
-  (global-whitespace-mode 1))
+  (add-hook 'prog-mode-hook #'whitespace-mode))
 
 (use-package js
   :straight nil
