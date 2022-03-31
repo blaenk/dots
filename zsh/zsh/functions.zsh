@@ -29,6 +29,12 @@ e() {
   fi
 }
 
+magit() {
+  e --eval '(magit-status)'
+}
+
+alias mg='magit'
+
 # html man pages
 manh() {
   file=$(mktemp)
