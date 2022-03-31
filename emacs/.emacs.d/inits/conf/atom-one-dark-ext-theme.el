@@ -45,6 +45,11 @@
   :group 'mode-line-faces
   :group 'basic-faces)
 
+(defface mode-line-buffer-id nil
+  "The file name itself."
+  :group 'mode-line-faces
+  :group 'basic-faces)
+
 (defface mode-line-read-only-face nil
   "Read-only marker for mode-line."
   :group 'mode-line-faces
@@ -105,9 +110,9 @@
   :group 'mode-line-faces
   :group 'basic-faces)
 
-(my-with-atom-one-dark-colors
+(atom-one-dark-with-color-variables
  (custom-theme-set-faces
-  'atom-one-dark
+  'atom-one-dark-ext
   ;; magit
   `(magit-diff-added
     ((,class (:background "#2a3d35" :foreground "#57ab5a"))))
@@ -116,10 +121,16 @@
     ((,class (:background "#442d31" :foreground "#e5534b"))))
 
   `(magit-diff-added-highlight
-    ((,class (:background "#2a3d35" :foreground "#79bc7b"))))
-
+    ((,class (:background "#2a3d35" :foreground "#57ab5a"))))
   `(magit-diff-removed-highlight
-    ((,class (:background "#442d31" :foreground "#eb7e78"))))
+    ((,class (:background "#442d31" :foreground "#e5534b"))))
+
+  ;; Make the text color brighter on focus.
+  ;; In practice I found it harder to read.
+  ;; `(magit-diff-added-highlight
+  ;;   ((,class (:background "#2a3d35" :foreground "#79bc7b"))))
+  ;; `(magit-diff-removed-highlight
+  ;;   ((,class (:background "#442d31" :foreground "#eb7e78"))))
 
   `(magit-diff-context-highlight
     ((,class (:background unspecified :foreground unspecified))))
@@ -180,19 +191,19 @@
                                           :foreground ,"white"))))
 
   ;; line numbers
-  `(line-number ((,class (:weight normal :underline nil
-                          :foreground ,"white"
-                          :background ,atom-one-dark-gutter))))
-  `(line-number-current-line ((,class (:inherit line-number
-                                       :foreground ,atom-one-dark-mono-1
-                                       :weight bold))))
-  `(linum-relative-current-face ((,class (:inherit line-number
-                                          :foreground ,atom-one-dark-mono-1
-                                          :weight bold))))
+  ;; `(line-number ((,class (:weight normal :underline nil
+  ;;                         :foreground ,"white"
+  ;;                         :background ,atom-one-dark-gutter))))
+  ;; `(line-number-current-line ((,class (:inherit line-number
+  ;;                                      :foreground ,atom-one-dark-mono-1
+  ;;                                      :weight bold))))
+  ;; `(linum-relative-current-face ((,class (:inherit line-number
+  ;;                                         :foreground ,atom-one-dark-mono-1
+  ;;                                         :weight bold))))
 
   ;; eyebrowse
-  `(eyebrowse-mode-line-active ((,class (:background ,atom-one-dark-mono-2 :foreground "white" :weight bold))))
-  `(eyebrowse-mode-line-inactive ((,class (:background ,atom-one-dark-mono-3 :foreground "white"))))
+  `(eyebrowse-mode-line-active ((,class (:background atom-one-dark-bg :foreground ,atom-one-dark-mono-2 :weight bold))))
+  `(eyebrowse-mode-line-inactive ((,class (:background atom-one-dark-bg :foreground ,atom-one-dark-mono-3))))
 
   ;; whitespace
   `(whitespace-trailing ((,class (:background ,atom-one-dark-red-1
@@ -298,44 +309,45 @@
   `(mode-line-column-face
     ((,class (:background ,atom-one-dark-bg :foreground ,atom-one-dark-mono-1 :weight bold))))
 
-  `(mode-line-zoom-window-face ((,class (:background ,atom-one-dark-purple :foreground "white"))))
-  `(mode-line-branch-face ((,class (:background ,atom-one-dark-mono-2 :foreground "white" :weight bold))))
-  `(mode-line-edebug-face ((,class (:background ,atom-one-dark-purple :foreground "white" :weight bold))))
-  `(mode-line-anzu-face ((,class (:background ,atom-one-dark-orange-1 :foreground "white" :weight bold))))
-  `(mode-line-mode-name-face ((,class (:background ,atom-one-dark-mono-2 :foreground "white"))))
-  `(mode-line-read-only-face ((,class (:background ,atom-one-dark-red-1 :foreground "white" :weight bold))))
+  `(mode-line-zoom-window-face ((,class (:background unspecified :foreground ,atom-one-dark-purple))))
+  `(mode-line-branch-face ((,class (:background unspecified :foreground ,atom-one-dark-mono-2 :weight bold))))
+  `(mode-line-edebug-face ((,class (:background unspecified :foreground ,atom-one-dark-purple :weight bold))))
+  `(mode-line-anzu-face ((,class (:background unspecified :foreground ,atom-one-dark-orange-1 :weight bold))))
+  `(mode-line-mode-name-face ((,class (:background unspecified :foreground ,atom-one-dark-mono-2 ))))
+  `(mode-line-read-only-face ((,class (:background unspecified :foreground ,atom-one-dark-red-1 :weight bold))))
+  `(mode-line-buffer-id ((,class (:background unspecified :foreground ,atom-one-dark-fg :weight bold))))
   `(mode-line-emacs-mode-indicator-face
-    ((,class (:background ,atom-one-dark-red-1 :foreground "white" :weight bold))))
+    ((,class (:background unspecified :foreground ,atom-one-dark-red-1 :weight bold))))
   `(mode-line-evil-mode-indicator-face
-    ((,class (:background ,atom-one-dark-blue :foreground "white" :weight bold))))
+    ((,class (:background unspecified :foreground ,atom-one-dark-blue :weight bold))))
   `(mode-line-flycheck-no-errors-face
-    ((,class (:background ,atom-one-dark-mono-2 :foreground "white" :weight bold))))
+    ((,class (:background unspecified :foreground ,atom-one-dark-mono-2 :weight bold))))
   `(mode-line-flycheck-warnings-face
-    ((,class (:background ,atom-one-dark-orange-2 :foreground "white" :weight bold))))
+    ((,class (:background unspecified :foreground ,atom-one-dark-orange-2 :weight bold))))
   `(mode-line-flycheck-infos-face
-    ((,class (:background ,atom-one-dark-blue :foreground "white" :weight bold))))
+    ((,class (:background unspecified :foreground ,atom-one-dark-blue :weight bold))))
   `(mode-line-flycheck-checking-face
-    ((,class (:background ,atom-one-dark-mono-3 :foreground "white" :weight bold))))
+    ((,class (:background unspecified :foreground ,atom-one-dark-mono-3 :weight bold))))
   `(mode-line-flycheck-errors-face
-    ((,class (:background ,atom-one-dark-red-1 :foreground "white" :weight bold))))
+    ((,class (:background unspecified :foreground ,atom-one-dark-red-1 :weight bold))))
   `(mode-line-which-func-separator ((,class (:foreground ,atom-one-dark-green :weight bold))))
   `(mode-line-modified-face
-    ((,class (:background ,atom-one-dark-green :foreground "white" :weight bold))))
+    ((,class (:background unspecified :foreground ,atom-one-dark-green :weight bold))))
   `(mode-line-remote-face
-    ((,class (:background ,atom-one-dark-green :foreground "white" :weight bold))))
+    ((,class (:background unspecified :foreground ,atom-one-dark-green :weight bold))))
   `(mode-line-stem-face ((,class (:foreground ,atom-one-dark-mono-2))))
 
   `(mode-line
     ((,class (:inverse-video unspecified
-              :foreground "white"
-              :background ,atom-one-dark-gutter
-              :box unspecified))))
+              :foreground ,atom-one-dark-gutter :background "#333844" ;;,atom-one-dark-bg
+              :box unspecified
+              ))))
 
   `(mode-line-inactive
     ((,class (:inverse-video unspecified
-              :foreground "white"
-              :background ,atom-one-dark-gutter
-              :box unspecified))))
+              :foreground ,atom-one-dark-gutter :background ,atom-one-dark-bg
+              :box unspecified
+              ))))
 
   ;; evil-goggles
   `(evil-goggles-delete-face
@@ -364,4 +376,5 @@
   `(smerge-refined-added
     ((,class (:inherit smerge-other))))
   ))
+
 (provide-theme 'atom-one-dark-ext)
