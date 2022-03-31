@@ -438,5 +438,6 @@ buffer-local basis.")
 
 (use-package conf/helm :straight nil :demand t)
 (use-package conf/utilities :straight nil :demand t)
+(use-package conf/company :straight nil :defer 5)
 
 (load custom-file 'noerror)
