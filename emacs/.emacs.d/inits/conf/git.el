@@ -28,12 +28,6 @@
   (unless my--is-within-vm
     (setq gist-view-gist t)))
 
-(use-package bug-reference-github
-  :defer t
-
-  :init
-  (add-hook 'find-file-hook #'bug-reference-github-set-url-format))
-
 (use-package browse-at-remote
   :general-config
   (my-map "o g" 'my-browse-at-remote)
@@ -48,9 +42,7 @@
         (call-interactively #'browse-at-remote-kill)
       (call-interactively #'browse-at-remote))))
 
-(use-package git-timemachine :defer t)
-
-(use-package github-clone :defer t)
+(use-package git-modes :defer t)
 
 (use-package git-commit
   :init
