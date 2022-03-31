@@ -92,6 +92,7 @@
         magit-refs-show-commit-count 'all
         magit-log-auto-more t
         magit-bury-buffer-function #'magit-mode-quit-window
+        magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1
         transient-default-level 7
         )
 
@@ -132,7 +133,7 @@
   (unless (eq system-type 'windows-nt)
     (magit-wip-mode)))
 
-(use-package forge :demand t)
+(use-package forge :after magit)
 
 (use-package magit-todos
   :disabled t
