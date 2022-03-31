@@ -3,15 +3,6 @@
 (require 'general)
 (require 'conf/common)
 
-(use-package straight
-  :straight nil
-
-  :general
-  (my-map
-    "e u" 'straight-pull-all))
-
-(use-package pcre2el :defer t)
-
 (use-package macrostep
   :defer t
 
@@ -22,54 +13,20 @@
   :init
   (my-create-evil-toggle-for-mode macrostep-mode))
 
-(use-package discover-my-major
-  :general
-  ([remap describe-mode] 'discover-my-major
-   "C-h M-m" 'discover-my-mode))
+(use-package straight
+  :straight nil
 
-(use-package eyebrowse
-  :demand t
-
-  :general
-  (my-map :keymaps 'eyebrowse-mode-map :infix "w w"
-    "" '(:ignore t :which-key "eyebrowse")
-    "w" 'eyebrowse-switch-to-window-config
-    "l" 'eyebrowse-next-window-config
-    "h" 'eyebrowse-prev-window-config
-    "o" 'eyebrowse-last-window-config
-    "k" 'eyebrowse-close-window-config
-    "r" 'eyebrowse-rename-window-config
-    "n" 'eyebrowse-create-window-config
-
-    "0" 'eyebrowse-switch-to-window-config-0
-    "1" 'eyebrowse-switch-to-window-config-1
-    "2" 'eyebrowse-switch-to-window-config-2
-    "3" 'eyebrowse-switch-to-window-config-3
-    "4" 'eyebrowse-switch-to-window-config-4
-    "5" 'eyebrowse-switch-to-window-config-5
-    "6" 'eyebrowse-switch-to-window-config-6
-    "7" 'eyebrowse-switch-to-window-config-7
-    "8" 'eyebrowse-switch-to-window-config-8
-    "9" 'eyebrowse-switch-to-window-config-9)
-
-  :init
-  (setq eyebrowse-switch-back-and-forth t
-        eyebrowse-wrap-around t
-        eyebrowse-new-workspace t
-
-        eyebrowse-mode-line-separator ""
-        eyebrowse-mode-line-left-delimiter ""
-        eyebrowse-mode-line-right-delimiter "")
-
-  :config
-  (eyebrowse-mode t))
+  :general-config
+  (my-map
+    "e u" 'straight-pull-all)
+  )
 
 (use-package beginend
   :config
   (beginend-global-mode))
 
 (use-package sudo-edit
-  :general
+  :general-config
   (my-map
     "o s" 'sudo-edit)
 
@@ -79,14 +36,9 @@
   (with-eval-after-load 'evil-ex
     (evil-ex-define-cmd "w!!" 'sudo-edit)))
 
-(use-package imenu-list
-  :defer t
-
-  :config
-  (with-eval-after-load 'evil
-    (evil-set-initial-state #'imenu-list-major-mode 'emacs)))
-
 (use-package which-key
+  :demand t
+
   :init
   (setq which-key-idle-delay 0.3
         which-key-idle-secondary-delay 0.3
@@ -104,43 +56,16 @@
   :config
   (which-key-mode))
 
-(use-package fontawesome
-  :if (not (eq system-type 'windows-nt))
-  :defer t
-
-  :config
-  (my--set-char-widths
-   `((2 . (,(string-to-char (fontawesome "cloud"))
-           ,(string-to-char (fontawesome "refresh")))))))
-
 (use-package dtrt-indent
   :defer t
 
   :init
   (setq dtrt-indent-verbosity 0))
 
-(use-package vdiff :defer t)
-
-(use-package easy-escape :defer t)
-
-(use-package ag
-  :if (executable-find "ag")
-  :defer t
-
-  :init
-  (defun my-ag-root-function (file-or-dir-name)
-    (let ((default-directory file-or-dir-name))
-      (projectile-project-root)))
-
-  (setq ag-highlight-search t
-        ;; This is needed for wgrep-ag.
-        ag-group-matches nil
-        ag-project-root-function #'my-ag-root-function))
-
 (use-package projectile
   :demand t
 
-  :general
+  :general-config
   (my-map
     "o p" 'my-buffer-file-path
 
@@ -164,15 +89,15 @@
         projectile-cache-file (my-cache-dir "projectile.cache")
         projectile-known-projects-file (my-cache-dir "projectile-bookmarks.eld")
         projectile-test-suffix-function #'my--projectile-test-suffix-function
-        projectile-indexing-method 'alien)
+        projectile-indexing-method 'alien
+        projectile-switch-project-action 'magit-status
+        )
 
   :config
   (projectile-mode)
 
   (add-to-list 'projectile-other-file-alist '("cc" "h" "hpp" "hh"))
   (add-to-list 'projectile-other-file-alist '("h" "c" "cpp" "cc")))
-
-(use-package term-projectile :disabled t)
 
 (use-package anzu
   :init
@@ -197,6 +122,14 @@
   :config
   (global-anzu-mode +1))
 
+(use-package link-hint
+  :general-config
+  (my-map
+    "o l" 'link-hint-open-link)
+
+  :init
+  (setq link-hint-avy-style 'post))
+
 (use-package buffer-move
   :general-config
   (my-map :infix "w m"
@@ -211,17 +144,8 @@
     "k" 'buf-move-up
     "j" 'buf-move-down
     "h" 'buf-move-left
-    "l" 'buf-move-right))
-
-(use-package olivetti :defer t)
-
-(use-package link-hint
-  :general
-  (my-map
-    "o l" 'link-hint-open-link)
-
-  :init
-  (setq link-hint-avy-style 'post))
+    "l" 'buf-move-right)
+  )
 
 (use-package hl-todo
   :defines hl-todo-keyword-faces
@@ -291,12 +215,6 @@
       (funcall old-func)))
 
   (global-undo-tree-mode))
-
-(use-package stripe-buffer
-  :defer t
-
-  :hook
-  (profiler-report-mode . turn-on-stripe-buffer-mode))
 
 (use-package rainbow-mode
   :general-config
@@ -391,120 +309,6 @@
   :hook
   (prog-mode . highlight-numbers-mode))
 
-(use-package know-your-http-well :defer t)
-
-(use-package emojify
-  :general
-  (my-map
-    "t e" 'emojify-mode)
-
-  :init
-  (setq emojify-program-contexts '(comments)
-        emojify-point-entered-behaviour 'uncover
-        emojify-emojis-dir (my-cache-dir "emojis"))
-
-  (when (eq system-type 'darwin)
-    (setq emojify-display-style "unicode"))
-
-  :config
-  (setq emojify-inhibit-major-modes
-        (append emojify-inhibit-major-modes
-                '(flycheck-error-list-mode
-                  magit-status-mode
-                  magit-revision-mode))))
-
-(use-package yasnippet
-  :general
-  (:keymaps 'yas-minor-mode-map
-   "<tab>" nil
-   "TAB" nil
-   "M-n" 'my-yasnippet)
-
-  (my-map
-    "i s" 'my-yasnippet)
-
-  :hook
-  ((yas-before-expand-snippet . evil-insert-state)
-   (after-init . yas-global-mode))
-
-  :init
-  (setq yas-indent-line 'auto
-        yas-wrap-around-region t
-        yas-also-auto-indent-first-line t)
-
-  (defun my-yasnippet ()
-    "Expand partial snippet or choose a snippet with helm.
-
-If a region is active, it'll be used to \"wrap\" the selection."
-    (interactive)
-
-    ;; If there region is active or there's nothing to expand, use completing
-    ;; read to select the snippet. Otherwise expand.
-    (if (or (region-active-p)
-            (not (yas--maybe-expand-key-filter 'yas-expand)))
-        (yas-insert-snippet)
-      (yas-expand))))
-
-(use-package hydra
-  :general
-  (my-map
-    "f r" 'my-frame-resizer/body)
-
-  :init
-  (setq hydra-lv nil)
-
-  ;; Taken from the emacswiki frame-cmds package
-  (defun my-enlarge-frame (&optional increment frame) ; Suggested binding: `C-M-down'.
-    "Increase the height of FRAME (default: selected-frame) by INCREMENT.
-INCREMENT is in lines (characters).
-Interactively, it is given by the prefix argument."
-    (interactive "p")
-    (set-frame-height frame (+ (frame-height frame) increment)))
-
-  (defun my-enlarge-frame-horizontally (&optional increment frame) ; Suggested binding: `C-M-right'.
-    "Increase the width of FRAME (default: selected-frame) by INCREMENT.
-INCREMENT is in columns (characters).
-Interactively, it is given by the prefix argument."
-    (interactive "p")
-    (set-frame-width frame (+ (frame-width frame) increment)))
-
-  (defun my-shrink-frame (&optional increment frame) ; Suggested binding: `C-M-up'.
-    "Decrease the height of FRAME (default: selected-frame) by INCREMENT.
-INCREMENT is in lines (characters).
-Interactively, it is given by the prefix argument."
-    (interactive "p")
-    (set-frame-height frame (- (frame-height frame) increment)))
-
-  (defun my-shrink-frame-horizontally (&optional increment frame) ; Suggested binding: `C-M-left'.
-    "Decrease the width of FRAME (default: selected-frame) by INCREMENT.
-INCREMENT is in columns (characters).
-Interactively, it is given by the prefix argument."
-    (interactive "p")
-    (set-frame-width frame (- (frame-width frame) increment)))
-
-  (defun my--hydra-cycle-verbosity (hydra)
-    (hydra-set-property hydra :verbosity
-                        (if (= (hydra-get-property hydra :verbosity) 0) 1 0)))
-
-  (with-eval-after-load 'hydra
-    (defhydra my-frame-resizer ()
-      "Resize frame."
-
-      ("j" my-enlarge-frame "🡇")
-      ("k" my-shrink-frame "🡅")
-      ("h" my-shrink-frame-horizontally "🡄")
-      ("l" my-enlarge-frame-horizontally "🡆")
-
-      ("f" toggle-frame-fullscreen)
-
-      ("q" nil "quit")
-      ("," nil "quit")
-      ("?" (my--hydra-cycle-verbosity 'my-frame-resizer) "± verbosity"))
-
-    (hydra-set-property 'my-frame-resizer :verbosity 0)))
-
-(use-package mwim :defer t)
-
 (use-package avy
   :defer t
 
@@ -528,42 +332,6 @@ Interactively, it is given by the prefix argument."
   (with-eval-after-load 'evil
     (evil-set-initial-state #'helpful-mode 'emacs)))
 
-(use-package edit-indirect
-  :defer t
-
-  :general
-  (:keymaps 'edit-indirect-mode-map
-   [remap save-buffer] 'edit-indirect-commit))
-
-(use-package xterm-color
-  :when (eq system-type 'gnu/linux)
-
-  :config
-  (add-hook 'comint-preoutput-filter-functions #'xterm-color-filter)
-
-  (setq comint-output-filter-functions
-        (remove 'ansi-color-process-output comint-output-filter-functions))
-
-  (setq compilation-environment '("TERM=xterm-256color"))
-
-  (defun my--xterm-color-compilation ()
-    ;; We need to differentiate between compilation-mode buffers
-    ;; and running as part of comint (which at this point we assume
-    ;; has been configured separately for xterm-color)
-    (when (eq (process-filter proc) 'compilation-filter)
-      ;; This is a process associated with a compilation-mode buffer.
-      ;; We may call `xterm-color-filter' before its own filter function.
-      (set-process-filter
-       proc
-       (lambda (proc string)
-         (funcall 'compilation-filter proc (xterm-color-filter string))))))
-
-  (add-hook 'compilation-start-hook #'my--xterm-color-compilation))
-
-(use-package diredfl
-  :config
-  (diredfl-global-mode))
-
 (use-package rg
   :if (executable-find "rg")
   :defer t
@@ -581,16 +349,14 @@ Interactively, it is given by the prefix argument."
    "g a" 'ace-jump-char-mode))
 
 (use-package drag-stuff
-  :demand t
+  :hook ((prog-mode . drag-stuff-mode))
 
-  :general
+  :general-config
   (:keymaps 'normal
    "<M-up>" 'drag-stuff-up
    "<M-down>" 'drag-stuff-down))
 
 (use-package default-text-scale
-  :demand t
-
   :config
   (default-text-scale-mode))
 
