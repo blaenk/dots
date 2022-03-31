@@ -27,6 +27,8 @@ path=(
   ~/.rvm/bin
   ~/.poetry/bin
 
+  ~/code/app/cli/bin
+
   ~/.texlive/2018/bin/x86_64-linux
   /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
 

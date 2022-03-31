@@ -63,6 +63,7 @@ fi
 
 fpath=(
   "$HOME/.zsh/comp"
+  "$HOME/code/app/cli/completion/zsh"
   "$DOTSPATH/zsh/zsh/comp"
   /opt/homebrew/share/zsh/site-functions
   "${fpath[@]}"
