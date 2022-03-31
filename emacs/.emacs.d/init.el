@@ -92,9 +92,6 @@
 
 (add-to-list 'custom-theme-load-path (my-inits-dir "conf/"))
 
-(when (not (file-exists-p (my-cache-dir)))
-  (make-directory (my-cache-dir)))
-
 (let* ((auto-save-dir (my-cache-dir "autosaves/")))
   (setq auto-save-list-file-prefix (expand-file-name "saves-" auto-save-dir)
         auto-save-file-name-transforms `((".*" ,auto-save-dir t))))
