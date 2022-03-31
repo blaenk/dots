@@ -29,11 +29,15 @@ that we are withing a virtual machine.")
 
 ;; On gnome, have to unbind M-SPC, known as Alt+Space in
 ;; settings → windows → activate the window menu.
-(general-create-definer my-map
+(general-define-key
   :states '(emacs normal visual insert)
+  :prefix-map 'my-prefix-map
   :global-prefix "C-c"
   :non-normal-prefix "M-SPC"
   :prefix "SPC")
+
+(general-create-definer my-map
+  :keymaps 'my-prefix-map)
 
 (function-put #'my-map 'lisp-indent-function 'defun)
 
