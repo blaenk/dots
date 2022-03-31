@@ -4,7 +4,7 @@
 (require 'general)
 
 (use-package gist
-  :general
+  :general-config
   (my-map :infix "g g"
     "" '(:ignore t :which-key "gist")
     "s" 'gist-region-or-buffer-private
@@ -35,7 +35,7 @@
   (add-hook 'find-file-hook #'bug-reference-github-set-url-format))
 
 (use-package browse-at-remote
-  :general
+  :general-config
   (my-map "o g" 'my-browse-at-remote)
 
   :init

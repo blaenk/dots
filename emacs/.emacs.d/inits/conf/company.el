@@ -3,7 +3,7 @@
 (require 'general)
 
 (use-package company
-  :general
+  :general-config
   (:keymaps 'company-active-map
    "TAB" 'company-complete-selection
    "<tab>" 'company-complete-selection

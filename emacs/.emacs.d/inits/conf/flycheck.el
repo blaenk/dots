@@ -3,7 +3,7 @@
 (require 'general)
 
 (use-package flycheck
-  :general
+  :general-config
   (my-map
     "c r" 'flycheck-buffer
     "c l" 'flycheck-list-errors)

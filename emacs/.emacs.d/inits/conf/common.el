@@ -37,6 +37,16 @@ that we are withing a virtual machine.")
 
 (function-put #'my-map 'lisp-indent-function 'defun)
 
+;; Alias :general-config to :general
+(defalias 'use-package-normalize/:general-config #'use-package-normalize/:general)
+(defalias 'use-package-handler/:general-config #'use-package-handler/:general)
+
+;; Add :general-config to `use-package-keywords` after :config, so that it processes
+;; after the package has loaded.
+(setq use-package-keywords
+  (-insert-at (+ 1 (-elem-index :config use-package-keywords))
+    :general-config use-package-keywords))
+
 (defun my-emacs-dir (&optional path)
   "Return a path relative to the emacs directory."
 

@@ -7,7 +7,7 @@
 (use-package helm
   :demand t
 
-  :general
+  :general-config
   ([remap execute-extended-command] 'helm-M-x
    "M-y" 'helm-show-kill-ring
    "M-i" 'helm-semantic-or-imenu
@@ -265,7 +265,7 @@ can be overridden with the prefix ARG."
 (use-package helm-locate
   :straight nil
 
-  :general
+  :general-config
   (:keymaps 'helm-generic-files-map
    "C-c C-h" 'helm-ext-ff-buffer-execute-horizontal-split
    "C-c C-v" 'helm-ext-ff-buffer-execute-vertical-split))
@@ -286,7 +286,7 @@ can be overridden with the prefix ARG."
 (use-package helm-files
   :straight nil
 
-  :general
+  :general-config
   (:keymaps 'helm-buffer-map
    "C-c C-k" 'helm-buffer-run-kill-persistent)
 
@@ -303,7 +303,7 @@ can be overridden with the prefix ARG."
        "Split Vertical" 'helm-ext-ff-buffer-action-vertical-split helm-source-find-files))))
 
 (use-package helm-projectile
-  :general
+  :general-config
   ("C-<" 'my-open-buffer
    "C->" 'my-open-file
    "C-M-/" 'my-helm-ag)
@@ -401,7 +401,7 @@ overridden with the prefix ARG."
 (use-package helm-ag
   :if (executable-find "ag")
 
-  :general
+  :general-config
   (:keymaps 'helm-ag-map
    "C-c a" 'my-helm-ag-launch-ag
 
@@ -581,7 +581,7 @@ within other words, but this means that non-word keywords such as
     (add-hook 'helm-gtags-mode-hook #'evil-normalize-keymaps)))
 
 (use-package helm-descbinds
-  :general
+  :general-config
   ([remap describe-bindings] 'helm-descbinds)
 
   :init
@@ -599,7 +599,7 @@ within other words, but this means that non-word keywords such as
    "C-c ! h" 'helm-flycheck))
 
 (use-package helm-flyspell
-  :general
+  :general-config
   (:keymaps '(normal insert)
    "C-;" 'my-flyspell-last)
 

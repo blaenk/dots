@@ -7,7 +7,7 @@
   :demand t
   :defines my-evil-join
 
-  :general
+  :general-config
   (:keymaps 'motion
    "M-l" 'my-clear-search
 
@@ -397,7 +397,7 @@ The return value is the yanked text."
   (evil-lion-mode))
 
 (use-package evil-textobj-anyblock
-  :general
+  :general-config
   (:keymaps 'inner
    "b" 'evil-textobj-anyblock-inner-block)
 
@@ -440,7 +440,7 @@ The return value is the yanked text."
   (global-evil-visualstar-mode))
 
 (use-package evil-args
-  :general
+  :general-config
   (:keymaps 'normal
    "K" 'evil-jump-out-args
 

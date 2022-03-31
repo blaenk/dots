@@ -278,7 +278,7 @@ Also bind `q' to `quit-window'."
 (use-package profiler
   :straight nil
 
-  :general
+  :general-config
   (my-map
     "e p" '(:ignore t :which-key "profiler")
     "e p p" 'profiler-start
@@ -302,7 +302,7 @@ Also bind `q' to `quit-window'."
 (use-package iso-transl
   :straight nil
 
-  :general
+  :general-config
   (:keymaps 'iso-transl-ctl-x-8-map
    "<right>" "→"
    "<left>" "←"
@@ -313,7 +313,7 @@ Also bind `q' to `quit-window'."
 (use-package winner
   :straight nil
 
-  :general
+  :general-config
   (my-map :infix "w"
     "<left>" 'winner-undo
     "C-S-h" 'winner-undo
@@ -351,7 +351,7 @@ Also bind `q' to `quit-window'."
 (use-package menu-bar
   :straight nil
 
-  :general
+  :general-config
   ("<f10>" 'toggle-menu-bar-mode-from-frame)
 
   :init
@@ -367,7 +367,7 @@ Also bind `q' to `quit-window'."
 (use-package scroll-bar
   :straight nil
 
-  :general
+  :general-config
   ("<f9>" 'my-toggle-scroll-bar)
 
   :init
@@ -417,7 +417,7 @@ Also bind `q' to `quit-window'."
 (use-package smerge-mode
   :straight nil
 
-  :general
+  :general-config
   (my-map :infix "g c" :keymaps 'smerge-mode-map
     "" '(:ignore t :which-key "conflict")
     "n" 'smerge-next
@@ -754,7 +754,7 @@ Lisp function does not specify a special indentation."
   :straight nil
   :defer t
 
-  :general
+  :general-config
   (my-map "b d" 'my-diff)
 
   :init
@@ -773,7 +773,7 @@ Lisp function does not specify a special indentation."
   :functions
   ediff-toggle-wide-display
 
-  :general
+  :general-config
   (my-map "b e" 'ediff-current-file)
 
   :hook
@@ -1055,7 +1055,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
 (use-package help-mode
   :straight nil
 
-  :general
+  :general-config
   (:keymaps 'help-mode-map
     "[" 'help-go-back
     "]" 'help-go-forward
@@ -1115,7 +1115,7 @@ PR \\(?:[a-z-+_]+/\\(?:[a-z-+_]+\\)?\\)?#?\
   flyspell-goto-next-error
   my-flyspell-goto-previous-error
 
-  :general
+  :general-config
   (:keymaps 'flyspell-mode-map
    "C-c $" nil)
 

@@ -4,9 +4,7 @@
 (require 'dash)
 
 (use-package smartparens
-  :demand t
-
-  :general
+  :general-config
   (:keymaps 'smartparens-mode-map
    :states 'normal
     "> )" 'my-move-closing-paren-forward

@@ -15,7 +15,7 @@
 (use-package macrostep
   :defer t
 
-  :general
+  :general-config
   (my-map
     "e e m" 'macrostep-expand)
 
@@ -198,7 +198,7 @@
   (global-anzu-mode +1))
 
 (use-package buffer-move
-  :general
+  :general-config
   (my-map :infix "w m"
     "" '(:ignore t :which-key "move")
     "k" 'buf-move-up
@@ -299,7 +299,7 @@
   (profiler-report-mode . turn-on-stripe-buffer-mode))
 
 (use-package rainbow-mode
-  :general
+  :general-config
   (my-map
     "t r" 'rainbow-mode)
 
@@ -333,7 +333,7 @@
 (use-package wgrep-ag :defer t)
 
 (use-package fill-column-indicator
-  :general
+  :general-config
   (my-map "t c" 'fci-mode)
 
   :init
@@ -341,7 +341,7 @@
         fci-dash-pattern 0.50))
 
 (use-package ace-window
-  :general
+  :general-config
   (my-map
     "k o W" 'ace-delete-window
     "w m m" 'ace-swap-window
@@ -368,7 +368,7 @@
   )
 
 (use-package zoom-window
-  :general
+  :general-config
   (my-map :infix "w"
     "f" 'zoom-window-zoom)
 
@@ -514,7 +514,7 @@ Interactively, it is given by the prefix argument."
 (use-package helpful
   :defer t
 
-  :general
+  :general-config
   (my-map :infix "e H"
     "" '(:ignore t :which-key "helpful")
     "f" 'helpful-callable
@@ -576,7 +576,7 @@ Interactively, it is given by the prefix argument."
   :defer t)
 
 (use-package ace-jump-mode
-  :general
+  :general-config
   (:keymaps 'normal
    "g a" 'ace-jump-char-mode))
 
