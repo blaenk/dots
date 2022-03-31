@@ -154,6 +154,7 @@ source $DOTSPATH/zsh/zsh/highlight.zsh
 source $DOTSPATH/zsh/zsh/enhancd.zsh
 source $DOTSPATH/zsh/zsh/linux.zsh
 source $DOTSPATH/zsh/zsh/macos.zsh
+source $DOTSPATH/zsh/zsh/sdkman.zsh
 
 if [[ -f ~/.zsh.local ]]; then
   source ~/.zsh.local
