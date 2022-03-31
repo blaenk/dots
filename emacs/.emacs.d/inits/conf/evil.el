@@ -4,8 +4,7 @@
 (require 'conf/common)
 
 (use-package evil
-  :demand t
-  :defines my-evil-join
+  :defer .1
 
   :general-config
   (:keymaps 'motion
@@ -92,9 +91,6 @@
   (:keymaps '(emacs motion)
    "C-w" 'my-window-prefix-command)
 
-  :hook
-  (after-init . evil-mode)
-
   :init
   (setq evil-text-object-change-visual-type nil
         evil-split-window-below t
@@ -115,7 +111,9 @@
           evil-complete-previous-func #'my--evil-company))
 
   :config
-  ;; don't auto-copy visual selections
+  (evil-mode t)
+
+  ;;; don't auto-copy visual selections
   (fset #'evil-visual-update-x-selection #'ignore)
 
   (customize-set-variable 'evil-search-module 'evil-search)
@@ -135,51 +133,6 @@
          evil-replace-state-cursor `(,atom-one-dark-red-1 (hbar . 4))
          evil-operator-state-cursor `((hbar . 6))
          evil-emacs-state-cursor `(,atom-one-dark-red-1 box)))
-
-  (defun evil-next-line--check-visual-line-mode (orig-fun &rest args)
-    (if visual-line-mode
-        (apply 'evil-next-visual-line args)
-      (apply orig-fun args)))
-
-  (advice-add 'evil-next-line :around 'evil-next-line--check-visual-line-mode)
-
-  (defun evil-previous-line--check-visual-line-mode (orig-fun &rest args)
-    (if visual-line-mode
-        (apply 'evil-previous-visual-line args)
-      (apply orig-fun args)))
-
-  (advice-add 'evil-previous-line :around 'evil-previous-line--check-visual-line-mode)
-
-  ;; FIXME
-  ;; when done on line:
-  ;;     (insert "\n#endif  // " ident)))))
-  ;; it modifies the string and becomes:
-  ;;     (insert "\n#endif // " ident)))))
-  ;;
-  ;; if joined lines are comments, remove delimiters
-  (evil-define-operator my-evil-join (beg end)
-    "Join the selected lines."
-    :motion evil-line
-    (let* ((count (count-lines beg end))
-           ;; we join pairs at a time
-           (count (if (> count 1) (1- count) count))
-           ;; the mark at the middle of the joined pair of lines
-           (fixup-mark (make-marker)))
-      (dotimes (var count)
-        (if (and (bolp) (eolp))
-            (join-line 1)
-          (let* ((end (line-beginning-position 3))
-                 (fill-column (1+ (- end beg))))
-            ;; save the mark at the middle of the pair
-            (set-marker fixup-mark (line-end-position))
-            ;; join it via fill
-            (fill-region-as-paragraph beg end)
-            ;; jump back to the middle
-            (goto-char fixup-mark)
-            ;; context-dependent whitespace fixup
-            (fixup-whitespace))))
-      ;; remove the mark
-      (set-marker fixup-mark nil)))
 
   ;; If the point is in a comment that has non-whitespace content, delete up
   ;; until the beginning of the comment. If already at the beginning of the
@@ -418,12 +371,6 @@ The return value is the yanked text."
 
   :config
   (evil-exchange-install))
-
-(use-package evil-numbers
-  :general
-  (:keymaps '(normal visual)
-   "<kp-subtract>" 'evil-numbers/dec-at-pt
-   "<kp-add>" 'evil-numbers/inc-at-pt))
 
 (use-package evil-surround
   :after evil
