@@ -23,31 +23,11 @@
                                       ,align)))
      right-line)))
 
-;; Note that Eyebrowse uses the same formatters for the mode-line as for the
-;; completing-read function, but we want separate formatters for each, so we
-;; work around this by locally binding the format strings.
-
-;; For the header-line show the tag name as well.
-(defun my--header-line-eyebrowse-component ()
-  (when (and (my--is-selected-window-p) header-line-format)
-    (let ((eyebrowse-slot-format " %s ")
-          (eyebrowse-tagged-slot-format " %s:%t "))
-      (eyebrowse-mode-line-indicator))))
-
-;; For the mode-line just show the slot number.
-(defun my--mode-line-eyebrowse-component ()
-  (when (and (my--is-selected-window-p) (not header-line-format))
-    (let ((eyebrowse-slot-format " %s ")
-          (eyebrowse-tagged-slot-format " %s "))
-      (eyebrowse-mode-line-indicator))))
-
 (defconst my--header-line-left `())
 
 (defconst my--header-line-right
   `(
     (:propertize (:eval (s-wrap mode-name " ")) face mode-line-mode-name-face)
-    (eyebrowse-mode
-     (:eval (my--header-line-eyebrowse-component)))
     ))
 
 (defconst my--header-line-template
@@ -119,19 +99,6 @@
 
 (defun my--is-sudo-edit-p (method host)
   (and (string= method "sudo") (string= host "localhost")))
-
-(defun my--mode-line-remote-component ()
-  (when (and (file-remote-p buffer-file-name)
-             (tramp-tramp-file-p buffer-file-name))
-    (let* ((tramp-file-name-struct (tramp-dissect-file-name buffer-file-name))
-           (host (tramp-file-name-host tramp-file-name-struct))
-           (method (tramp-file-name-method tramp-file-name-struct)))
-      (if (my--is-sudo-edit-p method host)
-          (propertize " SUDO " 'face 'mode-line-emacs-mode-indicator-face)
-        (propertize
-         (s-wrap (concat my--cloud-icon " " host) " ")
-         'face 'mode-line-remote-face)
-        ))))
 
 (defun my--mode-line-format-error (count face)
   (when (and count (> count 0))
@@ -304,8 +271,6 @@
         (:eval (my--zoom-window-component))
         (buffer-file-name
          (:eval (my--mode-line-project-component)))
-        (buffer-file-name
-          (:eval (my--mode-line-remote-component)))
         ))
 
 (defconst my--mode-line-right
@@ -324,8 +289,6 @@
          (:propertize
           (:eval (s-wrap my--lock-icon " "))
           face mode-line-read-only-face))
-        (eyebrowse-mode
-         (:eval (my--mode-line-eyebrowse-component)))
         ))
 
 (defconst my--default-mode-line-format mode-line-format
