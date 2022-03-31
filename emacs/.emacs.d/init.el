@@ -430,21 +430,13 @@ buffer-local basis.")
 ;; We use use-package instead of a plain `require' to allow us to use
 ;; use-package's profiling instrumentation if necessary, otherwise it seems like
 ;; the use-package forms within these required files don't show up.
-(use-package conf/built-in :straight nil)
-(use-package conf/theme :straight nil)
-(use-package conf/mode-line :straight nil)
-(use-package conf/evil :straight nil)
+(use-package conf/theme :straight nil :demand t)
+(use-package conf/evil :straight nil :demand t)
+(use-package conf/git :straight nil :demand t)
+(use-package conf/built-in :straight nil :demand t)
+(use-package conf/mode-line :straight nil :demand t)
 
-(use-package conf/helm :straight nil)
-(use-package conf/utilities :straight nil)
-(use-package conf/languages :straight nil)
-(use-package conf/git :straight nil)
-
-(use-package conf/flycheck :straight nil)
-(use-package conf/company :straight nil)
-(use-package conf/smartparens :straight nil)
-
-(when my--is-benchmarking-p
-  (benchmark-init/deactivate))
+(use-package conf/helm :straight nil :demand t)
+(use-package conf/utilities :straight nil :demand t)
 
 (load custom-file 'noerror)
