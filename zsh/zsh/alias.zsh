@@ -214,12 +214,12 @@ if command_exists pacman; then
   alias pacqm="pacman -Qm"
 fi
 
-if command_exists yay; then
-  alias pacman="yay"
+if command_exists paru; then
+  alias pacman="paru"
 
-  # Don't use sudo for commands. yay handles privilege elevation.
-  alias pacup="yay -Syu"
-  alias pacin="yay -S"
-  alias packg="yay -U"
-  alias pacun="yay -Rs"
+  # Don't use sudo for commands. paru handles privilege elevation.
+  alias pacup="paru -Syu"
+  alias pacin="paru -S"
+  alias packg="paru -U"
+  alias pacun="paru -Rs"
 fi
