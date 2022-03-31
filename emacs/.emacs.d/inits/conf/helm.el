@@ -155,19 +155,10 @@
 
 (use-package helm-font
   :straight nil
-  :defer t
 
-  :general
+  :general-config
   (my-map
     "i c" 'helm-ucs))
-
-(use-package helm-semantic
-  :straight nil
-  :defer t
-
-  :config
-  (push '(c-mode . semantic-format-tag-summarize) helm-semantic-display-style)
-  (push '(c++-mode . semantic-format-tag-summarize) helm-semantic-display-style))
 
 (use-package helm-imenu
   :straight nil
@@ -177,88 +168,8 @@
   (setq helm-imenu-execute-action-at-once-if-one nil
         helm-imenu-extra-modes '(markdown-mode)))
 
-(use-package helm-bookmark
-  :straight nil
-
-  :general
-  (:keymaps 'helm-bookmark-map
-   "C-c C-k" 'helm-bookmark-run-delete
-
-   "C-c C-h" 'helm-ext-ff-helm-bookmark-execute-horizontal-split
-   "C-c C-v" 'helm-ext-ff-helm-bookmark-execute-vertical-split)
-
-  (my-map
-    "o m" 'my-open-bookmark)
-
-  :init
-  (setq helm-bookmark-show-location t)
-
-  :config
-  (defun my--helm-bookmark-projectile-p (bookmark)
-    (and (projectile-project-p)
-         (f-ancestor-of? (projectile-project-root)
-                         (bookmark-get-filename bookmark))))
-
-  (defun my--helm-bookmark-project-setup-alist ()
-    (helm-bookmark-filter-setup-alist 'my--helm-bookmark-projectile-p))
-
-  (defconst my--helm-source-bookmark-project
-    (helm-make-source "Project Bookmarks" 'helm-source-filtered-bookmarks
-      :init (lambda ()
-              (bookmark-maybe-load-default-file)
-              (helm-init-candidates-in-buffer
-                  'global (my--helm-bookmark-project-setup-alist)))))
-
-  (defconst my--helm-project-bookmarks-sources
-    (append '(helm-source-bookmark-org
-              my--helm-source-bookmark-project
-              helm-source-bookmark-helm-find-files
-              helm-source-bookmark-info
-              helm-source-bookmark-gnus
-              helm-source-bookmark-man
-              helm-source-bookmark-images
-              helm-source-bookmark-w3m)
-            (list 'helm-source-bookmark-uncategorized
-                  'helm-source-bookmark-set))
-    "List of sources to use in `my-project-bookmarks'.")
-
-  (defun my-open-bookmark (arg)
-    "Open a bookmark.
-
-When in a Projectile project, only show project bookmarks. This
-can be overridden with the prefix ARG."
-    (interactive "P")
-
-    (if (and (not arg) (projectile-project-p))
-        (let ((helm-bookmark-default-filtered-sources my--helm-project-bookmarks-sources))
-          (helm-filtered-bookmarks))
-      (helm-filtered-bookmarks)))
-
-  (use-package helm-ext
-    :defer t
-    :config
-    (helm-ext-ff-define-split helm-bookmark horizontal bookmark-jump balance)
-    (helm-ext-ff-define-split helm-bookmark vertical bookmark-jump balance)
-
-    (helm-add-action-to-source
-     "Split Horizontal" 'helm-ext-ff-helm-bookmark-action-horizontal-split helm-source-bookmarks)
-    (helm-add-action-to-source
-     "Split Vertical" 'helm-ext-ff-helm-bookmark-action-vertical-split helm-source-bookmarks)
-
-    (helm-add-action-to-source
-     "Split Horizontal" 'helm-ext-ff-helm-bookmark-action-horizontal-split my--helm-source-bookmark-project)
-    (helm-add-action-to-source
-     "Split Vertical" 'helm-ext-ff-helm-bookmark-action-vertical-split my--helm-source-bookmark-project) ))
-
-(use-package helm-adaptive
-  :straight nil
-  :defer t
-
-  :init
-  (setq helm-adaptive-history-file
-        (my-cache-dir "helm-adaptive-history")))
-
 (use-package helm-ext
+  :after helm
   :config
   (helm-ext-ff-enable-split-actions t))
 
@@ -385,13 +296,10 @@ overridden with the prefix ARG."
         (helm-do-ag (projectile-project-root))
       (helm-do-ag))))
 
-(use-package helm-open-github :defer t)
-
 (use-package helm-unicode
-  :general
-  ([remap insert-char] 'helm-unicode))
-
-(use-package helm-describe-modes :defer t)
+  :general-config
+  ([remap insert-char] 'helm-unicode)
+  )
 
 (use-package helm-rg
   :if (executable-find "rg")
@@ -552,34 +460,6 @@ within other words, but this means that non-word keywords such as
     (helm-add-action-to-source
      "Split Vertical" 'helm-ext-ff-helm-ag-action-vertical-split helm-source-do-ag)))
 
-(use-package helm-gtags
-  :general
-  (:keymaps 'helm-gtags-mode-map
-   "M-." 'helm-gtags-dwim
-   "C-M-." 'helm-gtags-select
-
-   "M-," 'helm-gtags-pop-stack
-   "C-M-," 'helm-gtags-show-stack
-
-   "C-S-h" 'helm-gtags-previous-history
-   "C-S-l" 'helm-gtags-next-history)
-
-  :hook
-  ((c-mode c++-mode) . helm-gtags-mode)
-
-  :init
-  (setq helm-gtags-ignore-case t
-        helm-gtags-auto-update t
-        helm-gtags-use-input-at-cursor t
-        helm-gtags-direct-helm-completing t
-        helm-gtags-prefix-key "\C-t"
-        helm-gtags-suggested-key-mapping t)
-
-  :config
-  (with-eval-after-load 'evil
-    (evil-make-overriding-map helm-gtags-mode-map)
-    (add-hook 'helm-gtags-mode-hook #'evil-normalize-keymaps)))
-
 (use-package helm-descbinds
   :general-config
   ([remap describe-bindings] 'helm-descbinds)
@@ -589,14 +469,6 @@ within other words, but this means that non-word keywords such as
       (:override (&optional prefix buffer) auto-load-helm-descbinds)
     "Explicitly auto-load helm-descbinds."
     (helm-descbinds prefix buffer)))
-
-(use-package helm-flycheck
-  :general
-  (my-map
-    "c h" 'helm-flycheck)
-
-  (:keymaps 'flycheck-mode-map
-   "C-c ! h" 'helm-flycheck))
 
 (use-package helm-flyspell
   :general-config
@@ -639,38 +511,5 @@ within other words, but this means that non-word keywords such as
     (my--push-mark-no-activate)
     (flyspell-goto-next-error)
     (call-interactively #'helm-flyspell-correct)))
-
-(use-package helm-make :defer t)
-
-(use-package helm-company
-  :general
-  (:keymaps 'company-active-map
-   "M-/" 'helm-company))
-
-(use-package helm-css-scss
-  :general
-  (:keymaps '(css-mode-map less-css-mode-map scss-mode-map)
-   "M-i" 'helm-css-scss)
-
-  :init
-  (setq helm-css-scss-split-direction 'split-window-horizontally))
-
-(use-package helm-tramp :defer t)
-
-(use-package ace-jump-helm-line
-  :general
-  (:keymaps 'helm-map
-   "C-'" 'ace-jump-helm-line)
-
-  :init
-  (setq ace-jump-helm-line-default-action 'select
-        ace-jump-helm-line-style 'post
-
-        ;; Press 'o' before the avy anchor to only move to it.
-        ace-jump-helm-line-move-only-key ?o
-
-        ;; Press 'p' before the avy anchor to move to it and execute.
-        ;; it's persistent action
-        ace-jump-helm-line-persistent-key ?p))
 
 (provide 'conf/helm)
