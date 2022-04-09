@@ -59,6 +59,7 @@
       backup-by-copying t
 
       straight-use-package-by-default t
+      straight-cache-autoloads t
       use-package-check-before-init t
       use-package-always-defer t
       )
