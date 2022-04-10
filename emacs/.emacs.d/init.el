@@ -44,6 +44,13 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(defun my-patch-package-find-file-visit-truename (oldfun &rest r)
+  (let ((find-file-visit-truename nil))
+    (apply oldfun r)))
+
+(advice-add #'straight--build-autoloads :around
+            #'my-patch-package-find-file-visit-truename)
+
 (defun my-reload-init ()
   "Reload init.el."
   (interactive)
