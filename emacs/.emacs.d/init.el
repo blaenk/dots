@@ -1,3 +1,16 @@
+(setq gc-cons-threshold most-positive-fixnum)
+
+;; reset gc-cons-threshold
+;; idle timer suggested by vermiculus
+(run-with-idle-timer
+  10 nil
+  (lambda ()
+    ;; (setq gc-cons-threshold (car (get 'gc-cons-threshold 'standard-value)))
+    ;; https://github.com/emacs-lsp/lsp-mode#performance
+    ;; TODO try out different values
+    (setq gc-cons-threshold 100000000)
+    (message "gc-cons-threshold restored to %S" gc-cons-threshold)))
+
 ;; frame
 (defun my--set-frame-options (frame)
   "Set the options for the current frame."
@@ -62,8 +75,7 @@
 
 (straight-use-package 'use-package)
 
-(setq load-prefer-newer t
-      backup-by-copying t
+(setq backup-by-copying t
 
       straight-use-package-by-default t
       straight-cache-autoloads t
@@ -167,7 +179,9 @@
               indent-tabs-mode nil
               tab-width 2
               cursor-type 'box
-              echo-keystrokes 0.1)
+              echo-keystrokes 0.1
+              show-trailing-whitespace t
+              indicate-empty-lines t)
 
 (fset #'yes-or-no-p #'y-or-n-p)
 (add-to-list 'auto-coding-alist '("\\.nfo\\'" . ibm437))
