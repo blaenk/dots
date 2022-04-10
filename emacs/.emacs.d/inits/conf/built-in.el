@@ -120,15 +120,16 @@ Also bind `q' to `quit-window'."
   :general-config
   ("<f10>" 'toggle-menu-bar-mode-from-frame)
 
-  :init
-  (menu-bar-mode -1))
+  ;; :init
+  ;; (menu-bar-mode -1)
+  )
 
-(use-package tool-bar
-  :straight nil
-  :defer t
+;; (use-package tool-bar
+;;   :straight nil
+;;   :defer t
 
-  :init
-  (tool-bar-mode -1))
+;;   :init
+;;   (tool-bar-mode -1))
 
 (use-package scroll-bar
   :straight nil
