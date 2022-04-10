@@ -63,6 +63,7 @@
     "-" 'evil-window-decrease-height
     "<" 'evil-window-decrease-width
     ">" 'evil-window-increase-width
+    "=" 'balance-windows
 
     "H" 'evil-window-move-far-left
     "J" 'evil-window-move-very-bottom
