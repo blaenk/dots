@@ -69,7 +69,7 @@
   (my-map
     "o p" 'my-buffer-file-path
 
-    "p" '(:keymap projectile-command-map :which-key "projectile"))
+    "p" (cons "projectile" projectile-command-map))
 
   :init
   ;; Consider files ending in _test to be tests.
@@ -133,14 +133,14 @@
 (use-package buffer-move
   :general-config
   (my-map :infix "w m"
-    "" '(:ignore t :which-key "move")
+    "" (cons "move" (make-sparse-keymap))
     "k" 'buf-move-up
     "j" 'buf-move-down
     "h" 'buf-move-left
     "l" 'buf-move-right)
 
   (my-map :infix "b m"
-    "" '(:ignore t :which-key "move")
+    "" (cons "move" (make-sparse-keymap))
     "k" 'buf-move-up
     "j" 'buf-move-down
     "h" 'buf-move-left
@@ -320,7 +320,7 @@
 
   :general-config
   (my-map :infix "e H"
-    "" '(:ignore t :which-key "helpful")
+    "" (cons "helpful" (make-sparse-keymap))
     "f" 'helpful-callable
     "v" 'helpful-variable
     "k" 'helpful-key

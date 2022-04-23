@@ -338,15 +338,15 @@ CLICK-EVENT should be a mouse-click event."
     (describe-char pos)))
 
 (my-map
-  "e" '(:ignore t :which-key "emacs")
+  "e" (cons "emacs" (make-sparse-keymap))
 
-  "e f" '(:ignore t :which-key "find")
+  "e f" (cons "find" (make-sparse-keymap))
   "e f f" 'find-function
   "e f l" 'find-library
   "e f v" 'find-variable
   "e f <down-mouse-1>" 'my-describe-char-at-mouse-click
 
-  "e e" '(:ignore t :which-key "eval")
+  "e e" (cons "eval" (make-sparse-keymap))
   "e e b" 'eval-buffer
   "e e d" 'eval-defun
   "e e r" 'eval-region
@@ -355,45 +355,45 @@ CLICK-EVENT should be a mouse-click event."
   "e e p" 'eval-print-last-sexp
   "e e M" 'pp-macroexpand-last-sexp
 
-  "e h" '(:keymap help-map :which-key "help")
+  "e h" (cons "help" help-map)
 
   "e q" 'save-buffers-kill-terminal
   "e c" 'save-buffers-kill-terminal
 
-  "." '(:ignore t :which-key "dots")
+  "." (cons "dots" (make-sparse-keymap))
 
-  "i" '(:ignore t :which-key "insert")
-  "s" '(:ignore t :which-key "search")
+  "i" (cons "insert" (make-sparse-keymap))
+  "s" (cons "search" (make-sparse-keymap))
 
-  "o" '(:ignore t :which-key "open")
-  "o a" '(:ignore t :which-key "all")
+  "o" (cons "open" (make-sparse-keymap))
+  "o a" (cons "all" (make-sparse-keymap))
 
-  "o o" '(:ignore t :which-key "other")
+  "o o" (cons "other" (make-sparse-keymap))
   "o o f" 'other-frame
   "o o b" 'my-switch-to-previous-buffer
   "o o w" 'my-switch-to-last-window
 
-  "t" '(:ignore t :which-key "toggle")
+  "t" (cons "toggle" (make-sparse-keymap))
 
-  "m" '(:ignore t :which-key "mode")
+  "m" (cons "mode" (make-sparse-keymap))
 
   ;; kill things
-  "k" '(:ignore t :which-key "kill")
+  "k" (cons "kill" (make-sparse-keymap))
   "k e" 'save-buffers-kill-terminal
   "k b" 'my-kill-this-buffer
   "k f" 'delete-frame
 
-  "k o" '(:ignore t :which-key "other")
+  "k o" (cons "other" (make-sparse-keymap))
   "k o f" 'delete-other-frames
   "k o w" 'delete-other-windows
 
   ;; frames
-  "f" '(:ignore t :which-key "frame")
+  "f" (cons "frame" (make-sparse-keymap))
   "f o" 'other-frame
   "f f" 'toggle-frame-fullscreen
 
   ;; buffers
-  "b" '(:ignore t :which-key "buffer")
+  "b" (cons "buffer" (make-sparse-keymap))
   "b h" 'bury-buffer
   "b o" 'my-switch-to-previous-buffer
   "b s" 'save-buffer
@@ -405,14 +405,14 @@ CLICK-EVENT should be a mouse-click event."
   :prefix-map 'my-window-prefix-map
   :prefix-command 'my-window-prefix-command
 
-  "" '(:ignore t :which-key "window")
+  "" (cons "window" (make-sparse-keymap))
 
   "o" 'my-switch-to-last-window
   "=" 'balance-windows
   "p" 'my-pop-to-frame
   "b" 'balance-windows
 
-  "s" '(:ignore t :which-key "split")
+  "s" (cons "split" (make-sparse-keymap))
   "s p" 'my-split-with-previous-buffer
   )
 

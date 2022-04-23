@@ -79,7 +79,7 @@
     "s h" 'evil-window-split
     "s s" 'evil-window-split
 
-    "s n" '(:ignore t :which-key "new")
+    "s n" (cons "new" (make-sparse-keymap))
     "s n v" 'evil-window-vnew
     "s n h" 'evil-window-new
     "s n n" 'evil-window-new)

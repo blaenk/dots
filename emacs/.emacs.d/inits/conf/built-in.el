@@ -60,7 +60,7 @@ Also bind `q' to `quit-window'."
 
   :general-config
   (my-map
-    "e p" '(:ignore t :which-key "profiler")
+    "e p" (cons "profiler" (make-sparse-keymap))
     "e p p" 'profiler-start
     "e p r" 'profiler-report
     "e p s" 'profiler-stop))
@@ -177,7 +177,7 @@ Also bind `q' to `quit-window'."
 
   :general-config
   (my-map :infix "g c" :keymaps 'smerge-mode-map
-    "" '(:ignore t :which-key "conflict")
+    "" (cons "conflict" (make-sparse-keymap))
     "n" 'smerge-next
     "p" 'smerge-prev
     "k" 'smerge-keep-current
@@ -479,7 +479,7 @@ they'll be disabled and then re-enabled on exit.")
    "] c" 'my-next-error)
 
   (my-map
-    "c" '(:ignore t :which-key "check")
+    "c" (cons "check" (make-sparse-keymap))
     "c j" 'my-next-error
     "c k" 'my-previous-error
 

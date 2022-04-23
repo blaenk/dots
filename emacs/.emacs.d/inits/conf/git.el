@@ -6,7 +6,7 @@
 (use-package gist
   :general-config
   (my-map :infix "g g"
-    "" '(:ignore t :which-key "gist")
+    "" (cons "gist" (make-sparse-keymap))
     "s" 'gist-region-or-buffer-private
     "p" 'gist-region-or-buffer
     "l" 'gist-list)
@@ -80,7 +80,7 @@
 (use-package magit
   :general
   (my-map
-    "g" '(:ignore t :which-key "git")
+    "g" (cons "git" (make-sparse-keymap))
     "g s" 'magit-status
     "g p" 'magit-dispatch
     "g f" 'magit-file-dispatch
