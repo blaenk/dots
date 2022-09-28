@@ -25,9 +25,9 @@ Menu, Tray, Icon , icon.ico,, 1
 ;     (accomplished via *)
 ;   - Not reset the state of any modifier that may already be pressed concurrently
 ;     (accomplished via the {Blind} option for Send, which is implicit in a remap)
-#If ShouldOverridePTT()
-~*XButton1::`
-~*XButton2::`
+; #If ShouldOverridePTT()
+; ~*XButton1::`
+; ~*XButton2::`
 
 ; Reset conditional directive
 #If
@@ -45,6 +45,10 @@ Menu, Tray, Icon , icon.ico,, 1
     VA_SetDefaultEndpoint("Microphone", 2)
   }
   Return
+
+; RAlt::Volume_Down
+; RWin::Volume_Up
+; RCtrl::Volume_Mute
 
 ; Media keys 'home row' are u/i/o
 ;#u::Volume_Down
