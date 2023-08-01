@@ -4,23 +4,23 @@ These are my dotfiles. Read about them [here](http://www.blaenkdenum.com/posts/d
 
 There are no real, hard dependencies since these are simply configuration files, aside from perhaps the font that I use if you don't change it. That said, here are some programs I use for which these configuration files mainly exist:
 
-* Font: DejaVu Sans Mono, `ttf-dejavu`
-* Terminal: urxvt, AUR `rxvt-unicode-patched`
-* Terminal Multiplexer: `tmux`
-* Emacs 25
-* vim + gvim: `gvim`
-* Shell: `zsh`
-* Awk: `gawk` on Ubuntu
-* `wmctrl` for urxvt fullscreen
-* Fuzzy Complete: `fzf`
-* Searching: ag, `the_silver_searcher`
-* Command Not Found: `pkgfile` (Arch)
-* `ls` colors: `colord`
-* Clipboard integration: `xsel`
+- Font: DejaVu Sans Mono, `ttf-dejavu`
+- Terminal: urxvt, AUR `rxvt-unicode-patched`
+- Terminal Multiplexer: `tmux`
+- Emacs 25
+- vim + gvim: `gvim`
+- Shell: `zsh`
+- Awk: `gawk` on Ubuntu
+- `wmctrl` for urxvt fullscreen
+- Fuzzy Complete: `fzf`
+- Searching: `rg`
+- Command Not Found: `pkgfile` (Arch)
+- `ls` colors: `colord`
+- Clipboard integration: `xsel`
 
 ### Installation
 
-``` bash
+```bash
 $ git clone https://github.com/blaenk/dots.git ~/.dots
 $ cd ~/.dots
 $ dots install
@@ -56,7 +56,7 @@ Once the zsh configuration files are deployed, you can use the `dots` command fr
 
 You'll want to have zsh installed and setup for your user. Install it, then run the following command.
 
-``` bash
+```bash
 $ chsh -s $(which zsh)
 ```
 
@@ -66,7 +66,7 @@ Afterward, log out and log back in for the change to take effect. The first time
 
 I use the [Solarized](http://ethanschoonover.com/solarized) color theme for everything. Run the `set-theme` command to properly configure your desired variant:
 
-``` bash
+```bash
 $ dots set-theme light
 
 # or
@@ -83,7 +83,7 @@ You can get functionality where, if you enter a command that's not installed on 
 
 On arch, you'll have to install `pkgfile` and then generate the metadata needed for this:
 
-``` bash
+```bash
 $ sudo pacman -S pkgfile
 $ sudo pkgfile -u
 $ abiword
