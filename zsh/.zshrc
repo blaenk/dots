@@ -99,13 +99,10 @@ export EDITOR=vim
 export VISUAL=vim
 
 # zinit
-export ZINIT_HOME=$HOME/.zinit
-
-if [[ ! -d $ZINIT_HOME ]]; then
-  git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
-fi
-
-source $ZINIT_HOME/bin/zinit.zsh
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
 
 source $DOTSPATH/zsh/zsh/completions.zsh
 source $DOTSPATH/zsh/zsh/zle.zsh
