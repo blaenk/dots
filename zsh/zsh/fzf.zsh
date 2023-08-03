@@ -52,13 +52,16 @@ bindkey '^[j' fzf-cd-down
 
 # use fzf to select from all of the ancestors
 fzf-cd-up() {
-  local saved
-  saved="${FZF_DEFAULT_OPTS}"
-  FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS} --header=\"cd ↑ from $PWD\""
-
-  __enhancd::cd::builtin "$(__enhancd::sources::go_up "$2")"
-
-  FZF_DEFAULT_OPTS="${saved}"
+  local declare dirs=()
+  get_parent_dirs() {
+    if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
+    if [[ "${1}" == '/' ]]; then
+      for _dir in "${dirs[@]}"; do echo $_dir; done
+    else
+      get_parent_dirs $(dirname "$1")
+    fi
+  }
+  DIR=$(get_parent_dirs $(realpath "${1:-$(pwd)}") | fzf-tmux --tac) && cd "$DIR"
   zle reset-prompt
 }
 
