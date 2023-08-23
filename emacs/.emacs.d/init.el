@@ -36,7 +36,7 @@
     ;; Make the titlebar transparent, effectively making it the same color as
     ;; the background.
     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-    (add-to-list 'default-frame-alist '(ns-appearance . light)))))
+    (add-to-list 'default-frame-alist '(ns-appearance . dark)))))
 
 (my--set-frame-options nil)
 
