@@ -26,7 +26,7 @@
     (set-frame-font "Consolas-10.5" nil t))
 
    ((eq system-type 'darwin)
-    (set-frame-font "Monaco-10.5" nil t)
+    (set-frame-font "Monaco-12" nil t)
 
     (set-fontset-font t 'symbol
                       (font-spec :family "Apple Color Emoji") nil 'prepend)
