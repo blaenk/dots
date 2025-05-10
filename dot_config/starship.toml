@@ -76,3 +76,22 @@ syntax_bg = '#282c34'
 color_bg2 = '#665c54'
 syntax_gutter = '#647382'
 syntax_accent = '#528cff'
+
+[battery]
+full_symbol = "• "
+charging_symbol = "⇡ "
+discharging_symbol = "⇣ "
+unknown_symbol = "❓ "
+empty_symbol = "❗ "
+
+[erlang]
+symbol = "ⓔ "
+
+[nodejs]
+symbol = "[node](bold green) "
+
+[pulumi]
+symbol = "🧊 "
+
+[typst]
+symbol = "t "
