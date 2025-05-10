@@ -50,7 +50,7 @@ fpath=(
 )
 
 autoload -U compinit bashcompinit promptinit colors select-word-style
-select-word-style bash
+select-word-style normal # bash
 compinit -i
 bashcompinit
 promptinit
