@@ -135,23 +135,6 @@ if (( $+commands[xdg-open] )); then
   }
 fi
 
-# go to the dotfiles directory
-
-go_dots() {
-  emulate -LR zsh
-  cd $DOTSPATH
-}
-
-# edit the dotfiles
-
-edit_dots() {
-  emulate -LR zsh
-
-  # this might need customization
-  # but I don't want to use $EDITOR cause I prefer gvim
-  gvim --cmd "cd $DOTSPATH"
-}
-
 update_dependencies_dots() {
   msg_info "updating zsh plugins"
   zinit update
@@ -180,113 +163,13 @@ update_dependencies_dots() {
   vim +PlugInstall +qall
 }
 
-# update the dotfiles
-update_dots() {
-  emulate -LR zsh
-
-  pushd $DOTSPATH > /dev/null
-
-  pre=$(git log -1 HEAD --pretty=format:%h)
-
-  msg_info "checking for updates since $pre"
-
-  if git pull > /dev/null 2>&1; then
-    post=$(git log -1 HEAD --pretty=format:%h)
-
-    if [[ "$pre" == "$post" ]]; then
-      msg_info "no updates available"
-    else
-      msg_info "updated to $post\n"
-      git log --oneline --format='  %C(green)+%Creset %C(bold)%h%Creset %s' $pre..HEAD
-    fi
-  else
-    msg_fail "there was an error with updating"
-  fi
-
-  update_dependencies_dots
-
-  msg_info "reloading all zsh sessions"
-  killall -USR1 zsh
-
-  popd > /dev/null
-}
-
 # deploy the dotfiles
 install_dots() {
-  emulate -LR zsh
-
-  packages=(
-    'emacs'
-    'git'
-    'mpv'
-    'tmux'
-    'vim'
-    'X11'
-    'zsh'
-    'kitty'
-    'alacritty'
-  )
-
-  for package in $packages; do
-    stow -d "$DOTSPATH" "$package"
-  done
-
-  if [[ ! -d ~/.tmux/plugins/tpm ]]; then
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  fi
-
   msg_info "installing tmux plugins"
   ~/.tmux/plugins/tpm/bin/install_plugins
 
   msg_info "installing vim plugins"
   vim +PlugInstall +qall
-}
-
-# message functions
-tput_msg() {
-  printf "\r$(tput el)  $(tput setaf $1)$2$(tput sgr0) $3\n"
-}
-
-msg_info() {
-  printf "\r$(tput el)  $(tput setaf 4)·$(tput sgr0) $1\n"
-}
-
-msg_success() {
-  printf "\r$(tput el)  $(tput setaf 2)+$(tput sgr0) $1\n"
-}
-
-msg_fail() {
-  printf "\r$(tput el)  $(tput setaf 1)-$(tput sgr0) $1\n"
-}
-
-msg_user() {
-  printf "\r  $(tput setaf 5)?$(tput sgr0) $1 "
-}
-
-# update and deploy dots
-dots() {
-  emulate -LR zsh
-
-  echo ''
-
-  case "$1" in
-    update )
-      update_dots;;
-    update-dependencies )
-      update_dependencies_dots;;
-    install )
-      install_dots;;
-    edit )
-      edit_dots;;
-    path )
-      echo "$DOTSPATH";;
-    go )
-      go_dots;;
-    * )
-      msg_user "use the 'get' or 'put' commands"
-      echo ''
-      ;;
-  esac
 }
 
 texi-to-epub() {
