@@ -1,11 +1,11 @@
-iterm2_prompt_mark() {
-  printf "\033]133;A\007"
-}
+# iterm2_prompt_mark() {
+#   printf "\033]133;A\007"
+# }
 
-# Mark end of prompt
-iterm2_prompt_end() {
-  printf "\033]133;B\007"
-}
+# # Mark end of prompt
+# iterm2_prompt_end() {
+#   printf "\033]133;B\007"
+# }
 
 # If this ever has problems, read https://gitlab.com/gnachman/iterm2/-/issues/10537
 # The alternative is to establish a trigger on the iTerm side to detect the prompt.
@@ -13,7 +13,8 @@ iterm2_prompt_end() {
 # It seems someone also managed to get it to work with a `[custom.iterm_prompt_mark]`
 # prompt component, but they may have forgotten to add the iterm_prompt_mark_end
 # component, which apparently cause cmd+shift+a to select the start of the prompt
-# export ITERM2_SQUELCH_MARK=1
+
+export ITERM2_SQUELCH_MARK=1
 
 ITERM_INTEGRATION="$DOTSPATH/zsh/iterm.zsh"
 

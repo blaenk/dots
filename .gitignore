@@ -1,10 +1,8 @@
 .DS_Store
 flycheck_*.el
 
-/.theme.dark
-
-/zsh/zsh/zplug/
-/zsh/zsh/cache/
+/zsh/iterm.zsh
+/zsh/cache/
 
 /emacs/.emacs.d/cache/
 /emacs/.emacs.d/transient/
@@ -19,6 +17,7 @@ flycheck_*.el
 /emacs/.emacs.d/**/*.elc
 /emacs/.emacs.d/forge-database.sqlite
 /emacs/.emacs.d/.lsp-session-v1
+/emacs/.emacs.d/eln-cache/
 
 /vim/.vim/autoload/plug.vim
 /vim/.vim/plugged/
@@ -28,12 +27,3 @@ flycheck_*.el
 /vim/.vim/.netrwhist
 
 /mpv/.mpv/watch_later/
-
-/xmonad/.xmonad/history
-/xmonad/.xmonad/xmonad-x86_64-linux
-/xmonad/.xmonad/xmonad.errors
-/xmonad/.xmonad/xmonad.hi
-/xmonad/.xmonad/xmonad.o
-
-/zsh/zsh/iterm.zsh
-/emacs/.emacs.d/eln-cache/

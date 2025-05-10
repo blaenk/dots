@@ -1,8 +1,22 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
+format = "${custom.iterm_prompt_mark}$all${custom.iterm_prompt_end}"
+
 # Inserts a blank line between shell prompts
-add_newline = false
+add_newline = true
+
+[custom.iterm_prompt_mark]
+when = '[ "$TERM_PROGRAM" = "iTerm.app" ]'
+format = "\u001b\\]133;A\u0007"
+shell = "sh"
+disabled = false
+
+[custom.iterm_prompt_end]
+when = '[ "$TERM_PROGRAM" = "iTerm.app" ]'
+format = "\u001b\\]133;B\u0007"
+shell = "sh"
+disabled = false
 
 [directory]
 truncate_to_repo = false
