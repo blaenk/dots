@@ -21,17 +21,12 @@ disabled = false
 [directory]
 truncate_to_repo = false
 
-# Replace the '❯' symbol in the prompt with '➜'
-[character] # The name of the module we are configuring is 'character'
-# success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
-
 [git_branch]
-# format = "\n  on [$symbol$branch(:$remote_branch)]($style) "
 symbol = ""
 
 [git_status]
 # format = "([\\[$all_status$ahead_behind\\]]($style) )\n"
-style = "red bold"
+style = "red"
 stashed = '($count stashed)'
 ahead = '($count ahead)'
 behind = '($count behind)'
