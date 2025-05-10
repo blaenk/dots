@@ -22,10 +22,9 @@ path=(
   ${GOPATH}/bin
   ~/.local/bin
   ~/.cargo/bin
-  ~/.rbenv/bin
   ~/.cabal/bin
-  ~/.rvm/bin
-  ~/.poetry/bin
+
+  ~/Library/Application\ Support/JetBrains/Toolbox/scripts
 
   ~/.texlive/2018/bin/x86_64-linux
   /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin
