@@ -30,6 +30,8 @@ alias rm='rm -I'
 
 alias human-readable='numfmt --to=iec --suffix=B'
 
+alias cm='chezmoi'
+
 if command_exists git; then
   alias g='git'
   alias git='noglob git'
