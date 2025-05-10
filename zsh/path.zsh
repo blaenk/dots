@@ -16,6 +16,8 @@ fi
 
 mkdir -p ~/bin
 
+export TMUX_PLUGIN_MANAGER_PATH="$HOME/.tmux/plugins/"
+
 path=(
   ~/bin
 

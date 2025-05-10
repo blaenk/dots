@@ -135,7 +135,7 @@ if (( $+commands[xdg-open] )); then
   }
 fi
 
-update_dependencies_dots() {
+update_plugins() {
   msg_info "updating zsh plugins"
   zinit update
 
@@ -164,7 +164,7 @@ update_dependencies_dots() {
 }
 
 # deploy the dotfiles
-install_dots() {
+install_plugins() {
   msg_info "installing tmux plugins"
   ~/.tmux/plugins/tpm/bin/install_plugins
 
