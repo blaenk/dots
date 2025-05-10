@@ -30,17 +30,12 @@ zstyle ':completion:*:*:*:*:*' menu select=1 _complete _ignored _approximate
 
 # use a cache
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path $DOTSPATH/zsh/zsh/cache
+zstyle ':completion::complete:*' cache-path "$ZSH_CACHE_DIR"
 
-# ignore _functions
-zstyle ':completion:*:functions' ignored-patterns '_*'
+# # ignore _functions
+# zstyle ':completion:*:functions' ignored-patterns '_*'
 
 zstyle ':completion:*:*:docker:*' option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
 zstyle '*' single-ignored complete
-
-if [[ "$OSTYPE" == 'msys' ]]; then
-  local drives=($(mount | command grep --perl-regexp '^\w: on /\w ' | cut --delimiter=' ' --fields=3))
-  zstyle ':completion:*' fake-files "/:${(j. .)drives//\//}"
-fi
