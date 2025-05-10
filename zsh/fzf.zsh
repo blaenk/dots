@@ -1,3 +1,5 @@
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+
 export FZF_DEFAULT_OPTS='
   --ansi
   --color fg:7,hl:3,fg+:-1,bg+:8,hl+:3
@@ -20,8 +22,16 @@ zstyle ':fzf-tab:*' fzf-flags $FZF_TAB_FLAGS
 
 bindkey -M viins '^I^I' fzf-tab-complete
 
+# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
+# - The first argument to the function ($1) is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
 _fzf_compgen_path() {
-  ag -g "" "$1"
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
 # use fzf to select from the previous command's arguments
@@ -152,32 +162,10 @@ fzf-tmux-bring-pane() {
   tmux split-window -f "TMUX_FZF=1 zsh -ci '_fzf-tmux-bring-pane \"$current_pane\"'"
 }
 
-fzf_path=(
-  # Standard install, Ubuntu
-  $HOME/.fzf/shell
-  /usr/share/doc/fzf/examples/
-  # Archlinux package
-  /usr/share/fzf
-  # Homebrew
-  /usr/local/opt/fzf/shell
-  /opt/homebrew/opt/fzf/shell
-)
-
-typeset -a fzf_path
-fzf_path=($^fzf_path(N))
-
-if [[ -f "${fzf_path}/key-bindings.zsh" ]]; then
-  source "${fzf_path}/key-bindings.zsh"
-
-  bindkey -M vicmd "/" fzf-history-widget
-  bindkey '^T' fzf-file-widget
-  bindkey '^[f' fzf-file-widget
-  bindkey '^[/' fzf-file-widget
-fi
-
-if [[ -f "${fzf_path}/completion.zsh" ]]; then
-  source "${fzf_path}/completion.zsh"
-fi
+bindkey -M vicmd "/" fzf-history-widget
+bindkey '^T' fzf-file-widget
+bindkey '^[f' fzf-file-widget
+bindkey '^[/' fzf-file-widget
 
 function mans(){
   apropos '.' | \
