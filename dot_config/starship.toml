@@ -6,6 +6,8 @@ format = "${custom.iterm_prompt_mark}$all${custom.iterm_prompt_end}"
 # Inserts a blank line between shell prompts
 add_newline = true
 
+palette = 'one_dark'
+
 [custom.iterm_prompt_mark]
 when = '[ "$TERM_PROGRAM" = "iTerm.app" ]'
 format = "\u001b\\]133;A\u0007"
@@ -54,3 +56,23 @@ symbol = "DEV "
 context_pattern = "prod.local.cluster.k8s"
 style = "red"
 symbol = "PROD "
+
+[palettes.one_dark]
+mono0 = '#d7dae0'         # terminal white, from the One Dark Pro VSCode theme.
+mono1 = '#abb2bf'         # syntax_fg.
+mono2 = '#828997'
+mono3 = '#5c6370'
+mono4 = '#3f4451'         # terminal black, from the One Dark Pro VSCode theme.
+color_red0 = '#e06c75'
+color_red1 = '#be5046'
+color_green = '#98c379'
+color_yellow = '#e5c07b'
+color_blue = '#61afef'
+color_purple = '#c678dd'
+color_cyan = '#56b6c2'
+color_orange = '#d19a66'
+syntax_fg = '#abb2bf'
+syntax_bg = '#282c34'
+color_bg2 = '#665c54'
+syntax_gutter = '#647382'
+syntax_accent = '#528cff'
