@@ -177,10 +177,10 @@ update_plugins() {
 
 # deploy the dotfiles
 install_plugins() {
-  msg_info "installing tmux plugins"
+  echo "installing tmux plugins"
   ~/.tmux/plugins/tpm/bin/install_plugins
 
-  msg_info "installing vim plugins"
+  echo "installing vim plugins"
   vim +PlugInstall +qall
 
   # cargo install cargo-update
