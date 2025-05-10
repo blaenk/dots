@@ -14,58 +14,38 @@ if [[ -n "$ENABLE_XTRACE" ]]; then
   setopt XTRACE
 fi
 
-if [[ "$OSTYPE" == darwin* ]]; then
-  export MACOS=1
-fi
+command_exists() {
+  (( $+commands[$1]))
+}
 
-if [[ `uname` == "Darwin" ]]; then
-  export PATH="/opt/homebrew/bin:$PATH"
+function_exists() {
+  (( $+functions[$1]))
+}
 
-  if ! command -v greadlink &> /dev/null; then
-    echo "You must have GNU coreutils on mac. Skipping initialization."
-    return
-  fi
+export DOTSPATH=~/.local/share/chezmoi
 
-  export DOTSPATH="$(cd $(dirname $(dirname $(greadlink -f ${(%):-%N}))); pwd)"
-else
-  export DOTSPATH="$(cd $(dirname $(dirname $(readlink -f ${(%):-%N}))); pwd)"
-fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# TODO
-# Warn when expected programs/packages aren't available.
-
-# When setting up for Emacs Tramp, set the prompt to something simple that it
-# can detect and disable superfluous features in order to optimize for speed.
-if [[ "$TERM" == "dumb" ]]; then
-  unsetopt zle
-  unsetopt prompt_cr
-  unsetopt prompt_subst
-
-  if whence -w precmd >/dev/null; then
-    unfunction precmd
-  fi
-
-  if whence -w preexec >/dev/null; then
-    unfunction preexec
-  fi
-
-  PS1='$ '
-
-  return
-fi
+source $DOTSPATH/zsh/path.zsh
 
 # if TMUX_FZF is set, we're only interested in loading the fzf functions
 # everything else will just slow us down
 if [[ -n "$TMUX_FZF" ]]; then
-  source $DOTSPATH/zsh/zsh/fzf.zsh
+  source $DOTSPATH/zsh/fzf.zsh
   return
 fi
 
+# zinit
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
+
 fpath=(
   "$HOME/.zsh/comp"
-  "$HOME/code/app/cli/completion/zsh"
-  "$DOTSPATH/zsh/zsh/comp"
-  /opt/homebrew/share/zsh/site-functions
+  "$DOTSPATH/zsh/comp"
+  "$DOTSPATH/zsh/cache/completions"
+  "$ZSH_CACHE_DIR/completions"
   "${fpath[@]}"
 )
 
@@ -98,60 +78,73 @@ setopt cdable_vars
 export EDITOR=vim
 export VISUAL=vim
 
-# zinit
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
-[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-source "${ZINIT_HOME}/zinit.zsh"
+source $DOTSPATH/zsh/completions.zsh
+source $DOTSPATH/zsh/zle.zsh
+source $DOTSPATH/zsh/fzf.zsh
 
-source $DOTSPATH/zsh/zsh/completions.zsh
-source $DOTSPATH/zsh/zsh/zle.zsh
-source $DOTSPATH/zsh/zsh/fzf.zsh
+source $DOTSPATH/zsh/functions.zsh
+source $DOTSPATH/zsh/alias.zsh
+source $DOTSPATH/zsh/highlight.zsh
+source $DOTSPATH/zsh/enhancd.zsh
 
-zinit wait lucid blockf for \
-      Aloxaf/fzf-tab \
-      hlissner/zsh-autopair \
-      kutsan/zsh-system-clipboard \
-      depth'1' pick"contrib/completion/zsh" \
-        docker/cli \
-      pick"init.sh" \
-        b4b4r07/enhancd \
-      if'[[ $OSTYPE != *darwin* ]]' \
-        OMZP::command-not-found \
-      zsh-users/zsh-completions \
-      zsh-users/zsh-syntax-highlighting
+[[ "$OSTYPE" == linux* ]] && source $DOTSPATH/zsh/linux.zsh
+[[ "$OSTYPE" == darwin* ]] && source $DOTSPATH/zsh/macos.zsh
 
-command_exists() {
-  (( $+commands[$1]))
-}
+# Note that if a plugin is marked with `wait` it will be loaded asynchronously (deferred)
+# This means the following is possible:
+# - Something you thought you set as the final value gets overwritten by the plugin once it loads
+# - A dependency required by subsequent configuration you thought was loaded was not loaded
+zinit ice wait silent
+zinit light Aloxaf/fzf-tab
 
-function_exists() {
-  (( $+functions[$1]))
-}
+zinit ice wait silent
+zinit light undg/zsh-nvm-lazy-load
 
-typeset -aU ldflags
-typeset -T LDFLAGS ldflags ' '
-export LDFLAGS
+zinit ice wait silent
+zinit light hlissner/zsh-autopair
 
-typeset -aU cppflags
-typeset -T CPPFLAGS cppflags ' '
-export CPPFLAGS
+# Can't wait on this one.
+zinit light qoomon/zsh-lazyload
 
-typeset -aU pkg_config_path
-typeset -T PKG_CONFIG_PATH pkg_config_path
-export PKG_CONFIG_PATH
+zinit ice wait silent
+zinit light kutsan/zsh-system-clipboard
 
-source $DOTSPATH/zsh/zsh/path.zsh
-source $DOTSPATH/zsh/zsh/vcsinfo.zsh
-source $DOTSPATH/zsh/zsh/prompt.zsh
-source $DOTSPATH/zsh/zsh/functions.zsh
-source $DOTSPATH/zsh/zsh/nvm.zsh
-source $DOTSPATH/zsh/zsh/alias.zsh
-source $DOTSPATH/zsh/zsh/highlight.zsh
-source $DOTSPATH/zsh/zsh/enhancd.zsh
-source $DOTSPATH/zsh/zsh/linux.zsh
-source $DOTSPATH/zsh/zsh/macos.zsh
-source $DOTSPATH/zsh/zsh/sdkman.zsh
+zinit ice wait silent as"completion"
+zinit snippet 'https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker'
+
+zinit ice wait silent pick"init.sh"
+zinit light b4b4r07/enhancd
+
+# zinit snippet OMZP::docker
+zinit ice wait silent
+zinit snippet OMZP::command-not-found
+
+DISABLE_FZF_KEY_BINDINGS="true"
+zinit snippet OMZP::fzf
+
+zinit ice wait silent
+zinit snippet OMZP::chezmoi
+
+zinit ice wait silent
+zinit snippet OMZP::kubectl
+
+# lazyload kubectl -- 'source <(kubectl completion zsh)'
+
+export SDKMAN_DIR="$HOME/.sdkman"
+lazyload sdk -- 'source "$SDKMAN_DIR/bin/sdkman-init.sh"'
+
+zinit ice wait silent
+zinit snippet OMZP::sdk
+
+zinit ice wait silent
+zinit light zsh-users/zsh-completions
+
+zinit ice wait silent
+zinit light zsh-users/zsh-syntax-highlighting
+
+eval "$(zoxide init --cmd cd zsh)"
+eval "$(atuin init zsh --disable-up-arrow)"
+eval "$(starship init zsh)"
 
 if [[ -f ~/.zsh.local ]]; then
   source ~/.zsh.local
