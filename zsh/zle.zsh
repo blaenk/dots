@@ -49,21 +49,13 @@ else
 fi
 
 function zle-keymap-select {
-  zle reset-prompt
-
-  if [[ $KEYMAP = "vicmd" ]]; then
-    echo -ne "${_cursor_magenta}"
-  else
-    echo -ne "${_cursor_cyan}"
-  fi
+  [[ $KEYMAP = vicmd ]] && print -n -- "${_cursor_magenta}" || print -n -- "${_cursor_cyan}"
 }
 
-echo -ne "${_cursor_cyan}"
+print -n -- "${_cursor_cyan}"
 
 function zle-line-finish {
-  zle reset-prompt
-
-  echo -ne "${_cursor_cyan}"
+  print -n -- "${_cursor_cyan}"
 }
 
 autoload -U edit-command-line
