@@ -298,6 +298,19 @@ texi-to-epub() {
     zip -Xr9D "${name}.epub" META-INF OEBPS
 }
 
-hdfs-dush() {
-  noglob hdfs dfs -du -s -h "$1/"* | awk '{print $1$2,$5}' | sort -hr
+mvn-or-mvnw() {
+  local dir="$PWD"
+  while [[ ! -x "$dir/mvnw" && "$dir" != / ]]; do
+    dir="${dir:h}"
+  done
+
+  if [[ -x "$dir/mvnw" ]]; then
+    echo "Running \`$dir/mvnw\`..." >&2
+    "$dir/mvnw" "$@"
+    return $?
+  fi
+
+  command mvn "$@"
 }
+
+alias mvn="mvn-or-mvnw"
