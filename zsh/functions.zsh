@@ -22,7 +22,7 @@ mkcd() {
 # this way closing the shell it was started from won't
 # kill emacs, nor will it usurp the shell
 e() {
-  if [[ "${IS_MACOS}" ]]; then
+  if [[ "$OSTYPE" == darwin* ]]; then
     emacs $* > /dev/null 2>&1 &!
   else
     ( setsid emacs $* > /dev/null 2>&1 & );
