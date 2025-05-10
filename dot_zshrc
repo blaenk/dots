@@ -128,6 +128,9 @@ zinit snippet OMZP::chezmoi
 zinit ice wait silent
 zinit snippet OMZP::kubectl
 
+zinit ice wait silent
+zinit snippet OMZP::rust
+
 # lazyload kubectl -- 'source <(kubectl completion zsh)'
 
 export SDKMAN_DIR="$HOME/.sdkman"
