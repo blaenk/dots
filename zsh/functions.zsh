@@ -135,11 +135,12 @@ if (( $+commands[xdg-open] )); then
   }
 fi
 
+# Inspiration: https://github.com/petertriho/dotfiles/blob/main/scripts/.local/bin/update
 update_plugins() {
-  msg_info "updating zsh plugins"
+  echo "updating zsh plugins"
   zinit update
 
-  msg_info "updating tmux plugins"
+  echo "updating tmux plugins"
   ~/.tmux/plugins/tpm/bin/update_plugins all
 
   # Reload tmux configuration if there are running sessions. Note that this
@@ -159,8 +160,19 @@ update_plugins() {
     tmux source-file ~/.tmux.conf \; display "Reloaded!"
   fi
 
-  msg_info "updating vim plugins"
+  echo "updating vim plugins"
   vim +PlugInstall +qall
+
+  # echo "Updating neovim plugins ..."
+  # nvim +TSUpdateSync +qall
+
+  # nvim +"autocmd User PackerComplete sleep 100m | write! /tmp/packer-sync-result.txt | quitall" \
+  #      +PackerSync
+
+  # cargo install-update --all
+
+  brew update
+  brew upgrade
 }
 
 # deploy the dotfiles
@@ -170,6 +182,8 @@ install_plugins() {
 
   msg_info "installing vim plugins"
   vim +PlugInstall +qall
+
+  # cargo install cargo-update
 }
 
 texi-to-epub() {
