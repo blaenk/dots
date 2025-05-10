@@ -7,7 +7,8 @@ alias ":q"='exit'
 
 alias reload="killall -USR1 -- zsh -zsh"
 
-alias ls='ls -lh --color=auto --group-directories-first --classify'
+alias ls='gls -l --color=auto --group-directories-first --classify'
+alias lz='eza -l'
 alias mounts='mount | column -t | sort'
 alias ports='netstat -tulanp'
 
@@ -28,18 +29,6 @@ alias whichall='type -a'
 alias rm='rm -I'
 
 alias human-readable='numfmt --to=iec --suffix=B'
-
-alias loadrvm="[[ -s \"$HOME/.rvm/scripts/rvm\" ]] && . \"$HOME/.rvm/scripts/rvm\""
-alias loadnvm="[[ -s \"$HOME/.nvm/nvm.sh\" ]] && . \"$HOME/.nvm/nvm.sh\""
-alias loadchruby="[[ -s \"/usr/share/chruby/chruby.sh\" ]] && . \"/usr/share/chruby/chruby.sh\""
-
-if command_exists hdfs; then
-  alias hdfs='noglob hdfs'
-fi
-
-if command_exists exa; then
-  alias exa='exa -la'
-fi
 
 if command_exists git; then
   alias g='git'
@@ -118,34 +107,6 @@ if command_exists cargo; then
   alias cup='cargo +nightly install-update -a'
 fi
 
-if command_exists npm || function_exists npm; then
-  alias n='npm'
-  alias nr='npm run'
-  alias nis='npm --save install'
-  alias nisd='npm --save-dev install'
-  alias nus='npm --save uninstall'
-  alias nusd='npm --save-dev uninstall'
-  alias nex='PATH=$(npm bin):$PATH'
-fi
-
-if command_exists yarn; then
-  alias y='yarn'
-  alias yr='yarn run'
-  alias yt='yarn test'
-  alias yup='yarn upgrade'
-  alias yout='yarn outdated'
-  alias yex='yarn exec --'
-
-  alias ya='yarn add'
-  alias yr='yarn remove'
-  function yad { yarn add "$@" --dev; }
-  function yrd { yarn remove "$@" --dev; }
-fi
-
-if command_exists gist; then
-  alias gist='gist -c -o'
-fi
-
 if command_exists systemctl; then
   alias sc='systemctl'
   alias scs='systemctl status'
@@ -161,31 +122,9 @@ if command_exists journalctl; then
   alias jcu='journalctl --user-unit'
 fi
 
-if command_exists docker; then
-  alias d='docker'
-  alias fix-docker='docker stop $(docker ps -aq) && sudo systemctl restart NetworkManager docker'
-fi
-
-if command_exists docker-compose; then
-  # NOTE
-  # dc is 'an arbitrary precision calculator' from package 'bc'
-  # I'm overriding it because I don't care about it.
-  alias dc='docker-compose'
-fi
-
 if command_exists kubectl; then
   alias k='kubectl'
   alias kc='kubectl'
-
-  alias loadkubectl='source <(kubectl completion zsh)'
-fi
-
-if command_exists minikube; then
-  alias mk='minikube'
-fi
-
-if command_exists helm; then
-  alias h='helm'
 fi
 
 if command_exists pacman; then
