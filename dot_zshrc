@@ -123,8 +123,10 @@ zinit light b4b4r07/enhancd
 zinit ice wait silent
 zinit snippet OMZP::command-not-found
 
-DISABLE_FZF_KEY_BINDINGS="true"
+export DISABLE_FZF_KEY_BINDINGS="true"
 zinit snippet OMZP::fzf
+# For newer fzf, it is eval fzf --zsh, which unconditionally sets bindings.
+bindkey -M vicmd "^R" redo
 
 zinit ice wait silent
 zinit snippet OMZP::chezmoi
