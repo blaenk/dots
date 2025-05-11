@@ -18,9 +18,11 @@ FZF_TAB_FLAGS=(
 )
 
 zstyle ':fzf-tab:*' default-color $'\033[93m'
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 zstyle ':fzf-tab:*' fzf-flags $FZF_TAB_FLAGS
 
-bindkey -M viins '^I^I' fzf-tab-complete
+# bindkey -M viins '^I^I' fzf-tab-complete
 
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
 # - The first argument to the function ($1) is the base path to start traversal
