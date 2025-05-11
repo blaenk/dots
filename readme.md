@@ -1,4 +1,6 @@
-These are my dotfiles. Read about them [here](http://www.blaenkdenum.com/posts/dots/).
+These are my dotfiles. Read about them [here](http://www.jip.dev/posts/dots/).
+
+Install on a new machine with:
 
 ### Dependencies
 
@@ -21,9 +23,10 @@ There are no real, hard dependencies since these are simply configuration files,
 ### Installation
 
 ```bash
-$ git clone https://github.com/blaenk/dots.git ~/.dots
-$ cd ~/.dots
-$ dots install
+$ chezmoi init --ssh --apply blaenk/dots
+
+# Optionally go to the directory
+$ chezmoi cd
 ```
 
 ### Usage
