@@ -161,7 +161,7 @@ update_plugins() {
   fi
 
   echo "updating vim plugins"
-  vim +PlugInstall +qall
+  vim '+PlugInstall' '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
 
   # echo "Updating neovim plugins ..."
   # nvim +TSUpdateSync +qall
