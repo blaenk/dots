@@ -25,6 +25,14 @@ function_exists() {
 export DOTSPATH=~/.local/share/chezmoi
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
+# Force homebrew to the end
+# This prioritizes zsh's built-in completions which are usually very rich
+# Example: https://github.com/orgs/Homebrew/discussions/2797
+# Source: https://github.com/orgs/Homebrew/discussions/2797#discussioncomment-12924139
+#
+# git's: https://github.com/git/git/blob/master/contrib/completion/git-completion.zsh
+# Built-in: https://github.com/zsh-users/zsh/blob/master/Completion/Unix/Command/_git
+fpath=(${fpath[@]:1} $fpath[1])
 
 source $DOTSPATH/zsh/path.zsh
 
