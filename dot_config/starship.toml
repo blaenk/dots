@@ -56,16 +56,6 @@ use_git_executable = false
 disabled = false
 symbol = ""
 
-[[kubernetes.contexts]]
-context_pattern = "dev.local.cluster.k8s"
-style = "green"
-symbol = "DEV "
-
-[[kubernetes.contexts]]
-context_pattern = "prod.local.cluster.k8s"
-style = "red"
-symbol = "PROD "
-
 [palettes.one_dark]
 mono0 = '#d7dae0'         # terminal white, from the One Dark Pro VSCode theme.
 mono1 = '#abb2bf'         # syntax_fg.
