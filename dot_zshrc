@@ -121,9 +121,6 @@ zinit light kutsan/zsh-system-clipboard
 zinit ice wait silent as"completion"
 zinit snippet 'https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker'
 
-zinit ice wait silent pick"init.sh"
-zinit light b4b4r07/enhancd
-
 # zinit snippet OMZP::docker
 zinit ice wait silent
 zinit snippet OMZP::command-not-found
@@ -155,6 +152,9 @@ zinit light zsh-users/zsh-completions
 
 zinit ice wait silent
 zinit light zsh-users/zsh-syntax-highlighting
+
+zinit ice wait silent pick"init.sh"
+zinit light babarot/enhancd
 
 # Setting --cmd cd can break scripts!
 # zoxide will run instead and just say 'no match found'.
