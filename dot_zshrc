@@ -99,9 +99,6 @@ source $DOTSPATH/zsh/enhancd.zsh
 # - Something you thought you set as the final value gets overwritten by the plugin once it loads
 # - A dependency required by subsequent configuration you thought was loaded was not loaded
 zinit ice wait silent
-zinit light Aloxaf/fzf-tab
-
-zinit ice wait silent
 zinit light undg/zsh-nvm-lazy-load
 
 zinit ice wait silent
@@ -158,6 +155,9 @@ eval "$(zoxide init zsh)"
 
 eval "$(atuin init zsh --disable-up-arrow)"
 eval "$(starship init zsh)"
+
+zinit ice wait silent
+zinit light Aloxaf/fzf-tab
 
 if [[ -f ~/.zsh.local ]]; then
   source ~/.zsh.local
