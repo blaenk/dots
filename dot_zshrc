@@ -103,7 +103,6 @@ source $DOTSPATH/zsh/fzf.zsh
 source $DOTSPATH/zsh/functions.zsh
 source $DOTSPATH/zsh/alias.zsh
 source $DOTSPATH/zsh/highlight.zsh
-source $DOTSPATH/zsh/enhancd.zsh
 
 [[ "$OSTYPE" == linux* ]] && source $DOTSPATH/zsh/linux.zsh
 [[ "$OSTYPE" == darwin* ]] && source $DOTSPATH/zsh/macos.zsh
@@ -159,8 +158,9 @@ zinit light zsh-users/zsh-completions
 zinit ice wait silent
 zinit light zsh-users/zsh-syntax-highlighting
 
-zinit ice wait silent pick"init.sh"
+zinit ice pick"init.sh"
 zinit light babarot/enhancd
+source $DOTSPATH/zsh/enhancd.zsh
 
 # Setting --cmd cd can break scripts!
 # zoxide will run instead and just say 'no match found'.
