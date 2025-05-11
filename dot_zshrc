@@ -151,7 +151,11 @@ zinit light zsh-users/zsh-completions
 zinit ice wait silent
 zinit light zsh-users/zsh-syntax-highlighting
 
-eval "$(zoxide init --cmd cd zsh)"
+# Setting --cmd cd can break scripts!
+# zoxide will run instead and just say 'no match found'.
+# This was discovered with the fzf-tab `build-fzf-tab-module`
+eval "$(zoxide init zsh)"
+
 eval "$(atuin init zsh --disable-up-arrow)"
 eval "$(starship init zsh)"
 
