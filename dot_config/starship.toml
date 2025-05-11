@@ -24,8 +24,11 @@ format = "\u001b\\]133;B\u0007"
 shell = "sh"
 disabled = false
 
-[directory]
-truncate_to_repo = false
+# [directory]
+# truncate_to_repo = false
+
+[aws]
+symbol = ""
 
 [git_branch]
 symbol = ""
@@ -50,6 +53,8 @@ disabled = false
 use_git_executable = false
 
 [kubernetes]
+disabled = false
+symbol = ""
 
 [[kubernetes.contexts]]
 context_pattern = "dev.local.cluster.k8s"
@@ -93,9 +98,31 @@ symbol = "ⓔ "
 
 [nodejs]
 symbol = "[node](bold green) "
+disabled = true
 
 [pulumi]
 symbol = "🧊 "
 
 [typst]
 symbol = "t "
+
+[golang]
+disabled = true
+
+[python]
+disabled = true
+
+[terraform]
+disabled = true
+
+[buf]
+disabled = true
+
+[nix_shell]
+disabled = true
+
+[gradle]
+disabled = true
+
+[java]
+disabled = true
