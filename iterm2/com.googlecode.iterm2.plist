@@ -42,7 +42,7 @@
 			<key>Ambiguous Double Width</key>
 			<false/>
 			<key>Animate Movement</key>
-			<true/>
+			<false/>
 			<key>Ansi 0 Color</key>
 			<dict>
 				<key>Alpha Component</key>
