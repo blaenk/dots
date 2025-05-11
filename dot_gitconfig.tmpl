@@ -1,0 +1,156 @@
+[user]
+name = Jorge Israel Peña
+email = jorge.israel.p@gmail.com
+
+signingkey = ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCmaGxb4lxHIWjxp+gx62L9jCUpYGeEnezy0q7Xbk4h9HwLzMxi1zWUdUDBOsWVr6dez+6VUm1myXRfrVW7loD/wxLdSE7FPMl49WaiTtw3Vw1PzzhIoayJNRaFiLLrd8UNvXqtPlmtjr69tcbGadBlcru/QU7AmKQmzhpC9gaiBD9Cn+BIF2HtWrlx7fld9oLV3+edbOdWRncXOv/L5efxxJZJMYfuI9sQBaMKVR6CkK8b56fS6YOpmulhdO/CjCUSug5kGCu3TtGtXF3G/rNKn4e4n0iwUTakx2QUNqNOlTSL8tB/lzrdQ7g/LXyOSgjBGmZm7QfABfmh3pJDmQoH
+
+[gpg]
+format = ssh
+
+[gpg "ssh"]
+allowedSignersFile = ~/.ssh/allowed_signers
+{{ if eq .chezmoi.os "darwin" -}}
+program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+{{- end }}
+
+[commit]
+gpgsign = true
+
+[pull]
+rebase = merges
+
+[core]
+pager = less -+$LESS -FRX
+autocrlf = false
+symlinks = true
+
+[status]
+submoduleSummary = true
+showUntrackedFiles = all
+
+[color]
+ui = true
+branch = auto
+diff = auto
+grep = auto
+
+[diff]
+submodule = log
+wordRegex = .
+
+[push]
+default = simple
+recurseSubmodules = on-demand
+
+[grep]
+extendRegexp = true
+lineNumber = true
+
+[rerere]
+enabled = true
+
+[merge]
+stat = true
+conflictstyle = diff3
+
+[rebase]
+stat = true
+autoStash = true
+
+[alias]
+br = branch
+bs = bisect
+cl = clone
+co = checkout
+mrg = merge
+rb = rebase
+re = remote
+rs = reset
+sh = stash
+sm = submodule
+st = status
+exec = '!exec '
+
+# Create an empty commit, e.g. for when initializing a repo
+root = commit --allow-empty
+
+# Rebase local changes
+rebase-local = rebase -i @{u}
+
+# Delete remote branch
+delete-remote-branch = "!f() { git push $1 :$2}; f"
+
+# Clean up everything including untracked files.
+clean-up = clean -xfd
+
+# Show diff between HEAD and index in commit window
+ci = commit -v
+
+# Add all working directory changes for files that were already staged
+au = add -u
+
+# Fuzzy add
+af = "!git ls-files -m -o --exclude-standard | fzf-tmux --print0 -m | xargs -0 -t sh -c 'git add \"$@\" </dev/tty' git"
+rf = "!git ls-files --exclude-standard | fzf-tmux --print0 -m | xargs -0 -t sh -c 'git rm \"$@\" </dev/tty' git"
+
+# Reset hard
+rh = reset --hard
+
+# Ammend without editing the message
+amend = commit --amend --no-edit
+
+# Show branches and their upstreams
+bri = branch -vv
+
+df = diff
+
+# Show diff between index and working tree
+dfc = diff --cached
+
+# Word diff using color to differentiate
+dfw = diff --word-diff=color
+
+# Word diff between index and working tree
+dfcw = diff --cached --word-diff=color
+
+# Show submodule diffs as well
+dfsm = diff --submodule
+
+# Show the stash's diff
+dfz = stash show -p
+
+# Show log of commits containing a given file path. Can be a glob in single quotes.
+# Example: git find-file '**/*SomeName*'
+find-file = log --all --
+
+# Custom log
+lg = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset'
+
+# Log starting from the previous reflog entry
+lg-to-last-reflog = log --graph --oneline --format='%C(bold)%h%C(auto)%d%Creset %C(magenta)%aN%Creset %s %C(yellow)%ar%Creset' @{1}..
+
+# Finds the last two commits that contain modifications matching the specified
+# pattern inside of the specified file.
+# git lg-grep 'Secure_?Random' some/file.txt
+lg-find-last-modified = "!f() { git log -G $1 -2 -- $2; }; f"
+
+# Find the last two commits that changed the number of occurrences of text
+# that matches the provided pattern. i.e. either the matching text was removed
+# or added. this differs from the above because the above will match even if
+# it just modified the text, but didn't outright remove it or add it
+lg-find-last-removed-or-added = "!f() { git log -S $1 --pickaxe-regex -2 -- $2; }; f"
+
+# Search using git grep
+gr = grep --break --heading --line-number
+
+# Reset commiter date of previous commit
+ut = !GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --date=\"$(date)\"
+
+# View man page in html format
+web-help = help -w
+
+# Fzf list aliases
+aliases = "! TMUX_FZF=1 zsh -i -c fzf-git-aliases"
+
+# Mark file as executable. Useful in WSL
+chmod = update-index --chmod=+x
