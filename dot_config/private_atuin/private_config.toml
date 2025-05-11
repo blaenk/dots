@@ -65,11 +65,11 @@ search_mode = "skim"
 
 ## which style to use
 ## possible values: auto, full, compact
-# style = "auto"
+style = "compact"
 
 ## the maximum number of lines the interface should take up
 ## set it to 0 to always go full screen
-# inline_height = 15
+inline_height = 25
 
 ## Invert the UI - put the search bar at the top , Default to `false`
 invert = true
