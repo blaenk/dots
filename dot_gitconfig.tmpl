@@ -17,12 +17,14 @@ program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 gpgsign = true
 
 [pull]
-rebase = merges
+rebase = true
 
 [core]
 pager = less -+$LESS -FRX
 autocrlf = false
 symlinks = true
+untrackedCache = true
+fsmonitor = true
 
 [status]
 submoduleSummary = true
@@ -154,3 +156,6 @@ aliases = "! TMUX_FZF=1 zsh -i -c fzf-git-aliases"
 
 # Mark file as executable. Useful in WSL
 chmod = update-index --chmod=+x
+
+[include]
+path = ~/.gitconfig.local
