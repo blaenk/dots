@@ -1,12 +1,16 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-format = "${custom.iterm_prompt_mark}$all${custom.iterm_prompt_end}"
+format = "${custom.iterm_prompt_mark}${custom.lambda}$all${custom.iterm_prompt_end}"
 
 # Inserts a blank line between shell prompts
 add_newline = true
 
 palette = 'one_dark'
+
+[custom.lambda]
+format = '[λ](blue bold) '
+when = true
 
 [custom.iterm_prompt_mark]
 when = '[ "$TERM_PROGRAM" = "iTerm.app" ]'
