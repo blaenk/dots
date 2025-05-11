@@ -49,6 +49,12 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "${ZINIT_HOME}/zinit.zsh"
 
+# Remove the zinit alias
+# There doesn't seem to be an official way of doing this,
+# hoping this doesn't break anything.
+# https://github.com/zdharma-continuum/zinit/discussions/312
+unalias zi
+
 fpath=(
   "$HOME/.zsh/comp"
   "$DOTSPATH/zsh/comp"
