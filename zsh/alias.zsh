@@ -7,7 +7,8 @@ alias ":q"='exit'
 
 alias reload="killall -USR1 -- zsh -zsh"
 
-alias ls='gls -l --color=auto --group-directories-first --classify'
+# alias ls='gls -l --color=auto --group-directories-first --classify'
+alias ls='eza --all --long --group --group-directories-first --color=always'
 alias lz='eza -l'
 alias mounts='mount | column -t | sort'
 alias ports='netstat -tulanp'
