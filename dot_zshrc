@@ -102,7 +102,6 @@ source $DOTSPATH/zsh/fzf.zsh
 
 source $DOTSPATH/zsh/functions.zsh
 source $DOTSPATH/zsh/alias.zsh
-source $DOTSPATH/zsh/highlight.zsh
 
 [[ "$OSTYPE" == linux* ]] && source $DOTSPATH/zsh/linux.zsh
 [[ "$OSTYPE" == darwin* ]] && source $DOTSPATH/zsh/macos.zsh
@@ -111,8 +110,8 @@ source $DOTSPATH/zsh/highlight.zsh
 # This means the following is possible:
 # - Something you thought you set as the final value gets overwritten by the plugin once it loads
 # - A dependency required by subsequent configuration you thought was loaded was not loaded
-zinit ice wait silent
-zinit light undg/zsh-nvm-lazy-load
+# zinit ice wait silent
+# zinit light undg/zsh-nvm-lazy-load
 
 zinit ice wait silent
 zinit light hlissner/zsh-autopair
@@ -139,10 +138,46 @@ zinit ice wait silent
 zinit snippet OMZP::chezmoi
 
 zinit ice wait silent
+zinit snippet OMZP::colored-man-pages
+
+zinit ice wait silent
 zinit snippet OMZP::kubectl
 
 zinit ice wait silent
 zinit snippet OMZP::rust
+
+zinit ice wait silent
+zinit snippet OMZP::argocd
+
+zinit ice wait silent
+zinit snippet OMZP::volta
+
+zinit ice wait silent
+zinit snippet OMZP::uv
+
+zinit ice wait silent
+zinit snippet OMZP::tailscale
+
+zinit ice wait silent
+zinit snippet OMZP::sudo
+
+zinit ice wait silent
+zinit snippet OMZP::ssh
+
+zstyle ':omz:plugins:nvm' lazy yes
+zstyle ':omz:plugins:nvm' lazy-cmd eslint prettier typescript
+
+zinit ice wait silent
+zinit snippet OMZP::nvm
+
+zinit ice wait silent
+zinit snippet OMZP::mvn
+
+zinit ice wait silent
+zinit snippet OMZP::gradle
+
+zinit ice wait silent
+zinit snippet OMZP::gnu-utils
 
 # lazyload kubectl -- 'source <(kubectl completion zsh)'
 
@@ -161,6 +196,8 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit ice pick"init.sh"
 zinit light babarot/enhancd
 source $DOTSPATH/zsh/enhancd.zsh
+
+source $DOTSPATH/zsh/highlight.zsh
 
 # Setting --cmd cd can break scripts!
 # zoxide will run instead and just say 'no match found'.
