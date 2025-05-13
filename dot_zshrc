@@ -197,6 +197,11 @@ zinit ice pick"init.sh"
 zinit light babarot/enhancd
 source $DOTSPATH/zsh/enhancd.zsh
 
+# export ZSH_TAB_TITLE_CONCAT_FOLDER_PROCESS=true
+export ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=1
+zinit ice wait silent
+zinit light olets/zsh-window-title
+
 source $DOTSPATH/zsh/highlight.zsh
 
 # Setting --cmd cd can break scripts!
