@@ -194,20 +194,3 @@ texi-to-epub() {
     zip -0Xq "${name}.epub" mimetype
     zip -Xr9D "${name}.epub" META-INF OEBPS
 }
-
-mvn-or-mvnw() {
-  local dir="$PWD"
-  while [[ ! -x "$dir/mvnw" && "$dir" != / ]]; do
-    dir="${dir:h}"
-  done
-
-  if [[ -x "$dir/mvnw" ]]; then
-    echo "Running \`$dir/mvnw\`..." >&2
-    "$dir/mvnw" "$@"
-    return $?
-  fi
-
-  command mvn "$@"
-}
-
-alias mvn="mvn-or-mvnw"
