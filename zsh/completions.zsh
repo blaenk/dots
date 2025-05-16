@@ -6,7 +6,7 @@ setopt auto_menu
 setopt complete_in_word
 setopt always_to_end
 
-setopt correct nocorrectall
+unsetopt correct_all
 
 # directories
 setopt auto_name_dirs
