@@ -54,3 +54,7 @@ for cmd in "${commands_to_check[@]}"; do
     brew install "$cmd"
   fi
 done
+
+if [[ ! -f /opt/homebrew/Library/Taps/homebrew/homebrew-command-not-found/handler.sh ]]; then
+  brew tap homebrew/command-not-found
+fi
