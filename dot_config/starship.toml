@@ -35,6 +35,8 @@ symbol = ""
 symbol = ""
 
 [git_status]
+disabled = true
+
 # format = "([\\[$all_status$ahead_behind\\]]($style) )\n"
 style = "red"
 stashed = '($count stashed)'
@@ -50,7 +52,6 @@ staged = '($count staged)'
 untracked = '($count untracked)'
 typechanged = ""
 ignore_submodules = false
-disabled = false
 use_git_executable = false
 
 [kubernetes]
