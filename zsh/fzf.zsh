@@ -55,8 +55,9 @@ bindkey '^[o' fzf-select-history-argument
 # use fzf to select from all of the descendants
 fzf-cd-down() {
   local dir
-  dir=$(find ${1} ! -path . -type d -printf '%P\n' 2> /dev/null \
-          | fzf-tmux +m --header="cd ↓ from $PWD" --exit-0) && cd "$dir"
+  dir=$(gfind ${1} ! -path . -type d -printf '%P\n' -maxdepth 1 2> /dev/null \
+        | fzf-tmux +m --header="cd ↓ from $PWD" --exit-0)
+  cd "$dir"
   zle reset-prompt
 }
 
