@@ -53,12 +53,100 @@ zle -N fzf-select-history-argument
 bindkey '^[o' fzf-select-history-argument
 
 # use fzf to select from all of the descendants
+# fzf-cd-down() {
+#   local dir
+#   dir=$(gfind ${1} ! -path . -type d -printf '%P\n' -maxdepth 1 2> /dev/null \
+#         | fzf-tmux +m --header="cd ↓ from $PWD" --exit-0)
+#   cd "$dir"
+#   zle reset-prompt
+# }
+
 fzf-cd-down() {
-  local dir
-  dir=$(gfind ${1} ! -path . -type d -printf '%P\n' -maxdepth 1 2> /dev/null \
-        | fzf-tmux +m --header="cd ↓ from $PWD" --exit-0)
-  cd "$dir"
-  zle reset-prompt
+  local initial_target_dir="${1}" # The directory to start searching in, passed recursively
+  local current_search_path
+  local selected_fzf_output key selection chosen_item_relative_path chosen_item_full_path
+
+  # Determine the absolute, real path for the current search
+  if [[ -n "$initial_target_dir" ]]; then
+    current_search_path=$(realpath "$initial_target_dir" 2>/dev/null)
+    if [[ -z "$current_search_path" || ! -d "$current_search_path" ]]; then
+      echo "fzf-cd-down: Invalid or non-directory path specified: '$initial_target_dir'." >&2
+      echo "fzf-cd-down: Defaulting to current directory: '$PWD'." >&2
+      current_search_path=$(realpath "$PWD") # Fallback to PWD
+    fi
+  else
+    current_search_path=$(realpath "$PWD") # Default to PWD if no argument
+  fi
+
+  # gfind options:
+  #   "$current_search_path": The directory to search within.
+  #   -mindepth 1: Do not include the starting directory itself.
+  #   -maxdepth 1: Do not go deeper than one level.
+  #   -type d: Only list directories.
+  #   -printf '%P\n': Print the found directory names relative to current_search_path, one per line.
+  #
+  # fzf-tmux options:
+  #   +m: Disable multi-selection (original widget had this).
+  #   --header: Informative text displayed in fzf.
+  #   --expect=/,enter: Tell fzf to exit and report if '/' or 'Enter' is pressed.
+  #                     Other keys like 'Esc' will also exit fzf.
+  #   --print-query: The first line of fzf's output will be the query typed by the user.
+  #   --exit-0: fzf exits with status 0 even if no selection is made (e.g., Esc is pressed).
+  #   --preview: Show a preview of the contents of the currently highlighted directory.
+  selected_fzf_output=$(gfind "$current_search_path" -mindepth 1 -maxdepth 1 -type d -printf '%P\n' 2>/dev/null | \
+    fzf-tmux +m --header="Navigate: $current_search_path ('/' to descend, Enter to select, Esc to cancel)" \
+               --expect=/,enter --print-query --exit-0 \
+               --preview="ls -p --color=always '$current_search_path/{}'")
+
+  # If fzf was exited (e.g., Esc) or produced no output (e.g. no directories found and Esc)
+  if [[ -z "$selected_fzf_output" ]]; then
+    zle reset-prompt
+    return 0
+  fi
+
+  # Parse fzf's output:
+  # With --print-query and --expect, the output is typically:
+  # Line 1: query text (which we ignore for now)
+  # Line 2: key pressed ('/' or 'enter', or empty if Enter was pressed on an empty selection list after typing a query)
+  # Line 3: selected item text (the directory name, relative to current_search_path)
+  local lines
+  lines=(${(f)selected_fzf_output}) # Zsh array split by newlines
+
+  # Zsh arrays are 1-indexed
+  key="${lines[2]}"
+  chosen_item_relative_path="${lines[3]}"
+
+  # If no item was actually selected (e.g., pressed Enter on an empty filtered list, or just a key without a selection)
+  if [[ -z "$chosen_item_relative_path" ]]; then
+    zle reset-prompt
+    return 0
+  fi
+
+  # Construct the full path to the selected item
+  # chosen_item_relative_path is relative to current_search_path (e.g., "subdir" if current_search_path is "/foo")
+  chosen_item_full_path="$current_search_path/$chosen_item_relative_path"
+  # Normalize the constructed path (e.g., resolve '/./', '/../', symlinks)
+  chosen_item_full_path=$(realpath "$chosen_item_full_path" 2>/dev/null)
+
+  # Check if the resolved path is a valid directory
+  if [[ -z "$chosen_item_full_path" || ! -d "$chosen_item_full_path" ]]; then
+      echo "fzf-cd-down: Selected path is not a valid directory: '$current_search_path/$chosen_item_relative_path'" >&2
+      zle reset-prompt
+      return 1 # Indicate an error
+  fi
+
+  if [[ "$key" == "/" ]]; then
+    # User pressed '/', call this function recursively for the newly selected directory path
+    fzf-cd-down "$chosen_item_full_path"
+  elif [[ "$key" == "enter" ]]; then
+    # User pressed Enter, change to the selected directory
+    cd "$chosen_item_full_path"
+    zle reset-prompt
+  else
+    # Other key pressed (e.g. Esc after selection, though --exit-0 usually means empty output for plain Esc)
+    # or an unexpected key if --expect was different. For /,enter this path is less likely.
+    zle reset-prompt
+  fi
 }
 
 # M-j to cd down
