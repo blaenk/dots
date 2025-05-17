@@ -102,8 +102,8 @@ bindkey '^[?' fzf-aliases
 
 # fzf the git aliases and print the result
 fzf-git-aliases() {
-  git config --get-regexp ^alias\. | \
-    sed -e "s/^alias\.//" -e "s/\ /\ =\ /" | \
+  git config --get-regexp "^alias." | \
+    gsed -e "s/^alias\.//" -e "s/\ /\ =\ /" | \
     fzf-tmux +m --query="$1" --header="aliases" --exit-0 --select-1
 }
 
