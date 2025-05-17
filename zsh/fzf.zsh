@@ -78,73 +78,57 @@ fzf-cd-down() {
     current_search_path=$(realpath "$PWD") # Default to PWD if no argument
   fi
 
-  # gfind options:
-  #   "$current_search_path": The directory to search within.
-  #   -mindepth 1: Do not include the starting directory itself.
-  #   -maxdepth 1: Do not go deeper than one level.
-  #   -type d: Only list directories.
-  #   -printf '%P\n': Print the found directory names relative to current_search_path, one per line.
-  #
-  # fzf-tmux options:
-  #   +m: Disable multi-selection (original widget had this).
-  #   --header: Informative text displayed in fzf.
-  #   --expect=/,enter: Tell fzf to exit and report if '/' or 'Enter' is pressed.
-  #                     Other keys like 'Esc' will also exit fzf.
-  #   --print-query: The first line of fzf's output will be the query typed by the user.
-  #   --exit-0: fzf exits with status 0 even if no selection is made (e.g., Esc is pressed).
-  #   --preview: Show a preview of the contents of the currently highlighted directory.
+  # Updated header to include the new Ctrl-G binding
+  local fzf_header
+  fzf_header="Dir: $current_search_path (^/:descend sel, Enter:cd sel, ^G:cd here, Esc:cancel)"
+
   selected_fzf_output=$(gfind "$current_search_path" -mindepth 1 -maxdepth 1 -type d -printf '%P\n' 2>/dev/null | \
-    fzf-tmux +m --header="Navigate: $current_search_path ('/' to descend, Enter to select, Esc to cancel)" \
-               --expect=/,enter --print-query --exit-0 \
+    fzf-tmux +m --header="$fzf_header" \
+               --expect=/,enter,ctrl-g --print-query --exit-0 \
                --preview="ls -p --color=always '$current_search_path/{}'")
 
-  # If fzf was exited (e.g., Esc) or produced no output (e.g. no directories found and Esc)
   if [[ -z "$selected_fzf_output" ]]; then
     zle reset-prompt
     return 0
   fi
 
-  # Parse fzf's output:
-  # With --print-query and --expect, the output is typically:
-  # Line 1: query text (which we ignore for now)
-  # Line 2: key pressed ('/' or 'enter', or empty if Enter was pressed on an empty selection list after typing a query)
-  # Line 3: selected item text (the directory name, relative to current_search_path)
-  local lines
-  lines=(${(f)selected_fzf_output}) # Zsh array split by newlines
+  local -a lines
+  lines=("${(@f)selected_fzf_output}")
 
-  # Zsh arrays are 1-indexed
   key="${lines[2]}"
-  chosen_item_relative_path="${lines[3]}"
+  chosen_item_relative_path="${lines[3]}" # This might be empty if Ctrl-G was pressed without a selection focused
 
-  # If no item was actually selected (e.g., pressed Enter on an empty filtered list, or just a key without a selection)
-  if [[ -z "$chosen_item_relative_path" ]]; then
+  # Handle Ctrl-G: "cd to current directory being listed"
+  # This action takes precedence and doesn't depend on a selection.
+  if [[ "$key" == "ctrl-g" ]]; then
+    cd "$current_search_path"
     zle reset-prompt
     return 0
   fi
 
-  # Construct the full path to the selected item
-  # chosen_item_relative_path is relative to current_search_path (e.g., "subdir" if current_search_path is "/foo")
+  # For '/' (descend) and 'enter' (cd into selection), a selection is required.
+  if [[ -z "$chosen_item_relative_path" ]]; then
+    # No item was selected (e.g., pressed Enter or / on an empty filtered list)
+    zle reset-prompt
+    return 0
+  fi
+
   chosen_item_full_path="$current_search_path/$chosen_item_relative_path"
-  # Normalize the constructed path (e.g., resolve '/./', '/../', symlinks)
   chosen_item_full_path=$(realpath "$chosen_item_full_path" 2>/dev/null)
 
-  # Check if the resolved path is a valid directory
   if [[ -z "$chosen_item_full_path" || ! -d "$chosen_item_full_path" ]]; then
       echo "fzf-cd-down: Selected path is not a valid directory: '$current_search_path/$chosen_item_relative_path'" >&2
       zle reset-prompt
-      return 1 # Indicate an error
+      return 1
   fi
 
   if [[ "$key" == "/" ]]; then
-    # User pressed '/', call this function recursively for the newly selected directory path
     fzf-cd-down "$chosen_item_full_path"
   elif [[ "$key" == "enter" ]]; then
-    # User pressed Enter, change to the selected directory
     cd "$chosen_item_full_path"
     zle reset-prompt
   else
-    # Other key pressed (e.g. Esc after selection, though --exit-0 usually means empty output for plain Esc)
-    # or an unexpected key if --expect was different. For /,enter this path is less likely.
+    # Other key pressed or unexpected scenario
     zle reset-prompt
   fi
 }
