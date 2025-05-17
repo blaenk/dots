@@ -75,7 +75,7 @@ fzf-cd-up() {
       get_parent_dirs $(dirname "$1")
     fi
   }
-  DIR=$(get_parent_dirs $(realpath "${1:-$(pwd)}") | fzf-tmux --tac) && cd "$DIR"
+  DIR=$(get_parent_dirs $(realpath $(dirname "${1:-$(pwd)}")) | fzf-tmux +m --header="cd ↓ from $PWD" --exit-0) && cd "$DIR"
   zle reset-prompt
 }
 
