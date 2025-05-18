@@ -1,7 +1,7 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-format = "${custom.iterm_prompt_mark}${custom.lambda}$all${custom.iterm_prompt_end}"
+format = "${custom.iterm_prompt_mark}${custom.lambda}${custom.path}$all${custom.iterm_prompt_end}"
 
 # Inserts a blank line between shell prompts
 add_newline = true
@@ -11,6 +11,18 @@ palette = 'one_dark'
 [custom.lambda]
 format = '[λ](blue bold) '
 when = true
+
+# ~/.config/starship.toml
+
+# Add this new custom module
+[custom.path]
+description = "Current path with colored separators"
+style = ""
+shell = "zsh"
+when = 'test "$STARSHIP_SHELL" = "zsh"'
+command = '''
+  local slash="%F{cyan}/%f"; print -Pn "${${PWD/#$HOME/~}//\//$slash}"
+  '''
 
 [custom.iterm_prompt_mark]
 when = '[ "$TERM_PROGRAM" = "iTerm.app" ]'
@@ -25,6 +37,7 @@ shell = "sh"
 disabled = false
 
 [directory]
+disabled = true
 # truncate_to_repo = false
 truncation_length = 100
 
