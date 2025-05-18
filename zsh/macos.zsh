@@ -39,6 +39,7 @@ command_exists eza || brew install eza
 commands_to_check=(
   atuin
   bat
+  bat-extras
   eza
   fd
   starship
@@ -49,12 +50,9 @@ commands_to_check=(
 for cmd in "${commands_to_check[@]}"; do
   # Check if the command exists
   if ! command_exists "$cmd" ; then
-    echo "$cmd not found. Installing with brew..."
+    echo "$cmd not found. Installing Brewfile..."
     # Install the command using brew
-    brew install "$cmd"
+    brewload 
+    break
   fi
 done
-
-if [[ ! -f /opt/homebrew/Library/Taps/homebrew/homebrew-command-not-found/handler.sh ]]; then
-  brew tap homebrew/command-not-found
-fi

@@ -7,6 +7,9 @@ alias ":q"='exit'
 
 alias reload="killall -USR1 -- zsh -zsh"
 
+alias brewdump="brew bundle dump --no-vscode --force --file ~/.local/share/chezmoi/Brewfile && bat ~/.local/share/chezmoi/Brewfile"
+alias brewload="brew bundle install --file ~/.local/share/chezmoi/Brewfile"
+
 # alias ls='gls -l --color=auto --group-directories-first --classify'
 alias ls='eza --all --long --group --group-directories-first --color=always'
 alias lz='eza -l'
