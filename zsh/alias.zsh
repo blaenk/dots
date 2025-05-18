@@ -10,6 +10,7 @@ alias reload="killall -USR1 -- zsh -zsh"
 alias cm='chezmoi'
 alias brewdump="brew bundle dump --no-vscode --force --file ~/.local/share/chezmoi/Brewfile && bat ~/.local/share/chezmoi/Brewfile"
 alias brewload="brew bundle install --file ~/.local/share/chezmoi/Brewfile"
+alias brew-reverse-deps="brew uses --recursive --installed"
 
 # alias ls='gls -l --color=auto --group-directories-first --classify'
 alias ls='eza --all --long --group --group-directories-first --color=always'
