@@ -7,6 +7,7 @@ alias ":q"='exit'
 
 alias reload="killall -USR1 -- zsh -zsh"
 
+alias cm='chezmoi'
 alias brewdump="brew bundle dump --no-vscode --force --file ~/.local/share/chezmoi/Brewfile && bat ~/.local/share/chezmoi/Brewfile"
 alias brewload="brew bundle install --file ~/.local/share/chezmoi/Brewfile"
 
@@ -33,8 +34,6 @@ alias whichall='type -a'
 alias rm='rm -I'
 
 alias human-readable='numfmt --to=iec --suffix=B'
-
-alias cm='chezmoi'
 
 if command_exists git; then
   alias g='git'
