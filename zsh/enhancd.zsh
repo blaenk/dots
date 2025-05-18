@@ -17,8 +17,7 @@ compdef _cd __enhancd::cd
 # Else use existing `cd` (i.e. enhancd)
 _my_cd_wrapper() {
   if [[ $BUFFER =~ ^cd[[:space:]]+$ ]]; then
-    builtin cd
-    BUFFER=''
+    BUFFER='cd ~'
   fi
 
   zle .accept-line
