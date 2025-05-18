@@ -39,9 +39,14 @@ command_exists eza || brew install eza
 commands_to_check=(
   atuin
   bat
-  bat-extras
+  btm
+  broot
+  dust
+  duf
   eza
   fd
+  procs
+  sd
   starship
   zoxide
 )
