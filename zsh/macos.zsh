@@ -35,29 +35,29 @@ fi
 command_exists atuin || brew install atuin
 command_exists eza || brew install eza
 
-# Define a list of commands to check and install
-commands_to_check=(
-  atuin
-  bat
-  btm
-  broot
-  dust
-  duf
-  eza
-  fd
-  procs
-  sd
-  starship
-  zoxide
-)
+# # Define a list of commands to check and install
+# commands_to_check=(
+#   atuin
+#   bat
+#   btm
+#   broot
+#   dust
+#   duf
+#   eza
+#   fd
+#   procs
+#   sd
+#   starship
+#   zoxide
+# )
 
-# Loop through the list of commands
-for cmd in "${commands_to_check[@]}"; do
-  # Check if the command exists
-  if ! command_exists "$cmd" ; then
-    echo "$cmd not found. Installing Brewfile..."
-    # Install the command using brew
-    brewload 
-    break
-  fi
-done
+# # Loop through the list of commands
+# for cmd in "${commands_to_check[@]}"; do
+#   # Check if the command exists
+#   if ! command_exists "$cmd" ; then
+#     echo "$cmd not found. Installing Brewfile..."
+#     # Install the command using brew
+#     brewload 
+#     break
+#   fi
+# done
