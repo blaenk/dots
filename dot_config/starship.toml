@@ -69,6 +69,7 @@ use_git_executable = false
 
 [kubernetes]
 disabled = false
+format = '[$symbol$context( \($namespace\))]($style) '
 symbol = ""
 
 [palettes.one_dark]
