@@ -55,6 +55,8 @@ source "${ZINIT_HOME}/zinit.zsh"
 # https://github.com/zdharma-continuum/zinit/discussions/312
 unalias zi
 
+mkdir -p "$ZSH_CACHE_DIR/completions"
+
 fpath=(
   "$HOME/.zsh/comp"
   "$DOTSPATH/zsh/comp"
