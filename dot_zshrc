@@ -197,9 +197,11 @@ zinit light zsh-users/zsh-completions
 zinit ice wait silent
 zinit light zsh-users/zsh-syntax-highlighting
 
-zinit ice pick"init.sh"
-zinit light babarot/enhancd
-source $DOTSPATH/zsh/enhancd.zsh
+if [[ -z $CLAUDECODE ]]; then
+  zinit ice pick"init.sh"
+  zinit light babarot/enhancd
+  source $DOTSPATH/zsh/enhancd.zsh
+fi
 
 # export ZSH_TAB_TITLE_CONCAT_FOLDER_PROCESS=true
 export ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=1
