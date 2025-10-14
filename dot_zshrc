@@ -165,7 +165,7 @@ zinit ice wait silent
 zinit snippet OMZP::ssh
 
 zstyle ':omz:plugins:nvm' lazy yes
-zstyle ':omz:plugins:nvm' lazy-cmd eslint prettier typescript
+zstyle ':omz:plugins:nvm' lazy-cmd eslint prettier typescript claude
 
 zinit ice wait silent
 zinit snippet OMZP::nvm
