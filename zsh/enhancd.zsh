@@ -10,7 +10,7 @@ export ENHANCD_ARG_HOME=''
 export ENHANCD_DOT_SHOW_FULLPATH=1
 export ENHANCD_USE_FUZZY_MATCH=0
 
-compdef _cd __enhancd::cd
+# compdef _cd __enhancd::cd
 
 # Checks if the command is `cd`
 # If it is and there's one space or more after it, e.g. `cd `, then go $HOME
