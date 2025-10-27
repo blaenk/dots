@@ -145,3 +145,84 @@ bindkey -M menuselect "^[[Z" reverse-menu-complete
 
 bindkey -M menuselect "^P" reverse-menu-complete
 bindkey -M menuselect "^N" menu-complete
+
+# (Updated Function)
+# Function to delete a path component by temporarily redefining WORDCHARS and word style.
+# backward-kill-path-component() {
+#   # Use `local` to create temporary, function-scoped settings.
+#   # They automatically revert to their original values when the function ends.
+
+#   # 1. Temporarily switch to the 'zsh' word style, which respects WORDCHARS.
+#   select-word-style bash
+
+#   # 2. Temporarily remove the '/' character from WORDCHARS.
+#   # local WORDCHARS=${WORDCHARS//\//}
+
+#   # Now, execute the standard backward-kill-word widget.
+#   # It will use our temporary, local settings.
+#   zle backward-kill-word
+
+#   select-word-style normal
+# }
+
+# Deletes the last path component, with a fallback to deleting the last
+# word while preserving the trailing space.
+# backward-kill-path-component() {
+#   # Save the original buffer so we can see if our first attempt changed anything.
+#   local original_lbuffer=$LBUFFER
+
+#   # --- Part 1: Try to delete as a path component ---
+#   LBUFFER=${LBUFFER%/}
+#   LBUFFER=${LBUFFER%/*}
+
+#   # --- Part 2: The Robust Fallback ---
+#   # Check if the buffer is unchanged.
+#   if [[ $LBUFFER == $original_lbuffer ]]; then
+#     # Fall back using a more explicit, two-step nested expansion.
+#     # This isolates the last word and then removes it from the original string.
+#     LBUFFER=${LBUFFER%${LBUFFER##* }}
+#   fi
+# }
+
+backward-kill-path-component() {
+  local original_lbuffer=$LBUFFER
+
+  # --- Part 1: Try to delete as a path component ---
+  # Normalize by removing a trailing slash first.
+  local temp_buffer=${LBUFFER%/}
+
+  # Isolate the last component.
+  local last_comp=${temp_buffer##*/}
+
+  # GUARDED DELETION:
+  # Proceed only if a component was isolated AND it's not the whole string.
+  # This prevents 'cd /' from becoming empty.
+  if [[ -n "$last_comp" && "$last_comp" != "$temp_buffer" ]]; then
+    LBUFFER=${temp_buffer%$last_comp}
+    return # Successful deletion, so we are done.
+  fi
+
+  # --- Part 2: The Robust Fallback ---
+  # If we've reached this point, the path logic did nothing.
+  # Isolate the last word.
+  local last_word=${LBUFFER##* }
+
+  # GUARDED DELETION:
+  # Proceed only if a word was isolated AND it's not the whole string.
+  # This prevents 'cd ' or 'cd' from becoming empty.
+  if [[ -n "$last_word" && "$last_word" != "$LBUFFER" ]]; then
+    LBUFFER=${LBUFFER%$last_word}
+  fi
+}
+
+# Register the function as a ZLE widget
+zle -N backward-kill-path-component
+
+# Bind the new widget to a key combination.
+# Alt-Backspace is a common and safe choice.
+# On macOS, you may need to configure your terminal to use Option as Meta.
+# In iTerm2: Preferences -> Profiles -> Keys -> General -> "Left Option Key" -> Esc+
+# bindkey '\e\x7f' backward-kill-path-component
+
+# If Alt-Backspace doesn't work, you can try Alt-W
+bindkey -M viins '\ew' backward-kill-path-component
