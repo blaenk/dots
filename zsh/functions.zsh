@@ -194,3 +194,20 @@ texi-to-epub() {
     zip -0Xq "${name}.epub" mimetype
     zip -Xr9D "${name}.epub" META-INF OEBPS
 }
+
+if [ "$(type -w assume)" = 'assume: alias' ]; then
+  export GRANTED_ALIAS_CONFIGURED=true
+  unalias assume
+
+  function assume() {
+    echo "Truncating ~/.aws/credentials..."
+    rm ~/.aws/credentials
+
+    source <(command assume --ex "$@")
+
+    if [ $? -eq 0 ]; then
+      echo "Setting the assumed role as the [default] profile in ~/.aws/credentials..."
+      sed -i '1s/\[.*\]/[default]/' ~/.aws/credentials
+    fi
+  }
+fi
