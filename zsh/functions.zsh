@@ -8,6 +8,10 @@ cheat() {
   curl "cht.sh/${1}"
 }
 
+message-logs() {
+  kc logs -f -n messaging--platform $(kc get pods -n messaging--platform | grep topic-listener | cut -f1 -d ' ' | head -1) -c topic-listener | zr-log-deturder
+}
+
 # open man page and jump to examples section
 eg() {
   man -P "less -p \"^EXAMPLES?\"" $1
@@ -196,14 +200,14 @@ texi-to-epub() {
 }
 
 if [ "$(type -w assume)" = 'assume: alias' ]; then
-  export GRANTED_ALIAS_CONFIGURED=true
   unalias assume
 
   function assume() {
     echo "Truncating ~/.aws/credentials..."
     rm ~/.aws/credentials
 
-    source <(command assume --ex "$@")
+    export GRANTED_ALIAS_CONFIGURED=true
+    . assume --ex "$@"
 
     if [ $? -eq 0 ]; then
       echo "Setting the assumed role as the [default] profile in ~/.aws/credentials..."
