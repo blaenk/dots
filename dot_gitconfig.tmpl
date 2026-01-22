@@ -8,9 +8,14 @@ signingkey = ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCmaGxb4lxHIWjxp+gx62L9jCUpYGe
 format = ssh
 
 [gpg "ssh"]
+{{- if eq .chezmoi.os "linux" }}
 allowedSignersFile = ~/.ssh/allowed_signers
-{{ if eq .chezmoi.os "darwin" -}}
+{{- else if eq .chezmoi.os "darwin" }}
+allowedSignersFile = ~/.ssh/allowed_signers
 program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+{{- else if eq .chezmoi.os "windows" }}
+program = "C:/Users/{{ .chezmoi.username | splitList "\\" | last }}/AppData/Local/Microsoft/WindowsApps/op-ssh-sign.exe"
+allowedSignersFile = C:\\Users\\{{ .chezmoi.username | splitList "\\" | last }}\\.ssh\\allowed_signers
 {{- end }}
 
 [commit]
@@ -25,6 +30,10 @@ autocrlf = input
 symlinks = true
 untrackedCache = true
 fsmonitor = true
+{{- if eq .chezmoi.os "windows" }}
+editor = \"C:\\Users\\{{ .chezmoi.username | splitList "\\" | last }}\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code\" --wait
+sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+{{- end }}
 
 [status]
 submoduleSummary = true
