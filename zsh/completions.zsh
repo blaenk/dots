@@ -5,6 +5,7 @@ unsetopt flowcontrol
 setopt auto_menu
 setopt complete_in_word
 setopt always_to_end
+setopt glob_dots
 
 unsetopt correct_all
 
@@ -23,8 +24,8 @@ cdpath=(.)
 
 # zstyle ':completion:*:directory-stack' list-colors '=(#b) #([0-9]#)*( *)==95=38;5;12'
 
-# case-insensitive substring completion
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# case-insensitive substring completion (l:|=. allows matching dotfiles without typing the dot)
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} l:|=.' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
 zstyle ':completion:*:*:*:*:*' menu select=1 _complete _ignored _approximate
 
