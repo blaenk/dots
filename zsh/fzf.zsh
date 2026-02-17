@@ -209,11 +209,12 @@ _fzf-tmux-switch-panes() {
   target=$(fzf-tmux-list-all-panes "${1}")
 
   if [ -z "$target" ]; then
-    zle reset-prompt
+    zle reset-prompt 2>/dev/null
     return
   fi
 
   if [ -z "$TMUX" ]; then
+    [ -n "$target" ] || return
     BUFFER="tmux attach-session -t \"$target\""
     zle accept-line
   else
