@@ -185,7 +185,7 @@ tmux_panes_list_format='#{session_name}:#{window_index}.#{pane_index} #{window_n
 # select a tmux window from among all windows in every session
 fzf-tmux-list-all-panes() {
   if ! tmux ls &> /dev/null; then
-    zle reset-prompt
+    zle reset-prompt 2>/dev/null
     return
   fi
 
@@ -226,22 +226,12 @@ _fzf-tmux-switch-panes() {
 zle -N _fzf-tmux-switch-panes
 bindkey '^[,' _fzf-tmux-switch-panes
 
-fzf-tmux-switch-panes() {
-  current_pane=$(tmux display-message -p "${tmux_panes_list_format}")
-  tmux split-window -f "TMUX_FZF=1 zsh -ci '_fzf-tmux-switch-panes \"$current_pane\"'"
-}
-
 # bring pane from other window into this window's split
 # join-pane -s other-window.pane-number
 _fzf-tmux-bring-pane() {
   target=$(fzf-tmux-list-all-panes "${1}")
 
   tmux join-pane -s "${target}"
-}
-
-fzf-tmux-bring-pane() {
-  current_pane=$(tmux display-message -p "${tmux_panes_list_format}")
-  tmux split-window -f "TMUX_FZF=1 zsh -ci '_fzf-tmux-bring-pane \"$current_pane\"'"
 }
 
 bindkey -M vicmd "/" fzf-history-widget
