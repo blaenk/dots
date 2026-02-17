@@ -194,10 +194,11 @@ fzf-tmux-list-all-panes() {
 
   if [ -n "$TMUX" ]; then
     current_pane=$(tmux display-message -p "${tmux_panes_list_format}")
-    windows=$(echo "$windows" | grep -v "$current_pane" | grep -v "${1}")
+    windows=$(echo "$windows" | grep -v "$current_pane")
+    [ -n "${1}" ] && windows=$(echo "$windows" | grep -v "${1}")
   fi
 
-  echo "$windows" | fzf --header="tmux panes" --select-1 +m --exit-0 | awk '{print$1}'
+  echo "$windows" | fzf --header="tmux panes" --select-1 +m --exit-0 --cycle --preview 'tmux capture-pane -t {1} -ep | tac | awk "NF{found=1} found" | tac | tail -n $FZF_PREVIEW_LINES' --preview-window down:80%:nowrap | awk '{print$1}'
 }
 
 # NOTE
@@ -206,6 +207,11 @@ fzf-tmux-list-all-panes() {
 
 _fzf-tmux-switch-panes() {
   target=$(fzf-tmux-list-all-panes "${1}")
+
+  if [ -z "$target" ]; then
+    zle reset-prompt
+    return
+  fi
 
   if [ -z "$TMUX" ]; then
     BUFFER="tmux attach-session -t \"$target\""
