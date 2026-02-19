@@ -190,7 +190,7 @@ fzf-tmux-list-sessions() {
   fi
 
   local sessions current_session
-  sessions=$(tmux list-sessions -F "#{session_name}  (#{session_windows}w)")
+  sessions=$(tmux list-sessions -F "#{session_name} · #{session_windows} windows")
 
   if [ -n "$TMUX" ]; then
     current_session=$(tmux display-message -p "#{session_name}")
