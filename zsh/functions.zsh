@@ -246,7 +246,7 @@ if [ "$(type -w assume)" = 'assume: alias' ]; then
 
     if [ $? -eq 0 ]; then
       echo "Setting the assumed role as the [default] profile in ~/.aws/credentials..."
-      sed -i '1s/\[.*\]/[default]/' ~/.aws/credentials
+      sed -i '' '1s/\[.*\]/[default]/' ~/.aws/credentials
     fi
   }
 fi
