@@ -1,3 +1,9 @@
+wt() {
+  local dir
+  dir=$(ls -1 ~/worktrees/ | fzf --header="worktrees" --preview 'git -C ~/worktrees/{} log --oneline -10')
+  [ -n "$dir" ] && cd ~/worktrees/"$dir"
+}
+
 # open man page and jump to specific option
 # $ manf ls -l
 manf() {
