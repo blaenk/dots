@@ -182,6 +182,46 @@ fzf-git-aliases() {
 
 tmux_panes_list_format='#{session_name}:#{window_index}.#{pane_index} #{window_name}:#{pane_current_command}'
 
+# select a tmux session, previewing the active pane's current contents
+fzf-tmux-list-sessions() {
+  if ! tmux ls &> /dev/null; then
+    zle reset-prompt 2>/dev/null
+    return
+  fi
+
+  local sessions current_session
+  sessions=$(tmux list-sessions -F "#{session_name}  (#{session_windows}w)")
+
+  if [ -n "$TMUX" ]; then
+    current_session=$(tmux display-message -p "#{session_name}")
+    sessions=$(echo "$sessions" | grep -v "^${current_session} ")
+  fi
+
+  echo "$sessions" | fzf --header="tmux sessions" --select-1 +m --exit-0 --cycle \
+    --preview 'tmux capture-pane -t {1}: -ep | tac | awk "NF{found=1} found" | tac | tail -n $FZF_PREVIEW_LINES' \
+    --preview-window down:80%:nowrap | awk '{print$1}'
+}
+
+_fzf-tmux-switch-sessions() {
+  local target
+  target=$(fzf-tmux-list-sessions)
+
+  if [ -z "$target" ]; then
+    zle reset-prompt 2>/dev/null
+    return
+  fi
+
+  if [ -z "$TMUX" ]; then
+    BUFFER="tmux attach-session -t \"$target\""
+    zle accept-line
+  else
+    tmux switch-client -t "$target"
+  fi
+}
+
+zle -N _fzf-tmux-switch-sessions
+bindkey '^[;' _fzf-tmux-switch-sessions
+
 # select a tmux window from among all windows in every session
 fzf-tmux-list-all-panes() {
   if ! tmux ls &> /dev/null; then
@@ -198,7 +238,10 @@ fzf-tmux-list-all-panes() {
     [ -n "${1}" ] && windows=$(echo "$windows" | grep -v "${1}")
   fi
 
-  echo "$windows" | fzf --header="tmux panes" --select-1 +m --exit-0 --cycle --preview 'tmux capture-pane -t {1} -ep | tac | awk "NF{found=1} found" | tac | tail -n $FZF_PREVIEW_LINES' --preview-window down:80%:nowrap | awk '{print$1}'
+  echo "$windows" | fzf --header="tmux panes (alt-enter to bring)" --select-1 +m --exit-0 --cycle \
+    --bind 'alt-enter:execute(tmux join-pane -s {1})+abort' \
+    --preview 'tmux capture-pane -t {1} -ep | tac | awk "NF{found=1} found" | tac | tail -n $FZF_PREVIEW_LINES' \
+    --preview-window down:80%:nowrap | awk '{print$1}'
 }
 
 # NOTE
@@ -225,14 +268,6 @@ _fzf-tmux-switch-panes() {
 # M-, to fzf all windows in every session
 zle -N _fzf-tmux-switch-panes
 bindkey '^[,' _fzf-tmux-switch-panes
-
-# bring pane from other window into this window's split
-# join-pane -s other-window.pane-number
-_fzf-tmux-bring-pane() {
-  target=$(fzf-tmux-list-all-panes "${1}")
-
-  tmux join-pane -s "${target}"
-}
 
 bindkey -M vicmd "/" fzf-history-widget
 bindkey '^T' fzf-file-widget
