@@ -21,6 +21,9 @@ allowedSignersFile = C:\\Users\\{{ .chezmoi.username | splitList "\\" | last }}\
 [commit]
 gpgsign = true
 
+[branch]
+autoSetupMerge = false
+
 [pull]
 rebase = true
 
