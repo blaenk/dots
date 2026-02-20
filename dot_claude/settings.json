@@ -1,0 +1,19 @@
+{
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "clangd-lsp@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "atlassian@claude-plugins-official": true,
+    "greptile@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true
+  },
+  "effortLevel": "high"
+}
