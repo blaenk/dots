@@ -18,9 +18,12 @@ mkdir -p ~/bin
 
 export TMUX_PLUGIN_MANAGER_PATH="$HOME/.tmux/plugins/"
 
+export PNPM_HOME="$HOME/Library/pnpm"
+
 path=(
   ~/bin
 
+  $PNPM_HOME
   ${GOPATH}/bin
   ~/.local/bin
   ~/.cargo/bin

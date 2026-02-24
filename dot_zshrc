@@ -214,11 +214,11 @@ eval "$(starship init zsh)"
 zinit ice wait silent
 zinit light Aloxaf/fzf-tab
 
-zstyle ':omz:plugins:nvm' lazy yes
-zstyle ':omz:plugins:nvm' lazy-cmd eslint prettier typescript claude
+# zstyle ':omz:plugins:nvm' lazy yes
+# zstyle ':omz:plugins:nvm' lazy-cmd eslint prettier typescript claude
 
-zinit ice wait silent
-zinit snippet OMZP::nvm
+# zinit ice wait silent
+# zinit snippet OMZP::nvm
 
 # Run compinit after
 zinit ice wait silent atload"zicompinit; zicdreplay; autoload bashcompinit; bashcompinit"
