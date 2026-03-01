@@ -448,9 +448,9 @@ nnoremap ZS :w<CR>
 command! CloneBuffer new | 0put =getbufline('#',1,'$')
 
 " 'force' write
-cmap w!! %!sudo tee > /dev/null %
+cnoremap w!! %!sudo tee > /dev/null %
 
-map <Leader>o o<Esc>ko
+nmap <Leader>o o<Esc>ko
 
 nmap gp `[v`]
 
