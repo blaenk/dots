@@ -6,8 +6,6 @@
 " Initialization: {{{
 set nocompatible
 set encoding=utf-8
-set fenc=utf-8
-set termencoding=utf-8
 
 if has('win32')
   set rtp+=~/.vim
@@ -15,8 +13,6 @@ endif
 " }}}
 
 " Plugins: {{{
-set nocompatible
-
 let install_plug = 0
 
 if empty(glob('~/.vim/autoload/plug.vim'))
