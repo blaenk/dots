@@ -647,7 +647,7 @@ let g:ctrlp_status_func = {
 " AutoCMDs: {{{
 augroup filespecific
   autocmd!
-  au BufRead,BufNewFile *.json set ft=javascript
+  au BufRead,BufNewFile *.json set ft=json
   au FileType go set noet nolist
   au FileType python setl ts=4
   au FileType rust setl sw=0 sts=0
