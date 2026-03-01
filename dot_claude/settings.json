@@ -13,5 +13,40 @@
     "security-guidance@claude-plugins-official": true,
     "atlassian@claude-plugins-official": true,
     "claude-code-setup@claude-plugins-official": true
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.tmux/scripts/claude-attention.sh notify"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.tmux/scripts/claude-attention.sh clear"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.tmux/scripts/claude-attention.sh clear"
+          }
+        ]
+      }
+    ]
   }
 }
