@@ -471,18 +471,6 @@ inoremap <S-Tab> <C-d>
 " go to end of line from insert mode
 inoremap <C-l> <ESC>A
 
-function! BindH(lang)
-  let b:highlight_lang = matchstr(a:lang, "^[^=]*")
-
-  exe 'PandocHighlight ' . a:lang
-  inoremap <silent> <buffer> <c-p> code<C-R>=UltiSnips#Anon(
-    \"\\`\\`\\` " . b:highlight_lang . "\n" .
-    \"${1:${VISUAL}}\n" .
-    \"\\`\\`\\`$0", 'code')<cr>
-endfunction
-
-autocmd FileType pandoc command! -nargs=1 -complete=syntax Highlight call BindH(<f-args>)
-
 " }}}
 
 " Navigation: {{{2
@@ -521,9 +509,7 @@ function! HighlightGroups()
   return msg
 endfunction
 
-nnoremap <leader>r :RainbowParenthesesToggle<CR>
-
-nnoremap <silent> <leader>u :GundoToggle<CR>
+nnoremap <leader>r :RainbowToggle<CR>
 " }}}
 
 " }}}
@@ -580,58 +566,6 @@ nnoremap ,gw :Gwrite<CR>
 
 nnoremap ,go :Git checkout<space>
 
-" }}}
-
-" ToggleList: {{{2
-let g:toggle_list_no_mappings = 0
-nnoremap <script> <silent> <leader>q :call ToggleQuickfixList()<CR>
-" }}}
-
-" Pandoc: {{{2
-let g:pandoc#filetypes#pandoc_markdown = 1
-let g:pandoc#folding#mode = 'relative'
-let g:pandoc#folding#fdc = 0
-
-let g:pandoc#modules#enabled = [
-  \"formatting",
-  \"keyboard",
-  \"folding"
-  \]
-
-let g:pandoc#syntax#codeblocks#ignore = ['definition', 'delimited']
-let g:pandoc#syntax#conceal#blacklist = [
-  \"titleblock",
-  \"image",
-  \"superscript",
-  \"subscript",
-  \"strikeout",
-  \"atx",
-  \"codeblock_start",
-  \"codeblock_delim",
-  \"definition",
-  \"list",
-  \"newline",
-  \"hrule"
-  \]
-
-hi link pandocNoLabel Statement
-" }}}
-
-" UltiSnips: {{{2
-let g:UltiSnipsSnippetDirectories = ["snips"]
-let g:UltiSnipsExpandTrigger = '<C-p>'
-" }}}
-
-" YCM: {{{2
-let g:ycm_filetype_whitelist = {'cpp': 1, 'c': 1}
-let g:ycm_key_list_select_completion = ['<C-y>', '<Down>']
-" }}}
-
-" GitGutter: {{{2
-let g:gitgutter_enabled = 0
-let g:gitgutter_sign_modified = '#'
-
-nnoremap <leader>gm :GitGutterToggle<CR>
 " }}}
 
 " vim-sexp: {{{2
@@ -706,24 +640,6 @@ let g:ctrlp_status_func = {
   \}
 " }}}
 
-" }}}
-
-" Gist: {{{2
-let g:gist_detect_filetype = 1
-let g:gist_post_private = 1
-let g:gist_show_privates = 1
-" let g:gist_open_browser_after_post = 1
-" }}}
-
-" Ag: {{{2
-let g:aghighlight = 1
-let g:ag_mapping_message = 0
-nnoremap <leader>a :Ag!<space>
-" }}}
-
-" Tabularize: {{{2
-vmap <leader>t= :Tabularize /=<CR>
-vmap <leader>t: :Tabularize /:\zs/l0l1<CR>
 " }}}
 
 " }}}
