@@ -117,8 +117,12 @@ cycle() {
 status() {
     session="$1"
     pinned=$(get_pinned)
+    [ -z "$pinned" ] && return
+    list=$(printf '%s' "$pinned" | sed 's/,/ · /g')
     if is_pinned "$pinned" "$session"; then
-        printf '#[fg=black,bg=yellow] pinned #[default]'
+        printf '%s #[fg=black,bg=yellow] pinned #[default]' "$list"
+    else
+        printf '%s' "$list"
     fi
 }
 
