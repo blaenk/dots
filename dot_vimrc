@@ -537,27 +537,29 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 autocmd QuickFixCmdPost *grep* cwindow
 
 function! ToggleGStatus()
-    if buflisted(bufname('.git/index'))
-        bd .git/index
-    else
-        Gstatus
-    endif
+    for bufnum in range(1, bufnr('$'))
+        if buflisted(bufnum) && getbufvar(bufnum, 'fugitive_type') ==# 'index'
+            exe 'bd ' . bufnum
+            return
+        endif
+    endfor
+    Git
 endfunction
 
 command! ToggleGStatus :call ToggleGStatus()
 
-cnoreabbrev <expr> Gcommit ((getcmdtype() is# ':' && getcmdline() is# 'Gcommit')?('Gcommit -v'):('Gcommit'))
-cnoreabbrev <expr> Gbrowse ((getcmdtype() is# ':' && getcmdline() is# 'Gbrowse')?('Gbrowse!'):('Gbrowse'))
-cnoreabbrev <expr> Gdiff ((getcmdtype() is# ':' && getcmdline() is# 'Gdiff')?('Gvdiff'):('Gdiff'))
+cnoreabbrev <expr> Gcommit ((getcmdtype() is# ':' && getcmdline() is# 'Gcommit')?('Git commit -v'):('Gcommit'))
+cnoreabbrev <expr> Gbrowse ((getcmdtype() is# ':' && getcmdline() is# 'Gbrowse')?('GBrowse!'):('Gbrowse'))
+cnoreabbrev <expr> Gdiff ((getcmdtype() is# ':' && getcmdline() is# 'Gdiff')?('Gvdiffsplit'):('Gdiff'))
 
 nnoremap ,gs :ToggleGStatus<CR>
 nnoremap ,gg :Ggrep ""<left>
-nnoremap ,gc :Gcommit -v -q<CR>
-nnoremap ,gh :silent! Glog<CR>
-nnoremap ,gl :silent! Glog --<CR>
-nnoremap ,gd :Gvdiff<CR>
-nnoremap ,gb :Gblame<CR>
-nnoremap ,gn :Gbrowse!<CR>
+nnoremap ,gc :Git commit -v -q<CR>
+nnoremap ,gh :silent! Git log<CR>
+nnoremap ,gl :silent! Git log --<CR>
+nnoremap ,gd :Gvdiffsplit<CR>
+nnoremap ,gb :Git blame<CR>
+nnoremap ,gn :GBrowse!<CR>
 
 " optional revision; no revision = index copy
 nnoremap ,ge :Gedit<CR>
