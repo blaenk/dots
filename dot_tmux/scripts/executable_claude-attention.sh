@@ -109,13 +109,16 @@ cycle() {
 list() {
     _blocked_panes | while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
         label="! $sess_name:$win_name (needs input)"
-        printf '%s\t%s:%s\n' "$label" "$sess_name" "$win_idx"
+        printf '%s\t%s:%s\t%s\n' "$label" "$sess_name" "$win_idx" "$pane_id"
     done
 }
 
 # Select from list and switch
 select_attention() {
-    choice=$(list | fzf --ansi --no-sort --with-nth=1 --delimiter='\t' --prompt='Claude> ')
+    choice=$(list | fzf --header="claude attention" --select-1 +m --exit-0 --cycle \
+      --delimiter='\t' --with-nth=1 \
+      --preview 'tmux capture-pane -t {3} -ep | tac | awk "NF{found=1} found" | tac | tail -n $FZF_PREVIEW_LINES' \
+      --preview-window down:80%:nowrap)
     [ -z "$choice" ] && return
     target=$(printf '%s' "$choice" | awk -F'\t' '{print $2}')
     [ -n "$target" ] && tmux switch-client -t "$target"
@@ -182,13 +185,16 @@ all_list() {
             idle)    label="~ $sess_name:$win_name (idle)" ;;
             *)       label="  $sess_name:$win_name" ;;
         esac
-        printf '%s\t%s:%s\n' "$label" "$sess_name" "$win_idx"
+        printf '%s\t%s:%s\t%s\n' "$label" "$sess_name" "$win_idx" "$pane_id"
     done
 }
 
 # Select from all Claude sessions and switch
 all_select() {
-    choice=$(all_list | fzf --ansi --no-sort --with-nth=1 --delimiter='\t' --prompt='Claude Sessions> ')
+    choice=$(all_list | fzf --header="claude sessions" --select-1 +m --exit-0 --cycle \
+      --delimiter='\t' --with-nth=1 \
+      --preview 'tmux capture-pane -t {3} -ep | tac | awk "NF{found=1} found" | tac | tail -n $FZF_PREVIEW_LINES' \
+      --preview-window down:80%:nowrap)
     [ -z "$choice" ] && return
     target=$(printf '%s' "$choice" | awk -F'\t' '{print $2}')
     [ -n "$target" ] && tmux switch-client -t "$target"

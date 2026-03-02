@@ -1,4 +1,4 @@
-- [ ] all new fzf lists should have the same style as M-; with the pane preview etc.
+- [x] all new fzf lists should have the same style as M-; with the pane preview etc.
 - [ ] claude tabs should be clickable
 - [ ] create a cheat sheet display popup for the main bindings
 - [ ] consider using M-J and M-K for something
