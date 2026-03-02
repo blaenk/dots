@@ -47,6 +47,28 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.tmux/scripts/claude-attention.sh register"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.tmux/scripts/claude-attention.sh deregister"
+          }
+        ]
+      }
     ]
   }
 }
