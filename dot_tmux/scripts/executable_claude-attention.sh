@@ -62,9 +62,9 @@ status() {
     cur_win="$2"
     _blocked_panes | while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
         if [ "$sess_name" = "$cur_sess" ] && [ "$win_idx" = "$cur_win" ]; then
-            printf '#[fg=white,bg=colour2] #[bg=colour15,none,fg=default,bold] %s #[default] ' "$win_name"
+            printf '#[range=user|p:%s]#[fg=white,bg=colour2] #[bg=colour15,none,fg=default,bold] %s #[norange]#[default] ' "$pane_id" "$win_name"
         else
-            printf '#[bg=red] #[bg=colour15,none,fg=white] %s #[default] ' "$win_name"
+            printf '#[range=user|p:%s]#[bg=red] #[bg=colour15,none,fg=white] %s #[norange]#[default] ' "$pane_id" "$win_name"
         fi
     done
 }

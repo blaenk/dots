@@ -181,6 +181,9 @@ set incsearch
 set showmatch
 set hlsearch
 
+set mouse=a
+set ttymouse=sgr
+
 set splitbelow
 set splitright
 set wrap
