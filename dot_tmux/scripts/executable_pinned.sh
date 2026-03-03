@@ -124,9 +124,9 @@ status() {
     for wid in $pinned; do
         name=$(tmux display-message -t "$wid" -p '#{window_name}' 2>/dev/null) || continue
         if [ "$wid" = "$current_wid" ]; then
-            printf '#[range=user|w:%s]#[fg=black,bg=yellow] #[bg=colour15,none,fg=default,bold] %s #[norange]#[default] ' "$wid" "$name"
+            printf '#[range=user|w:%s]#[fg=yellow]● #[fg=default bold]%s #[norange]#[default] ' "$wid" "$name"
         else
-            printf '#[range=user|w:%s]#[bg=colour0] #[bg=colour15,none,fg=default] %s #[norange]#[default] ' "$wid" "$name"
+            printf '#[range=user|w:%s]#[fg=colour8]● #[fg=default none]%s #[norange]#[default] ' "$wid" "$name"
         fi
     done
     unset IFS
