@@ -1,0 +1,129 @@
+{
+  "version": 3,
+  "lines": [
+    [
+      {
+        "id": "1",
+        "type": "model",
+        "color": "",
+        "rawValue": true
+      },
+      {
+        "id": "2",
+        "type": "separator"
+      },
+      {
+        "id": "aa2d5582-1107-433e-b5c8-d3c75d1ec3cf",
+        "type": "git-worktree",
+        "metadata": {
+          "hideNoGit": "false"
+        }
+      },
+      {
+        "id": "9d339243-4ee5-4913-8f7d-fdfc7baebd44",
+        "type": "separator"
+      },
+      {
+        "id": "5",
+        "type": "git-branch",
+        "color": "magenta",
+        "metadata": {
+          "hideNoGit": "false"
+        }
+      },
+      {
+        "id": "6",
+        "type": "separator"
+      },
+      {
+        "id": "7",
+        "type": "git-changes",
+        "color": "yellow"
+      },
+      {
+        "id": "65a55375-6f78-42d6-8db4-ce91706e1195",
+        "type": "flex-separator"
+      },
+      {
+        "id": "59c2c824-d6c1-43a5-9e01-2939e8ca7d0c",
+        "type": "context-bar",
+        "metadata": {
+          "display": "progress-short"
+        }
+      }
+    ],
+    [
+      {
+        "id": "a83d2e88-3fba-4491-b291-7a168e563683",
+        "type": "current-working-dir",
+        "metadata": {
+          "abbreviateHome": "true"
+        }
+      },
+      {
+        "id": "14d4c185-f295-4e3d-b731-0f081f81e0ca",
+        "type": "flex-separator"
+      },
+      {
+        "id": "5ed44219-2865-4208-87fa-1a72c5d0a98a",
+        "type": "block-timer",
+        "metadata": {
+          "display": "progress-short"
+        }
+      },
+      {
+        "id": "2d8a6412-7d8e-4ee8-addb-53f506c8f775",
+        "type": "custom-text",
+        "customText": " "
+      },
+      {
+        "id": "3d0cefa8-fe36-4e09-bd9b-e5c5a5414cfd",
+        "type": "block-timer",
+        "metadata": {
+          "display": "time"
+        },
+        "rawValue": true
+      }
+    ],
+    [
+      {
+        "id": "edb8ade3-2b0d-4d92-8c3c-576a1551b502",
+        "type": "session-name"
+      },
+      {
+        "id": "c84159fc-723c-462d-b701-cfcf813e4bc0",
+        "type": "flex-separator"
+      },
+      {
+        "id": "fb6f197d-e92d-47c4-85ae-fdd8d3fd02db",
+        "type": "context-percentage"
+      },
+      {
+        "id": "83bfbab4-aa7a-4c75-937e-e1b5338b7a2b",
+        "type": "custom-text",
+        "customText": " "
+      },
+      {
+        "id": "ca27df14-cb2f-40ca-b537-ac993935e9f3",
+        "type": "context-percentage-usable"
+      }
+    ]
+  ],
+  "flexMode": "full-minus-40",
+  "compactThreshold": 60,
+  "colorLevel": 2,
+  "inheritSeparatorColors": false,
+  "globalBold": false,
+  "powerline": {
+    "enabled": false,
+    "separators": [
+      ""
+    ],
+    "separatorInvertBackground": [
+      false
+    ],
+    "startCaps": [],
+    "endCaps": [],
+    "autoAlign": false
+  }
+}
