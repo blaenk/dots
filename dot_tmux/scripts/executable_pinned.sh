@@ -1,6 +1,7 @@
 #!/bin/sh
-# Manage pinned tmux sessions. Stores session names in @pinned (comma-separated).
-# Usage: pinned.sh {toggle|next|prev|status <session_name>}
+# Manage pinned tmux windows. Stores window IDs (@1,@2,...) in @pinned (comma-separated).
+# Window IDs are globally unique and stable across moves/renames.
+# Usage: pinned.sh {toggle|next|prev|status <window_id>}
 
 get_pinned() {
     tmux show-option -gqv @pinned
@@ -17,15 +18,15 @@ is_pinned() {
     esac
 }
 
-# Remove dead sessions from the pinned list and return the cleaned list
+# Remove dead windows from the pinned list and return the cleaned list
 prune_dead() {
     pinned="$1"
-    live_sessions=$(tmux list-sessions -F '#{session_name}' 2>/dev/null)
+    live_windows=$(tmux list-windows -a -F '#{window_id}' 2>/dev/null)
     result=""
     IFS=','
-    for s in $pinned; do
-        case "$live_sessions" in
-            *"$s"*) result="${result:+$result,}$s" ;;
+    for w in $pinned; do
+        case "$live_windows" in
+            *"$w"*) result="${result:+$result,}$w" ;;
         esac
     done
     unset IFS
@@ -33,34 +34,35 @@ prune_dead() {
 }
 
 toggle() {
-    current=$(tmux display-message -p '#{session_name}')
+    current=$(tmux display-message -p '#{window_id}')
+    name=$(tmux display-message -p '#{window_name}')
     pinned=$(get_pinned)
 
     if is_pinned "$pinned" "$current"; then
-        # Remove current session
+        # Remove current window
         new=""
         IFS=','
-        for s in $pinned; do
-            [ "$s" = "$current" ] && continue
-            new="${new:+$new,}$s"
+        for w in $pinned; do
+            [ "$w" = "$current" ] && continue
+            new="${new:+$new,}$w"
         done
         unset IFS
         set_pinned "$new"
-        tmux display-message "Unpinned: $current"
+        tmux display-message "Unpinned: $name"
     else
-        # Add current session
+        # Add current window
         set_pinned "${pinned:+$pinned,}$current"
-        tmux display-message "Pinned: $current"
+        tmux display-message "Pinned: $name"
     fi
 }
 
 cycle() {
     direction="$1"
-    current=$(tmux display-message -p '#{session_name}')
+    current=$(tmux display-message -p '#{window_id}')
     pinned=$(prune_dead "$(get_pinned)")
     set_pinned "$pinned"
 
-    # Count pinned sessions
+    # Count pinned windows
     if [ -z "$pinned" ]; then
         return
     fi
@@ -71,22 +73,22 @@ cycle() {
         count=$((count + 1))
     done
     if [ "$count" -lt 2 ]; then
-        # Only one pinned session — just switch to it if we're not on it
+        # Only one pinned window — just switch to it if we're not on it
         if ! is_pinned "$pinned" "$current"; then
             tmux switch-client -t "$pinned"
         fi
         return
     fi
 
-    # Build index of current session in pinned list
+    # Build index of current window in pinned list
     idx=0
     found=-1
     IFS=','
     set -- $pinned
     unset IFS
     i=0
-    for s in "$@"; do
-        if [ "$s" = "$current" ]; then
+    for w in "$@"; do
+        if [ "$w" = "$current" ]; then
             found=$i
         fi
         i=$((i + 1))
@@ -105,9 +107,9 @@ cycle() {
     fi
 
     i=0
-    for s in "$@"; do
+    for w in "$@"; do
         if [ "$i" -eq "$target" ]; then
-            tmux switch-client -t "$s"
+            tmux switch-client -t "$w"
             return
         fi
         i=$((i + 1))
@@ -115,15 +117,19 @@ cycle() {
 }
 
 status() {
-    session="$1"
+    current_wid="$1"
     pinned=$(get_pinned)
     [ -z "$pinned" ] && return
-    list=$(printf '%s' "$pinned" | sed 's/,/ · /g')
-    if is_pinned "$pinned" "$session"; then
-        printf '%s #[fg=black,bg=yellow] pinned #[default]' "$list"
-    else
-        printf '%s' "$list"
-    fi
+    IFS=','
+    for wid in $pinned; do
+        name=$(tmux display-message -t "$wid" -p '#{window_name}' 2>/dev/null) || continue
+        if [ "$wid" = "$current_wid" ]; then
+            printf '#[range=user|w:%s]#[fg=black,bg=yellow] #[bg=colour15,none,fg=default,bold] %s #[norange]#[default] ' "$wid" "$name"
+        else
+            printf '#[range=user|w:%s]#[bg=colour0] #[bg=colour15,none,fg=default] %s #[norange]#[default] ' "$wid" "$name"
+        fi
+    done
+    unset IFS
 }
 
 case "$1" in
@@ -131,5 +137,5 @@ case "$1" in
     next)   cycle next ;;
     prev)   cycle prev ;;
     status) status "$2" ;;
-    *)      echo "Usage: $0 {toggle|next|prev|status <session>}" >&2; exit 1 ;;
+    *)      echo "Usage: $0 {toggle|next|prev|status <window_id>}" >&2; exit 1 ;;
 esac

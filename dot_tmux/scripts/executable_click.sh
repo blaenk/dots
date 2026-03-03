@@ -11,4 +11,9 @@ case "$arg" in
         pane_id="${arg#p:}"
         [ -n "$pane_id" ] && tmux switch-client -t "$pane_id"
         ;;
+    w:*)
+        # Window target: w:@N — switch to the window
+        wid="${arg#w:}"
+        [ -n "$wid" ] && tmux switch-client -t "$wid"
+        ;;
 esac
