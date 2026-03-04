@@ -1,6 +1,6 @@
 #!/bin/sh
 # Claude Code session tracking and attention state for tmux.
-# Usage: claude-attention.sh {register|deregister|notify|clear|status|next|prev|select|menu|all-next|all-prev|all-select|all-menu}
+# Usage: claude-attention.sh {register|deregister|notify|busy|done|clear|status|next|prev|select|menu|all-next|all-prev|all-select|all-menu}
 
 register() {
     [ -z "$TMUX_PANE" ] && return
@@ -25,9 +25,20 @@ notify() {
     esac
 }
 
+busy() {
+    [ -z "$TMUX_PANE" ] && return
+    tmux set-option -p -t "$TMUX_PANE" @claude_attention "busy"
+}
+
+done_() {
+    [ -z "$TMUX_PANE" ] && return
+    tmux set-option -p -t "$TMUX_PANE" @claude_attention "done"
+}
+
 clear() {
     [ -z "$TMUX_PANE" ] && return
-    tmux set-option -p -t "$TMUX_PANE" -u @claude_attention 2>/dev/null
+    attention=$(tmux show-options -p -t "$TMUX_PANE" -qv @claude_attention 2>/dev/null)
+    [ "$attention" = "blocked" ] && tmux set-option -p -t "$TMUX_PANE" -u @claude_attention 2>/dev/null
 }
 
 # Collect pane_id:session:window_index:window_name:attention for panes needing attention
@@ -60,12 +71,24 @@ _claude_panes() {
 status() {
     cur_sess="$1"
     cur_win="$2"
-    _blocked_panes | while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
+    _claude_panes | while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
         if [ "$sess_name" = "$cur_sess" ] && [ "$win_idx" = "$cur_win" ]; then
-            printf '#[range=user|p:%s]#[fg=white,bg=colour2] #[bg=colour15,none,fg=default,bold] %s #[norange]#[default] ' "$pane_id" "$win_name"
+            bg="bg=colour2"
         else
-            printf '#[range=user|p:%s]#[bg=red] #[bg=colour15,none,fg=white] %s #[norange]#[default] ' "$pane_id" "$win_name"
+            case "$attention" in
+                blocked) bg="bg=red" ;;
+                busy)    bg="bg=yellow" ;;
+                idle)    bg="bg=blue" ;;
+                done)    bg="bg=blue" ;;
+                *)       bg="bg=colour0" ;;
+            esac
         fi
+        if [ "$sess_name" = "$cur_sess" ] && [ "$win_idx" = "$cur_win" ]; then
+            style="bg=colour15,none,fg=default,bold"
+        else
+            style="bg=colour15,none,fg=default"
+        fi
+        printf '#[range=user|p:%s]#[%s] #[%s] %s #[norange]#[default] ' "$pane_id" "$bg" "$style" "$win_name"
     done
 }
 
@@ -182,6 +205,8 @@ all_list() {
     _claude_panes | while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
         case "$attention" in
             blocked) label="! $sess_name:$win_name (needs input)" ;;
+            busy)    label="… $sess_name:$win_name (busy)" ;;
+            done)    label="✓ $sess_name:$win_name (done)" ;;
             idle)    label="~ $sess_name:$win_name (idle)" ;;
             *)       label="  $sess_name:$win_name" ;;
         esac
@@ -211,6 +236,8 @@ all_menu() {
     while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
         case "$attention" in
             blocked) label="! $sess_name:$win_name (needs input)" ;;
+            busy)    label="… $sess_name:$win_name (busy)" ;;
+            done)    label="✓ $sess_name:$win_name (done)" ;;
             idle)    label="~ $sess_name:$win_name (idle)" ;;
             *)       label="  $sess_name:$win_name" ;;
         esac
@@ -228,6 +255,8 @@ case "$1" in
     register)   register ;;
     deregister) deregister ;;
     notify)     notify ;;
+    busy)       busy ;;
+    done)       done_ ;;
     clear)      clear ;;
     status)     status "$2" "$3" ;;
     next)       cycle next ;;
@@ -238,5 +267,5 @@ case "$1" in
     all-prev)   all_cycle prev ;;
     all-select) all_select ;;
     all-menu)   all_menu ;;
-    *)          echo "Usage: $0 {register|deregister|notify|clear|status|next|prev|select|menu|all-next|all-prev|all-select|all-menu}" >&2; exit 1 ;;
+    *)          echo "Usage: $0 {register|deregister|notify|busy|done|clear|status|next|prev|select|menu|all-next|all-prev|all-select|all-menu}" >&2; exit 1 ;;
 esac

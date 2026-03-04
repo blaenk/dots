@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.tmux/scripts/claude-attention.sh clear"
+            "command": "~/.tmux/scripts/claude-attention.sh busy"
           }
         ]
       }
@@ -28,7 +28,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.tmux/scripts/claude-attention.sh clear"
+            "command": "~/.tmux/scripts/claude-attention.sh done"
           }
         ]
       }
