@@ -224,5 +224,5 @@ zle -N backward-kill-path-component
 # In iTerm2: Preferences -> Profiles -> Keys -> General -> "Left Option Key" -> Esc+
 # bindkey '\e\x7f' backward-kill-path-component
 
-# If Alt-Backspace doesn't work, you can try Alt-W
-bindkey -M viins '\ew' backward-kill-path-component
+# If Alt-Backspace doesn't work, you can try Alt-U
+bindkey -M viins '\eu' backward-kill-path-component
