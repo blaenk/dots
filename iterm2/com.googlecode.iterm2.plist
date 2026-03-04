@@ -153,7 +153,7 @@
 	<key>HapticFeedbackForEsc</key>
 	<false/>
 	<key>HideTab</key>
-	<false/>
+	<true/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_599D1178-A28F-43D9-A434-D182C8B1D6AF</key>
