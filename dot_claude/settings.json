@@ -11,7 +11,18 @@
         ]
       }
     ],
-    "PreToolUse": [
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.tmux/scripts/claude-attention.sh busy"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
       {
         "matcher": "",
         "hooks": [
