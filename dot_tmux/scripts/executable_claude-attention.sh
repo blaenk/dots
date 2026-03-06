@@ -4,13 +4,15 @@
 
 register() {
     [ -z "$TMUX_PANE" ] && return
-    tmux set-option -p -t "$TMUX_PANE" @claude_session 1
+    tmux set-option -p -t "$TMUX_PANE" @claude_session 1 2>/dev/null
+    return 0
 }
 
 deregister() {
     [ -z "$TMUX_PANE" ] && return
     tmux set-option -p -t "$TMUX_PANE" -u @claude_session 2>/dev/null
     tmux set-option -p -t "$TMUX_PANE" -u @claude_attention 2>/dev/null
+    return 0
 }
 
 notify() {
@@ -19,20 +21,23 @@ notify() {
     type=$(printf '%s' "$input" | jq -r '.notification_type // empty')
     case "$type" in
         permission_prompt|elicitation_dialog)
-            tmux set-option -p -t "$TMUX_PANE" @claude_attention "blocked" ;;
+            tmux set-option -p -t "$TMUX_PANE" @claude_attention "blocked" 2>/dev/null ;;
         idle_prompt)
-            tmux set-option -p -t "$TMUX_PANE" @claude_attention "idle" ;;
+            tmux set-option -p -t "$TMUX_PANE" @claude_attention "idle" 2>/dev/null ;;
     esac
+    return 0
 }
 
 busy() {
     [ -z "$TMUX_PANE" ] && return
-    tmux set-option -p -t "$TMUX_PANE" @claude_attention "busy"
+    tmux set-option -p -t "$TMUX_PANE" @claude_attention "busy" 2>/dev/null
+    return 0
 }
 
 done_() {
     [ -z "$TMUX_PANE" ] && return
-    tmux set-option -p -t "$TMUX_PANE" @claude_attention "done"
+    tmux set-option -p -t "$TMUX_PANE" @claude_attention "done" 2>/dev/null
+    return 0
 }
 
 clear() {
