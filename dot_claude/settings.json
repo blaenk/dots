@@ -9,6 +9,14 @@
             "command": "~/.tmux/scripts/claude-attention.sh notify"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.tmux/scripts/notify.sh"
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
