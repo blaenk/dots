@@ -246,6 +246,8 @@ function br {
     fi
 }
 
+eval "$(direnv hook zsh)"
+
 if [[ -f ~/.zsh.local ]]; then
   source ~/.zsh.local
 fi
