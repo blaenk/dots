@@ -49,8 +49,7 @@ path=(
 path=($^path(N))
 
 manpath=(
-  /usr/local/share/man
-  ~/.texlive/2018/texmf-dist/doc/man
+  /opt/homebrew/share/man
 
   "$manpath[@]"
 )
