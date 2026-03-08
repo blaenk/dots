@@ -33,20 +33,8 @@ bindkey -a ds delete-surround
 bindkey -a ys add-surround
 bindkey -M visual S add-surround
 
-local _cursor_magenta _cursor_cyan
-
-if [[ "$OSTYPE" == darwin* ]]; then
-  _cursor_magenta="\033]Pld33682\033\\"
-  _cursor_cyan="\033]Pl2aa198\033\\"
-
-  if [[ -n "${TMUX}" ]]; then
-    _cursor_magenta="\033Ptmux;\033${_cursor_magenta}"
-    _cursor_cyan="\033Ptmux;\033${_cursor_cyan}"
-  fi
-else
-  _cursor_magenta="\033]12;5\007"
-  _cursor_cyan="\033]12;6\007"
-fi
+local _cursor_magenta="\033]12;#d33682\007"
+local _cursor_cyan="\033]12;#2aa198\007"
 
 function zle-keymap-select {
   [[ $KEYMAP = vicmd ]] && print -n -- "${_cursor_magenta}" || print -n -- "${_cursor_cyan}"
