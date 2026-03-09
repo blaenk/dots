@@ -1,6 +1,8 @@
 .DS_Store
 flycheck_*.el
 
+/.claude/worktrees/
+
 /zsh/iterm.zsh
 /zsh/cache/
 
