@@ -6,11 +6,13 @@
 # commands (next/prev/select/menu/all-*).
 # Usage: claude-attention.sh {register|deregister|notify|busy|done|clear|next|prev|select|menu|all-next|all-prev|all-select|all-menu}
 
+TAB=$(printf '\t')
+
 # Scan all panes, clear @claude_attention where the stored PID is dead.
 # Cheap: one list-panes call + kill -0 per pane.
 _cleanup_dead_sessions() {
-    tmux list-panes -a -F '#{pane_id} #{@claude_attention} #{@claude_pid}' 2>/dev/null |
-    while IFS=' ' read -r pane_id attention pid; do
+    tmux list-panes -a -F "#{pane_id}${TAB}#{@claude_attention}${TAB}#{@claude_pid}" 2>/dev/null |
+    while IFS="$TAB" read -r pane_id attention pid; do
         [ -z "$attention" ] && continue
         [ -z "$pid" ] && continue
         [ "$pane_id" = "$TMUX_PANE" ] && continue
@@ -72,25 +74,25 @@ clear() {
 
 # Collect all panes with an active Claude session (single tmux call)
 _claude_panes() {
-    tmux list-panes -a -F '#{pane_id} #{session_name} #{window_index} #{window_name} #{@claude_attention}' |
-    while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
+    tmux list-panes -a -F "#{pane_id}${TAB}#{session_name}${TAB}#{window_index}${TAB}#{window_name}${TAB}#{@claude_attention}" |
+    while IFS="$TAB" read -r pane_id sess_name win_idx win_name attention; do
         [ -z "$attention" ] && continue
-        printf '%s %s %s %s %s\n' "$pane_id" "$sess_name" "$win_idx" "$win_name" "$attention"
+        printf '%s\t%s\t%s\t%s\t%s\n' "$pane_id" "$sess_name" "$win_idx" "$win_name" "$attention"
     done
 }
 
 # Collect panes needing attention (blocked/busy/idle/done)
 _attention_panes() {
-    _claude_panes | while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
+    _claude_panes | while IFS="$TAB" read -r pane_id sess_name win_idx win_name attention; do
         case "$attention" in
-            blocked|busy|idle|done) printf '%s %s %s %s %s\n' "$pane_id" "$sess_name" "$win_idx" "$win_name" "$attention" ;;
+            blocked|busy|idle|done) printf '%s\t%s\t%s\t%s\t%s\n' "$pane_id" "$sess_name" "$win_idx" "$win_name" "$attention" ;;
         esac
     done
 }
 
 _blocked_panes() {
-    _claude_panes | while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
-        [ "$attention" = "blocked" ] && printf '%s %s %s %s %s\n' "$pane_id" "$sess_name" "$win_idx" "$win_name" "$attention"
+    _claude_panes | while IFS="$TAB" read -r pane_id sess_name win_idx win_name attention; do
+        [ "$attention" = "blocked" ] && printf '%s\t%s\t%s\t%s\t%s\n' "$pane_id" "$sess_name" "$win_idx" "$win_name" "$attention"
     done
 }
 
@@ -103,7 +105,7 @@ cycle() {
     panes=""
     count=0
     found=-1
-    for pane_id in $(_blocked_panes | awk '{print $1}'); do
+    for pane_id in $(_blocked_panes | awk -F'\t' '{print $1}'); do
         panes="${panes:+$panes }$pane_id"
         if [ "$pane_id" = "$current_pane" ]; then
             found=$count
@@ -132,7 +134,7 @@ cycle() {
 
 # Output list for fzf selection
 list() {
-    _blocked_panes | while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
+    _blocked_panes | while IFS="$TAB" read -r pane_id sess_name win_idx win_name attention; do
         label="! $sess_name:$win_name (needs input)"
         printf '%s\t%s:%s\t%s\n' "$label" "$sess_name" "$win_idx" "$pane_id"
     done
@@ -157,7 +159,7 @@ menu() {
 
     args=""
     key_idx=0
-    while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
+    while IFS="$TAB" read -r pane_id sess_name win_idx win_name attention; do
         label="! $sess_name:$win_name (needs input)"
         key_idx=$((key_idx + 1))
         key=$(printf '%s' "$keys" | cut -c"$key_idx")
@@ -177,7 +179,7 @@ all_cycle() {
     panes=""
     count=0
     found=-1
-    for pane_id in $(_claude_panes | awk '{print $1}'); do
+    for pane_id in $(_claude_panes | awk -F'\t' '{print $1}'); do
         panes="${panes:+$panes }$pane_id"
         if [ "$pane_id" = "$current_pane" ]; then
             found=$count
@@ -204,7 +206,7 @@ all_cycle() {
 
 # Output list of all Claude sessions for fzf selection
 all_list() {
-    _claude_panes | while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
+    _claude_panes | while IFS="$TAB" read -r pane_id sess_name win_idx win_name attention; do
         case "$attention" in
             blocked) label="! $sess_name:$win_name (needs input)" ;;
             busy)    label="… $sess_name:$win_name (busy)" ;;
@@ -235,7 +237,7 @@ all_menu() {
 
     args=""
     key_idx=0
-    while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
+    while IFS="$TAB" read -r pane_id sess_name win_idx win_name attention; do
         case "$attention" in
             blocked) label="! $sess_name:$win_name (needs input)" ;;
             busy)    label="… $sess_name:$win_name (busy)" ;;
