@@ -1,17 +1,38 @@
 #!/bin/sh
 # Claude Code session tracking and attention state for tmux.
-# Usage: claude-attention.sh {register|deregister|notify|busy|done|clear|status|next|prev|select|menu|all-next|all-prev|all-select|all-menu}
+# State is stored in pane options: @claude_attention (state) and @claude_pid (Claude's PID).
+# Status bar rendering uses native tmux format strings (no shell commands) — see tmux.conf.
+# This script handles hooks (register/deregister/notify/busy/done/clear) and interactive
+# commands (next/prev/select/menu/all-*).
+# Usage: claude-attention.sh {register|deregister|notify|busy|done|clear|next|prev|select|menu|all-next|all-prev|all-select|all-menu}
+
+# Scan all panes, clear @claude_attention where the stored PID is dead.
+# Cheap: one list-panes call + kill -0 per pane.
+_cleanup_dead_sessions() {
+    tmux list-panes -a -F '#{pane_id} #{@claude_attention} #{@claude_pid}' 2>/dev/null |
+    while IFS=' ' read -r pane_id attention pid; do
+        [ -z "$attention" ] && continue
+        [ -z "$pid" ] && continue
+        [ "$pane_id" = "$TMUX_PANE" ] && continue
+        kill -0 "$pid" 2>/dev/null && continue
+        tmux set-option -p -t "$pane_id" -u @claude_attention 2>/dev/null
+        tmux set-option -p -t "$pane_id" -u @claude_pid 2>/dev/null
+    done
+}
 
 register() {
     [ -z "$TMUX_PANE" ] && return
-    tmux set-option -p -t "$TMUX_PANE" @claude_session 1 2>/dev/null
+    tmux set-option -p -t "$TMUX_PANE" @claude_attention "active" 2>/dev/null
+    tmux set-option -p -t "$TMUX_PANE" @claude_pid "$PPID" 2>/dev/null
+    _cleanup_dead_sessions
     return 0
 }
 
 deregister() {
     [ -z "$TMUX_PANE" ] && return
-    tmux set-option -p -t "$TMUX_PANE" -u @claude_session 2>/dev/null
     tmux set-option -p -t "$TMUX_PANE" -u @claude_attention 2>/dev/null
+    tmux set-option -p -t "$TMUX_PANE" -u @claude_pid 2>/dev/null
+    _cleanup_dead_sessions
     return 0
 }
 
@@ -25,75 +46,51 @@ notify() {
         idle_prompt)
             tmux set-option -p -t "$TMUX_PANE" @claude_attention "idle" 2>/dev/null ;;
     esac
+    _cleanup_dead_sessions
     return 0
 }
 
 busy() {
     [ -z "$TMUX_PANE" ] && return
     tmux set-option -p -t "$TMUX_PANE" @claude_attention "busy" 2>/dev/null
+    _cleanup_dead_sessions
     return 0
 }
 
 done_() {
     [ -z "$TMUX_PANE" ] && return
     tmux set-option -p -t "$TMUX_PANE" @claude_attention "done" 2>/dev/null
+    _cleanup_dead_sessions
     return 0
 }
 
 clear() {
     [ -z "$TMUX_PANE" ] && return
     attention=$(tmux show-options -p -t "$TMUX_PANE" -qv @claude_attention 2>/dev/null)
-    [ "$attention" = "blocked" ] && tmux set-option -p -t "$TMUX_PANE" -u @claude_attention 2>/dev/null
+    [ "$attention" = "blocked" ] && tmux set-option -p -t "$TMUX_PANE" @claude_attention "active" 2>/dev/null
 }
 
-# Collect pane_id:session:window_index:window_name:attention for panes needing attention
-_attention_panes() {
-    tmux list-panes -a -F '#{pane_id} #{session_name} #{window_index} #{window_name}' |
-    while IFS=' ' read -r pane_id sess_name win_idx win_name; do
-        attention=$(tmux show-options -p -t "$pane_id" -qv @claude_attention 2>/dev/null)
+# Collect all panes with an active Claude session (single tmux call)
+_claude_panes() {
+    tmux list-panes -a -F '#{pane_id} #{session_name} #{window_index} #{window_name} #{@claude_attention}' |
+    while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
         [ -z "$attention" ] && continue
         printf '%s %s %s %s %s\n' "$pane_id" "$sess_name" "$win_idx" "$win_name" "$attention"
     done
 }
 
-_blocked_panes() {
-    _attention_panes | while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
-        [ "$attention" = "blocked" ] && printf '%s %s %s %s %s\n' "$pane_id" "$sess_name" "$win_idx" "$win_name" "$attention"
-    done
-}
-
-# Collect all panes with an active Claude session
-_claude_panes() {
-    tmux list-panes -a -F '#{pane_id} #{session_name} #{window_index} #{window_name}' |
-    while IFS=' ' read -r pane_id sess_name win_idx win_name; do
-        session=$(tmux show-options -p -t "$pane_id" -qv @claude_session 2>/dev/null)
-        [ -z "$session" ] && continue
-        attention=$(tmux show-options -p -t "$pane_id" -qv @claude_attention 2>/dev/null)
-        printf '%s %s %s %s %s\n' "$pane_id" "$sess_name" "$win_idx" "$win_name" "${attention:-active}"
-    done
-}
-
-status() {
-    cur_sess="$1"
-    cur_win="$2"
+# Collect panes needing attention (blocked/busy/idle/done)
+_attention_panes() {
     _claude_panes | while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
-        if [ "$sess_name" = "$cur_sess" ] && [ "$win_idx" = "$cur_win" ]; then
-            bg="bg=colour2"
-        else
-            case "$attention" in
-                blocked) bg="bg=red" ;;
-                busy)    bg="bg=yellow" ;;
-                idle)    bg="bg=blue" ;;
-                done)    bg="bg=blue" ;;
-                *)       bg="bg=colour0" ;;
-            esac
-        fi
-        if [ "$sess_name" = "$cur_sess" ] && [ "$win_idx" = "$cur_win" ]; then
-            style="bg=colour15,none,fg=default,bold"
-        else
-            style="bg=colour15,none,fg=default"
-        fi
-        printf '#[range=user|p:%s]#[%s] #[%s] %s #[norange]#[default] ' "$pane_id" "$bg" "$style" "$win_name"
+        case "$attention" in
+            blocked|busy|idle|done) printf '%s %s %s %s %s\n' "$pane_id" "$sess_name" "$win_idx" "$win_name" "$attention" ;;
+        esac
+    done
+}
+
+_blocked_panes() {
+    _claude_panes | while IFS=' ' read -r pane_id sess_name win_idx win_name attention; do
+        [ "$attention" = "blocked" ] && printf '%s %s %s %s %s\n' "$pane_id" "$sess_name" "$win_idx" "$win_name" "$attention"
     done
 }
 
@@ -263,7 +260,6 @@ case "$1" in
     busy)       busy ;;
     done)       done_ ;;
     clear)      clear ;;
-    status)     status "$2" "$3" ;;
     next)       cycle next ;;
     prev)       cycle prev ;;
     select)     select_attention ;;
@@ -272,5 +268,5 @@ case "$1" in
     all-prev)   all_cycle prev ;;
     all-select) all_select ;;
     all-menu)   all_menu ;;
-    *)          echo "Usage: $0 {register|deregister|notify|busy|done|clear|status|next|prev|select|menu|all-next|all-prev|all-select|all-menu}" >&2; exit 1 ;;
+    *)          echo "Usage: $0 {register|deregister|notify|busy|done|clear|next|prev|select|menu|all-next|all-prev|all-select|all-menu}" >&2; exit 1 ;;
 esac
