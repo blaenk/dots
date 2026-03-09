@@ -1,7 +1,7 @@
 wt() {
   local dir
-  dir=$(ls -1 ~/worktrees/ | fzf --header="worktrees" --preview 'git -C ~/worktrees/{} log --oneline -10')
-  [ -n "$dir" ] && cd ~/worktrees/"$dir"
+  dir=$(git worktree list --porcelain | awk '/^worktree /{print $2}' | fzf --header="worktrees" --preview 'git -C {} log --oneline -10')
+  [ -n "$dir" ] && cd "$dir"
 }
 
 # open man page and jump to specific option
