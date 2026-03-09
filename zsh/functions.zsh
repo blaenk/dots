@@ -1,7 +1,19 @@
 wt() {
-  local dir
-  dir=$(git worktree list --porcelain | awk '/^worktree /{print $2}' | fzf --header="worktrees" --preview 'git -C {} log --oneline -10')
-  [ -n "$dir" ] && cd "$dir"
+  if [ $# -eq 0 ]; then
+    local dir
+    dir=$(git worktree list --porcelain | awk '/^worktree /{path=$2; branch=""} /^branch /{branch=substr($2,12)} /^$/{n++; paths[n]=path; branches[n]=(branch ? branch : "detached"); l=length(branches[n])+2; if(l>max) max=l} END{for(i=1;i<=n;i++) printf "\033[36m%-*s\033[0m %s\n", max, "["branches[i]"]", paths[i]}' | fzf --ansi --header="worktrees" --preview 'git -C {-1} log --oneline --decorate --color=always -10' | awk '{print $NF}')
+    [ -n "$dir" ] && cd "$dir"
+  else
+    local repo name wtdir
+    repo=$(basename "$(git rev-parse --show-toplevel)") || return 1
+    name=$1
+    wtdir="$HOME/code/worktrees/$repo/$name"
+    if [ -d "$wtdir" ]; then
+      cd "$wtdir"
+      return
+    fi
+    git worktree add -b "$name" "$wtdir" 2>/dev/null || git worktree add "$wtdir" "$name" && cd "$wtdir"
+  fi
 }
 
 # open man page and jump to specific option
