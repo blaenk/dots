@@ -1,15 +1,15 @@
 cursor-style = block
 cursor-style-blink = false
 shell-integration-features = no-cursor
+
 theme = One Dark
+bold-color = bright
+
 font-family = "Monaco"
 font-size = 14
 font-thicken = true
-bold-color = bright
-
 # font-thicken-strength = 128
 
 window-width = 145
 window-height = 40
 
-shell-integration-features = true
