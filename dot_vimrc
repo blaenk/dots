@@ -45,6 +45,7 @@ Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-user'
 Plug 'rhysd/vim-textobj-anyblock'
 Plug 'bronson/vim-visual-star-search'
+Plug 'airblade/vim-gitgutter'
 
 " tpope chorus
 Plug 'tpope/vim-abolish'
