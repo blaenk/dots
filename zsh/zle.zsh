@@ -33,17 +33,18 @@ bindkey -a ds delete-surround
 bindkey -a ys add-surround
 bindkey -M visual S add-surround
 
-local _cursor_magenta="\033]12;#d33682\007"
-local _cursor_cyan="\033]12;#2aa198\007"
+# local _cursor_insert="\033]12;#ffb929\007"
+local _cursor_insert="\033]12;#2aa198\007"
+local _cursor_normal="\033]12;#d33682\007"
 
 function zle-keymap-select {
-  [[ $KEYMAP = vicmd ]] && print -n -- "${_cursor_magenta}" || print -n -- "${_cursor_cyan}"
+  [[ $KEYMAP = vicmd ]] && print -n -- "${_cursor_normal}" || print -n -- "${_cursor_insert}"
 }
 
-print -n -- "${_cursor_cyan}"
+print -n -- "${_cursor_insert}"
 
 function zle-line-finish {
-  print -n -- "${_cursor_cyan}"
+  print -n -- "${_cursor_insert}"
 }
 
 autoload -U edit-command-line

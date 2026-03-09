@@ -13,3 +13,8 @@ font-thicken = true
 window-width = 145
 window-height = 40
 
+custom-shader = ~/.config/ghostty/shaders/cursor_blaze.glsl
+# custom-shader = ~/.config/ghostty/shaders/cursor_frozen.glsl
+# custom-shader = ~/.config/ghostty/shaders/cursor_blaze_no_trail.glsl
+
+window-inherit-working-directory = true

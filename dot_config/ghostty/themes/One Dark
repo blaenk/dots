@@ -20,6 +20,7 @@ background = #282c34
 foreground = #abb2bf
 
 cursor-color = #abb2bf
+# cursor-color = #ffb929
 cursor-text = #000000
 selection-background = #b4d5ff
 selection-foreground = #000000
