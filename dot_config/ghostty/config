@@ -6,8 +6,10 @@ font-family = "Monaco"
 font-size = 14
 font-thicken = true
 bold-color = bright
+
 # font-thicken-strength = 128
 
-# 145 x 40
+window-width = 145
+window-height = 40
 
 shell-integration-features = true
