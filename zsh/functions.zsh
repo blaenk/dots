@@ -2,17 +2,33 @@ wt() {
   if [ $# -eq 0 ]; then
     local dir
     dir=$(git worktree list --porcelain | awk '/^worktree /{path=$2; branch=""} /^branch /{branch=substr($2,12)} /^$/{n++; paths[n]=path; branches[n]=(branch ? branch : "detached"); l=length(branches[n])+2; if(l>max) max=l} END{for(i=1;i<=n;i++) printf "\033[36m%-*s\033[0m %s\n", max, "["branches[i]"]", paths[i]}' | fzf --ansi --header="worktrees" --preview 'git -C {-1} log --oneline --decorate --color=always -10' | awk '{print $NF}')
-    [ -n "$dir" ] && cd "$dir"
+    if [ -n "$dir" ]; then
+      local name=$(basename "$dir")
+      if [ -n "$TMUX" ]; then
+        tmux new-session -d -s "$name" -c "$dir" 2>/dev/null
+        tmux switch-client -t "$name"
+      else
+        tmux new-session -s "$name" -c "$dir"
+      fi
+    fi
   else
-    local repo name wtdir
+    local repo name wtdir reporoot
     repo=$(basename "$(git rev-parse --show-toplevel)") || return 1
+    reporoot=$(git rev-parse --show-toplevel)
     name=$1
     wtdir="$HOME/code/worktrees/$repo/$name"
-    if [ -d "$wtdir" ]; then
-      cd "$wtdir"
-      return
+    if [ ! -d "$wtdir" ]; then
+      git worktree add -b "${GIT_USER_BRANCH_PREFIX}${name}" "$wtdir" 2>/dev/null || git worktree add "$wtdir" "${GIT_USER_BRANCH_PREFIX}${name}" || return 1
+      # Symlink devbox.json if the source repo has one
+      [ -f "$reporoot/devbox.json" ] && ln -s "$reporoot/devbox.json" "$wtdir/devbox.json"
     fi
-    git worktree add -b "$name" "$wtdir" 2>/dev/null || git worktree add "$wtdir" "$name" && cd "$wtdir"
+    # Create tmux session+window and cd there (or attach if session exists)
+    if [ -n "$TMUX" ]; then
+      tmux new-session -d -s "$name" -c "$wtdir" 2>/dev/null
+      tmux switch-client -t "$name"
+    else
+      tmux new-session -s "$name" -c "$wtdir"
+    fi
   fi
 }
 
