@@ -7,13 +7,13 @@ shell-integration-features = no-cursor
 theme = One Dark
 bold-color = bright
 
-custom-shader = ~/.config/ghostty/shaders/cursor_blaze.glsl
+# custom-shader = ~/.config/ghostty/shaders/cursor_blaze.glsl
 # custom-shader = ~/.config/ghostty/shaders/cursor_frozen.glsl
 # custom-shader = ~/.config/ghostty/shaders/cursor_blaze_no_trail.glsl
 
 # FONT
 
-font-family = "Monaco"
+# font-family = "Monaco"
 font-size = 14
 font-thicken = true
 # font-thicken-strength = 128
