@@ -13,8 +13,8 @@ wt() {
     fi
   else
     local repo name wtdir reporoot
-    repo=$(basename "$(git rev-parse --show-toplevel)") || return 1
-    reporoot=$(git rev-parse --show-toplevel)
+    reporoot=$(cd "$(git rev-parse --git-common-dir)/.." && pwd) || return 1
+    repo=$(basename "$reporoot")
     name=$1
     wtdir="$HOME/code/worktrees/$repo/$name"
     if [ ! -d "$wtdir" ]; then
