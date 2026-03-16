@@ -15,7 +15,7 @@ bold-color = bright
 
 # font-family = "Monaco"
 font-size = 14
-font-thicken = true
+# font-thicken = true
 # font-thicken-strength = 128
 
 # WINDOW
