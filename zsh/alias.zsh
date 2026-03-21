@@ -31,9 +31,6 @@ alias sedit='sudoedit'
 # Using `type` is much nicer and provides information for various layers.
 alias whichall='type -a'
 
-# Prompt if deleting more than 3 files.
-alias rm='rm -I'
-
 alias human-readable='numfmt --to=iec --suffix=B'
 
 if command_exists git; then
