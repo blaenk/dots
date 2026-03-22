@@ -82,16 +82,9 @@ bindkey '^[j' fzf-cd-down
 
 # use fzf to select from all of the ancestors
 fzf-cd-up() {
-  local declare dirs=()
-  get_parent_dirs() {
-    if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
-    if [[ "${1}" == '/' ]]; then
-      for _dir in "${dirs[@]}"; do echo $_dir; done
-    else
-      get_parent_dirs $(dirname "$1")
-    fi
-  }
-  DIR=$(get_parent_dirs $(realpath $(dirname "${1:-$(pwd)}")) | fzf-tmux +m --header="cd ↓ from $PWD" --exit-0) && cd "$DIR"
+  local dir=$PWD result
+  result=$({ while dir=${dir%/*}; [[ -n "$dir" ]]; do echo "$dir"; done; echo /; } |
+    fzf-tmux +m --header="cd ↑ from $PWD" --exit-0) && cd "$result"
   zle reset-prompt
 }
 
