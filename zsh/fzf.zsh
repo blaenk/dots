@@ -67,85 +67,13 @@ fzf-select-history-argument() {
 zle -N fzf-select-history-argument
 bindkey '^[o' fzf-select-history-argument
 
-# use fzf to select from all of the descendants
-# fzf-cd-down() {
-#   local dir
-#   dir=$(gfind ${1} ! -path . -type d -printf '%P\n' -maxdepth 1 2> /dev/null \
-#         | fzf-tmux +m --header="cd ↓ from $PWD" --exit-0)
-#   cd "$dir"
-#   zle reset-prompt
-# }
-
 fzf-cd-down() {
-  local initial_target_dir="${1}" # The directory to start searching in, passed recursively
-  local current_search_path
-  local selected_fzf_output key selection chosen_item_relative_path chosen_item_full_path
-
-  # Determine the absolute, real path for the current search
-  if [[ -n "$initial_target_dir" ]]; then
-    current_search_path=$(realpath "$initial_target_dir" 2>/dev/null)
-    if [[ -z "$current_search_path" || ! -d "$current_search_path" ]]; then
-      echo "fzf-cd-down: Invalid or non-directory path specified: '$initial_target_dir'." >&2
-      echo "fzf-cd-down: Defaulting to current directory: '$PWD'." >&2
-      current_search_path=$(realpath "$PWD") # Fallback to PWD
-    fi
-  else
-    current_search_path=$(realpath "$PWD") # Default to PWD if no argument
+  local dir
+  dir=$(fd --type d | fzf-tmux +m --scheme path --header="cd ↓ from $PWD" --exit-0)
+  if [[ -n "$dir" ]]; then
+    cd "$dir"
   fi
-
-  # Updated header to include the new Ctrl-G binding
-  local fzf_header
-  fzf_header="Dir: $current_search_path (^/:descend sel, Enter:cd sel, ^G:cd here, Esc:cancel)"
-
-  selected_fzf_output=$(gfind "$current_search_path" -mindepth 1 -maxdepth 1 -type d -printf '%P\n' 2>/dev/null | \
-    fzf-tmux +m --header="$fzf_header" \
-               --expect=/,enter,ctrl-g --print-query --exit-0 \
-               --preview="ls -p --color=always '$current_search_path/{}'")
-
-  if [[ -z "$selected_fzf_output" ]]; then
-    zle reset-prompt
-    return 0
-  fi
-
-  local -a lines
-  lines=("${(@f)selected_fzf_output}")
-
-  key="${lines[2]}"
-  chosen_item_relative_path="${lines[3]}" # This might be empty if Ctrl-G was pressed without a selection focused
-
-  # Handle Ctrl-G: "cd to current directory being listed"
-  # This action takes precedence and doesn't depend on a selection.
-  if [[ "$key" == "ctrl-g" ]]; then
-    cd "$current_search_path"
-    zle reset-prompt
-    return 0
-  fi
-
-  # For '/' (descend) and 'enter' (cd into selection), a selection is required.
-  if [[ -z "$chosen_item_relative_path" ]]; then
-    # No item was selected (e.g., pressed Enter or / on an empty filtered list)
-    zle reset-prompt
-    return 0
-  fi
-
-  chosen_item_full_path="$current_search_path/$chosen_item_relative_path"
-  chosen_item_full_path=$(realpath "$chosen_item_full_path" 2>/dev/null)
-
-  if [[ -z "$chosen_item_full_path" || ! -d "$chosen_item_full_path" ]]; then
-      echo "fzf-cd-down: Selected path is not a valid directory: '$current_search_path/$chosen_item_relative_path'" >&2
-      zle reset-prompt
-      return 1
-  fi
-
-  if [[ "$key" == "/" ]]; then
-    fzf-cd-down "$chosen_item_full_path"
-  elif [[ "$key" == "enter" ]]; then
-    cd "$chosen_item_full_path"
-    zle reset-prompt
-  else
-    # Other key pressed or unexpected scenario
-    zle reset-prompt
-  fi
+  zle reset-prompt
 }
 
 # M-j to cd down
