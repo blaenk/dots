@@ -67,30 +67,19 @@ fzf-select-history-argument() {
 zle -N fzf-select-history-argument
 bindkey '^[o' fzf-select-history-argument
 
-fzf-cd-down() {
+cdd() {
   local dir
   dir=$(fd --type d | fzf-tmux +m --scheme path --header="cd ↓ from $PWD" --exit-0)
   if [[ -n "$dir" ]]; then
     cd "$dir"
   fi
-  zle reset-prompt
 }
 
-# M-j to cd down
-zle -N fzf-cd-down
-bindkey '^[j' fzf-cd-down
-
-# use fzf to select from all of the ancestors
-fzf-cd-up() {
+cdu() {
   local dir=$PWD result
   result=$({ while dir=${dir%/*}; [[ -n "$dir" ]]; do echo "$dir"; done; echo /; } |
     fzf-tmux +m --header="cd ↑ from $PWD" --exit-0) && cd "$result"
-  zle reset-prompt
 }
-
-# M-k to cd up
-zle -N fzf-cd-up
-bindkey '^[k' fzf-cd-up
 
 # use fzf to show all aliases
 # selecting an alias inserts the alias' target into the prompt without accepting
