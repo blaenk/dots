@@ -1,7 +1,7 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-format = "${custom.iterm_prompt_mark}${custom.lambda}${custom.path}$all${custom.iterm_prompt_end}"
+format = "${custom.iterm_prompt_mark}${custom.lambda}${custom.path}$all${custom.stale}$character${custom.iterm_prompt_end}"
 
 # Inserts a blank line between shell prompts
 add_newline = true
@@ -35,6 +35,13 @@ when = '[ "$TERM_PROGRAM" = "iTerm.app" ]'
 format = "\u001b\\]133;B\u0007"
 shell = "sh"
 disabled = false
+
+[custom.stale]
+description = "Shows when shell config is stale after chezmoi apply"
+command = "echo stale"
+when = '[ -f ~/.chezmoi-applied ] && [ "$(stat -f %m ~/.chezmoi-applied)" -gt "$SHELL_START_TIME" ]'
+shell = ["sh"]
+format = "[($output )](red)"
 
 [directory]
 disabled = true

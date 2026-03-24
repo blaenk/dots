@@ -47,6 +47,13 @@ wt() {
   fi
 }
 
+export SHELL_START_TIME=$(date +%s)
+
+cma() {
+  chezmoi apply "$@" || return $?
+  touch ~/.chezmoi-applied
+}
+
 # open man page and jump to specific option
 # $ manf ls -l
 manf() {
