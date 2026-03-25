@@ -82,22 +82,18 @@ cdu() {
 }
 
 fz() {
-  local result key selection
-  result=$(fd | fzf-tmux +m --scheme path \
+  local selection
+  selection=$(fd | fzf-tmux +m --scheme path \
     --header="enter: vim/cd · alt-enter: cd dir · ctrl-o: code" \
-    --expect alt-enter,ctrl-o --exit-0)
-  key=$(head -1 <<< "$result")
-  selection=$(tail -1 <<< "$result")
+    --bind 'alt-enter:become(echo cd-dir:{})' \
+    --bind 'ctrl-o:become(echo code:{})' \
+    --exit-0)
   [[ -z "$selection" ]] && return
-  if [[ "$key" = "alt-enter" ]]; then
-    cd "$(dirname "$selection")"
-  elif [[ "$key" = "ctrl-o" ]]; then
-    code "$selection"
-  elif [[ -d "$selection" ]]; then
-    cd "$selection"
-  else
-    vim "$selection"
-  fi
+  case "$selection" in
+    cd-dir:*) cd "$(dirname "${selection#cd-dir:}")" ;;
+    code:*) code "${selection#code:}" ;;
+    *) [[ -d "$selection" ]] && cd "$selection" || vim "$selection" ;;
+  esac
 }
 
 # cdf - cd into the directory of the selected file
