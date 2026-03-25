@@ -81,7 +81,7 @@ cdu() {
     fzf-tmux +m --header="cd ↑ from $PWD" --exit-0) && cd "$result"
 }
 
-fz() {
+ff() {
   local selection
   selection=$(fd | fzf-tmux +m --scheme path \
     --header="enter: vim/cd · alt-enter: cd dir · ctrl-o: code" \
@@ -100,7 +100,7 @@ fz() {
 cdf() {
    local file
    local dir
-   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+   file=$(fzf-tmux +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
 }
 
 # use fzf to show all aliases

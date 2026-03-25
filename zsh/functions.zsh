@@ -1,7 +1,7 @@
 wt() {
   if [ $# -eq 0 ]; then
     local result key dir
-    result=$(git worktree list --porcelain | awk '/^worktree /{path=$2; branch=""} /^branch /{branch=substr($2,12)} /^$/{n++; paths[n]=path; branches[n]=(branch ? branch : "detached"); l=length(branches[n])+2; if(l>max) max=l} END{for(i=1;i<=n;i++) printf "\033[36m%-*s\033[0m %s\n", max, "["branches[i]"]", paths[i]}' | fzf --ansi --header="worktrees · alt-enter: tmux session" --expect alt-enter --preview 'git -C {-1} log --oneline --decorate --color=always -10')
+    result=$(git worktree list --porcelain | awk '/^worktree /{path=$2; branch=""} /^branch /{branch=substr($2,12)} /^$/{n++; paths[n]=path; branches[n]=(branch ? branch : "detached"); l=length(branches[n])+2; if(l>max) max=l} END{for(i=1;i<=n;i++) printf "\033[36m%-*s\033[0m %s\n", max, "["branches[i]"]", paths[i]}' | fzf-tmux --ansi --header="worktrees · alt-enter: tmux session" --expect alt-enter --preview 'git -C {-1} log --oneline --decorate --color=always -10')
     key=$(head -1 <<< "$result")
     dir=$(tail -1 <<< "$result" | awk '{print $NF}')
     if [ -n "$dir" ]; then
