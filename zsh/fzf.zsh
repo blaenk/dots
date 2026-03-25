@@ -81,6 +81,32 @@ cdu() {
     fzf-tmux +m --header="cd ↑ from $PWD" --exit-0) && cd "$result"
 }
 
+fz() {
+  local result key selection
+  result=$(fd | fzf-tmux +m --scheme path \
+    --header="enter: vim/cd · alt-enter: cd dir · ctrl-o: code" \
+    --expect alt-enter,ctrl-o --exit-0)
+  key=$(head -1 <<< "$result")
+  selection=$(tail -1 <<< "$result")
+  [[ -z "$selection" ]] && return
+  if [[ "$key" = "alt-enter" ]]; then
+    cd "$(dirname "$selection")"
+  elif [[ "$key" = "ctrl-o" ]]; then
+    code "$selection"
+  elif [[ -d "$selection" ]]; then
+    cd "$selection"
+  else
+    vim "$selection"
+  fi
+}
+
+# cdf - cd into the directory of the selected file
+cdf() {
+   local file
+   local dir
+   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+}
+
 # use fzf to show all aliases
 # selecting an alias inserts the alias' target into the prompt without accepting
 # it, allowing the user to edit the line before entering
