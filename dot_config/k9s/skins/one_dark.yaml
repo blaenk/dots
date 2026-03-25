@@ -4,7 +4,7 @@
 
 # Styles...
 foreground: &foreground "#abb2bf"
-background: &background "#282c34"
+background: &background default
 black: &black "#282c34"
 blue: &blue "#61afef"
 cyan: &cyan "#56b6c2"
