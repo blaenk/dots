@@ -5,7 +5,8 @@
 
 alias ":q"='exit'
 
-alias reload="killall -USR1 -- zsh -zsh"
+alias reload="exec zsh"
+alias reload-all="killall -USR1 -- zsh -zsh"
 
 alias cm='chezmoi'
 alias brewdump="brew bundle dump --no-vscode --force --file ~/.local/share/chezmoi/Brewfile && bat ~/.local/share/chezmoi/Brewfile"
