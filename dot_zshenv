@@ -19,6 +19,8 @@ TRAPUSR1() {
 
 # export USE_SOLARIZED_DARK=1
 
+export K9S_CONFIG_DIR=~/.config/k9s
+
 command -v assume > /dev/null 2>&1 && alias assume=". assume"
 
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local
