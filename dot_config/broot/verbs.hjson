@@ -34,10 +34,11 @@ verbs: [
     }
 
     {
-        invocation: cd_parent
+        invocation: dir
         key: alt-enter
         apply_to: any
-        execution: ":cd {directory}"
+        external: "cd {directory}"
+        from_shell: true
     }
 
     {
@@ -49,11 +50,6 @@ verbs: [
         invocation: vim
         execution: "vim +{line} {file}"
         leave_broot: false
-    }
-
-    {
-        invocation: dir
-        execution: ":cd {directory}"
     }
 
     # Example 1: launching `tail -n` on the selected file (leaving broot)
