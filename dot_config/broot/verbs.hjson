@@ -47,6 +47,11 @@ verbs: [
     }
 
     {
+        invocation: gh
+        execution: "gh browse {file}"
+    }
+
+    {
         invocation: vim
         execution: "vim +{line} {file}"
         leave_broot: false
