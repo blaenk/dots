@@ -206,7 +206,9 @@ all_cycle() {
 
 # Output list of all Claude sessions for fzf selection
 all_list() {
+    current_pane=$(tmux display-message -p '#{pane_id}')
     _claude_panes | while IFS="$TAB" read -r pane_id sess_name win_idx win_name attention; do
+        [ "$pane_id" = "$current_pane" ] && continue
         case "$attention" in
             blocked) label="! $sess_name:$win_name (needs input)" ;;
             busy)    label="… $sess_name:$win_name (busy)" ;;
