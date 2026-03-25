@@ -27,10 +27,33 @@ verbs: [
     {
         invocation: edit
         shortcut: e
-        key: ctrl-e
+        key: enter
         apply_to: text_file
-        execution: "$EDITOR {file}"
+        execution: "$EDITOR +{line} {file}"
         leave_broot: false
+    }
+
+    {
+        invocation: cd_parent
+        key: alt-enter
+        apply_to: any
+        execution: ":cd {directory}"
+    }
+
+    {
+        invocation: code
+        execution: "code {file}"
+    }
+
+    {
+        invocation: vim
+        execution: "vim +{line} {file}"
+        leave_broot: false
+    }
+
+    {
+        invocation: dir
+        execution: ":cd {directory}"
     }
 
     # Example 1: launching `tail -n` on the selected file (leaving broot)
