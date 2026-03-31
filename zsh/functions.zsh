@@ -284,19 +284,19 @@ texi-to-epub() {
     zip -Xr9D "${name}.epub" META-INF OEBPS
 }
 
-if [ "$(type -w assume)" = 'assume: alias' ]; then
-  unalias assume
+function assume-default() {
+  local mtime_before="$(stat -f %m ~/.aws/credentials 2>/dev/null)"
 
-  function assume() {
-    echo "Truncating ~/.aws/credentials..."
-    rm ~/.aws/credentials
+  export GRANTED_ALIAS_CONFIGURED=true
+  . assume --export "$@"
 
-    export GRANTED_ALIAS_CONFIGURED=true
-    . assume --ex "$@"
+  local mtime_after="$(stat -f %m ~/.aws/credentials 2>/dev/null)"
 
-    if [ $? -eq 0 ]; then
-      echo "Setting the assumed role as the [default] profile in ~/.aws/credentials..."
-      sed -i '1s/\[.*\]/[default]/' ~/.aws/credentials
-    fi
-  }
-fi
+  if [[ "$mtime_after" != "$mtime_before" ]]; then
+    echo "Duplicating the assumed role as [default] in ~/.aws/credentials..."
+    awk '/^\[default\]/{skip=1;next} /^\[/{skip=0} !skip' ~/.aws/credentials > ~/.aws/credentials.tmp
+    printf '\n[default]\n' >> ~/.aws/credentials.tmp
+    awk 'NR==1{next} /^\[/{exit} {print}' ~/.aws/credentials >> ~/.aws/credentials.tmp
+    mv ~/.aws/credentials.tmp ~/.aws/credentials
+  fi
+}
