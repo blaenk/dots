@@ -47,6 +47,15 @@ verbs: [
     }
 
     {
+        invocation: copy_path
+        shortcut: cp
+        key: alt-c
+        leave_broot: false
+        external: "echo -n {file} | pbcopy"
+        from_shell: true
+    }
+
+    {
         invocation: gh
         execution: "gh browse {file}"
     }
