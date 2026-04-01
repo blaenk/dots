@@ -46,4 +46,4 @@ export LESS_TERMCAP_ZV=$(tput rsubm)
 export LESS_TERMCAP_ZO=$(tput ssupm)
 export LESS_TERMCAP_ZW=$(tput rsupm)
 
-export LESS="--RAW-CONTROL-CHARS"
+export LESS="--raw-control-chars --ignore-case --quit-if-one-screen --LONG-PROMPT --shift 5 --window -4 --incsearch --use-color"
