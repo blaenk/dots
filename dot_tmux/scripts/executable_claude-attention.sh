@@ -134,7 +134,9 @@ cycle() {
 
 # Output list for fzf selection
 list() {
+    current_pane=$(tmux display-message -p '#{pane_id}')
     _blocked_panes | while IFS="$TAB" read -r pane_id sess_name win_idx win_name attention; do
+        [ "$pane_id" = "$current_pane" ] && continue
         label="! $sess_name:$win_name (needs input)"
         printf '%s\t%s:%s\t%s\n' "$label" "$sess_name" "$win_idx" "$pane_id"
     done
