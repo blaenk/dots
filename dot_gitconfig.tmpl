@@ -27,8 +27,15 @@ autoSetupMerge = false
 [pull]
 rebase = false
 
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+
 [core]
-pager = less -FR
+pager = delta
 autocrlf = input
 symlinks = true
 untrackedCache = true
@@ -66,7 +73,7 @@ enabled = true
 
 [merge]
 stat = true
-conflictstyle = diff3
+conflictStyle = zdiff3
 
 [rebase]
 stat = true
