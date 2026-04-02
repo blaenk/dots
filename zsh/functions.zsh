@@ -285,18 +285,18 @@ texi-to-epub() {
 }
 
 function assume-default() {
-  local mtime_before="$(stat -f %m ~/.aws/credentials 2>/dev/null)"
+  [ -f ~/.aws/credentials ] && mv ~/.aws/credentials ~/.aws/credentials.bak
 
   export GRANTED_ALIAS_CONFIGURED=true
   . assume --export "$@"
 
-  local mtime_after="$(stat -f %m ~/.aws/credentials 2>/dev/null)"
-
-  if [[ "$mtime_after" != "$mtime_before" ]]; then
+  if [ -f ~/.aws/credentials ]; then
+    rm -f ~/.aws/credentials.bak
     echo "Duplicating the assumed role as [default] in ~/.aws/credentials..."
-    awk '/^\[default\]/{skip=1;next} /^\[/{skip=0} !skip' ~/.aws/credentials > ~/.aws/credentials.tmp
-    printf '\n[default]\n' >> ~/.aws/credentials.tmp
-    awk 'NR==1{next} /^\[/{exit} {print}' ~/.aws/credentials >> ~/.aws/credentials.tmp
+    local creds=$(awk 'NR==1{next} /^\[/{exit} {print}' ~/.aws/credentials)
+    { printf '[default]\n%s\n\n' "$creds"; cat ~/.aws/credentials; } > ~/.aws/credentials.tmp
     mv ~/.aws/credentials.tmp ~/.aws/credentials
+  elif [ -f ~/.aws/credentials.bak ]; then
+    mv ~/.aws/credentials.bak ~/.aws/credentials
   fi
 }
