@@ -1,3 +1,17 @@
+_wt_setup() {
+  local reporoot="$1" wtdir="$2" from="$3"
+  if [ ! -d "$wtdir" ]; then
+    local name=$(basename "$wtdir")
+    if git rev-parse --verify "${GIT_USER_BRANCH_PREFIX}${name}" >/dev/null 2>&1; then
+      git worktree add "$wtdir" "${GIT_USER_BRANCH_PREFIX}${name}" || return 1
+    else
+      git worktree add -b "${GIT_USER_BRANCH_PREFIX}${name}" "$wtdir" ${from:+"$from"} || return 1
+    fi
+    [ -f "$reporoot/devbox.json" ] && ln -s "$reporoot/devbox.json" "$wtdir/devbox.json"
+  fi
+  cd "$wtdir"
+}
+
 wt() {
   if [ $# -eq 0 ]; then
     local result key dir
@@ -18,10 +32,16 @@ wt() {
       fi
     fi
   else
-    local use_tmux=false name repo wtdir reporoot
+    local use_tmux=false name from repo wtdir reporoot
+    local next_is_from=false
     for arg in "$@"; do
-      if [ "$arg" = "--tmux" ]; then
+      if $next_is_from; then
+        from=$arg
+        next_is_from=false
+      elif [ "$arg" = "--tmux" ]; then
         use_tmux=true
+      elif [ "$arg" = "--from" ]; then
+        next_is_from=true
       else
         name=$arg
       fi
@@ -29,20 +49,16 @@ wt() {
     reporoot=$(cd "$(git rev-parse --git-common-dir)/.." && pwd) || return 1
     repo=$(basename "$reporoot")
     wtdir="$HOME/code/worktrees/$repo/$name"
-    if [ ! -d "$wtdir" ]; then
-      git worktree add -b "${GIT_USER_BRANCH_PREFIX}${name}" "$wtdir" 2>/dev/null || git worktree add "$wtdir" "${GIT_USER_BRANCH_PREFIX}${name}" || return 1
-      # Symlink devbox.json if the source repo has one
-      [ -f "$reporoot/devbox.json" ] && ln -s "$reporoot/devbox.json" "$wtdir/devbox.json"
-    fi
     if $use_tmux; then
+      tmux new-session -d -s "$name" -c "$reporoot" 2>/dev/null || true
+      tmux send-keys -t "$name" "_wt_setup '$reporoot' '$wtdir' '$from'" Enter
       if [ -n "$TMUX" ]; then
-        tmux new-session -d -s "$name" -c "$wtdir" 2>/dev/null
         tmux switch-client -t "$name"
       else
-        tmux new-session -s "$name" -c "$wtdir"
+        tmux attach-session -t "$name"
       fi
     else
-      cd "$wtdir"
+      _wt_setup "$reporoot" "$wtdir" "$from" || return 1
     fi
   fi
 }
