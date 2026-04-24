@@ -1,4 +1,9 @@
 {
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "model": "opus[1m]",
   "hooks": {
     "Notification": [
       {
@@ -94,11 +99,12 @@
     "security-guidance@claude-plugins-official": true,
     "atlassian@claude-plugins-official": true,
     "claude-code-setup@claude-plugins-official": true,
-    "claude-md-management@claude-plugins-official": true
+    "claude-md-management@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true
   },
   "effortLevel": "high",
-  "attribution": {
-    "commit": "",
-    "pr": ""
+  "skipAutoPermissionPrompt": true,
+  "permissions": {
+    "defaultMode": "auto"
   }
 }
