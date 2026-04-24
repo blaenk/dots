@@ -2,12 +2,17 @@ _wt_setup() {
   local reporoot="$1" wtdir="$2" from="$3"
   if [ ! -d "$wtdir" ]; then
     local name=$(basename "$wtdir")
+    echo "Creating worktree ${from:+from $from }at $wtdir..."
     if git rev-parse --verify "${GIT_USER_BRANCH_PREFIX}${name}" >/dev/null 2>&1; then
       git worktree add "$wtdir" "${GIT_USER_BRANCH_PREFIX}${name}" || return 1
     else
       git worktree add -b "${GIT_USER_BRANCH_PREFIX}${name}" "$wtdir" ${from:+"$from"} || return 1
     fi
-    [ -f "$reporoot/devbox.json" ] && ln -s "$reporoot/devbox.json" "$wtdir/devbox.json"
+    if [ -f "$reporoot/devbox.json" ]; then
+      echo "Symlinking devbox.json..."
+      ln -s "$reporoot/devbox.json" "$wtdir/devbox.json"
+    fi
+    echo "Done."
   fi
   cd "$wtdir"
 }
