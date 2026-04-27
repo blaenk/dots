@@ -104,6 +104,7 @@
   },
   "effortLevel": "high",
   "skipAutoPermissionPrompt": true,
+  "editorMode": "vim",
   "permissions": {
     "defaultMode": "auto"
   }
