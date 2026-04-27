@@ -1,0 +1,10 @@
+stream.localhost {
+  reverse_proxy /api/* localhost:3000
+  reverse_proxy /auth/* localhost:3000
+  reverse_proxy localhost:3001
+}
+
+# Escape hatch for unversioned snippets (private / experimental projects).
+# Glob form does not error when the directory has no matches, so this is
+# safe to include from day one.
+import local/*.caddy
