@@ -76,6 +76,7 @@ export HISTSIZE=10000
 export HISTORY_IGNORE=""
 export SAVEHIST=$HISTSIZE
 
+setopt interactive_comments
 setopt inc_append_history
 setopt hist_ignore_space
 setopt append_history
