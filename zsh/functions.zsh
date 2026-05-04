@@ -1,3 +1,9 @@
+cdr() {
+  local reporoot
+  reporoot=${$(git rev-parse --git-common-dir):A:h} || return 1
+  cd "$reporoot"
+}
+
 _wt_setup() {
   local reporoot="$1" wtdir="$2" from="$3"
   if [ ! -d "$wtdir" ]; then
@@ -15,6 +21,140 @@ _wt_setup() {
     echo "Done."
   fi
   cd "$wtdir"
+}
+
+wts() {
+  local reporoot repo wtbase dir bytes total i=0
+  reporoot=${$(git rev-parse --git-common-dir):A:h} || return 1
+  repo=$(basename "$reporoot")
+  wtbase="$HOME/code/worktrees/$repo"
+
+  [ ! -d "$wtbase" ] && echo "No worktrees found at $wtbase" && return 1
+
+  total=$(ls -1 "$wtbase" 2>/dev/null | wc -l | tr -d ' ')
+
+  {
+    for dir in "$wtbase"/*; do
+      [ -d "$dir" ] || continue
+      i=$((i+1))
+      printf "\r\033[K[%d/%d] sizing %s..." "$i" "$total" "$(basename "$dir")" >&2
+      bytes=$(diskus "$dir" 2>/dev/null)
+      [ -z "$bytes" ] && continue
+      local dirty=" "
+      [ -n "$(git -C "$dir" status --porcelain 2>/dev/null | head -1)" ] && dirty="*"
+      printf "%d\t%s\t%s\n" "$bytes" "$dirty" "$dir"
+    done
+    printf "\r\033[K" >&2
+  } | sort -k1,1nr | awk -F'\t' '
+    function human(b) {
+      if (b >= 1073741824) return sprintf("%.2f GB", b/1073741824)
+      if (b >= 1048576) return sprintf("%.2f MB", b/1048576)
+      if (b >= 1024) return sprintf("%.2f KB", b/1024)
+      return b "B"
+    }
+    {printf "%-10s %s %s\n", human($1), $2, $3}
+  '
+}
+
+wt-rm() {
+  local reporoot
+  reporoot=${$(git rev-parse --git-common-dir):A:h} || return 1
+
+  local entries
+  entries=$(
+    git worktree list --porcelain \
+    | awk '/^worktree /{path=$2} /^branch /{branch=substr($2,12)} /^$/{print path "\t" branch}' \
+    | while IFS=$'\t' read -r wtpath branch; do
+        [ "$wtpath" = "$reporoot" ] && continue
+        printf "%-40s %s\n" "[${branch:-detached}]" "$wtpath"
+      done
+  )
+
+  local result key
+  result=$(fzf-tmux --multi --layout=reverse \
+      --header="worktrees · tab: multi-select · enter: remove · alt-enter: force remove" \
+      --expect=alt-enter \
+      --preview 'git -C {-1} log --oneline --decorate --color=always -10' \
+      <<< "$entries")
+
+  [ -z "$result" ] && return
+
+  key=$(head -1 <<< "$result")
+  local force=""
+  [ "$key" = "alt-enter" ] && force="--force"
+
+  local failed=()
+  while read -r wtpath; do
+    echo "Removing $wtpath..."
+    git worktree remove $force "$wtpath" || failed+=("$wtpath")
+  done < <(tail -n +2 <<< "$result" | awk '{print $NF}')
+
+  if (( ${#failed[@]} > 0 )); then
+    echo
+    echo "Failed to remove (use alt-enter to force):"
+    for f in "${failed[@]}"; do
+      echo "  $f"
+    done
+  fi
+}
+
+wts-rm() {
+  local reporoot total i=0 entries
+  reporoot=${$(git rev-parse --git-common-dir):A:h} || return 1
+  total=$(($(git worktree list | wc -l | tr -d ' ') - 1))
+
+  entries=$(
+    {
+      git worktree list --porcelain \
+      | awk '/^worktree /{path=$2} /^branch /{branch=substr($2,12)} /^$/{print path "\t" branch}' \
+      | while IFS=$'\t' read -r wtpath branch; do
+          [ "$wtpath" = "$reporoot" ] && continue
+          i=$((i+1))
+          printf "\r\033[K[%d/%d] sizing %s..." "$i" "$total" "$(basename "$wtpath")" >&2
+          bytes=$(diskus "$wtpath" 2>/dev/null)
+          [ -z "$bytes" ] && continue
+          local dirty=" "
+          [ -n "$(git -C "$wtpath" status --porcelain 2>/dev/null | head -1)" ] && dirty="*"
+          printf "%d\t%s\t%-40s\t%s\n" "$bytes" "$dirty" "[${branch:-detached}]" "$wtpath"
+        done
+      printf "\r\033[K" >&2
+    } | sort -k1,1nr | awk -F'\t' '
+      function human(b) {
+        if (b >= 1073741824) return sprintf("%.2f GB", b/1073741824)
+        if (b >= 1048576) return sprintf("%.2f MB", b/1048576)
+        if (b >= 1024) return sprintf("%.2f KB", b/1024)
+        return b "B"
+      }
+      {printf "%-10s %s %-40s %s\n", human($1), $2, $3, $4}
+    '
+  )
+
+  local result key
+  result=$(fzf-tmux --multi --layout=reverse \
+      --header="worktrees · tab: multi-select · enter: remove · alt-enter: force remove" \
+      --expect=alt-enter \
+      --preview 'git -C {-1} log --oneline --decorate --color=always -10' \
+      <<< "$entries")
+
+  [ -z "$result" ] && return
+
+  key=$(head -1 <<< "$result")
+  local force=""
+  [ "$key" = "alt-enter" ] && force="--force"
+
+  local failed=()
+  while read -r wtpath; do
+    echo "Removing $wtpath..."
+    git worktree remove $force "$wtpath" || failed+=("$wtpath")
+  done < <(tail -n +2 <<< "$result" | awk '{print $NF}')
+
+  if (( ${#failed[@]} > 0 )); then
+    echo
+    echo "Failed to remove (use alt-enter to force):"
+    for f in "${failed[@]}"; do
+      echo "  $f"
+    done
+  fi
 }
 
 wt() {
@@ -51,7 +191,7 @@ wt() {
         name=$arg
       fi
     done
-    reporoot=$(cd "$(git rev-parse --git-common-dir)/.." && pwd) || return 1
+    reporoot=${$(git rev-parse --git-common-dir):A:h} || return 1
     repo=$(basename "$reporoot")
     wtdir="$HOME/code/worktrees/$repo/$name"
     if $use_tmux; then
