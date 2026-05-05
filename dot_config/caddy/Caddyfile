@@ -1,7 +1,15 @@
+# stream — api on :3000, web (vite) on :3001
 stream.localhost {
   reverse_proxy /api/* localhost:3000
   reverse_proxy /auth/* localhost:3000
   reverse_proxy localhost:3001
+}
+
+# beam — api on :3010, web (vite) on :3011
+beam.localhost {
+  reverse_proxy /api/* localhost:3010
+  reverse_proxy /auth/* localhost:3010
+  reverse_proxy localhost:3011
 }
 
 # Escape hatch for unversioned snippets (private / experimental projects).
