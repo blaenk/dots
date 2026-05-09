@@ -1,0 +1,42 @@
+#!/bin/zsh
+# Remove worktrees via fzf (multi-select). alt-enter forces removal.
+set -e
+
+reporoot=${$(git rev-parse --git-common-dir):A:h}
+
+entries=$(
+  git worktree list --porcelain \
+  | awk '/^worktree /{path=$2} /^branch /{branch=substr($2,12)} /^$/{print path "\t" branch}' \
+  | while IFS=$'\t' read -r wtpath branch; do
+      [ "$wtpath" = "$reporoot" ] && continue
+      printf "%-40s %s\n" "[${branch:-detached}]" "$wtpath"
+    done
+)
+
+[ -z "$entries" ] && echo "No worktrees to remove" >&2 && exit 0
+
+result=$(fzf-tmux --multi --layout=reverse \
+    --header="worktrees · tab: multi-select · enter: remove · alt-enter: force remove" \
+    --expect=alt-enter \
+    --preview 'git -C {-1} log --oneline --decorate --color=always -10' \
+    <<< "$entries")
+
+[ -z "$result" ] && exit
+
+key=$(head -1 <<< "$result")
+force=""
+[ "$key" = "alt-enter" ] && force="--force"
+
+failed=()
+while read -r wtpath; do
+  echo "Removing $wtpath..."
+  git worktree remove $force "$wtpath" || failed+=("$wtpath")
+done < <(tail -n +2 <<< "$result" | awk '{print $NF}')
+
+if (( ${#failed[@]} > 0 )); then
+  echo
+  echo "Failed to remove (use alt-enter to force):"
+  for f in "${failed[@]}"; do
+    echo "  $f"
+  done
+fi

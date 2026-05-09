@@ -1,0 +1,61 @@
+#!/bin/zsh
+# Remove worktrees via fzf with sizes shown (largest first). alt-enter forces.
+set -e
+
+reporoot=${$(git rev-parse --git-common-dir):A:h}
+total=$(($(git worktree list | wc -l | tr -d ' ') - 1))
+
+i=0
+entries=$(
+  {
+    git worktree list --porcelain \
+    | awk '/^worktree /{path=$2} /^branch /{branch=substr($2,12)} /^$/{print path "\t" branch}' \
+    | while IFS=$'\t' read -r wtpath branch; do
+        [ "$wtpath" = "$reporoot" ] && continue
+        i=$((i+1))
+        printf "\r\033[K[%d/%d] sizing %s..." "$i" "$total" "$(basename "$wtpath")" >&2
+        bytes=$(diskus "$wtpath" 2>/dev/null)
+        [ -z "$bytes" ] && continue
+        dirty=" "
+        [ -n "$(git -C "$wtpath" status --porcelain 2>/dev/null | head -1)" ] && dirty="*"
+        printf "%d\t%s\t%-40s\t%s\n" "$bytes" "$dirty" "[${branch:-detached}]" "$wtpath"
+      done
+    printf "\r\033[K" >&2
+  } | sort -k1,1nr | awk -F'\t' '
+    function human(b) {
+      if (b >= 1073741824) return sprintf("%.2f GB", b/1073741824)
+      if (b >= 1048576) return sprintf("%.2f MB", b/1048576)
+      if (b >= 1024) return sprintf("%.2f KB", b/1024)
+      return b "B"
+    }
+    {printf "%-10s %s %-40s %s\n", human($1), $2, $3, $4}
+  '
+)
+
+[ -z "$entries" ] && echo "No worktrees to remove" >&2 && exit 0
+
+result=$(fzf-tmux --multi --layout=reverse \
+    --header="worktrees · tab: multi-select · enter: remove · alt-enter: force remove" \
+    --expect=alt-enter \
+    --preview 'git -C {-1} log --oneline --decorate --color=always -10' \
+    <<< "$entries")
+
+[ -z "$result" ] && exit
+
+key=$(head -1 <<< "$result")
+force=""
+[ "$key" = "alt-enter" ] && force="--force"
+
+failed=()
+while read -r wtpath; do
+  echo "Removing $wtpath..."
+  git worktree remove $force "$wtpath" || failed+=("$wtpath")
+done < <(tail -n +2 <<< "$result" | awk '{print $NF}')
+
+if (( ${#failed[@]} > 0 )); then
+  echo
+  echo "Failed to remove (use alt-enter to force):"
+  for f in "${failed[@]}"; do
+    echo "  $f"
+  done
+fi

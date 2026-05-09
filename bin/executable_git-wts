@@ -1,0 +1,34 @@
+#!/bin/zsh
+# List worktrees with sizes (largest first), dirty status indicator.
+set -e
+
+reporoot=${$(git rev-parse --git-common-dir):A:h}
+repo=$(basename "$reporoot")
+wtbase="$HOME/code/worktrees/$repo"
+
+[ ! -d "$wtbase" ] && echo "No worktrees found at $wtbase" >&2 && exit 1
+
+total=$(ls -1 "$wtbase" 2>/dev/null | wc -l | tr -d ' ')
+
+i=0
+{
+  for dir in "$wtbase"/*; do
+    [ -d "$dir" ] || continue
+    i=$((i+1))
+    printf "\r\033[K[%d/%d] sizing %s..." "$i" "$total" "$(basename "$dir")" >&2
+    bytes=$(diskus "$dir" 2>/dev/null)
+    [ -z "$bytes" ] && continue
+    dirty=" "
+    [ -n "$(git -C "$dir" status --porcelain 2>/dev/null | head -1)" ] && dirty="*"
+    printf "%d\t%s\t%s\n" "$bytes" "$dirty" "$dir"
+  done
+  printf "\r\033[K" >&2
+} | sort -k1,1nr | awk -F'\t' '
+  function human(b) {
+    if (b >= 1073741824) return sprintf("%.2f GB", b/1073741824)
+    if (b >= 1048576) return sprintf("%.2f MB", b/1048576)
+    if (b >= 1024) return sprintf("%.2f KB", b/1024)
+    return b "B"
+  }
+  {printf "%-10s %s %s\n", human($1), $2, $3}
+'
