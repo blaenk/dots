@@ -2,6 +2,29 @@
 # Remove worktrees via fzf with sizes shown (largest first). alt-enter forces.
 set -e
 
+DIRTY_CAP=50
+
+last_touched_ts() {
+  local dir=$1
+  local commit_ts mtime_max
+  commit_ts=$(git -C "$dir" log -1 --format=%ct 2>/dev/null || echo 0)
+  mtime_max=$(
+    git -C "$dir" status -uall --porcelain 2>/dev/null \
+      | head -n "$DIRTY_CAP" \
+      | sed 's/^...//' \
+      | while IFS= read -r f; do
+          stat -f %m "$dir/$f" 2>/dev/null
+        done \
+      | sort -rn | head -1
+  )
+  [ -z "$mtime_max" ] && mtime_max=0
+  if [ "$commit_ts" -gt "$mtime_max" ]; then
+    echo "$commit_ts"
+  else
+    echo "$mtime_max"
+  fi
+}
+
 reporoot=${$(git rev-parse --git-common-dir):A:h}
 total=$(($(git worktree list | wc -l | tr -d ' ') - 1))
 
@@ -18,17 +41,29 @@ entries=$(
         [ -z "$bytes" ] && continue
         dirty=" "
         [ -n "$(git -C "$wtpath" status --porcelain 2>/dev/null | head -1)" ] && dirty="*"
-        printf "%d\t%s\t%-40s\t%s\n" "$bytes" "$dirty" "[${branch:-detached}]" "$wtpath"
+        last_ts=$(last_touched_ts "$wtpath")
+        printf "%d\t%s\t%d\t%-40s\t%s\n" "$bytes" "$dirty" "$last_ts" "[${branch:-detached}]" "$wtpath"
       done
     printf "\r\033[K" >&2
-  } | sort -k1,1nr | awk -F'\t' '
+  } | sort -k1,1nr | awk -F'\t' -v now="$(date +%s)" '
     function human(b) {
       if (b >= 1073741824) return sprintf("%.2f GB", b/1073741824)
       if (b >= 1048576) return sprintf("%.2f MB", b/1048576)
       if (b >= 1024) return sprintf("%.2f KB", b/1024)
       return b "B"
     }
-    {printf "%-10s %s %-40s %s\n", human($1), $2, $3, $4}
+    function rel(ts) {
+      if (ts == 0) return "-"
+      d = now - ts
+      if (d < 60) return int(d) "s ago"
+      if (d < 3600) return int(d/60) "m ago"
+      if (d < 86400) return int(d/3600) "h ago"
+      if (d < 604800) return int(d/86400) "d ago"
+      if (d < 2592000) return int(d/604800) "w ago"
+      if (d < 31536000) return int(d/2592000) "mo ago"
+      return int(d/31536000) "y ago"
+    }
+    {printf "%-10s %s %-12s %-40s %s\n", human($1), $2, rel($3), $4, $5}
   '
 )
 
