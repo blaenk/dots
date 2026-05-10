@@ -1,0 +1,13 @@
+#!/bin/bash
+# Symlink ~/.config/caddy/Caddyfile to /opt/homebrew/etc/Caddyfile so brew's
+# caddy service (which hardcodes the system path) loads the user-managed config.
+# Caddyfile hash: {{ include "dot_config/caddy/Caddyfile" | sha256sum }}
+set -euo pipefail
+{{ if eq .chezmoi.os "darwin" -}}
+target=/opt/homebrew/etc/Caddyfile
+src="$HOME/.config/caddy/Caddyfile"
+if [ ! -L "$target" ] || [ "$(readlink "$target")" != "$src" ]; then
+  ln -sfn "$src" "$target"
+  brew services restart caddy 2>/dev/null || true
+fi
+{{- end }}

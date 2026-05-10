@@ -1,0 +1,36 @@
+# stream — api on :3000, web (vite) on :3001
+stream.localhost {
+  reverse_proxy /api/* localhost:3000
+  reverse_proxy /auth/* localhost:3000
+  reverse_proxy localhost:3001
+}
+
+# stream metrics stack (docker-compose: prometheus + grafana)
+grafana.stream.localhost {
+  reverse_proxy localhost:3002
+}
+
+prometheus.stream.localhost {
+  reverse_proxy localhost:3003
+}
+
+# beam — api on :3010, web (vite) on :3011
+beam.localhost {
+  reverse_proxy /api/* localhost:3010
+  reverse_proxy /auth/* localhost:3010
+  reverse_proxy localhost:3011
+}
+
+# beam metrics stack (docker-compose: prometheus + grafana)
+grafana.beam.localhost {
+  reverse_proxy localhost:3012
+}
+
+prometheus.beam.localhost {
+  reverse_proxy localhost:3013
+}
+
+# Escape hatch for unversioned snippets (private / experimental projects).
+# Glob form does not error when the directory has no matches, so this is
+# safe to include from day one.
+import local/*.caddy
