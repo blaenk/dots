@@ -14,7 +14,7 @@ alias brewload="brew bundle install --file ~/.local/share/chezmoi/Brewfile"
 alias brew-reverse-deps="brew uses --recursive --installed"
 
 # alias ls='gls -l --color=auto --group-directories-first --classify'
-alias ls='eza --all --long --group --group-directories-first --color=always'
+alias ls='eza --all --long --group --group-directories-first --octal-permissions --color=always'
 alias lz='eza -l'
 alias mounts='mount | column -t | sort'
 alias ports='netstat -tulanp'
