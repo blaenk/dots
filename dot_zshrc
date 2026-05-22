@@ -197,6 +197,10 @@ if [[ -z $CLAUDECODE ]]; then
   source $DOTSPATH/zsh/enhancd.zsh
 fi
 
+# bd: jump back up to a named ancestor directory, e.g. `bd src`
+zinit ice wait silent
+zinit light Tarrasch/zsh-bd
+
 # export ZSH_TAB_TITLE_CONCAT_FOLDER_PROCESS=true
 export ZSH_WINDOW_TITLE_DIRECTORY_DEPTH=1
 zinit ice wait silent
