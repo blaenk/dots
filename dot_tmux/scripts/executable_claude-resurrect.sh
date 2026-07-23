@@ -24,8 +24,9 @@ rewrite() {
         }
         $1 == "pane" && NF == 11 && $11 ~ /^:(.*\/)?claude( |$)/ {
             key = $2 FS $3 FS $6
-            if (key in ids)
-                $11 = ":" ENVIRON["HOME"] "/.tmux/scripts/claude-resurrect.sh run " ids[key]
+            cmd = ":" ENVIRON["HOME"] "/.tmux/scripts/claude-resurrect.sh run"
+            if (key in ids) cmd = cmd " " ids[key]
+            $11 = cmd
         }
         { print }
     ' - "$file" > "$tmp" && mv "$tmp" "$file" || rm -f "$tmp"
@@ -38,8 +39,9 @@ run() {
             [ -e "$f" ] && exec claude --resume "$id"
         done
     fi
-    # Session file gone (or no id): never guess with --continue; start fresh.
-    exec claude
+    # No recorded id (or session file gone): open the resume picker so the
+    # unrecovered session is visible; never guess with --continue.
+    exec claude --resume
 }
 
 case "$1" in

@@ -50,9 +50,9 @@ dedup/symlink step:
 1. Build a `session_name / window_index / pane_index → session_id` map via
    `tmux list-panes -a -F '#{session_name}\t#{window_index}\t#{pane_index}\t#{@claude_session_id}'`.
 2. Rewrite each `pane` line in the save file whose full-command field (last,
-   `:`-prefixed, tab-separated field) is a `claude` invocation and whose pane
-   has a recorded session ID, replacing the command with
-   `~/.tmux/scripts/claude-resurrect.sh run <session-id>`.
+   `:`-prefixed, tab-separated field) is a `claude` invocation, replacing the
+   command with `~/.tmux/scripts/claude-resurrect.sh run <session-id>` — or
+   `... run` with no argument when the pane has no recorded ID.
 3. Write atomically (temp file + `mv`) so a mid-save crash never corrupts the
    save. The rewrite is deterministic, so resurrect's "file unchanged →
    discard" dedup keeps working.
@@ -60,8 +60,11 @@ dedup/symlink step:
 **`run <session-id>`** — the command resurrect executes in the restored pane:
 
 - If `~/.claude/projects/*/<session-id>.jsonl` exists: `exec claude --resume <session-id>`.
-- Otherwise: `exec claude` — deliberately *not* `--continue`, so a missing ID
-  never silently resumes the wrong session.
+- Otherwise (no ID recorded, or session file gone): `exec claude --resume`
+  with no argument — the interactive picker, scoped to the pane's cwd. This
+  makes an unrecoverable session visible instead of silently starting fresh,
+  and deliberately avoids `--continue`, which could resume a *different*
+  session sharing the same cwd.
 
 ### 3. tmux.conf
 
@@ -92,11 +95,10 @@ matches the rewritten full command and restores it verbatim.
 ## Error handling
 
 - **Session ID missing at save time** (Claude started/cleared within the last
-  save interval): pane line is left untouched; restore falls back to whatever
-  `@resurrect-processes` matching does for plain `claude` — nothing, i.e. a
-  bare shell in the right directory. Acceptable; `prefix + Ctrl-s` before a
-  planned reboot closes the window.
-- **Session file deleted before restore**: wrapper falls back to plain `claude`.
+  save interval): pane restores with the `claude --resume` picker in the
+  right directory, signalling an unrecovered session. `prefix + Ctrl-s`
+  before a planned reboot shrinks this window.
+- **Session file deleted before restore**: wrapper falls back to the picker.
 - **Non-Claude panes / panes without the option**: rewrite leaves them untouched.
 - **Stale pane options** (Claude crashed without `SessionEnd`): harmless — the
   rewrite only touches panes whose *live* full command is a `claude`
