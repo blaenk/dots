@@ -19,11 +19,17 @@ _cleanup_dead_sessions() {
         kill -0 "$pid" 2>/dev/null && continue
         tmux set-option -p -t "$pane_id" -u @claude_attention 2>/dev/null
         tmux set-option -p -t "$pane_id" -u @claude_pid 2>/dev/null
+        tmux set-option -p -t "$pane_id" -u @claude_session_id 2>/dev/null
     done
 }
 
 register() {
     [ -z "$TMUX_PANE" ] && return
+    # SessionStart hook pipes JSON on stdin; skip when run interactively.
+    if [ ! -t 0 ]; then
+        session_id=$(jq -r '.session_id // empty' 2>/dev/null)
+        [ -n "$session_id" ] && tmux set-option -p -t "$TMUX_PANE" @claude_session_id "$session_id" 2>/dev/null
+    fi
     tmux set-option -p -t "$TMUX_PANE" @claude_attention "active" 2>/dev/null
     tmux set-option -p -t "$TMUX_PANE" @claude_pid "$PPID" 2>/dev/null
     _cleanup_dead_sessions
@@ -34,6 +40,7 @@ deregister() {
     [ -z "$TMUX_PANE" ] && return
     tmux set-option -p -t "$TMUX_PANE" -u @claude_attention 2>/dev/null
     tmux set-option -p -t "$TMUX_PANE" -u @claude_pid 2>/dev/null
+    tmux set-option -p -t "$TMUX_PANE" -u @claude_session_id 2>/dev/null
     _cleanup_dead_sessions
     return 0
 }
