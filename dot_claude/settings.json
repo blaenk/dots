@@ -77,7 +77,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.tmux/scripts/claude-attention.sh deregister"
+            "command": "~/.tmux/scripts/claude-attention.sh deregister",
+            "timeout": 10
           }
         ]
       }
