@@ -13,7 +13,7 @@ last_touched_ts() {
       | head -n "$DIRTY_CAP" \
       | sed 's/^...//' \
       | while IFS= read -r f; do
-          stat -f %m "$dir/$f" 2>/dev/null
+          stat -c %Y "$dir/$f" 2>/dev/null || stat -f %m "$dir/$f" 2>/dev/null
         done \
       | sort -rn | head -1
   )
