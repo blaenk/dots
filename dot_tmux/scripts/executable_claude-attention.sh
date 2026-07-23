@@ -23,13 +23,18 @@ _cleanup_dead_sessions() {
     done
 }
 
+# Record the session ID from hook stdin JSON (used by claude-resurrect.sh).
+# Every hook receives session_id, so running sessions self-register on any
+# activity, not just SessionStart. Skips when run interactively (tty stdin).
+_record_session_id() {
+    [ -t 0 ] && return
+    session_id=$(jq -r '.session_id // empty' 2>/dev/null)
+    [ -n "$session_id" ] && tmux set-option -p -t "$TMUX_PANE" @claude_session_id "$session_id" 2>/dev/null
+}
+
 register() {
     [ -z "$TMUX_PANE" ] && return
-    # SessionStart hook pipes JSON on stdin; skip when run interactively.
-    if [ ! -t 0 ]; then
-        session_id=$(jq -r '.session_id // empty' 2>/dev/null)
-        [ -n "$session_id" ] && tmux set-option -p -t "$TMUX_PANE" @claude_session_id "$session_id" 2>/dev/null
-    fi
+    _record_session_id
     tmux set-option -p -t "$TMUX_PANE" @claude_attention "active" 2>/dev/null
     tmux set-option -p -t "$TMUX_PANE" @claude_pid "$PPID" 2>/dev/null
     _cleanup_dead_sessions
@@ -48,6 +53,8 @@ deregister() {
 notify() {
     [ -z "$TMUX_PANE" ] && return
     input=$(cat)
+    session_id=$(printf '%s' "$input" | jq -r '.session_id // empty')
+    [ -n "$session_id" ] && tmux set-option -p -t "$TMUX_PANE" @claude_session_id "$session_id" 2>/dev/null
     type=$(printf '%s' "$input" | jq -r '.notification_type // empty')
     case "$type" in
         permission_prompt|elicitation_dialog)
@@ -61,6 +68,7 @@ notify() {
 
 busy() {
     [ -z "$TMUX_PANE" ] && return
+    _record_session_id
     tmux set-option -p -t "$TMUX_PANE" @claude_attention "busy" 2>/dev/null
     _cleanup_dead_sessions
     return 0
@@ -68,6 +76,7 @@ busy() {
 
 done_() {
     [ -z "$TMUX_PANE" ] && return
+    _record_session_id
     tmux set-option -p -t "$TMUX_PANE" @claude_attention "done" 2>/dev/null
     _cleanup_dead_sessions
     return 0

@@ -27,17 +27,17 @@ Restored panes auto-launch, matching how resurrect treats other programs.
 
 ### 1. Session ID capture — `dot_tmux/scripts/executable_claude-attention.sh`
 
-`register()` (already invoked by the `SessionStart` hook in
-`dot_claude/settings.json`) additionally reads the hook's stdin JSON and
-stores the session ID on the pane:
+Every Claude Code hook receives `session_id` in its stdin JSON, so a shared
+helper `_record_session_id()` parses it with `jq` (already a dependency of
+`notify()`) and stores it on the pane:
 
-- Parse `.session_id` with `jq` (already a dependency of `notify()`).
 - `tmux set-option -p -t "$TMUX_PANE" @claude_session_id "<id>"`.
 
-`deregister()` (invoked by `SessionEnd`) unsets `@claude_session_id`.
-
-`SessionStart` also fires on resume and on `/clear` (which mints a new
-session ID), so the recorded ID self-heals whenever it changes.
+The helper is called from `register()` (`SessionStart`), `busy()`
+(`UserPromptSubmit`/`PostToolUse`), `done_()` (`Stop`), and `notify()`
+(`Notification`) — so sessions that were already running before this change
+self-register on their next activity, and the ID self-heals after `/clear`
+(which mints a new one). `deregister()` (`SessionEnd`) unsets it.
 
 ### 2. Save-file rewrite + restore wrapper — new `dot_tmux/scripts/executable_claude-resurrect.sh`
 
