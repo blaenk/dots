@@ -239,8 +239,11 @@ cs() {
 
   # `tpath` not `path`: a local named `path` shadows zsh's tied array form
   # of $PATH and would break the tmux/claude command lookups below.
-  local tpath id cwd pane tgt disp
-  IFS=$'\t' read -r tpath id cwd pane tgt disp <<< "$sel"
+  # Split with ${(@ps:\t:)} — zsh `read` collapses adjacent tab delimiters,
+  # which would misparse ended rows (empty fields 4-5).
+  local -a fields
+  fields=("${(@ps:\t:)sel}")
+  local tpath=$fields[1] id=$fields[2] cwd=$fields[3] pane=$fields[4] tgt=$fields[5] disp=$fields[6]
 
   if [[ -n $pane ]]; then
     if [[ -n $TMUX ]]; then
