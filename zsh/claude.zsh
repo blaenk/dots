@@ -68,3 +68,33 @@ _cs_list() {
     print -r -- "$f"$'\t'"$id"$'\t'"$cwd"$'\t'"$pane_id"$'\t'"$tgt"$'\t'"$glyph ${(r:4:)rel} $name — ${cwd/#$HOME/\~}"
   done
 }
+
+# fzf preview: live sessions render the actual tmux pane (same style as the
+# claude-attention.sh pickers); ended sessions render the last 20 chat
+# messages from the transcript tail. Args: <transcript-path> <pane-id|''>
+_cs_preview() {
+  local path=$1 pane=$2
+  if [[ -n $pane ]]; then
+    tmux capture-pane -t $pane -ep | /opt/homebrew/bin/tac | awk 'NF{found=1} found' | /opt/homebrew/bin/tac |
+      /usr/bin/tail -n ${FZF_PREVIEW_LINES:-40}
+  else
+    # -R + fromjson? skips the (possibly truncated) first line and any
+    # non-JSON noise; -n so `inputs` sees every line.
+    /usr/bin/tail -c 400000 $path | /opt/homebrew/bin/jq -Rnr '
+      [ inputs
+        | fromjson?
+        | select(.type == "user" or .type == "assistant")
+        | select(.isMeta != true and .isSidechain != true)
+        | { role: .type,
+            text: (.message.content? |
+              if type == "string" then .
+              elif type == "array" then ([.[] | select(.type? == "text") | .text] | join("\n"))
+              else "" end) }
+        | select(.text != "" and (.text | startswith("<") | not))
+        | if .role == "user"
+          then "[1;36m❯[0;36m " + .text + "[0m"
+          else .text
+          end
+      ] | .[-20:] | join("\n\n")'
+  fi
+}
