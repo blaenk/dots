@@ -29,9 +29,13 @@ switches to its live tmux pane or `cd`s to its directory and resumes it.
 
 ## File layout
 
-- New file `zsh/claude.zsh`, picked up automatically by `dot_zshrc`'s
-  `$ZDOTDIR/zsh/*.zsh` glob. Contains the `cs` function and its helpers.
-  No new deployed scripts; jq filters are inline.
+- New file `zsh/claude.zsh` containing the `cs` function and its helpers.
+  `dot_zshrc` sources each `zsh/` file explicitly via `$DOTSPATH`
+  (`~/.local/share/chezmoi`), so a `source $DOTSPATH/zsh/claude.zsh` line
+  must be added to `dot_zshrc`. No new deployed scripts; jq filters are
+  inline. The fzf preview runs in a child shell, so it re-sources
+  `zsh/claude.zsh` by absolute path (same pattern as the tmux popup
+  bindings that source `zsh/fzf.zsh`).
 
 ## List building
 
