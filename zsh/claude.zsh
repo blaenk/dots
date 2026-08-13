@@ -73,14 +73,14 @@ _cs_list() {
 # claude-attention.sh pickers); ended sessions render the last 20 chat
 # messages from the transcript tail. Args: <transcript-path> <pane-id|''>
 _cs_preview() {
-  local path=$1 pane=$2
+  local tpath=$1 pane=$2
   if [[ -n $pane ]]; then
-    tmux capture-pane -t $pane -ep | /opt/homebrew/bin/tac | awk 'NF{found=1} found' | /opt/homebrew/bin/tac |
-      /usr/bin/tail -n ${FZF_PREVIEW_LINES:-40}
+    tmux capture-pane -t $pane -ep | tac | awk 'NF{found=1} found' | tac |
+      tail -n ${FZF_PREVIEW_LINES:-40}
   else
     # -R + fromjson? skips the (possibly truncated) first line and any
     # non-JSON noise; -n so `inputs` sees every line.
-    /usr/bin/tail -c 400000 $path | /opt/homebrew/bin/jq -Rnr '
+    tail -c 400000 $tpath | jq -Rnr '
       [ inputs
         | fromjson?
         | select(.type == "user" or .type == "assistant")
@@ -92,7 +92,7 @@ _cs_preview() {
               else "" end) }
         | select(.text != "" and (.text | startswith("<") | not))
         | if .role == "user"
-          then "[1;36m❯[0;36m " + .text + "[0m"
+          then "\u001b[1;36m❯\u001b[0;36m " + .text + "\u001b[0m"
           else .text
           end
       ] | .[-20:] | join("\n\n")'
