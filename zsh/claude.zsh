@@ -103,10 +103,10 @@ _cs_preview() {
 # directory and resume it.
 cs() {
   local sel
-  sel=$(_cs_list | fzf-tmux +m --exit-0 --cycle --header="claude sessions" \
+  sel=$(_cs_list | fzf +m --select-1 --exit-0 --cycle --header="claude sessions" \
     --delimiter=$'\t' --with-nth=6.. \
     --preview 'zsh -c "source ~/.local/share/chezmoi/zsh/claude.zsh; _cs_preview {1} {4}"' \
-    --preview-window up:60%:wrap)
+    --preview-window down:80%:nowrap)
   [[ -z $sel ]] && return 0
 
   # `tpath` not `path`: a local named `path` shadows zsh's tied array form
