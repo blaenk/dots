@@ -339,3 +339,47 @@ function assume-default() {
     mv ~/.aws/credentials.bak ~/.aws/credentials
   fi
 }
+
+# List (default) or kill (-k) orphaned MCP server processes: stdio servers
+# whose parent claude died abruptly, leaving them reparented to launchd
+# (ppid 1) and often spinning on a closed stdin. Live sessions' MCP servers
+# have a claude ancestor, never pid 1, so they are never matched.
+mcp-orphans() {
+  local orphans
+  orphans=$(ps -Ao pid,ppid,args | awk '$2==1' | grep -Ei 'mcp|uvx|npm exec @' | grep -v grep)
+  if [ -z "$orphans" ]; then
+    echo "No orphaned MCP processes found."
+    return 0
+  fi
+
+  echo "$orphans" | awk '{printf "%7s  ", $1; for (i=3; i<=NF; i++) printf "%s ", $i; print ""}' | cut -c1-${COLUMNS:-120}
+
+  if [ "$1" != "-k" ]; then
+    echo ""
+    echo "Dry run — pass -k to kill these process trees."
+    return 0
+  fi
+
+  local -a all
+  local p c
+  for p in ${(f)"$(echo "$orphans" | awk '{print $1}')"}; do
+    all+=("$p")
+    for c in $(pgrep -P "$p" 2>/dev/null); do
+      all+=("$c" $(pgrep -P "$c" 2>/dev/null))
+    done
+  done
+
+  echo "Sending TERM to ${#all} processes..."
+  kill -TERM $all 2>/dev/null
+  sleep 3
+
+  local -a survivors
+  for p in $all; do
+    kill -0 "$p" 2>/dev/null && survivors+=("$p")
+  done
+  if [ ${#survivors} -gt 0 ]; then
+    echo "Force-killing ${#survivors} that ignored TERM..."
+    kill -KILL $survivors 2>/dev/null
+  fi
+  echo "Done."
+}
