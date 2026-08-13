@@ -147,14 +147,16 @@ git commit -m "Add _cs_list: Claude session list builder for the cs picker"
 # claude-attention.sh pickers); ended sessions render the last 20 chat
 # messages from the transcript tail. Args: <transcript-path> <pane-id|''>
 _cs_preview() {
-  local path=$1 pane=$2
+  # NOTE: never name a local `path` — it shadows zsh's tied array form of
+  # $PATH and breaks lookup of every external command in the function.
+  local tpath=$1 pane=$2
   if [[ -n $pane ]]; then
     tmux capture-pane -t $pane -ep | tac | awk 'NF{found=1} found' | tac |
       tail -n ${FZF_PREVIEW_LINES:-40}
   else
     # -R + fromjson? skips the (possibly truncated) first line and any
     # non-JSON noise; -n so `inputs` sees every line.
-    tail -c 400000 $path | jq -Rnr '
+    tail -c 400000 $tpath | jq -Rnr '
       [ inputs
         | fromjson?
         | select(.type == "user" or .type == "assistant")
@@ -235,8 +237,10 @@ cs() {
     --preview-window up:60%:wrap)
   [[ -z $sel ]] && return 0
 
-  local path id cwd pane tgt disp
-  IFS=$'\t' read -r path id cwd pane tgt disp <<< "$sel"
+  # `tpath` not `path`: a local named `path` shadows zsh's tied array form
+  # of $PATH and would break the tmux/claude command lookups below.
+  local tpath id cwd pane tgt disp
+  IFS=$'\t' read -r tpath id cwd pane tgt disp <<< "$sel"
 
   if [[ -n $pane ]]; then
     if [[ -n $TMUX ]]; then
