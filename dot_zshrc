@@ -102,6 +102,7 @@ source $DOTSPATH/zsh/zle.zsh
 source $DOTSPATH/zsh/fzf.zsh
 
 source $DOTSPATH/zsh/functions.zsh
+source $DOTSPATH/zsh/claude.zsh
 source $DOTSPATH/zsh/alias.zsh
 
 [[ "$OSTYPE" == linux* ]] && source $DOTSPATH/zsh/linux.zsh

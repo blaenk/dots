@@ -98,3 +98,40 @@ _cs_preview() {
       ] | .[-20:] | join("\n\n")'
   fi
 }
+
+# Pick a Claude session: switch to it if it's live in tmux, else cd to its
+# directory and resume it.
+cs() {
+  local sel
+  sel=$(_cs_list | fzf-tmux +m --exit-0 --cycle --header="claude sessions" \
+    --delimiter=$'\t' --with-nth=6.. \
+    --preview 'zsh -c "source ~/.local/share/chezmoi/zsh/claude.zsh; _cs_preview {1} {4}"' \
+    --preview-window up:60%:wrap)
+  [[ -z $sel ]] && return 0
+
+  # `tpath` not `path`: a local named `path` shadows zsh's tied array form
+  # of $PATH and would break the tmux/claude command lookups below.
+  #
+  # Field-split via ${(@ps:\t:)} rather than `IFS=$'\t' read -r ... <<<`:
+  # zsh's `read` collapses consecutive IFS delimiters even for a
+  # non-whitespace IFS, so ended sessions (empty pane + empty target =
+  # two adjacent tabs) would misalign every field after `cwd`.
+  local -a fields
+  fields=("${(@ps:\t:)sel}")
+  local tpath=$fields[1] id=$fields[2] cwd=$fields[3] pane=$fields[4] tgt=$fields[5] disp=$fields[6]
+
+  if [[ -n $pane ]]; then
+    if [[ -n $TMUX ]]; then
+      tmux switch-client -t "$tgt" && tmux select-pane -t "$pane"
+    else
+      print -u2 "cs: session is live in tmux at $tgt"
+      return 1
+    fi
+  else
+    if [[ ! -d $cwd ]]; then
+      print -u2 "cs: directory no longer exists: ${cwd:-unknown}"
+      return 1
+    fi
+    cd "$cwd" && claude --resume "$id"
+  fi
+}

@@ -40,6 +40,7 @@ A chezmoi-managed dotfiles repository. Files here are source templates/configs t
 - `zsh/path.zsh` — PATH/MANPATH/INFOPATH
 - `zsh/zle.zsh` — zsh line editor widgets and keybindings
 - `zsh/fzf.zsh` — fzf integration with tmux
+- `zsh/claude.zsh` — `cs` Claude session picker (list/preview/resume or switch)
 - `zsh/completions.zsh` — fpath and completion setup
 - `zsh/macos.zsh` / `zsh/linux.zsh` — OS-specific config
 - `zsh/highlight.zsh` — syntax highlighting rules
