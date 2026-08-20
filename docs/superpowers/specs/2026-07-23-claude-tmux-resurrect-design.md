@@ -100,6 +100,16 @@ matches the rewritten full command and restores it verbatim.
   before a planned reboot shrinks this window.
 - **Session file deleted before restore**: wrapper falls back to the picker.
 - **Non-Claude panes / panes without the option**: rewrite leaves them untouched.
+- **Empty pane titles corrupt save lines** (upstream resurrect bug: Claude
+  clears the pane title on exit, and `dump_panes` parses tmux output with an
+  IFS-tab `read` that collapses the empty field, shifting fields left — the
+  saved dir becomes the pane-active flag and the full command is lost, so the
+  pane restores at `~`): the rewrite detects shifted lines (`$7 ~ /^:/`,
+  `$8 ~ /^[01]$/`) and rebuilds them with a non-empty placeholder title (an
+  empty one would re-collapse at restore, which parses the same way) and the
+  pane's live cwd from `tmux list-panes`; the lost full command is left empty
+  so the pane restores as a shell. `deregister` also resets the pane title to
+  the hostname on clean Claude exit, removing the usual trigger.
 - **Stale pane options** (Claude crashed without `SessionEnd`): harmless — the
   rewrite only touches panes whose *live* full command is a `claude`
   invocation at save time.

@@ -46,6 +46,10 @@ deregister() {
     tmux set-option -p -t "$TMUX_PANE" -u @claude_attention 2>/dev/null
     tmux set-option -p -t "$TMUX_PANE" -u @claude_pid 2>/dev/null
     tmux set-option -p -t "$TMUX_PANE" -u @claude_session_id 2>/dev/null
+    # Claude leaves the pane title empty on exit, which corrupts tmux-resurrect
+    # saves (empty fields collapse under its IFS-tab read). Reset to the
+    # default hostname title.
+    tmux select-pane -t "$TMUX_PANE" -T "$(hostname -s)" 2>/dev/null
     # No _cleanup_dead_sessions here: SessionEnd hooks race claude's exit
     # teardown, so this path must stay near-instant. Other hooks sweep dead
     # panes constantly, and this pane's own options are already unset above.

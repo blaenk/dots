@@ -14,19 +14,40 @@ rewrite() {
     [ -f "$file" ] || return 0
     tmp="${file}.claude-rewrite.$$"
 
-    # First input: live session/window/pane -> session_id map. Second: save file.
-    # Pane lines have 11 tab-separated fields; the 11th is ":<full command>".
-    tmux list-panes -a -F "#{session_name}${TAB}#{window_index}${TAB}#{pane_index}${TAB}#{@claude_session_id}" 2>/dev/null |
+    # First input: live session/window/pane -> cwd + session_id map. Second:
+    # save file. Pane lines have 11 tab-separated fields; the 11th is
+    # ":<full command>".
+    tmux list-panes -a -F "#{session_name}${TAB}#{window_index}${TAB}#{pane_index}${TAB}#{pane_current_path}${TAB}#{@claude_session_id}" 2>/dev/null |
     awk -F '\t' -v OFS='\t' '
         NR == FNR {
-            if ($4 != "") ids[$1 FS $2 FS $3] = $4
+            key = $1 FS $2 FS $3
+            dirs[key] = $4
+            if ($5 != "") ids[key] = $5
             next
         }
-        $1 == "pane" && NF == 11 && $11 ~ /^:(.*\/)?claude( |$)/ {
+        $1 == "pane" && NF == 11 {
             key = $2 FS $3 FS $6
-            cmd = ":" ENVIRON["HOME"] "/.tmux/scripts/claude-resurrect.sh run"
-            if (key in ids) cmd = cmd " " ids[key]
-            $11 = cmd
+            # Repair lines whose empty pane title collapsed under resurrect
+            # dump_panes IFS-tab read, shifting fields left by one: title
+            # holds ":<dir>", dir holds the pane-active flag, and the full
+            # command (looked up with the wrong pid) is lost. Restore parses
+            # with the same collapsing read, so the placeholder title must be
+            # non-empty. The full command is unrecoverable; leave ":" so the
+            # pane restores as a shell in the right directory.
+            if ($7 ~ /^:/ && $8 ~ /^[01]$/) {
+                dir = (key in dirs) ? ":" dirs[key] : $7
+                gsub(/ /, "\\ ", dir)
+                $11 = ":"
+                $10 = $9
+                $9 = $8
+                $8 = dir
+                $7 = "-"
+            }
+            if ($11 ~ /^:(.*\/)?claude( |$)/) {
+                cmd = ":" ENVIRON["HOME"] "/.tmux/scripts/claude-resurrect.sh run"
+                if (key in ids) cmd = cmd " " ids[key]
+                $11 = cmd
+            }
         }
         { print }
     ' - "$file" > "$tmp" && mv "$tmp" "$file" || rm -f "$tmp"
