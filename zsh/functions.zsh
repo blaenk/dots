@@ -24,6 +24,11 @@ _wt_setup() {
       echo "Symlinking devbox.json..."
       ln -s "$reporoot/devbox.json" "$wtdir/devbox.json"
     fi
+    if [ -f "$reporoot/.claude/settings.local.json" ]; then
+      echo "Symlinking .claude/settings.local.json..."
+      mkdir -p "$wtdir/.claude"
+      ln -s "$reporoot/.claude/settings.local.json" "$wtdir/.claude/settings.local.json"
+    fi
     echo "Done."
   fi
   cd "$wtdir"
