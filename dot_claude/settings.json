@@ -6,7 +6,7 @@
   "permissions": {
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
+  "model": "fable[1m]",
   "hooks": {
     "Notification": [
       {
@@ -105,16 +105,7 @@
     "claude-md-management@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true,
-    "messaging@ziprecruiter": true,
     "gopls-lsp@claude-plugins-official": true
-  },
-  "extraKnownMarketplaces": {
-    "ziprecruiter": {
-      "source": {
-        "source": "directory",
-        "path": "/Users/jorgep/ziprecruiter"
-      }
-    }
   },
   "effortLevel": "high",
   "skipAutoPermissionPrompt": true
