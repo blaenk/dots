@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "lines": [
     [
       {
@@ -16,9 +16,6 @@
         "id": "aa2d5582-1107-433e-b5c8-d3c75d1ec3cf",
         "type": "git-worktree",
         "rawValue": false,
-        "metadata": {
-          "hideNoGit": "false"
-        },
         "color": ""
       },
       {
@@ -30,10 +27,7 @@
         "type": "git-branch",
         "color": "",
         "bold": false,
-        "rawValue": false,
-        "metadata": {
-          "hideNoGit": "false"
-        }
+        "rawValue": false
       },
       {
         "id": "6",
