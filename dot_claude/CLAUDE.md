@@ -14,7 +14,7 @@ Each project gets a 10-port block in the 3000s. Within a block, conventions are:
 
 Current allocations:
 
-- 3000-3009: stream (api 3000, web 3001)
+- 3000-3009: stream (api 3000, web 3001, grafana 3002, prometheus 3003, worker-metrics 3004, pgboss ui 3005, mailpit ui 3006)
 - 3010-3019: beam (api 3010, web 3011)
 
 When starting a new project, claim the next free block and update this list. Edit `~/.local/share/chezmoi/dot_claude/CLAUDE.md` and run `chezmoi apply` so the change is captured.
