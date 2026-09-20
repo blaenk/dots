@@ -1,1 +1,13 @@
 # Put config template here
+
+# Three-way merge in VS Code. chezmoi has no real common ancestor, so a temp
+# copy of the target stands in as the base; the result pane writes the source.
+# Inputs are copied to a temp dir under LIVE-/CHEZMOI-/BASE- names so VS Code's
+# pane labels say which is which. The placeholders are wrapped in string
+# literals so init-time rendering passes them through for chezmoi merge.
+[merge]
+command = "bash"
+args = [
+    "-c",
+    "d=$(mktemp -d -t chezmoi-merge) && n=$(basename {{ "{{ .Destination | quote }}" }}) && cp {{ "{{ .Destination | quote }}" }} \"$d/LIVE-$n\" && cp {{ "{{ .Target | quote }}" }} \"$d/CHEZMOI-$n\" && cp {{ "{{ .Target | quote }}" }} \"$d/BASE-$n\" && code --new-window --wait --merge \"$d/LIVE-$n\" \"$d/CHEZMOI-$n\" \"$d/BASE-$n\" {{ "{{ .Source | quote }}" }}; rm -rf \"$d\"",
+]
