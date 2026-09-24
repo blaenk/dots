@@ -1,9 +1,33 @@
-# Claude Code session picker (cs): list all sessions (live or ended) across
-# every project, preview the chat, switch to live panes or resume ended ones.
+# Claude Code session pickers:
+#   cs  [query] — list sessions (live or ended); typing filters name/directory
+#   css [query] — search every transcript with ripgrep, one row per match
+#   ctrl-t inside either toggles between the two modes.
 # Design: docs/superpowers/specs/2026-08-12-claude-session-picker-design.md
 
 zmodload zsh/datetime
 zmodload -F zsh/stat b:zstat
+
+# jq fragment (for -Rn input): build an array of rendered chat messages —
+# user turns cyan with ❯, assistant plain. fromjson? skips truncated/non-JSON
+# lines; the startswith("<") filter drops <command-*> wrappers on user turns
+# only, so assistant replies that begin with markup still render.
+typeset -g _CS_JQ_MSGS='
+  [ inputs
+    | fromjson?
+    | select(.type == "user" or .type == "assistant")
+    | select(.isMeta != true and .isSidechain != true)
+    | { role: .type,
+        text: (.message.content? |
+          if type == "string" then .
+          elif type == "array" then ([.[] | select(.type? == "text") | .text] | join("\n"))
+          else "" end) }
+    | select(.text != "")
+    | select(((.role == "user") and (.text | startswith("<"))) | not)
+    | if .role == "user"
+      then "[1;36m❯[0;36m " + .text + "[0m"
+      else .text
+      end
+  ]'
 
 # Compact age from an epoch timestamp: now, 12m, 3h, 2d, 5w
 _cs_reltime() {
@@ -16,10 +40,41 @@ _cs_reltime() {
   fi
 }
 
+# Custom session title (set by /rename), or nothing.
+_cs_title() {
+  local t
+  t=$(grep '"type":"custom-title"' $1 2>/dev/null | tail -n1 |
+    jq -r '.customTitle // empty' 2>/dev/null)
+  print -r -- ${${t//[$'\t\n']/ }[1,80]}
+}
+
+# First real user prompt (skipping meta and <command-*> turns), or nothing.
+_cs_prompt1() {
+  local p
+  p=$(grep -m10 '"type":"user"' $1 2>/dev/null |
+    jq -Rr 'fromjson? | select(.isMeta != true) | .message.content? |
+            if type == "string" then .
+            elif type == "array" then ([.[] | select(.type? == "text") | .text] | join(" "))
+            else empty end' 2>/dev/null |
+    grep -v '^[[:space:]]*$' | grep -v '^<' | head -n1)
+  print -r -- ${${p//[$'\t\n']/ }[1,80]}
+}
+
+# Best single-line label: title, else first prompt (used by search rows).
+_cs_label() {
+  local name
+  name=$(_cs_title $1)
+  [[ -z $name ]] && name=$(_cs_prompt1 $1)
+  print -r -- ${name:-"(no prompt)"}
+}
+
 # One row per transcript, newest first (capped at 50):
-#   path \t session-id \t cwd \t pane-id \t target \t display
-# pane-id and target (session:window) are empty unless the session is live
-# in a tmux pane, per the options maintained by claude-attention.sh.
+#   path \t id \t cwd \t pane-id \t target \t "glyph age" \t title \t dir \t prompt
+# Fields 6-9 are displayed; fzf matches only title and dir (--nth=2,3 of the
+# displayed fields) — the dimmed first-prompt column is visible but never
+# matched, so typing doesn't hit prompt text. pane-id and target
+# (session:window) are empty unless the session is live in a tmux pane, per
+# the options maintained by claude-attention.sh.
 _cs_list() {
   local -a files
   files=( ~/.claude/projects/*/*.jsonl(N.om[1,50]) )
@@ -31,31 +86,23 @@ _cs_list() {
     [[ -n $sid ]] && live[$sid]=$pane$'\t'$target$'\t'$attn
   done < <(tmux list-panes -a -F $'#{@claude_session_id}\t#{pane_id}\t#{session_name}:#{window_index}\t#{@claude_attention}' 2>/dev/null)
 
-  local f id cwd name rel glyph pane_id tgt attn_state
+  local f id cwd title prompt rel glyph pane_id tgt attn_state
   local -a stat_reply
   for f in $files; do
+    [[ -r $f ]] || continue
     id=${${f:t}%.jsonl}
-    cwd=$(grep -m1 '"cwd"' $f | jq -r '.cwd // empty' 2>/dev/null)
-    name=$(grep '"type":"custom-title"' $f | tail -n1 |
-      jq -r '.customTitle // empty' 2>/dev/null)
-    if [[ -z $name ]]; then
-      # Fallback label: first real user prompt (skip meta and <command-*> turns).
-      name=$(grep -m5 '"type":"user"' $f |
-        jq -Rr 'fromjson? | select(.isMeta != true) | .message.content? |
-                if type == "string" then .
-                elif type == "array" then ([.[] | select(.type? == "text") | .text] | join(" "))
-                else empty end' 2>/dev/null |
-        grep -v '^[[:space:]]*$' | grep -v '^<' | head -n1)
-    fi
-    name=${${name//[$'\t\n']/ }[1,80]}
-    [[ -z $name ]] && name="(no prompt)"
+    cwd=$(grep -m1 '"cwd"' $f 2>/dev/null | jq -r '.cwd // empty' 2>/dev/null)
+    title=$(_cs_title $f)
+    prompt=$(_cs_prompt1 $f)
+    [[ -z $title && -z $prompt ]] && prompt="(no prompt)"
 
-    zstat -A stat_reply +mtime $f
+    zstat -A stat_reply +mtime $f 2>/dev/null || continue
     rel=$(_cs_reltime $stat_reply[1])
 
     pane_id='' tgt='' glyph=' '
     if (( ${+live[$id]} )); then
-      IFS=$'\t' read -r pane_id tgt attn_state <<< "${live[$id]}"
+      local -a lf=("${(@ps:\t:)live[$id]}")
+      pane_id=$lf[1] tgt=$lf[2] attn_state=$lf[3]
       case $attn_state in
         blocked) glyph='!' ;;
         busy)    glyph='…' ;;
@@ -65,73 +112,147 @@ _cs_list() {
       esac
     fi
 
-    print -r -- "$f"$'\t'"$id"$'\t'"$cwd"$'\t'"$pane_id"$'\t'"$tgt"$'\t'"$glyph ${(r:4:)rel} $name — ${cwd/#$HOME/\~}"
+    print -r -- "$f"$'\t'"$id"$'\t'"$cwd"$'\t'"$pane_id"$'\t'"$tgt"$'\t'"$glyph ${(r:4:)rel}"$'\t'"${(r:24:)title}"$'\t'"${(r:40:)${(D)cwd}}"$'\t'$'\e[2m'"${prompt[1,60]}"$'\e[0m'
   done
 }
 
-# fzf preview: live sessions render the actual tmux pane (same style as the
-# claude-attention.sh pickers); ended sessions render the last 20 chat
-# messages from the transcript tail. Args: <transcript-path> <pane-id|''>
+# fzf reload command for transcript-search mode: one row per ripgrep match
+# across EVERY transcript (uncapped, unlike the list). Rows mirror the list
+# shape but carry the match's line number in field 2 (numeric ⇒ match row):
+#   path \t lineno \t id \t "" \t "" \t "age label · snippet"
+_css_search() {
+  local q=$1
+  (( ${#q} >= 3 )) || return 0
+  local -A labels ages
+  local -a sr
+  local m f lineno snippet id
+  rg -i --line-number --max-count 3 -o ".{0,50}${q}.{0,50}" \
+    ~/.claude/projects/*/*.jsonl(N.) 2>/dev/null | head -n 200 |
+  while IFS= read -r m; do
+    f=${m%%:*} m=${m#*:}
+    lineno=${m%%:*} snippet=${m#*:}
+    [[ -n $f && $lineno == <-> ]] || continue
+    if (( ! ${+labels[$f]} )); then
+      labels[$f]=$(_cs_label $f)
+      zstat -A sr +mtime $f 2>/dev/null || sr=($EPOCHSECONDS)
+      ages[$f]=$(_cs_reltime $sr[1])
+    fi
+    id=${${f:t}%.jsonl}
+    # Cosmetic cleanup: JSON string escapes and stray tabs in the snippet.
+    snippet=${snippet//$'\t'/ }
+    snippet=${snippet//'\n'/ } snippet=${snippet//'\t'/ }
+    snippet=${snippet//'\"'/\"}
+    print -r -- "$f"$'\t'"$lineno"$'\t'"$id"$'\t\t\t'"${(r:4:)ages[$f]} ${labels[$f][1,32]} · $snippet"
+  done
+}
+
+# Preview an ended/any session: last 20 chat messages from the transcript
+# tail, or (with a pane id) the live tmux pane, same style as the
+# claude-attention.sh pickers. Args: <transcript-path> <pane-id|''>
 _cs_preview() {
   local tpath=$1 pane=$2
   if [[ -n $pane ]]; then
     tmux capture-pane -t $pane -ep | tac | awk 'NF{found=1} found' | tac |
       tail -n ${FZF_PREVIEW_LINES:-40}
   else
-    # -R + fromjson? skips the (possibly truncated) first line and any
-    # non-JSON noise; -n so `inputs` sees every line.
-    tail -c 400000 $tpath | jq -Rnr '
-      [ inputs
-        | fromjson?
-        | select(.type == "user" or .type == "assistant")
-        | select(.isMeta != true and .isSidechain != true)
-        | { role: .type,
-            text: (.message.content? |
-              if type == "string" then .
-              elif type == "array" then ([.[] | select(.type? == "text") | .text] | join("\n"))
-              else "" end) }
-        | select(.text != "" and (.text | startswith("<") | not))
-        | if .role == "user"
-          then "\u001b[1;36m❯\u001b[0;36m " + .text + "\u001b[0m"
-          else .text
-          end
-      ] | .[-20:] | join("\n\n")'
+    tail -c 400000 $tpath | jq -Rnr "$_CS_JQ_MSGS | .[-20:] | join(\"\n\n\")"
   fi
 }
 
-# Pick a Claude session: switch to it if it's live in tmux, else cd to its
-# directory and resume it.
-cs() {
-  local sel
-  sel=$(_cs_list | fzf +m --select-1 --exit-0 --cycle --header="claude sessions" \
-    --delimiter=$'\t' --with-nth=6.. \
-    --preview 'zsh -c "source ~/.local/share/chezmoi/zsh/claude.zsh; _cs_preview {1} {4}"' \
-    --preview-window down:80%:nowrap)
+# Preview a transcript-search match: the conversation around the matched
+# line (±8 JSONL entries), with the query highlighted.
+# Args: <transcript-path> <lineno> <query>
+_css_preview() {
+  local tpath=$1 line=$2 q=$3
+  local s=$(( line - 8 ))
+  (( s < 1 )) && s=1
+  awk -v s=$s -v e=$(( line + 8 )) 'NR>=s && NR<=e' $tpath |
+    jq -Rnr "$_CS_JQ_MSGS | join(\"\n\n\")" |
+    { if [[ -n $q ]]; then rg --passthru --color=always -i -- $q 2>/dev/null || cat; else cat; fi }
+}
+
+# Unified fzf preview: match rows carry a numeric line number in field 2,
+# session rows a UUID. Args: {1}=path {2}=id-or-lineno {4}=pane {q}=query
+_cs_preview_row() {
+  if [[ $2 == <-> ]]; then
+    _css_preview $1 $2 $3
+  else
+    _cs_preview $1 $4
+  fi
+}
+
+# Open a session by id: switch to its tmux pane if live (looked up fresh —
+# liveness can change while the picker is open), else cd to its recorded
+# cwd and resume it.
+_cs_open() {
+  local id=$1 tpath=$2 hit cwd
+  hit=$(tmux list-panes -a -F $'#{@claude_session_id}\t#{pane_id}\t#{session_name}:#{window_index}' 2>/dev/null |
+    grep -m1 "^${id}"$'\t')
+  if [[ -n $hit ]]; then
+    local -a hf=("${(@ps:\t:)hit}")
+    if [[ -n $TMUX ]]; then
+      tmux switch-client -t "$hf[3]" && tmux select-pane -t "$hf[2]"
+    else
+      print -u2 "cs: session is live in tmux at $hf[3]"
+      return 1
+    fi
+    return 0
+  fi
+  cwd=$(grep -m1 '"cwd"' $tpath 2>/dev/null | jq -r '.cwd // empty' 2>/dev/null)
+  if [[ ! -d $cwd ]]; then
+    print -u2 "cs: directory no longer exists: ${cwd:-unknown}"
+    return 1
+  fi
+  cd "$cwd" && claude --resume "$id"
+}
+
+# Shared picker. Mode 'list': _cs_list rows, typing fuzzy-filters session
+# name + directory only (--nth=2,3 of the displayed fields). Mode 'rg':
+# search disabled, typing is a live ripgrep pattern over all transcripts.
+# ctrl-t toggles; the transform branches on the prompt to know the mode.
+_cs_picker() {
+  local mode=$1 q=$2 sel
+  local zsrc='source ~/.local/share/chezmoi/zsh/claude.zsh'
+  local list_cmd="zsh -c \"$zsrc; _cs_list\""
+  local rg_cmd="zsh -c \"$zsrc; _css_search {q}\""
+  local toggle="ctrl-t:transform:if [ \"\$FZF_PROMPT\" = 'rg> ' ]; then
+      echo 'change-prompt(sessions> )+enable-search+clear-query+unbind(change)+reload($list_cmd)'
+    else
+      echo 'change-prompt(rg> )+disable-search+clear-query+rebind(change)+reload($rg_cmd)'
+    fi"
+
+  local -a args
+  args=( +m --cycle
+    --delimiter=$'\t' --with-nth=6.. --nth=2,3
+    --header='enter: open · ctrl-t: toggle rg/list · rg needs ≥3 chars'
+    --preview "zsh -c \"$zsrc; _cs_preview_row {1} {2} {4} {q}\""
+    --preview-window down:80%:nowrap
+    --query "$q"
+    --bind "change:reload:sleep 0.15; $rg_cmd"
+    --bind "$toggle" )
+  if [[ $mode == rg ]]; then
+    # No --exit-0 here: rg mode legitimately starts empty until you type.
+    args+=( --disabled --prompt 'rg> ' --bind "start:reload($rg_cmd)" )
+  else
+    args+=( --exit-0 --prompt 'sessions> ' --bind "start:unbind(change)+reload($list_cmd)" )
+  fi
+
+  # "${(@)args}" (not $args): unquoted expansion would drop the empty
+  # element from --query "" and misalign every following option.
+  sel=$(fzf "${(@)args}" < /dev/null)
   [[ -z $sel ]] && return 0
 
-  # `tpath` not `path`: a local named `path` shadows zsh's tied array form
-  # of $PATH and would break the tmux/claude command lookups below.
-  #
-  # Field-split via ${(@ps:\t:)} rather than `IFS=$'\t' read -r ... <<<`:
-  # zsh's `read` collapses consecutive IFS delimiters even for a
-  # non-whitespace IFS, so ended sessions (empty pane + empty target =
-  # two adjacent tabs) would misalign every field after `cwd`.
-  local -a fields
-  fields=("${(@ps:\t:)sel}")
-  local tpath=$fields[1] id=$fields[2] cwd=$fields[3] pane=$fields[4] tgt=$fields[5] disp=$fields[6]
-
-  if [[ -n $pane ]]; then
-    if [[ -n $TMUX ]]; then
-      tmux switch-client -t "$tgt" && tmux select-pane -t "$pane"
-    else
-      print -u2 "cs: session is live in tmux at $tgt"
-      return 1
-    fi
-  else
-    if [[ ! -d $cwd ]]; then
-      print -u2 "cs: directory no longer exists: ${cwd:-unknown}"
-      return 1
-    fi
-    cd "$cwd" && claude --resume "$id"
-  fi
+  # ${(@ps:\t:)} rather than IFS read: zsh `read` collapses adjacent tabs,
+  # misaligning rows with empty fields. (And never `local path` — it shadows
+  # zsh's tied array form of $PATH.)
+  local -a fields=("${(@ps:\t:)sel}")
+  local id=$fields[2]
+  [[ $id == <-> ]] && id=$fields[3]
+  _cs_open "$id" "$fields[1]"
 }
+
+# Pick a Claude session (filter by name/directory; ctrl-t for content search).
+cs() { _cs_picker list "$*" }
+
+# Search all Claude transcripts with ripgrep (ctrl-t back to the list).
+css() { _cs_picker rg "$*" }
