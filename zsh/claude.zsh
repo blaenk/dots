@@ -22,9 +22,9 @@ typeset -g _CS_JQ_MSGS='
           elif type == "array" then ([.[] | select(.type? == "text") | .text] | join("\n"))
           else "" end) }
     | select(.text != "")
-    | select(((.role == "user") and (.text | startswith("<"))) | not)
+    | select(((.role == "user") and (.text | test("^[[:space:]]*<"))) | not)
     | if .role == "user"
-      then "[1;36m❯[0;36m " + .text + "[0m"
+      then "\u001b[1;36m❯\u001b[0;36m " + .text + "\u001b[0m"
       else .text
       end
   ]'
@@ -56,8 +56,8 @@ _cs_prompt1() {
             if type == "string" then .
             elif type == "array" then ([.[] | select(.type? == "text") | .text] | join(" "))
             else empty end' 2>/dev/null |
-    grep -v '^[[:space:]]*$' | grep -v '^<' | head -n1)
-  print -r -- ${${p//[$'\t\n']/ }[1,80]}
+    grep -v '^[[:space:]]*$' | grep -v '^[[:space:]]*<' | head -n1)
+  print -r -- ${${${p//[$'\t\n']/ }## #}[1,80]}
 }
 
 # Best single-line label: title, else first prompt (used by search rows).
@@ -116,33 +116,68 @@ _cs_list() {
   done
 }
 
-# fzf reload command for transcript-search mode: one row per ripgrep match
-# across EVERY transcript (uncapped, unlike the list). Rows mirror the list
-# shape but carry the match's line number in field 2 (numeric ⇒ match row):
-#   path \t lineno \t id \t "" \t "" \t "age label · snippet"
+# fzf reload command for transcript-search mode: one row per match across
+# EVERY transcript (uncapped, unlike the list). Matches count only when the
+# pattern appears in RENDERED chat text (what you saw in the session), not
+# in raw-JSONL noise: rg finds cheap raw candidates, jq renders just those
+# lines, and rows whose rendered text no longer matches are dropped.
+# Rows mirror the list shape but carry the match's line number in field 2
+# (numeric ⇒ match row): path \t lineno \t id \t "" \t "" \t "age label · snippet"
 _css_search() {
   local q=$1
   (( ${#q} >= 3 )) || return 0
-  local -A labels ages
-  local -a sr
-  local m f lineno snippet id
-  rg -i --line-number --max-count 3 -o ".{0,50}${q}.{0,50}" \
-    ~/.claude/projects/*/*.jsonl(N.) 2>/dev/null | head -n 200 |
-  while IFS= read -r m; do
-    f=${m%%:*} m=${m#*:}
-    lineno=${m%%:*} snippet=${m#*:}
-    [[ -n $f && $lineno == <-> ]] || continue
+  local -A labels ages want
+  local -a sr order
+  local f lineno rest id text
+
+  # 1. Raw candidates: (file, lineno) pairs, newest transcripts first
+  #    (-j1 keeps rg output in argument order; -o so huge lines stay put).
+  while IFS=: read -r f lineno rest; do
+    [[ $lineno == <-> ]] || continue
+    (( ${+want[$f]} )) || order+=($f)
+    [[ " ${want[$f]} " == *" $lineno "* ]] || want[$f]+=" $lineno"
+  done < <(rg -in -j1 --max-count 500 -o -e $q \
+             ~/.claude/projects/*/*.jsonl(N.om) 2>/dev/null | head -n 3000)
+  (( $#order )) || return 0
+
+  # 2. Pull candidate lines (tab-prefixed with file and lineno; valid JSON
+  #    never contains a raw tab byte), render them, and keep only lines
+  #    whose visible chat text still matches the pattern; awk emits a
+  #    snippet around the rendered match.
+  for f in $order; do
+    awk -v want="${want[$f]}" -v fn=$f '
+      BEGIN { n = split(want, a, " "); for (i = 1; i <= n; i++) w[a[i]] = 1 }
+      NR in w { if (/"type":"(user|assistant)"/) print fn "\t" NR "\t" $0
+                if (--n == 0) exit }
+    ' $f
+  done |
+  jq -Rr 'split("\t") | .[0] as $f | .[1] as $ln | (.[2] | fromjson?)
+    | select(.type == "user" or .type == "assistant")
+    | select(.isMeta != true and .isSidechain != true)
+    | (.message.content? |
+        if type == "string" then .
+        elif type == "array" then ([.[] | select(.type? == "text") | .text] | join(" "))
+        else "" end) as $t
+    | select($t != "")
+    | $f + "\t" + $ln + "\t" + ($t | gsub("[\\n\\t]"; " "))' 2>/dev/null |
+  awk -F'\t' -v pat="${(L)q}" '
+    match(tolower($3), pat) {
+      s = RSTART - 50; if (s < 1) s = 1
+      print $1 "\t" $2 "\t" substr($3, s, RLENGTH + 100)
+    }' 2>/dev/null |
+  head -n 200 |
+  while IFS=$'\t' read -r f lineno text; do
     if (( ! ${+labels[$f]} )); then
-      labels[$f]=$(_cs_label $f)
+      # Cheap label: title if named, else the directory tail — skipping the
+      # first-prompt fallback keeps broad searches (many files) snappy.
+      local t=$(_cs_title $f)
+      [[ -z $t ]] && t=${$(grep -m1 '"cwd"' $f 2>/dev/null | jq -r '.cwd // empty' 2>/dev/null):t}
+      labels[$f]=${t:-?}
       zstat -A sr +mtime $f 2>/dev/null || sr=($EPOCHSECONDS)
       ages[$f]=$(_cs_reltime $sr[1])
     fi
     id=${${f:t}%.jsonl}
-    # Cosmetic cleanup: JSON string escapes and stray tabs in the snippet.
-    snippet=${snippet//$'\t'/ }
-    snippet=${snippet//'\n'/ } snippet=${snippet//'\t'/ }
-    snippet=${snippet//'\"'/\"}
-    print -r -- "$f"$'\t'"$lineno"$'\t'"$id"$'\t\t\t'"${(r:4:)ages[$f]} ${labels[$f][1,32]} · $snippet"
+    print -r -- "$f"$'\t'"$lineno"$'\t'"$id"$'\t\t\t'"${(r:4:)ages[$f]} ${labels[$f][1,32]} · $text"
   done
 }
 
