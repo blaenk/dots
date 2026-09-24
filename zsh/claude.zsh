@@ -172,12 +172,13 @@ _css_preview() {
 }
 
 # Unified fzf preview: match rows carry a numeric line number in field 2,
-# session rows a UUID. Args: {1}=path {2}=id-or-lineno {4}=pane {q}=query
+# session rows a UUID. Args: $1={1}=path $2={2}=id-or-lineno $3={4}=pane
+# $4={q}=query — the query is NEVER a tmux target; only $3 is.
 _cs_preview_row() {
   if [[ $2 == <-> ]]; then
-    _css_preview $1 $2 $3
+    _css_preview $1 $2 $4
   else
-    _cs_preview $1 $4
+    _cs_preview $1 $3
   fi
 }
 
