@@ -103,7 +103,7 @@ _cs_list() {
     id=${${f:t}%.jsonl}
     cwd=$(grep -m1 '"cwd"' $f 2>/dev/null | jq -r '.cwd // empty' 2>/dev/null)
     title=$(_cs_title $f)
-    [[ -z $title ]] && title=$id[-4,-1]
+    [[ -z $title ]] && title=${id##*-}
     prompt=$(_cs_prompt1 $f)
     [[ -z $prompt ]] && prompt="(no prompt)"
 
@@ -156,12 +156,19 @@ _css_search() {
   #    never contains a raw tab byte), render them, and keep only lines
   #    whose visible chat text still matches the pattern; awk emits a
   #    snippet around the rendered match.
+  # perl, not awk: BSD awk needs ~100ms per multi-MB transcript here, perl
+  # ~17ms. Inputs ride in env vars (a large `perl -s` switch value gets the
+  # process killed, oddly). The length guard skips huge lines (paste blobs/
+  # attachments embedding message-looking text) whose rendering dominated
+  # search latency.
   for f in $order; do
-    awk -v want="${want[$f]}" -v fn=$f '
-      BEGIN { n = split(want, a, " "); for (i = 1; i <= n; i++) w[a[i]] = 1 }
-      NR in w { if (/"type":"(user|assistant)"/) print fn "\t" NR "\t" $0
-                if (--n == 0) exit }
-    ' $f
+    CS_WANT="${want[$f]}" CS_FN=$f perl -ne '
+      BEGIN { %w = map { $_ => 1 } split " ", $ENV{CS_WANT};
+              $n = keys %w; $fn = $ENV{CS_FN} }
+      if ($w{$.}) {
+        print "$fn\t$.\t$_" if length() < 65536 && /"type":"(user|assistant)"/;
+        exit unless --$n;
+      }' $f
   done |
   jq -Rr 'split("\t") | .[0] as $f | .[1] as $ln | (.[2] | fromjson?)
     | select(.type == "user" or .type == "assistant")
@@ -185,12 +192,12 @@ _css_search() {
       # id's last 4 chars) and directory. First-prompt fallback is skipped
       # to keep broad searches (many files) snappy.
       local t=$(_cs_title $f)
-      labels[$f]=${t:-$id[-4,-1]}
+      labels[$f]=${t:-${id##*-}}
       dirs[$f]=${(D)$(grep -m1 '"cwd"' $f 2>/dev/null | jq -r '.cwd // empty' 2>/dev/null)}
       zstat -A sr +mtime $f 2>/dev/null || sr=($EPOCHSECONDS)
       ages[$f]=$(_cs_reltime $sr[1])
     fi
-    print -r -- "$f"$'\t'"$lineno"$'\t'"$id"$'\t\t\t'"${(r:4:)ages[$f]}"$'\t'"${(r:24:)labels[$f]}"$'\t'"${(r:40:)dirs[$f]}"$'\t'"$text"
+    print -r -- "$f"$'\t'"$lineno"$'\t'"$id"$'\t\t\t'"${(r:4:)ages[$f]}"$'\t'"${(r:16:)labels[$f][1,16]}"$'\t'"${(r:32:)dirs[$f][-32,-1]}"$'\t'"$text"
   done
 }
 
