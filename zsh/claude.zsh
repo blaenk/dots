@@ -270,8 +270,13 @@ _cs_open() {
 _cs_picker() {
   local mode=$1 q=$2 sel
   local zsrc='source ~/.local/share/chezmoi/zsh/claude.zsh'
+  # The query travels as \$FZF_QUERY (expanded by the inner zsh, which does
+  # not word-split), NEVER as {q}: fzf interpolates {q} inside the ctrl-t
+  # transform script too, where its quoting collides with the echoed action
+  # string and a query with spaces gets word-split (e.g. "job health"
+  # searched as "job").
   local list_cmd="zsh -c \"$zsrc; _cs_list\""
-  local rg_cmd="zsh -c \"$zsrc; _css_search {q}\""
+  local rg_cmd="zsh -c \"$zsrc; _css_search \\\$FZF_QUERY\""
   local toggle="ctrl-t:transform:if [ \"\$FZF_PROMPT\" = 'rg> ' ]; then
       echo 'change-prompt(sessions> )+enable-search+unbind(change)+reload($list_cmd)'
     else
