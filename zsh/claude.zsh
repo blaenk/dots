@@ -103,8 +103,9 @@ _cs_list() {
     id=${${f:t}%.jsonl}
     cwd=$(grep -m1 '"cwd"' $f 2>/dev/null | jq -r '.cwd // empty' 2>/dev/null)
     title=$(_cs_title $f)
+    [[ -z $title ]] && title=$id[-4,-1]
     prompt=$(_cs_prompt1 $f)
-    [[ -z $title && -z $prompt ]] && prompt="(no prompt)"
+    [[ -z $prompt ]] && prompt="(no prompt)"
 
     zstat -A stat_reply +mtime $f 2>/dev/null || continue
     rel=$(_cs_reltime $stat_reply[1])
@@ -131,12 +132,13 @@ _cs_list() {
 # pattern appears in RENDERED chat text (what you saw in the session), not
 # in raw-JSONL noise: rg finds cheap raw candidates, jq renders just those
 # lines, and rows whose rendered text no longer matches are dropped.
-# Rows mirror the list shape but carry the match's line number in field 2
-# (numeric ⇒ match row): path \t lineno \t id \t "" \t "" \t "age label · snippet"
+# Rows mirror the list shape (age/name/dir columns, then the snippet) but
+# carry the match's line number in field 2 (numeric ⇒ match row):
+#   path \t lineno \t id \t "" \t "" \t age \t name \t dir \t snippet
 _css_search() {
   local q=$1
   (( ${#q} >= 3 )) || return 0
-  local -A labels ages want
+  local -A labels ages dirs want
   local -a sr order
   local f lineno rest id text
 
@@ -177,17 +179,18 @@ _css_search() {
     }' 2>/dev/null |
   head -n 200 |
   while IFS=$'\t' read -r f lineno text; do
+    id=${${f:t}%.jsonl}
     if (( ! ${+labels[$f]} )); then
-      # Cheap label: title if named, else the directory tail — skipping the
-      # first-prompt fallback keeps broad searches (many files) snappy.
+      # Same identity columns as the session list: title (or the session
+      # id's last 4 chars) and directory. First-prompt fallback is skipped
+      # to keep broad searches (many files) snappy.
       local t=$(_cs_title $f)
-      [[ -z $t ]] && t=${$(grep -m1 '"cwd"' $f 2>/dev/null | jq -r '.cwd // empty' 2>/dev/null):t}
-      labels[$f]=${t:-?}
+      labels[$f]=${t:-$id[-4,-1]}
+      dirs[$f]=${(D)$(grep -m1 '"cwd"' $f 2>/dev/null | jq -r '.cwd // empty' 2>/dev/null)}
       zstat -A sr +mtime $f 2>/dev/null || sr=($EPOCHSECONDS)
       ages[$f]=$(_cs_reltime $sr[1])
     fi
-    id=${${f:t}%.jsonl}
-    print -r -- "$f"$'\t'"$lineno"$'\t'"$id"$'\t\t\t'"${(r:4:)ages[$f]} ${labels[$f][1,32]} · $text"
+    print -r -- "$f"$'\t'"$lineno"$'\t'"$id"$'\t\t\t'"${(r:4:)ages[$f]}"$'\t'"${(r:24:)labels[$f]}"$'\t'"${(r:40:)dirs[$f]}"$'\t'"$text"
   done
 }
 
@@ -263,9 +266,9 @@ _cs_picker() {
   local list_cmd="zsh -c \"$zsrc; _cs_list\""
   local rg_cmd="zsh -c \"$zsrc; _css_search {q}\""
   local toggle="ctrl-t:transform:if [ \"\$FZF_PROMPT\" = 'rg> ' ]; then
-      echo 'change-prompt(sessions> )+enable-search+clear-query+unbind(change)+reload($list_cmd)'
+      echo 'change-prompt(sessions> )+enable-search+unbind(change)+reload($list_cmd)'
     else
-      echo 'change-prompt(rg> )+disable-search+clear-query+rebind(change)+reload($rg_cmd)'
+      echo 'change-prompt(rg> )+disable-search+rebind(change)+reload($rg_cmd)'
     fi"
 
   local -a args
