@@ -7,10 +7,11 @@
 zmodload zsh/datetime
 zmodload -F zsh/stat b:zstat
 
-# jq fragment (for -Rn input): build an array of rendered chat messages —
-# user turns cyan with ❯, assistant plain. fromjson? skips truncated/non-JSON
-# lines; the startswith("<") filter drops <command-*> wrappers on user turns
-# only, so assistant replies that begin with markup still render.
+# jq fragment (for -Rn input): build an array of chat messages as MARKDOWN —
+# user turns become "> ❯ …" blockquotes, assistant text passes through; glow
+# does the styling downstream. fromjson? skips truncated/non-JSON lines; the
+# "^<" filter drops <command-*> wrappers on user turns only, so assistant
+# replies that begin with markup still render.
 typeset -g _CS_JQ_MSGS='
   [ inputs
     | fromjson?
@@ -24,10 +25,19 @@ typeset -g _CS_JQ_MSGS='
     | select(.text != "")
     | select(((.role == "user") and (.text | test("^[[:space:]]*<"))) | not)
     | if .role == "user"
-      then "\u001b[1;36m❯\u001b[0;36m " + .text + "\u001b[0m"
+      then "> ❯ " + (.text | gsub("\n"; "\n> "))
       else .text
       end
   ]'
+
+# Markdown -> styled terminal text for previews; plain passthrough if glow
+# is ever missing (the failed exec leaves stdin for cat). Prefer homebrew's
+# glow: the work devbox shim earlier in PATH is old and rebuilds lazily.
+_cs_md() {
+  local g=/opt/homebrew/bin/glow
+  [[ -x $g ]] || g=glow
+  $g -s dark -w ${FZF_PREVIEW_COLUMNS:-100} - 2>/dev/null || cat
+}
 
 # Compact age from an epoch timestamp: now, 12m, 3h, 2d, 5w
 _cs_reltime() {
@@ -190,7 +200,8 @@ _cs_preview() {
     tmux capture-pane -t $pane -ep | tac | awk 'NF{found=1} found' | tac |
       tail -n ${FZF_PREVIEW_LINES:-40}
   else
-    tail -c 400000 $tpath | jq -Rnr "$_CS_JQ_MSGS | .[-20:] | join(\"\n\n\")"
+    tail -c 400000 $tpath | jq -Rnr "$_CS_JQ_MSGS | .[-20:] | join(\"\n\n\")" |
+      _cs_md
   fi
 }
 
@@ -202,7 +213,7 @@ _css_preview() {
   local s=$(( line - 8 ))
   (( s < 1 )) && s=1
   awk -v s=$s -v e=$(( line + 8 )) 'NR>=s && NR<=e' $tpath |
-    jq -Rnr "$_CS_JQ_MSGS | join(\"\n\n\")" |
+    jq -Rnr "$_CS_JQ_MSGS | join(\"\n\n\")" | _cs_md |
     { if [[ -n $q ]]; then rg --passthru --color=always -i -- $q 2>/dev/null || cat; else cat; fi }
 }
 
