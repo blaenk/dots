@@ -78,7 +78,7 @@ _cs_label() {
   print -r -- ${name:-"(no prompt)"}
 }
 
-# One row per transcript, newest first (capped at 50):
+# One row per transcript, newest first (capped at 200):
 #   path \t id \t cwd \t pane-id \t target \t "glyph age" \t title \t dir \t prompt
 # Fields 6-9 are displayed; fzf matches only title and dir (--nth=2,3 of the
 # displayed fields) — the dimmed first-prompt column is visible but never
@@ -87,7 +87,7 @@ _cs_label() {
 # the options maintained by claude-attention.sh.
 _cs_list() {
   local -a files
-  files=( ~/.claude/projects/*/*.jsonl(N.om[1,50]) )
+  files=( ~/.claude/projects/*/*.jsonl(N.om[1,200]) )
   (( $#files )) || return 0
 
   local -A live
