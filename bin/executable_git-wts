@@ -1,6 +1,7 @@
 #!/bin/zsh
 # List worktrees with sizes (largest first), dirty status, last-touched.
 set -e
+zmodload -F zsh/stat b:zstat  # builtin mtime lookup; external `stat` may be GNU (flox/coreutils) where -f means filesystem status
 
 DIRTY_CAP=50  # cap stat'ing dirty files for "last touched" calculation
 
@@ -15,7 +16,7 @@ last_touched_ts() {
       | head -n "$DIRTY_CAP" \
       | sed 's/^...//' \
       | while IFS= read -r f; do
-          stat -f %m "$dir/$f" 2>/dev/null
+          zstat +mtime "$dir/$f" 2>/dev/null
         done \
       | sort -rn | head -1
   )
