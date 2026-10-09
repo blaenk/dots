@@ -52,6 +52,9 @@ A chezmoi-managed dotfiles repository. Files here are source templates/configs t
 - `claude-attention.sh` — tracks Claude Code session attention state in tmux status bar
 - `pinned.sh` — pinned window management
 - `click.sh`, `help.sh`, `notify.sh` — UI helpers
+- `claude-resurrect.sh` — tmux-resurrect integration: rewrites saves so Claude panes restore via `claude --resume <id>`
+- `resurrect-save.sh` — debounced resurrect save, run from window-unlinked / session-closed / client-detached hooks
+- `continuum-ensure.sh` — re-injects continuum's autosave trigger into status-right after a config reload
 
 ### tmux Style Convention
 
