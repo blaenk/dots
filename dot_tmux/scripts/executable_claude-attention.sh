@@ -38,6 +38,9 @@ register() {
     tmux set-option -p -t "$TMUX_PANE" @claude_attention "active" 2>/dev/null
     tmux set-option -p -t "$TMUX_PANE" @claude_pid "$PPID" 2>/dev/null
     _cleanup_dead_sessions
+    # Capture the new Claude pane in the resurrect save now rather than at
+    # continuum's next tick (debounced; returns immediately).
+    "$HOME/.tmux/scripts/resurrect-save.sh" 2>/dev/null
     return 0
 }
 
@@ -50,6 +53,11 @@ deregister() {
     # saves (empty fields collapse under its IFS-tab read). Reset to the
     # default hostname title.
     tmux select-pane -t "$TMUX_PANE" -T "$(hostname -s)" 2>/dev/null
+    # Claude is usually quit with C-d while the pane stays open as a shell, so
+    # no tmux hook fires. Save the resurrect layout now (debounced, forks and
+    # returns immediately) so a shutdown before continuum's next tick doesn't
+    # resurrect this session.
+    "$HOME/.tmux/scripts/resurrect-save.sh" 2>/dev/null
     # No _cleanup_dead_sessions here: SessionEnd hooks race claude's exit
     # teardown, so this path must stay near-instant. Other hooks sweep dead
     # panes constantly, and this pane's own options are already unset above.
