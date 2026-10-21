@@ -4,6 +4,8 @@ Never amend commits unless I specifically request it.
 
 If you find that the approach I accepted doesn't actually work in practice, tell me.
 
+Don't hard-wrap Markdown files (one paragraph per line) unless I ask for it.
+
 ## Local dev port allocation
 
 Each project gets a 10-port block in the 3000s. Within a block, conventions are:
